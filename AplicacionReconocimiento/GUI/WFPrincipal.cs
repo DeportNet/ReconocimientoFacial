@@ -1,8 +1,8 @@
 namespace DeportNetReconocimiento
 {
-    public partial class Form1 : Form
+    public partial class WFPrincipal : Form
     {
-        public Form1()
+        public WFPrincipal()
         {
             InitializeComponent();
         }
