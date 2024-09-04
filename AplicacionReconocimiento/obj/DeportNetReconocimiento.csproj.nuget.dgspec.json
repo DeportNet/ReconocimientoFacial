@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "G:\\Fabri\\Programacion\\C# Proyectos\\DeportNetReconocimiento\\DeportNetReconocimiento.csproj": {}
+    "G:\\Fabri\\Programacion\\C# Proyectos\\DeportNetReconocimiento\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj": {}
   },
   "projects": {
-    "G:\\Fabri\\Programacion\\C# Proyectos\\DeportNetReconocimiento\\DeportNetReconocimiento.csproj": {
+    "G:\\Fabri\\Programacion\\C# Proyectos\\DeportNetReconocimiento\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\Fabri\\Programacion\\C# Proyectos\\DeportNetReconocimiento\\DeportNetReconocimiento.csproj",
+        "projectUniqueName": "G:\\Fabri\\Programacion\\C# Proyectos\\DeportNetReconocimiento\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
         "projectName": "DeportNetReconocimiento",
-        "projectPath": "G:\\Fabri\\Programacion\\C# Proyectos\\DeportNetReconocimiento\\DeportNetReconocimiento.csproj",
+        "projectPath": "G:\\Fabri\\Programacion\\C# Proyectos\\DeportNetReconocimiento\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
         "packagesPath": "C:\\Users\\fabri\\.nuget\\packages\\",
-        "outputPath": "G:\\Fabri\\Programacion\\C# Proyectos\\DeportNetReconocimiento\\obj\\",
+        "outputPath": "G:\\Fabri\\Programacion\\C# Proyectos\\DeportNetReconocimiento\\DeportnetReconocimiento\\AplicacionReconocimiento\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "G:\\Programs\\Visual Studio Community\\SharedComponents IDE\\NuGetPackages"
