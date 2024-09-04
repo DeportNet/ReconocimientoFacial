@@ -1,6 +1,6 @@
 ﻿namespace DeportNetReconocimiento
 {
-    partial class Form1
+    partial class WFPrincipal
     {
         /// <summary>
         ///  Required designer variable.
