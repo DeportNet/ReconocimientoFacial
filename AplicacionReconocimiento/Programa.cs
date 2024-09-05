@@ -1,3 +1,5 @@
+using DeportNetReconocimiento.GUI;
+
 namespace DeportNetReconocimiento
 {
     internal static class Programa
