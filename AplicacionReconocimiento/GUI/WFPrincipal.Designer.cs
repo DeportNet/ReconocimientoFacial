@@ -50,7 +50,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(pictureBox1);
             Name = "WFPrincipal";
-            Text = "Menu Principal";
+            Text = "Menu Principal Reconocimiento";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }

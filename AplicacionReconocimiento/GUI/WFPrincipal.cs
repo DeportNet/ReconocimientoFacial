@@ -15,6 +15,7 @@ namespace DeportNetReconocimiento.GUI
         public WFPrincipal()
         {
             InitializeComponent();
+            
         }
     }
 }

@@ -16,4 +16,3 @@ G:\Fabri\Programacion\C# Proyectos\DeportNetReconocimiento\DeportnetReconocimien
 G:\Fabri\Programacion\C# Proyectos\DeportNetReconocimiento\DeportnetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNetReconocimiento.genruntimeconfig.cache
 G:\Fabri\Programacion\C# Proyectos\DeportNetReconocimiento\DeportnetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\ref\DeportNetReconocimiento.dll
 G:\Fabri\Programacion\C# Proyectos\DeportNetReconocimiento\DeportnetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNetReconocimiento.GUI.WFPrincipal.resources
-G:\Fabri\Programacion\C# Proyectos\DeportNetReconocimiento\DeportnetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNetReconocimiento.GUI.WFPantallaCarga.resources
