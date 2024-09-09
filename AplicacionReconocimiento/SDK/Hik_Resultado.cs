@@ -57,5 +57,10 @@ namespace DeportNetReconocimiento.SDK
             get { return numeroDeError; }
             set { lock (this) { numeroDeError = value; } }
         }
+
+        public static bool EscribirLog()
+        {
+           return Hik_SDK.NET_DVR_SetLogToFile(3, "G:\\Fabri\\Programacion\\C# Proyectos\\DeportNetReconocimiento\\DeportnetReconocimiento\\LogsAplicacion", false);
+        }
     }
 }
