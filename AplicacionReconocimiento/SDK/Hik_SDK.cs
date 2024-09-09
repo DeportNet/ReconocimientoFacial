@@ -5,9 +5,6 @@ namespace DeportNetReconocimiento.SDK
 {
     public class Hik_SDK
     {
-        
-
-
         #region HCNetSDK.dll macro definition
         //macro definition
         #region common use
@@ -3260,6 +3257,7 @@ namespace DeportNetReconocimiento.SDK
         /* The SDK initialization function */
         private const string rutaLibreriaSDK = @"..\HCNetSDK\HCNetSDK.dll";
 
+
         [DllImport(rutaLibreriaSDK)]
         public static extern bool NET_DVR_Init();
 
@@ -3519,7 +3517,7 @@ namespace DeportNetReconocimiento.SDK
         public static extern bool NET_DVR_CaptureJPEGPicture(int lUserID, int lChannel, ref Hik_SDK.NET_DVR_JPEGPARA lpJpegPara, IntPtr sPicFileName);
         #endregion
 
-        #region 门禁卡，指纹，人脸接口优化新增命令码及结构体
+        #region Access card, fingerprint, face interface optimization, new command codes and structures
         public const int NET_DVR_GET_CARD = 2560;
         public const int NET_DVR_SET_CARD = 2561;
         public const int NET_DVR_DEL_CARD = 2562;
@@ -3766,6 +3764,5 @@ namespace DeportNetReconocimiento.SDK
         }
 
         #endregion
-
     }
 }

@@ -10,43 +10,47 @@ namespace DeportNetReconocimiento.SDK
     {
         /*
          
-             public static int m_UserID = -1;
-        public Int32 m_lGetCardCfgHandle = -1;
-        public Int32 m_lSetCardCfgHandle = -1;
-        public Int32 m_lGetAllCardsCfgHandle = -1;
-        public Int32 m_lDelCardCfgHandle = -1;
+        public static int m_UserID = -1; //esta bien que sea estatico ya que solo puede haber solo un user_ID
+
+
+        public int m_lGetCardCfgHandle = -1;
+        public int m_lSetCardCfgHandle = -1;
+        public int m_lGetAllCardsCfgHandle = -1;
+        public int m_lDelCardCfgHandle = -1;
         public System.Timers.Timer timerTimeout;
    
 
         public bool complete = false;
         public bool getAllCardSuccess = false;
 
-        public ResultHC Initialize()
+        public Hik_Resultado Initialize()
         {
-            ResultHC resultHC = new ResultHC();
+            Hik_Resultado resultado = new Hik_Resultado();
+            
+            bool entrada= Hik_SDK.NET_DVR_Init();
 
-            if (HCNetSDK_Events.NET_DVR_Init() == false)
+            if (entrada == false)
             {
                 System.Console.WriteLine("NET_DVR_Init error");
-                resultHC.ErrorMessage = "NET_DVR_Init error";
-                resultHC.Success = false;
+                resultado.ErrorMessage = "NET_DVR_Init error";
+                resultado.Success = false;
 
-                return resultHC;
+            }else{
+                System.Console.WriteLine("NET_DVR_Init éxito");
+                resultado.SuccessMessage = "NET_DVR_Init éxito";
+                resultado.Success = true;
+
             }
 
-            HCNetSDK_Events.NET_DVR_SetLogToFile(3, "", false);
-
-            resultHC.SuccessMessage = "NET_DVR_Init éxito";
-            resultHC.Success = true;
-
-            return resultHC;
-
+            Hik_SDK.NET_DVR_SetLogToFile(3, "..\LogsAplicacion", false);
+        
+            return resultado;
         }
 
 
         public int UserID()
         {
-            return m_UserID;
+            get{ return m_UserID; }
         }
 
         public ResultHC Login(string user, string password, string port, string ip)

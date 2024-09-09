@@ -1,4 +1,5 @@
 using DeportNetReconocimiento.GUI;
+using DeportNetReconocimiento.SDK;
 
 namespace DeportNetReconocimiento
 {
