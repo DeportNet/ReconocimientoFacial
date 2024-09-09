@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace DeportNetReconocimiento.SDK
 {
     public class Hik_Controladora_General
     {
-        /*
+        
          
         public static int m_UserID = -1; //esta bien que sea estatico ya que solo puede haber solo un user_ID
 
@@ -32,40 +33,42 @@ namespace DeportNetReconocimiento.SDK
             if (entrada == false)
             {
                 System.Console.WriteLine("NET_DVR_Init error");
-                resultado.ErrorMessage = "NET_DVR_Init error";
-                resultado.Success = false;
+                resultado.MensajeDeError = "NET_DVR_Init error";
+                resultado.Exito = false;
 
             }else{
                 System.Console.WriteLine("NET_DVR_Init éxito");
-                resultado.SuccessMessage = "NET_DVR_Init éxito";
-                resultado.Success = true;
+                resultado.MensajeDeExito = "NET_DVR_Init éxito";
+                resultado.Exito= true;
 
             }
 
-            Hik_SDK.NET_DVR_SetLogToFile(3, "..\LogsAplicacion", false);
+            Hik_SDK.NET_DVR_SetLogToFile(3, "..\\LogsAplicacion", false);
         
             return resultado;
         }
 
 
-        public int UserID()
+        public int UserID
         {
             get{ return m_UserID; }
         }
 
-        public ResultHC Login(string user, string password, string port, string ip)
+
+
+        public Hik_Resultado Login(string user, string password, string port, string ip)
         {
 
-            ResultHC resultHC = new ResultHC();
+            Hik_Resultado resultHC = new Hik_Resultado();
 
             if (m_UserID >= 0)
             {
-                HCNetSDK_Events.NET_DVR_Logout_V30(m_UserID);
+                Hik_SDK.NET_DVR_Logout_V30(m_UserID);
                 m_UserID = -1;
             }
-            HCNetSDK_Events.NET_DVR_USER_LOGIN_INFO struLoginInfo = new HCNetSDK_Events.NET_DVR_USER_LOGIN_INFO();
-            HCNetSDK_Events.NET_DVR_DEVICEINFO_V40 struDeviceInfoV40 = new HCNetSDK_Events.NET_DVR_DEVICEINFO_V40();
-            struDeviceInfoV40.struDeviceV30.sSerialNumber = new byte[HCNetSDK_Events.SERIALNO_LEN];
+            Hik_SDK  .NET_DVR_USER_LOGIN_INFO struLoginInfo = new Hik_SDK.NET_DVR_USER_LOGIN_INFO();
+            Hik_SDK.NET_DVR_DEVICEINFO_V40 struDeviceInfoV40 = new Hik_SDK.NET_DVR_DEVICEINFO_V40();
+            struDeviceInfoV40.struDeviceV30.sSerialNumber = new byte[Hik_SDK.SERIALNO_LEN];
 
             struLoginInfo.sDeviceAddress = ip;
             struLoginInfo.sUserName = user;
@@ -73,43 +76,43 @@ namespace DeportNetReconocimiento.SDK
             ushort.TryParse(port, out struLoginInfo.wPort);
 
             int lUserID = -1;
-            lUserID = HCNetSDK_Events.NET_DVR_Login_V40(ref struLoginInfo, ref struDeviceInfoV40);
+            lUserID = Hik_SDK.NET_DVR_Login_V40(ref struLoginInfo, ref struDeviceInfoV40);
 
             if (lUserID >= 0)
             {
                 m_UserID = lUserID;
                 Console.WriteLine("Se inicio sesión con exito");
-                resultHC.SuccessMessage = "Se inicio sesión con exito";
-                resultHC.Success = true;
+                resultHC.MensajeDeExito = "Se inicio sesión con exito";
+                resultHC.Exito= true;
             }
             else
             {
-                uint nErr = HCNetSDK_Events.NET_DVR_GetLastError();
-                if (nErr == HCNetSDK_Events.NET_DVR_PASSWORD_ERROR)
+                uint nErr = Hik_SDK.NET_DVR_GetLastError();
+                if (nErr == Hik_SDK.NET_DVR_PASSWORD_ERROR)
                 {
                     Console.WriteLine("Usuaro o contraseña invalidos");
-                    resultHC.Success = false;
-                    resultHC.ErrorMessage = "Usuaro o contraseña invalidos";
+                    resultHC.Exito = false;
+                    resultHC.MensajeDeError= "Usuaro o contraseña invalidos";
                     if (1 == struDeviceInfoV40.bySupportLock)
                     {
                         string strTemp1 = string.Format("Left {0} try opportunity", struDeviceInfoV40.byRetryLoginTime);
                         Console.WriteLine(strTemp1);
                     }
                 }
-                else if (nErr == HCNetSDK_Events.NET_DVR_USER_LOCKED)
+                else if (nErr == Hik_SDK.NET_DVR_USER_LOCKED)
                 {
                     if (1 == struDeviceInfoV40.bySupportLock)
                     {
-                        resultHC.Success = false;
+                        resultHC.Exito = false;
                         string strTemp1 = string.Format("Usuario bloqueado, el tiempo restante de bloqueo es de {0}", struDeviceInfoV40.dwSurplusLockTime);
-                        resultHC.ErrorMessage = strTemp1;
+                        resultHC.MensajeDeError= strTemp1;
                         Console.WriteLine(strTemp1);
                     }
                 }
                 else
                 {
-                    resultHC.Success = false;
-                    resultHC.ErrorMessage = "Error de red o el panel esta ocupado";
+                    resultHC.Exito = false;
+                    resultHC.MensajeDeError= "Error de red o el panel esta ocupado";
                     Console.WriteLine("Error de red o el panel esta ocupado");
                 }
             }
@@ -121,17 +124,12 @@ namespace DeportNetReconocimiento.SDK
         {
             if (m_UserID >= 0)
             {
-                HCNetSDK_Events.NET_DVR_Logout_V30(m_UserID);
+                Hik_SDK.NET_DVR_Logout_V30(m_UserID);
                 m_UserID = -1;
             }
-            HCNetSDK_Events.NET_DVR_Cleanup();
+            Hik_SDK.NET_DVR_Cleanup();
 
         }
-         */
-
-
-
-
-
+         
     }
 }
