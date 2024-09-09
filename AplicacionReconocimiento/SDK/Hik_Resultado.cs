@@ -8,15 +8,16 @@ namespace DeportNetReconocimiento.SDK
 {
     public class Hik_Resultado
     {
-        bool exito = false; 
-        string mensajeDeExito = "";
-        string mensajeDeError = "";
-        string numeroDeError = "";
+        private bool exito = false;
+        private string mensajeDeExito = "";
+        private string mensajeDeError = "";
+        private string numeroDeError = "";
 
 
         // Propiedades (getters y setters)
         // Se usa lock para evitar problemas de concurrencia
-        /* Ej de uso:
+        /* 
+         * Ej de uso:
          Hik_Resultado resultado = new Hik_resultado(); 
          
             ...Logica dentro de un metodo...
@@ -29,8 +30,10 @@ namespace DeportNetReconocimiento.SDK
             {
                 resultado.MensajeDeError= "Loggeo fallido";
             }
-
+            
+            return resultado;
          */
+
         public bool Exito 
         {
             get { return exito; }

@@ -14,8 +14,19 @@ namespace DeportNetReconocimiento.SDK
         private int m_lSetFaceCfgHandle = -1;
         private int m_lCapFaceCfgHandle = -1;
 
+        //propiedades facial
 
-        
+
+        //metodos facial
+
+
+
+
+
+        //set face
+        //get face
+        //cap face
+        //del face
 
     }
 }
