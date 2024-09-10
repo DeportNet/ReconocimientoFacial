@@ -10,6 +10,8 @@ namespace DeportNetReconocimiento.SDK
     {
         //atributos facial
         
+        //private bool soportaFacial
+        
         private int m_lGetFaceCfgHandle = -1;
         private int m_lSetFaceCfgHandle = -1;
         private int m_lCapFaceCfgHandle = -1;
@@ -27,6 +29,7 @@ namespace DeportNetReconocimiento.SDK
         //get face
         //cap face
         //del face
+        
 
     }
 }
