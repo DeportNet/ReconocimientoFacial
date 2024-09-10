@@ -25,7 +25,6 @@ namespace DeportNetReconocimiento
 
             Hik_Resultado resultado2 = controladora.Login("Aasd", "loooll", "8008", "123.123.123");
             
-
         }
     }
 }
