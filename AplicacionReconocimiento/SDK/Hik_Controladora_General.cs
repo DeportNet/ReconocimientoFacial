@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -15,9 +16,9 @@ namespace DeportNetReconocimiento.SDK
          
         public static int idUsuario = -1; //esta bien que sea estatico ya que solo puede haber solo un user_ID
         
-        /*public static bool soportaFacial;
+        public static bool soportaFacial;
         public static bool soportaHuella;
-        public static bool soportaTarjeta;*/
+        public static bool soportaTarjeta;
 
 
         //propiedades (getters y setters)
@@ -25,8 +26,6 @@ namespace DeportNetReconocimiento.SDK
         {
             get{ return idUsuario; }
         }
-
-
 
 
         //metodos
@@ -56,7 +55,6 @@ namespace DeportNetReconocimiento.SDK
         
             return resultado;
         }
-
 
         public Hik_Resultado Login(string user, string password, string port, string ip)
         {
@@ -148,50 +146,40 @@ namespace DeportNetReconocimiento.SDK
         }
 
         //el dwabilityType es el tipo de capacidad que queremos obtener. En este caso esta fijo en ACS_ABILITY
-        private XmlDocument? retornarXmlConLasCapacidadesDeAcceso()
+        private XmlDocument? RetornarXmlConLasCapacidadesDeAcceso()
         {
-            XmlDocument? documentoXml= new XmlDocument();
+            XmlDocument? documentoXml = null;
 
-            //creamos pInBuf el cual ira por referencia a la funcion NET_DVR_GetDeviceAbility ya que es un puntero
+            //solicitamos hbailidades de acceso del dispositvo: huella digital, tarjeta y facial
+            //! en caso de que surgan errores a la hora de busqeuda del XML hay que tener en cuenta esta parte.
+            string xmlRequest = "<AcsAbility version=\"2.0\"><fingerPrintAbility></fingerPrintAbility><cardAbility></cardAbility><faceAbility></faceAbility></AcsAbility>";
+
+            //Request que ira por referencia a la funcion NET_DVR_GetDeviceAbility
             nint pInBuf;
-            //creamos nSize que es el tamaño del string xmlInput
-            int nSize;
-            
-            //xmlInput es un string que se le asigna un valor dependiendo de la opcion seleccionada en el comboBox
-            if (xmlInput == null)
-            {
-                //si no se selecciono nada, se asigna null
-                pInBuf = nint.Zero;
-                nSize = 0;
-            }
-            else
-            {
-                nSize = xmlInput.Length;
-                pInBuf = Marshal.AllocHGlobal(nSize);
-                pInBuf = Marshal.StringToHGlobalAnsi(xmlInput);
-            }
+
+            //Tamaño del string xmlInput
+            int nSize = xmlRequest.Length;
+
+            //Documento xml que vamos a retornar
+            pInBuf = Marshal.AllocHGlobal(nSize);
+            pInBuf = Marshal.StringToHGlobalAnsi(xmlRequest);
+
 
             //xml que nos va a devolver la funcion NET_DVR_GetDeviceAbility
-            int XML_ABILITY_OUT_LEN = 3 * 1024 * 1024;
+            int XML_ABILITY_OUT_LEN = 3 * 1024 * 1024; //esto seria el tamanio del xml que nos va a devolver la funcion NET_DVR_GetDeviceAbility
             nint pOutBuf = Marshal.AllocHGlobal(XML_ABILITY_OUT_LEN);
 
             //si nos retorna false, significa que hubo un error
-            if (!Hik_SDK.NET_DVR_GetDeviceAbility(m_lUserID, Hik_SDK.ACS_ABILITY, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
+            if (Hik_SDK.NET_DVR_GetDeviceAbility(idUsuario, Hik_SDK.ACS_ABILITY, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
             {
-                documentoXml = null;
-
-            }
-            else
-            {
-
                 //si todo salio bien, se crea el xml con el string que nos devolvio la funcion NET_DVR_GetDeviceAbility y lo retornamos
-                string strOutBuf = Marshal.PtrToStringAnsi(pOutBuf, XML_ABILITY_OUT_LEN)
+                string strOutBuf = Marshal.PtrToStringAnsi(pOutBuf, XML_ABILITY_OUT_LEN);
                 documentoXml.LoadXml(strOutBuf);
-              
             }
 
             Hik_Resultado.EscribirLog();
 
+            //liberamos memoria
             Marshal.FreeHGlobal(pInBuf);
             Marshal.FreeHGlobal(pOutBuf);
 
@@ -222,7 +210,7 @@ namespace DeportNetReconocimiento.SDK
                     strDescription = "El tipo de capacidad es incorrecto";
                     break;
                 case 1006:
-                    strDescription = "El formato del XML de capacidad es incorrecto;
+                    strDescription = "El formato del XML de capacidad es incorrecto";
                     break;
                 case 1007:
                     strDescription = "El valor del XML de capacidad de entrada es incorrecto";
@@ -236,10 +224,14 @@ namespace DeportNetReconocimiento.SDK
             return strDescription;
         }
 
-        public Hik_Resultado obtenerTripleCapacidadDelDispositivo(XmlDocument? resultadoXML)
+        public Hik_Resultado ObtenerTripleCapacidadDelDispositivo()
         {
+
+            XmlDocument? resultadoXML = RetornarXmlConLasCapacidadesDeAcceso();
             //leer el xml pasado por resultado
             Hik_Resultado resultado = new Hik_Resultado();
+
+
             if (resultadoXML == null)
             {
                 //AcsAbility no soportado
@@ -250,59 +242,31 @@ namespace DeportNetReconocimiento.SDK
             else
             {
                 //leer nodos <FaceParam> <Card> <FingerPrint> del resultadoXML
-
-                bool soportaFacial = false;
-                bool soportaHuella = false;
-                bool soportaTarjeta = false;
-
-                // Verificar si el nodo FaceParam existe
-
-                //primero obtenemos el nodo, buscando el nodo <FaceParam> en el XML
-                XmlNode? nodoFacial = resultadoXML.SelectSingleNode("//FaceParam");
-
-
-                // Verificar si el nodo existe y asignar el valor booleano
-                if (soportaFacial != null)
-                {
-                    soportaFacial = true;
-                }
-
-
-                /* bool soportaFacial = nodoFacial != null ? true : false;
-                 * Otra forma de hacer el if else anterior, con ternario
-                */
-
-
-
-                // Verificar si el nodo FingerPrint existe
-
-                XmlNode? nodoHuella = resultadoXML.SelectSingleNode("//FingerPrint");
-
-                if (soportaHuella != null)
-                {
-                    soportaHuella = true;
-                }
-
-
-                // Verificar si el nodo Card existe
-
-                XmlNode? nodoTarjeta = resultadoXML.SelectSingleNode("//Card");
-
-                
-                if (soportaTarjeta != null)
-                {
-                    soportaTarjeta = true;
-                }
-
+                soportaFacial = VerificarCapacidad(resultadoXML, "//FaceParam");
+                soportaHuella = VerificarCapacidad(resultadoXML, "//FingerPrint");
+                soportaTarjeta = VerificarCapacidad(resultadoXML, "//Card");
 
                 // Dar valor a resultado
-
                 resultado.Exito = true;
                 resultado.MensajeDeExito = $"Soporta reconocimiento facial: {soportaFacial} \nSoporta huella digital: {soportaHuella} \nSoporta tarjeta: {soportaTarjeta}";
 
             }
 
             return resultado;
+        }
+        
+        private bool VerificarCapacidad(XmlDocument resultadoXML, string parametro)
+        {
+            bool soporta = false;
+            XmlNode? nodoBuscado = resultadoXML.SelectSingleNode(parametro);
+
+            if(nodoBuscado!= null)
+            {
+                soporta = true;
+            }
+
+            return soporta;
+
         }
 
 
