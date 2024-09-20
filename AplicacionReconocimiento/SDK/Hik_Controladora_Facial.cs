@@ -9,15 +9,41 @@ namespace DeportNetReconocimiento.SDK
     public class Hik_Controladora_Facial
     {
         //atributos facial
-        
+
         //private bool soportaFacial
-        
-        private int m_lGetFaceCfgHandle = -1;
-        private int m_lSetFaceCfgHandle = -1;
-        private int m_lCapFaceCfgHandle = -1;
+
+        private int getFaceCfgHandle;
+        private int setFaceCfgHandle;
+        private int capFaceCfgHandle;
 
         //propiedades facial
 
+        public int GetFaceCfgHandle
+        {
+            get { return getFaceCfgHandle; }
+            set { getFaceCfgHandle = value; }
+        }
+
+        public int SetFaceCfgHandle
+        {
+            get { return setFaceCfgHandle; }
+            set { setFaceCfgHandle = value; }
+        }
+
+        public int CapFaceCfgHandle
+        {
+            get { return capFaceCfgHandle; }
+            set { capFaceCfgHandle = value; }
+        }
+
+        //constructores 
+
+        public Hik_Controladora_Facial()
+        {
+            getFaceCfgHandle = -1;
+            setFaceCfgHandle = -1;
+            capFaceCfgHandle = -1;
+        }
 
         //metodos facial
 
@@ -29,7 +55,7 @@ namespace DeportNetReconocimiento.SDK
         //get face
         //cap face
         //del face
-        
+
 
     }
 }
