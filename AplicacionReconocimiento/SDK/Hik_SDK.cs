@@ -721,9 +721,9 @@ namespace DeportNetReconocimiento.SDK
         public enum NET_SDK_GET_NEXT_STATUS
         {
             NET_SDK_GET_NEXT_STATUS_SUCCESS = 1000,    // Get data successfully, Call API NET_DVR_RemoteConfigGetNext after processing this data.
-            NET_SDK_GET_NETX_STATUS_NEED_WAIT,        // Need wait, keep calling NET_DVR_RemoteConfigGetNext
-            NET_SDK_GET_NEXT_STATUS_FINISH,            // Get data finish, call API NET_DVR_StopRemoteConfig
-            NET_SDK_GET_NEXT_STATUS_FAILED,            // Get data failed, call API NET_DVR_StopRemoteConfig
+            NET_SDK_GET_NETX_STATUS_NEED_WAIT = 1001,        // Need wait, keep calling NET_DVR_RemoteConfigGetNext
+            NET_SDK_GET_NEXT_STATUS_FINISH = 1002,            // Get data finish, call API NET_DVR_StopRemoteConfig
+            NET_SDK_GET_NEXT_STATUS_FAILED = 1003,            // Get data failed, call API NET_DVR_StopRemoteConfig
         }
 
         public enum LONG_CFG_RECV_DATA_TYPE_ENUM

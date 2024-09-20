@@ -16,17 +16,29 @@ namespace DeportNetReconocimiento.SDK
          
         public static int idUsuario = -1; //esta bien que sea estatico ya que solo puede haber solo un user_ID
         
-        public static bool soportaFacial;
-        public static bool soportaHuella;
-        public static bool soportaTarjeta;
-
+        private static bool soportaFacial;
+        private static bool soportaHuella;
+        private static bool soportaTarjeta;
 
         //propiedades (getters y setters)
-        public int IdUsuario
+        public static int IdUsuario
         {
             get{ return idUsuario; }
+        }       
+        public static bool SoportaFacial
+        {
+            get { return soportaFacial; }
         }
 
+        public static bool SoportaHuella
+        {
+            get { return soportaHuella; }
+        }
+
+        public static bool SoportaTarjeta
+        {
+            get { return soportaTarjeta; }
+        }
 
         //metodos
         public static Hik_Resultado Inicializar()
