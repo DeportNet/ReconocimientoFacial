@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Schema;
 
 
 namespace DeportNetReconocimiento.SDK
@@ -14,19 +15,41 @@ namespace DeportNetReconocimiento.SDK
     {
         //atributos
          
-        public static int idUsuario = -1; //esta bien que sea estatico ya que solo puede haber solo un user_ID
-        
-        public static bool soportaFacial;
-        public static bool soportaHuella;
-        public static bool soportaTarjeta;
+        private static int idUsuario; //esta bien que sea estatico ya que solo puede haber solo un user_ID
 
+        private static bool soportaFacial;
+        private static bool soportaHuella;
+        private static bool soportaTarjeta;
+
+        //constructores
+        public Hik_Controladora_General()
+        {
+            idUsuario = -1;
+            soportaFacial = false;
+            soportaHuella = false;
+            soportaTarjeta = false;
+        }
 
         //propiedades (getters y setters)
         public int IdUsuario
         {
             get{ return idUsuario; }
         }
+        
+        public bool SoportaFacial
+        {
+            get { return soportaFacial; }
+        }
 
+        public bool SoportaHuella
+        {
+            get { return soportaHuella; }
+        }
+
+        public bool SoportaTarjeta
+        {
+            get { return soportaTarjeta; }
+        }
 
         //metodos
         public static Hik_Resultado Inicializar()
