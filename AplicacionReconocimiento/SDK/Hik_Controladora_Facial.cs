@@ -441,6 +441,78 @@ namespace DeportNetReconocimiento.SDK
 
         //del face
 
+        public Hik_Resultado EliminarCara()
+        {
+            Hik_Resultado resultado = new Hik_Resultado();
+
+            /*
+            //Resetea el picutreBox y el textBox
+            if (pictureBoxFace.Image != null)
+            {
+                pictureBoxFace.Image.Dispose();
+                pictureBoxFace.Image = null;
+            }
+            textBoxFilePath.Text = "";
+            */
+
+            Hik_SDK.NET_DVR_FACE_PARAM_CTRL_ByCard struCardNo = new Hik_SDK.NET_DVR_FACE_PARAM_CTRL_ByCard();
+
+            uint dwSize = 0;
+            int cardNumber = 0;
+            IntPtr lpInBuffer = IntPtr.Zero;
+
+            InicilizarParamControlCardNo(ref struCardNo, ref dwSize, cardNumber, ref lpInBuffer);
+
+
+            if( Hik_SDK.NET_DVR_RemoteControl(Hik_Controladora_General.IdUsuario, Hik_SDK.NET_DVR_DEL_FACE_PARAM_CFG,  lpInBuffer, dwSize))
+            {
+                resultado.Exito = false;
+                resultado.MensajeDeError = "Hubo un error a la hora de eliminar la estructura";
+                resultado.NumeroDeError = Hik_SDK.NET_DVR_GetLastError().ToString();
+            }
+            else
+            {
+                resultado.Exito = true;
+            }
+
+
+            return resultado;
+        }
+
+
+        private void InicilizarParamControlCardNo(ref Hik_SDK.NET_DVR_FACE_PARAM_CTRL_ByCard struCardNo,ref uint dwSize, int cardNumber, ref IntPtr lpInBuffer)
+        {
+            //Inicializa la estructura
+            struCardNo.Init();
+            struCardNo.dwSize = Marshal.SizeOf(struCardNo);
+            struCardNo.byMode = 0;
+            dwSize = (uint)struCardNo.dwSize;
+
+            //Convierte el numero de tarjeta  a bytes
+            byte[] byCardNumber = BitConverter.GetBytes(cardNumber);
+            for (int i = 0; i < byCardNumber.Length; i++)
+            {
+                struCardNo.struProcessMode.byCardNo[i] = byCardNumber[i];
+            }
+
+            //Activa el lector de tarjetas necesario 
+            int dwEnableReaderNo = 1;
+            int.TryParse(byCardNumber, out dwEnableReaderNo);
+            if (dwEnableReaderNo <= 0) dwEnableReaderNo = 1;
+            struCardNo.struProcessMode.byEnableCardReader[dwEnableReaderNo - 1] = 1;
+
+            //Busca y marca con un 1 todas las caras que se deben eliminar 
+            for (int i = 0; i < Hik_SDK.MAX_FACE_NUM; ++i)
+            {
+                struCardNo.struProcessMode.byFaceID[i] = 1;//1 para eliminar la cara
+            }
+
+            //convierto la estructura a puntero
+            Marshal.StructureToPtr(struCardNo, lpInBuffer, false);
+
+        }
+
+
 
     }
 }
