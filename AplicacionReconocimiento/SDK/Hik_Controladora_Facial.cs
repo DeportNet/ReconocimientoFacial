@@ -70,11 +70,11 @@ namespace DeportNetReconocimiento.SDK
 
 
             //si ya hay una imagen en el picturebox de la interfaz, la elimina
-            if (pictureBoxFace.Image != null)
-            {
-                pictureBoxFace.Image.Dispose();
-                pictureBoxFace.Image = null;
-            }
+            //if (pictureBoxFace.Image != null)
+            //{
+            //    pictureBoxFace.Image.Dispose();
+            //    pictureBoxFace.Image = null;
+            //}
             
 
                     
@@ -84,7 +84,7 @@ namespace DeportNetReconocimiento.SDK
             Hik_SDK.NET_DVR_FACE_COND struCond = new Hik_SDK.NET_DVR_FACE_COND();
             IntPtr ptrStruCond = IntPtr.Zero;
 
-            InicializarStruCond(ref struCond, ref dwSize, cardReaderNumber, cardNumber, ref ptrStruCond);
+            InicializarFaceCond(ref struCond, ref dwSize, cardReaderNumber, cardNumber, ref ptrStruCond);
 
             GetFaceCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.IdUsuario, Hik_SDK.NET_DVR_GET_FACE, ptrStruCond, dwSize, null, IntPtr.Zero);
 
@@ -107,13 +107,13 @@ namespace DeportNetReconocimiento.SDK
                 IntPtr ptrOutBuff = IntPtr.Zero; //puntero a la estructura de datos struRecord inicializado en 0
                 uint dwOutBuffSize = 0; //tamaño de la estructura de datos struRecord inicializado en 0
 
-                InicializarStruRecord(ref struRecord, ref ptrOutBuff, ref dwOutBuffSize);
+                InicializarFaceRecord(ref struRecord, ref ptrOutBuff, ref dwOutBuffSize);
 
 
                 while (flag)
                 {
                     dwStatus = Hik_SDK.NET_DVR_GetNextRemoteConfig(GetFaceCfgHandle, ptrOutBuff, dwOutBuffSize);
-                    resultado = VerificarEstado(ref struRecord, ref flag, dwStatus);
+                    resultado = VerificarEstadoGetCara(ref struRecord, ref flag, dwStatus);
 
                 }
 
@@ -128,52 +128,58 @@ namespace DeportNetReconocimiento.SDK
 
         }
 
-
-
-        private Hik_Resultado VerificarEstado(ref Hik_SDK.NET_DVR_FACE_RECORD struRecord, ref bool flag, int dwStatus)
+        private Hik_Resultado VerificarEstadoGetCara(ref Hik_SDK.NET_DVR_FACE_RECORD struRecord, ref bool flag, int dwStatus)
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
             switch (dwStatus)
             {
                 case (int)Hik_SDK.NET_SDK_GET_NEXT_STATUS.NET_SDK_GET_NEXT_STATUS_SUCCESS:
+                    //Procesamos la informacion facial
 
-                    ProcesarInformacionFacial(ref struRecord, ref flag);
+                    ProcesarInformacionFacialRecord(ref struRecord, ref flag);
+
+                    resultado.Exito = true;
+                    resultado.MensajeDeExito = "Se obtuvo la cara de forma exitosa";
                     break;
-
                 case (int)Hik_SDK.NET_SDK_GET_NEXT_STATUS.NET_SDK_GET_NETX_STATUS_NEED_WAIT:
+                    //Esperamos
                     break;
-
                 case (int)Hik_SDK.NET_SDK_GET_NEXT_STATUS.NET_SDK_GET_NEXT_STATUS_FAILED:
+                    //Detenemos el proceso si hubo un fallo
+
                     Hik_SDK.NET_DVR_StopRemoteConfig(GetFaceCfgHandle);
                     resultado.Exito = false;
                     resultado.MensajeDeError = "Fallo a la hora de obtener estado";
                     resultado.NumeroDeError = Hik_SDK.NET_DVR_GetLastError().ToString();
                     flag = false;
-                    break;
 
+                    break;
                 case (int)Hik_SDK.NET_SDK_GET_NEXT_STATUS.NET_SDK_GET_NEXT_STATUS_FINISH:
+                    //Terminamos el proceso si se finalizo correctamente
+
+                    Hik_SDK.NET_DVR_StopRemoteConfig(GetFaceCfgHandle);
                     resultado.Exito = true;
                     resultado.MensajeDeExito = "El proceso termino";
-                    Hik_SDK.NET_DVR_StopRemoteConfig(GetFaceCfgHandle);
                     flag = false;
-                    break;
 
+                    break;
                 default:
+                    //Si no se conoce el estado del sistema, se detiene el proceso
+
+                    Hik_SDK.NET_DVR_StopRemoteConfig(GetFaceCfgHandle);
                     resultado.Exito = false;
                     resultado.MensajeDeError = "No se conoce el estado del sistema";
                     resultado.NumeroDeError = Hik_SDK.NET_DVR_GetLastError().ToString();
                     flag = false;
-                    Hik_SDK.NET_DVR_StopRemoteConfig(GetFaceCfgHandle);
                     break;
 
             }
 
             return resultado;
-
         }
 
-        private void InicializarStruRecord(ref Hik_SDK.NET_DVR_FACE_RECORD struRecord, ref IntPtr ptrOutBuff, ref uint dwOutBuffSize)
+        private void InicializarFaceRecord(ref Hik_SDK.NET_DVR_FACE_RECORD struRecord, ref IntPtr ptrOutBuff, ref uint dwOutBuffSize)
         {
             struRecord.Init(); // inicializamos la estructura de datos struRecord
 
@@ -187,7 +193,7 @@ namespace DeportNetReconocimiento.SDK
 
         }
 
-        private void InicializarStruCond(ref Hik_SDK.NET_DVR_FACE_COND struCond,ref int dwSize, uint cardReaderNumber, int cardNumber, ref IntPtr ptrStruCond)
+        private void InicializarFaceCond(ref Hik_SDK.NET_DVR_FACE_COND struCond,ref int dwSize, uint cardReaderNumber, int cardNumber, ref IntPtr ptrStruCond)
         {
             struCond.Init();
             struCond.dwSize = (uint)Marshal.SizeOf(struCond);
@@ -215,7 +221,7 @@ namespace DeportNetReconocimiento.SDK
         }
 
         //Mostrar la foto en la intefaz
-        private void ProcesarInformacionFacial(ref Hik_SDK.NET_DVR_FACE_RECORD struRecord, ref Boolean Flag)
+        private void ProcesarInformacionFacialRecord(ref Hik_SDK.NET_DVR_FACE_RECORD struRecord, ref Boolean Flag)
         {
             string strpath = null;
             DateTime dt = DateTime.Now;
@@ -248,8 +254,8 @@ namespace DeportNetReconocimiento.SDK
                     fs.Close();
                 }
                 //y escribimos la imagen de la cara en pictureboxface
-                pictureBoxFace.Image = Image.FromFile(strpath);
-                textBoxFilePath.Text = string.Format("{0}\\{1}", Environment.CurrentDirectory, strpath);
+               // pictureBoxFace.Image = Image.FromFile(strpath);
+               // textBoxFilePath.Text = string.Format("{0}\\{1}", Environment.CurrentDirectory, strpath);
             }
             catch
             {
@@ -259,9 +265,177 @@ namespace DeportNetReconocimiento.SDK
             }
         }
 
+        //cap face
+        public Hik_Resultado CapturarCara()
+        {
+            Hik_Resultado resultado = new Hik_Resultado();
+
+            if (CapFaceCfgHandle != -1)
+            {
+                //significa que ya esta capturando, por lo tanto cortamos
+
+                Hik_SDK.NET_DVR_StopRemoteConfig(CapFaceCfgHandle);
+                CapFaceCfgHandle = -1;
+            }
+
+            /*
+            if (pictureBoxFace.Image != null)
+            {
+                pictureBoxFace.Image.Dispose();
+                pictureBoxFace.Image = null;
+            }*/
+
+            Hik_SDK.NET_DVR_CAPTURE_FACE_COND struCapCond = new Hik_SDK.NET_DVR_CAPTURE_FACE_COND();
+            IntPtr ptrCapCond = IntPtr.Zero;
+            int dwInBufferSize = 0;
+
+            InicializarCaptureFaceCond(ref struCapCond, ref ptrCapCond, ref dwInBufferSize);
+
+            CapFaceCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.IdUsuario, Hik_SDK.NET_DVR_CAPTURE_FACE_INFO, ptrCapCond, dwInBufferSize, null, IntPtr.Zero);
+
+            if (CapFaceCfgHandle == -1)
+            {
+                Marshal.FreeHGlobal(ptrCapCond);
+
+                //configurar HIK_Resultado
+
+                MessageBox.Show("NET_DVR_CAP_FACE_FAIL, ERROR CODE" + Hik_SDK.NET_DVR_GetLastError().ToString(), "Error", MessageBoxButtons.OK);
+
+                //return
+            }
+            else
+            {
+                Hik_SDK.NET_DVR_CAPTURE_FACE_CFG struFaceCfg = new Hik_SDK.NET_DVR_CAPTURE_FACE_CFG();
+                int dwStatus = 0;
+                bool flag = false;
+                uint dwOutBuffSize = 0;
+                IntPtr lpOutBuff = IntPtr.Zero; //puntero a la estructura de datos struFaceCfg inicializado en 0
+
+                InicializarCaptureFaceConfg(ref struFaceCfg, ref dwOutBuffSize, ref lpOutBuff);
+
+                while (flag)
+                {
+                    dwStatus = Hik_SDK.NET_DVR_GetNextRemoteConfig(CapFaceCfgHandle, lpOutBuff, dwOutBuffSize);
+                    resultado = VerificarEstadoCapturarCara(ref flag, ref struFaceCfg, dwStatus);
+
+                    Marshal.FreeHGlobal(lpOutBuff);
+                }
+
+            }
+
+
+            Marshal.FreeHGlobal(ptrCapCond);
+            return resultado;
+        }
+
+        private Hik_Resultado VerificarEstadoCapturarCara(ref bool flag, ref Hik_SDK.NET_DVR_CAPTURE_FACE_CFG struFaceCfg, int dwStatus)
+        {
+            Hik_Resultado resultado = new Hik_Resultado();
+               
+            switch (dwStatus)
+            {
+                case (int)Hik_SDK.NET_SDK_GET_NEXT_STATUS.NET_SDK_GET_NEXT_STATUS_SUCCESS://成功读取到数据，处理完本次数据后需调用next
+                    //exito
+
+                    ProcesarInformacionFacialCaptureCfg(ref struFaceCfg, ref flag);
+
+                    resultado.Exito = true;
+                    resultado.MensajeDeExito = "Se capturo la cara de forma exitosa";
+
+                    break;
+                case (int) Hik_SDK.NET_SDK_GET_NEXT_STATUS.NET_SDK_GET_NETX_STATUS_NEED_WAIT:
+                    //esperamos
+                    break;
+                case (int) Hik_SDK.NET_SDK_GET_NEXT_STATUS.NET_SDK_GET_NEXT_STATUS_FAILED:
+                    //fallo
+                    Hik_SDK.NET_DVR_StopRemoteConfig(CapFaceCfgHandle);
+
+                    flag = false;
+
+                    resultado.Exito = false;
+                    resultado.MensajeDeError = "Fallo al capturar la cara";
+                    resultado.NumeroDeError = Hik_SDK.NET_DVR_GetLastError().ToString();
+
+                    break;
+                case (int) Hik_SDK.NET_SDK_GET_NEXT_STATUS.NET_SDK_GET_NEXT_STATUS_FINISH:
+                    //termino
+                    Hik_SDK.NET_DVR_StopRemoteConfig(CapFaceCfgHandle);
+                    flag = false;
+
+                    resultado.Exito = true;
+                    resultado.MensajeDeExito= "El proceso termino";
+                    
+                    break;
+                default:
+                    Hik_SDK.NET_DVR_StopRemoteConfig(CapFaceCfgHandle);
+                    flag = false;
+
+                    resultado.Exito = false;
+                    resultado.NumeroDeError = "Se desconoce el error";
+                    resultado.NumeroDeError = Hik_SDK.NET_DVR_GetLastError().ToString();
+                    break;
+            }
+            
+            return resultado;
+        }
+
+        private void ProcesarInformacionFacialCaptureCfg(ref Hik_SDK.NET_DVR_CAPTURE_FACE_CFG struFaceCfg, ref bool flag)
+        {
+            if (0 == struFaceCfg.dwFacePicSize)
+            {
+                return;
+            }
+            string strpath = null;
+            DateTime dt = DateTime.Now;
+            strpath = string.Format("capture.jpg", Environment.CurrentDirectory);
+            try
+            {
+                using (FileStream fs = new FileStream(strpath, FileMode.OpenOrCreate))
+                {
+                    int FaceLen = struFaceCfg.dwFacePicSize;
+                    byte[] by = new byte[FaceLen];
+                    Marshal.Copy(struFaceCfg.pFacePicBuffer, by, 0, FaceLen);
+                    fs.Write(by, 0, FaceLen);
+                    fs.Close();
+                }
+
+                pictureBoxFace.Image = Image.FromFile(strpath);
+                textBoxFilePath.Text = string.Format("{0}\\{1}", Environment.CurrentDirectory, strpath);
+                MessageBox.Show("Capture succeed", "SUCCESSFUL", MessageBoxButtons.OK);
+            }
+            catch
+            {
+                flag = false;
+                MessageBox.Show("capature data wrong", "Error", MessageBoxButtons.OK);
+            }
+        }
+
+
+        private void InicializarCaptureFaceConfg(ref Hik_SDK.NET_DVR_CAPTURE_FACE_CFG struFaceCfg, ref uint dwOutBuffSize, ref IntPtr lpOutBuff)
+        {
+            struFaceCfg.Init();
+
+            dwOutBuffSize = (uint)Marshal.SizeOf(struFaceCfg);
+
+            Marshal.StructureToPtr(struFaceCfg, lpOutBuff, false);
+        }
+
+        private void InicializarCaptureFaceCond(ref Hik_SDK.NET_DVR_CAPTURE_FACE_COND strucCapCond, ref IntPtr ptrCapCond, ref int dwInBufferSize)
+        {
+            strucCapCond.Init(); //inicializamos 
+
+            strucCapCond.dwSize = (uint) Marshal.SizeOf(strucCapCond); // asignamos el tam de strucCapCond
+
+            dwInBufferSize = (int)strucCapCond.dwSize; //asignamos el tam de strucCapCond
+            ptrCapCond = Marshal.AllocHGlobal(dwInBufferSize); //reservamos memoria para el puntero de strucCapCond
+
+            Marshal.StructureToPtr(strucCapCond, ptrCapCond, false); //pasamos la estructura de datos strucCapCond a un puntero
+
+        }
+
 
         //set face
-        //cap face
+
         //del face
 
 

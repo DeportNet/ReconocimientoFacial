@@ -1262,6 +1262,10 @@ namespace DeportNetReconocimiento.SDK
             public uint dwSize;
             [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 128, ArraySubType = UnmanagedType.I1)]
             public byte[] byRes;
+            public void Init()
+            {
+                byRes = new byte[128];
+            }
         }
 
         [StructLayoutAttribute(LayoutKind.Sequential)]
@@ -1279,6 +1283,11 @@ namespace DeportNetReconocimiento.SDK
             public byte byCaptureProgress;
             [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 125, ArraySubType = UnmanagedType.I1)]
             public byte[] byRes;
+
+            public void Init()
+            {
+                byRes = new byte[116];
+            }
         }
 
         [StructLayoutAttribute(LayoutKind.Sequential)]
