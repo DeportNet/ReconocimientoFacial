@@ -381,33 +381,36 @@ namespace DeportNetReconocimiento.SDK
 
         private void ProcesarInformacionFacialCaptureCfg(ref Hik_SDK.NET_DVR_CAPTURE_FACE_CFG struFaceCfg, ref bool flag)
         {
-            if (0 == struFaceCfg.dwFacePicSize)
+            if (struFaceCfg.dwFacePicSize != 0)
             {
-                return;
-            }
-            string strpath = null;
-            DateTime dt = DateTime.Now;
-            strpath = string.Format("capture.jpg", Environment.CurrentDirectory);
-            try
-            {
-                using (FileStream fs = new FileStream(strpath, FileMode.OpenOrCreate))
+                string strpath = null;
+                DateTime dt = DateTime.Now;
+                strpath = string.Format("captura.jpg", Environment.CurrentDirectory);
+                try
                 {
-                    int FaceLen = struFaceCfg.dwFacePicSize;
-                    byte[] by = new byte[FaceLen];
-                    Marshal.Copy(struFaceCfg.pFacePicBuffer, by, 0, FaceLen);
-                    fs.Write(by, 0, FaceLen);
-                    fs.Close();
+                    using (FileStream fs = new FileStream(strpath, FileMode.OpenOrCreate))
+                    {
+                        int FaceLen = (int) struFaceCfg.dwFacePicSize;
+                        byte[] by = new byte[FaceLen];
+                        Marshal.Copy(struFaceCfg.pFacePicBuffer, by, 0, FaceLen);
+                        fs.Write(by, 0, FaceLen);
+                        fs.Close();
+                    }
+
+                    //pictureBoxFace.Image = Image.FromFile(strpath);
+                    //textBoxFilePath.Text = string.Format("{0}\\{1}", Environment.CurrentDirectory, strpath);
+                    MessageBox.Show("Capture succeed", "SUCCESSFUL", MessageBoxButtons.OK);
+                }
+                catch
+                {
+                    flag = false;
+                    MessageBox.Show("Informacion facial mal capturada", "Error", MessageBoxButtons.OK);
                 }
 
-                pictureBoxFace.Image = Image.FromFile(strpath);
-                textBoxFilePath.Text = string.Format("{0}\\{1}", Environment.CurrentDirectory, strpath);
-                MessageBox.Show("Capture succeed", "SUCCESSFUL", MessageBoxButtons.OK);
             }
-            catch
-            {
-                flag = false;
-                MessageBox.Show("capature data wrong", "Error", MessageBoxButtons.OK);
-            }
+            
+
+            
         }
 
 
