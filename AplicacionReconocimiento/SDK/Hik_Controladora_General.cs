@@ -173,7 +173,7 @@ namespace DeportNetReconocimiento.SDK
         //el dwabilityType es el tipo de capacidad que queremos obtener. En este caso esta fijo en ACS_ABILITY
         private XmlDocument? RetornarXmlConLasCapacidadesDeAcceso()
         {
-            XmlDocument? documentoXml = null;
+            XmlDocument? documentoXml = new XmlDocument();
 
             //solicitamos hbailidades de acceso del dispositvo: huella digital, tarjeta y facial
             //! en caso de que surgan errores a la hora de busqeuda del XML hay que tener en cuenta esta parte.
@@ -200,6 +200,10 @@ namespace DeportNetReconocimiento.SDK
                 //si todo salio bien, se crea el xml con el string que nos devolvio la funcion NET_DVR_GetDeviceAbility y lo retornamos
                 string strOutBuf = Marshal.PtrToStringAnsi(pOutBuf, XML_ABILITY_OUT_LEN);
                 documentoXml.LoadXml(strOutBuf);
+            }
+            else
+            {
+                documentoXml = null;
             }
 
             Hik_Resultado.EscribirLog();
