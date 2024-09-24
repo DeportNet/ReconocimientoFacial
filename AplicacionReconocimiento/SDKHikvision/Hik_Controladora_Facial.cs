@@ -53,7 +53,7 @@ namespace DeportNetReconocimiento.SDK
         //metodos facial
 
         //get face
-        private Hik_Resultado ObtenerCara(uint cardReaderNumber, int cardNumber)
+        public Hik_Resultado ObtenerCara(uint cardReaderNumber, int cardNumber)
         {
 
             Hik_Resultado resultado = new Hik_Resultado();
@@ -94,7 +94,7 @@ namespace DeportNetReconocimiento.SDK
                 resultado.Exito = false;
                 resultado.MensajeDeError = "Error al obtener la cara";
                 resultado.NumeroDeError = Hik_SDK.NET_DVR_GetLastError().ToString();
-             } 
+            } 
             else
             {
 
@@ -142,7 +142,7 @@ namespace DeportNetReconocimiento.SDK
                     resultado.Exito = true;
                     resultado.MensajeDeExito = "Se obtuvo la cara de forma exitosa";
                     break;
-                case (int)Hik_SDK.NET_SDK_GET_NEXT_STATUS.NET_SDK_GET_NETX_STATUS_NEED_WAIT:
+                case (int)Hik_SDK.NET_SDK_GET_NEXT_STATUS.NET_SDK_GET_NEXT_STATUS_NEED_WAIT:
                     //Esperamos
                     break;
                 case (int)Hik_SDK.NET_SDK_GET_NEXT_STATUS.NET_SDK_GET_NEXT_STATUS_FAILED:
@@ -228,7 +228,6 @@ namespace DeportNetReconocimiento.SDK
             strpath = string.Format("FacePicture.jpg");
 
 
-
             //si la longitud de la cara es 0, no hace nada y volvemos para atras
             if (struRecord.dwFaceLen != 0)
             {
@@ -256,6 +255,11 @@ namespace DeportNetReconocimiento.SDK
                         fs.Close();
                     }
                     //y escribimos la imagen de la cara en pictureboxface
+
+                    //if (hay conexion)
+                    //lo mando como archivo
+                    //sino lo muestro con pictureBoxFace
+
                     // pictureBoxFace.Image = Image.FromFile(strpath);
                     // textBoxFilePath.Text = string.Format("{0}\\{1}", Environment.CurrentDirectory, strpath);
                 }
@@ -301,10 +305,10 @@ namespace DeportNetReconocimiento.SDK
                 Marshal.FreeHGlobal(ptrCapCond);
 
                 //configurar HIK_Resultado
-
-                MessageBox.Show("NET_DVR_CAP_FACE_FAIL, ERROR CODE" + Hik_SDK.NET_DVR_GetLastError().ToString(), "Error", MessageBoxButtons.OK);
-
-                //return
+                resultado.Exito = false;
+                resultado.MensajeDeError = "Error al momento de capturar datos faciales";
+                resultado.NumeroDeError = Hik_SDK.NET_DVR_GetLastError().ToString();
+  
             }
             else
             {
@@ -416,7 +420,6 @@ namespace DeportNetReconocimiento.SDK
             
         }
 
-
         private void InicializarCaptureFaceConfg(ref Hik_SDK.NET_DVR_CAPTURE_FACE_CFG struFaceCfg, ref uint dwOutBuffSize, ref IntPtr lpOutBuff)
         {
             struFaceCfg.Init();
@@ -495,7 +498,7 @@ namespace DeportNetReconocimiento.SDK
 
                     Hik_SDK.NET_DVR_FACE_STATUS struStatus = new Hik_SDK.NET_DVR_FACE_STATUS();
                     //dentro de la inicializacion tambien damos valores a StruStatus
-                    inicializarFaceStatus(ref struStatus, ref dwOutBufferSize, ref dwOutDataLen);
+                    InicializarFaceStatus(ref struStatus, ref dwOutBufferSize, ref dwOutDataLen);
 
                     Marshal.StructureToPtr(struRecord, lpInBuff, false);
                     Marshal.StructureToPtr(struRecord, lpOutBuff, false);
@@ -583,7 +586,7 @@ namespace DeportNetReconocimiento.SDK
             return resultado;
         }
 
-            private void inicializarFaceStatus(ref Hik_SDK.NET_DVR_FACE_STATUS struStatus,ref uint dwOutBufferSize, ref uint dwOutDataLen)
+        private void InicializarFaceStatus(ref Hik_SDK.NET_DVR_FACE_STATUS struStatus,ref uint dwOutBufferSize, ref uint dwOutDataLen)
         {
             struStatus.Init();
             struStatus.dwSize = (uint) Marshal.SizeOf(struStatus);
@@ -715,7 +718,6 @@ namespace DeportNetReconocimiento.SDK
             return resultado;
         }
 
-
         private void InicilizarParamControlCardNo(ref Hik_SDK.NET_DVR_FACE_PARAM_CTRL_ByCard struCardNo,ref uint dwSize, int cardNumber, ref IntPtr lpInBuffer)
         {
             //Inicializa la estructura
@@ -747,7 +749,6 @@ namespace DeportNetReconocimiento.SDK
             Marshal.StructureToPtr(struCardNo, lpInBuffer, false);
 
         }
-
 
 
     }

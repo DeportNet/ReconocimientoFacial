@@ -60,7 +60,8 @@ namespace DeportNetReconocimiento.SDK
 
         public static bool EscribirLog()
         {
-           return Hik_SDK.NET_DVR_SetLogToFile(3, "G:\\Fabri\\Programacion\\C# Proyectos\\DeportNetReconocimiento\\DeportnetReconocimiento\\LogsAplicacion", false);
+            
+           return Hik_SDK.NET_DVR_SetLogToFile(3, "..\\LogsAplicacion", false);
         }
     }
 }
