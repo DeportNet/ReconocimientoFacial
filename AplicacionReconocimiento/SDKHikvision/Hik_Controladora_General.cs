@@ -21,7 +21,10 @@ namespace DeportNetReconocimiento.SDK
         private static bool soportaFacial;
         private static bool soportaHuella;
         private static bool soportaTarjeta;
-
+       
+        private static Hik_Controladora_Facial? hik_Controladora_Facial;
+        //private static Hik_Controladora_Huella? hik_Controladora_Huella;
+        //private static Hik_Controladora_Tarjeta? hik_Controladora_Tarjeta;
         //constructores
         public Hik_Controladora_General()
         {
@@ -29,6 +32,8 @@ namespace DeportNetReconocimiento.SDK
             soportaFacial = false;
             soportaHuella = false;
             soportaTarjeta = false;
+
+            hik_Controladora_Facial = new Hik_Controladora_Facial();
         }
 
 
@@ -298,6 +303,61 @@ namespace DeportNetReconocimiento.SDK
 
         }
 
+
+        public Hik_Resultado EmpezarPrograma(string user, string password, string port, string ip)
+        {
+            Hik_Resultado resultadoGeneral = new Hik_Resultado();
+
+            resultadoGeneral = Inicializar();
+
+            if (!resultadoGeneral.Exito)
+            {
+                //si no se pudo inicializar
+                return resultadoGeneral;
+            }
+
+
+            resultadoGeneral = Login(user, password, port, ip);
+
+            if (!resultadoGeneral.Exito)
+            {
+                //si no se pudo Loggear
+                return resultadoGeneral;
+            }
+
+            resultadoGeneral = ObtenerTripleCapacidadDelDispositivo();
+
+            if (!resultadoGeneral.Exito)
+            {
+                //si no hubo exito, signfica que directamente el dispositivo no soporta acceso
+                return resultadoGeneral;
+            }
+            
+            //si soporta control de acceso, inicializamos los modulos que soporta
+            if(soportaTarjeta)
+            {
+                //inicializar para tarjetas
+            }
+
+            if (soportaFacial)
+            {
+                //inicializar para facial
+                
+            }
+
+            if(soportaHuella)
+            {
+                //inicializar para huellas
+            }
+
+            //hacer cosas
+
+            
+
+
+
+            return resultadoGeneral;
+        }
 
     }
 }
