@@ -21,10 +21,14 @@ namespace DeportNetReconocimiento
             //Application.Run(new WFPrincipal());
             
             Hik_Controladora_General controladora = new Hik_Controladora_General();
-            Hik_Resultado resultado1 = Hik_Controladora_General.Inicializar();
+            Hik_Resultado resultado1 = Hik_Controladora_General.InicializarNet_DVR();
 
             Hik_Resultado resultado2 = controladora.Login("Aasd", "loooll", "8008", "123.123.123");
-            
+
+            Hik_Controladora_General controladora_General = new Hik_Controladora_General();
+
+            controladora_General.EmpezarPrograma();
+
         }
     }
 }

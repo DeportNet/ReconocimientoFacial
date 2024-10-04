@@ -33,7 +33,9 @@ namespace DeportNetReconocimiento.SDK
             soportaHuella = false;
             soportaTarjeta = false;
 
-            hik_Controladora_Facial = new Hik_Controladora_Facial();
+            hik_Controladora_Facial = null;
+            //hik_Controladora_Tarjeta = null;
+            //hik_Controladora_Huella = null;
         }
 
 
@@ -59,7 +61,7 @@ namespace DeportNetReconocimiento.SDK
         }
 
         //metodos
-        public static Hik_Resultado Inicializar()
+        private static Hik_Resultado InicializarNet_DVR()
         {
             Hik_Resultado resultado = new Hik_Resultado();
            
@@ -86,7 +88,7 @@ namespace DeportNetReconocimiento.SDK
             return resultado;
         }
 
-        public Hik_Resultado Login(string user, string password, string port, string ip)
+        private Hik_Resultado Login(string user, string password, string port, string ip)
         {
             Hik_Resultado loginResultado = new Hik_Resultado();
 
@@ -161,6 +163,8 @@ namespace DeportNetReconocimiento.SDK
                 }
             }
 
+            Hik_Resultado.EscribirLog();
+
             return loginResultado;
         }
 
@@ -176,11 +180,12 @@ namespace DeportNetReconocimiento.SDK
         }
 
         //el dwabilityType es el tipo de capacidad que queremos obtener. En este caso esta fijo en ACS_ABILITY
-        private XmlDocument? RetornarXmlConLasCapacidadesDeAcceso()
+        //obtenemos un xml con TODAS las capacidades del dispositivo
+        private XmlDocument? RetornarXmlConLasCapacidadesDelDispositivo()
         {
             XmlDocument? documentoXml = new XmlDocument();
 
-            //solicitamos hbailidades de acceso del dispositvo: huella digital, tarjeta y facial
+            //solicitamos habilidades de acceso del dispositvo: huella digital, tarjeta y facial
             //! en caso de que surgan errores a la hora de busqeuda del XML hay que tener en cuenta esta parte.
             string xmlRequest = "<AcsAbility version=\"2.0\"><fingerPrintAbility></fingerPrintAbility><cardAbility></cardAbility><faceAbility></faceAbility></AcsAbility>";
 
@@ -258,12 +263,13 @@ namespace DeportNetReconocimiento.SDK
             return strDescription;
         }
 
-        public Hik_Resultado ObtenerTripleCapacidadDelDispositivo()
+        //obtenemos las capacidades de acceso del dispositivo
+        private Hik_Resultado ObtenerTripleCapacidadDelDispositivo()
         {
 
-            XmlDocument? resultadoXML = RetornarXmlConLasCapacidadesDeAcceso();
-            //leer el xml pasado por resultado
             Hik_Resultado resultado = new Hik_Resultado();
+            //leer el xml pasado por resultado
+            XmlDocument? resultadoXML = RetornarXmlConLasCapacidadesDelDispositivo();
 
 
             if (resultadoXML == null)
@@ -286,13 +292,15 @@ namespace DeportNetReconocimiento.SDK
 
             }
 
+            Hik_Resultado.EscribirLog();
+
             return resultado;
         }
         
-        private bool VerificarCapacidad(XmlDocument resultadoXML, string parametro)
+        private bool VerificarCapacidad(XmlDocument resultadoXML, string capacidad)
         {
             bool soporta = false;
-            XmlNode? nodoBuscado = resultadoXML.SelectSingleNode(parametro);
+            XmlNode? nodoBuscado = resultadoXML.SelectSingleNode(capacidad);
 
             if(nodoBuscado!= null)
             {
@@ -304,11 +312,11 @@ namespace DeportNetReconocimiento.SDK
         }
 
 
-        public Hik_Resultado EmpezarPrograma(string user, string password, string port, string ip)
+        public Hik_Resultado InicializarPrograma(string user, string password, string port, string ip)
         {
             Hik_Resultado resultadoGeneral = new Hik_Resultado();
 
-            resultadoGeneral = Inicializar();
+            resultadoGeneral = InicializarNet_DVR();
 
             if (!resultadoGeneral.Exito)
             {
@@ -342,7 +350,7 @@ namespace DeportNetReconocimiento.SDK
             if (soportaFacial)
             {
                 //inicializar para facial
-                
+                hik_Controladora_Facial = new Hik_Controladora_Facial();
             }
 
             if(soportaHuella)
@@ -352,12 +360,23 @@ namespace DeportNetReconocimiento.SDK
 
             //hacer cosas
 
-            
 
 
+            Hik_Resultado.EscribirLog();
 
             return resultadoGeneral;
         }
+
+
+
+        public bool verificarConexionInternet()
+        {
+            bool flag = false;
+
+
+            return flag;
+        }
+
 
     }
 }
