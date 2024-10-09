@@ -1286,7 +1286,7 @@ namespace DeportNetReconocimiento.SDK
 
             public void Init()
             {
-                byRes = new byte[116];
+                byRes = new byte[176];
             }
         }
 
@@ -3264,7 +3264,7 @@ namespace DeportNetReconocimiento.SDK
         #region HCNetSDK.dll function definition
         // function definition
         /* The SDK initialization function */
-        private const string rutaLibreriaSDK = @"G:\Fabri\Programacion\C# Proyectos\DeportNetReconocimiento\DeportnetReconocimiento\HCNetSDK\HCNetSDK.dll";
+        private const string rutaLibreriaSDK = @"D:\DeportNet\DeportNetReconocimiento\HCNetSDK\HCNetSDK.dll";
 
 
         [DllImport(rutaLibreriaSDK)]

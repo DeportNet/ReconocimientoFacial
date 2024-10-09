@@ -20,14 +20,27 @@ namespace DeportNetReconocimiento
             //ApplicationConfiguration.Initialize();
             //Application.Run(new WFPrincipal());
             
+
+            /*
             Hik_Controladora_General controladora = new Hik_Controladora_General();
             Hik_Resultado resultado1 = Hik_Controladora_General.InicializarNet_DVR();
 
             Hik_Resultado resultado2 = controladora.Login("Aasd", "loooll", "8008", "123.123.123");
+            */
 
+            
             Hik_Controladora_General controladora_General = new Hik_Controladora_General();
 
-            controladora_General.EmpezarPrograma();
+          Hik_Resultado resultado =   controladora_General.InicializarPrograma("admin", "Facundo2024*", "8000", "192.168.0.206");
+            Console.WriteLine(Hik_Controladora_General.SoportaFacial);
+            Console.WriteLine(Hik_Controladora_General.SoportaHuella);
+            Console.WriteLine(Hik_Controladora_General.SoportaTarjeta);
+
+            Console.WriteLine(Hik_Controladora_General.IdUsuario);
+
+            Console.WriteLine(resultado.MensajeDeError );
+
+           
 
         }
     }
