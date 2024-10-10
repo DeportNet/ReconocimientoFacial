@@ -317,7 +317,7 @@ namespace DeportNetReconocimiento.SDK
                 bool flag = false;
                 uint dwOutBuffSize = 0;
                 IntPtr lpOutBuff = IntPtr.Zero; //puntero a la estructura de datos struFaceCfg inicializado en 0
-
+                
                 InicializarCaptureFaceConfg(ref struFaceCfg, ref dwOutBuffSize, ref lpOutBuff);
 
                 while (flag)
@@ -426,7 +426,10 @@ namespace DeportNetReconocimiento.SDK
 
             dwOutBuffSize = (uint)Marshal.SizeOf(struFaceCfg);
 
-            Marshal.StructureToPtr(struFaceCfg, lpOutBuff, false);
+            lpOutBuff = Marshal.AllocHGlobal((int)dwOutBuffSize);
+           
+            Marshal.StructureToPtr(struFaceCfg, lpOutBuff, false );
+
         }
 
         private void InicializarCaptureFaceCond(ref Hik_SDK.NET_DVR_CAPTURE_FACE_COND strucCapCond, ref IntPtr ptrCapCond, ref int dwInBufferSize)
