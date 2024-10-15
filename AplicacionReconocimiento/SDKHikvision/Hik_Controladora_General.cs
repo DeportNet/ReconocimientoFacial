@@ -210,6 +210,21 @@ namespace DeportNetReconocimiento.SDK
                 //si todo salio bien, se crea el xml con el string que nos devolvio la funcion NET_DVR_GetDeviceAbility y lo retornamos
                 string strOutBuf = Marshal.PtrToStringAnsi(pOutBuf, XML_ABILITY_OUT_LEN);
                 documentoXml.LoadXml(strOutBuf);
+
+                try
+                {
+                    // Especifica la ruta donde quieres guardar el archivo XML
+                    string filePath = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\archivoXML.xml";
+                    documentoXml.Save(filePath); // Guarda el XML en el archivo
+
+                    Console.WriteLine($"Archivo XML guardado en {filePath}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error al guardar el archivo XML: {ex.Message}");
+                }
+
+
             }
             else
             {
@@ -362,11 +377,10 @@ namespace DeportNetReconocimiento.SDK
 
             Hik_Resultado resExtra = new Hik_Resultado();
             resExtra =  hik_Controladora_Facial.CapturarCara();
-            Console.WriteLine(resExtra.ToString());
-
-
+            Console.WriteLine(resExtra.MensajeDeError);
+            Console.WriteLine(resExtra.NumeroDeError);
             Hik_Resultado.EscribirLog();
-
+   
             return resultadoGeneral;
         }
 
