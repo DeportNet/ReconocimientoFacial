@@ -349,8 +349,6 @@ namespace DeportNetReconocimiento.SDK
             }
 
             resultadoGeneral = ObtenerTripleCapacidadDelDispositivo();
-            Console.WriteLine(resultadoGeneral.MensajeDeExito);
-
 
             if (!resultadoGeneral.Exito)
             {
@@ -375,11 +373,16 @@ namespace DeportNetReconocimiento.SDK
                 //inicializar para huellas
             }
 
+
+
             Hik_Resultado resExtra = new Hik_Resultado();
             resExtra =  hik_Controladora_Facial.CapturarCara();
             Console.WriteLine(resExtra.MensajeDeError);
             Console.WriteLine(resExtra.NumeroDeError);
-            Hik_Resultado.EscribirLog();
+
+
+
+
    
             return resultadoGeneral;
         }

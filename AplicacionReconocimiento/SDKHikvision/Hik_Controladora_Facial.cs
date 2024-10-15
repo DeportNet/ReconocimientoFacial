@@ -287,6 +287,7 @@ namespace DeportNetReconocimiento.SDK
                 CapFaceCfgHandle = -1;
             }
 
+
             /*
             if (pictureBoxFace.Image != null)
             {
@@ -294,11 +295,12 @@ namespace DeportNetReconocimiento.SDK
                 pictureBoxFace.Image = null;
             }*/
 
+
+
             Hik_SDK.NET_DVR_CAPTURE_FACE_COND struCapCond = new Hik_SDK.NET_DVR_CAPTURE_FACE_COND();
             IntPtr ptrCapCond = IntPtr.Zero;
             int dwInBufferSize = 0;
 
-            Console.WriteLine(Marshal.SizeOf(struCapCond));
 
             InicializarCaptureFaceCond(ref struCapCond, ref ptrCapCond, ref dwInBufferSize);
 
@@ -334,19 +336,9 @@ namespace DeportNetReconocimiento.SDK
 
                 while (flag)
                 {
-
-                    //Esto esrá retornando -1 de mensaje Osea que hubo un error
-                    Console.WriteLine(CapFaceCfgHandle.ToString());
-                    Console.WriteLine(lpOutBuff);
-                    Console.WriteLine(dwOutBuffSize);
-
-
                     dwStatus = Hik_SDK.NET_DVR_GetNextRemoteConfig(CapFaceCfgHandle, lpOutBuff, dwOutBuffSize);
                     Console.WriteLine(dwStatus);
-                    Console.WriteLine(Hik_SDK.NET_DVR_GetLastError().ToString());
-
                     resultado = VerificarEstadoCapturarCara(ref flag, ref struFaceCfg, dwStatus);
-
 
                 }
             }
@@ -370,6 +362,7 @@ namespace DeportNetReconocimiento.SDK
                     Console.WriteLine("Exito");
                     resultado.Exito = true;
                     resultado.MensajeDeExito = "Se capturo la cara de forma exitosa";
+                    
 
                     break;
                 case (int) Hik_SDK.NET_SDK_GET_NEXT_STATUS.NET_SDK_GET_NEXT_STATUS_NEED_WAIT: //1001
@@ -377,7 +370,7 @@ namespace DeportNetReconocimiento.SDK
                     Console.WriteLine("Esperamos");
 
                     break;
-                case (int) Hik_SDK.NET_SDK_GET_NEXT_STATUS.NET_SDK_GET_NEXT_STATUS_FAILED: //1002
+                case (int) Hik_SDK.NET_SDK_GET_NEXT_STATUS.NET_SDK_GET_NEXT_STATUS_FAILED: //1003  
                     //fallo
                     Hik_SDK.NET_DVR_StopRemoteConfig(CapFaceCfgHandle);
                     Console.WriteLine("Fallo");
@@ -389,7 +382,7 @@ namespace DeportNetReconocimiento.SDK
                     resultado.NumeroDeError = Hik_SDK.NET_DVR_GetLastError().ToString();
 
                     break;
-                case (int) Hik_SDK.NET_SDK_GET_NEXT_STATUS.NET_SDK_GET_NEXT_STATUS_FINISH: //1003
+                case (int) Hik_SDK.NET_SDK_GET_NEXT_STATUS.NET_SDK_GET_NEXT_STATUS_FINISH:   //1002
                     //termino
                     Hik_SDK.NET_DVR_StopRemoteConfig(CapFaceCfgHandle);
                     flag = false;
@@ -399,6 +392,17 @@ namespace DeportNetReconocimiento.SDK
                     resultado.MensajeDeExito= "El proceso termino";
 
                     
+                    break;
+
+                case (int)Hik_SDK.NET_SDK_GET_NEXT_STATUS.NET_SDK_GET_NEXT_STATUS_TIMEOUT: //1004
+
+                    Hik_SDK.NET_DVR_StopRemoteConfig(CapFaceCfgHandle);
+                    flag = false;
+                    Console.WriteLine("Timeout");
+
+                    resultado.Exito = true;
+                    resultado.MensajeDeExito = "Se agotó el tiempo de espera";
+
                     break;
                 default:
                     Hik_SDK.NET_DVR_StopRemoteConfig(CapFaceCfgHandle);
@@ -416,6 +420,8 @@ namespace DeportNetReconocimiento.SDK
 
         private void ProcesarInformacionFacialCaptureCfg(ref Hik_SDK.NET_DVR_CAPTURE_FACE_CFG struFaceCfg, ref bool flag)
         {
+            Console.WriteLine(struFaceCfg.dwFacePicSize);
+
             if (struFaceCfg.dwFacePicSize != 0)
             {
                 string strpath = null;
@@ -425,6 +431,8 @@ namespace DeportNetReconocimiento.SDK
                 {
                     using (FileStream fs = new FileStream(strpath, FileMode.OpenOrCreate))
                     {
+
+                        Console.WriteLine("\n\n\n Estoy en procesar info \n\n\n");
                         int FaceLen = (int) struFaceCfg.dwFacePicSize;
                         byte[] by = new byte[FaceLen];
                         Marshal.Copy(struFaceCfg.pFacePicBuffer, by, 0, FaceLen);
@@ -443,6 +451,8 @@ namespace DeportNetReconocimiento.SDK
                 }
 
             }
+
+            Console.WriteLine("\n\n No entre al IF \n\n");
             
 
             
