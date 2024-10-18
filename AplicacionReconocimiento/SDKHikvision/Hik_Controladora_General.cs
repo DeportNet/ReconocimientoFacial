@@ -376,7 +376,7 @@ namespace DeportNetReconocimiento.SDK
 
 
             Hik_Resultado resExtra = new Hik_Resultado();
-            resExtra =  hik_Controladora_Facial.CapturarCara();
+            resExtra =  hik_Controladora_Facial.ObtenerCara(1,"1");
             Console.WriteLine(resExtra.MensajeDeError);
             Console.WriteLine(resExtra.NumeroDeError);
 
