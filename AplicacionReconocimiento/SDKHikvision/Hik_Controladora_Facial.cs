@@ -53,7 +53,7 @@ namespace DeportNetReconocimiento.SDK
         //metodos facial
 
         //get face
-        /*
+        
         
         public Hik_Resultado ObtenerCara(uint cardReaderNumber, int cardNumber)
         {
@@ -114,7 +114,7 @@ namespace DeportNetReconocimiento.SDK
 
                 while (flag)
                 {
-                    dwStatus = Hik_SDK.NET_DVR_GetNextRemoteConfigRecord(GetFaceCfgHandle, ptrOutBuff, dwOutBuffSize);
+                    dwStatus = Hik_SDK.NET_DVR_GetNextRemoteConfig_FaceRecord(GetFaceCfgHandle, ref struRecord,(int) dwOutBuffSize);
                     resultado = VerificarEstadoGetCara(ref struRecord, ref flag, dwStatus);
 
                 }
@@ -130,7 +130,7 @@ namespace DeportNetReconocimiento.SDK
 
         }
 
-        */
+       
 
         
 
@@ -339,7 +339,7 @@ namespace DeportNetReconocimiento.SDK
 
                 while (flag)
                 {
-                    dwStatus = Hik_SDK.NET_DVR_GetNextRemoteConfigCfg(CapFaceCfgHandle, ref struFaceCfg, (int)dwOutBuffSize);
+                    dwStatus = Hik_SDK.NET_DVR_GetNextRemoteConfig_FaceCfg(CapFaceCfgHandle, ref struFaceCfg, (int)dwOutBuffSize);
                     Console.WriteLine(dwStatus);
                     resultado = VerificarEstadoCapturarCara(ref flag, ref struFaceCfg, dwStatus);
 

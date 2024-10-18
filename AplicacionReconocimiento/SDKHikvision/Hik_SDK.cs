@@ -353,8 +353,16 @@ namespace DeportNetReconocimiento.SDK
         [DllImport(rutaLibreriaSDK)]
         public static extern int NET_DVR_StartRemoteConfig(int lUserID, int dwCommand, IntPtr lpInBuffer, int dwInBufferLen, RemoteConfigCallback cbStateCallback, IntPtr pUserData);
 
-        [DllImport(rutaLibreriaSDK)]
-        public static extern int NET_DVR_GetNextRemoteConfigRecord(int lHandle, ref Hik_SDK.NET_DVR_FACE_RECORD lpOutBuff, int dwOutBuffSize);
+
+        // El entry point sirve para poder sobrecargar metodos que son importados de una libreria
+        //En este caso tanto GNRCCFG y GNRCFR entran por getNextRemoteConfig pero tienen identificadores diferentes
+
+        [DllImport(rutaLibreriaSDK, EntryPoint = "NET_DVR_GetNextRemoteConfig")]
+        public static extern int NET_DVR_GetNextRemoteConfig_FaceCfg(int lHandle, ref Hik_SDK.NET_DVR_CAPTURE_FACE_CFG lpOutBuff, int dwOutBuffSize);
+
+        [DllImport(rutaLibreriaSDK, EntryPoint = "NET_DVR_GetNextRemoteConfig")]
+        public static extern int NET_DVR_GetNextRemoteConfig_FaceRecord(int lHandle, ref Hik_SDK.NET_DVR_FACE_RECORD lpOutBuff, int dwOutBuffSize);
+
 
         [DllImport(rutaLibreriaSDK)]
         public static extern int NET_DVR_StopRemoteConfig(int lHandle);
@@ -365,8 +373,7 @@ namespace DeportNetReconocimiento.SDK
         [DllImport(rutaLibreriaSDK)]
         public static extern bool NET_DVR_RemoteControl(int lUserID, int dwCommand, ref Hik_SDK.NET_DVR_FACE_PARAM_CTRL_CARDNO lpInBuffer, int dwInBufferSize);
 
-        [DllImport(rutaLibreriaSDK)]
-        public static extern int NET_DVR_GetNextRemoteConfigCfg(int lHandle, ref Hik_SDK.NET_DVR_CAPTURE_FACE_CFG lpOutBuff, int dwOutBuffSize);
+
 
 
 
