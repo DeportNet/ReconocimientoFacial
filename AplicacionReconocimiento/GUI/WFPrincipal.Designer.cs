@@ -167,11 +167,11 @@
             ValorMensajeLabel.TabIndex = 21;
             ValorMensajeLabel.Text = "Mensaje Aqui...";
             // 
-            // Form1
+            // WFPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.Desktop;
+            BackColor = SystemColors.WindowFrame;
             ClientSize = new Size(800, 450);
             Controls.Add(ValorMensajeLabel);
             Controls.Add(ValorClasesRestantesLabel);
@@ -185,7 +185,7 @@
             Controls.Add(ApellidoLabel);
             Controls.Add(imagenDeportnet);
             Controls.Add(pictureBox1);
-            Name = "Form1";
+            Name = "WFPrincipal";
             Text = "Form1";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)imagenDeportnet).EndInit();

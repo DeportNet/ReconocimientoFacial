@@ -1,6 +1,6 @@
 ﻿namespace DeportNetReconocimiento.GUI
 {
-    partial class Form1
+    partial class WFPanelOffline
     {
         /// <summary>
         /// Required designer variable.
@@ -28,10 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            SuspendLayout();
+            // 
+            // WFPanelOffline
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.WindowFrame;
+            ClientSize = new Size(800, 744);
+            Name = "WFPanelOffline";
+            Text = "Form1";
+            ResumeLayout(false);
         }
 
         #endregion

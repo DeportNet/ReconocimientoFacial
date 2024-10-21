@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace DeportNetReconocimiento.GUI
 {
-    public partial class Form1 : Form
+    public partial class WFPanelOffline : Form
     {
-        public Form1()
+        public WFPanelOffline()
         {
             InitializeComponent();
         }
