@@ -4,15 +4,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.IO.Pipes;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
-
 
 namespace DeportNetReconocimiento.GUI
 {
@@ -21,100 +17,43 @@ namespace DeportNetReconocimiento.GUI
         public WFPrincipal()
         {
             InitializeComponent();
-
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void ApellidoLabel_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void ClasesRestantesLabel_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void WFPrincipal_Load(object sender, EventArgs e)
+        private void NombreLabel_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void ActividadLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void Form1_Load(object sender, EventArgs e)
         {
 
         }
 
-        private void apellido_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void nombreText_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void actividadText_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void clasesRestaintesText_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void mensajeText_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void clasesRestantesText(object sender, EventArgs e)
-        {
-
-        }
-
-        public void actualizarDatos(string json)
+        public void ActualizarDatos(string json)
         {
 
             Persona persona = JSONtoPersona(json);
 
 
-            apellidoText.Text = persona.Apellido;
-            nombreText.Text = persona.Nombre;
-            actividadText.Text = persona.Actividad;
-            clasesRestaintesText.Text = persona.ClasesRestantes;
-            mensajeText.Text = persona.Mensaje;
+            ApellidoLabel.Text = persona.Apellido;
+            NombreLabel.Text = persona.Nombre;
+            ActividadLabel.Text = persona.Actividad;
+            ClasesRestantesLabel.Text = persona.ClasesRestantes;
+            MensajeLabel.Text = persona.Mensaje;
 
 
 
@@ -135,7 +74,7 @@ namespace DeportNetReconocimiento.GUI
                 persona.Apellido = root.GetProperty("Apellido").GetString();
                 persona.Nombre = root.GetProperty("Nombre").GetString();
                 persona.Actividad = root.GetProperty("Actividad").GetString();
-                persona.ClasesRestantes = root.GetProperty("ClasesRestantes").GetString();
+                persona.ClasesRestantes = root.GetProperty("Clases_restantes").GetString();
                 persona.Mensaje = root.GetProperty("Mensaje").GetString();
 
             }
@@ -143,5 +82,7 @@ namespace DeportNetReconocimiento.GUI
 
 
         }
+
+
     }
 }
