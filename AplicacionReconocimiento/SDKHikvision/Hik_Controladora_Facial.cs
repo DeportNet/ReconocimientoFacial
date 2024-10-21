@@ -55,7 +55,7 @@ namespace DeportNetReconocimiento.SDK
         //get face
         
         
-        public Hik_Resultado ObtenerCara(uint cardReaderNumber, int cardNumber)
+        public Hik_Resultado ObtenerCara(int cardReaderNumber, String cardNumber)
         {
 
             Hik_Resultado resultado = new Hik_Resultado();
@@ -77,18 +77,17 @@ namespace DeportNetReconocimiento.SDK
             //    pictureBoxFace.Image.Dispose();
             //    pictureBoxFace.Image = null;
             //}
-            
-
-                    
+              
 
             //Cargamos toda la estructura NET_DVR_FACE_COND
-            int dwSize = 0;
             Hik_SDK.NET_DVR_FACE_COND struCond = new Hik_SDK.NET_DVR_FACE_COND();
+            int dwSize = 0;
             IntPtr ptrStruCond = IntPtr.Zero;
 
-            InicializarFaceCond(ref struCond, ref dwSize, cardReaderNumber, cardNumber, ref ptrStruCond);
+            InicializarFaceCond(ref struCond, ref dwSize, (uint)cardReaderNumber, cardNumber, ref ptrStruCond);
 
             GetFaceCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.IdUsuario, Hik_SDK.NET_DVR_GET_FACE, ptrStruCond, dwSize, null, IntPtr.Zero);
+
 
             // revisamos el valor del handler, si sale mal, libera la memoria y muestra un mensaje de error
             if (GetFaceCfgHandle == -1)
@@ -130,9 +129,6 @@ namespace DeportNetReconocimiento.SDK
 
         }
 
-       
-
-        
 
         private Hik_Resultado VerificarEstadoGetCara(ref Hik_SDK.NET_DVR_FACE_RECORD struRecord, ref bool flag, int dwStatus)
         {
@@ -199,7 +195,7 @@ namespace DeportNetReconocimiento.SDK
 
         }
 
-        private void InicializarFaceCond(ref Hik_SDK.NET_DVR_FACE_COND struCond,ref int dwSize, uint cardReaderNumber, int cardNumber, ref IntPtr ptrStruCond)
+        private void InicializarFaceCond(ref Hik_SDK.NET_DVR_FACE_COND struCond, ref int dwSize, uint cardReaderNumber, String cardNumber, ref IntPtr ptrStruCond)
         {
             struCond.Init();
             struCond.dwSize = Marshal.SizeOf(struCond);
@@ -211,12 +207,15 @@ namespace DeportNetReconocimiento.SDK
             struCond.dwEnableReaderNo = (int)cardReaderNumber;
             struCond.dwFaceNum = 1;
 
+
+
             //Se pasa byte por byte para evitar errores de desbordamiento
-            byte[] byTemp = BitConverter.GetBytes(cardNumber);
+            byte[] byTemp = Encoding.UTF8.GetBytes(cardNumber);
             for (int i = 0; i < byTemp.Length; i++)
             {
                 struCond.byCardNo[i] = byTemp[i];
             }
+
 
             //Reservamos memoria para el puntero de struCond
             ptrStruCond = Marshal.AllocHGlobal(dwSize);
@@ -475,8 +474,8 @@ namespace DeportNetReconocimiento.SDK
 
         }
 
-        /*
         
+        /*
         //set face
         public Hik_Resultado EstablecerUnaCara(uint cardReaderNumber, int cardNumber)
         {
@@ -505,7 +504,7 @@ namespace DeportNetReconocimiento.SDK
             if(SetFaceCfgHandle == -1)
             {
                 resultado.Exito = false;
-                resultado.MensajeDeError = "Error al iniciar establecer la cara";
+                resultado.MensajeDeError = "Error al  establecer la cara";
                 resultado.NumeroDeError = Hik_SDK.NET_DVR_GetLastError().ToString();
             }
             else
@@ -515,7 +514,7 @@ namespace DeportNetReconocimiento.SDK
                 InicializarFaceRecordSet(ref struRecord, cardNumber);
 
                 //RECORDAR ASIGNAR UBICACION DEL ARCHIVO!
-                resultado = LeerDatosFaciales(ref struRecord, "");
+                resultado = LeerDatosFaciales(ref struRecord, Environment.CurrentDirectory + "/captura.jpg");
 
                 if(resultado.Exito)
                 {
@@ -556,7 +555,10 @@ namespace DeportNetReconocimiento.SDK
 
             return resultado;
         }
+
         */
+        
+
 
 
         private Hik_Resultado verificarEstadoEstableceCara(ref Hik_SDK.NET_DVR_FACE_STATUS struStatus, int dwStatus, ref bool flag)
