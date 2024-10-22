@@ -69,16 +69,13 @@ namespace DeportNetReconocimiento.SDK
 
             if (entrada == false)
             {
-                System.Console.WriteLine("NET_DVR_Init error");
 
-                resultado.MensajeDeError = "NET_DVR_Init error";
-                
+                resultado.Mensaje = "NET_DVR_Init error";
                 resultado.Exito = false;
 
             }else{
-                System.Console.WriteLine("NET_DVR_Init éxito");
 
-                resultado.MensajeDeExito = "NET_DVR_Init éxito";
+                resultado.Mensaje = "NET_DVR_Init éxito";
                 resultado.Exito= true;
                
             }
@@ -87,7 +84,6 @@ namespace DeportNetReconocimiento.SDK
         
             return resultado;
         }
-
         private Hik_Resultado Login(string user, string password, string port, string ip)
         {
             Hik_Resultado loginResultado = new Hik_Resultado();
@@ -120,8 +116,7 @@ namespace DeportNetReconocimiento.SDK
             {
                 //si da mayor a 0 signfica exito
                 idUsuario = auxUserID;
-                Console.WriteLine("Se inicio sesión con exito");
-                loginResultado.MensajeDeExito = "Se inicio sesión con exito";
+                loginResultado.Mensaje = "Se inicio sesión con exito";
                 loginResultado.Exito= true;
             }
             else
@@ -133,13 +128,11 @@ namespace DeportNetReconocimiento.SDK
 
                 if (nroError == Hik_SDK.NET_DVR_PASSWORD_ERROR)
                 {
-                    Console.WriteLine("Usuario o contraseña invalidos");
                     loginResultado.Exito = false;
-                    loginResultado.MensajeDeError= "Usuario o contraseña invalidos";
+                    loginResultado.Mensaje= "Usuario o contraseña invalidos";
                     if (1 == struDeviceInfoV40.bySupportLock)
                     {
                         mensajeDeSdk = string.Format("Te quedan {0} intentos para logearte", struDeviceInfoV40.byRetryLoginTime);
-                        Console.WriteLine(mensajeDeSdk);
                     }
                 }
                 else if (nroError == Hik_SDK.NET_DVR_USER_LOCKED)
@@ -147,19 +140,14 @@ namespace DeportNetReconocimiento.SDK
                     if (1 == struDeviceInfoV40.bySupportLock)
                     {
                         mensajeDeSdk = string.Format("Usuario bloqueado, el tiempo restante de bloqueo es de {0}", struDeviceInfoV40.dwSurplusLockTime);
-                        Console.WriteLine(mensajeDeSdk);
-
-
                         loginResultado.Exito = false;
-                        loginResultado.MensajeDeError= mensajeDeSdk;
+                        loginResultado.Mensaje= mensajeDeSdk;
                     }
                 }
                 else
-                {
-                    Console.WriteLine("Error de red o el panel esta ocupado");
-                    
+                {                    
                     loginResultado.Exito = false;
-                    loginResultado.MensajeDeError= "Error de red o el panel esta ocupado";
+                    loginResultado.Mensaje = "Error de red o el panel esta ocupado";
                 }
             }
 
@@ -167,7 +155,6 @@ namespace DeportNetReconocimiento.SDK
 
             return loginResultado;
         }
-
         public void CerrarYLimpiar()
         {
             if (idUsuario >= 0)
@@ -215,16 +202,12 @@ namespace DeportNetReconocimiento.SDK
                 {
                     // Especifica la ruta donde quieres guardar el archivo XML
                     string filePath = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\archivoXML.xml";
-                    documentoXml.Save(filePath); // Guarda el XML en el archivo
-
-                    Console.WriteLine($"Archivo XML guardado en {filePath}");
+                    documentoXml.Save(filePath); // Guarda el XML en el archivo 
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Error al guardar el archivo XML: {ex.Message}");
                 }
-
-
             }
             else
             {
@@ -239,7 +222,6 @@ namespace DeportNetReconocimiento.SDK
 
             return documentoXml;
         }
-
         private string GetDescripcionErrorDeviceAbility(uint iErrCode)
         {
             string strDescription = "";
@@ -277,7 +259,6 @@ namespace DeportNetReconocimiento.SDK
             }
             return strDescription;
         }
-
         //obtenemos las capacidades de acceso del dispositivo
         private Hik_Resultado ObtenerTripleCapacidadDelDispositivo()
         {
@@ -290,8 +271,8 @@ namespace DeportNetReconocimiento.SDK
             if (resultadoXML == null)
             {
                 //AcsAbility no soportado
-                resultado.NumeroDeError = "1000";
-                resultado.MensajeDeError = GetDescripcionErrorDeviceAbility(1000);
+                resultado.Codigo = "1000";
+                resultado.Mensaje= GetDescripcionErrorDeviceAbility(1000);
                 resultado.Exito = false;
             }
             else
@@ -303,7 +284,7 @@ namespace DeportNetReconocimiento.SDK
 
                 // Dar valor a resultado
                 resultado.Exito = true;
-                resultado.MensajeDeExito = $"Soporta reconocimiento facial: {soportaFacial} \nSoporta huella digital: {soportaHuella} \nSoporta tarjeta: {soportaTarjeta}";
+                resultado.Mensaje = $"Soporta reconocimiento facial: {soportaFacial} \nSoporta huella digital: {soportaHuella} \nSoporta tarjeta: {soportaTarjeta}";
 
             }
 
@@ -311,7 +292,6 @@ namespace DeportNetReconocimiento.SDK
 
             return resultado;
         }
-        
         private bool VerificarCapacidad(XmlDocument resultadoXML, string capacidad)
         {
             bool soporta = false;
@@ -325,8 +305,6 @@ namespace DeportNetReconocimiento.SDK
             return soporta;
 
         }
-
-
         public Hik_Resultado InicializarPrograma(string user, string password, string port, string ip)
         {
             Hik_Resultado resultadoGeneral = new Hik_Resultado();
@@ -374,22 +352,14 @@ namespace DeportNetReconocimiento.SDK
             }
 
 
-
             Hik_Resultado resExtra = new Hik_Resultado();
-            resExtra =  hik_Controladora_Facial.EliminarCara(1,"2");
-            Console.WriteLine(resExtra.MensajeDeExito);
-            Console.WriteLine(resExtra.MensajeDeError);
-            Console.WriteLine(resExtra.NumeroDeError);
-
-
-
-
+            resExtra =  hik_Controladora_Facial.EstablecerUnaCara(1,"2");
+            Console.WriteLine(resExtra.Mensaje);
+            Console.WriteLine(resExtra.Codigo);
    
             return resultadoGeneral;
         }
-
-
-
+        //TODO -> Verificar conexión a internet o en general
         public bool verificarConexionInternet()
         {
             bool flag = false;
@@ -397,6 +367,8 @@ namespace DeportNetReconocimiento.SDK
 
             return flag;
         }
+
+        //TODO -> Verificar IP para que todo ande
 
 
     }
