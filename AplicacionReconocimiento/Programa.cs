@@ -31,7 +31,7 @@ namespace DeportNetReconocimiento
             
             Hik_Controladora_General controladora_General = new Hik_Controladora_General();
 
-             Hik_Resultado resultado =   controladora_General.InicializarPrograma("admin", "Facundo2024*", "8000", "192.168.0.206");
+             Hik_Resultado resultado =   controladora_General.InicializarPrograma("admin", "Facundo2024*", "8000", "192.168.0.207");
 
 
            

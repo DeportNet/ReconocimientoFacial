@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using static DeportNetReconocimiento.SDK.Hik_SDK;
 
 namespace DeportNetReconocimiento.SDK
 {
@@ -514,7 +516,7 @@ namespace DeportNetReconocimiento.SDK
 
                 InicializarFaceRecordSet(ref struRecord, cardNumber);
 
-                resultado = LeerDatosFaciales(ref struRecord, Environment.CurrentDirectory + "/captura.jpg");  //Verificar el tema de la ruta, si hace falta ponerle el captura.jpg
+                resultado = LeerDatosFaciales(ref struRecord, Environment.CurrentDirectory + "/Fabri.jpg");  //Verificar el tema de la ruta, si hace falta ponerle el captura.jpg
 
 
                 //Modularizar esto  ->>
@@ -554,8 +556,6 @@ namespace DeportNetReconocimiento.SDK
 
             return resultado;
         }
-
-
         private Hik_Resultado verificarEstadoEstableceCara(ref Hik_SDK.NET_DVR_FACE_STATUS struStatus, int dwStatus, ref bool flag)
         {
             Hik_Resultado resultado = new Hik_Resultado();
@@ -597,7 +597,6 @@ namespace DeportNetReconocimiento.SDK
             }
             return resultado;
         }
-
         private Hik_Resultado ProcesarEstablecerCara(ref Hik_SDK.NET_DVR_FACE_STATUS struStatus, ref bool flag)
         {
             Hik_Resultado resultado = new Hik_Resultado();
@@ -619,8 +618,6 @@ namespace DeportNetReconocimiento.SDK
 
             return resultado;
         }
-
-
         private void InicializarFaceStatus(ref Hik_SDK.NET_DVR_FACE_STATUS struStatus, ref uint dwOutBufferSize, ref nint dwOutDataLen, string cardNumber, uint dwReaderNo)
         {
             struStatus.Init();
@@ -703,7 +700,6 @@ namespace DeportNetReconocimiento.SDK
             }
             return resultado;
         }
-
         private void InicializarFaceRecordSet(ref Hik_SDK.NET_DVR_FACE_RECORD struRecord, string cardNumber)
         {
 
@@ -722,8 +718,8 @@ namespace DeportNetReconocimiento.SDK
 
         //del face
 
-        /*
-        public Hik_Resultado EliminarCara()
+        
+        public Hik_Resultado EliminarCara(int cardReaderNumber,string cardNumber)
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
@@ -737,16 +733,13 @@ namespace DeportNetReconocimiento.SDK
            // textBoxFilePath.Text = "";
            
 
-            Hik_SDK.NET_DVR_FACE_PARAM_BYCARD struCardNo = new Hik_SDK.NET_DVR_FACE_PARAM_BYCARD();
+            Hik_SDK.NET_DVR_FACE_PARAM_CTRL_CARDNO struCardNo = new Hik_SDK.NET_DVR_FACE_PARAM_CTRL_CARDNO();
 
-            uint dwSize = 0;
-            int cardNumber = 0;
+            int dwSize = 0;
             IntPtr lpInBuffer = IntPtr.Zero;
+            InicilizarParamControlCardNo(ref struCardNo, ref dwSize, cardNumber, ref lpInBuffer, cardReaderNumber);
 
-            InicilizarParamControlCardNo(ref struCardNo, ref dwSize, cardNumber, ref lpInBuffer);
-
-
-            if( Hik_SDK.NET_DVR_RemoteControl(Hik_Controladora_General.IdUsuario, Hik_SDK.NET_DVR_DEL_FACE_PARAM_CFG,  lpInBuffer, dwSize))
+            if ( false == Hik_SDK.NET_DVR_RemoteControl(Hik_Controladora_General.IdUsuario, Hik_SDK.NET_DVR_DEL_FACE_PARAM_CFG, ref  struCardNo, (int)dwSize))
             {
                 resultado.Exito = false;
                 resultado.MensajeDeError = "Hubo un error a la hora de eliminar la estructura";
@@ -755,44 +748,33 @@ namespace DeportNetReconocimiento.SDK
             else
             {
                 resultado.Exito = true;
+                resultado.MensajeDeExito = "Se eliminó la cara del id: " + cardNumber +" de manera correcta";
             }
 
 
             return resultado;
         }
         
-        private void InicilizarParamControlCardNo(ref Hik_SDK.NET_DVR_FACE_PARAM_BYCARD struCardNo,ref uint dwSize, int cardNumber, ref IntPtr lpInBuffer)
+        private void InicilizarParamControlCardNo(ref Hik_SDK.NET_DVR_FACE_PARAM_CTRL_CARDNO struCardNo,ref int dwSize, string cardNumber, ref IntPtr lpInBuffer, int cardReaderNumber)
         {
-            //Inicializa la estructura
             struCardNo.Init();
             struCardNo.dwSize = Marshal.SizeOf(struCardNo);
             struCardNo.byMode = 0;
-            dwSize = (uint)struCardNo.dwSize;
+            dwSize = struCardNo.dwSize;
 
-            //Convierte el numero de tarjeta  a bytes
-            byte[] byCardNumber = BitConverter.GetBytes(cardNumber);
-            for (int i = 0; i < byCardNumber.Length; i++)
+            byte[] byCardNo = Encoding.UTF8.GetBytes(cardNumber);
+            for (int i = 0; i < byCardNo.Length; i++)
             {
-                struCardNo.struProcessMode.byCardNo[i] = byCardNumber[i];
+                struCardNo.struByCard.byCardNo[i] = byCardNo[i];
             }
+            struCardNo.struByCard.byEnableCardReader[cardReaderNumber - 1] = 1;
 
-            //Activa el lector de tarjetas necesario 
-            int dwEnableReaderNo = 1;
-            int.TryParse(byCardNumber, out dwEnableReaderNo);
-            if (dwEnableReaderNo <= 0) dwEnableReaderNo = 1;
-            struCardNo.struProcessMode.byEnableCardReader[dwEnableReaderNo - 1] = 1;
-
-            //Busca y marca con un 1 todas las caras que se deben eliminar 
             for (int i = 0; i < Hik_SDK.MAX_FACE_NUM; ++i)
             {
-                struCardNo.struProcessMode.byFaceID[i] = 1;//1 para eliminar la cara
+                struCardNo.struByCard.byFaceID[i] = 1;//1 para eliminar la cara
             }
-
-            //convierto la estructura a puntero
-            Marshal.StructureToPtr(struCardNo, lpInBuffer, false);
-
         }
-        */
+        
 
     }
 }
