@@ -15,6 +15,8 @@ namespace DeportNetReconocimiento.SDK
 
 
         #region HCNetSDK.dll macro definition
+
+            #region definicion constantes facial
         public const int SERIALNO_LEN = 48; //serial number length
         public const int NET_DVR_DEV_ADDRESS_MAX_LEN = 129; //device address max length
         public const int NET_DVR_LOGIN_USERNAME_MAX_LEN = 64;   //login username max length
@@ -43,12 +45,36 @@ namespace DeportNetReconocimiento.SDK
         public const int MAX_FACE_NUM = 2;
 
         public const int ACS_ABILITY = 0x801; //acs ability
+            #endregion
+
+            #region definicion constantes tarjeta
+
+        public const int NAME_LEN = 32;// name length
+        public const int MAX_DOOR_NUM_256 = 256; //max door num
+        public const int MAX_GROUP_NUM_128 = 128; //The largest number of grou
+        public const int CARD_PASSWORD_LEN = 8;   // card password len 
+
+        public const int NET_DVR_GET_CARD = 2560;
+        public const int NET_DVR_SET_CARD = 2561;
+        public const int NET_DVR_DEL_CARD = 2562;
+
+
+        public enum NET_SDK_SENDWITHRECV_STATUS
+        {
+            NET_SDK_CONFIG_STATUS_SUCCESS = 1000,    // 成功读取到数据，客户端处理完本次数据后需要再次调用NET_DVR_SendWithRecvRemoteConfig获取下一条数据
+            NET_SDK_CONFIG_STATUS_NEEDWAIT = 1001,          // 配置等待，客户端可重新NET_DVR_SendWithRecvRemoteConfig
+            NET_SDK_CONFIG_STATUS_FINISH = 1002,            // 数据全部取完，此时客户端可调用NET_DVR_StopRemoteConfig结束
+            NET_SDK_CONFIG_STATUS_FAILED = 1003,            // 配置失败，客户端可重新NET_DVR_SendWithRecvRemoteConfig
+            NET_SDK_CONFIG_STATUS_EXCEPTION = 1004,         // 配置异常，此时客户端可调用NET_DVR_StopRemoteConfig结束
+        }
+
+        #endregion
 
         #endregion
 
 
         #region HCNetSDK.dll structure definition
-
+        #region definicion estructuras facial
         [StructLayoutAttribute(LayoutKind.Sequential)]
         public struct NET_DVR_DEVICEINFO_V30
         {
@@ -304,8 +330,113 @@ namespace DeportNetReconocimiento.SDK
                 byRes1 = new byte[42];
             }
         }
+            #endregion
 
+            #region definicion estructuras tarjetas
 
+        [StructLayoutAttribute(LayoutKind.Sequential)]
+        public struct NET_DVR_CARD_STATUS
+        {
+            public uint dwSize;
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = ACS_CARD_NO_LEN, ArraySubType = UnmanagedType.I1)]
+            public byte[] byCardNo; //card No
+            public uint dwErrorCode;
+            public byte byStatus; //0-fail, 1-success
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 23, ArraySubType = UnmanagedType.I1)]
+            public byte[] byRes;
+
+            public void Init()
+            {
+                byCardNo = new byte[ACS_CARD_NO_LEN];
+                byRes = new byte[23];
+            }
+        }
+
+        [StructLayoutAttribute(LayoutKind.Sequential)]
+        public struct NET_DVR_TIME_EX
+        {
+            public ushort wYear;
+            public byte byMonth;
+            public byte byDay;
+            public byte byHour;
+            public byte byMinute;
+            public byte bySecond;
+            public byte byRes;
+        }
+
+        [StructLayoutAttribute(LayoutKind.Sequential)]
+        public struct NET_DVR_VALID_PERIOD_CFG
+        {
+            public byte byEnable; //whether to enable , 0-disable 1-enable
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 3, ArraySubType = UnmanagedType.I1)]
+            public byte[] byRes1;
+            public NET_DVR_TIME_EX struBeginTime; //valid begin time
+            public NET_DVR_TIME_EX struEndTime; //valid end time 
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 32, ArraySubType = UnmanagedType.I1)]
+            public byte[] byRes2;
+        }
+
+        [StructLayoutAttribute(LayoutKind.Sequential)]
+        public struct NET_DVR_CARD_COND
+        {
+            public uint dwSize;
+            public uint dwCardNum; //card number, 0xffffffff means to get all card information when getting
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 64, ArraySubType = UnmanagedType.I1)]
+            public byte[] byRes;
+
+            public void Init()
+            {
+                byRes = new byte[64];
+            }
+        }
+
+        [StructLayoutAttribute(LayoutKind.Sequential)]
+        public struct NET_DVR_CARD_RECORD
+        {
+            public uint dwSize;
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = ACS_CARD_NO_LEN, ArraySubType = UnmanagedType.I1)]
+            public byte[] byCardNo; //card No
+            public byte byCardType;
+            public byte byLeaderCard;
+            public byte byUserType;
+            public byte byRes1;
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = MAX_DOOR_NUM_256, ArraySubType = UnmanagedType.I1)]
+            public byte[] byDoorRight;
+            public NET_DVR_VALID_PERIOD_CFG struValid;
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = MAX_GROUP_NUM_128, ArraySubType = UnmanagedType.I1)]
+            public byte[] byBelongGroup;
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = CARD_PASSWORD_LEN, ArraySubType = UnmanagedType.I1)]
+            public byte[] byCardPassword;
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = MAX_DOOR_NUM_256, ArraySubType = UnmanagedType.I1)]
+            public ushort[] wCardRightPlan;
+            public uint dwMaxSwipeTimes;
+            public uint dwSwipeTimes;
+            public uint dwEmployeeNo;
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = NAME_LEN, ArraySubType = UnmanagedType.I1)]
+            public byte[] byName;
+            //按位表示，0-无权限，1-有权限
+            //第0位表示：弱电报警
+            //第1位表示：开门提示音
+            //第2位表示：限制客卡
+            //第3位表示：通道
+            //第4位表示：反锁开门
+            //第5位表示：巡更功能
+            public uint dwCardRight;
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 256, ArraySubType = UnmanagedType.I1)]
+            public byte[] byRes;
+
+            public void Init()
+            {
+                byCardNo = new byte[ACS_CARD_NO_LEN];
+                byDoorRight = new byte[MAX_DOOR_NUM_256];
+                byBelongGroup = new byte[MAX_GROUP_NUM_128];
+                byCardPassword = new byte[CARD_PASSWORD_LEN];
+                wCardRightPlan = new ushort[MAX_DOOR_NUM_256];
+                byName = new byte[NAME_LEN];
+                byRes = new byte[256];
+            }
+        }
+            #endregion
 
         #endregion
 
@@ -341,16 +472,18 @@ namespace DeportNetReconocimiento.SDK
 
 
         [DllImport(rutaLibreriaSDK)]
-        public static extern int NET_DVR_StopRemoteConfig(int lHandle);
+        public static extern bool NET_DVR_StopRemoteConfig(int lHandle);
 
         [DllImport(rutaLibreriaSDK)]
-        public static extern int NET_DVR_SendWithRecvRemoteConfig(int lHandle, ref Hik_SDK.NET_DVR_FACE_RECORD lpInBuff, int dwInBuffSize, ref Hik_SDK.NET_DVR_FACE_STATUS lpOutBuff, int dwOutBuffSize, IntPtr dwOutDataLen);
+        public static extern int NET_DVR_SendWithRecvRemoteConfigFacial(int lHandle, ref Hik_SDK.NET_DVR_FACE_RECORD lpInBuff, int dwInBuffSize, ref Hik_SDK.NET_DVR_FACE_STATUS lpOutBuff, int dwOutBuffSize, IntPtr dwOutDataLen);
 
         [DllImport(rutaLibreriaSDK)]
         public static extern bool NET_DVR_RemoteControl(int lUserID, int dwCommand, ref Hik_SDK.NET_DVR_FACE_PARAM_CTRL_CARDNO lpInBuffer, int dwInBufferSize);
 
 
-
+        /*Prototipados Tarjetas*/
+        [DllImport(rutaLibreriaSDK)]
+        public static extern int NET_DVR_SendWithRecvRemoteConfigTarjeta(int lHandle, IntPtr lpInBuff, uint dwInBuffSize, IntPtr lpOutBuff, uint dwOutBuffSize, ref uint dwOutDataLen);
 
 
 
@@ -366,7 +499,7 @@ namespace DeportNetReconocimiento.SDK
         [DllImport(rutaLibreriaSDK)]
         public static extern bool NET_DVR_Cleanup();
 
-
+        
 
         #endregion}
 
