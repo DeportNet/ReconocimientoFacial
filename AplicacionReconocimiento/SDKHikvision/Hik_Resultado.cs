@@ -9,9 +9,8 @@ namespace DeportNetReconocimiento.SDK
     public class Hik_Resultado
     {
         private bool exito = false;
-        private string mensajeDeExito = "";
-        private string mensajeDeError = "";
-        private string numeroDeError = "";
+        private string mensaje = "";
+        private string codigo = "";
 
 
         // Propiedades (getters y setters)
@@ -24,11 +23,11 @@ namespace DeportNetReconocimiento.SDK
 
             if (resultado.Exito)
             {
-                resultado.MensajeDeExito= "Loggeo exitoso";
+                resultado.Mensaje= "Loggeo exitoso";
             }
             else
             {
-                resultado.MensajeDeError= "Loggeo fallido";
+                resultado.Mensaje= "Loggeo fallido";
             }
             
             return resultado;
@@ -40,22 +39,16 @@ namespace DeportNetReconocimiento.SDK
             set { lock (this) { exito = value; } }
         }
 
-        public string MensajeDeExito
+        public string Mensaje
         {
-            get { return mensajeDeExito; }
-            set { lock (this) { mensajeDeExito = value; } }
+            get { return mensaje; }
+            set { lock (this) { mensaje= value; } }
         }
 
-        public string MensajeDeError
+        public string Codigo
         {
-            get { return mensajeDeError; }
-            set { lock (this) { mensajeDeError = value; } }
-        }
-
-        public string NumeroDeError
-        {
-            get { return numeroDeError; }
-            set { lock (this) { numeroDeError = value; } }
+            get { return codigo; }
+            set { lock (this) { codigo = value; } }
         }
 
         public static bool EscribirLog()
