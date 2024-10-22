@@ -58,6 +58,16 @@ namespace DeportNetReconocimiento.SDK
         public const int NET_DVR_SET_CARD = 2561;
         public const int NET_DVR_DEL_CARD = 2562;
 
+
+        public enum NET_SDK_SENDWITHRECV_STATUS
+        {
+            NET_SDK_CONFIG_STATUS_SUCCESS = 1000,    // 成功读取到数据，客户端处理完本次数据后需要再次调用NET_DVR_SendWithRecvRemoteConfig获取下一条数据
+            NET_SDK_CONFIG_STATUS_NEEDWAIT = 1001,          // 配置等待，客户端可重新NET_DVR_SendWithRecvRemoteConfig
+            NET_SDK_CONFIG_STATUS_FINISH = 1002,            // 数据全部取完，此时客户端可调用NET_DVR_StopRemoteConfig结束
+            NET_SDK_CONFIG_STATUS_FAILED = 1003,            // 配置失败，客户端可重新NET_DVR_SendWithRecvRemoteConfig
+            NET_SDK_CONFIG_STATUS_EXCEPTION = 1004,         // 配置异常，此时客户端可调用NET_DVR_StopRemoteConfig结束
+        }
+
         #endregion
 
         #endregion

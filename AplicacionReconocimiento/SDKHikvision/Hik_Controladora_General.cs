@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeportNetReconocimiento.SDKHikvision;
+using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace DeportNetReconocimiento.SDK
        
         private static Hik_Controladora_Facial? hik_Controladora_Facial;
         //private static Hik_Controladora_Huella? hik_Controladora_Huella;
-        //private static Hik_Controladora_Tarjeta? hik_Controladora_Tarjeta;
+        private static Hik_Controladora_Tarjetas? hik_Controladora_Tarjetas;
         //constructores
         public Hik_Controladora_General()
         {
@@ -34,7 +35,7 @@ namespace DeportNetReconocimiento.SDK
             soportaTarjeta = false;
 
             hik_Controladora_Facial = null;
-            //hik_Controladora_Tarjeta = null;
+            hik_Controladora_Tarjetas = null;
             //hik_Controladora_Huella = null;
         }
 
