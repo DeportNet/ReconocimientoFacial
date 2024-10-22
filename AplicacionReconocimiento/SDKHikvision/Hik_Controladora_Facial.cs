@@ -540,7 +540,7 @@ namespace DeportNetReconocimiento.SDK
 
                     while (flag)
                     {
-                        dwStatus = Hik_SDK.NET_DVR_SendWithRecvRemoteConfig(SetFaceCfgHandle, ref struRecord, dwInBufferSize, ref struStatus, (int)dwOutBufferSize, dwOutDataLen);
+                        dwStatus = Hik_SDK.NET_DVR_SendWithRecvRemoteConfigFacial(SetFaceCfgHandle, ref struRecord, dwInBufferSize, ref struStatus, (int)dwOutBufferSize, dwOutDataLen);
                         Console.WriteLine(dwStatus);
                         resultado = verificarEstadoEstableceCara(ref struStatus, dwStatus, ref flag);
 
