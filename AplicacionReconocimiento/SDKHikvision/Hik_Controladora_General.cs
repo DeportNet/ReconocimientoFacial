@@ -339,6 +339,7 @@ namespace DeportNetReconocimiento.SDK
             if(soportaTarjeta)
             {
                 //inicializar para tarjetas
+                hik_Controladora_Tarjetas = new Hik_Controladora_Tarjetas();
             }
 
             if (soportaFacial)
@@ -361,7 +362,7 @@ namespace DeportNetReconocimiento.SDK
             return resultadoGeneral;
         }
         //TODO -> Verificar conexión a internet o en general
-        public bool verificarConexionInternet()
+        public static bool VerificarConexionInternet()
         {
             bool flag = false;
 

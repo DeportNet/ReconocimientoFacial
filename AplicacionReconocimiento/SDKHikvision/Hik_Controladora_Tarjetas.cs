@@ -47,8 +47,8 @@ namespace DeportNetReconocimiento.SDKHikvision
                 {
                     //hubo un error al cancelar la operacion
                     resultado.Exito = false;
-                    resultado.MensajeDeError = "Error al cancelar la operacion de establecer una tarjeta";
-                    resultado.NumeroDeError = Hik_SDK.NET_DVR_GetLastError().ToString();
+                    resultado.Mensaje = "Error al cancelar la operacion de establecer una tarjeta";
+                    resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
                     return resultado;
                 }
             }
@@ -232,7 +232,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                          * 1917-no more access point can be linked to access controller, 
                          * 1920-one employee ID cannot be applied to multiple cards. This member is valid when the value of byStatus is "0".*/
                         resultado.Exito = false;
-                        resultado.Codigo = tarjetaStatus.dwErrorCode;
+                        resultado.Codigo = tarjetaStatus.dwErrorCode.ToString();
                         resultado.Mensaje = "Llega a Succes pero no se pudo establecer la tarjeta, revisar el codigo dwErrorCode de tarjetaStatus";
 
                       
