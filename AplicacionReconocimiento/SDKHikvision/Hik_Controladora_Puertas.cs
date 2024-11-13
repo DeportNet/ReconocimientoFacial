@@ -1,86 +1,109 @@
 ﻿using DeportNetReconocimiento.SDK;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
 namespace DeportNetReconocimiento.SDKHikvision
 {
     internal class Hik_Controladora_Puertas
     {
         //atributos
-        private int idUsuario = -1;
+        //ver si poner el idUsuario como atributo, agarrarlo de la controladora general
 
 
         public Hik_Controladora_Puertas()
         {
-            //InitializeComponent(); UI para poder controlar las puertas de forma manual
-            //if (Hik_SDK.NET_DVR_Init() == false)
-            //{
-            //    MessageBox.Show("NET_DVR_Init error!");
-            //    return;
-            //}
-            //comboBoxLanguage.SelectedIndex = 0;
+            
         }
 
         //0-close, 1-open, 2-stay open, 3-stay close
-        //private void btnLogin_Click(object sender, EventArgs e)
-        //{
-        //    AddDevice dlg = new AddDevice();
-        //    dlg.ShowDialog();
-        //    dlg.Dispose();
-        //}
 
-        //private void btnOpen_Click(object sender, EventArgs e)
-        //{
-        //    if (CHCNetSDK.NET_DVR_ControlGateway(m_UserID, 1, 1))
-        //    {
-        //        MessageBox.Show("NET_DVR_ControlGateway: open door succeed");
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("NET_DVR_ControlGateway: open door failed error:" + CHCNetSDK.NET_DVR_GetLastError());
-        //    }
-        //}
+        public Hik_Resultado operadorPuerta(int operacion)
+        {
+            Hik_Resultado resultado = new Hik_Resultado();
+            int idUsuario = Hik_Controladora_General.IdUsuario;
+            if(idUsuario == -1)
+            {
+                resultado.Exito = false;
+                resultado.Mensaje = "No se ha logueado el usuario.";
+                return resultado;
+            }
 
-        //private void btnClose_Click(object sender, EventArgs e)
-        //{
-        //    if (CHCNetSDK.NET_DVR_ControlGateway(m_UserID, 1, 0))
-        //    {
-        //        MessageBox.Show("NET_DVR_ControlGateway: close door succeed");
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("NET_DVR_ControlGateway: close door failed error:" + CHCNetSDK.NET_DVR_GetLastError());
-        //    }
-        //}
+            switch (operacion) {
 
-        //private void btnStayOpen_Click(object sender, EventArgs e)
-        //{
-        //    if (CHCNetSDK.NET_DVR_ControlGateway(m_UserID, 1, 3))
-        //    {
-        //        MessageBox.Show("NET_DVR_ControlGateway: stay close door succeed");
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("NET_DVR_ControlGateway:  stay close door failed error:" + CHCNetSDK.NET_DVR_GetLastError());
-        //    }
-        //}
+                case 0:
+                    //0-close
+                    if (Hik_SDK.NET_DVR_ControlGateway(idUsuario, 1, 0))
+                    {
+                        resultado.Exito = true;
+                        resultado.Mensaje = "Puerta cerrada con exito";
+                    }
+                    else
+                    {
+                        resultado.Exito = false;
+                        resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
+                        resultado.Mensaje = "Error al cerrar la puerta";
+                    }
+                break;
+                case 1:
+                    //1 - open
+                    if(Hik_SDK.NET_DVR_ControlGateway(idUsuario, 1, 1))
+                    {
+                        resultado.Exito = true;
+                        resultado.Mensaje = "Puerta abierta con exito";
+                    }
+                    else
+                    {
+                        resultado.Exito = false;
+                        resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
+                        resultado.Mensaje = "Error al abrir la puerta";
+                    }
+                break;
+                case 2:
+                    //2 - stay open
 
-        //private void btnStayClose_Click(object sender, EventArgs e)
-        //{
-        //    if (CHCNetSDK.NET_DVR_ControlGateway(m_UserID, 1, 2))
-        //    {
-        //        MessageBox.Show("NET_DVR_ControlGateway: stay open door succeed");
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("NET_DVR_ControlGateway:  stay open door failed error:" + CHCNetSDK.NET_DVR_GetLastError());
-        //    }
-        //}
+                    if(Hik_SDK.NET_DVR_ControlGateway(idUsuario, 1, 2))
+                    {
+                        resultado.Exito = true;
+                        resultado.Mensaje = "Puerta abierta y se mantiene abierta";
+                    }
+                    else
+                    {
+                        resultado.Exito = false;
+                        resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
+                        resultado.Mensaje = "Error al mantener la puerta abierta";
+                    }
+
+                break;
+                case 3:
+                    //3 - stay close
+
+                    if (Hik_SDK.NET_DVR_ControlGateway(idUsuario, 1, 3))
+                    {
+                        resultado.Exito = true;
+                        resultado.Mensaje = "Puerta cerrada y se mantiene cerrada";
+                    }
+                    else
+                    {
+                        resultado.Exito = false;
+                        resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
+                        resultado.Mensaje = "Error al mantener la puerta cerrada";
+                    }
+                break;
+                default:
+                    resultado.Exito = false;
+                    resultado.Mensaje = "Operacion no valida, operaciones del 0 al 3";
+                break;
 
 
+            }
+
+            return resultado;
+        }
 
 
 

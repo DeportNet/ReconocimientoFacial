@@ -12,8 +12,6 @@ namespace DeportNetReconocimiento.SDK
     public class Hik_SDK
     {
 
-
-
         #region HCNetSDK.dll macro definition
 
             #region definicion constantes facial
@@ -71,7 +69,6 @@ namespace DeportNetReconocimiento.SDK
         #endregion
 
         #endregion
-
 
         #region HCNetSDK.dll structure definition
         #region definicion estructuras facial
@@ -453,7 +450,7 @@ namespace DeportNetReconocimiento.SDK
                 byRes = new byte[256];
             }
         }
-            #endregion
+        #endregion
 
         #endregion
 
@@ -497,6 +494,11 @@ namespace DeportNetReconocimiento.SDK
         [DllImport(rutaLibreriaSDK)]
         public static extern bool NET_DVR_RemoteControl(int lUserID, int dwCommand, ref Hik_SDK.NET_DVR_FACE_PARAM_CTRL_CARDNO lpInBuffer, int dwInBufferSize);
 
+
+        /*Prototipados puertas*/
+
+        [DllImport(rutaLibreriaSDK)]
+        public static extern bool NET_DVR_ControlGateway(int lUserID, int lGatewayIndex, uint dwStaic);
 
         /*Prototipados Tarjetas*/
         [DllImport(rutaLibreriaSDK)]
