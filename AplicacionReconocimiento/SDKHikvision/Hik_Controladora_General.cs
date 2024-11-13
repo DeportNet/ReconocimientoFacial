@@ -363,8 +363,10 @@ namespace DeportNetReconocimiento.SDK
             return resultadoGeneral;
         }
         //TODO -> Verificar conexión a internet o en general
+
         public static bool VerificarConexionInternet()
         {
+            //ponemos flag en false como predeterminado
             bool flag = false;
 
             Ping pingSender = new Ping();
@@ -377,12 +379,14 @@ namespace DeportNetReconocimiento.SDK
 
                 if (reply.Status == IPStatus.Success)
                 {
-                    Console.WriteLine("Conexión exitosa");
+                    flag = true;
+                    Console.WriteLine("Tenemos conexion a internet");
                     Console.WriteLine("Dirección: " + reply.Address.ToString());
                     Console.WriteLine("Tiempo: " + reply.RoundtripTime + " ms");
                 }
                 else
                 {
+                    
                     Console.WriteLine("No se pudo conectar: " + reply.Status);
                 }
             }
@@ -397,7 +401,14 @@ namespace DeportNetReconocimiento.SDK
             return flag;
         }
 
-        //TODO -> Verificar IP para que todo ande
+
+
+        //TODO -> Verificar IP para que todo ande, buscar la IP del dispositvo
+        public static void BuscarYRetornarIpDelDispositivo()
+        {
+
+
+        }
 
 
     }
