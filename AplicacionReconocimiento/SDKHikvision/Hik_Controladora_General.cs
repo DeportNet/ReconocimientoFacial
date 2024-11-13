@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -365,6 +366,32 @@ namespace DeportNetReconocimiento.SDK
         public static bool VerificarConexionInternet()
         {
             bool flag = false;
+
+            Ping pingSender = new Ping();
+            string direccion = "8.8.8.8"; // IP de Google
+
+            try
+            {
+                //respuesta que nos da el enviador de ping
+                PingReply reply = pingSender.Send(direccion);
+
+                if (reply.Status == IPStatus.Success)
+                {
+                    Console.WriteLine("Conexión exitosa");
+                    Console.WriteLine("Dirección: " + reply.Address.ToString());
+                    Console.WriteLine("Tiempo: " + reply.RoundtripTime + " ms");
+                }
+                else
+                {
+                    Console.WriteLine("No se pudo conectar: " + reply.Status);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e.Message);
+            }
+
+
 
 
             return flag;
