@@ -57,7 +57,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             Marshal.StructureToPtr(struCond, ptrCond, false);
 
 
-            GetAcsEventHandle = Hik_SDK.NET_DVR_StartRemoteConfig(m_UserID, Hik_SDK.NET_DVR_GET_ACS_EVENT, ptrCond, (int)dwSize, null, IntPtr.Zero);
+            GetAcsEventHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.IdUsuario, Hik_SDK.NET_DVR_GET_ACS_EVENT, ptrCond, (int)dwSize, null, IntPtr.Zero);
 
                 if (-1 == GetAcsEventHandle)
             {
