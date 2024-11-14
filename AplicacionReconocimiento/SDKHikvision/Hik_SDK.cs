@@ -39,6 +39,13 @@ namespace DeportNetReconocimiento.SDK
         public const int NET_SDK_GET_NEXT_STATUS_FAILED = 1003;
         public const int NET_SDK_GET_NEXT_STATUS_TIMEOUT = 1004;
 
+        /*Codigos de eventos*/
+        public const int NET_SDK_MONITOR_ID_LEN = 64;
+        public const int NET_SDK_EMPLOYEE_NO_LEN = 32;
+        public const int NET_DVR_GET_ACS_EVENT = 2514;//Obtneción de eventos del dispositivo 
+
+        public const int MAX_NAMELEN = 16;
+        public const int MACADDR_LEN = 6;
 
         public const int MAX_FACE_NUM = 2;
 
@@ -327,7 +334,161 @@ namespace DeportNetReconocimiento.SDK
                 byRes1 = new byte[42];
             }
         }
-            #endregion
+
+        [StructLayoutAttribute(LayoutKind.Sequential)]
+        public struct NET_DVR_TIME
+        {
+            public int dwYear;
+            public int dwMonth;
+            public int dwDay;
+            public int dwHour;
+            public int dwMinute;
+            public int dwSecond;
+        }
+
+
+        [StructLayoutAttribute(LayoutKind.Sequential)]
+        public struct NET_DVR_ACS_EVENT_COND
+        {
+            public uint dwSize;
+            public uint dwMajor;
+            public uint dwMinor;
+            public Hik_SDK.NET_DVR_TIME struStartTime;
+            public Hik_SDK.NET_DVR_TIME struEndTime;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = Hik_SDK.ACS_CARD_NO_LEN, ArraySubType = UnmanagedType.I1)]
+            public byte[] byCardNo;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = Hik_SDK.NAME_LEN, ArraySubType = UnmanagedType.I1)]
+            public byte[] byName;
+            public uint dwBeginSerialNo;
+            public byte byPicEnable;
+            public byte byTimeType;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2, ArraySubType = UnmanagedType.I1)]
+            public byte[] byRes2;
+            public uint dwEndSerialNo;
+            public uint dwIOTChannelNo;
+            public ushort wInductiveEventType;
+            public byte bySearchType;
+            public byte byRes1;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Hik_SDK.NET_SDK_MONITOR_ID_LEN)]
+            public string szMonitorID;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = Hik_SDK.NET_SDK_EMPLOYEE_NO_LEN, ArraySubType = UnmanagedType.I1)]
+            public byte[] byEmployeeNo;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 140, ArraySubType = UnmanagedType.I1)]
+            public byte[] byRes;
+
+            public void Init()
+            {
+                byCardNo = new byte[Hik_SDK.ACS_CARD_NO_LEN];
+                byName = new byte[Hik_SDK.NAME_LEN];
+                byRes2 = new byte[2];
+                byEmployeeNo = new byte[Hik_SDK.NET_SDK_EMPLOYEE_NO_LEN];
+                byRes = new byte[140];
+            }
+        }
+
+
+
+        [StructLayoutAttribute(LayoutKind.Sequential)]
+        public struct NET_DVR_ACS_EVENT_CFG
+        {
+            public uint dwSize;
+            public uint dwMajor;
+            public uint dwMinor;
+            public Hik_SDK.NET_DVR_TIME struTime;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = Hik_SDK.MAX_NAMELEN)]
+            public byte[] sNetUser;
+            public Hik_SDK.NET_DVR_IPADDR struRemoteHostAddr;
+            public Hik_SDK.NET_DVR_ACS_EVENT_DETAIL struAcsEventInfo;
+            public uint dwPicDataLen;
+            public IntPtr pPicData;  // picture data
+            public ushort wInductiveEventType;
+            public byte byTimeType;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 61)]
+            public byte[] byRes;
+
+            public void init()
+            {
+                sNetUser = new byte[Hik_SDK.MAX_NAMELEN];
+                struRemoteHostAddr.Init();
+                struAcsEventInfo.init();
+                byRes = new byte[61];
+            }
+        }
+
+
+        [StructLayoutAttribute(LayoutKind.Sequential)]
+        public struct NET_DVR_IPADDR
+        {
+
+            /// char[16]
+            [MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 16)]
+            public string sIpV4;
+
+            /// BYTE[128]
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 128, ArraySubType = UnmanagedType.I1)]
+            public byte[] byIPv6;
+
+            public void Init()
+            {
+                byIPv6 = new byte[128];
+            }
+        }
+
+
+        [StructLayoutAttribute(LayoutKind.Sequential)]
+        public struct NET_DVR_ACS_EVENT_DETAIL
+        {
+            public uint dwSize;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = Hik_SDK.ACS_CARD_NO_LEN)]
+            public byte[] byCardNo;
+            public byte byCardType;
+            public byte byWhiteListNo;
+            public byte byReportChannel;
+            public byte byCardReaderKind;
+            public uint dwCardReaderNo;
+            public uint dwDoorNo;
+            public uint dwVerifyNo;
+            public uint dwAlarmInNo;
+            public uint dwAlarmOutNo;
+            public uint dwCaseSensorNo;
+            public uint dwRs485No;
+            public uint dwMultiCardGroupNo;
+            public ushort wAccessChannel;//word
+            public byte byDeviceNo;
+            public byte byDistractControlNo;
+            public uint dwEmployeeNo;
+            public ushort wLocalControllerID;//word
+            public byte byInternetAccess;
+            public byte byType;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = Hik_SDK.MACADDR_LEN)]
+            public byte[] byMACAddr;
+            public byte bySwipeCardType;
+            public byte byRes2;
+            public uint dwSerialNo;
+            public byte byChannelControllerID;
+            public byte byChannelControllerLampID;
+            public byte byChannelControllerIRAdaptorID;
+            public byte byChannelControllerIREmitterID;
+            public uint dwRecordChannelNum;
+            public IntPtr pRecordChannelData;
+            public byte byUserType;
+            public byte byCurrentVerifyMode;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+            public byte[] byRe2;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = Hik_SDK.NET_SDK_EMPLOYEE_NO_LEN)]
+            public byte[] byEmployeeNo;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+            public byte[] byRes;
+            public void init()
+            {
+                byCardNo = new byte[Hik_SDK.ACS_CARD_NO_LEN];
+                byMACAddr = new byte[Hik_SDK.MACADDR_LEN];
+                byRe2 = new byte[2];
+                byEmployeeNo = new byte[Hik_SDK.NET_SDK_EMPLOYEE_NO_LEN];
+                byRes = new byte[64];
+            }
+        }
+        #endregion
 
         #region definicion estructuras tarjetas
 
@@ -452,6 +613,7 @@ namespace DeportNetReconocimiento.SDK
         }
         #endregion
 
+
         #endregion
 
         #region  HCNetSDK.dll function definition
@@ -474,7 +636,6 @@ namespace DeportNetReconocimiento.SDK
         [DllImport(rutaLibreriaSDK)]
         public static extern int NET_DVR_StartRemoteConfig(int lUserID, int dwCommand, IntPtr lpInBuffer, int dwInBufferLen, RemoteConfigCallback cbStateCallback, IntPtr pUserData);
 
-
         // El entry point sirve para poder sobrecargar metodos que son importados de una libreria
         //En este caso tanto GNRCCFG y GNRCFR entran por getNextRemoteConfig pero tienen identificadores diferentes
 
@@ -484,6 +645,8 @@ namespace DeportNetReconocimiento.SDK
         [DllImport(rutaLibreriaSDK, EntryPoint = "NET_DVR_GetNextRemoteConfig")]
         public static extern int NET_DVR_GetNextRemoteConfig_FaceRecord(int lHandle, ref Hik_SDK.NET_DVR_FACE_RECORD lpOutBuff, int dwOutBuffSize);
 
+        [DllImport(rutaLibreriaSDK, EntryPoint = "NET_DVR_GetNextRemoteConfig")]
+        public static extern int NET_DVR_GetNextRemoteConfig_AcsEventCgf(int lHandle, ref Hik_SDK.NET_DVR_ACS_EVENT_CFG lpOutBuff, int dwOutBuffSize);
 
         [DllImport(rutaLibreriaSDK)]
         public static extern bool NET_DVR_StopRemoteConfig(int lHandle);
@@ -504,9 +667,13 @@ namespace DeportNetReconocimiento.SDK
         [DllImport(rutaLibreriaSDK)]
         public static extern int NET_DVR_SendWithRecvRemoteConfigTarjeta(int lHandle, IntPtr lpInBuff, uint dwInBuffSize, IntPtr lpOutBuff, uint dwOutBuffSize, ref uint dwOutDataLen);
 
+        /*Prototipados eventos*/
 
 
-        /*Libreria general */
+        
+
+
+        /*Prototipados general */
 
         [DllImport(rutaLibreriaSDK)]
         public static extern bool NET_DVR_Logout_V30(Int32 lUserID);
@@ -518,7 +685,6 @@ namespace DeportNetReconocimiento.SDK
         [DllImport(rutaLibreriaSDK)]
         public static extern bool NET_DVR_Cleanup();
 
-        
 
         #endregion}
 

@@ -338,7 +338,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
 
             //Hik_SDK.NET_DVR_GET_CARD es una constante que vale 2560
-            getCardCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.IdUsuario, Hik_SDK.NET_DVR_GET_CARD, ptrStruCond, (int)struCond.dwSize, null, this.Handle);
+            //getCardCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.IdUsuario, Hik_SDK.NET_DVR_GET_CARD, ptrStruCond, (int)struCond.dwSize, null, this.Handle);
             
             if (getCardCfgHandle < 0)
             {

@@ -27,6 +27,7 @@ namespace DeportNetReconocimiento.SDK
         private static Hik_Controladora_Facial? hik_Controladora_Facial;
         //private static Hik_Controladora_Huella? hik_Controladora_Huella;
         private static Hik_Controladora_Tarjetas? hik_Controladora_Tarjetas;
+        private static Hik_Controladora_Eventos? hik_Controladora_Eventos;
         //constructores
         public Hik_Controladora_General()
         {
@@ -38,6 +39,7 @@ namespace DeportNetReconocimiento.SDK
             hik_Controladora_Facial = null;
             hik_Controladora_Tarjetas = null;
             //hik_Controladora_Huella = null;
+            hik_Controladora_Eventos = null;
         }
 
 
@@ -335,6 +337,10 @@ namespace DeportNetReconocimiento.SDK
                 //si no hubo exito, signfica que directamente el dispositivo no soporta acceso
                 return resultadoGeneral;
             }
+
+            //Instancia de controladora de eventos 
+
+            hik_Controladora_Eventos = new Hik_Controladora_Eventos();
             
             //si soporta control de acceso, inicializamos los modulos que soporta
             if(soportaTarjeta)
@@ -356,7 +362,7 @@ namespace DeportNetReconocimiento.SDK
 
 
             Hik_Resultado resExtra = new Hik_Resultado();
-            resExtra =  hik_Controladora_Facial.EstablecerUnaCara(1,"2");
+            resExtra =  hik_Controladora_Eventos.CapturarEvento();
             Console.WriteLine(resExtra.Mensaje);
             Console.WriteLine(resExtra.Codigo);
    
