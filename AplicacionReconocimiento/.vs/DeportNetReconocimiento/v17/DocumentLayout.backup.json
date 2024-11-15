@@ -1,17 +1,21 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\",
+  "WorkspaceRootPath": "G:\\Fabri\\Programacion\\C# Proyectos\\DeportnetReconocimiento\\AplicacionReconocimiento\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\sdk\\hik_controladora_general.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\programacion\\c# proyectos\\deportnetreconocimiento\\aplicacionreconocimiento\\sdk\\hik_resultado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:sdk\\hik_resultado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\programacion\\c# proyectos\\deportnetreconocimiento\\aplicacionreconocimiento\\sdk\\hik_controladora_general.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:sdk\\hik_controladora_general.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\sdk\\hik_controladora_facial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\programacion\\c# proyectos\\deportnetreconocimiento\\aplicacionreconocimiento\\sdk\\hik_controladora_facial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:sdk\\hik_controladora_facial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\programa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\programacion\\c# proyectos\\deportnetreconocimiento\\aplicacionreconocimiento\\programa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:programa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -31,36 +35,49 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Hik_Resultado.cs",
+              "DocumentMoniker": "G:\\Fabri\\Programacion\\C# Proyectos\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDK\\Hik_Resultado.cs",
+              "RelativeDocumentMoniker": "SDK\\Hik_Resultado.cs",
+              "ToolTip": "G:\\Fabri\\Programacion\\C# Proyectos\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDK\\Hik_Resultado.cs",
+              "RelativeToolTip": "SDK\\Hik_Resultado.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-20T11:55:30.531Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Hik_Controladora_General.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDK\\Hik_Controladora_General.cs",
+              "DocumentMoniker": "G:\\Fabri\\Programacion\\C# Proyectos\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDK\\Hik_Controladora_General.cs",
               "RelativeDocumentMoniker": "SDK\\Hik_Controladora_General.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDK\\Hik_Controladora_General.cs",
+              "ToolTip": "G:\\Fabri\\Programacion\\C# Proyectos\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDK\\Hik_Controladora_General.cs",
               "RelativeToolTip": "SDK\\Hik_Controladora_General.cs",
-              "ViewState": "AQIAABQAAAAAAAAAAAAQwBIBAAAAAAAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-06T20:16:01.882Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Hik_Controladora_Facial.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDK\\Hik_Controladora_Facial.cs",
+              "DocumentMoniker": "G:\\Fabri\\Programacion\\C# Proyectos\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDK\\Hik_Controladora_Facial.cs",
               "RelativeDocumentMoniker": "SDK\\Hik_Controladora_Facial.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDK\\Hik_Controladora_Facial.cs",
+              "ToolTip": "G:\\Fabri\\Programacion\\C# Proyectos\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDK\\Hik_Controladora_Facial.cs",
               "RelativeToolTip": "SDK\\Hik_Controladora_Facial.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAAAAAA",
+              "ViewState": "AgIAABYAAAAAAAAAAAAgwDIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-06T19:45:14.946Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Programa.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Programa.cs",
+              "DocumentMoniker": "G:\\Fabri\\Programacion\\C# Proyectos\\DeportnetReconocimiento\\AplicacionReconocimiento\\Programa.cs",
               "RelativeDocumentMoniker": "Programa.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Programa.cs",
+              "ToolTip": "G:\\Fabri\\Programacion\\C# Proyectos\\DeportnetReconocimiento\\AplicacionReconocimiento\\Programa.cs",
               "RelativeToolTip": "Programa.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABsAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",

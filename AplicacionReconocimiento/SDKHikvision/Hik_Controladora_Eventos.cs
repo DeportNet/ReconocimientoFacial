@@ -12,7 +12,6 @@ namespace DeportNetReconocimiento.SDKHikvision
     {
 
         public int GetAcsEventHandle = -2;
-        public int m_UserID = -1;
         private string CsTemp = null;
         private int m_lLogNum = 0;
         Thread m_pDisplayListThread = null;
@@ -25,41 +24,16 @@ namespace DeportNetReconocimiento.SDKHikvision
 
 
             Hik_SDK.NET_DVR_ACS_EVENT_COND struCond = new Hik_SDK.NET_DVR_ACS_EVENT_COND();
-            struCond.Init();
-            struCond.dwSize = (uint)Marshal.SizeOf(struCond);
+            IntPtr ptrCond = IntPtr.Zero;
+            uint dwSize = 0;
+            InicializarEventCond(ref struCond,ref ptrCond,ref dwSize);
 
             
-            struCond.dwMajor = 0;
-            struCond.dwMinor = 0;
-
-
-            struCond.struStartTime.dwYear = 2024;
-            struCond.struStartTime.dwMonth = 11;
-            struCond.struStartTime.dwDay = 14;
-            struCond.struStartTime.dwHour = 1;
-            struCond.struStartTime.dwMinute = 1;
-            struCond.struStartTime.dwSecond = 1;
-
-            struCond.struEndTime.dwYear = 2024;
-            struCond.struEndTime.dwMonth = 11;
-            struCond.struEndTime.dwDay = 14;
-            struCond.struEndTime.dwHour = 20;
-            struCond.struEndTime.dwMinute = 1;
-            struCond.struEndTime.dwSecond = 1;
-
-            struCond.byPicEnable = 0;
-            struCond.szMonitorID = "";
-            struCond.wInductiveEventType = 65535;
-
-
-            uint dwSize = struCond.dwSize;
-            IntPtr ptrCond = Marshal.AllocHGlobal((int)dwSize);
-            Marshal.StructureToPtr(struCond, ptrCond, false);
 
 
             GetAcsEventHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.IdUsuario, Hik_SDK.NET_DVR_GET_ACS_EVENT, ptrCond, (int)dwSize, null, IntPtr.Zero);
 
-                if (-1 == GetAcsEventHandle)
+            if (-1 == GetAcsEventHandle)
             {
                 Console.WriteLine("Entro 4 - es -1");
 
@@ -82,26 +56,72 @@ namespace DeportNetReconocimiento.SDKHikvision
         }
 
 
+        public void InicializarEventCond(ref Hik_SDK.NET_DVR_ACS_EVENT_COND struCond, ref IntPtr ptrCond, ref uint dwSize)
+        {
+            struCond.Init();
+            struCond.dwSize = (uint)Marshal.SizeOf(struCond);
+
+
+            struCond.dwMajor = 0;
+            struCond.dwMinor = 0;
+
+
+            struCond.struStartTime.dwYear = 2024;
+            struCond.struStartTime.dwMonth = 11;
+            struCond.struStartTime.dwDay = 14;
+            struCond.struStartTime.dwHour = 1;
+            struCond.struStartTime.dwMinute = 1;
+            struCond.struStartTime.dwSecond = 1;
+
+            struCond.struEndTime.dwYear = 2024;
+            struCond.struEndTime.dwMonth = 11;
+            struCond.struEndTime.dwDay = 14;
+            struCond.struEndTime.dwHour = 20;
+            struCond.struEndTime.dwMinute = 1;
+            struCond.struEndTime.dwSecond = 1;
+
+            struCond.byPicEnable = 0;
+            struCond.szMonitorID = "";
+            struCond.wInductiveEventType = 65535;
+
+            dwSize = struCond.dwSize;
+
+            ptrCond= Marshal.AllocHGlobal((int)dwSize);
+            Marshal.StructureToPtr(struCond, ptrCond, false);
+        }
+
+        public void InicializarEventCfg(ref Hik_SDK.NET_DVR_ACS_EVENT_CFG struCfg,ref int dwOutBuffSize)
+        {
+            struCfg.dwSize = (uint)Marshal.SizeOf(struCfg);
+
+            dwOutBuffSize = (int)struCfg.dwSize;
+
+            struCfg.Init();
+        }
+
         public void VerificarEstadoEvento() 
         {
             Console.WriteLine("Entro 6 Estoy dentro de verificar estado");
 
             Hik_Resultado resultado = new Hik_Resultado();  
             int dwStatus = 0;
-            Boolean Flag = true;
-            Hik_SDK.NET_DVR_ACS_EVENT_CFG struCFG = new Hik_SDK.NET_DVR_ACS_EVENT_CFG();
-            struCFG.dwSize = (uint)Marshal.SizeOf(struCFG);
-            int dwOutBuffSize = (int)struCFG.dwSize;
-            struCFG.init();
+            bool flag = true;
+
+            Hik_SDK.NET_DVR_ACS_EVENT_CFG struCfg = new Hik_SDK.NET_DVR_ACS_EVENT_CFG();
+
+            struCfg.dwSize = (uint)Marshal.SizeOf(struCfg);
+            int dwOutBuffSize = 0;
+            InicializarEventCfg(ref struCfg, ref dwOutBuffSize);
+
             Console.WriteLine("Entro 7 - Cargó todo (WTF)");
 
-            while (Flag)
+            while (flag)
             {
-                dwStatus = Hik_SDK.NET_DVR_GetNextRemoteConfig_AcsEventCgf(GetAcsEventHandle, ref struCFG, dwOutBuffSize);
+                dwStatus = Hik_SDK.NET_DVR_GetNextRemoteConfig_AcsEventCgf(GetAcsEventHandle, ref struCfg, dwOutBuffSize);
                 switch (dwStatus)
                 {
                     case Hik_SDK.NET_SDK_GET_NEXT_STATUS_SUCCESS:
-                        ProcesarAcsEvent(ref struCFG, ref Flag);
+                        ProcesarAcsEvent(ref struCfg, ref flag);
 
                         break;
                     case Hik_SDK.NET_SDK_GET_NEXT_STATUS_NEED_WAIT:
@@ -111,16 +131,16 @@ namespace DeportNetReconocimiento.SDKHikvision
                         Hik_SDK.NET_DVR_StopRemoteConfig(GetAcsEventHandle);
                         Console.WriteLine("NET_SDK_GET_NEXT_STATUS_FAILED" + Hik_SDK.NET_DVR_GetLastError().ToString());
 
-                        Flag = false;
+                        flag = false;
                         break;
                     case Hik_SDK.NET_SDK_GET_NEXT_STATUS_FINISH:
                         Hik_SDK.NET_DVR_StopRemoteConfig(GetAcsEventHandle);
                         Console.WriteLine("Termino el proceso de estado");
-                        Flag = false;
+                        flag = false;
                         break;
                     default:
                         Console.WriteLine("NET_SDK_GET_NEXT_STATUS_UNKNOWN" + Hik_SDK.NET_DVR_GetLastError().ToString());
-                        Flag = false;
+                        flag = false;
                         Hik_SDK.NET_DVR_StopRemoteConfig(GetAcsEventHandle);
                         break;
                 }

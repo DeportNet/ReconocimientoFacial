@@ -406,7 +406,7 @@ namespace DeportNetReconocimiento.SDK
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 61)]
             public byte[] byRes;
 
-            public void init()
+            public void Init()
             {
                 sNetUser = new byte[Hik_SDK.MAX_NAMELEN];
                 struRemoteHostAddr.Init();
