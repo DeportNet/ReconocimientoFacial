@@ -12,6 +12,12 @@ namespace DeportNetReconocimiento.SDK
     public class Hik_SDK
     {
 
+        /*
+         Esto hay que acomodarlo en la seccion de de eventos
+         */
+        public const int COMM_ALARM_ACS = 0x5002; //access card alarm
+
+
         #region HCNetSDK.dll macro definition
 
         #region definicion constantes facial
@@ -50,9 +56,9 @@ namespace DeportNetReconocimiento.SDK
         public const int MAX_FACE_NUM = 2;
 
         public const int ACS_ABILITY = 0x801; //acs ability
-        #endregion
+            #endregion
 
-        #region definicion constantes tarjeta
+            #region definicion constantes tarjeta
 
         public const int NAME_LEN = 32;// name length
         public const int MAX_DOOR_NUM_256 = 256; //max door num
@@ -416,7 +422,6 @@ namespace DeportNetReconocimiento.SDK
         #endregion
 
         #region HCNetSDK.dll structure definition
-        
         #region definicion estructuras facial
         [StructLayoutAttribute(LayoutKind.Sequential)]
         public struct NET_DVR_DEVICEINFO_V30
@@ -828,36 +833,144 @@ namespace DeportNetReconocimiento.SDK
             }
         }
 
-        /*Estructuras Callbacks*/
 
+
+
+        /*Estructuras Eventos*/
+
+        [StructLayoutAttribute(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+        public struct NET_DVR_LOG_V30
+        {
+            public NET_DVR_TIME strLogTime;
+            public uint dwMajorType;//Main type 1- alarm;  2- abnormal;  3- operation;  0xff- all 
+            public uint dwMinorType; //Hypo- Type 0- all; 
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = MAX_NAMELEN, ArraySubType = UnmanagedType.I1)]
+            public byte[] sPanelUser;//user ID for local panel operation
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = MAX_NAMELEN, ArraySubType = UnmanagedType.I1)]
+            public byte[] sNetUser;//user ID for network operation
+            public NET_DVR_IPADDR struRemoteHostAddr;//remote host IP
+            public uint dwParaType;//parameter type,  for 9000 series MINOR_START_VT/MINOR_STOP_VT,  channel of the voice talking
+            public uint dwChannel;//channel number
+            public uint dwDiskNumber;//HD number
+            public uint dwAlarmInPort;//alarm input port
+            public uint dwAlarmOutPort;//alarm output port
+            public uint dwInfoLen;
+            [MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = LOG_INFO_LEN)]
+            public string sInfo;
+        }
+
+        //  ACS event informations
+        public struct NET_DVR_ACS_EVENT_INFO
+        {
+            public uint dwSize;
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = ACS_CARD_NO_LEN, ArraySubType = UnmanagedType.I1)]
+            public byte[] byCardNo; // card No, 0 means invalid 
+            public byte byCardType;
+            public byte byWhiteListNo;  // white list No, 1-8, 0 means invalid
+            public byte byReportChannel; // report channel, 1-alarmin updata, 2-center group 1, 3-center group 2, 0 means invalid
+            public byte byCardReaderKind; // card reader type: 0-invalid, 1-IC card reader, 2-Id card reader, 3-Qr code reader, 4-Fingerprint head
+            public uint dwCardReaderNo;  // card reader No, 0 means invalid
+            public uint dwDoorNo;   // door No(floor No), 0 means invalid
+            public uint dwVerifyNo;  // mutilcard verify No. 0 means invalid
+            public uint dwAlarmInNo;  // alarm in No, 0 means invalid
+            public uint dwAlarmOutNo;  // alarm out No 0 means invalid
+            public uint dwCaseSensorNo;   // case sensor No 0 means invalid
+            public uint dwRs485No;  // RS485 channel,0 means invalid
+            public uint dwMultiCardGroupNo;  // multicard group No.
+            public ushort wAccessChannel;      // Staff channel number 
+            public byte byDeviceNo;  // device No,0 means invalid
+            public byte byDistractControlNo;  // distract control,0 means invalid
+            public uint dwEmployeeNo;   // employee No,0 means invalid
+            public ushort wLocalControllerID; // On the controller number, 0 - access the host, 1-64 on behalf of the local controller 
+            public byte byInternetAccess;  // Internet access ID (1-uplink network port 1, 2-uplink network port 2,3- downstream network interface 1
+            public byte byType; // protection zone type, 0-real time, 1-24 hours, 2-delay, 3-internal, 4-the key, 5-fire, 6-perimeter, 7-24 hours of silent
+            // 8-24 hours auxiliary, 9-24 hours vibration, 10-door emergency open, 11-door emergency shutdown, 0xff-null
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = MACADDR_LEN, ArraySubType = UnmanagedType.I1)]
+            public byte[] byMACAddr; // mac addr 0 means invalid
+            public byte bySwipeCardType;// swipe card type, 0-invalid,1-Qr code
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 13, ArraySubType = UnmanagedType.I1)]
+            public byte[] byRes;
+        }
+
+        // Entrance guard alarm information structure
+        public struct NET_DVR_ACS_ALARM_INFO
+        {
+            public uint dwSize;
+            public uint dwMajor;  // alarm major, reference to macro
+            public uint dwMinor;  // alarm minor, reference to macro
+            public NET_DVR_TIME struTime;
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = MAX_NAMELEN, ArraySubType = UnmanagedType.I1)]
+            public byte[] sNetUser;  // net operator user
+            public NET_DVR_IPADDR struRemoteHostAddr; // remote host address
+            public NET_DVR_ACS_EVENT_INFO struAcsEventInfo;
+            public uint dwPicDataLen; // picture length, when 0 ,means has no picture
+            public IntPtr pPicData;  // picture data
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 24, ArraySubType = UnmanagedType.I1)]
+            public byte[] byRes;
+        }
+
+
+        //Alarm Device Infor
         [StructLayoutAttribute(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
         public struct NET_DVR_ALARMER
         {
-            public byte byUserIDValid;/* useridÊÇ·ñÓÐÐ§ 0-ÎÞÐ§£¬1-ÓÐÐ§ */
-            public byte bySerialValid;/* ÐòÁÐºÅÊÇ·ñÓÐÐ§ 0-ÎÞÐ§£¬1-ÓÐÐ§ */
-            public byte byVersionValid;/* °æ±¾ºÅÊÇ·ñÓÐÐ§ 0-ÎÞÐ§£¬1-ÓÐÐ§ */
-            public byte byDeviceNameValid;/* Éè±¸Ãû×ÖÊÇ·ñÓÐÐ§ 0-ÎÞÐ§£¬1-ÓÐÐ§ */
-            public byte byMacAddrValid; /* MACµØÖ·ÊÇ·ñÓÐÐ§ 0-ÎÞÐ§£¬1-ÓÐÐ§ */
-            public byte byLinkPortValid;/* login¶Ë¿ÚÊÇ·ñÓÐÐ§ 0-ÎÞÐ§£¬1-ÓÐÐ§ */
-            public byte byDeviceIPValid;/* Éè±¸IPÊÇ·ñÓÐÐ§ 0-ÎÞÐ§£¬1-ÓÐÐ§ */
-            public byte bySocketIPValid;/* socket ipÊÇ·ñÓÐÐ§ 0-ÎÞÐ§£¬1-ÓÐÐ§ */
-            public int lUserID; /* NET_DVR_Login()·µ»ØÖµ, ²¼·ÀÊ±ÓÐÐ§ */
+            public byte byUserIDValid; /* Whether userID is valid,  0- invalid 1- valid. */
+            public byte bySerialValid; /* Whether serial number is valid,  0- invalid 1- valid.  */
+            public byte byVersionValid; /* Whether version number is valid,  0- invalid 1- valid. */
+            public byte byDeviceNameValid; /* Whether device name is valid,  0- invalid 1- valid. */
+            public byte byMacAddrValid; /* Whether MAC address is valid,  0- invalid 1- valid. */
+            public byte byLinkPortValid; /* Whether login port number is valid,  0- invalid 1- valid. */
+            public byte byDeviceIPValid; /* Whether device IP is valid,  0- invalid 1- valid.*/
+            public byte bySocketIPValid; /* Whether socket IP is valid,  0- invalid 1- valid. */
+            public int lUserID; /* NET_DVR_Login () effective when establishing alarm upload channel*/
             [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = SERIALNO_LEN, ArraySubType = UnmanagedType.I1)]
-            public byte[] sSerialNumber;/* ÐòÁÐºÅ */
-            public uint dwDeviceVersion;/* °æ±¾ÐÅÏ¢ ¸ß16Î»±íÊ¾Ö÷°æ±¾£¬µÍ16Î»±íÊ¾´Î°æ±¾*/
+            public byte[] sSerialNumber; /* Serial number. */
+            public uint dwDeviceVersion; /* Version number,  2 high byte means the major version,  2 low byte means the minor version*/
             [MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = NAME_LEN)]
-            public string sDeviceName;/* Éè±¸Ãû×Ö */
+            public string sDeviceName; /* Device name. */
             [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = MACADDR_LEN, ArraySubType = UnmanagedType.I1)]
-            public byte[] byMacAddr;/* MACµØÖ· */
+            public byte[] byMacAddr; /* MAC address */
             public ushort wLinkPort; /* link port */
             [MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 128)]
-            public string sDeviceIP;/* IPµØÖ· */
+            public string sDeviceIP; /* IP address */
             [MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 128)]
-            public string sSocketIP;/* ±¨¾¯Ö÷¶¯ÉÏ´«Ê±µÄsocket IPµØÖ· */
-            public byte byIpProtocol; /* IpÐ­Òé 0-IPV4, 1-IPV6 */
+            public string sSocketIP; /* alarm push- mode socket IP address. */
+            public byte byIpProtocol;  /* IP protocol:  0- IPV4;  1- IPV6. */
             [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 11, ArraySubType = UnmanagedType.I1)]
             public byte[] byRes2;
         }
+
+
+        //Alarm protection structure parameters
+        [StructLayoutAttribute(LayoutKind.Sequential)]
+        public struct NET_DVR_SETUPALARM_PARAM
+        {
+            public uint dwSize;
+            public byte byLevel;  //Arming priority: 0-high, 1-middle, 2-low
+            public byte byAlarmInfoType;//Upload alarm information types（Intelligent traffic camera support）：0- old（NET_DVR_PLATE_RESULT），1- new(NET_ITS_PLATE_RESULT)
+            public byte byRetAlarmTypeV40; //0- Ret NET_DVR_ALARMINFO_V30 or Older, 1- if Device Support NET_DVR_ALARMINFO_V40,  Ret NET_DVR_ALARMINFO_V40, else Ret NET_DVR_ALARMINFO_V30 Or NET_DVR_ALARMINFO
+            public byte byRetDevInfoVersion; //CVR alarm 0-COMM_ALARM_DEVICE, 1-COMM_ALARM_DEVICE_V40
+            public byte byRetVQDAlarmType; //Exptected VQD alarm type,0-upload NET_DVR_VQD_DIAGNOSE_INFO,1-upload NET_DVR_VQD_ALARM
+            //1-(INTER_FACE_DETECTION),0-(INTER_FACESNAP_RESULT)
+            public byte byFaceAlarmDetection;
+            //Bit0 - indicates whether the secondary protection to upload pictures: 0 - upload, 1 - do not upload 
+            //Bit1 - said open data upload confirmation mechanism; 0 - don't open, 1 - to open
+            public byte bySupport;
+            //broken Net Http 
+            //bit0-Vehicle Detection(IPC) (0 - not continuingly, 1 - continuingly)
+            //bit1-PDC(IPC)  (0 - not continuingly, 1 - continuingly)
+            //bit2-HeatMap(IPC)  (0 - not continuingly, 1 - continuingly)
+            public byte byBrokenNetHttp;
+            public ushort wTaskNo;//Tasking number and the (field dwTaskNo corresponding data upload NET_DVR_VEHICLE_RECOG_RESULT the same time issued a task structure NET_DVR_VEHICLE_RECOG_COND corresponding fields in dwTaskNo
+            public byte byDeployType;//deploy type:0-client deploy,1-real time deploy
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 3, ArraySubType = UnmanagedType.I1)]
+            public byte[] byRes1;
+            public byte byAlarmTypeURL;//bit0-(NET_DVR_FACESNAP_RESULT),0-binary,1-URL
+            public byte byCustomCtrl;//Bit0- Support the copilot face picture upload: 0-Upload,1-Do not upload
+        }
+
+      
+
 
         #endregion
 
@@ -984,6 +1097,7 @@ namespace DeportNetReconocimiento.SDK
         }
         #endregion
 
+
         #endregion
 
         #region  HCNetSDK.dll function definition
@@ -1001,6 +1115,7 @@ namespace DeportNetReconocimiento.SDK
 
         [DllImport(rutaLibreriaSDK)]
         public static extern bool NET_DVR_SetLogToFile(int nLogLevel, string strLogDir, bool bAutoDel);
+
 
         public delegate void RemoteConfigCallback(uint dwType, IntPtr lpBuffer, uint dwBufLen, IntPtr pUserData);
         [DllImport(rutaLibreriaSDK)]
@@ -1040,7 +1155,11 @@ namespace DeportNetReconocimiento.SDK
         /*Prototipados eventos*/
 
 
+        [DllImport(rutaLibreriaSDK)]
+        public static extern int NET_DVR_SetupAlarmChan_V41(int lUserID, ref NET_DVR_SETUPALARM_PARAM lpSetupParam);
+
         
+
 
 
         /*Prototipados general */
@@ -1055,11 +1174,11 @@ namespace DeportNetReconocimiento.SDK
         [DllImport(rutaLibreriaSDK)]
         public static extern bool NET_DVR_Cleanup();
 
-        public delegate void MSGCallBack_V50(int lCommand, IntPtr pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser);
+        public delegate void MSGCallBack(int lCommand, ref NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser);
 
         /*Prototipos de callbacks*/
         [DllImport(rutaLibreriaSDK)]
-        public static extern bool NET_DVR_SetDVRMessageCallBack_V50(int iIndex, MSGCallBack_V50 fMessageCallBack, IntPtr pUser);
+        public static extern bool NET_DVR_SetDVRMessageCallBack_V50(int iIndex, MSGCallBack fMessageCallBack, IntPtr pUser);
 
 
 

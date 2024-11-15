@@ -1,4 +1,5 @@
-﻿using DeportNetReconocimiento.SDKHikvision;
+﻿using DeportNetReconocimiento.Modelo;
+using DeportNetReconocimiento.SDKHikvision;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
@@ -19,7 +20,7 @@ namespace DeportNetReconocimiento.SDK
         //atributos
 
         //Defino el delegado ( A quien el voy a pasar el evento cuando lo reciba)
-        private static MSGCallBack_V50 msgCallback = new MSGCallBack_V50(Hik_Controladora_Eventos.MessageCallback);
+        private static MSGCallBack msgCallback = null;
 
         private static int idUsuario; //esta bien que sea estatico ya que solo puede haber solo un user_ID
 
@@ -423,6 +424,9 @@ namespace DeportNetReconocimiento.SDK
         public Hik_Resultado ConfigurarCallback()
         {
             Hik_Resultado resultado = new Hik_Resultado();
+            msgCallback = new Hik_SDK.MSGCallBack(Hik_Controladora_Eventos.MessageCallback);
+
+
             if (!Hik_SDK.NET_DVR_SetDVRMessageCallBack_V50(0, msgCallback, IntPtr.Zero))
             {
                 resultado.Exito = false;
@@ -437,6 +441,22 @@ namespace DeportNetReconocimiento.SDK
 
             return resultado;
         }
+
+
+        private void convertirMensajeAEvent (int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
+        {
+
+            Evento EventInfo = Hik_Controladora_Eventos.ProcessAlarm(lCommand, ref pAlarmer, pAlarmInfo, dwBufLen, pUser);
+
+            if (EventInfo.Success)
+                System.Console.WriteLine(EventInfo.Time.ToString() + " " + EventInfo.Minor_Type_Description + " Tarjeta: " + EventInfo.Card_Number + " Puerta: " + EventInfo.Door_Number);
+            else
+                System.Console.WriteLine(EventInfo.Exception);
+        }
+
+
+
+
 
         //TODO -> Verificar IP para que todo ande, buscar la IP del dispositvo
         public static void BuscarYRetornarIpDelDispositivo()
