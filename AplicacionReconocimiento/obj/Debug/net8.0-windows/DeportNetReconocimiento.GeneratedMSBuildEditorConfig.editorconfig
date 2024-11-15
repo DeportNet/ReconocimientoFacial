@@ -14,6 +14,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = DeportNetReconocimiento
-build_property.ProjectDir = G:\Fabri\Programacion\C# Proyectos\DeportnetReconocimiento\AplicacionReconocimiento\
+build_property.ProjectDir = G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
