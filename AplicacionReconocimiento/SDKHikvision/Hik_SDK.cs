@@ -488,6 +488,38 @@ namespace DeportNetReconocimiento.SDK
                 byRes = new byte[64];
             }
         }
+
+        /*Estructuras Callbacks*/
+
+        [StructLayoutAttribute(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+        public struct NET_DVR_ALARMER
+        {
+            public byte byUserIDValid;/* useridÊÇ·ñÓÐÐ§ 0-ÎÞÐ§£¬1-ÓÐÐ§ */
+            public byte bySerialValid;/* ÐòÁÐºÅÊÇ·ñÓÐÐ§ 0-ÎÞÐ§£¬1-ÓÐÐ§ */
+            public byte byVersionValid;/* °æ±¾ºÅÊÇ·ñÓÐÐ§ 0-ÎÞÐ§£¬1-ÓÐÐ§ */
+            public byte byDeviceNameValid;/* Éè±¸Ãû×ÖÊÇ·ñÓÐÐ§ 0-ÎÞÐ§£¬1-ÓÐÐ§ */
+            public byte byMacAddrValid; /* MACµØÖ·ÊÇ·ñÓÐÐ§ 0-ÎÞÐ§£¬1-ÓÐÐ§ */
+            public byte byLinkPortValid;/* login¶Ë¿ÚÊÇ·ñÓÐÐ§ 0-ÎÞÐ§£¬1-ÓÐÐ§ */
+            public byte byDeviceIPValid;/* Éè±¸IPÊÇ·ñÓÐÐ§ 0-ÎÞÐ§£¬1-ÓÐÐ§ */
+            public byte bySocketIPValid;/* socket ipÊÇ·ñÓÐÐ§ 0-ÎÞÐ§£¬1-ÓÐÐ§ */
+            public int lUserID; /* NET_DVR_Login()·µ»ØÖµ, ²¼·ÀÊ±ÓÐÐ§ */
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = SERIALNO_LEN, ArraySubType = UnmanagedType.I1)]
+            public byte[] sSerialNumber;/* ÐòÁÐºÅ */
+            public uint dwDeviceVersion;/* °æ±¾ÐÅÏ¢ ¸ß16Î»±íÊ¾Ö÷°æ±¾£¬µÍ16Î»±íÊ¾´Î°æ±¾*/
+            [MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = NAME_LEN)]
+            public string sDeviceName;/* Éè±¸Ãû×Ö */
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = MACADDR_LEN, ArraySubType = UnmanagedType.I1)]
+            public byte[] byMacAddr;/* MACµØÖ· */
+            public ushort wLinkPort; /* link port */
+            [MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 128)]
+            public string sDeviceIP;/* IPµØÖ· */
+            [MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 128)]
+            public string sSocketIP;/* ±¨¾¯Ö÷¶¯ÉÏ´«Ê±µÄsocket IPµØÖ· */
+            public byte byIpProtocol; /* IpÐ­Òé 0-IPV4, 1-IPV6 */
+            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 11, ArraySubType = UnmanagedType.I1)]
+            public byte[] byRes2;
+        }
+
         #endregion
 
         #region definicion estructuras tarjetas
@@ -684,6 +716,13 @@ namespace DeportNetReconocimiento.SDK
 
         [DllImport(rutaLibreriaSDK)]
         public static extern bool NET_DVR_Cleanup();
+
+        public delegate void MSGCallBack_V50(int lCommand, IntPtr pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser);
+
+        /*Prototipos de callbacks*/
+        [DllImport(rutaLibreriaSDK)]
+        public static extern bool NET_DVR_SetDVRMessageCallBack_V50(int iIndex, MSGCallBack_V50 fMessageCallBack, IntPtr pUser);
+
 
 
         #endregion}

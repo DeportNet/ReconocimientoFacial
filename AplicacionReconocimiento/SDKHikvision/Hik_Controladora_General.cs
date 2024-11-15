@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
+using static DeportNetReconocimiento.SDK.Hik_SDK;
 
 
 namespace DeportNetReconocimiento.SDK
@@ -16,7 +17,9 @@ namespace DeportNetReconocimiento.SDK
     public class Hik_Controladora_General
     {
         //atributos
-         
+
+        //Defino el delegado ( A quien el voy a pasar el evento cuando lo reciba)
+        private static MSGCallBack_V50 msgCallback = new MSGCallBack_V50(Hik_Controladora_Eventos.MessageCallback);
 
         private static int idUsuario; //esta bien que sea estatico ya que solo puede haber solo un user_ID
 
@@ -321,6 +324,9 @@ namespace DeportNetReconocimiento.SDK
                 return resultadoGeneral;
             }
 
+            //Inicializar el callback para los eventos
+            ConfigurarCallback();
+
 
             resultadoGeneral = Login(user, password, port, ip);
 
@@ -361,6 +367,8 @@ namespace DeportNetReconocimiento.SDK
             }
 
 
+
+
             Hik_Resultado resExtra = new Hik_Resultado();
             resExtra =  hik_Controladora_Eventos.CapturarEvento();
             Console.WriteLine(resExtra.Mensaje);
@@ -369,6 +377,7 @@ namespace DeportNetReconocimiento.SDK
             return resultadoGeneral;
         }
         //TODO -> Verificar conexión a internet o en general
+
 
         public static bool VerificarConexionInternet()
         {
@@ -408,6 +417,26 @@ namespace DeportNetReconocimiento.SDK
         }
 
 
+
+
+        //Callback para esperar eventos
+        public Hik_Resultado ConfigurarCallback()
+        {
+            Hik_Resultado resultado = new Hik_Resultado();
+            if (!Hik_SDK.NET_DVR_SetDVRMessageCallBack_V50(0, msgCallback, IntPtr.Zero))
+            {
+                resultado.Exito = false;
+                resultado.Mensaje = "Error al registrar el callback";
+                resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
+            }
+            else
+            {
+                resultado.Exito = true;
+                resultado.Mensaje = "Callback registrado correctamente. Esperando eventos...";
+            }
+
+            return resultado;
+        }
 
         //TODO -> Verificar IP para que todo ande, buscar la IP del dispositvo
         public static void BuscarYRetornarIpDelDispositivo()

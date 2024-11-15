@@ -1,15 +1,20 @@
-﻿using DeportNetReconocimiento.SDK;
+﻿using DeportNetReconocimiento.Modelo;
+using DeportNetReconocimiento.SDK;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using static DeportNetReconocimiento.SDK.Hik_SDK;
 
 namespace DeportNetReconocimiento.SDKHikvision
 {
+
     internal class Hik_Controladora_Eventos
     {
+
 
         public int GetAcsEventHandle = -2;
         private string CsTemp = null;
@@ -35,15 +40,12 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             if (-1 == GetAcsEventHandle)
             {
-                Console.WriteLine("Entro 4 - es -1");
-
                 resultado.Exito =  false;
                 resultado.Codigo =Hik_SDK.NET_DVR_GetLastError().ToString();
                 resultado.Mensaje= "Error al obtener el evento";
                
             } else
             {
-                Console.WriteLine("Entro 5 - SIIIII");
 
                 VerificarEstadoEvento();
 
@@ -55,7 +57,6 @@ namespace DeportNetReconocimiento.SDKHikvision
             return resultado;
         }
 
-
         public void InicializarEventCond(ref Hik_SDK.NET_DVR_ACS_EVENT_COND struCond, ref IntPtr ptrCond, ref uint dwSize)
         {
             struCond.Init();
@@ -66,6 +67,8 @@ namespace DeportNetReconocimiento.SDKHikvision
             struCond.dwMinor = 0;
 
 
+            //Si no le pongo fecha me trae todos los eventos 
+            /*
             struCond.struStartTime.dwYear = 2024;
             struCond.struStartTime.dwMonth = 11;
             struCond.struStartTime.dwDay = 14;
@@ -83,6 +86,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             struCond.byPicEnable = 0;
             struCond.szMonitorID = "";
             struCond.wInductiveEventType = 65535;
+            */
 
             dwSize = struCond.dwSize;
 
@@ -93,9 +97,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         public void InicializarEventCfg(ref Hik_SDK.NET_DVR_ACS_EVENT_CFG struCfg,ref int dwOutBuffSize)
         {
             struCfg.dwSize = (uint)Marshal.SizeOf(struCfg);
-
             dwOutBuffSize = (int)struCfg.dwSize;
-
             struCfg.Init();
         }
 
@@ -149,23 +151,210 @@ namespace DeportNetReconocimiento.SDKHikvision
         }
 
 
+        /*------Eventos----*/
+
+
+        public void SetupAlarm()
+        {
+            Hik_SDK.NET_DVR_SETUPALARM_PARAM struSetupAlarmParam = new Hik_SDK.NET_DVR_SETUPALARM_PARAM();
+            struSetupAlarmParam.dwSize = (uint)Marshal.SizeOf(struSetupAlarmParam);
+            struSetupAlarmParam.byLevel = 1;
+            struSetupAlarmParam.byAlarmInfoType = 1;
+            struSetupAlarmParam.byDeployType = (byte)0;
+
+            Hik_SDK.NET_DVR_SetupAlarmChan_V41(Hik_Controladora_General.IdUsuario, ref struSetupAlarmParam);
+        }
+
+
+        public Evento ProcessAlarm(int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
+            
+        {
+
+            switch (lCommand)
+            {
+                case Hik_SDK.COMM_ALARM_ACS:
+                    return AlarmInfoToEvent(ref pAlarmer, pAlarmInfo, dwBufLen, pUser);
+
+                default:
+                    Evento EventoInfo = new Evento();
+                    EventoInfo.Exception = "NO_COMM_ALARM_ACS_FOUND";
+                    EventoInfo.Success = false;
+                    return EventoInfo;
+            }
+        }
+
+        private Event AlarmInfoToEvent(ref HCNetSDK_Events.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
+        {
+            Event EventInfo = new Event();
+
+            try
+            {
+
+                HCNetSDK_Events.NET_DVR_ACS_ALARM_INFO struAcsAlarmInfo = new HCNetSDK_Events.NET_DVR_ACS_ALARM_INFO();
+                struAcsAlarmInfo = (HCNetSDK_Events.NET_DVR_ACS_ALARM_INFO)Marshal.PtrToStructure(pAlarmInfo, typeof(HCNetSDK_Events.NET_DVR_ACS_ALARM_INFO));
+                HCNetSDK_Events.NET_DVR_LOG_V30 struFileInfo = new HCNetSDK_Events.NET_DVR_LOG_V30();
+                struFileInfo.dwMajorType = struAcsAlarmInfo.dwMajor;
+                struFileInfo.dwMinorType = struAcsAlarmInfo.dwMinor;
+                char[] csTmp = new char[256];
+
+                EventInfo.Major_Type = (int)struFileInfo.dwMajorType;
+                EventInfo.Minor_Type = (int)struFileInfo.dwMinorType;
+
+                if (HCNetSDK_Events.MAJOR_ALARM == struFileInfo.dwMajorType)
+                {
+                    TypeMap.AlarmMinorTypeMap(struFileInfo, csTmp);
+                    EventInfo.Major_Type_Description = "MAJOR_ALARM";
+                }
+                else if (HCNetSDK_Events.MAJOR_OPERATION == struFileInfo.dwMajorType)
+                {
+                    TypeMap.OperationMinorTypeMap(struFileInfo, csTmp);
+                    EventInfo.Major_Type_Description = "MAJOR_OPERATION";
+                }
+                else if (HCNetSDK_Events.MAJOR_EXCEPTION == struFileInfo.dwMajorType)
+                {
+                    TypeMap.ExceptionMinorTypeMap(struFileInfo, csTmp);
+                    EventInfo.Major_Type_Description = "MAJOR_EXCEPTION";
+                }
+                else if (HCNetSDK_Events.MAJOR_EVENT == struFileInfo.dwMajorType)
+                {
+                    TypeMap.EventMinorTypeMap(struFileInfo, csTmp);
+                    EventInfo.Major_Type_Description = "MAJOR_EVENT";
+                }
+
+                String szInfo = new String(csTmp).TrimEnd('\0');
+                String szInfoBuf = null;
+                szInfoBuf = szInfo;
+
+                EventInfo.Minor_Type_Description = szInfo;
+
+                String name = System.Text.Encoding.UTF8.GetString(struAcsAlarmInfo.sNetUser).TrimEnd('\0');
+                for (int i = 0; i < struAcsAlarmInfo.sNetUser.Length; i++)
+                {
+                    if (struAcsAlarmInfo.sNetUser[i] == 0)
+                    {
+                        name = name.Substring(0, i);
+                        break;
+                    }
+                }
+
+                EventInfo.User = name;
+
+                EventInfo.Remote_IP_Address = struAcsAlarmInfo.struRemoteHostAddr.sIpV4;
+                EventInfo.Time = new DateTime(struAcsAlarmInfo.struTime.dwYear, struAcsAlarmInfo.struTime.dwMonth, struAcsAlarmInfo.struTime.dwDay, struAcsAlarmInfo.struTime.dwHour, struAcsAlarmInfo.struTime.dwMinute, struAcsAlarmInfo.struTime.dwSecond);
+
+
+                if (struAcsAlarmInfo.struAcsEventInfo.byCardNo[0] != 0)
+                {
+                    EventInfo.Card_Number = System.Text.Encoding.UTF8.GetString(struAcsAlarmInfo.struAcsEventInfo.byCardNo).TrimEnd('\0');
+                }
+                String[] szCardType = { "normal card", "disabled card", "blocklist card", "night watch card", "stress card", "super card", "guest card" };
+                byte byCardType = struAcsAlarmInfo.struAcsEventInfo.byCardType;
+
+                if (byCardType != 0 && byCardType <= szCardType.Length)
+                {
+                    EventInfo.Card_Type = szCardType[byCardType - 1];
+                }
+
+                if (struAcsAlarmInfo.struAcsEventInfo.dwCardReaderNo != 0)
+                {
+                    EventInfo.Card_Reader_Number = (int)struAcsAlarmInfo.struAcsEventInfo.dwCardReaderNo;
+                }
+                if (struAcsAlarmInfo.struAcsEventInfo.dwDoorNo != 0)
+                {
+                    EventInfo.Door_Number = (int)struAcsAlarmInfo.struAcsEventInfo.dwDoorNo;
+                }
+                if (struAcsAlarmInfo.struAcsEventInfo.dwVerifyNo != 0)
+                {
+                    EventInfo.Multiple_Card_Authentication_Serial_Number = (int)struAcsAlarmInfo.struAcsEventInfo.dwVerifyNo;
+                }
+                if (struAcsAlarmInfo.struAcsEventInfo.dwAlarmInNo != 0)
+                {
+                    EventInfo.Alarm_Input_Number = (int)struAcsAlarmInfo.struAcsEventInfo.dwAlarmInNo;
+                }
+                if (struAcsAlarmInfo.struAcsEventInfo.dwAlarmOutNo != 0)
+                {
+                    EventInfo.Alarm_Output_Number = (int)struAcsAlarmInfo.struAcsEventInfo.dwAlarmOutNo;
+                }
+                if (struAcsAlarmInfo.struAcsEventInfo.dwCaseSensorNo != 0)
+                {
+                    EventInfo.Event_Trigger_Number = (int)struAcsAlarmInfo.struAcsEventInfo.dwCaseSensorNo;
+                }
+                if (struAcsAlarmInfo.struAcsEventInfo.dwRs485No != 0)
+                {
+                    EventInfo.RS485_Channel_Number = (int)struAcsAlarmInfo.struAcsEventInfo.dwRs485No;
+                }
+                if (struAcsAlarmInfo.struAcsEventInfo.dwMultiCardGroupNo != 0)
+                {
+                    EventInfo.Multi_Recombinant_Authentication_ID = (int)struAcsAlarmInfo.struAcsEventInfo.dwMultiCardGroupNo;
+                }
+                if (struAcsAlarmInfo.struAcsEventInfo.byCardReaderKind != 0)
+                {
+                    EventInfo.Card_Reader_Kind = struAcsAlarmInfo.struAcsEventInfo.byCardReaderKind.ToString();
+                }
+                if (struAcsAlarmInfo.struAcsEventInfo.wAccessChannel >= 0)
+                {
+                    EventInfo.Access_Channel = (int)struAcsAlarmInfo.struAcsEventInfo.wAccessChannel;
+                }
+                if (struAcsAlarmInfo.struAcsEventInfo.dwEmployeeNo != 0)
+                {
+                    EventInfo.Employee_Number = (int)struAcsAlarmInfo.struAcsEventInfo.dwEmployeeNo;
+                }
+                if (struAcsAlarmInfo.struAcsEventInfo.byDeviceNo != 0)
+                {
+                    EventInfo.Device_Number = struAcsAlarmInfo.struAcsEventInfo.byDeviceNo.ToString();
+                }
+                if (struAcsAlarmInfo.struAcsEventInfo.wLocalControllerID >= 0)
+                {
+                    EventInfo.Local_Controller_ID = (int)struAcsAlarmInfo.struAcsEventInfo.wLocalControllerID;
+                }
+                if (struAcsAlarmInfo.struAcsEventInfo.byInternetAccess >= 0)
+                {
+                    EventInfo.Internet_Access = struAcsAlarmInfo.struAcsEventInfo.byInternetAccess.ToString();
+                }
+                if (struAcsAlarmInfo.struAcsEventInfo.byType >= 0)
+                {
+                    EventInfo.Type = struAcsAlarmInfo.struAcsEventInfo.byType.ToString();
+                }
+                if (struAcsAlarmInfo.struAcsEventInfo.bySwipeCardType != 0)
+                {
+                    EventInfo.Swipe_Card_Type = struAcsAlarmInfo.struAcsEventInfo.bySwipeCardType.ToString();
+                }
+
+                EventInfo.Mac_Address = System.Text.Encoding.UTF8.GetString(struAcsAlarmInfo.struAcsEventInfo.byMACAddr).TrimEnd('\0');
+
+                EventInfo.Device_IP_Address = pAlarmer.sDeviceIP.ToString();
+
+                EventInfo.Success = true;
+
+            }
+            catch (Exception e)
+            {
+                EventInfo.Exception = e.ToString();
+                EventInfo.Success = false;
+            }
+
+
+
+            return EventInfo;
+
+        }
+
+
+
+
+
         private Hik_Resultado ProcesarAcsEvent(ref Hik_SDK.NET_DVR_ACS_EVENT_CFG struCFG, ref bool flag)
         {
-            Console.WriteLine("Entro 8 - Me zarpe mal");
 
             Hik_Resultado resultado = new Hik_Resultado();
             try
             {
-                Console.WriteLine("Entro 9 - tienen que cerrar el estadio");
-
-                Console.WriteLine(struCFG.struTime.dwMinute);
+                Console.WriteLine("El dia del evento es: " + struCFG.struTime.dwDay);
                 resultado.Exito = true;
                 resultado.Mensaje = ("Se obtuvo el evento con la siguiente estructura " + struCFG.ToString());
             }
             catch
             {
-                Console.WriteLine("Entro 10 - Llegue bastante lejos ");
-
                 resultado.Exito= false;
                 resultado.Mensaje = "Error al procesar la cara";
                 resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
@@ -175,6 +364,23 @@ namespace DeportNetReconocimiento.SDKHikvision
             return resultado;
         }
 
+
+        public static void MessageCallback(int lCommand, ref NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
+        {
+            Console.WriteLine("Hubo un evento");
+            Console.WriteLine($"Evento recibido: Comando={lCommand}, Tamaño={dwBufLen}");
+
+            // Procesar los datos del evento según el comando
+            if (lCommand == Hik_SDK.NET_DVR_GET_ACS_EVENT)
+            {
+                // Manejar eventos de control de acceso
+                Console.WriteLine("Evento de control de acceso recibido.");
+            }
+            else
+            {
+                Console.WriteLine("Otro evento recibido.");
+            }
+        }
 
     }
 }
