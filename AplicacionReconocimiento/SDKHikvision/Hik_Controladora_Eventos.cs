@@ -3,6 +3,7 @@ using DeportNetReconocimiento.SDK;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -154,7 +155,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         /*------Eventos----*/
 
 
-        public void SetupAlarm()
+        public void ConfigurarAlarm()
         {
             Hik_SDK.NET_DVR_SETUPALARM_PARAM struSetupAlarmParam = new Hik_SDK.NET_DVR_SETUPALARM_PARAM();
             struSetupAlarmParam.dwSize = (uint)Marshal.SizeOf(struSetupAlarmParam);
@@ -166,14 +167,14 @@ namespace DeportNetReconocimiento.SDKHikvision
         }
 
 
-        public Evento ProcessAlarm(int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
+        public Evento ProcesarAlarm(int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
             
         {
 
             switch (lCommand)
             {
                 case Hik_SDK.COMM_ALARM_ACS:
-                    return AlarmInfoToEvent(ref pAlarmer, pAlarmInfo, dwBufLen, pUser);
+                    return AlarmInfoAEvento(ref pAlarmer, pAlarmInfo, dwBufLen, pUser);
 
                 default:
                     Evento EventoInfo = new Evento();
@@ -183,16 +184,16 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
         }
 
-        private Event AlarmInfoToEvent(ref HCNetSDK_Events.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
+        private Evento AlarmInfoAEvento(ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
         {
-            Event EventInfo = new Event();
+            Evento EventInfo = new Evento();
 
             try
             {
 
-                HCNetSDK_Events.NET_DVR_ACS_ALARM_INFO struAcsAlarmInfo = new HCNetSDK_Events.NET_DVR_ACS_ALARM_INFO();
-                struAcsAlarmInfo = (HCNetSDK_Events.NET_DVR_ACS_ALARM_INFO)Marshal.PtrToStructure(pAlarmInfo, typeof(HCNetSDK_Events.NET_DVR_ACS_ALARM_INFO));
-                HCNetSDK_Events.NET_DVR_LOG_V30 struFileInfo = new HCNetSDK_Events.NET_DVR_LOG_V30();
+                Hik_SDK.NET_DVR_ACS_ALARM_INFO struAcsAlarmInfo = new Hik_SDK.NET_DVR_ACS_ALARM_INFO();
+                struAcsAlarmInfo = (Hik_SDK.NET_DVR_ACS_ALARM_INFO)Marshal.PtrToStructure(pAlarmInfo, typeof(Hik_SDK.NET_DVR_ACS_ALARM_INFO));
+                Hik_SDK.NET_DVR_LOG_V30 struFileInfo = new Hik_SDK.NET_DVR_LOG_V30();
                 struFileInfo.dwMajorType = struAcsAlarmInfo.dwMajor;
                 struFileInfo.dwMinorType = struAcsAlarmInfo.dwMinor;
                 char[] csTmp = new char[256];
@@ -200,24 +201,24 @@ namespace DeportNetReconocimiento.SDKHikvision
                 EventInfo.Major_Type = (int)struFileInfo.dwMajorType;
                 EventInfo.Minor_Type = (int)struFileInfo.dwMinorType;
 
-                if (HCNetSDK_Events.MAJOR_ALARM == struFileInfo.dwMajorType)
+                if (Hik_SDK.MAJOR_ALARM == struFileInfo.dwMajorType)
                 {
-                    TypeMap.AlarmMinorTypeMap(struFileInfo, csTmp);
+                    Hik_Evento_Mapper.AlarmMinorTypeMap(struFileInfo, csTmp);
                     EventInfo.Major_Type_Description = "MAJOR_ALARM";
                 }
-                else if (HCNetSDK_Events.MAJOR_OPERATION == struFileInfo.dwMajorType)
+                else if (Hik_SDK.MAJOR_OPERATION == struFileInfo.dwMajorType)
                 {
-                    TypeMap.OperationMinorTypeMap(struFileInfo, csTmp);
+                    Hik_Evento_Mapper.OperationMinorTypeMap(struFileInfo, csTmp);
                     EventInfo.Major_Type_Description = "MAJOR_OPERATION";
                 }
-                else if (HCNetSDK_Events.MAJOR_EXCEPTION == struFileInfo.dwMajorType)
+                else if (Hik_SDK.MAJOR_EXCEPTION == struFileInfo.dwMajorType)
                 {
-                    TypeMap.ExceptionMinorTypeMap(struFileInfo, csTmp);
+                    Hik_Evento_Mapper.ExceptionMinorTypeMap(struFileInfo, csTmp);
                     EventInfo.Major_Type_Description = "MAJOR_EXCEPTION";
                 }
-                else if (HCNetSDK_Events.MAJOR_EVENT == struFileInfo.dwMajorType)
+                else if (Hik_SDK.MAJOR_EVENT == struFileInfo.dwMajorType)
                 {
-                    TypeMap.EventMinorTypeMap(struFileInfo, csTmp);
+                    Hik_Evento_Mapper.EventMinorTypeMap(struFileInfo, csTmp);
                     EventInfo.Major_Type_Description = "MAJOR_EVENT";
                 }
 
