@@ -12,10 +12,7 @@ namespace DeportNetReconocimiento.SDK
     public class Hik_SDK
     {
 
-        /*
-         Esto hay que acomodarlo en la seccion de de eventos
-         */
-        public const int COMM_ALARM_ACS = 0x5002; //access card alarm
+
 
 
         #region HCNetSDK.dll macro definition
@@ -37,6 +34,8 @@ namespace DeportNetReconocimiento.SDK
         public const int ERROR_MSG_LEN = 32;
         public const int NET_DVR_DEL_FACE_PARAM_CFG = 2509;
         public const int NET_DVR_CAPTURE_FACE_INFO = 2510;//采集人脸
+        public const int LOG_INFO_LEN = 11840; // log append information 
+
 
 
         public const int NET_SDK_GET_NEXT_STATUS_SUCCESS = 1000;
@@ -400,16 +399,12 @@ namespace DeportNetReconocimiento.SDK
         public const int CARD_PARAM_SWIPED_NUM = 0x00000200;  //has swiped card time parameter
         public const int CARD_PARAM_EMPLOYEE_NO = 0x00000400;  //employee no
 
-        public const int ACS_CARD_NO_LEN = 32;  //access card No. len
-        public const int MAX_DOOR_NUM_256 = 256; //max door num
-        public const int MAX_GROUP_NUM_128 = 128; //The largest number of grou
-        public const int CARD_PASSWORD_LEN = 8;   // card password len 
+
         public const int MAX_CARD_RIGHT_PLAN_NUM = 4;   //max card right plan number
         public const int MAX_DOOR_CODE_LEN = 8; //room code length
         public const int MAX_LOCK_CODE_LEN = 8; //lock code length
 
         public const int MAX_CASE_SENSOR_NUM = 8;   //max case sensor number
-        public const int MAX_CARD_READER_NUM_512 = 512; //max card reader num
         public const int MAX_ALARMHOST_ALARMIN_NUM = 512; //Max number of alarm host alarm input ports
         public const int MAX_ALARMHOST_ALARMOUT_NUM = 512; //Max number of alarm host alarm output ports
 

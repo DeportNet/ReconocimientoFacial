@@ -68,27 +68,6 @@ namespace DeportNetReconocimiento.SDKHikvision
             struCond.dwMinor = 0;
 
 
-            //Si no le pongo fecha me trae todos los eventos 
-            /*
-            struCond.struStartTime.dwYear = 2024;
-            struCond.struStartTime.dwMonth = 11;
-            struCond.struStartTime.dwDay = 14;
-            struCond.struStartTime.dwHour = 1;
-            struCond.struStartTime.dwMinute = 1;
-            struCond.struStartTime.dwSecond = 1;
-
-            struCond.struEndTime.dwYear = 2024;
-            struCond.struEndTime.dwMonth = 11;
-            struCond.struEndTime.dwDay = 14;
-            struCond.struEndTime.dwHour = 20;
-            struCond.struEndTime.dwMinute = 1;
-            struCond.struEndTime.dwSecond = 1;
-
-            struCond.byPicEnable = 0;
-            struCond.szMonitorID = "";
-            struCond.wInductiveEventType = 65535;
-            */
-
             dwSize = struCond.dwSize;
 
             ptrCond= Marshal.AllocHGlobal((int)dwSize);
@@ -124,7 +103,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                 switch (dwStatus)
                 {
                     case Hik_SDK.NET_SDK_GET_NEXT_STATUS_SUCCESS:
-                        ProcesarAcsEvent(ref struCfg, ref flag);
+                        //ProcesarAcsEvent(ref struCfg, ref flag);
 
                         break;
                     case Hik_SDK.NET_SDK_GET_NEXT_STATUS_NEED_WAIT:
@@ -155,7 +134,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         /*------Eventos----*/
 
 
-        public void ConfigurarAlarm()
+        public static void ConfigurarAlarm()
         {
             Hik_SDK.NET_DVR_SETUPALARM_PARAM struSetupAlarmParam = new Hik_SDK.NET_DVR_SETUPALARM_PARAM();
             struSetupAlarmParam.dwSize = (uint)Marshal.SizeOf(struSetupAlarmParam);
@@ -167,7 +146,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         }
 
 
-        public Evento ProcesarAlarm(int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
+        public static Evento ProcesarAlarm(int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
             
         {
 
@@ -184,7 +163,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
         }
 
-        private Evento AlarmInfoAEvento(ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
+        private static Evento AlarmInfoAEvento(ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
         {
             Evento EventInfo = new Evento();
 
@@ -342,46 +321,9 @@ namespace DeportNetReconocimiento.SDKHikvision
 
 
 
+        
 
 
-        private Hik_Resultado ProcesarAcsEvent(ref Hik_SDK.NET_DVR_ACS_EVENT_CFG struCFG, ref bool flag)
-        {
-
-            Hik_Resultado resultado = new Hik_Resultado();
-            try
-            {
-                Console.WriteLine("El dia del evento es: " + struCFG.struTime.dwDay);
-                resultado.Exito = true;
-                resultado.Mensaje = ("Se obtuvo el evento con la siguiente estructura " + struCFG.ToString());
-            }
-            catch
-            {
-                resultado.Exito= false;
-                resultado.Mensaje = "Error al procesar la cara";
-                resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
-                flag = false;
-            }
-
-            return resultado;
-        }
-
-
-        public static void MessageCallback(int lCommand, ref NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
-        {
-            Console.WriteLine("Hubo un evento");
-            Console.WriteLine($"Evento recibido: Comando={lCommand}, Tamaño={dwBufLen}");
-
-            // Procesar los datos del evento según el comando
-            if (lCommand == Hik_SDK.NET_DVR_GET_ACS_EVENT)
-            {
-                // Manejar eventos de control de acceso
-                Console.WriteLine("Evento de control de acceso recibido.");
-            }
-            else
-            {
-                Console.WriteLine("Otro evento recibido.");
-            }
-        }
-
+        
     }
 }

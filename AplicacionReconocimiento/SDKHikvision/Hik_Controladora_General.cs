@@ -315,8 +315,10 @@ namespace DeportNetReconocimiento.SDK
         }
         public Hik_Resultado InicializarPrograma(string user, string password, string port, string ip)
         {
-            Hik_Resultado resultadoGeneral = new Hik_Resultado();
+            MessageBox.Show("Empece", "Alerta");
 
+            Hik_Resultado resultadoGeneral = new Hik_Resultado();
+            
             resultadoGeneral = InicializarNet_DVR();
 
             if (!resultadoGeneral.Exito)
@@ -325,9 +327,21 @@ namespace DeportNetReconocimiento.SDK
                 return resultadoGeneral;
             }
 
+            //Configuramos la alarma
+            Hik_Controladora_Eventos.ConfigurarAlarm();
+
+
+            msgCallback = new Hik_SDK.MSGCallBack(ConvertirMensajeAEvent);
+
+            if (!Hik_SDK.NET_DVR_SetDVRMessageCallBack_V50(0, msgCallback, IntPtr.Zero))
+            {
+                System.Console.WriteLine("Error al asociar callback");
+            }
+
             //Inicializar el callback para los eventos
             ConfigurarCallback();
 
+            MessageBox.Show("Se configuró el callback", "Alerta");
 
             resultadoGeneral = Login(user, password, port, ip);
 
@@ -369,12 +383,11 @@ namespace DeportNetReconocimiento.SDK
 
 
 
-
+            /*
             Hik_Resultado resExtra = new Hik_Resultado();
-            resExtra =  hik_Controladora_Eventos.CapturarEvento();
             Console.WriteLine(resExtra.Mensaje);
             Console.WriteLine(resExtra.Codigo);
-   
+   */
             return resultadoGeneral;
         }
         //TODO -> Verificar conexión a internet o en general
@@ -424,7 +437,7 @@ namespace DeportNetReconocimiento.SDK
         public Hik_Resultado ConfigurarCallback()
         {
             Hik_Resultado resultado = new Hik_Resultado();
-            msgCallback = new Hik_SDK.MSGCallBack(Hik_Controladora_Eventos.MessageCallback);
+            msgCallback = new Hik_SDK.MSGCallBack(ConvertirMensajeAEvent);
 
 
             if (!Hik_SDK.NET_DVR_SetDVRMessageCallBack_V50(0, msgCallback, IntPtr.Zero))
@@ -443,13 +456,16 @@ namespace DeportNetReconocimiento.SDK
         }
 
 
-        private void convertirMensajeAEvent (int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
+        //Aca obtenemos la información limpia del evento por lo tanto
+        //En algun momento hay que manejar lo que le mandamos al web service de deportNet
+        private void ConvertirMensajeAEvent (int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
         {
 
-            Evento EventInfo = Hik_Controladora_Eventos.ProcessAlarm(lCommand, ref pAlarmer, pAlarmInfo, dwBufLen, pUser);
+            Evento EventInfo = Hik_Controladora_Eventos.ProcesarAlarm(lCommand, ref pAlarmer, pAlarmInfo, dwBufLen, pUser);
 
             if (EventInfo.Success)
-                System.Console.WriteLine(EventInfo.Time.ToString() + " " + EventInfo.Minor_Type_Description + " Tarjeta: " + EventInfo.Card_Number + " Puerta: " + EventInfo.Door_Number);
+                                    
+                System.Console.WriteLine(EventInfo.Time.ToString() + " " + EventInfo.Minor_Type_Description + " Tarjeta: " + EventInfo.Card_Number + " Puerta: " + EventInfo.Door_Number +  "Major type: " + EventInfo.Major_Type + "Minor Type: " + EventInfo.Minor_Type);
             else
                 System.Console.WriteLine(EventInfo.Exception);
         }
