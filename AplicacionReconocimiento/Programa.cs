@@ -23,7 +23,7 @@ namespace DeportNetReconocimiento
 
 
         ApplicationConfiguration.Initialize();
-        Application.Run(new WFPanelOffline());
+        Application.Run(new WFPrincipal());
 
 
         /*

@@ -13,109 +13,59 @@ using static DeportNetReconocimiento.SDK.Hik_SDK;
 namespace DeportNetReconocimiento.SDKHikvision
 {
 
-    internal class Hik_Controladora_Eventos
+    public class Hik_Controladora_Eventos
     {
+        //Defino el delegado ( A quien el voy a pasar el evento cuando lo reciba)
+        private MSGCallBack msgCallback;
+        
 
-        public static int idUsuario = -1;
         public int GetAcsEventHandle = -1;
         private string CsTemp = null;
         private int m_lLogNum = 0;
 
+     
+        public Hik_Controladora_Eventos(){
 
-        public Hik_Resultado Login(string user, string password, string port, string ip)
-        {
-            Hik_Resultado loginResultado = new Hik_Resultado();
+            this.SetupAlarm();
 
+            msgCallback = new MSGCallBack(MsgCallback);
 
-            //cerramos la sesion que estaba iniciada anteriormente
-            if (idUsuario >= 0)
+            if (!Hik_SDK.NET_DVR_SetDVRMessageCallBack_V50(0, msgCallback, IntPtr.Zero))
             {
-                Hik_SDK.NET_DVR_Logout_V30(idUsuario);
-                idUsuario = -1;
+                Console.WriteLine("Error al asociar callback");
+            }
+        }
+
+        private void MsgCallback(int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
+        {
+            Evento infoEvento = new Evento();
+
+            //si esta clase esta instanciada
+            if (this != null)
+            {
+
+                switch (lCommand)
+                {
+                    case Hik_SDK.COMM_ALARM_ACS:
+                        infoEvento= AlarmInfoToEvent(ref pAlarmer, pAlarmInfo, dwBufLen, pUser);
+                        break;
+                    default:
+                        infoEvento.Exception = "NO_COMM_ALARM_ACS_FOUND";
+                        infoEvento.Success = false;
+                        break;
+                }
+
             }
 
-            //creamos y cargamos las estructuras de informacion de login y de informacion del dispositivo
-
-            Hik_SDK.NET_DVR_USER_LOGIN_INFO struLoginInfo = new Hik_SDK.NET_DVR_USER_LOGIN_INFO();
-            Hik_SDK.NET_DVR_DEVICEINFO_V40 struDeviceInfoV40 = new Hik_SDK.NET_DVR_DEVICEINFO_V40();
-            struDeviceInfoV40.struDeviceV30.sSerialNumber = new byte[Hik_SDK.SERIALNO_LEN];
-
-            struLoginInfo.sDeviceAddress = ip;
-            struLoginInfo.sUserName = user;
-            struLoginInfo.sPassword = password;
-            ushort.TryParse(port, out struLoginInfo.wPort);
-
-
-            //utilizamos metodo de iniciar sesion
-            int auxUserID = -1;
-            auxUserID = Hik_SDK.NET_DVR_Login_V40(ref struLoginInfo, ref struDeviceInfoV40);
-
-            if (auxUserID >= 0)
+            if (infoEvento.Success)
             {
-                //si da mayor a 0 signfica exito
-                idUsuario = auxUserID;
-                loginResultado.Mensaje = "Se inicio sesión con exito";
-                loginResultado.Exito = true;
+                System.Console.WriteLine(infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description + " Tarjeta: " + infoEvento.Card_Number + " Puerta: " + infoEvento.Door_Number);
             }
             else
             {
-                //sino debemos verificar el tipo de error
-                uint nroError = Hik_SDK.NET_DVR_GetLastError();
-                string mensajeDeSdk = "";
-
-
-                if (nroError == Hik_SDK.NET_DVR_PASSWORD_ERROR)
-                {
-                    loginResultado.Exito = false;
-                    loginResultado.Mensaje = "Usuario o contraseña invalidos";
-                    if (1 == struDeviceInfoV40.bySupportLock)
-                    {
-                        mensajeDeSdk = string.Format("Te quedan {0} intentos para logearte", struDeviceInfoV40.byRetryLoginTime);
-                    }
-                }
-                else if (nroError == Hik_SDK.NET_DVR_USER_LOCKED)
-                {
-                    if (1 == struDeviceInfoV40.bySupportLock)
-                    {
-                        mensajeDeSdk = string.Format("Usuario bloqueado, el tiempo restante de bloqueo es de {0}", struDeviceInfoV40.dwSurplusLockTime);
-                        loginResultado.Exito = false;
-                        loginResultado.Mensaje = mensajeDeSdk;
-                    }
-                }
-                else
-                {
-                    loginResultado.Exito = false;
-                    loginResultado.Mensaje = "Error de red o el panel esta ocupado";
-                }
+                System.Console.WriteLine(infoEvento.Exception);
             }
-
-            Hik_Resultado.EscribirLog();
-
-            return loginResultado;
         }
-
-        public Hik_Resultado Initialize()
-        {
-            Hik_Resultado resultHC = new Hik_Resultado();
-
-            if (Hik_SDK.NET_DVR_Init() == false)
-            {
-                System.Console.WriteLine("NET_DVR_Init error");
-                resultHC.Mensaje= "NET_DVR_Init error";
-                resultHC.Exito = false;
-
-                return resultHC;
-            }
-
-            Hik_SDK.NET_DVR_SetLogToFile(3, "", false);
-
-            resultHC.Mensaje= "NET_DVR_Init éxito";
-            resultHC.Exito = true;
-
-            return resultHC;
-
-        }
-
 
 
         public void SetupAlarm()
@@ -126,24 +76,14 @@ namespace DeportNetReconocimiento.SDKHikvision
             struSetupAlarmParam.byAlarmInfoType = 1;
             struSetupAlarmParam.byDeployType = (byte)0;
 
-            Hik_SDK.NET_DVR_SetupAlarmChan_V41(idUsuario, ref struSetupAlarmParam);
+            Hik_SDK.NET_DVR_SetupAlarmChan_V41(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, ref struSetupAlarmParam);
         }
 
-        public Evento ProcessAlarm(int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
-        {
+        //public Evento ProcessAlarm(int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
+        //{
 
-            switch (lCommand)
-            {
-                case Hik_SDK.COMM_ALARM_ACS:
-                    return AlarmInfoToEvent(ref pAlarmer, pAlarmInfo, dwBufLen, pUser);
-
-                default:
-                    Evento EventInfo = new Evento();
-                    EventInfo.Exception = "NO_COMM_ALARM_ACS_FOUND";
-                    EventInfo.Success = false;
-                    return EventInfo;
-            }
-        }
+           
+        //}
 
         private Evento AlarmInfoToEvent(ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
         {
@@ -162,26 +102,32 @@ namespace DeportNetReconocimiento.SDKHikvision
                 EventInfo.Major_Type = (int)struFileInfo.dwMajorType;
                 EventInfo.Minor_Type = (int)struFileInfo.dwMinorType;
 
-                if (Hik_SDK.MAJOR_ALARM == struFileInfo.dwMajorType)
-                {
-                    Hik_Evento_Mapper.AlarmMinorTypeMap(struFileInfo, csTmp);
-                    EventInfo.Major_Type_Description = "MAJOR_ALARM";
+
+                switch (struFileInfo.dwMajorType) {
+
+                    case Hik_SDK.MAJOR_ALARM:
+                        Hik_Evento_Mapper.AlarmMinorTypeMap(struFileInfo, csTmp);
+                        EventInfo.Major_Type_Description = "MAJOR_ALARM";
+                        break;
+                    case Hik_SDK.MAJOR_OPERATION:
+                        Hik_Evento_Mapper.OperationMinorTypeMap(struFileInfo, csTmp);
+                        EventInfo.Major_Type_Description = "MAJOR_OPERATION";
+                        break;
+                    case Hik_SDK.MAJOR_EXCEPTION:
+                        Hik_Evento_Mapper.ExceptionMinorTypeMap(struFileInfo, csTmp);
+                        EventInfo.Major_Type_Description = "MAJOR_EXCEPTION";
+                        break;
+                    case Hik_SDK.MAJOR_EVENT:
+                        Hik_Evento_Mapper.EventMinorTypeMap(struFileInfo, csTmp);
+                        EventInfo.Major_Type_Description = "MAJOR_EVENT";
+                        break;
+                    default:
+                        EventInfo.Major_Type_Description = "ERROR";
+                        break;
                 }
-                else if (Hik_SDK.MAJOR_OPERATION == struFileInfo.dwMajorType)
-                {
-                    Hik_Evento_Mapper.OperationMinorTypeMap(struFileInfo, csTmp);
-                    EventInfo.Major_Type_Description = "MAJOR_OPERATION";
-                }
-                else if (Hik_SDK.MAJOR_EXCEPTION == struFileInfo.dwMajorType)
-                {
-                    Hik_Evento_Mapper.ExceptionMinorTypeMap(struFileInfo, csTmp);
-                    EventInfo.Major_Type_Description = "MAJOR_EXCEPTION";
-                }
-                else if (Hik_SDK.MAJOR_EVENT == struFileInfo.dwMajorType)
-                {
-                    Hik_Evento_Mapper.EventMinorTypeMap(struFileInfo, csTmp);
-                    EventInfo.Major_Type_Description = "MAJOR_EVENT";
-                }
+
+
+             
 
                 String szInfo = new String(csTmp).TrimEnd('\0');
                 String szInfoBuf = null;
@@ -302,7 +248,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         }
 
 
-        public bool ObtenerStatusPanel()
+        public bool VerificarEstadoDispositivo()
         {
             IntPtr pInBuf;
             Int32 nSize;
@@ -314,7 +260,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             int XML_ABILITY_OUT_LEN = 3 * 1024 * 1024;
             IntPtr pOutBuf = Marshal.AllocHGlobal(XML_ABILITY_OUT_LEN);
 
-            if (!Hik_SDK.NET_DVR_GetDeviceAbility(idUsuario, 0, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
+            if (!Hik_SDK.NET_DVR_GetDeviceAbility(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, 0, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
             {
                 iLastErr = (int)Hik_SDK.NET_DVR_GetLastError();
 
