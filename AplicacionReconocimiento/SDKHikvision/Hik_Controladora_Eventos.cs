@@ -16,125 +16,109 @@ namespace DeportNetReconocimiento.SDKHikvision
     internal class Hik_Controladora_Eventos
     {
 
-
-        public int GetAcsEventHandle = -2;
+        public static int idUsuario = -1;
+        public int GetAcsEventHandle = -1;
         private string CsTemp = null;
         private int m_lLogNum = 0;
-        Thread m_pDisplayListThread = null;
 
-        public  Hik_Resultado CapturarEvento()
+
+        public Hik_Resultado Login(string user, string password, string port, string ip)
         {
-            Hik_Resultado resultado = new Hik_Resultado();
-            Console.WriteLine("Entro 1");
-            m_lLogNum = 0;
+            Hik_Resultado loginResultado = new Hik_Resultado();
 
 
-            Hik_SDK.NET_DVR_ACS_EVENT_COND struCond = new Hik_SDK.NET_DVR_ACS_EVENT_COND();
-            IntPtr ptrCond = IntPtr.Zero;
-            uint dwSize = 0;
-            InicializarEventCond(ref struCond,ref ptrCond,ref dwSize);
-
-            
-
-
-            GetAcsEventHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.IdUsuario, Hik_SDK.NET_DVR_GET_ACS_EVENT, ptrCond, (int)dwSize, null, IntPtr.Zero);
-
-            if (-1 == GetAcsEventHandle)
+            //cerramos la sesion que estaba iniciada anteriormente
+            if (idUsuario >= 0)
             {
-                resultado.Exito =  false;
-                resultado.Codigo =Hik_SDK.NET_DVR_GetLastError().ToString();
-                resultado.Mensaje= "Error al obtener el evento";
-               
-            } else
-            {
-
-                VerificarEstadoEvento();
-
-               // m_pDisplayListThread = new Thread(VerificarEstadoEvento);
-               // m_pDisplayListThread.Start();
+                Hik_SDK.NET_DVR_Logout_V30(idUsuario);
+                idUsuario = -1;
             }
 
-            Marshal.FreeHGlobal(ptrCond);
-            return resultado;
-        }
+            //creamos y cargamos las estructuras de informacion de login y de informacion del dispositivo
 
-        public void InicializarEventCond(ref Hik_SDK.NET_DVR_ACS_EVENT_COND struCond, ref IntPtr ptrCond, ref uint dwSize)
-        {
-            struCond.Init();
-            struCond.dwSize = (uint)Marshal.SizeOf(struCond);
+            Hik_SDK.NET_DVR_USER_LOGIN_INFO struLoginInfo = new Hik_SDK.NET_DVR_USER_LOGIN_INFO();
+            Hik_SDK.NET_DVR_DEVICEINFO_V40 struDeviceInfoV40 = new Hik_SDK.NET_DVR_DEVICEINFO_V40();
+            struDeviceInfoV40.struDeviceV30.sSerialNumber = new byte[Hik_SDK.SERIALNO_LEN];
 
-
-            struCond.dwMajor = 0;
-            struCond.dwMinor = 0;
+            struLoginInfo.sDeviceAddress = ip;
+            struLoginInfo.sUserName = user;
+            struLoginInfo.sPassword = password;
+            ushort.TryParse(port, out struLoginInfo.wPort);
 
 
-            dwSize = struCond.dwSize;
+            //utilizamos metodo de iniciar sesion
+            int auxUserID = -1;
+            auxUserID = Hik_SDK.NET_DVR_Login_V40(ref struLoginInfo, ref struDeviceInfoV40);
 
-            ptrCond= Marshal.AllocHGlobal((int)dwSize);
-            Marshal.StructureToPtr(struCond, ptrCond, false);
-        }
-
-        public void InicializarEventCfg(ref Hik_SDK.NET_DVR_ACS_EVENT_CFG struCfg,ref int dwOutBuffSize)
-        {
-            struCfg.dwSize = (uint)Marshal.SizeOf(struCfg);
-            dwOutBuffSize = (int)struCfg.dwSize;
-            struCfg.Init();
-        }
-
-        public void VerificarEstadoEvento() 
-        {
-            Console.WriteLine("Entro 6 Estoy dentro de verificar estado");
-
-            Hik_Resultado resultado = new Hik_Resultado();  
-            int dwStatus = 0;
-            bool flag = true;
-
-            Hik_SDK.NET_DVR_ACS_EVENT_CFG struCfg = new Hik_SDK.NET_DVR_ACS_EVENT_CFG();
-
-            struCfg.dwSize = (uint)Marshal.SizeOf(struCfg);
-            int dwOutBuffSize = 0;
-            InicializarEventCfg(ref struCfg, ref dwOutBuffSize);
-
-            Console.WriteLine("Entro 7 - Cargó todo (WTF)");
-
-            while (flag)
+            if (auxUserID >= 0)
             {
-                dwStatus = Hik_SDK.NET_DVR_GetNextRemoteConfig_AcsEventCgf(GetAcsEventHandle, ref struCfg, dwOutBuffSize);
-                switch (dwStatus)
+                //si da mayor a 0 signfica exito
+                idUsuario = auxUserID;
+                loginResultado.Mensaje = "Se inicio sesión con exito";
+                loginResultado.Exito = true;
+            }
+            else
+            {
+                //sino debemos verificar el tipo de error
+                uint nroError = Hik_SDK.NET_DVR_GetLastError();
+                string mensajeDeSdk = "";
+
+
+                if (nroError == Hik_SDK.NET_DVR_PASSWORD_ERROR)
                 {
-                    case Hik_SDK.NET_SDK_GET_NEXT_STATUS_SUCCESS:
-                        //ProcesarAcsEvent(ref struCfg, ref flag);
-
-                        break;
-                    case Hik_SDK.NET_SDK_GET_NEXT_STATUS_NEED_WAIT:
-                        Thread.Sleep(200);
-                        break;
-                    case Hik_SDK.NET_SDK_GET_NEXT_STATUS_FAILED:
-                        Hik_SDK.NET_DVR_StopRemoteConfig(GetAcsEventHandle);
-                        Console.WriteLine("NET_SDK_GET_NEXT_STATUS_FAILED" + Hik_SDK.NET_DVR_GetLastError().ToString());
-
-                        flag = false;
-                        break;
-                    case Hik_SDK.NET_SDK_GET_NEXT_STATUS_FINISH:
-                        Hik_SDK.NET_DVR_StopRemoteConfig(GetAcsEventHandle);
-                        Console.WriteLine("Termino el proceso de estado");
-                        flag = false;
-                        break;
-                    default:
-                        Console.WriteLine("NET_SDK_GET_NEXT_STATUS_UNKNOWN" + Hik_SDK.NET_DVR_GetLastError().ToString());
-                        flag = false;
-                        Hik_SDK.NET_DVR_StopRemoteConfig(GetAcsEventHandle);
-                        break;
+                    loginResultado.Exito = false;
+                    loginResultado.Mensaje = "Usuario o contraseña invalidos";
+                    if (1 == struDeviceInfoV40.bySupportLock)
+                    {
+                        mensajeDeSdk = string.Format("Te quedan {0} intentos para logearte", struDeviceInfoV40.byRetryLoginTime);
+                    }
+                }
+                else if (nroError == Hik_SDK.NET_DVR_USER_LOCKED)
+                {
+                    if (1 == struDeviceInfoV40.bySupportLock)
+                    {
+                        mensajeDeSdk = string.Format("Usuario bloqueado, el tiempo restante de bloqueo es de {0}", struDeviceInfoV40.dwSurplusLockTime);
+                        loginResultado.Exito = false;
+                        loginResultado.Mensaje = mensajeDeSdk;
+                    }
+                }
+                else
+                {
+                    loginResultado.Exito = false;
+                    loginResultado.Mensaje = "Error de red o el panel esta ocupado";
                 }
             }
 
+            Hik_Resultado.EscribirLog();
+
+            return loginResultado;
+        }
+
+        public Hik_Resultado Initialize()
+        {
+            Hik_Resultado resultHC = new Hik_Resultado();
+
+            if (Hik_SDK.NET_DVR_Init() == false)
+            {
+                System.Console.WriteLine("NET_DVR_Init error");
+                resultHC.Mensaje= "NET_DVR_Init error";
+                resultHC.Exito = false;
+
+                return resultHC;
+            }
+
+            Hik_SDK.NET_DVR_SetLogToFile(3, "", false);
+
+            resultHC.Mensaje= "NET_DVR_Init éxito";
+            resultHC.Exito = true;
+
+            return resultHC;
+
         }
 
 
-        /*------Eventos----*/
 
-
-        public static void ConfigurarAlarm()
+        public void SetupAlarm()
         {
             Hik_SDK.NET_DVR_SETUPALARM_PARAM struSetupAlarmParam = new Hik_SDK.NET_DVR_SETUPALARM_PARAM();
             struSetupAlarmParam.dwSize = (uint)Marshal.SizeOf(struSetupAlarmParam);
@@ -142,28 +126,26 @@ namespace DeportNetReconocimiento.SDKHikvision
             struSetupAlarmParam.byAlarmInfoType = 1;
             struSetupAlarmParam.byDeployType = (byte)0;
 
-            Hik_SDK.NET_DVR_SetupAlarmChan_V41(Hik_Controladora_General.IdUsuario, ref struSetupAlarmParam);
+            Hik_SDK.NET_DVR_SetupAlarmChan_V41(idUsuario, ref struSetupAlarmParam);
         }
 
-
-        public static Evento ProcesarAlarm(int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
-            
+        public Evento ProcessAlarm(int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
         {
 
             switch (lCommand)
             {
                 case Hik_SDK.COMM_ALARM_ACS:
-                    return AlarmInfoAEvento(ref pAlarmer, pAlarmInfo, dwBufLen, pUser);
+                    return AlarmInfoToEvent(ref pAlarmer, pAlarmInfo, dwBufLen, pUser);
 
                 default:
-                    Evento EventoInfo = new Evento();
-                    EventoInfo.Exception = "NO_COMM_ALARM_ACS_FOUND";
-                    EventoInfo.Success = false;
-                    return EventoInfo;
+                    Evento EventInfo = new Evento();
+                    EventInfo.Exception = "NO_COMM_ALARM_ACS_FOUND";
+                    EventInfo.Success = false;
+                    return EventInfo;
             }
         }
 
-        private static Evento AlarmInfoAEvento(ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
+        private Evento AlarmInfoToEvent(ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
         {
             Evento EventInfo = new Evento();
 
@@ -320,10 +302,37 @@ namespace DeportNetReconocimiento.SDKHikvision
         }
 
 
+        public bool ObtenerStatusPanel()
+        {
+            IntPtr pInBuf;
+            Int32 nSize;
+            int iLastErr = 17;
 
-        
+            pInBuf = IntPtr.Zero;
+            nSize = 0;
 
+            int XML_ABILITY_OUT_LEN = 3 * 1024 * 1024;
+            IntPtr pOutBuf = Marshal.AllocHGlobal(XML_ABILITY_OUT_LEN);
 
-        
+            if (!Hik_SDK.NET_DVR_GetDeviceAbility(idUsuario, 0, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
+            {
+                iLastErr = (int)Hik_SDK.NET_DVR_GetLastError();
+
+                //si perdio conexión
+                if (iLastErr == 17)
+                {
+                    return false;
+                }
+            }
+
+            Marshal.FreeHGlobal(pInBuf);
+            Marshal.FreeHGlobal(pOutBuf);
+
+            if (iLastErr == 1000)
+                return true;
+            else
+                return false;
+        }
+
     }
 }

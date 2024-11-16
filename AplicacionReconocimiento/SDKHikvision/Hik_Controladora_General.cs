@@ -69,7 +69,7 @@ namespace DeportNetReconocimiento.SDK
         }
 
         //metodos
-        private static Hik_Resultado InicializarNet_DVR()
+        public static Hik_Resultado InicializarNet_DVR()
         {
             Hik_Resultado resultado = new Hik_Resultado();
            
@@ -92,7 +92,7 @@ namespace DeportNetReconocimiento.SDK
         
             return resultado;
         }
-        private Hik_Resultado Login(string user, string password, string port, string ip)
+        public Hik_Resultado Login(string user, string password, string port, string ip)
         {
             Hik_Resultado loginResultado = new Hik_Resultado();
 
@@ -230,6 +230,7 @@ namespace DeportNetReconocimiento.SDK
 
             return documentoXml;
         }
+
         private string GetDescripcionErrorDeviceAbility(uint iErrCode)
         {
             string strDescription = "";
@@ -267,6 +268,7 @@ namespace DeportNetReconocimiento.SDK
             }
             return strDescription;
         }
+
         //obtenemos las capacidades de acceso del dispositivo
         private Hik_Resultado ObtenerTripleCapacidadDelDispositivo()
         {
@@ -300,6 +302,7 @@ namespace DeportNetReconocimiento.SDK
 
             return resultado;
         }
+
         private bool VerificarCapacidad(XmlDocument resultadoXML, string capacidad)
         {
             bool soporta = false;
@@ -313,10 +316,14 @@ namespace DeportNetReconocimiento.SDK
             return soporta;
 
         }
+        
+        
+        
+        
         public Hik_Resultado InicializarPrograma(string user, string password, string port, string ip)
         {
-            MessageBox.Show("Empece", "Alerta");
 
+            hik_Controladora_Eventos = new Hik_Controladora_Eventos();
             Hik_Resultado resultadoGeneral = new Hik_Resultado();
             
             resultadoGeneral = InicializarNet_DVR();
@@ -327,23 +334,19 @@ namespace DeportNetReconocimiento.SDK
                 return resultadoGeneral;
             }
 
-            //Configuramos la alarma
-            Hik_Controladora_Eventos.ConfigurarAlarm();
 
 
-            msgCallback = new Hik_SDK.MSGCallBack(ConvertirMensajeAEvent);
+            resultadoGeneral = Login(user, password, port, ip);
+            hik_Controladora_Eventos.SetupAlarm();
+
+
+            msgCallback = new Hik_SDK.MSGCallBack(MsgCallback);
 
             if (!Hik_SDK.NET_DVR_SetDVRMessageCallBack_V50(0, msgCallback, IntPtr.Zero))
             {
                 System.Console.WriteLine("Error al asociar callback");
             }
 
-            //Inicializar el callback para los eventos
-            ConfigurarCallback();
-
-            MessageBox.Show("Se configuró el callback", "Alerta");
-
-            resultadoGeneral = Login(user, password, port, ip);
 
             if (!resultadoGeneral.Exito)
             {
@@ -359,9 +362,7 @@ namespace DeportNetReconocimiento.SDK
                 return resultadoGeneral;
             }
 
-            //Instancia de controladora de eventos 
 
-            hik_Controladora_Eventos = new Hik_Controladora_Eventos();
             
             //si soporta control de acceso, inicializamos los modulos que soporta
             if(soportaTarjeta)
@@ -381,18 +382,31 @@ namespace DeportNetReconocimiento.SDK
                 //inicializar para huellas
             }
 
-
-
-            /*
-            Hik_Resultado resExtra = new Hik_Resultado();
-            Console.WriteLine(resExtra.Mensaje);
-            Console.WriteLine(resExtra.Codigo);
-   */
             return resultadoGeneral;
         }
+
+
+        
+
+        private void MsgCallback(int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
+        {
+            Evento infoEvento = new Evento();
+            if(hik_Controladora_Eventos != null)
+            {
+
+            infoEvento = hik_Controladora_Eventos.ProcessAlarm(lCommand, ref pAlarmer, pAlarmInfo, dwBufLen, pUser);
+            }
+
+            if (infoEvento.Success)
+                System.Console.WriteLine(infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description + " Tarjeta: " + infoEvento.Card_Number + " Puerta: " + infoEvento.Door_Number);
+            else
+                System.Console.WriteLine(infoEvento.Exception);
+        }
+
+
+
+
         //TODO -> Verificar conexión a internet o en general
-
-
         public static bool VerificarConexionInternet()
         {
             //ponemos flag en false como predeterminado
@@ -433,6 +447,10 @@ namespace DeportNetReconocimiento.SDK
 
 
 
+
+
+
+        /*
         //Callback para esperar eventos
         public Hik_Resultado ConfigurarCallback()
         {
@@ -469,7 +487,7 @@ namespace DeportNetReconocimiento.SDK
             else
                 System.Console.WriteLine(EventInfo.Exception);
         }
-
+        */
 
 
 
