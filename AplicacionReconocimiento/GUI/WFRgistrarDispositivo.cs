@@ -1,0 +1,76 @@
+﻿using System.Windows.Forms;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System;
+
+namespace DeportNetReconocimiento
+{
+    public partial class WFRgistrarDispositivo : Form
+    {
+        //public int m_iUserID = -1;
+        public WFRgistrarDispositivo()
+        {
+            InitializeComponent();
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            string nombreUsuario;
+            string password;
+            string direccionIp;
+            int port;
+               
+
+            if (textBoxDeviceAddress.Text.Length <= 0 || textBoxDeviceAddress.Text.Length > 128)
+            {
+                //Properties.Resources.deviceAddressTips
+                MessageBox.Show("Ip con longitud incorrecta");
+                return;
+            }
+
+            int.TryParse(textBoxPort.Text, out port);
+            if (textBoxPort.Text.Length > 5 || port <= 0)
+            {
+                //Properties.Resources.portTips
+                MessageBox.Show("Puerto con longitud incorrecta");
+                return;
+            }
+
+            if (textBoxUserName.Text.Length > 32 || textBoxUserName.Text.Length < 3)
+            {
+                //Properties.Resources.usernameAndPasswordTips
+                MessageBox.Show("Usuario no puede ser menor a 3 caracteres ni mayor a 32 caracteres");
+                return;
+            }
+
+            if (textBoxPassword.Text.Length > 16 || textBoxPassword.Text.Length < 3)
+            {
+                //Properties.Resources.usernameAndPasswordTips
+                MessageBox.Show("Contraseña no puede ser menor a 3 caracteres ni mayor a 16 caracteres");
+                return;
+            }
+
+            //Login();
+
+
+
+            if (m_iUserID >= 0)
+            {
+                this.Close();
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void WFRgistrarDispositivo_Load(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
