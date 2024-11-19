@@ -60,7 +60,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             InicializarEstructuraTarjetaCond(ref tarjetaCond, ref ptrTarjetaCond);
 
-            SetCardCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.IdUsuario, Hik_SDK.NET_DVR_SET_CARD, ptrTarjetaCond, (int)tarjetaCond.dwSize, null, IntPtr.Zero);
+            SetCardCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_SET_CARD, ptrTarjetaCond, (int)tarjetaCond.dwSize, null, IntPtr.Zero);
 
             if(SetCardCfgHandle >= 0)
             {

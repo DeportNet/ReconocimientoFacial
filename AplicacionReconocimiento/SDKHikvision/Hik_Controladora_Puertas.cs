@@ -12,8 +12,7 @@ namespace DeportNetReconocimiento.SDKHikvision
     internal class Hik_Controladora_Puertas
     {
         //atributos
-        //ver si poner el idUsuario como atributo, agarrarlo de la controladora general
-
+        
 
         public Hik_Controladora_Puertas()
         {
@@ -22,10 +21,10 @@ namespace DeportNetReconocimiento.SDKHikvision
 
         //0-close, 1-open, 2-stay open, 3-stay close
 
-        public Hik_Resultado operadorPuerta(int operacion)
+        public static Hik_Resultado OperadorPuerta(int operacion)
         {
             Hik_Resultado resultado = new Hik_Resultado();
-            int idUsuario = Hik_Controladora_General.IdUsuario;
+            int idUsuario = Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario;
             if(idUsuario == -1)
             {
                 resultado.Exito = false;

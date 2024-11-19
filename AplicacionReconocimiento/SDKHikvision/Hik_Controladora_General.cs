@@ -1,4 +1,5 @@
-﻿using DeportNetReconocimiento.SDKHikvision;
+﻿using DeportNetReconocimiento.Modelo;
+using DeportNetReconocimiento.SDKHikvision;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
@@ -9,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
+using static DeportNetReconocimiento.SDK.Hik_SDK;
 
 
 namespace DeportNetReconocimiento.SDK
@@ -16,59 +18,86 @@ namespace DeportNetReconocimiento.SDK
     public class Hik_Controladora_General
     {
         //atributos
-         
 
-        private static int idUsuario; //esta bien que sea estatico ya que solo puede haber solo un user_ID
+        //patron singleton, instancia de la propia clase
+        private static Hik_Controladora_General? instanciaControladoraGeneral;
 
-        private static bool soportaFacial;
-        private static bool soportaHuella;
-        private static bool soportaTarjeta;
-       
-        private static Hik_Controladora_Facial? hik_Controladora_Facial;
-        //private static Hik_Controladora_Huella? hik_Controladora_Huella;
-        private static Hik_Controladora_Tarjetas? hik_Controladora_Tarjetas;
-        private static Hik_Controladora_Eventos? hik_Controladora_Eventos;
+
+        
+
+        private int idUsuario; // solo puede haber solo un user_ID
+        private bool soportaFacial;
+        private bool soportaHuella;
+        private bool soportaTarjeta;
+        private Hik_Controladora_Facial hik_Controladora_Facial;
+        private Hik_Controladora_Tarjetas hik_Controladora_Tarjetas;
+        private Hik_Controladora_Eventos? hik_Controladora_Eventos;
+
         //constructores
-        public Hik_Controladora_General()
+        private Hik_Controladora_General()
         {
-            idUsuario = -1;
-            soportaFacial = false;
-            soportaHuella = false;
-            soportaTarjeta = false;
 
-            hik_Controladora_Facial = null;
-            hik_Controladora_Tarjetas = null;
-            //hik_Controladora_Huella = null;
-            hik_Controladora_Eventos = null;
+            this.idUsuario = -1;
+
+            this.soportaFacial = false;
+            this.soportaHuella = false;
+            this.soportaTarjeta = false;
+
+            this.hik_Controladora_Facial = new Hik_Controladora_Facial();
+            this.hik_Controladora_Tarjetas = new Hik_Controladora_Tarjetas();
         }
 
 
         //propiedades (getters y setters)
-        public static int IdUsuario
+
+        public static Hik_Controladora_General InstanciaControladoraGeneral
+        {
+            get
+            {
+                if (instanciaControladoraGeneral == null)
+                {
+                    instanciaControladoraGeneral = new Hik_Controladora_General();
+                }
+                return instanciaControladoraGeneral;
+            }
+        }
+
+
+        public int IdUsuario
         {
             get{ return idUsuario; }
+            set{ idUsuario = value; }
         }  
       
-        public static bool SoportaFacial
+        public bool SoportaFacial
         {
             get { return soportaFacial; }
+            set { soportaFacial = value; }
         }
 
-        public static bool SoportaHuella
+        public bool SoportaHuella
         {
             get { return soportaHuella; }
+            set { soportaHuella = value; }
         }
 
-        public static bool SoportaTarjeta
+        public bool SoportaTarjeta
         {
             get { return soportaTarjeta; }
+            set { soportaTarjeta = value; }
         }
 
+
         //metodos
-        private static Hik_Resultado InicializarNet_DVR()
+        public static Hik_Resultado InicializarNet_DVR()
         {
             Hik_Resultado resultado = new Hik_Resultado();
-           
+
+            //implementar try catch y si no se puede inicializar no realizar lo demas.
+            //try
+            //{
+
+            //}
             bool entrada= Hik_SDK.NET_DVR_Init();
 
             if (entrada == false)
@@ -88,16 +117,17 @@ namespace DeportNetReconocimiento.SDK
         
             return resultado;
         }
-        private Hik_Resultado Login(string user, string password, string port, string ip)
+
+        public Hik_Resultado Login(string user, string password, string port, string ip)
         {
             Hik_Resultado loginResultado = new Hik_Resultado();
 
             
             //cerramos la sesion que estaba iniciada anteriormente
-            if (idUsuario >= 0)
+            if (IdUsuario >= 0)
             {
                 Hik_SDK.NET_DVR_Logout_V30(idUsuario);
-                idUsuario = -1;
+                IdUsuario = -1;
             }
             
             //creamos y cargamos las estructuras de informacion de login y de informacion del dispositivo
@@ -119,7 +149,7 @@ namespace DeportNetReconocimiento.SDK
             if (auxUserID >= 0)
             {
                 //si da mayor a 0 signfica exito
-                idUsuario = auxUserID;
+                IdUsuario = auxUserID;
                 loginResultado.Mensaje = "Se inicio sesión con exito";
                 loginResultado.Exito= true;
             }
@@ -161,10 +191,10 @@ namespace DeportNetReconocimiento.SDK
         }
         public void CerrarYLimpiar()
         {
-            if (idUsuario >= 0)
+            if (IdUsuario >= 0)
             {
-                Hik_SDK.NET_DVR_Logout_V30(idUsuario);
-                idUsuario = -1;
+                Hik_SDK.NET_DVR_Logout_V30(IdUsuario);
+                IdUsuario = -1;
             }
             Hik_SDK.NET_DVR_Cleanup();
 
@@ -196,7 +226,7 @@ namespace DeportNetReconocimiento.SDK
             nint pOutBuf = Marshal.AllocHGlobal(XML_ABILITY_OUT_LEN);
 
             //si nos retorna false, significa que hubo un error
-            if (Hik_SDK.NET_DVR_GetDeviceAbility(idUsuario, Hik_SDK.ACS_ABILITY, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
+            if (Hik_SDK.NET_DVR_GetDeviceAbility(IdUsuario, Hik_SDK.ACS_ABILITY, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
             {
                 //si todo salio bien, se crea el xml con el string que nos devolvio la funcion NET_DVR_GetDeviceAbility y lo retornamos
                 string strOutBuf = Marshal.PtrToStringAnsi(pOutBuf, XML_ABILITY_OUT_LEN);
@@ -205,7 +235,7 @@ namespace DeportNetReconocimiento.SDK
                 try
                 {
                     // Especifica la ruta donde quieres guardar el archivo XML
-                    string filePath = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\archivoXML.xml";
+                    string filePath = @"archivoXML.xml";
                     documentoXml.Save(filePath); // Guarda el XML en el archivo 
                 }
                 catch (Exception ex)
@@ -226,6 +256,7 @@ namespace DeportNetReconocimiento.SDK
 
             return documentoXml;
         }
+
         private string GetDescripcionErrorDeviceAbility(uint iErrCode)
         {
             string strDescription = "";
@@ -263,6 +294,7 @@ namespace DeportNetReconocimiento.SDK
             }
             return strDescription;
         }
+
         //obtenemos las capacidades de acceso del dispositivo
         private Hik_Resultado ObtenerTripleCapacidadDelDispositivo()
         {
@@ -282,13 +314,13 @@ namespace DeportNetReconocimiento.SDK
             else
             {
                 //leer nodos <FaceParam> <Card> <FingerPrint> del resultadoXML
-                soportaFacial = VerificarCapacidad(resultadoXML, "//FaceParam");
-                soportaHuella = VerificarCapacidad(resultadoXML, "//FingerPrint");
-                soportaTarjeta = VerificarCapacidad(resultadoXML, "//Card");
+                SoportaFacial = VerificarCapacidad(resultadoXML, "//FaceParam");
+                SoportaHuella = VerificarCapacidad(resultadoXML, "//FingerPrint");
+                SoportaTarjeta = VerificarCapacidad(resultadoXML, "//Card");
 
                 // Dar valor a resultado
                 resultado.Exito = true;
-                resultado.Mensaje = $"Soporta reconocimiento facial: {soportaFacial} \nSoporta huella digital: {soportaHuella} \nSoporta tarjeta: {soportaTarjeta}";
+                resultado.Mensaje = $"Soporta reconocimiento facial: {SoportaFacial} \nSoporta huella digital: {SoportaHuella} \nSoporta tarjeta: {SoportaTarjeta}";
 
             }
 
@@ -296,6 +328,7 @@ namespace DeportNetReconocimiento.SDK
 
             return resultado;
         }
+
         private bool VerificarCapacidad(XmlDocument resultadoXML, string capacidad)
         {
             bool soporta = false;
@@ -309,10 +342,12 @@ namespace DeportNetReconocimiento.SDK
             return soporta;
 
         }
+        
+        //INICIALIZAMOS TODO
         public Hik_Resultado InicializarPrograma(string user, string password, string port, string ip)
         {
             Hik_Resultado resultadoGeneral = new Hik_Resultado();
-
+            
             resultadoGeneral = InicializarNet_DVR();
 
             if (!resultadoGeneral.Exito)
@@ -322,6 +357,7 @@ namespace DeportNetReconocimiento.SDK
             }
 
 
+            //nos loggeamos
             resultadoGeneral = Login(user, password, port, ip);
 
             if (!resultadoGeneral.Exito)
@@ -330,6 +366,7 @@ namespace DeportNetReconocimiento.SDK
                 return resultadoGeneral;
             }
 
+            //obtenemos las capacidades
             resultadoGeneral = ObtenerTripleCapacidadDelDispositivo();
 
             if (!resultadoGeneral.Exito)
@@ -338,38 +375,24 @@ namespace DeportNetReconocimiento.SDK
                 return resultadoGeneral;
             }
 
-            //Instancia de controladora de eventos 
 
-            hik_Controladora_Eventos = new Hik_Controladora_Eventos();
+            //setteamos el callback para obtener los ids de los usuarios
+            this.hik_Controladora_Eventos = new Hik_Controladora_Eventos();
+
             
-            //si soporta control de acceso, inicializamos los modulos que soporta
-            if(soportaTarjeta)
-            {
-                //inicializar para tarjetas
-                hik_Controladora_Tarjetas = new Hik_Controladora_Tarjetas();
-            }
 
-            if (soportaFacial)
-            {
-                //inicializar para facial
-                hik_Controladora_Facial = new Hik_Controladora_Facial();
-            }
+            //hik_Controladora_Eventos.msgCallback = new Hik_SDK.MSGCallBack(MsgCallback);
 
-            if(soportaHuella)
-            {
-                //inicializar para huellas
-            }
+            
 
 
-            Hik_Resultado resExtra = new Hik_Resultado();
-            resExtra =  hik_Controladora_Eventos.CapturarEvento();
-            Console.WriteLine(resExtra.Mensaje);
-            Console.WriteLine(resExtra.Codigo);
-   
+
+
             return resultadoGeneral;
         }
-        //TODO -> Verificar conexión a internet o en general
 
+
+        //Verificar conexión a internet o en general
         public static bool VerificarConexionInternet()
         {
             //ponemos flag en false como predeterminado
@@ -406,7 +429,6 @@ namespace DeportNetReconocimiento.SDK
 
             return flag;
         }
-
 
 
         //TODO -> Verificar IP para que todo ande, buscar la IP del dispositvo

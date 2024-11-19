@@ -21,6 +21,16 @@ namespace DeportNetReconocimiento.SDK
         private int capFaceCfgHandle;
 
 
+        //constructores 
+
+        public Hik_Controladora_Facial()
+        {
+            getFaceCfgHandle = -1;
+            setFaceCfgHandle = -1;
+            capFaceCfgHandle = -1;
+        }
+
+
         //propiedades facial
 
         public int GetFaceCfgHandle
@@ -40,16 +50,6 @@ namespace DeportNetReconocimiento.SDK
             get { return capFaceCfgHandle; }
             set { capFaceCfgHandle = value; }
         }
-
-        //constructores 
-
-        public Hik_Controladora_Facial()
-        {
-            getFaceCfgHandle = -1;
-            setFaceCfgHandle = -1;
-            capFaceCfgHandle = -1;
-        }
-
 
         //Obtener una cara desde el dispositivo
         public Hik_Resultado ObtenerCara(int cardReaderNumber, String cardNumber)
@@ -82,7 +82,7 @@ namespace DeportNetReconocimiento.SDK
             IntPtr ptrStruCond = IntPtr.Zero;
             InicializarFaceCond(ref struCond, ref dwSize, (uint)cardReaderNumber, cardNumber, ref ptrStruCond);
 
-            GetFaceCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.IdUsuario, Hik_SDK.NET_DVR_GET_FACE, ptrStruCond, dwSize, null, IntPtr.Zero);
+            GetFaceCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_GET_FACE, ptrStruCond, dwSize, null, IntPtr.Zero);
 
 
             // revisamos el valor del handler, si sale mal, libera la memoria y muestra un mensaje de error
@@ -293,7 +293,7 @@ namespace DeportNetReconocimiento.SDK
 
             InicializarCaptureFaceCond(ref struCapCond, ref ptrCapCond, ref dwInBufferSize);
 
-            CapFaceCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.IdUsuario, Hik_SDK.NET_DVR_CAPTURE_FACE_INFO, ptrCapCond, dwInBufferSize, null, IntPtr.Zero);
+            CapFaceCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_CAPTURE_FACE_INFO, ptrCapCond, dwInBufferSize, null, IntPtr.Zero);
 
 
             //Si hubo un error
@@ -472,7 +472,7 @@ namespace DeportNetReconocimiento.SDK
 
             InicializarFaceCond(ref struCond, ref dwInBufferSize, cardReaderNumber, cardNumber, ref ptrStruCond);
 
-            SetFaceCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.IdUsuario, Hik_SDK.NET_DVR_SET_FACE, ptrStruCond, dwInBufferSize, null, IntPtr.Zero);
+            SetFaceCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_SET_FACE, ptrStruCond, dwInBufferSize, null, IntPtr.Zero);
             Console.WriteLine(setFaceCfgHandle);
 
             if (SetFaceCfgHandle == -1)
@@ -710,7 +710,7 @@ namespace DeportNetReconocimiento.SDK
             IntPtr lpInBuffer = IntPtr.Zero;
             InicilizarParamControlCardNo(ref struCardNo, ref dwSize, cardNumber, ref lpInBuffer, cardReaderNumber);
 
-            if ( false == Hik_SDK.NET_DVR_RemoteControl(Hik_Controladora_General.IdUsuario, Hik_SDK.NET_DVR_DEL_FACE_PARAM_CFG, ref  struCardNo, (int)dwSize))
+            if ( false == Hik_SDK.NET_DVR_RemoteControl(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_DEL_FACE_PARAM_CFG, ref  struCardNo, (int)dwSize))
             {
                 resultado.Exito = false;
                 resultado.Mensaje = "Hubo un error a la hora de eliminar la estructura";
