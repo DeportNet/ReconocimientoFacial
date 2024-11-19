@@ -61,9 +61,11 @@ namespace DeportNetReconocimiento.SDKHikvision
             if (infoEvento.Success)
             {
                 System.Console.WriteLine(infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description + " Tarjeta: " + infoEvento.Card_Number + " Puerta: " + infoEvento.Door_Number);
-                //obtenerDatosClienteDeportNet(infoEvento.Card_Number);
-                //WFPrincipal panel = WFPrincipal.ObtenerInstancia();
-                //panel.ActualizarDatos("");
+                if(infoEvento.Card_Number != null)
+                {
+                    obtenerDatosClienteDeportNet(infoEvento.Card_Number);
+                }
+                
 
             }
             else
@@ -75,18 +77,15 @@ namespace DeportNetReconocimiento.SDKHikvision
         public static void obtenerDatosClienteDeportNet(string numeroTarjeta)
         {
 
-            WFPrincipal panel = WFPrincipal.ObtenerInstancia();
-            Console.WriteLine("Numero de tarjeta" + numeroTarjeta);
-
+            Console.WriteLine("----- - - - - - - -Entro a obtener datos deportnet - - - - - - - - -- ");
             //Ver como mierda puedo hacer que acceda aca sin que se rompa todo 
             if(!string.IsNullOrWhiteSpace(numeroTarjeta))
             {
+                Console.WriteLine("----- - - - - - - -Entro El if para actualizar los datos - - - - - - - - -- ");
 
-                Console.WriteLine(numeroTarjeta);
-                Console.WriteLine("Este se imprime solo si hay numero ");
                 /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
-                //string jsonDeDeportnet = "{ \"Id\": 1, \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Debes 1 mes de cuota\" }";
-                //WFPrincipal.ObtenerInstancia().ActualizarDatos(jsonDeDeportnet);
+                string jsonDeDeportnet = "{ \"Id\": 1, \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Debes 1 mes de cuota\" }";
+                WFPrincipal.ObtenerInstancia().ActualizarDatos(jsonDeDeportnet);
 
             }
 

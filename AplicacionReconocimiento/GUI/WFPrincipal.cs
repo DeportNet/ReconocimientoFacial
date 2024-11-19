@@ -11,8 +11,10 @@ namespace DeportNetReconocimiento.GUI
         private Hik_Controladora_General hik_Controladora_General;
         private System.Windows.Forms.Timer timer;
 
-        private static WFPrincipal instancia;
+        private static WFPrincipal? instancia;
 
+
+        private static readonly object lockObj = new object();
 
         public static WFPrincipal ObtenerInstancia()
         {
@@ -23,18 +25,16 @@ namespace DeportNetReconocimiento.GUI
             return instancia;
         }
 
-
         public WFPrincipal()
         {
             InitializeComponent();
             ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
-
-            
             InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
         }
 
         public Hik_Resultado InstanciarPrograma()
         {
+
             Hik_Resultado resultado = new Hik_Resultado();
 
             //ip , puerto, usuario, contraseña en ese orden
@@ -86,6 +86,10 @@ namespace DeportNetReconocimiento.GUI
             return listaDatos.ToArray();
         }
 
+
+
+
+        //función que verifica si el programa tiene conexión con el dispositivo
         public bool VerificarEstadoDispositivo()
         {
             IntPtr pInBuf;
@@ -123,24 +127,28 @@ namespace DeportNetReconocimiento.GUI
                 return false;
         }
 
+        //Se crea un objeto de tipo Task para que la función se ejecute en un hilo distinto al principal
+        //Se usa async await para manejar la asincronía 
         public async Task<bool> verificarEstadoDispositivoAsync()
         {
+            //Se espera al resultado de la función verificarEstadoDispositivo 
+            //Mientras se pone a correr un hilo secundario para que no se bloquee el hilo principal
             return await Task.Run(() => VerificarEstadoDispositivo());
         }
 
+        //Timer para verificar la conexión
         private void ConfigurarTimer()
         {
             Hik_Resultado resultado = new Hik_Resultado();
             timer = new System.Windows.Forms.Timer();
-            timer.Interval = 5000;
+            timer.Interval = 10000;
             timer.Tick += async (s, e) =>
             {
                 resultado.Exito = await verificarEstadoDispositivoAsync();
 
                 if (!resultado.Exito)
                 {
-                    Console.WriteLine("Que onda");
-                    //InstanciarPrograma("admin", "Facundo2024*", "8000", "192.168.0.207");
+                    InstanciarPrograma();
                 }
 
             };
@@ -172,17 +180,25 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
+
+        //función para actualizar los datos en el hilo principal
         public void ActualizarDatos(string json)
         {
-
+            //Si el hilo que llama a la función no es el principal, se llama a la función de nuevo en el hilo principal
+            if (InvokeRequired)
+            {
+                Invoke(new Action<string>(ActualizarDatos), json);
+                return;
+            }
+            //Se convierte el json a un objeto de tipo Persona
             Persona persona = JSONtoPersona(json);
 
-            ApellidoLabel.Text = persona.Apellido;
-            NombreLabel.Text = persona.Nombre;
-            ActividadLabel.Text = persona.Actividad;
-            ClasesRestantesLabel.Text = persona.ClasesRestantes;
-            MensajeLabel.Text = persona.Mensaje;
-
+            //Se actualizan los labels con los datos de la persona
+            ValorApellidoLabel.Text = persona.Apellido;
+            valorNombreLabel.Text = persona.Nombre;
+            ValorActividadLabel.Text = persona.Actividad;
+            ValorClasesRestantesLabel.Text = persona.ClasesRestantes;
+            ValorMensajeLabel.Text = persona.Mensaje;
         }
 
 

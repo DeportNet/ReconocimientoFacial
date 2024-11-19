@@ -23,7 +23,8 @@ namespace DeportNetReconocimiento
 
 
         ApplicationConfiguration.Initialize();
-        Application.Run(new WFPrincipal());
+            //Utilizamos la instancia de singleton para que solo se cree una vez la ventana principal
+        Application.Run(WFPrincipal.ObtenerInstancia());
 
 
         /*

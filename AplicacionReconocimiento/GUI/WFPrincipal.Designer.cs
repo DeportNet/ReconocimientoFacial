@@ -40,6 +40,7 @@
             ValorActividadLabel = new Label();
             ValorClasesRestantesLabel = new Label();
             ValorMensajeLabel = new Label();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)imagenDeportnet).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -167,12 +168,22 @@
             ValorMensajeLabel.TabIndex = 21;
             ValorMensajeLabel.Text = "Mensaje Aqui...";
             // 
+            // button1
+            // 
+            button1.Location = new Point(656, 351);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 22;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            // 
             // WFPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.WindowFrame;
             ClientSize = new Size(800, 450);
+            Controls.Add(button1);
             Controls.Add(ValorMensajeLabel);
             Controls.Add(ValorClasesRestantesLabel);
             Controls.Add(ValorActividadLabel);
@@ -208,5 +219,6 @@
         private Label ValorActividadLabel;
         private Label ValorClasesRestantesLabel;
         private Label ValorMensajeLabel;
+        private Button button1;
     }
 }
