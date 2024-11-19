@@ -53,13 +53,27 @@ namespace DeportNetReconocimiento
                 return;
             }
 
-            //Login();
+            //creamos un arreglo de strings con los datos que recibimos del input
+            //ip , puerto, usuario, contraseña
+            escribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text]);
 
+            //if (m_iUserID >= 0)
+            //{
+            //    this.Close();
+            //}
+        }
 
+        public void escribirArchivoCredenciales(string[] arregloDeDatos)
+        {
+            //guardamos los datos en un archivo binario
+            string rutaArchivo = "credenciales.bin";
 
-            if (m_iUserID >= 0)
+            using (BinaryWriter writer = new BinaryWriter(File.Open(rutaArchivo, FileMode.Create)))
             {
-                this.Close();
+                foreach (string dato in arregloDeDatos)
+                {
+                    writer.Write(dato);
+                }
             }
         }
 
