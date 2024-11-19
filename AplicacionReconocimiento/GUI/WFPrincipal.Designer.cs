@@ -40,7 +40,6 @@
             ValorActividadLabel = new Label();
             ValorClasesRestantesLabel = new Label();
             ValorMensajeLabel = new Label();
-            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)imagenDeportnet).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -63,6 +62,9 @@
             pictureBox1.Size = new Size(185, 200);
             pictureBox1.TabIndex = 11;
             pictureBox1.TabStop = false;
+            //pictureBox1.Dock = DockStyle.Fill;
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.Click += pictureBox1_Click;
             // 
             // ApellidoLabel
             // 
@@ -73,7 +75,6 @@
             ApellidoLabel.Size = new Size(54, 15);
             ApellidoLabel.TabIndex = 12;
             ApellidoLabel.Text = "Apellido:";
-            ApellidoLabel.Click += ApellidoLabel_Click;
             // 
             // NombreLabel
             // 
@@ -84,7 +85,6 @@
             NombreLabel.Size = new Size(54, 15);
             NombreLabel.TabIndex = 13;
             NombreLabel.Text = "Nombre:";
-            NombreLabel.Click += NombreLabel_Click;
             // 
             // ActividadLabel
             // 
@@ -95,7 +95,6 @@
             ActividadLabel.Size = new Size(60, 15);
             ActividadLabel.TabIndex = 14;
             ActividadLabel.Text = "Actividad:";
-            ActividadLabel.Click += ActividadLabel_Click;
             // 
             // ClasesRestantesLabel
             // 
@@ -106,7 +105,6 @@
             ClasesRestantesLabel.Size = new Size(93, 15);
             ClasesRestantesLabel.TabIndex = 15;
             ClasesRestantesLabel.Text = "Clases restantes:";
-            ClasesRestantesLabel.Click += ClasesRestantesLabel_Click;
             // 
             // MensajeLabel
             // 
@@ -168,22 +166,12 @@
             ValorMensajeLabel.TabIndex = 21;
             ValorMensajeLabel.Text = "Mensaje Aqui...";
             // 
-            // button1
-            // 
-            button1.Location = new Point(656, 351);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 22;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            // 
             // WFPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.WindowFrame;
             ClientSize = new Size(800, 450);
-            Controls.Add(button1);
             Controls.Add(ValorMensajeLabel);
             Controls.Add(ValorClasesRestantesLabel);
             Controls.Add(ValorActividadLabel);
@@ -219,6 +207,5 @@
         private Label ValorActividadLabel;
         private Label ValorClasesRestantesLabel;
         private Label ValorMensajeLabel;
-        private Button button1;
     }
 }
