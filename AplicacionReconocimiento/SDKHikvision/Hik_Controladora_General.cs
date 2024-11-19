@@ -31,7 +31,7 @@ namespace DeportNetReconocimiento.SDK
         private bool soportaTarjeta;
         private Hik_Controladora_Facial hik_Controladora_Facial;
         private Hik_Controladora_Tarjetas hik_Controladora_Tarjetas;
-        private Hik_Controladora_Eventos hik_Controladora_Eventos;
+        private Hik_Controladora_Eventos? hik_Controladora_Eventos;
 
         //constructores
         private Hik_Controladora_General()
@@ -391,8 +391,6 @@ namespace DeportNetReconocimiento.SDK
             return resultadoGeneral;
         }
 
-
-      
 
         //Verificar conexión a internet o en general
         public static bool VerificarConexionInternet()
