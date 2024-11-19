@@ -9,14 +9,14 @@ namespace DeportNetReconocimiento.Modelo
     public class Persona
     {
 
-       private  int id { get; set; }
+       private  string id { get; set; }
         private string nombre { get; set; }
         private string apellido { get; set; }
         private string actividad { get; set; }
         private string clasesRestantes { get; set; }
         private string mensaje { get; set; }
 
-        public Persona(int id, string nombre, string apellido, string actividad, string clasesRestantes, string mensaje) { 
+        public Persona(string id, string nombre, string apellido, string actividad, string clasesRestantes, string mensaje) { 
         
             this.id = id;
             this.nombre = nombre;   
@@ -29,7 +29,7 @@ namespace DeportNetReconocimiento.Modelo
         public Persona() { }
 
         // Propiedades con getter y setter
-        public int Id
+        public string Id
         {
             get { return id; }
             set { id = value; }

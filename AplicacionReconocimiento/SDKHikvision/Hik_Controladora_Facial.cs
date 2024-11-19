@@ -11,6 +11,19 @@ namespace DeportNetReconocimiento.SDK
 {
     public class Hik_Controladora_Facial
     {
+
+      public static Hik_Controladora_Facial instancia;
+
+
+        public static Hik_Controladora_Facial ObtenerInstancia()
+        {
+            if (instancia == null)
+            {
+                return new Hik_Controladora_Facial();
+            }
+            return instancia;
+        }
+
         //atributos facial
 
         //private bool soportaFacial
@@ -185,17 +198,6 @@ namespace DeportNetReconocimiento.SDK
             if (struRecord.dwFaceLen != 0)
             {
 
-                /*
-                //limpiamos la imagen del picturebox
-                if (pictureBoxFace.Image != null)
-                {
-                    pictureBoxFace.Image.Dispose();
-                    pictureBoxFace.Image = null;
-                }
-                */
-
-
-
                 try
                 {
                     //creamos un archivo 
@@ -207,17 +209,11 @@ namespace DeportNetReconocimiento.SDK
                         fs.Write(by, 0, FaceLen);
                         fs.Close();
                     }
-                    //y escribimos la imagen de la cara en pictureboxface
-
-                    //if (hay conexion)
-                    //lo mando como archivo
-                    //sino lo muestro con pictureBoxFace
-
-                    // pictureBoxFace.Image = Image.FromFile(strpath);
-                    // textBoxFilePath.Text = string.Format("{0}\\{1}", Environment.CurrentDirectory, strpath);
+                    
                 }
                 catch
                 {
+                    //Este catch se puede dar si la foto ya esta en el box de la foto 
                     Flag = false;
                     Hik_SDK.NET_DVR_StopRemoteConfig(GetFaceCfgHandle);
                     MessageBox.Show("ProcessFaceData failed", "Error", MessageBoxButtons.OK);

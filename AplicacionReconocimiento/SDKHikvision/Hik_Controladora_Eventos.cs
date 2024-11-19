@@ -61,12 +61,10 @@ namespace DeportNetReconocimiento.SDKHikvision
             if (infoEvento.Success)
             {
                 System.Console.WriteLine(infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description + " Tarjeta: " + infoEvento.Card_Number + " Puerta: " + infoEvento.Door_Number);
-                if(infoEvento.Card_Number != null)
+                if(infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS)
                 {
-                    obtenerDatosClienteDeportNet(infoEvento.Card_Number);
+                    obtenerDatosClienteDeportNet(infoEvento.Card_Reader_Number, infoEvento.Card_Number);
                 }
-                
-
             }
             else
             {
@@ -74,18 +72,15 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
         }
 
-        public static void obtenerDatosClienteDeportNet(string numeroTarjeta)
+        public static void obtenerDatosClienteDeportNet(int nroReader, string numeroTarjeta)
         {
 
-            Console.WriteLine("----- - - - - - - -Entro a obtener datos deportnet - - - - - - - - -- ");
             //Ver como mierda puedo hacer que acceda aca sin que se rompa todo 
             if(!string.IsNullOrWhiteSpace(numeroTarjeta))
             {
-                Console.WriteLine("----- - - - - - - -Entro El if para actualizar los datos - - - - - - - - -- ");
-
                 /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
-                string jsonDeDeportnet = "{ \"Id\": 1, \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Debes 1 mes de cuota\" }";
-                WFPrincipal.ObtenerInstancia().ActualizarDatos(jsonDeDeportnet);
+                string jsonDeDeportnet = "{ \"Id\": \"1\", \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Habrá descuentos especiales la semana que viene\" }";
+                WFPrincipal.ObtenerInstancia().ActualizarDatos(nroReader,jsonDeDeportnet);
 
             }
 
@@ -102,12 +97,6 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             Hik_SDK.NET_DVR_SetupAlarmChan_V41(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, ref struSetupAlarmParam);
         }
-
-        //public Evento ProcessAlarm(int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
-        //{
-
-           
-        //}
 
         private Evento AlarmInfoToEvent(ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
         {

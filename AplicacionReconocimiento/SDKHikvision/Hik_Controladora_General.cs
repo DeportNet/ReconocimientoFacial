@@ -94,23 +94,16 @@ namespace DeportNetReconocimiento.SDK
             Hik_Resultado resultado = new Hik_Resultado();
 
             //implementar try catch y si no se puede inicializar no realizar lo demas.
-            //try
-            //{
-
-            //}
-            bool entrada= Hik_SDK.NET_DVR_Init();
-
-            if (entrada == false)
+            try
             {
-
-                resultado.Mensaje = "NET_DVR_Init error";
-                resultado.Exito = false;
-
-            }else{
-
+                Hik_SDK.NET_DVR_Init();
                 resultado.Mensaje = "NET_DVR_Init éxito";
                 resultado.Exito= true;
-               
+
+            } catch
+            { 
+                resultado.Exito = false;
+                resultado.Mensaje = "NET_DVR_Init error";
             }
 
             Hik_Resultado.EscribirLog();
@@ -155,40 +148,49 @@ namespace DeportNetReconocimiento.SDK
             }
             else
             {
-                //sino debemos verificar el tipo de error
-                uint nroError = Hik_SDK.NET_DVR_GetLastError();
-                string mensajeDeSdk= "";
-
-
-                if (nroError == Hik_SDK.NET_DVR_PASSWORD_ERROR)
-                {
-                    loginResultado.Exito = false;
-                    loginResultado.Mensaje= "Usuario o contraseña invalidos";
-                    if (1 == struDeviceInfoV40.bySupportLock)
-                    {
-                        mensajeDeSdk = string.Format("Te quedan {0} intentos para logearte", struDeviceInfoV40.byRetryLoginTime);
-                    }
-                }
-                else if (nroError == Hik_SDK.NET_DVR_USER_LOCKED)
-                {
-                    if (1 == struDeviceInfoV40.bySupportLock)
-                    {
-                        mensajeDeSdk = string.Format("Usuario bloqueado, el tiempo restante de bloqueo es de {0}", struDeviceInfoV40.dwSurplusLockTime);
-                        loginResultado.Exito = false;
-                        loginResultado.Mensaje= mensajeDeSdk;
-                    }
-                }
-                else
-                {                    
-                    loginResultado.Exito = false;
-                    loginResultado.Mensaje = "Error de red o el panel esta ocupado";
-                }
+                ProcesarErrorDeLogin(struDeviceInfoV40);
             }
 
             Hik_Resultado.EscribirLog();
 
             return loginResultado;
         }
+
+        public Hik_Resultado ProcesarErrorDeLogin(Hik_SDK.NET_DVR_DEVICEINFO_V40 struDeviceInfoV40)
+        {
+            Hik_Resultado loginResultado = new Hik_Resultado();
+            //sino debemos verificar el tipo de error
+            uint nroError = Hik_SDK.NET_DVR_GetLastError();
+            string mensajeDeSdk = "";
+
+
+            if (nroError == Hik_SDK.NET_DVR_PASSWORD_ERROR)
+            {
+                loginResultado.Exito = false;
+                loginResultado.Mensaje = "Usuario o contraseña invalidos";
+                if (1 == struDeviceInfoV40.bySupportLock)
+                {
+                    mensajeDeSdk = string.Format("Te quedan {0} intentos para logearte", struDeviceInfoV40.byRetryLoginTime);
+                }
+            }
+            else if (nroError == Hik_SDK.NET_DVR_USER_LOCKED)
+            {
+                if (1 == struDeviceInfoV40.bySupportLock)
+                {
+                    mensajeDeSdk = string.Format("Usuario bloqueado, el tiempo restante de bloqueo es de {0}", struDeviceInfoV40.dwSurplusLockTime);
+                    loginResultado.Exito = false;
+                    loginResultado.Mensaje = mensajeDeSdk;
+                }
+            }
+            else
+            {
+                loginResultado.Exito = false;
+                loginResultado.Mensaje = "Error de red o el panel esta ocupado";
+            }
+
+            return loginResultado;
+        }
+
         public void CerrarYLimpiar()
         {
             if (IdUsuario >= 0)
@@ -375,19 +377,15 @@ namespace DeportNetReconocimiento.SDK
                 return resultadoGeneral;
             }
 
+            Hik_Resultado res = new Hik_Resultado();
+            Hik_Controladora_Facial controlador = Hik_Controladora_Facial.ObtenerInstancia();
+            res = controlador.ObtenerCara(1, "1");
+
 
             //setteamos el callback para obtener los ids de los usuarios
             this.hik_Controladora_Eventos = new Hik_Controladora_Eventos();
 
             
-
-            //hik_Controladora_Eventos.msgCallback = new Hik_SDK.MSGCallBack(MsgCallback);
-
-            
-
-
-
-
             return resultadoGeneral;
         }
 

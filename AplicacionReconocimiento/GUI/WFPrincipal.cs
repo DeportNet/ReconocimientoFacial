@@ -70,7 +70,7 @@ namespace DeportNetReconocimiento.GUI
             }
 
 
-           
+
             // Leer desde un archivo binario
             using (BinaryReader reader = new BinaryReader(File.Open(rutaArchivo, FileMode.Open)))
             {
@@ -78,7 +78,7 @@ namespace DeportNetReconocimiento.GUI
                 {
                     string unDato = reader.ReadString(); // Lee cada string
                     listaDatos.Add(unDato);
-                   
+
                     Console.WriteLine($"Leído: {unDato}");
                 }
             }
@@ -156,25 +156,7 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-        private void ApellidoLabel_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void ClasesRestantesLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void NombreLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ActividadLabel_Click(object sender, EventArgs e)
-        {
-
-        }
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -182,16 +164,25 @@ namespace DeportNetReconocimiento.GUI
 
 
         //función para actualizar los datos en el hilo principal
-        public void ActualizarDatos(string json)
+        public void ActualizarDatos(int nroLector, string json)
         {
             //Si el hilo que llama a la función no es el principal, se llama a la función de nuevo en el hilo principal
             if (InvokeRequired)
             {
-                Invoke(new Action<string>(ActualizarDatos), json);
+                Invoke(new Action<int, string>(ActualizarDatos), nroLector, json);
                 return;
             }
+
+            if (pictureBox1.Image != null)
+            {
+                pictureBox1.Image.Dispose();
+                pictureBox1.Image = null;
+            }
+
             //Se convierte el json a un objeto de tipo Persona
             Persona persona = JSONtoPersona(json);
+
+
 
             //Se actualizan los labels con los datos de la persona
             ValorApellidoLabel.Text = persona.Apellido;
@@ -199,8 +190,24 @@ namespace DeportNetReconocimiento.GUI
             ValorActividadLabel.Text = persona.Actividad;
             ValorClasesRestantesLabel.Text = persona.ClasesRestantes;
             ValorMensajeLabel.Text = persona.Mensaje;
+            
+            pictureBox1.Image = ObtenerFotoCliente(nroLector, persona.Id);
         }
+        
+       Image ObtenerFotoCliente(int nroLector, string idCliente)
+        {
+            Image imagen = null;
+            //Se obtiene la foto del cliente
+            Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia().ObtenerCara(nroLector, idCliente);
+            if (resultado.Exito)
+            {
+                String ruta = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
+                imagen = Image.FromFile(ruta);
+            }
 
+            return imagen;
+        }
+        
 
         public static Persona JSONtoPersona(string json)
         {
@@ -212,7 +219,7 @@ namespace DeportNetReconocimiento.GUI
                 JsonElement root = doc.RootElement;
 
                 // Acceder a cada campo del objeto JSON
-                persona.Id = root.GetProperty("Id").GetInt32();
+                persona.Id = root.GetProperty("Id").GetString();
                 persona.Apellido = root.GetProperty("Apellido").GetString();
                 persona.Nombre = root.GetProperty("Nombre").GetString();
                 persona.Actividad = root.GetProperty("Actividad").GetString();
@@ -223,8 +230,9 @@ namespace DeportNetReconocimiento.GUI
             return persona;
         }
 
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
 
-
-
+        }
     }
 }
