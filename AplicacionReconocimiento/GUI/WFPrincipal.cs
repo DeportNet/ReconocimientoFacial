@@ -8,7 +8,7 @@ namespace DeportNetReconocimiento.GUI
 {
     public partial class WFPrincipal : Form
     {
-        Hik_Controladora_General hik_Controladora_General;
+        private Hik_Controladora_General hik_Controladora_General;
         private System.Windows.Forms.Timer timer;
 
         private static WFPrincipal instancia;
@@ -26,22 +26,26 @@ namespace DeportNetReconocimiento.GUI
 
         public WFPrincipal()
         {
-            Hik_Resultado hik_Resultado = new Hik_Resultado();
             InitializeComponent();
-            ConfigurarTimer();
-            InstanciarPrograma("admin", "Facundo2024*", "8000", "192.168.0.207");   
+            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
+
+            
+            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
         }
 
-        public Hik_Resultado InstanciarPrograma(string nombre, string contrasena, string puerto, string ip)
+        public Hik_Resultado InstanciarPrograma()
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
+            //ip , puerto, usuario, contraseña en ese orden
+            string[] credenciales = leerCredenciales();
 
-            resultado = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(nombre, contrasena, puerto, ip);
+            resultado = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(credenciales[2], credenciales[3], credenciales[1], credenciales[0]);
 
             if (!resultado.Exito)
             {
                 //Si no hubo exito mostrar ventana con el error. Un modal 
+                MessageBox.Show("Error no se pudo iniciar sesion con exito... Vuelva a intentarlo");
             }
             else
             {
@@ -49,6 +53,37 @@ namespace DeportNetReconocimiento.GUI
             }
 
             return resultado;
+        }
+
+        public string[] leerCredenciales()
+        {
+            var listaDatos = new System.Collections.Generic.List<string>();
+            string rutaArchivo = "credenciales.bin";
+
+
+            //si el archivo no existe, se abre la ventana para registrar el dispositivo
+            if (!File.Exists(rutaArchivo))
+            {
+                this.Close();
+                WFRgistrarDispositivo wFRgistrarDispositivo = new WFRgistrarDispositivo();
+                wFRgistrarDispositivo.ShowDialog();
+            }
+
+
+           
+            // Leer desde un archivo binario
+            using (BinaryReader reader = new BinaryReader(File.Open(rutaArchivo, FileMode.Open)))
+            {
+                while (reader.BaseStream.Position != reader.BaseStream.Length) // Lee hasta el final del archivo
+                {
+                    string unDato = reader.ReadString(); // Lee cada string
+                    listaDatos.Add(unDato);
+                   
+                    Console.WriteLine($"Leído: {unDato}");
+                }
+            }
+
+            return listaDatos.ToArray();
         }
 
         public bool VerificarEstadoDispositivo()
