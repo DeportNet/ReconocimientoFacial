@@ -1,22 +1,29 @@
 ﻿using DeportNetReconocimiento.Modelo;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using DeportNetReconocimiento.SDK;
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace DeportNetReconocimiento.GUI
 {
     public partial class WFPrincipal : Form
     {
+        Hik_Controladora_General hik_Controladora_General;
         public WFPrincipal()
         {
+            Hik_Resultado hik_Resultado = new Hik_Resultado();
             InitializeComponent();
+            
+
+            hik_Resultado =Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma("admin", "Facundo2024*", "8000", "192.168.0.207");
+
+            if (!hik_Resultado.Exito)
+            {
+                //Si no hubo exito mostrar ventana con el error. Un modal 
+            }
+            else
+            {
+                hik_Controladora_General = Hik_Controladora_General.InstanciaControladoraGeneral;
+            }
+
         }
 
         private void ApellidoLabel_Click(object sender, EventArgs e)

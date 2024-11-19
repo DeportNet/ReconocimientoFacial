@@ -186,7 +186,7 @@
             Controls.Add(imagenDeportnet);
             Controls.Add(pictureBox1);
             Name = "WFPrincipal";
-            Text = "Form1";
+            Text = "Pantalla Bienvenida";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)imagenDeportnet).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
