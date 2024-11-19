@@ -431,12 +431,6 @@ namespace DeportNetReconocimiento.SDK
         }
 
 
-        //TODO -> Verificar IP para que todo ande, buscar la IP del dispositvo
-        public static void BuscarYRetornarIpDelDispositivo()
-        {
-
-
-        }
 
 
     }

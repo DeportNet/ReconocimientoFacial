@@ -64,7 +64,7 @@ namespace DeportNetReconocimiento.GUI
             //si el archivo no existe, se abre la ventana para registrar el dispositivo
             if (!File.Exists(rutaArchivo))
             {
-                this.Close();
+                this.Hide();
                 WFRgistrarDispositivo wFRgistrarDispositivo = new WFRgistrarDispositivo();
                 wFRgistrarDispositivo.ShowDialog();
             }

@@ -61,7 +61,9 @@ namespace DeportNetReconocimiento.SDKHikvision
             if (infoEvento.Success)
             {
                 System.Console.WriteLine(infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description + " Tarjeta: " + infoEvento.Card_Number + " Puerta: " + infoEvento.Door_Number);
-                obtenerDatosClienteDeportNet(infoEvento.Card_Number);
+                //obtenerDatosClienteDeportNet(infoEvento.Card_Number);
+                //WFPrincipal panel = WFPrincipal.ObtenerInstancia();
+                //panel.ActualizarDatos("");
 
             }
             else
@@ -73,16 +75,18 @@ namespace DeportNetReconocimiento.SDKHikvision
         public static void obtenerDatosClienteDeportNet(string numeroTarjeta)
         {
 
-            Console.WriteLine("Aca andamos papi tu sabe");
-           // WFPrincipal panel = new WFPrincipal();
+            WFPrincipal panel = WFPrincipal.ObtenerInstancia();
+            Console.WriteLine("Numero de tarjeta" + numeroTarjeta);
 
-            if(numeroTarjeta!= "")
+            //Ver como mierda puedo hacer que acceda aca sin que se rompa todo 
+            if(!string.IsNullOrWhiteSpace(numeroTarjeta))
             {
-            Console.WriteLine(numeroTarjeta);
 
+                Console.WriteLine(numeroTarjeta);
+                Console.WriteLine("Este se imprime solo si hay numero ");
                 /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
-                // string jsonDeDeportnet = "{ \"Id\": 1, \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Debes 1 mes de cuota\" }";
-                //panel.ActualizarDatos(jsonDeDeportnet);
+                //string jsonDeDeportnet = "{ \"Id\": 1, \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Debes 1 mes de cuota\" }";
+                //WFPrincipal.ObtenerInstancia().ActualizarDatos(jsonDeDeportnet);
 
             }
 
@@ -174,7 +178,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
                 if (struAcsAlarmInfo.struAcsEventInfo.byCardNo[0] != 0)
                 {
-                    EventInfo.Card_Number = System.Text.Encoding.UTF8.GetString(struAcsAlarmInfo.struAcsEventInfo.byCardNo).TrimEnd('\0');
+                    EventInfo.Card_Number =System.Text.Encoding.UTF8.GetString(struAcsAlarmInfo.struAcsEventInfo.byCardNo).TrimEnd('\0');
                 }
                 String[] szCardType = { "normal card", "disabled card", "blocklist card", "night watch card", "stress card", "super card", "guest card" };
                 byte byCardType = struAcsAlarmInfo.struAcsEventInfo.byCardType;
