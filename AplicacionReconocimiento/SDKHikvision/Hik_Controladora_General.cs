@@ -235,7 +235,7 @@ namespace DeportNetReconocimiento.SDK
                 try
                 {
                     // Especifica la ruta donde quieres guardar el archivo XML
-                    string filePath = @".\DeportNetReconocimiento\AplicacionReconocimiento\archivoXML.xml";
+                    string filePath = @"archivoXML.xml";
                     documentoXml.Save(filePath); // Guarda el XML en el archivo 
                 }
                 catch (Exception ex)

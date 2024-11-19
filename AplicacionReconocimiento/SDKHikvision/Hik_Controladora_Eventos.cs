@@ -1,4 +1,5 @@
-﻿using DeportNetReconocimiento.Modelo;
+﻿using DeportNetReconocimiento.GUI;
+using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDK;
 using System;
 using System.Collections.Generic;
@@ -60,11 +61,31 @@ namespace DeportNetReconocimiento.SDKHikvision
             if (infoEvento.Success)
             {
                 System.Console.WriteLine(infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description + " Tarjeta: " + infoEvento.Card_Number + " Puerta: " + infoEvento.Door_Number);
+                obtenerDatosClienteDeportNet(infoEvento.Card_Number);
+
             }
             else
             {
                 System.Console.WriteLine(infoEvento.Exception);
             }
+        }
+
+        public static void obtenerDatosClienteDeportNet(string numeroTarjeta)
+        {
+
+            Console.WriteLine("Aca andamos papi tu sabe");
+           // WFPrincipal panel = new WFPrincipal();
+
+            if(numeroTarjeta!= "")
+            {
+            Console.WriteLine(numeroTarjeta);
+
+                /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
+                // string jsonDeDeportnet = "{ \"Id\": 1, \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Debes 1 mes de cuota\" }";
+                //panel.ActualizarDatos(jsonDeDeportnet);
+
+            }
+
         }
 
 
@@ -248,37 +269,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         }
 
 
-        public bool VerificarEstadoDispositivo()
-        {
-            IntPtr pInBuf;
-            Int32 nSize;
-            int iLastErr = 17;
-
-            pInBuf = IntPtr.Zero;
-            nSize = 0;
-
-            int XML_ABILITY_OUT_LEN = 3 * 1024 * 1024;
-            IntPtr pOutBuf = Marshal.AllocHGlobal(XML_ABILITY_OUT_LEN);
-
-            if (!Hik_SDK.NET_DVR_GetDeviceAbility(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, 0, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
-            {
-                iLastErr = (int)Hik_SDK.NET_DVR_GetLastError();
-
-                //si perdio conexión
-                if (iLastErr == 17)
-                {
-                    return false;
-                }
-            }
-
-            Marshal.FreeHGlobal(pInBuf);
-            Marshal.FreeHGlobal(pOutBuf);
-
-            if (iLastErr == 1000)
-                return true;
-            else
-                return false;
-        }
+        
 
     }
 }
