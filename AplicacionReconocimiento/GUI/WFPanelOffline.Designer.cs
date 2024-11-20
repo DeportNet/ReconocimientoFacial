@@ -67,6 +67,7 @@
             AbrirPuerta.TabIndex = 2;
             AbrirPuerta.Text = "Abrir";
             AbrirPuerta.UseVisualStyleBackColor = true;
+            AbrirPuerta.Click += AbrirPuerta_Click;
             // 
             // CerrarPuerta
             // 
@@ -77,6 +78,7 @@
             CerrarPuerta.TabIndex = 3;
             CerrarPuerta.Text = "Cerrar";
             CerrarPuerta.UseVisualStyleBackColor = true;
+            CerrarPuerta.Click += CerrarPuerta_Click;
             // 
             // MantenerAbiertaPuerta
             // 
@@ -87,6 +89,7 @@
             MantenerAbiertaPuerta.TabIndex = 4;
             MantenerAbiertaPuerta.Text = "Mantener Abierta";
             MantenerAbiertaPuerta.UseVisualStyleBackColor = true;
+            MantenerAbiertaPuerta.Click += MantenerAbiertaPuerta_Click;
             // 
             // ManterCerradaPuerta
             // 
@@ -97,6 +100,7 @@
             ManterCerradaPuerta.TabIndex = 5;
             ManterCerradaPuerta.Text = "Mantener Cerrada";
             ManterCerradaPuerta.UseVisualStyleBackColor = true;
+            ManterCerradaPuerta.Click += ManterCerradaPuerta_Click;
             // 
             // WFPanelOffline
             // 
