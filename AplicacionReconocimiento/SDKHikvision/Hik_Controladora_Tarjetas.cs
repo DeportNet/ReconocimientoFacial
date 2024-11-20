@@ -13,17 +13,9 @@ namespace DeportNetReconocimiento.SDKHikvision
     public class Hik_Controladora_Tarjetas
     {
 
-        public static Hik_Controladora_Tarjetas instancia;
+        public static Hik_Controladora_Tarjetas? instancia;
 
 
-        public static Hik_Controladora_Tarjetas ObtenerInstancia()
-        {
-            if (instancia == null)
-            {
-                return new Hik_Controladora_Tarjetas();
-            }
-            return instancia;
-        }
 
 
 
@@ -34,11 +26,24 @@ namespace DeportNetReconocimiento.SDKHikvision
 
 
 
-        public Hik_Controladora_Tarjetas()
+        private Hik_Controladora_Tarjetas()
         {
             getCardCfgHandle = -1;
             setCardCfgHandle = -1;
             delCardCfgHandle = -1;
+        }
+        public static Hik_Controladora_Tarjetas ObtenerInstancia
+        {
+            get
+            {
+                if (instancia == null)
+                {
+                    return new Hik_Controladora_Tarjetas();
+                }
+            return instancia;
+
+            }
+
         }
 
         public int GetCardCfgHandle 

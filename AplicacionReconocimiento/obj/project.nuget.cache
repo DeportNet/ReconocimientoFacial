@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "/tiXBRK+aME=",
+  "dgSpecHash": "wvjzQIO/91g=",
   "success": true,
   "projectFilePath": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\fabri\\.nuget\\packages\\stub.system.data.sqlite.core.netstandard\\1.0.119\\stub.system.data.sqlite.core.netstandard.1.0.119.nupkg.sha512",
+    "C:\\Users\\fabri\\.nuget\\packages\\system.data.sqlite.core\\1.0.119\\system.data.sqlite.core.1.0.119.nupkg.sha512"
+  ],
   "logs": []
 }

@@ -361,13 +361,13 @@ namespace DeportNetReconocimiento.GUI
                 return;
             }
 
-            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia().EstablecerUnaTarjeta(nroTarjeta, nombreCliente);
+            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(nroTarjeta, nombreCliente);
             if (resultado.Exito)
             {
-                resultado = Hik_Controladora_Facial.ObtenerInstancia().CapturarCara();
+                resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
                 if (resultado.Exito)
                 {
-                    resultado = Hik_Controladora_Facial.ObtenerInstancia().EstablecerUnaCara((uint)nroLector, nroTarjeta.ToString());
+                    resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara((uint)nroLector, nroTarjeta.ToString());
                 }
             }
 
@@ -384,7 +384,7 @@ namespace DeportNetReconocimiento.GUI
         //Boton usuario completo
         private void BotonEliminarUsuario_Click(object sender, EventArgs e)
         {
-
+            
         }
     }
 }
