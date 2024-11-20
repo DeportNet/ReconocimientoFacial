@@ -28,37 +28,107 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
+            pictureBox1 = new PictureBox();
+            controlPuertasLabel = new Label();
+            AbrirPuerta = new Button();
+            CerrarPuerta = new Button();
+            MantenerAbiertaPuerta = new Button();
+            ManterCerradaPuerta = new Button();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
-
-
             // 
-            // button1
+            // pictureBox1
             // 
-            button1.Location = new Point(151, 123);
-            button1.Name = "button1";
-            button1.Size = new Size(167, 132);
-            button1.TabIndex = 0;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            pictureBox1.BackColor = SystemColors.Info;
+            pictureBox1.BackgroundImage = Properties.Resources.logo_deportnet_2;
+            pictureBox1.Location = new Point(12, 12);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(349, 298);
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            // 
+            // controlPuertasLabel
+            // 
+            controlPuertasLabel.AutoSize = true;
+            controlPuertasLabel.Font = new Font("Segoe UI", 15F, FontStyle.Underline);
+            controlPuertasLabel.Location = new Point(98, 334);
+            controlPuertasLabel.Name = "controlPuertasLabel";
+            controlPuertasLabel.Size = new Size(175, 28);
+            controlPuertasLabel.TabIndex = 1;
+            controlPuertasLabel.Text = "Control de puertas";
+            controlPuertasLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // AbrirPuerta
+            // 
+            AbrirPuerta.Cursor = Cursors.Hand;
+            AbrirPuerta.Location = new Point(30, 380);
+            AbrirPuerta.Name = "AbrirPuerta";
+            AbrirPuerta.Size = new Size(129, 37);
+            AbrirPuerta.TabIndex = 2;
+            AbrirPuerta.Text = "Abrir";
+            AbrirPuerta.UseVisualStyleBackColor = true;
+            AbrirPuerta.Click += AbrirPuerta_Click;
+            // 
+            // CerrarPuerta
+            // 
+            CerrarPuerta.Cursor = Cursors.Hand;
+            CerrarPuerta.Location = new Point(232, 380);
+            CerrarPuerta.Name = "CerrarPuerta";
+            CerrarPuerta.Size = new Size(129, 37);
+            CerrarPuerta.TabIndex = 3;
+            CerrarPuerta.Text = "Cerrar";
+            CerrarPuerta.UseVisualStyleBackColor = true;
+            CerrarPuerta.Click += CerrarPuerta_Click;
+            // 
+            // MantenerAbiertaPuerta
+            // 
+            MantenerAbiertaPuerta.Cursor = Cursors.Hand;
+            MantenerAbiertaPuerta.Location = new Point(30, 440);
+            MantenerAbiertaPuerta.Name = "MantenerAbiertaPuerta";
+            MantenerAbiertaPuerta.Size = new Size(129, 37);
+            MantenerAbiertaPuerta.TabIndex = 4;
+            MantenerAbiertaPuerta.Text = "Mantener Abierta";
+            MantenerAbiertaPuerta.UseVisualStyleBackColor = true;
+            MantenerAbiertaPuerta.Click += MantenerAbiertaPuerta_Click;
+            // 
+            // ManterCerradaPuerta
+            // 
+            ManterCerradaPuerta.Cursor = Cursors.Hand;
+            ManterCerradaPuerta.Location = new Point(232, 440);
+            ManterCerradaPuerta.Name = "ManterCerradaPuerta";
+            ManterCerradaPuerta.Size = new Size(129, 37);
+            ManterCerradaPuerta.TabIndex = 5;
+            ManterCerradaPuerta.Text = "Mantener Cerrada";
+            ManterCerradaPuerta.UseVisualStyleBackColor = true;
+            ManterCerradaPuerta.Click += ManterCerradaPuerta_Click;
             // 
             // WFPanelOffline
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.WindowFrame;
-            ClientSize = new Size(800, 744);
-            Controls.Add(button1);
+            ClientSize = new Size(964, 502);
+            Controls.Add(ManterCerradaPuerta);
+            Controls.Add(MantenerAbiertaPuerta);
+            Controls.Add(CerrarPuerta);
+            Controls.Add(AbrirPuerta);
+            Controls.Add(controlPuertasLabel);
+            Controls.Add(pictureBox1);
             Name = "WFPanelOffline";
-            Text = "Form1";
+            Text = "Panel Offline";
             Load += WFPanelOffline_Load;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private Button button1;
-
+        private PictureBox pictureBox1;
+        private Label controlPuertasLabel;
+        private Button AbrirPuerta;
+        private Button CerrarPuerta;
+        private Button MantenerAbiertaPuerta;
+        private Button ManterCerradaPuerta;
     }
 }

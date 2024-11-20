@@ -12,17 +12,9 @@ namespace DeportNetReconocimiento.SDK
     public class Hik_Controladora_Facial
     {
 
-      public static Hik_Controladora_Facial instancia;
+      public static Hik_Controladora_Facial? instancia;
 
 
-        public static Hik_Controladora_Facial ObtenerInstancia()
-        {
-            if (instancia == null)
-            {
-                return new Hik_Controladora_Facial();
-            }
-            return instancia;
-        }
 
         //atributos facial
 
@@ -36,7 +28,7 @@ namespace DeportNetReconocimiento.SDK
 
         //constructores 
 
-        public Hik_Controladora_Facial()
+        private Hik_Controladora_Facial()
         {
             getFaceCfgHandle = -1;
             setFaceCfgHandle = -1;
@@ -45,6 +37,17 @@ namespace DeportNetReconocimiento.SDK
 
 
         //propiedades facial
+        public static Hik_Controladora_Facial ObtenerInstancia
+        {
+            get
+            {
+                if (instancia == null)
+                {
+                    return new Hik_Controladora_Facial();
+                }
+                return instancia;
+            }
+        }
 
         public int GetFaceCfgHandle
         {
