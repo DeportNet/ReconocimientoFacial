@@ -17,6 +17,8 @@ namespace DeportNetReconocimiento.SDKHikvision
         private int delCardCfgHandle;
 
 
+
+
         public Hik_Controladora_Tarjetas()
         {
             getCardCfgHandle = -1;
@@ -336,9 +338,9 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             InicializarTarjetaSendData(ref tarjetaSendData, ref ptrTarjetaSendData);
 
-
+            IntPtr ptrUserData = IntPtr.Zero;
             //Hik_SDK.NET_DVR_GET_CARD es una constante que vale 2560
-            //getCardCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.IdUsuario, Hik_SDK.NET_DVR_GET_CARD, ptrStruCond, (int)struCond.dwSize, null, this.Handle);
+            getCardCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_GET_CARD, ptrTarjetaCond, (int)tarjetaCond.dwSize, null, ptrUserData);
             
             if (getCardCfgHandle < 0)
             {
@@ -363,7 +365,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                     //!!!!!! este metodo convierte el ptrTarjetaRecord a un objeto tarjetaRecord y despues lo castea, meterlo en un try catch si se rompe o directamente sacarlo
                     tarjetaRecord = (Hik_SDK.NET_DVR_CARD_RECORD)Marshal.PtrToStructure(ptrTarjetaRecord, typeof(Hik_SDK.NET_DVR_CARD_RECORD));
 
-                    resultadosBucle = VerificarEstadoGetTarjeta(ref flag,ref dwState, tarjetaRecord);
+                    resultadosBucle = VerificarEstadoTarjeta(ref flag,ref dwState);
                 }
                 //asigno el resultado final al resultado que retorno de la funcion mayor
                 hik_Resultado = resultadosBucle;
@@ -378,7 +380,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         }
 
 
-        public Hik_Resultado VerificarEstadoGetTarjeta(ref bool flag,ref int dwState,Hik_SDK.NET_DVR_CARD_RECORD tarjetaRecord)
+        public Hik_Resultado VerificarEstadoTarjeta(ref bool flag,ref int dwState)
         {
             Hik_Resultado hik_Resultado = new Hik_Resultado();
 
@@ -425,97 +427,96 @@ namespace DeportNetReconocimiento.SDKHikvision
                     hik_Resultado.Mensaje = "error desconocido, no se pudo obtener la tarjeta";
                     break;
             }
-            
+
             return hik_Resultado;
         }
+
+       
+
 
 
         //del tarjeta
 
 
-        // private void btnDelete_Click(object sender, EventArgs e)
-        //{
-        //    if (m_lDelCardCfgHandle != -1)
-        //    {
-        //        if (CHCNetSDK.NET_DVR_StopRemoteConfig(m_lDelCardCfgHandle))
-        //        {
-        //            m_lDelCardCfgHandle = -1;
-        //        }
-        //    }
-        //    CHCNetSDK.NET_DVR_CARD_COND struCond = new CHCNetSDK.NET_DVR_CARD_COND();
-        //    struCond.Init();
-        //    struCond.dwSize = (uint)Marshal.SizeOf(struCond);
-        //    struCond.dwCardNum = 1;
-        //    IntPtr ptrStruCond = Marshal.AllocHGlobal((int)struCond.dwSize);
-        //    Marshal.StructureToPtr(struCond, ptrStruCond, false);
+        private Hik_Resultado EliminarTarjetaPorId(int idTarjeta)
+        {
+            Hik_Resultado hik_Resultado = new Hik_Resultado();
 
-        //    CHCNetSDK.NET_DVR_CARD_SEND_DATA struSendData = new CHCNetSDK.NET_DVR_CARD_SEND_DATA();
-        //    struSendData.Init();
-        //    struSendData.dwSize = (uint)Marshal.SizeOf(struSendData);
-        //    byte[] byTempCardNo = new byte[CHCNetSDK.ACS_CARD_NO_LEN];
-        //    byTempCardNo = System.Text.Encoding.UTF8.GetBytes(textBoxCardNo.Text);
-        //    for (int i = 0; i < byTempCardNo.Length; i++)
-        //    {
-        //        struSendData.byCardNo[i] = byTempCardNo[i];
-        //    }
-        //    IntPtr ptrStruSendData = Marshal.AllocHGlobal((int)struSendData.dwSize);
-        //    Marshal.StructureToPtr(struSendData, ptrStruSendData, false);
+            
+            if (DelCardCfgHandle != -1)
+            {
+                if (Hik_SDK.NET_DVR_StopRemoteConfig(DelCardCfgHandle))
+                {
+                    DelCardCfgHandle = -1;
+                }
+            }
 
-        //    CHCNetSDK.NET_DVR_CARD_STATUS struStatus = new CHCNetSDK.NET_DVR_CARD_STATUS();
-        //    struStatus.Init();
-        //    struStatus.dwSize = (uint)Marshal.SizeOf(struStatus);
-        //    IntPtr ptrdwState = Marshal.AllocHGlobal((int)struStatus.dwSize);
-        //    Marshal.StructureToPtr(struStatus, ptrdwState, false);
+            //tarjeta cond
+            Hik_SDK.NET_DVR_CARD_COND tarjetaCond = new Hik_SDK.NET_DVR_CARD_COND();
+            IntPtr ptrTarjetaCond = IntPtr.Zero;
 
-        //    m_lGetCardCfgHandle = CHCNetSDK.NET_DVR_StartRemoteConfig(m_UserID, CHCNetSDK.NET_DVR_DEL_CARD, ptrStruCond, (int)struCond.dwSize, null, this.Handle);
-        //    if (m_lGetCardCfgHandle < 0)
-        //    {
-        //        MessageBox.Show("NET_DVR_DEL_CARD error:" + CHCNetSDK.NET_DVR_GetLastError());
-        //        Marshal.FreeHGlobal(ptrStruCond);
-        //        return;
-        //    }
-        //    else
-        //    {
-        //        int dwState = (int)CHCNetSDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_SUCCESS;
-        //        uint dwReturned = 0;
-        //        while (true)
-        //        {
-        //            dwState = CHCNetSDK.NET_DVR_SendWithRecvRemoteConfig(m_lGetCardCfgHandle, ptrStruSendData, struSendData.dwSize, ptrdwState, struStatus.dwSize, ref dwReturned);
-        //            if (dwState == (int)CHCNetSDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_NEEDWAIT)
-        //            {
-        //                Thread.Sleep(10);
-        //                continue;
-        //            }
-        //            else if (dwState == (int)CHCNetSDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_FAILED)
-        //            {
-        //                MessageBox.Show("NET_DVR_DEL_CARD fail error: " + CHCNetSDK.NET_DVR_GetLastError());
-        //            }
-        //            else if (dwState == (int)CHCNetSDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_SUCCESS)
-        //            {
-        //                MessageBox.Show("NET_DVR_DEL_CARD success");
-        //            }
-        //            else if (dwState == (int)CHCNetSDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_FINISH)
-        //            {
-        //                MessageBox.Show("NET_DVR_DEL_CARD finish");
-        //                break;
-        //            }
-        //            else if (dwState == (int)CHCNetSDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_EXCEPTION)
-        //            {
-        //                MessageBox.Show("NET_DVR_DEL_CARD exception error: " + CHCNetSDK.NET_DVR_GetLastError());
-        //                break;
-        //            }
-        //            else
-        //            {
-        //                MessageBox.Show("unknown status error: " + CHCNetSDK.NET_DVR_GetLastError());
-        //                break;
-        //            }
-        //        }
-        //    }
-        //    CHCNetSDK.NET_DVR_StopRemoteConfig(m_lDelCardCfgHandle);
-        //    m_lDelCardCfgHandle = -1;
-        //    Marshal.FreeHGlobal(ptrStruSendData);
-        //    Marshal.FreeHGlobal(ptrdwState);
-        //}
+            InicializarEstructuraTarjetaCond(ref tarjetaCond, ref ptrTarjetaCond);
+
+
+            //tarjeta send data
+            Hik_SDK.NET_DVR_CARD_SEND_DATA tarjetaSendData = new Hik_SDK.NET_DVR_CARD_SEND_DATA();
+            IntPtr ptrTarjetaSendData = IntPtr.Zero;
+
+            InicializarTarjetaSendData(ref tarjetaSendData, ref ptrTarjetaSendData);
+
+            //tarjeta status
+            Hik_SDK.NET_DVR_CARD_STATUS tarjetaStatus = new Hik_SDK.NET_DVR_CARD_STATUS();
+            IntPtr ptrTarjetaStatus = IntPtr.Zero;
+
+            //puntero datos del usuario
+            IntPtr ptrUserData = IntPtr.Zero;
+
+            InicializarEstructuraTarjetaStatus(ref tarjetaStatus, ref ptrTarjetaStatus);
+
+            GetCardCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_DEL_CARD, ptrTarjetaCond, (int)tarjetaCond.dwSize, null, ptrUserData);
+            if (getCardCfgHandle < 0)
+            {
+                //ocurrio un error:
+                hik_Resultado.Exito = false;
+                hik_Resultado.Mensaje = "Error al eliminar la tarjeta: ";
+                hik_Resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
+            }
+            else
+            {
+                Hik_Resultado hik_resultadoBucle = new Hik_Resultado();
+                bool flag = true;
+                int dwState = (int)Hik_SDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_SUCCESS;
+                uint dwReturned = 0;
+               
+                while (flag)
+                {
+                    dwState = Hik_SDK.NET_DVR_SendWithRecvRemoteConfigTarjeta(GetCardCfgHandle, ptrTarjetaSendData, tarjetaSendData.dwSize, ptrTarjetaStatus, tarjetaStatus.dwSize, ref dwReturned);
+                    hik_resultadoBucle = VerificarEstadoTarjeta(ref flag, ref dwState);
+
+                }
+
+                //asigno el resultado final al resultado que retorno de la funcion mayor
+                hik_Resultado = hik_resultadoBucle;
+
+
+            }
+
+            //si todo salio bien liberamos memoria
+            Hik_SDK.NET_DVR_StopRemoteConfig(DelCardCfgHandle);
+            DelCardCfgHandle = -1;
+            Marshal.FreeHGlobal(ptrTarjetaStatus);
+            Marshal.FreeHGlobal(ptrTarjetaSendData);
+            Marshal.FreeHGlobal(ptrTarjetaCond);
+
+
+            return hik_Resultado;
+        }
+
+
+
+
+
+
 
     }
 }
