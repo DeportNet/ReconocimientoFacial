@@ -12,9 +12,6 @@ namespace DeportNetReconocimiento.SDK
     public class Hik_SDK
     {
 
-
-
-
         #region HCNetSDK.dll macro definition
 
         #region definicion constantes facial

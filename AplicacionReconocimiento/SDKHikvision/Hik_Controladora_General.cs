@@ -29,7 +29,7 @@ namespace DeportNetReconocimiento.SDK
         private bool soportaFacial;
         private bool soportaHuella;
         private bool soportaTarjeta;
-        private Hik_Controladora_Facial hik_Controladora_Facial;
+        private Hik_Controladora_Facial? hik_Controladora_Facial;
         private Hik_Controladora_Tarjetas hik_Controladora_Tarjetas;
         private Hik_Controladora_Eventos? hik_Controladora_Eventos;
 
@@ -43,7 +43,6 @@ namespace DeportNetReconocimiento.SDK
             this.soportaHuella = false;
             this.soportaTarjeta = false;
 
-            this.hik_Controladora_Facial = new Hik_Controladora_Facial();
             this.hik_Controladora_Tarjetas = new Hik_Controladora_Tarjetas();
         }
 
