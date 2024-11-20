@@ -164,7 +164,7 @@ namespace DeportNetReconocimiento.GUI
 
 
         //función para actualizar los datos en el hilo principal
-        public void ActualizarDatos(int nroLector, string json)
+        public async void ActualizarDatos(int nroLector, string json)
         {
             //Si el hilo que llama a la función no es el principal, se llama a la función de nuevo en el hilo principal
             if (InvokeRequired)
@@ -192,6 +192,10 @@ namespace DeportNetReconocimiento.GUI
             ValorMensajeLabel.Text = persona.Mensaje;
             
             pictureBox1.Image = ObtenerFotoCliente(nroLector, persona.Id);
+
+            //Esperamos 5 segundos para borrar los datos
+            await Task.Delay(5000);
+            LimpiarInterfaz();
         }
         
        Image ObtenerFotoCliente(int nroLector, string idCliente)
@@ -208,6 +212,26 @@ namespace DeportNetReconocimiento.GUI
             return imagen;
         }
         
+
+        public void LimpiarInterfaz()
+        {
+            if(InvokeRequired)
+            {
+                Invoke(LimpiarInterfaz);
+                return;
+            }
+
+            if(pictureBox1.Image != null)
+            {
+                pictureBox1.Image.Dispose();
+                pictureBox1.Image = null;
+            }
+                ValorApellidoLabel.Text = "Apellido aquí...";
+                valorNombreLabel.Text = "Nombre aquí...";
+                ValorActividadLabel.Text = "Actividad aquí...";
+                ValorClasesRestantesLabel.Text = "Clases restantes aquí...";
+                ValorMensajeLabel.Text = "Mensaje aquí";
+        }
 
         public static Persona JSONtoPersona(string json)
         {
