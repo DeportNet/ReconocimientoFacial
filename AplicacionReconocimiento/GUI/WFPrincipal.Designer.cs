@@ -73,7 +73,7 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 11;
             pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click;
+           
             // 
             // ApellidoLabel
             // 
@@ -231,7 +231,7 @@
             labelId.Size = new Size(69, 15);
             labelId.TabIndex = 28;
             labelId.Text = "Nro tarjeta: ";
-            labelId.Click += label1_Click;
+           
             // 
             // BotonAgregarUsuario
             // 
