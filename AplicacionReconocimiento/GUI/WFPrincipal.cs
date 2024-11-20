@@ -195,7 +195,7 @@ namespace DeportNetReconocimiento.GUI
             Image imagen = null;
             //Se obtiene la foto del cliente
             Console.WriteLine("idCliente: " + idCliente);
-            Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia().ObtenerCara(nroLector, idCliente);
+            Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(nroLector, idCliente);
             if (resultado.Exito)
             {
                 String ruta = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
@@ -209,7 +209,7 @@ namespace DeportNetReconocimiento.GUI
         {
             Image imagen = null;
 
-            Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia().CapturarCara();
+            Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
             if (resultado.Exito)
             {
                 String ruta = Path.Combine(Directory.GetCurrentDirectory(), "captura.jpg");
@@ -272,12 +272,12 @@ namespace DeportNetReconocimiento.GUI
                 pictureBox1.Image.Dispose();
                 pictureBox1.Image = null;
             }
-            Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia().ObtenerCara(1, textBoxId.Text);
+            Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(1, textBoxId.Text);
             MessageBox.Show(resultado.Mensaje);
             //Si hay una foto
             if (resultado.Exito)
             {
-                 resultado = Hik_Controladora_Facial.ObtenerInstancia().EstablecerUnaCara(1, textBoxId.Text);
+                 resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, textBoxId.Text);
                 MessageBox.Show(resultado.Mensaje);
             }
 
@@ -285,11 +285,11 @@ namespace DeportNetReconocimiento.GUI
 
         private void delete_Click(object sender, EventArgs e)
         {
-            Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia().ObtenerCara(1, textBoxId.Text);
+            Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(1, textBoxId.Text);
 
             if (resultado.Exito)
             {
-                resultado = Hik_Controladora_Facial.ObtenerInstancia().EliminarCara(1, textBoxId.Text);
+                resultado = Hik_Controladora_Facial.ObtenerInstancia.EliminarCara(1, textBoxId.Text);
                 MessageBox.Show("Cara elimianda con exito");
 
             }
@@ -361,13 +361,13 @@ namespace DeportNetReconocimiento.GUI
                 return;
             }
 
-            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia().EstablecerUnaTarjeta(nroTarjeta, nombreCliente);
+            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(nroTarjeta, nombreCliente);
             if (resultado.Exito)
             {
-                resultado = Hik_Controladora_Facial.ObtenerInstancia().CapturarCara();
+                resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
                 if (resultado.Exito)
                 {
-                    resultado = Hik_Controladora_Facial.ObtenerInstancia().EstablecerUnaCara((uint)nroLector, nroTarjeta.ToString());
+                    resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara((uint)nroLector, nroTarjeta.ToString());
                 }
             }
 
@@ -384,7 +384,7 @@ namespace DeportNetReconocimiento.GUI
         //Boton usuario completo
         private void BotonEliminarUsuario_Click(object sender, EventArgs e)
         {
-
+            
         }
     }
 }
