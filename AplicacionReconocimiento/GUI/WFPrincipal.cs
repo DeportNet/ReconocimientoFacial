@@ -29,8 +29,8 @@ namespace DeportNetReconocimiento.GUI
         public WFPrincipal()
         {
             InitializeComponent();
-            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
             InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
         }
 
         public Hik_Resultado InstanciarPrograma()
@@ -375,16 +375,38 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-
-
-
-
-
-
         //Boton usuario completo
         private void BotonEliminarUsuario_Click(object sender, EventArgs e)
         {
-            
+
+            if(!string.IsNullOrWhiteSpace(textBoxId.Text))
+            {
+                EliminarUsuarioCompleto(1,textBoxId.Text);
+            }
+            else
+            {
+                MessageBox.Show("Completa los campos");
+            }
+        }
+
+        public void EliminarUsuarioCompleto(int nroLector, string idTarjeta)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action<int, string>(EliminarUsuarioCompleto), nroLector, idTarjeta);
+                 return;
+            }
+
+            Hik_Resultado resultado = new Hik_Resultado();
+
+            resultado = Hik_Controladora_Facial.ObtenerInstancia.EliminarCara(nroLector, idTarjeta);
+            if (resultado.Exito)
+            {
+                Console.WriteLine("Entro aca");
+                resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EliminarTarjetaPorId(int.Parse(idTarjeta));
+            }
+
+
         }
     }
 }
