@@ -9,22 +9,13 @@ namespace DeportNetReconocimiento.GUI
 {
     public partial class WFPrincipal : Form
     {
-        private Hik_Controladora_General hik_Controladora_General;
-        private System.Windows.Forms.Timer timer;
+        private Hik_Controladora_General? hik_Controladora_General;
+        private System.Windows.Forms.Timer? timer;
 
         private static WFPrincipal? instancia;
 
 
         private static readonly object lockObj = new object();
-
-        public static WFPrincipal ObtenerInstancia()
-        {
-            if (instancia == null)
-            {
-                instancia = new WFPrincipal();
-            }
-            return instancia;
-        }
 
         public WFPrincipal()
         {
@@ -33,15 +24,40 @@ namespace DeportNetReconocimiento.GUI
             InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
         }
 
+        //propiedades
+        public static WFPrincipal ObtenerInstancia()
+        {
+            
+
+            if (instancia == null)
+            {
+                instancia = new WFPrincipal();
+            }
+            return instancia;
+            
+        }
+
+
         public Hik_Resultado InstanciarPrograma()
         {
 
             Hik_Resultado resultado = new Hik_Resultado();
 
             //ip , puerto, usuario, contraseña en ese orden
-            string[] credenciales = leerCredenciales();
+            string[] credenciales = LeerCredenciales();
 
-            resultado = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(credenciales[2], credenciales[3], credenciales[1], credenciales[0]);
+            if(credenciales.Length > 0)
+            {
+
+                resultado = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(credenciales[2], credenciales[3], credenciales[1], credenciales[0]);
+            }
+            else
+            {
+                resultado.Exito = false;
+                resultado.Mensaje = "No se pudieron leer las credenciales";
+                
+            }
+
 
             if (!resultado.Exito)
             {
@@ -56,7 +72,7 @@ namespace DeportNetReconocimiento.GUI
             return resultado;
         }
 
-        public string[] leerCredenciales()
+        public string[] LeerCredenciales()
         {
             var listaDatos = new System.Collections.Generic.List<string>();
             string rutaArchivo = "credenciales.bin";
@@ -69,20 +85,23 @@ namespace DeportNetReconocimiento.GUI
                 WFRgistrarDispositivo wFRgistrarDispositivo = new WFRgistrarDispositivo();
                 wFRgistrarDispositivo.ShowDialog();
             }
-
-
-
-            // Leer desde un archivo binario
-            using (BinaryReader reader = new BinaryReader(File.Open(rutaArchivo, FileMode.Open)))
+            else
             {
-                while (reader.BaseStream.Position != reader.BaseStream.Length) // Lee hasta el final del archivo
-                {
-                    string unDato = reader.ReadString(); // Lee cada string
-                    listaDatos.Add(unDato);
 
-                    Console.WriteLine($"Leído: {unDato}");
+                // Leer desde un archivo binario
+                using (BinaryReader reader = new BinaryReader(File.Open(rutaArchivo, FileMode.Open)))
+                {
+                    while (reader.BaseStream.Position != reader.BaseStream.Length) // Lee hasta el final del archivo
+                    {
+                        string unDato = reader.ReadString(); // Lee cada string
+                        listaDatos.Add(unDato);
+
+                        Console.WriteLine($"Leído: {unDato}");
+                    }
                 }
             }
+
+
 
             return listaDatos.ToArray();
         }
@@ -205,7 +224,7 @@ namespace DeportNetReconocimiento.GUI
             return imagen;
         }
 
-        Image CapturarFotocliente()
+        Image CapturarFotoCliente()
         {
             Image imagen = null;
 
@@ -259,10 +278,6 @@ namespace DeportNetReconocimiento.GUI
             return persona;
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void BotonSet_Click(object sender, EventArgs e)
         {
@@ -315,7 +330,7 @@ namespace DeportNetReconocimiento.GUI
                 pictureBox1.Image = null;
             }
 
-            pictureBox1.Image = CapturarFotocliente();
+            pictureBox1.Image = CapturarFotoCliente();
 
         }
 
@@ -329,12 +344,7 @@ namespace DeportNetReconocimiento.GUI
             }
             pictureBox1.Image = ObtenerFotoCliente(1, textBoxId.Text);
         }
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
+        
 
 
         //Agregar usuario compelto 

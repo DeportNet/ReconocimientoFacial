@@ -5,12 +5,14 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System;
+using DeportNetReconocimiento.SDK;
+using DeportNetReconocimiento.GUI;
 
 namespace DeportNetReconocimiento
 {
     public partial class WFRgistrarDispositivo : Form
     {
-        //public int m_iUserID = -1;
+        
         public WFRgistrarDispositivo()
         {
             InitializeComponent();
@@ -18,9 +20,6 @@ namespace DeportNetReconocimiento
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            string nombreUsuario;
-            string password;
-            string direccionIp;
             int port;
                
 
@@ -53,14 +52,25 @@ namespace DeportNetReconocimiento
                 return;
             }
 
-            //creamos un arreglo de strings con los datos que recibimos del input
-            //ip , puerto, usuario, contraseña
-            escribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text]);
+            Hik_Resultado resultadoLogin = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(textBoxUserName.Text, textBoxPassword.Text, textBoxPort.Text, textBoxDeviceAddress.Text);
+            if (resultadoLogin.Exito)
+            {
 
-            //if (m_iUserID >= 0)
-            //{
-            //    this.Close();
-            //}
+                //creamos un arreglo de strings con los datos que recibimos del input
+                //ip , puerto, usuario, contraseña
+                escribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text]);
+
+                this.Close();
+                this.Dispose();
+
+                WFPrincipal.ObtenerInstancia().Activate();
+
+            }
+            else
+            {
+                MessageBox.Show("Datos de registro incorrectos. El dispositivo tiene otras credenciales.");
+
+            }
         }
 
         public void escribirArchivoCredenciales(string[] arregloDeDatos)
