@@ -12,6 +12,21 @@ namespace DeportNetReconocimiento.SDKHikvision
 {
     public class Hik_Controladora_Tarjetas
     {
+
+        public static Hik_Controladora_Tarjetas instancia;
+
+
+        public static Hik_Controladora_Tarjetas ObtenerInstancia()
+        {
+            if (instancia == null)
+            {
+                return new Hik_Controladora_Tarjetas();
+            }
+            return instancia;
+        }
+
+
+
         private int getCardCfgHandle;
         private int setCardCfgHandle;
         private int delCardCfgHandle;
@@ -65,9 +80,6 @@ namespace DeportNetReconocimiento.SDKHikvision
             if(SetCardCfgHandle >= 0)
             {
                 resultado = EnviarInformacionTarjeta(nuevoNumeroTarjeta, nuevoNombreRelacionadoTarjeta);
-
-                
-
             }
             else
             {
@@ -78,7 +90,6 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             return resultado;
         }
-        
         public Hik_Resultado EnviarInformacionTarjeta(int nuevoNumeroTarjeta, string nuevoNombreRelacionadoTarjeta)
         {
 
@@ -113,7 +124,6 @@ namespace DeportNetReconocimiento.SDKHikvision
             Marshal.FreeHGlobal(ptrTarjetaRecord);
             return resultado;
         }
-
         public void InicializarEstructuraTarjetaCond(ref Hik_SDK.NET_DVR_CARD_COND tarjetaCond,ref IntPtr ptrTarjetaCond)
         {
             tarjetaCond.Init();
@@ -122,7 +132,6 @@ namespace DeportNetReconocimiento.SDKHikvision
             ptrTarjetaCond = Marshal.AllocHGlobal((int)tarjetaCond.dwSize);
             Marshal.StructureToPtr(tarjetaCond, ptrTarjetaCond, false);
         }
-
         public void InicializarEstructuraTarjetaStatus(ref Hik_SDK.NET_DVR_CARD_STATUS tarjetaStatus, ref IntPtr ptrTarjetaStatus)
         {
             tarjetaStatus.Init();
@@ -130,7 +139,6 @@ namespace DeportNetReconocimiento.SDKHikvision
             ptrTarjetaStatus = Marshal.AllocHGlobal((int)tarjetaStatus.dwSize);
             Marshal.StructureToPtr(tarjetaStatus, ptrTarjetaStatus, false);
         }
-
         public void InicializarEstructuraTarjetaRecord(ref Hik_SDK.NET_DVR_CARD_RECORD tarjetaRecord, ref IntPtr ptrTarjetaRecord, int nuevoNumeroDeTarjeta, string nuevoNombreRelacionadoTarjeta)
         {
             tarjetaRecord.Init();
@@ -171,7 +179,6 @@ namespace DeportNetReconocimiento.SDKHikvision
             Marshal.StructureToPtr(tarjetaRecord, ptrTarjetaRecord, false);
 
         }
-
         //metodo sobrecargado, debido a que hace lo mismo pero hasta cierto punto, ademas de que usa las misma variables
         public void InicializarEstructuraTarjetaRecord(ref Hik_SDK.NET_DVR_CARD_RECORD tarjetaRecord, ref IntPtr ptrTarjetaRecord, int numeroDeTarjeta)
         {
@@ -188,15 +195,14 @@ namespace DeportNetReconocimiento.SDKHikvision
                 tarjetaRecord.byCardNo[i] = byTempCardNo[i];
             }
         }
-
-
-
         public void asignarFechaDeInicioYVencimientoTarjeta(ref Hik_SDK.NET_DVR_CARD_RECORD tarjetaRecord)
         {
             ushort anioActual = (ushort)DateTime.Now.Year;
             byte mesActual = (byte)DateTime.Now.Month;
             byte diaActual = (byte)DateTime.Now.Day;
             byte horaActual = (byte)DateTime.Now.Hour;
+            ushort anioSiguiente = (ushort)(DateTime.Now.Year + 1);
+
 
             //asignamos que exista una fecha de inicio y vencimiento
             tarjetaRecord.struValid.byEnable = 1;
@@ -210,15 +216,13 @@ namespace DeportNetReconocimiento.SDKHikvision
             tarjetaRecord.struValid.struBeginTime.bySecond = 11;
 
             //asignamos la fecha de vencimiento de la tarjeta
-            tarjetaRecord.struValid.struEndTime.wYear = anioActual;
+            tarjetaRecord.struValid.struEndTime.wYear =  anioSiguiente;
             tarjetaRecord.struValid.struEndTime.byMonth = mesActual;
             tarjetaRecord.struValid.struEndTime.byDay = diaActual;
             tarjetaRecord.struValid.struEndTime.byHour = horaActual;
             tarjetaRecord.struValid.struEndTime.byMinute = 11;
             tarjetaRecord.struValid.struEndTime.bySecond = 11;
         }
-
-
         public Hik_Resultado VerificarEstadoSetTarjeta(ref bool flag,int dwEstado, ref Hik_SDK.NET_DVR_CARD_STATUS tarjetaStatus)
         {
             Hik_Resultado resultado = new Hik_Resultado();
@@ -284,7 +288,6 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             return resultado;
         }
-
         public void InicializarTarjetaSendData(ref Hik_SDK.NET_DVR_CARD_SEND_DATA tarjetaSendData,ref IntPtr ptrTarjetaSendData)
         {
             tarjetaSendData.Init();
@@ -304,7 +307,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
 
         //get tarjeta 
-        private Hik_Resultado ObtenerUnaTarjeta(int nroTarjetaABuscar)
+        public Hik_Resultado ObtenerUnaTarjeta(int nroTarjetaABuscar)
         {
             Hik_Resultado hik_Resultado = new Hik_Resultado();
 
@@ -376,8 +379,6 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
             return hik_Resultado;
         }
-
-
         public Hik_Resultado VerificarEstadoGetTarjeta(ref bool flag,ref int dwState,Hik_SDK.NET_DVR_CARD_RECORD tarjetaRecord)
         {
             Hik_Resultado hik_Resultado = new Hik_Resultado();

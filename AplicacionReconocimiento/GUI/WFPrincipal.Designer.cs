@@ -40,6 +40,16 @@
             ValorActividadLabel = new Label();
             ValorClasesRestantesLabel = new Label();
             ValorMensajeLabel = new Label();
+            BotonSet = new Button();
+            botonDelete = new Button();
+            botonGet = new Button();
+            botonCapturar = new Button();
+            textBoxId = new TextBox();
+            labelId = new Label();
+            BotonAgregarUsuario = new Button();
+            textBoxNombre = new TextBox();
+            label1 = new Label();
+            BotonEliminarUsuario = new Button();
             ((System.ComponentModel.ISupportInitialize)imagenDeportnet).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -60,10 +70,9 @@
             pictureBox1.Location = new Point(76, 122);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(185, 200);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 11;
             pictureBox1.TabStop = false;
-            //pictureBox1.Dock = DockStyle.Fill;
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.Click += pictureBox1_Click;
             // 
             // ApellidoLabel
@@ -166,12 +175,117 @@
             ValorMensajeLabel.TabIndex = 21;
             ValorMensajeLabel.Text = "Mensaje Aqui...";
             // 
+            // BotonSet
+            // 
+            BotonSet.Location = new Point(898, 213);
+            BotonSet.Name = "BotonSet";
+            BotonSet.Size = new Size(98, 25);
+            BotonSet.TabIndex = 22;
+            BotonSet.Text = "Set cara";
+            BotonSet.UseVisualStyleBackColor = true;
+            BotonSet.Click += BotonSet_Click;
+            // 
+            // botonDelete
+            // 
+            botonDelete.Location = new Point(766, 216);
+            botonDelete.Name = "botonDelete";
+            botonDelete.Size = new Size(98, 22);
+            botonDelete.TabIndex = 23;
+            botonDelete.Text = "Eliminar Cara";
+            botonDelete.UseVisualStyleBackColor = true;
+            botonDelete.Click += delete_Click;
+            // 
+            // botonGet
+            // 
+            botonGet.Location = new Point(766, 254);
+            botonGet.Name = "botonGet";
+            botonGet.Size = new Size(98, 23);
+            botonGet.TabIndex = 24;
+            botonGet.Text = "Get Cara";
+            botonGet.UseVisualStyleBackColor = true;
+            botonGet.Click += botonGet_Click;
+            // 
+            // botonCapturar
+            // 
+            botonCapturar.Location = new Point(898, 254);
+            botonCapturar.Name = "botonCapturar";
+            botonCapturar.Size = new Size(98, 23);
+            botonCapturar.TabIndex = 25;
+            botonCapturar.Text = "Capturar cara";
+            botonCapturar.UseVisualStyleBackColor = true;
+            botonCapturar.Click += botonCapturar_Click;
+            // 
+            // textBoxId
+            // 
+            textBoxId.Location = new Point(838, 134);
+            textBoxId.Name = "textBoxId";
+            textBoxId.Size = new Size(98, 23);
+            textBoxId.TabIndex = 26;
+            // 
+            // labelId
+            // 
+            labelId.AutoSize = true;
+            labelId.ForeColor = SystemColors.ButtonHighlight;
+            labelId.Location = new Point(763, 137);
+            labelId.Name = "labelId";
+            labelId.Size = new Size(69, 15);
+            labelId.TabIndex = 28;
+            labelId.Text = "Nro tarjeta: ";
+            labelId.Click += label1_Click;
+            // 
+            // BotonAgregarUsuario
+            // 
+            BotonAgregarUsuario.Location = new Point(763, 309);
+            BotonAgregarUsuario.Name = "BotonAgregarUsuario";
+            BotonAgregarUsuario.Size = new Size(173, 23);
+            BotonAgregarUsuario.TabIndex = 29;
+            BotonAgregarUsuario.Text = "Agregar usuario completo";
+            BotonAgregarUsuario.UseVisualStyleBackColor = true;
+            BotonAgregarUsuario.Click += button1_Click;
+            // 
+            // textBoxNombre
+            // 
+            textBoxNombre.Location = new Point(838, 163);
+            textBoxNombre.Name = "textBoxNombre";
+            textBoxNombre.Size = new Size(100, 23);
+            textBoxNombre.TabIndex = 30;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.ForeColor = SystemColors.Control;
+            label1.Location = new Point(766, 171);
+            label1.Name = "label1";
+            label1.Size = new Size(54, 15);
+            label1.TabIndex = 31;
+            label1.Text = "Nombre:";
+            // 
+            // BotonEliminarUsuario
+            // 
+            BotonEliminarUsuario.Location = new Point(763, 354);
+            BotonEliminarUsuario.Name = "BotonEliminarUsuario";
+            BotonEliminarUsuario.Size = new Size(173, 23);
+            BotonEliminarUsuario.TabIndex = 32;
+            BotonEliminarUsuario.Text = "Eliminar usuario completo ";
+            BotonEliminarUsuario.UseVisualStyleBackColor = true;
+            BotonEliminarUsuario.Click += BotonEliminarUsuario_Click;
+            // 
             // WFPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.WindowFrame;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1115, 441);
+            Controls.Add(BotonEliminarUsuario);
+            Controls.Add(label1);
+            Controls.Add(textBoxNombre);
+            Controls.Add(BotonAgregarUsuario);
+            Controls.Add(labelId);
+            Controls.Add(textBoxId);
+            Controls.Add(botonCapturar);
+            Controls.Add(botonGet);
+            Controls.Add(botonDelete);
+            Controls.Add(BotonSet);
             Controls.Add(ValorMensajeLabel);
             Controls.Add(ValorClasesRestantesLabel);
             Controls.Add(ValorActividadLabel);
@@ -186,7 +300,6 @@
             Controls.Add(pictureBox1);
             Name = "WFPrincipal";
             Text = "Pantalla Bienvenida";
-            Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)imagenDeportnet).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
@@ -207,5 +320,15 @@
         private Label ValorActividadLabel;
         private Label ValorClasesRestantesLabel;
         private Label ValorMensajeLabel;
+        private Button BotonSet;
+        private Button botonDelete;
+        private Button botonGet;
+        private Button botonCapturar;
+        private TextBox textBoxId;
+        private Label labelId;
+        private Button BotonAgregarUsuario;
+        private TextBox textBoxNombre;
+        private Label label1;
+        private Button BotonEliminarUsuario;
     }
 }

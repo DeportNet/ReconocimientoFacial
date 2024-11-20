@@ -450,18 +450,6 @@ namespace DeportNetReconocimiento.SDK
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
-            //if (textBoxFilePath.Text == "")
-            //{
-            //    MessageBox.Show("Please choose human Face path");
-            //    return;
-            //}
-
-            //if (pictureBoxFace.Image != null)
-            //{
-            //    pictureBoxFace.Image.Dispose();
-            //    pictureBoxFace.Image = null;
-            //}
-
             Hik_SDK.NET_DVR_FACE_COND struCond = new Hik_SDK.NET_DVR_FACE_COND();
             int dwInBufferSize = 0;
             IntPtr ptrStruCond = IntPtr.Zero;
@@ -485,9 +473,7 @@ namespace DeportNetReconocimiento.SDK
 
                 InicializarFaceRecordSet(ref struRecord, cardNumber);
 
-                resultado = BuscarFotoParaIngresar(ref struRecord, Environment.CurrentDirectory + "/Fabri.jpg");  //Verificar el tema de la ruta, si hace falta ponerle el captura.jpg
-
-
+                resultado = BuscarFotoParaIngresar(ref struRecord, Path.Combine(Directory.GetCurrentDirectory(), "captura.jpg"));  
                 if (resultado.Exito)
                 { 
                     //se limpia dwInBufferSize
@@ -689,16 +675,7 @@ namespace DeportNetReconocimiento.SDK
         public Hik_Resultado EliminarCara(int cardReaderNumber,string cardNumber)
         {
             Hik_Resultado resultado = new Hik_Resultado();
-
-            
-            //Resetea el picutreBox y el textBox
-           // if (pictureBoxFace.Image != null)
-          //  {
-            //    pictureBoxFace.Image.Dispose();
-                //pictureBoxFace.Image = null;
-         //   }
-           // textBoxFilePath.Text = "";
-           
+   
 
             Hik_SDK.NET_DVR_FACE_PARAM_CTRL_CARDNO struCardNo = new Hik_SDK.NET_DVR_FACE_PARAM_CTRL_CARDNO();
 

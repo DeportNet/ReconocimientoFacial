@@ -1131,7 +1131,7 @@ namespace DeportNetReconocimiento.SDK
         [DllImport(rutaLibreriaSDK)]
         public static extern bool NET_DVR_StopRemoteConfig(int lHandle);
 
-        [DllImport(rutaLibreriaSDK)]
+        [DllImport(rutaLibreriaSDK, EntryPoint = "NET_DVR_SendWithRecvRemoteConfig")]
         public static extern int NET_DVR_SendWithRecvRemoteConfigFacial(int lHandle, ref Hik_SDK.NET_DVR_FACE_RECORD lpInBuff, int dwInBuffSize, ref Hik_SDK.NET_DVR_FACE_STATUS lpOutBuff, int dwOutBuffSize, IntPtr dwOutDataLen);
 
         [DllImport(rutaLibreriaSDK)]
@@ -1144,7 +1144,7 @@ namespace DeportNetReconocimiento.SDK
         public static extern bool NET_DVR_ControlGateway(int lUserID, int lGatewayIndex, uint dwStaic);
 
         /*Prototipados Tarjetas*/
-        [DllImport(rutaLibreriaSDK)]
+        [DllImport(rutaLibreriaSDK, EntryPoint = "NET_DVR_SendWithRecvRemoteConfig")]
         public static extern int NET_DVR_SendWithRecvRemoteConfigTarjeta(int lHandle, IntPtr lpInBuff, uint dwInBuffSize, IntPtr lpOutBuff, uint dwOutBuffSize, ref uint dwOutDataLen);
 
         /*Prototipados eventos*/
