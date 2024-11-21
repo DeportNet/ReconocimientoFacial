@@ -26,7 +26,6 @@ namespace DeportNetReconocimiento.SDKHikvision
 
      
         public Hik_Controladora_Eventos(){
-
             this.SetupAlarm();
 
             msgCallback = new MSGCallBack(MsgCallback);
@@ -80,7 +79,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             {
                 /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
                 string jsonDeDeportnet = "{ \"Id\": \"1\", \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Habrá descuentos especiales la semana que viene\" }";
-                WFPrincipal.ObtenerInstancia().ActualizarDatos(nroReader,jsonDeDeportnet);
+                WFPrincipal.ObtenerInstancia.ActualizarDatos(nroReader,jsonDeDeportnet);
 
             }
 

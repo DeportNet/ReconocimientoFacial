@@ -12,7 +12,8 @@ namespace DeportNetReconocimiento
 {
     public partial class WFRgistrarDispositivo : Form
     {
-        
+        public bool ignorarCierre = false;
+
         public WFRgistrarDispositivo()
         {
             InitializeComponent();
@@ -52,18 +53,20 @@ namespace DeportNetReconocimiento
                 return;
             }
 
-            Hik_Resultado resultadoLogin = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(textBoxUserName.Text, textBoxPassword.Text, textBoxPort.Text, textBoxDeviceAddress.Text);
+
+            
+            Hik_Resultado resultadoLogin = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma (textBoxUserName.Text, textBoxPassword.Text, textBoxPort.Text, textBoxDeviceAddress.Text);
+            
+            
             if (resultadoLogin.Exito)
             {
 
                 //creamos un arreglo de strings con los datos que recibimos del input
                 //ip , puerto, usuario, contraseña
                 escribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text]);
-
+                ignorarCierre = true;
                 this.Close();
-                this.Dispose();
-
-                WFPrincipal.ObtenerInstancia().Activate();
+                Environment.Exit(0); // 0 indica salida exitosa; otro valor indica error.
 
             }
             else
@@ -71,6 +74,7 @@ namespace DeportNetReconocimiento
                 MessageBox.Show("Datos de registro incorrectos. El dispositivo tiene otras credenciales.");
 
             }
+           
         }
 
         public void escribirArchivoCredenciales(string[] arregloDeDatos)
@@ -90,6 +94,31 @@ namespace DeportNetReconocimiento
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+
+
+        private void cerrarFormulario(object sender, FormClosingEventArgs e)
+        {
+            if(!ignorarCierre)
+            {
+
+            var result = MessageBox.Show("¿Estás seguro de que quieres cerrar la aplicación?",
+                                         "Confirmación",
+                                         MessageBoxButtons.YesNo,
+                                         MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                // Cerrar completamente la aplicación
+                Environment.Exit(0);
+            }
+            else
+            {
+                // Cancelar el cierre
+                e.Cancel = true;
+            }
+            }
         }
 
         private void WFRgistrarDispositivo_Load(object sender, EventArgs e)

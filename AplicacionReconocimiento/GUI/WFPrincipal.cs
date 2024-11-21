@@ -1,6 +1,7 @@
 ﻿using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.SDKHikvision;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.Json;
@@ -20,21 +21,23 @@ namespace DeportNetReconocimiento.GUI
         public WFPrincipal()
         {
             InitializeComponent();
+
             InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
             ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
         }
 
         //propiedades
-        public static WFPrincipal ObtenerInstancia()
+        public static WFPrincipal ObtenerInstancia
         {
             
-
+            get {
             if (instancia == null)
             {
                 instancia = new WFPrincipal();
             }
             return instancia;
             
+            }
         }
 
 
@@ -45,29 +48,28 @@ namespace DeportNetReconocimiento.GUI
 
             //ip , puerto, usuario, contraseña en ese orden
             string[] credenciales = LeerCredenciales();
-
-            if(credenciales.Length > 0)
+            if(credenciales.Length > 0 && Hik_Controladora_General.InstanciaControladoraGeneral != null)
             {
-
                 resultado = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(credenciales[2], credenciales[3], credenciales[1], credenciales[0]);
+
+            }
+            else if (credenciales.Length > 0){
+                resultado.Mensaje = "Credenciales leidas con exito";
+
             }
             else
             {
                 resultado.Exito = false;
-                resultado.Mensaje = "No se pudieron leer las credenciales";
-                
+               resultado.Mensaje = "No se pudieron leer las credenciales";
+
             }
-
-
             if (!resultado.Exito)
             {
                 //Si no hubo exito mostrar ventana con el error. Un modal 
                 MessageBox.Show("Error no se pudo iniciar sesion con exito... Vuelva a intentarlo");
             }
-            else
-            {
-                hik_Controladora_General = Hik_Controladora_General.InstanciaControladoraGeneral;
-            }
+
+            hik_Controladora_General = Hik_Controladora_General.InstanciaControladoraGeneral;
 
             return resultado;
         }
@@ -81,7 +83,7 @@ namespace DeportNetReconocimiento.GUI
             //si el archivo no existe, se abre la ventana para registrar el dispositivo
             if (!File.Exists(rutaArchivo))
             {
-                this.Hide();
+                //this.Hide();
                 WFRgistrarDispositivo wFRgistrarDispositivo = new WFRgistrarDispositivo();
                 wFRgistrarDispositivo.ShowDialog();
             }
@@ -159,7 +161,7 @@ namespace DeportNetReconocimiento.GUI
         {
             Hik_Resultado resultado = new Hik_Resultado();
             timer = new System.Windows.Forms.Timer();
-            timer.Interval = 10000;
+            timer.Interval = 20000;
             timer.Tick += async (s, e) =>
             {
                 resultado.Exito = await verificarEstadoDispositivoAsync();
@@ -213,7 +215,6 @@ namespace DeportNetReconocimiento.GUI
         {
             Image imagen = null;
             //Se obtiene la foto del cliente
-            Console.WriteLine("idCliente: " + idCliente);
             Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(nroLector, idCliente);
             if (resultado.Exito)
             {
@@ -279,6 +280,9 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
+        /* - - - - - - Botones para diferentes funcionalidades - - - - - - - -*/
+
+        //Poner cara a un usuario
         private void BotonSet_Click(object sender, EventArgs e)
         {
 
@@ -288,16 +292,16 @@ namespace DeportNetReconocimiento.GUI
                 pictureBox1.Image = null;
             }
             Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(1, textBoxId.Text);
-            MessageBox.Show(resultado.Mensaje);
             //Si hay una foto
             if (resultado.Exito)
             {
                  resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, textBoxId.Text);
-                MessageBox.Show(resultado.Mensaje);
+                MessageBox.Show("Cara seteada con exito");
             }
 
         }
 
+        //Eliminar cara de usuario
         private void delete_Click(object sender, EventArgs e)
         {
             Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(1, textBoxId.Text);
@@ -311,11 +315,11 @@ namespace DeportNetReconocimiento.GUI
             Console.Write(resultado.Mensaje);
         }
 
+        //Capturar una foto
         private void botonCapturar_Click(object sender, EventArgs e)
         {
             ActualizarCapturarCara();
         }
-
         public async void ActualizarCapturarCara()
         {
             if (InvokeRequired)
@@ -334,6 +338,7 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
+        //Obtener la foto de un cliente 
         private void botonGet_Click(object sender, EventArgs e)
         {
 
@@ -345,7 +350,6 @@ namespace DeportNetReconocimiento.GUI
             pictureBox1.Image = ObtenerFotoCliente(1, textBoxId.Text);
         }
         
-
 
         //Agregar usuario compelto 
         private void button1_Click(object sender, EventArgs e)
@@ -360,7 +364,6 @@ namespace DeportNetReconocimiento.GUI
                 MessageBox.Show("Completa los campos");
             }
         }
-
         public void AgregarUsuarioCompleto(int nroLector, int nroTarjeta, string nombreCliente)
         {
             Hik_Resultado resultado = new Hik_Resultado();
@@ -370,6 +373,11 @@ namespace DeportNetReconocimiento.GUI
                 Invoke(new Action<int, int, string>(AgregarUsuarioCompleto),nroLector, nroTarjeta, nombreCliente);
                 return;
             }
+            if (pictureBox1.Image != null)
+            {
+                pictureBox1.Image.Dispose();
+                pictureBox1.Image = null;
+            }
 
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(nroTarjeta, nombreCliente);
             if (resultado.Exito)
@@ -378,10 +386,11 @@ namespace DeportNetReconocimiento.GUI
                 if (resultado.Exito)
                 {
                     resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara((uint)nroLector, nroTarjeta.ToString());
+                    MessageBox.Show("Se agrego el usuario con exito");
+
                 }
             }
 
-            MessageBox.Show(resultado.Mensaje);
         }
 
 
@@ -398,7 +407,6 @@ namespace DeportNetReconocimiento.GUI
                 MessageBox.Show("Completa los campos");
             }
         }
-
         public void EliminarUsuarioCompleto(int nroLector, string idTarjeta)
         {
             if (InvokeRequired)
@@ -412,8 +420,16 @@ namespace DeportNetReconocimiento.GUI
             resultado = Hik_Controladora_Facial.ObtenerInstancia.EliminarCara(nroLector, idTarjeta);
             if (resultado.Exito)
             {
-                Console.WriteLine("Entro aca");
                 resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EliminarTarjetaPorId(int.Parse(idTarjeta));
+                if(resultado.Exito)
+                {
+                    if (pictureBox1.Image != null)
+                    {
+                        pictureBox1.Image.Dispose();
+                        pictureBox1.Image = null;
+                    }
+                    MessageBox.Show("Usuario eliminado con exito");
+                }
             }
 
 
