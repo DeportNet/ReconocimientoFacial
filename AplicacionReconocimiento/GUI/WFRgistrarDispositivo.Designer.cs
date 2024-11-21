@@ -43,6 +43,8 @@
             textBoxDeviceAddress = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
+            this.FormClosing += cerrarFormulario;
+
             // 
             // panel1
             // 

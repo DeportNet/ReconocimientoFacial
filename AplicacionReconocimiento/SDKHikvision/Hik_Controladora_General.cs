@@ -346,6 +346,7 @@ namespace DeportNetReconocimiento.SDK
         //INICIALIZAMOS TODO
         public Hik_Resultado InicializarPrograma(string user, string password, string port, string ip)
         {
+
             Hik_Resultado resultadoGeneral = new Hik_Resultado();
             
             resultadoGeneral = InicializarNet_DVR();
@@ -375,10 +376,7 @@ namespace DeportNetReconocimiento.SDK
                 return resultadoGeneral;
             }
 
-            //Hik_Resultado res = new Hik_Resultado();
-          //  Hik_Controladora_Tarjetas controlador = new Hik_Controladora_Tarjetas();
-          //  res = controlador.ObtenerUnaTarjeta(1);
-           // Console.WriteLine(res.Mensaje);
+
 
             //setteamos el callback para obtener los ids de los usuarios
             this.hik_Controladora_Eventos = new Hik_Controladora_Eventos();
