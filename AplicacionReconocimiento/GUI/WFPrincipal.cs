@@ -166,6 +166,9 @@ namespace DeportNetReconocimiento.GUI
             {
                 resultado.Exito = await verificarEstadoDispositivoAsync();
 
+                //Verificar estado de internet
+                //El objetivo es saber si los datos reconocidos se almacenan o no en la base de datos local
+
                 if (!resultado.Exito)
                 {
                     InstanciarPrograma();
@@ -377,7 +380,7 @@ namespace DeportNetReconocimiento.GUI
             {
                 pictureBox1.Image.Dispose();
                 pictureBox1.Image = null;
-            }
+            } 
 
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(nroTarjeta, nombreCliente);
             if (resultado.Exito)
