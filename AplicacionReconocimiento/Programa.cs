@@ -1,6 +1,7 @@
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.SDKHikvision;
+using DeportNetReconocimiento.Utils;
 using System.Diagnostics;
 using static DeportNetReconocimiento.SDK.Hik_SDK;
 
@@ -12,6 +13,7 @@ namespace DeportNetReconocimiento
         [STAThread]
         static void Main(string[] args)
         {
+
 
 
 
