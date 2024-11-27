@@ -1,5 +1,6 @@
 ﻿using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDKHikvision;
+using DeportNetReconocimiento.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
@@ -8,9 +9,11 @@ using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Schema;
 using static DeportNetReconocimiento.SDK.Hik_SDK;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace DeportNetReconocimiento.SDK
@@ -23,7 +26,7 @@ namespace DeportNetReconocimiento.SDK
         private static Hik_Controladora_General? instanciaControladoraGeneral;
 
 
-        
+
 
         private int idUsuario; // solo puede haber solo un user_ID
         private bool soportaFacial;
@@ -63,10 +66,10 @@ namespace DeportNetReconocimiento.SDK
 
         public int IdUsuario
         {
-            get{ return idUsuario; }
-            set{ idUsuario = value; }
-        }  
-      
+            get { return idUsuario; }
+            set { idUsuario = value; }
+        }
+
         public bool SoportaFacial
         {
             get { return soportaFacial; }
@@ -96,16 +99,17 @@ namespace DeportNetReconocimiento.SDK
             {
                 Hik_SDK.NET_DVR_Init();
                 resultado.Mensaje = "NET_DVR_Init éxito";
-                resultado.Exito= true;
+                resultado.Exito = true;
 
-            } catch
-            { 
+            }
+            catch
+            {
                 resultado.Exito = false;
                 resultado.Mensaje = "NET_DVR_Init error";
             }
 
             Hik_Resultado.EscribirLog();
-        
+
             return resultado;
         }
 
@@ -113,14 +117,14 @@ namespace DeportNetReconocimiento.SDK
         {
             Hik_Resultado loginResultado = new Hik_Resultado();
 
-            
+
             //cerramos la sesion que estaba iniciada anteriormente
             if (IdUsuario >= 0)
             {
                 Hik_SDK.NET_DVR_Logout_V30(idUsuario);
                 IdUsuario = -1;
             }
-            
+
             //creamos y cargamos las estructuras de informacion de login y de informacion del dispositivo
 
             Hik_SDK.NET_DVR_USER_LOGIN_INFO struLoginInfo = new Hik_SDK.NET_DVR_USER_LOGIN_INFO();
@@ -131,18 +135,18 @@ namespace DeportNetReconocimiento.SDK
             struLoginInfo.sUserName = user;
             struLoginInfo.sPassword = password;
             ushort.TryParse(port, out struLoginInfo.wPort);
-            
+
 
             //utilizamos metodo de iniciar sesion
             int auxUserID = -1;
             auxUserID = Hik_SDK.NET_DVR_Login_V40(ref struLoginInfo, ref struDeviceInfoV40);
-            
+
             if (auxUserID >= 0)
             {
                 //si da mayor a 0 signfica exito
                 IdUsuario = auxUserID;
                 loginResultado.Mensaje = "Se inicio sesión con exito";
-                loginResultado.Exito= true;
+                loginResultado.Exito = true;
             }
             else
             {
@@ -308,7 +312,7 @@ namespace DeportNetReconocimiento.SDK
             {
                 //AcsAbility no soportado
                 resultado.Codigo = "1000";
-                resultado.Mensaje= GetDescripcionErrorDeviceAbility(1000);
+                resultado.Mensaje = GetDescripcionErrorDeviceAbility(1000);
                 resultado.Exito = false;
             }
             else
@@ -334,7 +338,7 @@ namespace DeportNetReconocimiento.SDK
             bool soporta = false;
             XmlNode? nodoBuscado = resultadoXML.SelectSingleNode(capacidad);
 
-            if(nodoBuscado!= null)
+            if (nodoBuscado != null)
             {
                 soporta = true;
             }
@@ -342,13 +346,13 @@ namespace DeportNetReconocimiento.SDK
             return soporta;
 
         }
-        
+
         //INICIALIZAMOS TODO
         public Hik_Resultado InicializarPrograma(string user, string password, string port, string ip)
         {
 
             Hik_Resultado resultadoGeneral = new Hik_Resultado();
-            
+
             resultadoGeneral = InicializarNet_DVR();
 
             if (!resultadoGeneral.Exito)
@@ -381,7 +385,7 @@ namespace DeportNetReconocimiento.SDK
             //setteamos el callback para obtener los ids de los usuarios
             this.hik_Controladora_Eventos = new Hik_Controladora_Eventos();
 
-            
+
             return resultadoGeneral;
         }
 
@@ -409,7 +413,7 @@ namespace DeportNetReconocimiento.SDK
                 }
                 else
                 {
-                    
+
                     Console.WriteLine("No se pudo conectar: " + reply.Status);
                 }
             }
@@ -425,7 +429,54 @@ namespace DeportNetReconocimiento.SDK
         }
 
 
+        public Hik_Resultado AltaCliente(string id, string nombre)
+        {
+            Hik_Resultado resultado = new Hik_Resultado();
+
+            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(int.Parse(id), nombre);
+            if (resultado.Exito)
+            {
+                resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
+                if (resultado.Exito)
+                {
+                    resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, id);
+                    MessageBox.Show("Se agrego el usuario con exito");
+                }
+            }
+
+            return resultado;
+        }
 
 
+        public Hik_Resultado BajaCliente(string id)
+        {
+            Hik_Resultado resultado = new Hik_Resultado();
+
+
+            resultado = Hik_Controladora_Facial.ObtenerInstancia.EliminarCara(1, id);
+            if (resultado.Exito)
+            {
+                resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EliminarTarjetaPorId(int.Parse(id));
+                if (resultado.Exito)
+                {
+                    MessageBox.Show("Usuario eliminado con exito");
+                }
+            }
+            return resultado;
+        }
+
+
+
+        public Hik_Resultado BajaMasivaClientes(string[] ids)
+        {
+            Hik_Resultado resultado = new Hik_Resultado();
+
+            foreach (string id in ids)
+            {
+                resultado = BajaCliente(id);
+            }
+
+            return resultado;
+        }
     }
 }
