@@ -1,6 +1,7 @@
 ﻿using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.SDKHikvision;
+using DeportNetReconocimiento.Utils;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -23,6 +24,7 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
 
             InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            Escuchador_Directorio.InicializarEscuchadorEnHilo();
             ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
         }
 
@@ -329,9 +331,35 @@ namespace DeportNetReconocimiento.GUI
                 this.Hide(); // Oculta la ventana principal
             }
 
+            pictureBox1.Image = ObtenerFotoCliente(1, textBoxId.Text);
+        }
+        
+        //Agregar usuario compelto 
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+
         }
 
+
+        public void AgregarUsuarioCompleto(int nroLector, int nroTarjeta, string nombreCliente)
+        {
+            Hik_Resultado resultado = new Hik_Resultado();
+
+            if (InvokeRequired)
+            {
+                Invoke(new Action<int, int, string>(AgregarUsuarioCompleto),nroLector, nroTarjeta, nombreCliente);
+                return;
+            }
+            if (pictureBox1.Image != null)
+            {
+                pictureBox1.Image.Dispose();
+                pictureBox1.Image = null;
+            } 
+
+
         /* - - - - - - Botones para diferentes funcionalidades - - - - - - - - */
+
 
         //Poner cara a un usuario
         //private void BotonSet_Click(object sender, EventArgs e)
@@ -487,6 +515,9 @@ namespace DeportNetReconocimiento.GUI
         //}
 
         private void WFPrincipal_Load(object sender, EventArgs e)
+
+        //Boton usuario completo
+        private void BotonEliminarUsuario_Click(object sender, EventArgs e)
         {
 
         }
