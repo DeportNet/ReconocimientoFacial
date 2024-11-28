@@ -43,8 +43,6 @@
             textBoxDeviceAddress = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
-            this.FormClosing += cerrarFormulario;
-
             // 
             // panel1
             // 
@@ -195,6 +193,7 @@
             Name = "WFRgistrarDispositivo";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Registrar Dispositivo";
+            FormClosing += cerrarFormulario;
             Load += WFRgistrarDispositivo_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

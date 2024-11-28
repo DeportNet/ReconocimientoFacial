@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WFPanelOffline));
             pictureBox1 = new PictureBox();
             controlPuertasLabel = new Label();
             AbrirPuerta = new Button();
@@ -39,11 +40,11 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.BackColor = SystemColors.Info;
-            pictureBox1.BackgroundImage = Properties.Resources.logo_deportnet_2;
-            pictureBox1.Location = new Point(12, 12);
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Image = Properties.Resources.logo_deportnet_1;
+            pictureBox1.Location = new Point(0, -1);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(349, 298);
+            pictureBox1.Size = new Size(962, 185);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
@@ -114,6 +115,7 @@
             Controls.Add(AbrirPuerta);
             Controls.Add(controlPuertasLabel);
             Controls.Add(pictureBox1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "WFPanelOffline";
             Text = "Panel Offline";
             Load += WFPanelOffline_Load;

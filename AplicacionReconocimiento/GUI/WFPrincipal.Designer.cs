@@ -1,4 +1,6 @@
-﻿namespace DeportNetReconocimiento.GUI
+﻿using System.Windows.Forms;
+
+namespace DeportNetReconocimiento.GUI
 {
     partial class WFPrincipal
     {
@@ -28,280 +30,209 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WFPrincipal));
             imagenDeportnet = new PictureBox();
             pictureBox1 = new PictureBox();
-            ApellidoLabel = new Label();
-            NombreLabel = new Label();
-            ActividadLabel = new Label();
-            ClasesRestantesLabel = new Label();
-            MensajeLabel = new Label();
-            ValorApellidoLabel = new Label();
-            valorNombreLabel = new Label();
-            ValorActividadLabel = new Label();
-            ValorClasesRestantesLabel = new Label();
-            ValorMensajeLabel = new Label();
-            BotonSet = new Button();
-            botonDelete = new Button();
-            botonGet = new Button();
-            botonCapturar = new Button();
-            textBoxId = new TextBox();
-            labelId = new Label();
-            BotonAgregarUsuario = new Button();
-            textBoxNombre = new TextBox();
-            label1 = new Label();
-            BotonEliminarUsuario = new Button();
+            vtoLabel = new Label();
+            actividadLabel = new Label();
+            valorFechaVtoLabel = new Label();
+            valorClasesRestLabel = new Label();
+            mensajeOpcionalLabel = new Label();
+            clasesRestLabel = new Label();
+            trayReconocimiento = new NotifyIcon(components);
+            HeaderLabel = new Label();
+            valorNombreHeaderLabel = new Label();
+            valorMensajeLabel = new Label();
+            panel1 = new Panel();
             ((System.ComponentModel.ISupportInitialize)imagenDeportnet).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // imagenDeportnet
             // 
+            imagenDeportnet.BackColor = Color.DimGray;
             imagenDeportnet.Image = Properties.Resources.logo_deportnet_1;
-            imagenDeportnet.Location = new Point(230, 30);
+            imagenDeportnet.Location = new Point(-1, -1);
             imagenDeportnet.Name = "imagenDeportnet";
-            imagenDeportnet.Size = new Size(370, 70);
+            imagenDeportnet.Size = new Size(1265, 133);
             imagenDeportnet.SizeMode = PictureBoxSizeMode.StretchImage;
             imagenDeportnet.TabIndex = 1;
             imagenDeportnet.TabStop = false;
             // 
             // pictureBox1
             // 
-            pictureBox1.BackColor = SystemColors.ControlDark;
-            pictureBox1.Location = new Point(76, 122);
+            pictureBox1.BackColor = Color.DarkGray;
+            pictureBox1.Location = new Point(12, 223);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(185, 200);
+            pictureBox1.Size = new Size(431, 446);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 11;
             pictureBox1.TabStop = false;
-           
             // 
-            // ApellidoLabel
+            // vtoLabel
             // 
-            ApellidoLabel.AutoSize = true;
-            ApellidoLabel.ForeColor = SystemColors.Info;
-            ApellidoLabel.Location = new Point(344, 142);
-            ApellidoLabel.Name = "ApellidoLabel";
-            ApellidoLabel.Size = new Size(54, 15);
-            ApellidoLabel.TabIndex = 12;
-            ApellidoLabel.Text = "Apellido:";
+            vtoLabel.AutoSize = true;
+            vtoLabel.Font = new Font("Arial Rounded MT Bold", 36F);
+            vtoLabel.ForeColor = SystemColors.ControlText;
+            vtoLabel.Location = new Point(449, 313);
+            vtoLabel.Name = "vtoLabel";
+            vtoLabel.Size = new Size(331, 55);
+            vtoLabel.TabIndex = 17;
+            vtoLabel.Text = "Vencimiento:";
+            vtoLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // NombreLabel
+            // actividadLabel
             // 
-            NombreLabel.AutoSize = true;
-            NombreLabel.ForeColor = SystemColors.Info;
-            NombreLabel.Location = new Point(344, 182);
-            NombreLabel.Name = "NombreLabel";
-            NombreLabel.Size = new Size(54, 15);
-            NombreLabel.TabIndex = 13;
-            NombreLabel.Text = "Nombre:";
+            actividadLabel.AutoSize = true;
+            actividadLabel.Font = new Font("Arial Rounded MT Bold", 36F);
+            actividadLabel.ForeColor = SystemColors.ControlText;
+            actividadLabel.Location = new Point(449, 238);
+            actividadLabel.Name = "actividadLabel";
+            actividadLabel.Size = new Size(404, 55);
+            actividadLabel.TabIndex = 18;
+            actividadLabel.Text = "Actividad aqui...";
+            actividadLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // ActividadLabel
+            // valorFechaVtoLabel
             // 
-            ActividadLabel.AutoSize = true;
-            ActividadLabel.ForeColor = SystemColors.Info;
-            ActividadLabel.Location = new Point(344, 223);
-            ActividadLabel.Name = "ActividadLabel";
-            ActividadLabel.Size = new Size(60, 15);
-            ActividadLabel.TabIndex = 14;
-            ActividadLabel.Text = "Actividad:";
+            valorFechaVtoLabel.AutoSize = true;
+            valorFechaVtoLabel.Font = new Font("Arial Rounded MT Bold", 36F);
+            valorFechaVtoLabel.ForeColor = SystemColors.ControlText;
+            valorFechaVtoLabel.Location = new Point(795, 313);
+            valorFechaVtoLabel.Name = "valorFechaVtoLabel";
+            valorFechaVtoLabel.Size = new Size(411, 55);
+            valorFechaVtoLabel.TabIndex = 19;
+            valorFechaVtoLabel.Text = "Fecha vto aqui...";
+            valorFechaVtoLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // ClasesRestantesLabel
+            // valorClasesRestLabel
             // 
-            ClasesRestantesLabel.AutoSize = true;
-            ClasesRestantesLabel.ForeColor = SystemColors.Info;
-            ClasesRestantesLabel.Location = new Point(311, 262);
-            ClasesRestantesLabel.Name = "ClasesRestantesLabel";
-            ClasesRestantesLabel.Size = new Size(93, 15);
-            ClasesRestantesLabel.TabIndex = 15;
-            ClasesRestantesLabel.Text = "Clases restantes:";
+            valorClasesRestLabel.AutoSize = true;
+            valorClasesRestLabel.Font = new Font("Arial Rounded MT Bold", 36F);
+            valorClasesRestLabel.ForeColor = SystemColors.ControlText;
+            valorClasesRestLabel.Location = new Point(899, 382);
+            valorClasesRestLabel.Name = "valorClasesRestLabel";
+            valorClasesRestLabel.Size = new Size(155, 55);
+            valorClasesRestLabel.TabIndex = 20;
+            valorClasesRestLabel.Text = "Nro...";
+            valorClasesRestLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // MensajeLabel
+            // mensajeOpcionalLabel
             // 
-            MensajeLabel.AutoSize = true;
-            MensajeLabel.ForeColor = SystemColors.Info;
-            MensajeLabel.Location = new Point(344, 307);
-            MensajeLabel.Name = "MensajeLabel";
-            MensajeLabel.Size = new Size(54, 15);
-            MensajeLabel.TabIndex = 16;
-            MensajeLabel.Text = "Mensaje:";
+            mensajeOpcionalLabel.AutoSize = true;
+            mensajeOpcionalLabel.Font = new Font("Arial Rounded MT Bold", 36F);
+            mensajeOpcionalLabel.ForeColor = SystemColors.ControlText;
+            mensajeOpcionalLabel.Location = new Point(449, 443);
+            mensajeOpcionalLabel.Name = "mensajeOpcionalLabel";
+            mensajeOpcionalLabel.Size = new Size(234, 55);
+            mensajeOpcionalLabel.TabIndex = 21;
+            mensajeOpcionalLabel.Text = "Mensaje:";
+            mensajeOpcionalLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // ValorApellidoLabel
+            // clasesRestLabel
             // 
-            ValorApellidoLabel.AutoSize = true;
-            ValorApellidoLabel.ForeColor = SystemColors.Info;
-            ValorApellidoLabel.Location = new Point(432, 142);
-            ValorApellidoLabel.Name = "ValorApellidoLabel";
-            ValorApellidoLabel.Size = new Size(88, 15);
-            ValorApellidoLabel.TabIndex = 17;
-            ValorApellidoLabel.Text = "Apellido Aqui...";
+            clasesRestLabel.AutoSize = true;
+            clasesRestLabel.Font = new Font("Arial Rounded MT Bold", 36F);
+            clasesRestLabel.ForeColor = SystemColors.ControlText;
+            clasesRestLabel.Location = new Point(449, 382);
+            clasesRestLabel.Name = "clasesRestLabel";
+            clasesRestLabel.Size = new Size(433, 55);
+            clasesRestLabel.TabIndex = 22;
+            clasesRestLabel.Text = "Clases restantes:";
+            clasesRestLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // valorNombreLabel
+            // trayReconocimiento
             // 
-            valorNombreLabel.AutoSize = true;
-            valorNombreLabel.ForeColor = SystemColors.Info;
-            valorNombreLabel.Location = new Point(432, 182);
-            valorNombreLabel.Name = "valorNombreLabel";
-            valorNombreLabel.Size = new Size(88, 15);
-            valorNombreLabel.TabIndex = 18;
-            valorNombreLabel.Text = "Nombre Aqui...";
+            trayReconocimiento.BalloonTipIcon = ToolTipIcon.Info;
+            trayReconocimiento.BalloonTipText = "Deportnet Reconocimiento";
+            trayReconocimiento.BalloonTipTitle = "Deportnet Reconocimiento";
+            trayReconocimiento.Icon = (Icon)resources.GetObject("trayReconocimiento.Icon");
+            trayReconocimiento.Tag = "Deportnet Reconocimiento";
+            trayReconocimiento.Text = "Deportnet Reconocimiento";
+            trayReconocimiento.Visible = true;
+            trayReconocimiento.MouseDoubleClick += trayReconocimiento_MouseDoubleClick;
             // 
-            // ValorActividadLabel
+            // HeaderLabel
             // 
-            ValorActividadLabel.AutoSize = true;
-            ValorActividadLabel.ForeColor = SystemColors.Info;
-            ValorActividadLabel.Location = new Point(432, 223);
-            ValorActividadLabel.Name = "ValorActividadLabel";
-            ValorActividadLabel.Size = new Size(94, 15);
-            ValorActividadLabel.TabIndex = 19;
-            ValorActividadLabel.Text = "Actividad Aqui...";
+            HeaderLabel.AutoSize = true;
+            HeaderLabel.BackColor = Color.Transparent;
+            HeaderLabel.Font = new Font("Arial Rounded MT Bold", 56.25F);
+            HeaderLabel.ForeColor = Color.FromArgb(192, 0, 0);
+            HeaderLabel.Location = new Point(25, 4);
+            HeaderLabel.Name = "HeaderLabel";
+            HeaderLabel.Size = new Size(706, 87);
+            HeaderLabel.TabIndex = 23;
+            HeaderLabel.Text = "Acceso Denegado";
+            HeaderLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // ValorClasesRestantesLabel
+            // valorNombreHeaderLabel
             // 
-            ValorClasesRestantesLabel.AutoSize = true;
-            ValorClasesRestantesLabel.ForeColor = SystemColors.Info;
-            ValorClasesRestantesLabel.Location = new Point(432, 262);
-            ValorClasesRestantesLabel.Name = "ValorClasesRestantesLabel";
-            ValorClasesRestantesLabel.Size = new Size(130, 15);
-            ValorClasesRestantesLabel.TabIndex = 20;
-            ValorClasesRestantesLabel.Text = "Clases Restantes Aqui...";
+            valorNombreHeaderLabel.AutoSize = true;
+            valorNombreHeaderLabel.BackColor = Color.Transparent;
+            valorNombreHeaderLabel.Font = new Font("Arial Rounded MT Bold", 56.25F);
+            valorNombreHeaderLabel.ForeColor = Color.FromArgb(192, 0, 0);
+            valorNombreHeaderLabel.Location = new Point(737, 4);
+            valorNombreHeaderLabel.Name = "valorNombreHeaderLabel";
+            valorNombreHeaderLabel.Size = new Size(388, 87);
+            valorNombreHeaderLabel.TabIndex = 25;
+            valorNombreHeaderLabel.Text = "{Nombre}";
+            valorNombreHeaderLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // ValorMensajeLabel
+            // valorMensajeLabel
             // 
-            ValorMensajeLabel.AutoSize = true;
-            ValorMensajeLabel.ForeColor = SystemColors.Info;
-            ValorMensajeLabel.Location = new Point(432, 307);
-            ValorMensajeLabel.Name = "ValorMensajeLabel";
-            ValorMensajeLabel.Size = new Size(88, 15);
-            ValorMensajeLabel.TabIndex = 21;
-            ValorMensajeLabel.Text = "Mensaje Aqui...";
+            valorMensajeLabel.AutoSize = true;
+            valorMensajeLabel.Font = new Font("Arial Rounded MT Bold", 36F);
+            valorMensajeLabel.ForeColor = SystemColors.ControlText;
+            valorMensajeLabel.Location = new Point(449, 498);
+            valorMensajeLabel.Name = "valorMensajeLabel";
+            valorMensajeLabel.Size = new Size(377, 55);
+            valorMensajeLabel.TabIndex = 26;
+            valorMensajeLabel.Text = "Mensaje aqui...";
+            valorMensajeLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // BotonSet
+            // panel1
             // 
-            BotonSet.Location = new Point(898, 213);
-            BotonSet.Name = "BotonSet";
-            BotonSet.Size = new Size(98, 25);
-            BotonSet.TabIndex = 22;
-            BotonSet.Text = "Set cara";
-            BotonSet.UseVisualStyleBackColor = true;
-            BotonSet.Click += BotonSet_Click;
-            // 
-            // botonDelete
-            // 
-            botonDelete.Location = new Point(766, 216);
-            botonDelete.Name = "botonDelete";
-            botonDelete.Size = new Size(98, 22);
-            botonDelete.TabIndex = 23;
-            botonDelete.Text = "Eliminar Cara";
-            botonDelete.UseVisualStyleBackColor = true;
-            botonDelete.Click += delete_Click;
-            // 
-            // botonGet
-            // 
-            botonGet.Location = new Point(766, 254);
-            botonGet.Name = "botonGet";
-            botonGet.Size = new Size(98, 23);
-            botonGet.TabIndex = 24;
-            botonGet.Text = "Get Cara";
-            botonGet.UseVisualStyleBackColor = true;
-            botonGet.Click += botonGet_Click;
-            // 
-            // botonCapturar
-            // 
-            botonCapturar.Location = new Point(898, 254);
-            botonCapturar.Name = "botonCapturar";
-            botonCapturar.Size = new Size(98, 23);
-            botonCapturar.TabIndex = 25;
-            botonCapturar.Text = "Capturar cara";
-            botonCapturar.UseVisualStyleBackColor = true;
-            botonCapturar.Click += botonCapturar_Click;
-            // 
-            // textBoxId
-            // 
-            textBoxId.Location = new Point(838, 134);
-            textBoxId.Name = "textBoxId";
-            textBoxId.Size = new Size(98, 23);
-            textBoxId.TabIndex = 26;
-            // 
-            // labelId
-            // 
-            labelId.AutoSize = true;
-            labelId.ForeColor = SystemColors.ButtonHighlight;
-            labelId.Location = new Point(763, 137);
-            labelId.Name = "labelId";
-            labelId.Size = new Size(69, 15);
-            labelId.TabIndex = 28;
-            labelId.Text = "Nro tarjeta: ";
-           
-            // 
-            // BotonAgregarUsuario
-            // 
-            BotonAgregarUsuario.Location = new Point(763, 309);
-            BotonAgregarUsuario.Name = "BotonAgregarUsuario";
-            BotonAgregarUsuario.Size = new Size(173, 23);
-            BotonAgregarUsuario.TabIndex = 29;
-            BotonAgregarUsuario.Text = "Agregar usuario completo";
-            BotonAgregarUsuario.UseVisualStyleBackColor = true;
-            BotonAgregarUsuario.Click += button1_Click;
-            // 
-            // textBoxNombre
-            // 
-            textBoxNombre.Location = new Point(838, 163);
-            textBoxNombre.Name = "textBoxNombre";
-            textBoxNombre.Size = new Size(100, 23);
-            textBoxNombre.TabIndex = 30;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.ForeColor = SystemColors.Control;
-            label1.Location = new Point(766, 171);
-            label1.Name = "label1";
-            label1.Size = new Size(54, 15);
-            label1.TabIndex = 31;
-            label1.Text = "Nombre:";
-            // 
-            // BotonEliminarUsuario
-            // 
-            BotonEliminarUsuario.Location = new Point(763, 354);
-            BotonEliminarUsuario.Name = "BotonEliminarUsuario";
-            BotonEliminarUsuario.Size = new Size(173, 23);
-            BotonEliminarUsuario.TabIndex = 32;
-            BotonEliminarUsuario.Text = "Eliminar usuario completo ";
-            BotonEliminarUsuario.UseVisualStyleBackColor = true;
-            BotonEliminarUsuario.Click += BotonEliminarUsuario_Click;
+            panel1.BackColor = Color.DarkGray;
+            panel1.Controls.Add(valorNombreHeaderLabel);
+            panel1.Controls.Add(HeaderLabel);
+            panel1.Location = new Point(-1, 110);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1265, 107);
+            panel1.TabIndex = 27;
             // 
             // WFPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.WindowFrame;
-            ClientSize = new Size(1115, 441);
-            Controls.Add(BotonEliminarUsuario);
-            Controls.Add(label1);
-            Controls.Add(textBoxNombre);
-            Controls.Add(BotonAgregarUsuario);
-            Controls.Add(labelId);
-            Controls.Add(textBoxId);
-            Controls.Add(botonCapturar);
-            Controls.Add(botonGet);
-            Controls.Add(botonDelete);
-            Controls.Add(BotonSet);
-            Controls.Add(ValorMensajeLabel);
-            Controls.Add(ValorClasesRestantesLabel);
-            Controls.Add(ValorActividadLabel);
-            Controls.Add(valorNombreLabel);
-            Controls.Add(ValorApellidoLabel);
-            Controls.Add(MensajeLabel);
-            Controls.Add(ClasesRestantesLabel);
-            Controls.Add(ActividadLabel);
-            Controls.Add(NombreLabel);
-            Controls.Add(ApellidoLabel);
+            BackColor = Color.Silver;
+            ClientSize = new Size(1904, 1041);
+            Controls.Add(panel1);
+            Controls.Add(valorMensajeLabel);
+            Controls.Add(clasesRestLabel);
+            Controls.Add(mensajeOpcionalLabel);
+            Controls.Add(valorClasesRestLabel);
+            Controls.Add(valorFechaVtoLabel);
+            Controls.Add(actividadLabel);
+            Controls.Add(vtoLabel);
             Controls.Add(imagenDeportnet);
             Controls.Add(pictureBox1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "WFPrincipal";
+            ShowInTaskbar = false;
+            SizeGripStyle = SizeGripStyle.Hide;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Pantalla Bienvenida";
+            WindowState = FormWindowState.Maximized;
+            Load += WFPrincipal_Load;
+            Resize += WFPrincipal_Resize;
+            FormClosing += cerrarFormulario;
             ((System.ComponentModel.ISupportInitialize)imagenDeportnet).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -310,25 +241,16 @@
 
         private PictureBox imagenDeportnet;
         private PictureBox pictureBox1;
-        private Label ApellidoLabel;
-        private Label NombreLabel;
-        private Label ActividadLabel;
-        private Label ClasesRestantesLabel;
-        private Label MensajeLabel;
-        private Label ValorApellidoLabel;
-        private Label valorNombreLabel;
-        private Label ValorActividadLabel;
-        private Label ValorClasesRestantesLabel;
-        private Label ValorMensajeLabel;
-        private Button BotonSet;
-        private Button botonDelete;
-        private Button botonGet;
-        private Button botonCapturar;
-        private TextBox textBoxId;
-        private Label labelId;
-        private Button BotonAgregarUsuario;
-        private TextBox textBoxNombre;
-        private Label label1;
-        private Button BotonEliminarUsuario;
+        private Label vtoLabel;
+        private Label actividadLabel;
+        private Label valorFechaVtoLabel;
+        private Label valorClasesRestLabel;
+        private Label mensajeOpcionalLabel;
+        private Label clasesRestLabel;
+        private NotifyIcon trayReconocimiento;
+        private Label HeaderLabel;
+        private Label valorNombreHeaderLabel;
+        private Label valorMensajeLabel;
+        private Panel panel1;
     }
 }
