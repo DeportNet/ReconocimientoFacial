@@ -78,7 +78,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             if(!string.IsNullOrWhiteSpace(numeroTarjeta))
             {
                 /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
-                string jsonDeDeportnet = "{ \"Id\": \"1\", \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Habrá descuentos especiales la semana que viene\" }";
+                string jsonDeDeportnet = "{ \"Id\": \"2\", \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Habrá descuentos especiales la semana que viene\", \"Vencimiento\": \"12/09/2024\" }";
                 WFPrincipal.ObtenerInstancia.ActualizarDatos(nroReader,jsonDeDeportnet);
 
             }

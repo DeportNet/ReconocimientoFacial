@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using DeportNetReconocimiento.Properties;
+using System.Windows.Forms;
 
 namespace DeportNetReconocimiento.GUI
 {
@@ -54,7 +55,7 @@ namespace DeportNetReconocimiento.GUI
             // 
             imagenDeportnet.BackColor = Color.DimGray;
             imagenDeportnet.Image = Properties.Resources.logo_deportnet_1;
-            imagenDeportnet.Location = new Point(-1, -1);
+            imagenDeportnet.Location = new Point(323, 2);
             imagenDeportnet.Name = "imagenDeportnet";
             imagenDeportnet.Size = new Size(1265, 133);
             imagenDeportnet.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -64,9 +65,9 @@ namespace DeportNetReconocimiento.GUI
             // pictureBox1
             // 
             pictureBox1.BackColor = Color.DarkGray;
-            pictureBox1.Location = new Point(12, 223);
+            pictureBox1.Location = new Point(97, 265);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(431, 446);
+            pictureBox1.Size = new Size(493, 518);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 11;
             pictureBox1.TabStop = false;
@@ -76,7 +77,7 @@ namespace DeportNetReconocimiento.GUI
             vtoLabel.AutoSize = true;
             vtoLabel.Font = new Font("Arial Rounded MT Bold", 36F);
             vtoLabel.ForeColor = SystemColors.ControlText;
-            vtoLabel.Location = new Point(449, 313);
+            vtoLabel.Location = new Point(772, 372);
             vtoLabel.Name = "vtoLabel";
             vtoLabel.Size = new Size(331, 55);
             vtoLabel.TabIndex = 17;
@@ -88,23 +89,24 @@ namespace DeportNetReconocimiento.GUI
             actividadLabel.AutoSize = true;
             actividadLabel.Font = new Font("Arial Rounded MT Bold", 36F);
             actividadLabel.ForeColor = SystemColors.ControlText;
-            actividadLabel.Location = new Point(449, 238);
+            actividadLabel.Location = new Point(772, 297);
             actividadLabel.Name = "actividadLabel";
             actividadLabel.Size = new Size(404, 55);
             actividadLabel.TabIndex = 18;
-            actividadLabel.Text = "Actividad aqui...";
+            actividadLabel.Text = "";
             actividadLabel.TextAlign = ContentAlignment.MiddleCenter;
+            actividadLabel.Click += actividadLabel_Click;
             // 
             // valorFechaVtoLabel
             // 
             valorFechaVtoLabel.AutoSize = true;
             valorFechaVtoLabel.Font = new Font("Arial Rounded MT Bold", 36F);
             valorFechaVtoLabel.ForeColor = SystemColors.ControlText;
-            valorFechaVtoLabel.Location = new Point(795, 313);
+            valorFechaVtoLabel.Location = new Point(1118, 372);
             valorFechaVtoLabel.Name = "valorFechaVtoLabel";
             valorFechaVtoLabel.Size = new Size(411, 55);
             valorFechaVtoLabel.TabIndex = 19;
-            valorFechaVtoLabel.Text = "Fecha vto aqui...";
+            valorFechaVtoLabel.Text = "";
             valorFechaVtoLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // valorClasesRestLabel
@@ -112,11 +114,11 @@ namespace DeportNetReconocimiento.GUI
             valorClasesRestLabel.AutoSize = true;
             valorClasesRestLabel.Font = new Font("Arial Rounded MT Bold", 36F);
             valorClasesRestLabel.ForeColor = SystemColors.ControlText;
-            valorClasesRestLabel.Location = new Point(899, 382);
+            valorClasesRestLabel.Location = new Point(1222, 441);
             valorClasesRestLabel.Name = "valorClasesRestLabel";
             valorClasesRestLabel.Size = new Size(155, 55);
             valorClasesRestLabel.TabIndex = 20;
-            valorClasesRestLabel.Text = "Nro...";
+            valorClasesRestLabel.Text = "";
             valorClasesRestLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // mensajeOpcionalLabel
@@ -124,19 +126,20 @@ namespace DeportNetReconocimiento.GUI
             mensajeOpcionalLabel.AutoSize = true;
             mensajeOpcionalLabel.Font = new Font("Arial Rounded MT Bold", 36F);
             mensajeOpcionalLabel.ForeColor = SystemColors.ControlText;
-            mensajeOpcionalLabel.Location = new Point(449, 443);
+            mensajeOpcionalLabel.Location = new Point(772, 502);
             mensajeOpcionalLabel.Name = "mensajeOpcionalLabel";
             mensajeOpcionalLabel.Size = new Size(234, 55);
             mensajeOpcionalLabel.TabIndex = 21;
             mensajeOpcionalLabel.Text = "Mensaje:";
             mensajeOpcionalLabel.TextAlign = ContentAlignment.MiddleCenter;
+            mensajeOpcionalLabel.Click += mensajeOpcionalLabel_Click;
             // 
             // clasesRestLabel
             // 
             clasesRestLabel.AutoSize = true;
             clasesRestLabel.Font = new Font("Arial Rounded MT Bold", 36F);
             clasesRestLabel.ForeColor = SystemColors.ControlText;
-            clasesRestLabel.Location = new Point(449, 382);
+            clasesRestLabel.Location = new Point(772, 441);
             clasesRestLabel.Name = "clasesRestLabel";
             clasesRestLabel.Size = new Size(433, 55);
             clasesRestLabel.TabIndex = 22;
@@ -144,7 +147,6 @@ namespace DeportNetReconocimiento.GUI
             clasesRestLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // trayReconocimiento
-            // 
             trayReconocimiento.BalloonTipIcon = ToolTipIcon.Info;
             trayReconocimiento.BalloonTipText = "Deportnet Reconocimiento";
             trayReconocimiento.BalloonTipTitle = "Deportnet Reconocimiento";
@@ -160,12 +162,13 @@ namespace DeportNetReconocimiento.GUI
             HeaderLabel.BackColor = Color.Transparent;
             HeaderLabel.Font = new Font("Arial Rounded MT Bold", 56.25F);
             HeaderLabel.ForeColor = Color.FromArgb(192, 0, 0);
-            HeaderLabel.Location = new Point(25, 4);
+            HeaderLabel.Location = new Point(34, 0);
             HeaderLabel.Name = "HeaderLabel";
             HeaderLabel.Size = new Size(706, 87);
             HeaderLabel.TabIndex = 23;
-            HeaderLabel.Text = "Acceso Denegado";
+            HeaderLabel.Text = "";
             HeaderLabel.TextAlign = ContentAlignment.MiddleCenter;
+            HeaderLabel.Click += HeaderLabel_Click;
             // 
             // valorNombreHeaderLabel
             // 
@@ -173,34 +176,37 @@ namespace DeportNetReconocimiento.GUI
             valorNombreHeaderLabel.BackColor = Color.Transparent;
             valorNombreHeaderLabel.Font = new Font("Arial Rounded MT Bold", 56.25F);
             valorNombreHeaderLabel.ForeColor = Color.FromArgb(192, 0, 0);
-            valorNombreHeaderLabel.Location = new Point(737, 4);
+            valorNombreHeaderLabel.Location = new Point(971, 0);
             valorNombreHeaderLabel.Name = "valorNombreHeaderLabel";
             valorNombreHeaderLabel.Size = new Size(388, 87);
             valorNombreHeaderLabel.TabIndex = 25;
-            valorNombreHeaderLabel.Text = "{Nombre}";
+            valorNombreHeaderLabel.Text = "";
             valorNombreHeaderLabel.TextAlign = ContentAlignment.MiddleCenter;
+            valorNombreHeaderLabel.Click += valorNombreHeaderLabel_Click;
             // 
             // valorMensajeLabel
             // 
             valorMensajeLabel.AutoSize = true;
             valorMensajeLabel.Font = new Font("Arial Rounded MT Bold", 36F);
             valorMensajeLabel.ForeColor = SystemColors.ControlText;
-            valorMensajeLabel.Location = new Point(449, 498);
+            valorMensajeLabel.Location = new Point(772, 557);
             valorMensajeLabel.Name = "valorMensajeLabel";
             valorMensajeLabel.Size = new Size(377, 55);
             valorMensajeLabel.TabIndex = 26;
-            valorMensajeLabel.Text = "Mensaje aqui...";
+            valorMensajeLabel.Text = "";
             valorMensajeLabel.TextAlign = ContentAlignment.MiddleCenter;
+            valorMensajeLabel.Click += valorMensajeLabel_Click;
             // 
             // panel1
             // 
             panel1.BackColor = Color.DarkGray;
-            panel1.Controls.Add(valorNombreHeaderLabel);
             panel1.Controls.Add(HeaderLabel);
-            panel1.Location = new Point(-1, 110);
+            panel1.Controls.Add(valorNombreHeaderLabel);
+            panel1.Location = new Point(147, 138);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1265, 107);
+            panel1.Size = new Size(1625, 102);
             panel1.TabIndex = 27;
+            panel1.Paint += panel1_Paint;
             // 
             // WFPrincipal
             // 
@@ -218,7 +224,6 @@ namespace DeportNetReconocimiento.GUI
             Controls.Add(vtoLabel);
             Controls.Add(imagenDeportnet);
             Controls.Add(pictureBox1);
-            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "WFPrincipal";
             ShowInTaskbar = false;
@@ -226,9 +231,9 @@ namespace DeportNetReconocimiento.GUI
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Pantalla Bienvenida";
             WindowState = FormWindowState.Maximized;
+            FormClosing += cerrarFormulario;
             Load += WFPrincipal_Load;
             Resize += WFPrincipal_Resize;
-            FormClosing += cerrarFormulario;
             ((System.ComponentModel.ISupportInitialize)imagenDeportnet).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel1.ResumeLayout(false);

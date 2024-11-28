@@ -9,21 +9,30 @@ namespace DeportNetReconocimiento.Modelo
     public class Persona
     {
 
-       private  string id { get; set; }
+        private string id { get; set; }
         private string nombre { get; set; }
         private string apellido { get; set; }
         private string actividad { get; set; }
+        private string vencimiento { get; set; }
         private string clasesRestantes { get; set; }
+        private string rta {  get; set; }
         private string mensaje { get; set; }
+        private string fecha { get; set; }
+        private string hora { get; set; }
 
-        public Persona(string id, string nombre, string apellido, string actividad, string clasesRestantes, string mensaje) { 
-        
+        public Persona(string id, string nombre, string apellido, string actividad, string clasesRestantes, string mensaje, string vencimiento, string rta, string fecha, string hora)
+        {
+
             this.id = id;
-            this.nombre = nombre;   
-            this.apellido = apellido;   
+            this.nombre = nombre;
+            this.apellido = apellido;
             this.actividad = actividad;
+            this.vencimiento = vencimiento;
             this.clasesRestantes = clasesRestantes;
-            this.mensaje = mensaje;        
+            this.rta = rta;
+            this.mensaje = mensaje;
+            this.fecha = fecha;
+            this.hora = hora;
         }
 
         public Persona() { }
@@ -52,6 +61,11 @@ namespace DeportNetReconocimiento.Modelo
             get { return actividad; }
             set { actividad = value; }
         }
+        public string Vencimiento
+        {
+            get { return vencimiento; }
+            set { vencimiento = value; }
+        }
 
         public string ClasesRestantes
         {
@@ -59,11 +73,28 @@ namespace DeportNetReconocimiento.Modelo
             set { clasesRestantes = value; }
         }
 
+        public string Rta
+        {
+            get { return rta; }
+            set { rta = value; }
+        }
         public string Mensaje
         {
             get { return mensaje; }
             set { mensaje = value; }
         }
+
+        public string Fecha
+        {
+            get { return fecha; }
+            set { fecha = value; }
+        }
+        public string Hora
+        {
+            get { return hora; }
+            set { hora = value; }
+        }
+
 
     }
 }
