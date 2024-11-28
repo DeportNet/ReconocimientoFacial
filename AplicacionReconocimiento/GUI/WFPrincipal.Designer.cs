@@ -42,19 +42,25 @@ namespace DeportNetReconocimiento.GUI
             mensajeOpcionalLabel = new Label();
             clasesRestLabel = new Label();
             trayReconocimiento = new NotifyIcon(components);
+            menuNotifyIcon = new ContextMenuStrip(components);
+            abrirToolStripMenuItem = new ToolStripMenuItem();
+            cerrarToolStripMenuItem = new ToolStripMenuItem();
             HeaderLabel = new Label();
             valorNombreHeaderLabel = new Label();
             valorMensajeLabel = new Label();
             panel1 = new Panel();
+            Abrir = new ToolStripMenuItem();
+            Cerrar = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)imagenDeportnet).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            menuNotifyIcon.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
             // imagenDeportnet
             // 
             imagenDeportnet.BackColor = Color.DimGray;
-            imagenDeportnet.Image = Properties.Resources.logo_deportnet_1;
+            imagenDeportnet.Image = Resources.logo_deportnet_1;
             imagenDeportnet.Location = new Point(323, 2);
             imagenDeportnet.Name = "imagenDeportnet";
             imagenDeportnet.Size = new Size(1265, 133);
@@ -71,6 +77,7 @@ namespace DeportNetReconocimiento.GUI
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 11;
             pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
             // 
             // vtoLabel
             // 
@@ -91,9 +98,8 @@ namespace DeportNetReconocimiento.GUI
             actividadLabel.ForeColor = SystemColors.ControlText;
             actividadLabel.Location = new Point(772, 297);
             actividadLabel.Name = "actividadLabel";
-            actividadLabel.Size = new Size(404, 55);
+            actividadLabel.Size = new Size(0, 55);
             actividadLabel.TabIndex = 18;
-            actividadLabel.Text = "";
             actividadLabel.TextAlign = ContentAlignment.MiddleCenter;
             actividadLabel.Click += actividadLabel_Click;
             // 
@@ -104,9 +110,8 @@ namespace DeportNetReconocimiento.GUI
             valorFechaVtoLabel.ForeColor = SystemColors.ControlText;
             valorFechaVtoLabel.Location = new Point(1118, 372);
             valorFechaVtoLabel.Name = "valorFechaVtoLabel";
-            valorFechaVtoLabel.Size = new Size(411, 55);
+            valorFechaVtoLabel.Size = new Size(0, 55);
             valorFechaVtoLabel.TabIndex = 19;
-            valorFechaVtoLabel.Text = "";
             valorFechaVtoLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // valorClasesRestLabel
@@ -116,9 +121,8 @@ namespace DeportNetReconocimiento.GUI
             valorClasesRestLabel.ForeColor = SystemColors.ControlText;
             valorClasesRestLabel.Location = new Point(1222, 441);
             valorClasesRestLabel.Name = "valorClasesRestLabel";
-            valorClasesRestLabel.Size = new Size(155, 55);
+            valorClasesRestLabel.Size = new Size(0, 55);
             valorClasesRestLabel.TabIndex = 20;
-            valorClasesRestLabel.Text = "";
             valorClasesRestLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // mensajeOpcionalLabel
@@ -147,14 +151,36 @@ namespace DeportNetReconocimiento.GUI
             clasesRestLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // trayReconocimiento
+            // 
             trayReconocimiento.BalloonTipIcon = ToolTipIcon.Info;
             trayReconocimiento.BalloonTipText = "Deportnet Reconocimiento";
             trayReconocimiento.BalloonTipTitle = "Deportnet Reconocimiento";
+            trayReconocimiento.ContextMenuStrip = menuNotifyIcon;
             trayReconocimiento.Icon = (Icon)resources.GetObject("trayReconocimiento.Icon");
             trayReconocimiento.Tag = "Deportnet Reconocimiento";
             trayReconocimiento.Text = "Deportnet Reconocimiento";
             trayReconocimiento.Visible = true;
-            trayReconocimiento.MouseDoubleClick += trayReconocimiento_MouseDoubleClick;
+            trayReconocimiento.MouseClick += trayReconocimiento_MouseClick;
+            // 
+            // menuNotifyIcon
+            // 
+            menuNotifyIcon.Items.AddRange(new ToolStripItem[] { abrirToolStripMenuItem, cerrarToolStripMenuItem });
+            menuNotifyIcon.Name = "menuNotifyIcon";
+            menuNotifyIcon.Size = new Size(107, 48);
+            // 
+            // abrirToolStripMenuItem
+            // 
+            abrirToolStripMenuItem.Name = "abrirToolStripMenuItem";
+            abrirToolStripMenuItem.Size = new Size(106, 22);
+            abrirToolStripMenuItem.Text = "Abrir";
+            abrirToolStripMenuItem.Click += ClickAbrirMenuNotifyIcon;
+            // 
+            // cerrarToolStripMenuItem
+            // 
+            cerrarToolStripMenuItem.Name = "cerrarToolStripMenuItem";
+            cerrarToolStripMenuItem.Size = new Size(106, 22);
+            cerrarToolStripMenuItem.Text = "Cerrar";
+            cerrarToolStripMenuItem.Click += ClickCerrarMenuNotifyIcon;
             // 
             // HeaderLabel
             // 
@@ -164,9 +190,8 @@ namespace DeportNetReconocimiento.GUI
             HeaderLabel.ForeColor = Color.FromArgb(192, 0, 0);
             HeaderLabel.Location = new Point(34, 0);
             HeaderLabel.Name = "HeaderLabel";
-            HeaderLabel.Size = new Size(706, 87);
+            HeaderLabel.Size = new Size(0, 87);
             HeaderLabel.TabIndex = 23;
-            HeaderLabel.Text = "";
             HeaderLabel.TextAlign = ContentAlignment.MiddleCenter;
             HeaderLabel.Click += HeaderLabel_Click;
             // 
@@ -178,9 +203,8 @@ namespace DeportNetReconocimiento.GUI
             valorNombreHeaderLabel.ForeColor = Color.FromArgb(192, 0, 0);
             valorNombreHeaderLabel.Location = new Point(971, 0);
             valorNombreHeaderLabel.Name = "valorNombreHeaderLabel";
-            valorNombreHeaderLabel.Size = new Size(388, 87);
+            valorNombreHeaderLabel.Size = new Size(0, 87);
             valorNombreHeaderLabel.TabIndex = 25;
-            valorNombreHeaderLabel.Text = "";
             valorNombreHeaderLabel.TextAlign = ContentAlignment.MiddleCenter;
             valorNombreHeaderLabel.Click += valorNombreHeaderLabel_Click;
             // 
@@ -191,9 +215,8 @@ namespace DeportNetReconocimiento.GUI
             valorMensajeLabel.ForeColor = SystemColors.ControlText;
             valorMensajeLabel.Location = new Point(772, 557);
             valorMensajeLabel.Name = "valorMensajeLabel";
-            valorMensajeLabel.Size = new Size(377, 55);
+            valorMensajeLabel.Size = new Size(0, 55);
             valorMensajeLabel.TabIndex = 26;
-            valorMensajeLabel.Text = "";
             valorMensajeLabel.TextAlign = ContentAlignment.MiddleCenter;
             valorMensajeLabel.Click += valorMensajeLabel_Click;
             // 
@@ -207,6 +230,18 @@ namespace DeportNetReconocimiento.GUI
             panel1.Size = new Size(1625, 102);
             panel1.TabIndex = 27;
             panel1.Paint += panel1_Paint;
+            // 
+            // Abrir
+            // 
+            Abrir.Name = "Abrir";
+            Abrir.Size = new Size(180, 22);
+            Abrir.Text = "toolStripMenuItem1";
+            // 
+            // Cerrar
+            // 
+            Cerrar.Name = "Cerrar";
+            Cerrar.Size = new Size(180, 22);
+            Cerrar.Text = "toolStripMenuItem2";
             // 
             // WFPrincipal
             // 
@@ -224,6 +259,7 @@ namespace DeportNetReconocimiento.GUI
             Controls.Add(vtoLabel);
             Controls.Add(imagenDeportnet);
             Controls.Add(pictureBox1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "WFPrincipal";
             ShowInTaskbar = false;
@@ -236,6 +272,7 @@ namespace DeportNetReconocimiento.GUI
             Resize += WFPrincipal_Resize;
             ((System.ComponentModel.ISupportInitialize)imagenDeportnet).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            menuNotifyIcon.ResumeLayout(false);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -257,5 +294,10 @@ namespace DeportNetReconocimiento.GUI
         private Label valorNombreHeaderLabel;
         private Label valorMensajeLabel;
         private Panel panel1;
+        private ContextMenuStrip menuNotifyIcon;
+        private ToolStripMenuItem Abrir;
+        private ToolStripMenuItem Cerrar;
+        private ToolStripMenuItem abrirToolStripMenuItem;
+        private ToolStripMenuItem cerrarToolStripMenuItem;
     }
 }

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using System.Windows.Forms;
 
 namespace DeportNetReconocimiento.GUI
 {
@@ -23,9 +24,9 @@ namespace DeportNetReconocimiento.GUI
         {
             InitializeComponent();
 
-            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-            Escuchador_Directorio.InicializarEscuchadorEnHilo();
-            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
+            //InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            //Escuchador_Directorio.InicializarEscuchadorEnHilo();
+            //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
         }
 
         //propiedades
@@ -85,7 +86,7 @@ namespace DeportNetReconocimiento.GUI
             if (!ignorarCierre)
             {
 
-                var result = MessageBox.Show("¿Estás seguro de que quieres cerrar la aplicación?",
+                var result = MessageBox.Show("Deportnet dice:\n¿Estás seguro de que quieres cerrar la aplicación de reconocimiento facial?",
                                              "Confirmación",
                                              MessageBoxButtons.YesNo,
                                              MessageBoxIcon.Question);
@@ -226,11 +227,11 @@ namespace DeportNetReconocimiento.GUI
             Persona persona = JSONtoPersona(json);
 
             string respuesta = "Acceso concedido " + persona.Nombre;
-            HeaderLabel.ForeColor = Color.Green; 
+            HeaderLabel.ForeColor = Color.Green;
 
             //Se actualizan los labels con los datos de la persona
-            HeaderLabel.Text = respuesta; 
-           // valorNombreHeaderLabel.Text = persona.Nombre;
+            HeaderLabel.Text = respuesta;
+            // valorNombreHeaderLabel.Text = persona.Nombre;
             actividadLabel.Text = persona.Actividad;
             valorFechaVtoLabel.Text = persona.Vencimiento;
             valorClasesRestLabel.Text = persona.ClasesRestantes;
@@ -318,10 +319,14 @@ namespace DeportNetReconocimiento.GUI
 
         /* - - - - - - Notify Icon / Tray - - - - - - */
 
-        private void trayReconocimiento_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void trayReconocimiento_MouseClick(object sender, MouseEventArgs e)
         {
             // Restaurar la ventana al hacer doble clic en el icono
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Right)
+            {
+                menuNotifyIcon.Show(Cursor.Position);
+            }
+            else if (e.Button == MouseButtons.Left)
             {
                 this.Show();
                 this.WindowState = FormWindowState.Maximized;
@@ -339,6 +344,33 @@ namespace DeportNetReconocimiento.GUI
             }
 
         }
+
+        private void ClickAbrirMenuNotifyIcon(object sender, EventArgs e)
+        {
+            
+            this.Show(); // Muestra el formulario principal
+            this.WindowState = FormWindowState.Maximized; // Restaura el estado de la ventana
+
+            
+        }
+
+        private void ClickCerrarMenuNotifyIcon(object sender, EventArgs e)
+        {
+                          
+            Application.Exit(); // Cierra la aplicación
+
+            
+        }
+
+        //private void SalirToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    
+        //}
+
+        //private void AbrirToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    
+        //}
 
         // pictureBox1.Image = ObtenerFotoCliente(1, textBoxId.Text);
 
@@ -377,5 +409,12 @@ namespace DeportNetReconocimiento.GUI
         {
 
         }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        
     }
 }
