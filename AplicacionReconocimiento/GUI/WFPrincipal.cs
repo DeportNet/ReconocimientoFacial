@@ -225,14 +225,16 @@ namespace DeportNetReconocimiento.GUI
             //Se convierte el json a un objeto de tipo Persona
             Persona persona = JSONtoPersona(json);
 
-
+            string respuesta = "Acceso concedido " + persona.Nombre;
+            HeaderLabel.ForeColor = Color.Green; 
 
             //Se actualizan los labels con los datos de la persona
-            vtoLabel.Text = persona.Apellido;
-            actividadLabel.Text = persona.Nombre;
-            valorFechaVtoLabel.Text = persona.Actividad;
+            HeaderLabel.Text = respuesta; 
+           // valorNombreHeaderLabel.Text = persona.Nombre;
+            actividadLabel.Text = persona.Actividad;
+            valorFechaVtoLabel.Text = persona.Vencimiento;
             valorClasesRestLabel.Text = persona.ClasesRestantes;
-            mensajeOpcionalLabel.Text = persona.Mensaje;
+            valorMensajeLabel.Text = persona.Mensaje;
 
             pictureBox1.Image = ObtenerFotoCliente(nroLector, persona.Id);
 
@@ -281,11 +283,12 @@ namespace DeportNetReconocimiento.GUI
                 pictureBox1.Image.Dispose();
                 pictureBox1.Image = null;
             }
-            vtoLabel.Text = "Apellido aquí...";
-            actividadLabel.Text = "Nombre aquí...";
-            valorFechaVtoLabel.Text = "Actividad aquí...";
-            valorClasesRestLabel.Text = "Clases restantes aquí...";
-            mensajeOpcionalLabel.Text = "Mensaje aquí";
+            HeaderLabel.Text = "";
+            //valorNombreHeaderLabel.Text = "";
+            actividadLabel.Text = "";
+            valorFechaVtoLabel.Text = "";
+            valorClasesRestLabel.Text = "";
+            valorMensajeLabel.Text = "";
         }
 
         public static Persona JSONtoPersona(string json)
@@ -299,12 +302,15 @@ namespace DeportNetReconocimiento.GUI
 
                 // Acceder a cada campo del objeto JSON
                 persona.Id = root.GetProperty("Id").GetString();
-                persona.Apellido = root.GetProperty("Apellido").GetString();
                 persona.Nombre = root.GetProperty("Nombre").GetString();
+                persona.Apellido = root.GetProperty("Apellido").GetString();
                 persona.Actividad = root.GetProperty("Actividad").GetString();
+                persona.Vencimiento = root.GetProperty("Vencimiento").GetString();
                 persona.ClasesRestantes = root.GetProperty("ClasesRestantes").GetString();
+                persona.Rta = root.GetProperty("Rta").GetString();
                 persona.Mensaje = root.GetProperty("Mensaje").GetString();
-
+                persona.Fecha = root.GetProperty("Fecha").GetString();
+                persona.Hora = root.GetProperty("Hora").GetString();
             }
             return persona;
         }
@@ -315,7 +321,7 @@ namespace DeportNetReconocimiento.GUI
         private void trayReconocimiento_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             // Restaurar la ventana al hacer doble clic en el icono
-            if(e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 this.Show();
                 this.WindowState = FormWindowState.Maximized;
@@ -329,199 +335,47 @@ namespace DeportNetReconocimiento.GUI
             if (this.WindowState == FormWindowState.Minimized)
             {
                 this.Hide(); // Oculta la ventana principal
+
             }
-
-            pictureBox1.Image = ObtenerFotoCliente(1, textBoxId.Text);
-        }
-        
-        //Agregar usuario compelto 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
 
         }
 
+        // pictureBox1.Image = ObtenerFotoCliente(1, textBoxId.Text);
 
-        public void AgregarUsuarioCompleto(int nroLector, int nroTarjeta, string nombreCliente)
-        {
-            Hik_Resultado resultado = new Hik_Resultado();
-
-            if (InvokeRequired)
-            {
-                Invoke(new Action<int, int, string>(AgregarUsuarioCompleto),nroLector, nroTarjeta, nombreCliente);
-                return;
-            }
-            if (pictureBox1.Image != null)
-            {
-                pictureBox1.Image.Dispose();
-                pictureBox1.Image = null;
-            } 
-
-
-        /* - - - - - - Botones para diferentes funcionalidades - - - - - - - - */
-
-
-        //Poner cara a un usuario
-        //private void BotonSet_Click(object sender, EventArgs e)
-        //{
-
-        //    if (pictureBox1.Image != null)
-        //    {
-        //        pictureBox1.Image.Dispose();
-        //        pictureBox1.Image = null;
-        //    }
-        //    Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(1, textBoxId.Text);
-        //    //Si hay una foto
-        //    if (resultado.Exito)
-        //    {
-        //        resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, textBoxId.Text);
-        //        MessageBox.Show("Cara seteada con exito");
-        //    }
-
-        //}
-
-        //Capturar una foto
-        //private void botonCapturar_Click(object sender, EventArgs e)
-        //{
-        //    ActualizarCapturarCara();
-        //}
-        //public async void ActualizarCapturarCara()
-        //{
-        //    if (InvokeRequired)
-        //    {
-        //        Invoke(ActualizarCapturarCara);
-        //        return;
-        //    }
-
-        //    if (pictureBox1.Image != null)
-        //    {
-        //        pictureBox1.Image.Dispose();
-        //        pictureBox1.Image = null;
-        //    }
-
-        //    pictureBox1.Image = CapturarFotoCliente();
-
-        //}
-
-        ////Eliminar cara de usuario
-        //private void delete_Click(object sender, EventArgs e)
-        //{
-        //    Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(1, textBoxId.Text);
-
-        //    if (resultado.Exito)
-        //    {
-        //        resultado = Hik_Controladora_Facial.ObtenerInstancia.EliminarCara(1, textBoxId.Text);
-        //        MessageBox.Show("Cara elimianda con exito");
-
-        //    }
-        //    Console.Write(resultado.Mensaje);
-        //}
-
-        ////Obtener la foto de un cliente 
-        //private void botonGet_Click(object sender, EventArgs e)
-        //{
-
-        //    if (pictureBox1.Image != null)
-        //    {
-        //        pictureBox1.Image.Dispose();
-        //        pictureBox1.Image = null;
-        //    }
-        //    pictureBox1.Image = ObtenerFotoCliente(1, textBoxId.Text);
-        //}
-
-
-        ////Agregar usuario completo 
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-
-        //    if (!string.IsNullOrWhiteSpace(textBoxId.Text) && !string.IsNullOrWhiteSpace(textBoxNombre.Text))
-        //    {
-        //        AgregarUsuarioCompleto(1, int.Parse(textBoxId.Text), textBoxNombre.Text);
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Completa los campos");
-        //    }
-        //}
-        //public void AgregarUsuarioCompleto(int nroLector, int nroTarjeta, string nombreCliente)
-        //{
-        //    Hik_Resultado resultado = new Hik_Resultado();
-
-        //    if (InvokeRequired)
-        //    {
-        //        Invoke(new Action<int, int, string>(AgregarUsuarioCompleto), nroLector, nroTarjeta, nombreCliente);
-        //        return;
-        //    }
-        //    if (pictureBox1.Image != null)
-        //    {
-        //        pictureBox1.Image.Dispose();
-        //        pictureBox1.Image = null;
-        //    }
-
-        //    resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(nroTarjeta, nombreCliente);
-        //    if (resultado.Exito)
-        //    {
-        //        resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
-        //        if (resultado.Exito)
-        //        {
-        //            resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara((uint)nroLector, nroTarjeta.ToString());
-        //            MessageBox.Show("Se agrego el usuario con exito");
-
-        //        }
-        //    }
-
-        //}
-
-
-        ////Boton usuario completo
-        //private void BotonEliminarUsuario_Click(object sender, EventArgs e)
-        //{
-
-        //    if (!string.IsNullOrWhiteSpace(textBoxId.Text))
-        //    {
-        //        EliminarUsuarioCompleto(1, textBoxId.Text);
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Completa los campos");
-        //    }
-        //}
-        //public void EliminarUsuarioCompleto(int nroLector, string idTarjeta)
-        //{
-        //    if (InvokeRequired)
-        //    {
-        //        Invoke(new Action<int, string>(EliminarUsuarioCompleto), nroLector, idTarjeta);
-        //        return;
-        //    }
-
-        //    Hik_Resultado resultado = new Hik_Resultado();
-
-        //    resultado = Hik_Controladora_Facial.ObtenerInstancia.EliminarCara(nroLector, idTarjeta);
-        //    if (resultado.Exito)
-        //    {
-        //        resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EliminarTarjetaPorId(int.Parse(idTarjeta));
-        //        if (resultado.Exito)
-        //        {
-        //            if (pictureBox1.Image != null)
-        //            {
-        //                pictureBox1.Image.Dispose();
-        //                pictureBox1.Image = null;
-        //            }
-        //            MessageBox.Show("Usuario eliminado con exito");
-        //        }
-        //    }
-
-
-        //}
 
         private void WFPrincipal_Load(object sender, EventArgs e)
-
-        //Boton usuario completo
-        private void BotonEliminarUsuario_Click(object sender, EventArgs e)
         {
 
         }
 
-       
+        private void actividadLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void HeaderLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void valorNombreHeaderLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mensajeOpcionalLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void valorMensajeLabel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
