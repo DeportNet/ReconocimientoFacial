@@ -14,7 +14,7 @@ namespace DeportNetReconocimiento.GUI
         private System.Windows.Forms.Timer? timer;
 
         private static WFPrincipal? instancia;
-
+        public bool ignorarCierre = false;
 
         private static readonly object lockObj = new object();
 
@@ -29,17 +29,22 @@ namespace DeportNetReconocimiento.GUI
         //propiedades
         public static WFPrincipal ObtenerInstancia
         {
-            
-            get {
-            if (instancia == null)
+
+            get
             {
-                instancia = new WFPrincipal();
-            }
-            return instancia;
-            
+                if (instancia == null)
+                {
+                    instancia = new WFPrincipal();
+                }
+                return instancia;
+
             }
         }
-
+        public Hik_Controladora_General? Hik_Controladora_General
+        {
+            get { return hik_Controladora_General; }
+            set { hik_Controladora_General = value; }
+        }
 
         public Hik_Resultado InstanciarPrograma()
         {
@@ -48,30 +53,52 @@ namespace DeportNetReconocimiento.GUI
 
             //ip , puerto, usuario, contraseña en ese orden
             string[] credenciales = LeerCredenciales();
-            if(credenciales.Length > 0 && Hik_Controladora_General.InstanciaControladoraGeneral != null)
-            {
-                resultado = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(credenciales[2], credenciales[3], credenciales[1], credenciales[0]);
 
-            }
-            else if (credenciales.Length > 0){
-                resultado.Mensaje = "Credenciales leidas con exito";
 
-            }
-            else
-            {
-                resultado.Exito = false;
-               resultado.Mensaje = "No se pudieron leer las credenciales";
-
-            }
-            if (!resultado.Exito)
+            if (credenciales.Length == 0)
             {
                 //Si no hubo exito mostrar ventana con el error. Un modal 
+                resultado.Exito = false;
+                resultado.Mensaje = "No se pudieron leer las credenciales";
                 MessageBox.Show("Error no se pudo iniciar sesion con exito... Vuelva a intentarlo");
+                //this.Close();
             }
 
-            hik_Controladora_General = Hik_Controladora_General.InstanciaControladoraGeneral;
+
+            if (credenciales.Length > 0)
+            {
+                Hik_Controladora_General = Hik_Controladora_General.InstanciaControladoraGeneral;
+                resultado = Hik_Controladora_General.InicializarPrograma(credenciales[2], credenciales[3], credenciales[1], credenciales[0]);
+
+            }
+
+
+
 
             return resultado;
+        }
+
+        private void cerrarFormulario(object sender, FormClosingEventArgs e)
+        {
+            if (!ignorarCierre)
+            {
+
+                var result = MessageBox.Show("¿Estás seguro de que quieres cerrar la aplicación?",
+                                             "Confirmación",
+                                             MessageBoxButtons.YesNo,
+                                             MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    // Cerrar completamente la aplicación
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    // Cancelar el cierre
+                    e.Cancel = true;
+                }
+            }
         }
 
         public string[] LeerCredenciales()
@@ -102,8 +129,6 @@ namespace DeportNetReconocimiento.GUI
                     }
                 }
             }
-
-
 
             return listaDatos.ToArray();
         }
@@ -201,11 +226,11 @@ namespace DeportNetReconocimiento.GUI
 
 
             //Se actualizan los labels con los datos de la persona
-            ValorApellidoLabel.Text = persona.Apellido;
-            valorNombreLabel.Text = persona.Nombre;
-            ValorActividadLabel.Text = persona.Actividad;
-            ValorClasesRestantesLabel.Text = persona.ClasesRestantes;
-            ValorMensajeLabel.Text = persona.Mensaje;
+            vtoLabel.Text = persona.Apellido;
+            actividadLabel.Text = persona.Nombre;
+            valorFechaVtoLabel.Text = persona.Actividad;
+            valorClasesRestLabel.Text = persona.ClasesRestantes;
+            mensajeOpcionalLabel.Text = persona.Mensaje;
 
             pictureBox1.Image = ObtenerFotoCliente(nroLector, persona.Id);
 
@@ -254,11 +279,11 @@ namespace DeportNetReconocimiento.GUI
                 pictureBox1.Image.Dispose();
                 pictureBox1.Image = null;
             }
-            ValorApellidoLabel.Text = "Apellido aquí...";
-            valorNombreLabel.Text = "Nombre aquí...";
-            ValorActividadLabel.Text = "Actividad aquí...";
-            ValorClasesRestantesLabel.Text = "Clases restantes aquí...";
-            ValorMensajeLabel.Text = "Mensaje aquí";
+            vtoLabel.Text = "Apellido aquí...";
+            actividadLabel.Text = "Nombre aquí...";
+            valorFechaVtoLabel.Text = "Actividad aquí...";
+            valorClasesRestLabel.Text = "Clases restantes aquí...";
+            mensajeOpcionalLabel.Text = "Mensaje aquí";
         }
 
         public static Persona JSONtoPersona(string json)
@@ -283,159 +308,189 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-        /* - - - - - - Botones para diferentes funcionalidades - - - - - - - -*/
+        /* - - - - - - Notify Icon / Tray - - - - - - */
+
+        private void trayReconocimiento_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            // Restaurar la ventana al hacer doble clic en el icono
+            if(e.Button == MouseButtons.Left)
+            {
+                this.Show();
+                this.WindowState = FormWindowState.Maximized;
+
+            }
+        }
+
+        private void WFPrincipal_Resize(object sender, EventArgs e)
+        {
+            // Si la ventana se minimiza
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.Hide(); // Oculta la ventana principal
+            }
+
+        }
+
+        /* - - - - - - Botones para diferentes funcionalidades - - - - - - - - */
 
         //Poner cara a un usuario
-        private void BotonSet_Click(object sender, EventArgs e)
-        {
+        //private void BotonSet_Click(object sender, EventArgs e)
+        //{
 
-            if (pictureBox1.Image != null)
-            {
-                pictureBox1.Image.Dispose();
-                pictureBox1.Image = null;
-            }
-            Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(1, textBoxId.Text);
-            //Si hay una foto
-            if (resultado.Exito)
-            {
-                 resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, textBoxId.Text);
-                MessageBox.Show("Cara seteada con exito");
-            }
+        //    if (pictureBox1.Image != null)
+        //    {
+        //        pictureBox1.Image.Dispose();
+        //        pictureBox1.Image = null;
+        //    }
+        //    Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(1, textBoxId.Text);
+        //    //Si hay una foto
+        //    if (resultado.Exito)
+        //    {
+        //        resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, textBoxId.Text);
+        //        MessageBox.Show("Cara seteada con exito");
+        //    }
 
-        }
-
-        //Eliminar cara de usuario
-        private void delete_Click(object sender, EventArgs e)
-        {
-            Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(1, textBoxId.Text);
-
-            if (resultado.Exito)
-            {
-                resultado = Hik_Controladora_Facial.ObtenerInstancia.EliminarCara(1, textBoxId.Text);
-                MessageBox.Show("Cara elimianda con exito");
-
-            }
-            Console.Write(resultado.Mensaje);
-        }
+        //}
 
         //Capturar una foto
-        private void botonCapturar_Click(object sender, EventArgs e)
+        //private void botonCapturar_Click(object sender, EventArgs e)
+        //{
+        //    ActualizarCapturarCara();
+        //}
+        //public async void ActualizarCapturarCara()
+        //{
+        //    if (InvokeRequired)
+        //    {
+        //        Invoke(ActualizarCapturarCara);
+        //        return;
+        //    }
+
+        //    if (pictureBox1.Image != null)
+        //    {
+        //        pictureBox1.Image.Dispose();
+        //        pictureBox1.Image = null;
+        //    }
+
+        //    pictureBox1.Image = CapturarFotoCliente();
+
+        //}
+
+        ////Eliminar cara de usuario
+        //private void delete_Click(object sender, EventArgs e)
+        //{
+        //    Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(1, textBoxId.Text);
+
+        //    if (resultado.Exito)
+        //    {
+        //        resultado = Hik_Controladora_Facial.ObtenerInstancia.EliminarCara(1, textBoxId.Text);
+        //        MessageBox.Show("Cara elimianda con exito");
+
+        //    }
+        //    Console.Write(resultado.Mensaje);
+        //}
+
+        ////Obtener la foto de un cliente 
+        //private void botonGet_Click(object sender, EventArgs e)
+        //{
+
+        //    if (pictureBox1.Image != null)
+        //    {
+        //        pictureBox1.Image.Dispose();
+        //        pictureBox1.Image = null;
+        //    }
+        //    pictureBox1.Image = ObtenerFotoCliente(1, textBoxId.Text);
+        //}
+
+
+        ////Agregar usuario completo 
+        //private void button1_Click(object sender, EventArgs e)
+        //{
+
+        //    if (!string.IsNullOrWhiteSpace(textBoxId.Text) && !string.IsNullOrWhiteSpace(textBoxNombre.Text))
+        //    {
+        //        AgregarUsuarioCompleto(1, int.Parse(textBoxId.Text), textBoxNombre.Text);
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Completa los campos");
+        //    }
+        //}
+        //public void AgregarUsuarioCompleto(int nroLector, int nroTarjeta, string nombreCliente)
+        //{
+        //    Hik_Resultado resultado = new Hik_Resultado();
+
+        //    if (InvokeRequired)
+        //    {
+        //        Invoke(new Action<int, int, string>(AgregarUsuarioCompleto), nroLector, nroTarjeta, nombreCliente);
+        //        return;
+        //    }
+        //    if (pictureBox1.Image != null)
+        //    {
+        //        pictureBox1.Image.Dispose();
+        //        pictureBox1.Image = null;
+        //    }
+
+        //    resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(nroTarjeta, nombreCliente);
+        //    if (resultado.Exito)
+        //    {
+        //        resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
+        //        if (resultado.Exito)
+        //        {
+        //            resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara((uint)nroLector, nroTarjeta.ToString());
+        //            MessageBox.Show("Se agrego el usuario con exito");
+
+        //        }
+        //    }
+
+        //}
+
+
+        ////Boton usuario completo
+        //private void BotonEliminarUsuario_Click(object sender, EventArgs e)
+        //{
+
+        //    if (!string.IsNullOrWhiteSpace(textBoxId.Text))
+        //    {
+        //        EliminarUsuarioCompleto(1, textBoxId.Text);
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Completa los campos");
+        //    }
+        //}
+        //public void EliminarUsuarioCompleto(int nroLector, string idTarjeta)
+        //{
+        //    if (InvokeRequired)
+        //    {
+        //        Invoke(new Action<int, string>(EliminarUsuarioCompleto), nroLector, idTarjeta);
+        //        return;
+        //    }
+
+        //    Hik_Resultado resultado = new Hik_Resultado();
+
+        //    resultado = Hik_Controladora_Facial.ObtenerInstancia.EliminarCara(nroLector, idTarjeta);
+        //    if (resultado.Exito)
+        //    {
+        //        resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EliminarTarjetaPorId(int.Parse(idTarjeta));
+        //        if (resultado.Exito)
+        //        {
+        //            if (pictureBox1.Image != null)
+        //            {
+        //                pictureBox1.Image.Dispose();
+        //                pictureBox1.Image = null;
+        //            }
+        //            MessageBox.Show("Usuario eliminado con exito");
+        //        }
+        //    }
+
+
+        //}
+
+        private void WFPrincipal_Load(object sender, EventArgs e)
         {
-            ActualizarCapturarCara();
-        }
-        public async void ActualizarCapturarCara()
-        {
-            if (InvokeRequired)
-            {
-                Invoke(ActualizarCapturarCara);
-                return;
-            }
-
-            if (pictureBox1.Image != null)
-            {
-                pictureBox1.Image.Dispose();
-                pictureBox1.Image = null;
-            }
-
-            pictureBox1.Image = CapturarFotoCliente();
 
         }
 
-        //Obtener la foto de un cliente 
-        private void botonGet_Click(object sender, EventArgs e)
-        {
-
-            if (pictureBox1.Image != null)
-            {
-                pictureBox1.Image.Dispose();
-                pictureBox1.Image = null;
-            }
-            pictureBox1.Image = ObtenerFotoCliente(1, textBoxId.Text);
-        }
-        
-
-        //Agregar usuario compelto 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-            if(!string.IsNullOrWhiteSpace(textBoxId.Text) && !string.IsNullOrWhiteSpace(textBoxNombre.Text))
-            {
-                AgregarUsuarioCompleto(1,int.Parse(textBoxId.Text), textBoxNombre.Text);
-            }
-            else
-            {
-                MessageBox.Show("Completa los campos");
-            }
-        }
-        public void AgregarUsuarioCompleto(int nroLector, int nroTarjeta, string nombreCliente)
-        {
-            Hik_Resultado resultado = new Hik_Resultado();
-
-            if (InvokeRequired)
-            {
-                Invoke(new Action<int, int, string>(AgregarUsuarioCompleto),nroLector, nroTarjeta, nombreCliente);
-                return;
-            }
-            if (pictureBox1.Image != null)
-            {
-                pictureBox1.Image.Dispose();
-                pictureBox1.Image = null;
-            } 
-
-            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(nroTarjeta, nombreCliente);
-            if (resultado.Exito)
-            {
-                resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
-                if (resultado.Exito)
-                {
-                    resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara((uint)nroLector, nroTarjeta.ToString());
-                    MessageBox.Show("Se agrego el usuario con exito");
-
-                }
-            }
-
-        }
-
-
-        //Boton usuario completo
-        private void BotonEliminarUsuario_Click(object sender, EventArgs e)
-        {
-
-            if(!string.IsNullOrWhiteSpace(textBoxId.Text))
-            {
-                EliminarUsuarioCompleto(1,textBoxId.Text);
-            }
-            else
-            {
-                MessageBox.Show("Completa los campos");
-            }
-        }
-        public void EliminarUsuarioCompleto(int nroLector, string idTarjeta)
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new Action<int, string>(EliminarUsuarioCompleto), nroLector, idTarjeta);
-                 return;
-            }
-
-            Hik_Resultado resultado = new Hik_Resultado();
-
-            resultado = Hik_Controladora_Facial.ObtenerInstancia.EliminarCara(nroLector, idTarjeta);
-            if (resultado.Exito)
-            {
-                resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EliminarTarjetaPorId(int.Parse(idTarjeta));
-                if(resultado.Exito)
-                {
-                    if (pictureBox1.Image != null)
-                    {
-                        pictureBox1.Image.Dispose();
-                        pictureBox1.Image = null;
-                    }
-                    MessageBox.Show("Usuario eliminado con exito");
-                }
-            }
-
-
-        }
+       
     }
 }
