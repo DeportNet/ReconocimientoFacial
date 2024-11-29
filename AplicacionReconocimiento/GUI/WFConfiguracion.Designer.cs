@@ -31,9 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WFConfiguracion));
             tituloConfig = new Label();
             colorDialog1 = new ColorDialog();
-            colorFondoLabel = new Label();
-            colorLetrasCadaOpcionLabel = new Label();
-            cargarLogoLabel = new Label();
             tiempoDatosLabel = new Label();
             sonidosTituloLabel = new Label();
             accesoPermitidoLabel = new Label();
@@ -44,7 +41,6 @@
             alertaPorcentajeLabel = new Label();
             personalizacionTituloLabel = new Label();
             opcionesTituloLabel = new Label();
-            colorFondoMensajeAccesoLabel = new Label();
             propertyGrid1 = new PropertyGrid();
             SuspendLayout();
             // 
@@ -58,41 +54,11 @@
             tituloConfig.TabIndex = 0;
             tituloConfig.Text = "Configuraciones dispositivo reconocimiento";
             // 
-            // colorFondoLabel
-            // 
-            colorFondoLabel.AutoSize = true;
-            colorFondoLabel.Font = new Font("Segoe UI", 12F);
-            colorFondoLabel.Location = new Point(829, 151);
-            colorFondoLabel.Name = "colorFondoLabel";
-            colorFondoLabel.Size = new Size(117, 21);
-            colorFondoLabel.TabIndex = 1;
-            colorFondoLabel.Text = "Color de fondo:";
-            // 
-            // colorLetrasCadaOpcionLabel
-            // 
-            colorLetrasCadaOpcionLabel.AutoSize = true;
-            colorLetrasCadaOpcionLabel.Font = new Font("Segoe UI", 12F);
-            colorLetrasCadaOpcionLabel.Location = new Point(829, 273);
-            colorLetrasCadaOpcionLabel.Name = "colorLetrasCadaOpcionLabel";
-            colorLetrasCadaOpcionLabel.Size = new Size(222, 21);
-            colorLetrasCadaOpcionLabel.TabIndex = 2;
-            colorLetrasCadaOpcionLabel.Text = "Color de letras de cada opcion:";
-            // 
-            // cargarLogoLabel
-            // 
-            cargarLogoLabel.AutoSize = true;
-            cargarLogoLabel.Font = new Font("Segoe UI", 12F);
-            cargarLogoLabel.Location = new Point(829, 189);
-            cargarLogoLabel.Name = "cargarLogoLabel";
-            cargarLogoLabel.Size = new Size(95, 21);
-            cargarLogoLabel.TabIndex = 3;
-            cargarLogoLabel.Text = "Cargar logo:";
-            // 
             // tiempoDatosLabel
             // 
             tiempoDatosLabel.AutoSize = true;
             tiempoDatosLabel.Font = new Font("Segoe UI", 12F);
-            tiempoDatosLabel.Location = new Point(829, 333);
+            tiempoDatosLabel.Location = new Point(86, 404);
             tiempoDatosLabel.Name = "tiempoDatosLabel";
             tiempoDatosLabel.Size = new Size(269, 21);
             tiempoDatosLabel.TabIndex = 4;
@@ -172,7 +138,7 @@
             // 
             personalizacionTituloLabel.AutoSize = true;
             personalizacionTituloLabel.Font = new Font("Segoe UI", 12F, FontStyle.Underline);
-            personalizacionTituloLabel.Location = new Point(84, 96);
+            personalizacionTituloLabel.Location = new Point(22, 90);
             personalizacionTituloLabel.Name = "personalizacionTituloLabel";
             personalizacionTituloLabel.Size = new Size(117, 21);
             personalizacionTituloLabel.TabIndex = 12;
@@ -188,21 +154,11 @@
             opcionesTituloLabel.TabIndex = 13;
             opcionesTituloLabel.Text = "Opciones";
             // 
-            // colorFondoMensajeAccesoLabel
-            // 
-            colorFondoMensajeAccesoLabel.AutoSize = true;
-            colorFondoMensajeAccesoLabel.Font = new Font("Segoe UI", 12F);
-            colorFondoMensajeAccesoLabel.Location = new Point(829, 230);
-            colorFondoMensajeAccesoLabel.Name = "colorFondoMensajeAccesoLabel";
-            colorFondoMensajeAccesoLabel.Size = new Size(229, 21);
-            colorFondoMensajeAccesoLabel.TabIndex = 14;
-            colorFondoMensajeAccesoLabel.Text = "Color de fondo mensaje acceso:";
-            // 
             // propertyGrid1
             // 
-            propertyGrid1.Location = new Point(71, 137);
+            propertyGrid1.Location = new Point(22, 124);
             propertyGrid1.Name = "propertyGrid1";
-            propertyGrid1.Size = new Size(152, 144);
+            propertyGrid1.Size = new Size(567, 252);
             propertyGrid1.TabIndex = 15;
             propertyGrid1.Click += propertyGrid1_Click;
             // 
@@ -213,7 +169,6 @@
             BackColor = Color.Gray;
             ClientSize = new Size(1177, 691);
             Controls.Add(propertyGrid1);
-            Controls.Add(colorFondoMensajeAccesoLabel);
             Controls.Add(opcionesTituloLabel);
             Controls.Add(personalizacionTituloLabel);
             Controls.Add(alertaPorcentajeLabel);
@@ -224,9 +179,6 @@
             Controls.Add(accesoPermitidoLabel);
             Controls.Add(sonidosTituloLabel);
             Controls.Add(tiempoDatosLabel);
-            Controls.Add(cargarLogoLabel);
-            Controls.Add(colorLetrasCadaOpcionLabel);
-            Controls.Add(colorFondoLabel);
             Controls.Add(tituloConfig);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "WFConfiguracion";
@@ -240,9 +192,6 @@
 
         private Label tituloConfig;
         private ColorDialog colorDialog1;
-        private Label colorFondoLabel;
-        private Label colorLetrasCadaOpcionLabel;
-        private Label cargarLogoLabel;
         private Label tiempoDatosLabel;
         private Label sonidosTituloLabel;
         private Label accesoPermitidoLabel;
@@ -253,7 +202,6 @@
         private Label alertaPorcentajeLabel;
         private Label personalizacionTituloLabel;
         private Label opcionesTituloLabel;
-        private Label colorFondoMensajeAccesoLabel;
         private PropertyGrid propertyGrid1;
     }
 }
