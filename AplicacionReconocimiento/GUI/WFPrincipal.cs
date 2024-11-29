@@ -15,11 +15,10 @@ namespace DeportNetReconocimiento.GUI
         private Hik_Controladora_General? hik_Controladora_General;
         private System.Windows.Forms.Timer? timer;
         private static WFPrincipal? instancia;
-        private bool ignorarCierre = false;
-        private static readonly object lockObj = new object();
         private ConfiguracionEstilos configuracionEstilos;
+        public bool ignorarCierre = false;
 
-        
+
         public WFPrincipal()
         {
             InitializeComponent();
@@ -259,17 +258,17 @@ namespace DeportNetReconocimiento.GUI
                 return;
             }
 
-            if (pictureBox1.Image != null)
-            {
-                pictureBox1.Image.Dispose();
-                pictureBox1.Image = null;
-            }
+
+            MaximizarVentana();
+            LimpiarPictureBox();
+
 
             //Se convierte el json a un objeto de tipo Persona
             Persona persona = JSONtoPersona(json);
 
-            string respuesta = "Acceso concedido " + persona.Nombre;
-            HeaderLabel.ForeColor = Color.Green;
+            string respuesta;
+          respuesta = EvaluarMensajeAcceso(persona);
+
 
             //Se actualizan los labels con los datos de la persona
             HeaderLabel.Text = respuesta;
@@ -284,6 +283,47 @@ namespace DeportNetReconocimiento.GUI
             //TODO: el tiempo sera variable
             await Task.Delay(5000);
             LimpiarInterfaz();
+        }
+
+
+        public string EvaluarMensajeAcceso(Persona persona)
+        {
+            string mensaje = "";
+            string pregunta = "¿Lo dejas pasar de todas formas?";
+            DialogResult respuesta = DialogResult.OK;
+            if (persona.Rta == "P"){
+                respuesta = MessageBox.Show(
+                persona.Pregunta + pregunta,
+                "Pregunta",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+                );
+            }
+
+            if (persona.Rta == "S" || respuesta == DialogResult.Yes)
+            {
+                mensaje = "Bienvenido " + persona.Nombre;
+                HeaderLabel.ForeColor = Color.Green;
+
+            }
+            else if (persona.Rta == "N" || respuesta == DialogResult.No){
+                
+               mensaje = "Acceso denegado " + persona.Nombre;
+                HeaderLabel.ForeColor = Color.Red;
+
+            }
+
+            return mensaje;
+
+        }
+
+        public void LimpiarPictureBox()
+        {
+            if (pictureBox1.Image != null)
+            {
+                pictureBox1.Image.Dispose();
+                pictureBox1.Image = null;
+            }
         }
 
         Image ObtenerFotoCliente(int nroLector, string idCliente)
@@ -321,11 +361,8 @@ namespace DeportNetReconocimiento.GUI
                 return;
             }
 
-            if (pictureBox1.Image != null)
-            {
-                pictureBox1.Image.Dispose();
-                pictureBox1.Image = null;
-            }
+            LimpiarPictureBox();
+
             HeaderLabel.Text = "";
             //valorNombreHeaderLabel.Text = "";
             actividadLabel.Text = "";
@@ -354,6 +391,7 @@ namespace DeportNetReconocimiento.GUI
                 persona.Mensaje = root.GetProperty("Mensaje").GetString();
                 persona.Fecha = root.GetProperty("Fecha").GetString();
                 persona.Hora = root.GetProperty("Hora").GetString();
+                persona.Pregunta = root.GetProperty("Pregunta").GetString();
             }
             return persona;
         }
@@ -405,7 +443,15 @@ namespace DeportNetReconocimiento.GUI
             
         }
 
-        // pictureBox1.Image = ObtenerFotoCliente(1, textBoxId.Text);
+        public void MaximizarVentana()
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.Show(); // Muestra el formulario principal
+                this.WindowState = FormWindowState.Maximized; // Restaura el estado de la ventana
+            }
+        }
+
 
 
         private void WFPrincipal_Load(object sender, EventArgs e)
