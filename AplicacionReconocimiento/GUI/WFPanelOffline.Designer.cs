@@ -52,7 +52,7 @@
             // 
             controlPuertasLabel.AutoSize = true;
             controlPuertasLabel.Font = new Font("Segoe UI", 15F, FontStyle.Underline);
-            controlPuertasLabel.Location = new Point(98, 334);
+            controlPuertasLabel.Location = new Point(381, 269);
             controlPuertasLabel.Name = "controlPuertasLabel";
             controlPuertasLabel.Size = new Size(175, 28);
             controlPuertasLabel.TabIndex = 1;
@@ -62,7 +62,7 @@
             // AbrirPuerta
             // 
             AbrirPuerta.Cursor = Cursors.Hand;
-            AbrirPuerta.Location = new Point(30, 380);
+            AbrirPuerta.Location = new Point(313, 315);
             AbrirPuerta.Name = "AbrirPuerta";
             AbrirPuerta.Size = new Size(129, 37);
             AbrirPuerta.TabIndex = 2;
@@ -73,7 +73,7 @@
             // CerrarPuerta
             // 
             CerrarPuerta.Cursor = Cursors.Hand;
-            CerrarPuerta.Location = new Point(232, 380);
+            CerrarPuerta.Location = new Point(515, 315);
             CerrarPuerta.Name = "CerrarPuerta";
             CerrarPuerta.Size = new Size(129, 37);
             CerrarPuerta.TabIndex = 3;
@@ -84,7 +84,7 @@
             // MantenerAbiertaPuerta
             // 
             MantenerAbiertaPuerta.Cursor = Cursors.Hand;
-            MantenerAbiertaPuerta.Location = new Point(30, 440);
+            MantenerAbiertaPuerta.Location = new Point(313, 375);
             MantenerAbiertaPuerta.Name = "MantenerAbiertaPuerta";
             MantenerAbiertaPuerta.Size = new Size(129, 37);
             MantenerAbiertaPuerta.TabIndex = 4;
@@ -95,7 +95,7 @@
             // ManterCerradaPuerta
             // 
             ManterCerradaPuerta.Cursor = Cursors.Hand;
-            ManterCerradaPuerta.Location = new Point(232, 440);
+            ManterCerradaPuerta.Location = new Point(515, 375);
             ManterCerradaPuerta.Name = "ManterCerradaPuerta";
             ManterCerradaPuerta.Size = new Size(129, 37);
             ManterCerradaPuerta.TabIndex = 5;

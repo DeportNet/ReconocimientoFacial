@@ -45,6 +45,7 @@
             personalizacionTituloLabel = new Label();
             opcionesTituloLabel = new Label();
             colorFondoMensajeAccesoLabel = new Label();
+            propertyGrid1 = new PropertyGrid();
             SuspendLayout();
             // 
             // tituloConfig
@@ -61,7 +62,7 @@
             // 
             colorFondoLabel.AutoSize = true;
             colorFondoLabel.Font = new Font("Segoe UI", 12F);
-            colorFondoLabel.Location = new Point(84, 139);
+            colorFondoLabel.Location = new Point(829, 151);
             colorFondoLabel.Name = "colorFondoLabel";
             colorFondoLabel.Size = new Size(117, 21);
             colorFondoLabel.TabIndex = 1;
@@ -71,7 +72,7 @@
             // 
             colorLetrasCadaOpcionLabel.AutoSize = true;
             colorLetrasCadaOpcionLabel.Font = new Font("Segoe UI", 12F);
-            colorLetrasCadaOpcionLabel.Location = new Point(84, 261);
+            colorLetrasCadaOpcionLabel.Location = new Point(829, 273);
             colorLetrasCadaOpcionLabel.Name = "colorLetrasCadaOpcionLabel";
             colorLetrasCadaOpcionLabel.Size = new Size(222, 21);
             colorLetrasCadaOpcionLabel.TabIndex = 2;
@@ -81,7 +82,7 @@
             // 
             cargarLogoLabel.AutoSize = true;
             cargarLogoLabel.Font = new Font("Segoe UI", 12F);
-            cargarLogoLabel.Location = new Point(84, 177);
+            cargarLogoLabel.Location = new Point(829, 189);
             cargarLogoLabel.Name = "cargarLogoLabel";
             cargarLogoLabel.Size = new Size(95, 21);
             cargarLogoLabel.TabIndex = 3;
@@ -91,7 +92,7 @@
             // 
             tiempoDatosLabel.AutoSize = true;
             tiempoDatosLabel.Font = new Font("Segoe UI", 12F);
-            tiempoDatosLabel.Location = new Point(84, 321);
+            tiempoDatosLabel.Location = new Point(829, 333);
             tiempoDatosLabel.Name = "tiempoDatosLabel";
             tiempoDatosLabel.Size = new Size(269, 21);
             tiempoDatosLabel.TabIndex = 4;
@@ -191,11 +192,19 @@
             // 
             colorFondoMensajeAccesoLabel.AutoSize = true;
             colorFondoMensajeAccesoLabel.Font = new Font("Segoe UI", 12F);
-            colorFondoMensajeAccesoLabel.Location = new Point(84, 218);
+            colorFondoMensajeAccesoLabel.Location = new Point(829, 230);
             colorFondoMensajeAccesoLabel.Name = "colorFondoMensajeAccesoLabel";
             colorFondoMensajeAccesoLabel.Size = new Size(229, 21);
             colorFondoMensajeAccesoLabel.TabIndex = 14;
             colorFondoMensajeAccesoLabel.Text = "Color de fondo mensaje acceso:";
+            // 
+            // propertyGrid1
+            // 
+            propertyGrid1.Location = new Point(71, 137);
+            propertyGrid1.Name = "propertyGrid1";
+            propertyGrid1.Size = new Size(152, 144);
+            propertyGrid1.TabIndex = 15;
+            propertyGrid1.Click += propertyGrid1_Click;
             // 
             // WFConfiguracion
             // 
@@ -203,6 +212,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1177, 691);
+            Controls.Add(propertyGrid1);
             Controls.Add(colorFondoMensajeAccesoLabel);
             Controls.Add(opcionesTituloLabel);
             Controls.Add(personalizacionTituloLabel);
@@ -221,6 +231,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "WFConfiguracion";
             Text = "Configuracion Dispositivo";
+            Load += WFConfiguracion_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -243,5 +254,6 @@
         private Label personalizacionTituloLabel;
         private Label opcionesTituloLabel;
         private Label colorFondoMensajeAccesoLabel;
+        private PropertyGrid propertyGrid1;
     }
 }
