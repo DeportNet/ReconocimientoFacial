@@ -8,7 +8,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DeportNetReconocimiento.Utils
 {
-    internal class Escuchador_Directorio
+    public class Escuchador_Directorio
     {
 
         private static FileSystemWatcher escuchador;
