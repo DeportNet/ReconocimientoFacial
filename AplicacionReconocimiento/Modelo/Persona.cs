@@ -19,8 +19,9 @@ namespace DeportNetReconocimiento.Modelo
         private string mensaje { get; set; }
         private string fecha { get; set; }
         private string hora { get; set; }
+        private string pregunta { get; set; }
 
-        public Persona(string id, string nombre, string apellido, string actividad, string clasesRestantes, string mensaje, string vencimiento, string rta, string fecha, string hora)
+        public Persona(string id, string nombre, string apellido, string actividad, string clasesRestantes, string mensaje, string vencimiento, string rta, string fecha, string hora, string pregunta)
         {
 
             this.id = id;
@@ -33,6 +34,7 @@ namespace DeportNetReconocimiento.Modelo
             this.mensaje = mensaje;
             this.fecha = fecha;
             this.hora = hora;
+            this.pregunta = pregunta;
         }
 
         public Persona() { }
@@ -95,6 +97,11 @@ namespace DeportNetReconocimiento.Modelo
             set { hora = value; }
         }
 
+        public string Pregunta
+        {
+            get { return pregunta; }
+            set { pregunta = value; }
+        }
 
     }
 }
