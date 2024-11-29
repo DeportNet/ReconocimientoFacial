@@ -24,9 +24,11 @@ namespace DeportNetReconocimiento.GUI
         {
             InitializeComponent();
 
-            //InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-            //Escuchador_Directorio.InicializarEscuchadorEnHilo();
-            //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
+
+
+            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            Escuchador_Directorio.InicializarEscuchadorEnHilo();
+            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
         }
 
         //propiedades
@@ -43,7 +45,7 @@ namespace DeportNetReconocimiento.GUI
 
             }
         }
-        public Hik_Controladora_General? Hik_Controladora_General
+        public Hik_Controladora_General? Instancia_Controladora_General
         {
             get { return hik_Controladora_General; }
             set { hik_Controladora_General = value; }
@@ -70,8 +72,8 @@ namespace DeportNetReconocimiento.GUI
 
             if (credenciales.Length > 0)
             {
-                Hik_Controladora_General = Hik_Controladora_General.InstanciaControladoraGeneral;
-                resultado = Hik_Controladora_General.InicializarPrograma(credenciales[2], credenciales[3], credenciales[1], credenciales[0]);
+                Instancia_Controladora_General = Hik_Controladora_General.InstanciaControladoraGeneral;
+                resultado = Instancia_Controladora_General.InicializarPrograma(credenciales[2], credenciales[3], credenciales[1], credenciales[0]);
 
             }
 
@@ -196,6 +198,12 @@ namespace DeportNetReconocimiento.GUI
 
                 //Verificar estado de internet
                 //El objetivo es saber si los datos reconocidos se almacenan o no en la base de datos local
+                if (!Hik_Controladora_General.VerificarConexionInternet())
+                {
+                    MessageBox.Show("No hay conexion a internet");
+                }
+
+
 
                 if (!resultado.Exito)
                 {
@@ -332,6 +340,7 @@ namespace DeportNetReconocimiento.GUI
                 this.WindowState = FormWindowState.Maximized;
 
             }
+
         }
 
         private void WFPrincipal_Resize(object sender, EventArgs e)
@@ -361,16 +370,6 @@ namespace DeportNetReconocimiento.GUI
 
             
         }
-
-        //private void SalirToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    
-        //}
-
-        //private void AbrirToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    
-        //}
 
         // pictureBox1.Image = ObtenerFotoCliente(1, textBoxId.Text);
 
