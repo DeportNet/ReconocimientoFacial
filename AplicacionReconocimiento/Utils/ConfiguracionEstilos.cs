@@ -4,43 +4,94 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DeportNetReconocimiento.Utils
 {
     public class ConfiguracionEstilos
     {
 
+        /* - - - - - - General - - - - - */
+
         [Category("General")]
         [DisplayName("Color de Fondo")]
         public Color ColorFondo { get; set; }
 
-        //[Category("Labels")]
-        //[DisplayName("Color del Título")]
-        //public Color ColorTitulo { get; set; }
+        [Category("General")]
+        [DisplayName("Logo de la pantalla de bienvenida")]
+        public string LogoRuta { get; set; }
+
+        [Category("General")]
+        [DisplayName("Fuente texto")]
+        public Font FuenteTexto { get; set; }
+
+        /* - - - - - Mensaje de acceso - - - - - */
+
+        [Category("Mensaje de acceso")]
+        [DisplayName("Color del fondo mensaje de acceso")]
+        public Color ColorFondoMensajeAcceso { get; set; }
+
+        [Category("Mensaje de acceso")]
+        [DisplayName("Color de mensaje de bienvenida")]
+        public Color ColorMensajeBienvenida { get; set; }
+
+        [Category("Mensaje de acceso")]
+        [DisplayName("Color de mensaje de acceso denegado")]
+        public Color ColorMensajeAccesoDenegado { get; set; }
+
+
+        /* - - - - - Campos de informacion - - - - - - */
+
+
+        [Category("Campos de informacion")]
+        [DisplayName("Color del campo actividad")]
+        public Color ColorCampoActividad { get; set; }
+
+
+
+        [Category("Campos de informacion")]
+        [DisplayName("Color del campo vencimiento")]
+        public Color ColorVencimiento { get; set; }
+
+        [Category("Campos de informacion")]
+        [DisplayName("Color del campo clases restantes")]
+        public Color ColorClasesRestantes { get; set; }
+
+        [Category("Campos de informacion")]
+        [DisplayName("Color del campo mensaje")]
+        public Color ColorMensaje { get; set; }
+
+        [Category("Campos de informacion")]
+        [DisplayName("Color de fondo imagen")]
+        public Color ColorFondoImagen { get; set; }
 
         //[Category("Labels")]
         //[DisplayName("Fuente del Título")]
         //public Font FuenteTitulo { get; set; }
 
-        //[Category("Logo")]
-        //[DisplayName("Logo de la Ventana")]
-        //public string LogoPath { get; set; }
+
 
         // Constructor predeterminado
         public ConfiguracionEstilos()
         {
-            ColorFondo = Color.White;
-            //ColorTitulo = Color.Black;
-            //FuenteTitulo = new Font("Arial", 16, FontStyle.Bold);
-            //LogoPath = string.Empty; // Vacío por defecto
+            // General
+            ColorFondo = Color.Silver;
+            FuenteTexto = new Font("Arial Rounded MT Bold", 36);
+            LogoRuta = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\Recursos\logo_deportnet_1.jpg"; ; // Logo deportnet por defecto
+        
+
+            // Mensaje de acceso
+            ColorFondoMensajeAcceso = Color.DarkGray;
+            ColorMensajeBienvenida = Color.Green;
+            ColorMensajeAccesoDenegado = Color.Red;
+
+            // Campos de informacion
+            ColorCampoActividad = Color.Black;
+            ColorVencimiento = Color.Black;
+            ColorClasesRestantes = Color.Black;
+            ColorMensaje = Color.Black;
+            ColorFondoImagen = Color.DarkGray;
         }
 
-        public ConfiguracionEstilos(Color colorFondo, Color colorTitulo, Font fuenteTitulo, string logoPath)
-        {
-            ColorFondo = colorFondo;
-            //ColorTitulo = colorTitulo;
-            //FuenteTitulo = fuenteTitulo;
-            //LogoPath = logoPath;
-        }
     }
 }

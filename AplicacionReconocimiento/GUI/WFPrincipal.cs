@@ -14,22 +14,32 @@ namespace DeportNetReconocimiento.GUI
     {
         private Hik_Controladora_General? hik_Controladora_General;
         private System.Windows.Forms.Timer? timer;
-
         private static WFPrincipal? instancia;
+        private ConfiguracionEstilos configuracionEstilos;
         public bool ignorarCierre = false;
+
 
         public WFPrincipal()
         {
             InitializeComponent();
 
+            //TODO: Estos estilos se leen de un archivo de configuración o de la base de datos
+            configuracionEstilos = new ConfiguracionEstilos();
+            AplicarConfiguracion(configuracionEstilos);
 
-
-            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-            Escuchador_Directorio.InicializarEscuchadorEnHilo();
-            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
+            //InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            //Escuchador_Directorio.InicializarEscuchadorEnHilo();
+            //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
         }
 
         //propiedades
+
+        public ConfiguracionEstilos ConfiguracionEstilos
+        {
+            get { return configuracionEstilos; }
+            set { configuracionEstilos = value; }
+        }
+
         public static WFPrincipal ObtenerInstancia
         {
 
@@ -48,6 +58,30 @@ namespace DeportNetReconocimiento.GUI
             get { return hik_Controladora_General; }
             set { hik_Controladora_General = value; }
         }
+
+        //funciones
+
+        public void AplicarConfiguracion(ConfiguracionEstilos config)
+        {
+            ConfiguracionEstilos = config;
+
+            BackColor = config.ColorFondo;
+            Font = config.FuenteTexto;
+            fondoMensajeAcceso.BackColor = config.ColorFondoMensajeAcceso;
+            
+            HeaderLabel.BackColor = config.ColorFondoMensajeAcceso;
+
+            actividadLabel.ForeColor = config.ColorCampoActividad;
+            valorFechaVtoLabel.ForeColor = config.ColorVencimiento;
+            valorClasesRestLabel.ForeColor = config.ColorClasesRestantes;
+            valorMensajeLabel.ForeColor = config.ColorMensaje;
+            pictureBox1.BackColor = config.ColorFondoImagen;
+
+
+            //TODO: Falta el logo
+        }
+
+
 
         public Hik_Resultado InstanciarPrograma()
         {
@@ -198,6 +232,7 @@ namespace DeportNetReconocimiento.GUI
                 //El objetivo es saber si los datos reconocidos se almacenan o no en la base de datos local
                 if (!Hik_Controladora_General.VerificarConexionInternet())
                 {
+                    //TODO: en realidad habria que mostrar en la GUI una ventana que diga que no hay conexion a internet (verificar que exista asi no se pone multiples veces)
                     MessageBox.Show("No hay conexion a internet");
                 }
 
@@ -237,7 +272,6 @@ namespace DeportNetReconocimiento.GUI
 
             //Se actualizan los labels con los datos de la persona
             HeaderLabel.Text = respuesta;
-            // valorNombreHeaderLabel.Text = persona.Nombre;
             actividadLabel.Text = persona.Actividad;
             valorFechaVtoLabel.Text = persona.Vencimiento;
             valorClasesRestLabel.Text = persona.ClasesRestantes;
@@ -246,6 +280,7 @@ namespace DeportNetReconocimiento.GUI
             pictureBox1.Image = ObtenerFotoCliente(nroLector, persona.Id);
 
             //Esperamos 5 segundos para borrar los datos
+            //TODO: el tiempo sera variable
             await Task.Delay(5000);
             LimpiarInterfaz();
         }

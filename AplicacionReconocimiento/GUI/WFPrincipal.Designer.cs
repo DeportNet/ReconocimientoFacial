@@ -48,13 +48,13 @@ namespace DeportNetReconocimiento.GUI
             HeaderLabel = new Label();
             valorNombreHeaderLabel = new Label();
             valorMensajeLabel = new Label();
-            panel1 = new Panel();
+            fondoMensajeAcceso = new Panel();
             Abrir = new ToolStripMenuItem();
             Cerrar = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)imagenDeportnet).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuNotifyIcon.SuspendLayout();
-            panel1.SuspendLayout();
+            fondoMensajeAcceso.SuspendLayout();
             SuspendLayout();
             // 
             // imagenDeportnet
@@ -220,16 +220,16 @@ namespace DeportNetReconocimiento.GUI
             valorMensajeLabel.TextAlign = ContentAlignment.MiddleCenter;
             valorMensajeLabel.Click += valorMensajeLabel_Click;
             // 
-            // panel1
+            // fondoMensajeAcceso
             // 
-            panel1.BackColor = Color.DarkGray;
-            panel1.Controls.Add(HeaderLabel);
-            panel1.Controls.Add(valorNombreHeaderLabel);
-            panel1.Location = new Point(147, 138);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(1625, 102);
-            panel1.TabIndex = 27;
-            panel1.Paint += panel1_Paint;
+            fondoMensajeAcceso.BackColor = Color.DarkGray;
+            fondoMensajeAcceso.Controls.Add(HeaderLabel);
+            fondoMensajeAcceso.Controls.Add(valorNombreHeaderLabel);
+            fondoMensajeAcceso.Location = new Point(147, 138);
+            fondoMensajeAcceso.Name = "fondoMensajeAcceso";
+            fondoMensajeAcceso.Size = new Size(1625, 102);
+            fondoMensajeAcceso.TabIndex = 27;
+            fondoMensajeAcceso.Paint += panel1_Paint;
             // 
             // Abrir
             // 
@@ -249,7 +249,7 @@ namespace DeportNetReconocimiento.GUI
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Silver;
             ClientSize = new Size(1904, 1041);
-            Controls.Add(panel1);
+            Controls.Add(fondoMensajeAcceso);
             Controls.Add(valorMensajeLabel);
             Controls.Add(clasesRestLabel);
             Controls.Add(mensajeOpcionalLabel);
@@ -273,8 +273,8 @@ namespace DeportNetReconocimiento.GUI
             ((System.ComponentModel.ISupportInitialize)imagenDeportnet).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             menuNotifyIcon.ResumeLayout(false);
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            fondoMensajeAcceso.ResumeLayout(false);
+            fondoMensajeAcceso.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -293,7 +293,7 @@ namespace DeportNetReconocimiento.GUI
         private Label HeaderLabel;
         private Label valorNombreHeaderLabel;
         private Label valorMensajeLabel;
-        private Panel panel1;
+        private Panel fondoMensajeAcceso;
         private ContextMenuStrip menuNotifyIcon;
         private ToolStripMenuItem Abrir;
         private ToolStripMenuItem Cerrar;
