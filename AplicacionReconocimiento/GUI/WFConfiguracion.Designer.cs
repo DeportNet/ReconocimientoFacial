@@ -42,6 +42,7 @@
             personalizacionTituloLabel = new Label();
             opcionesTituloLabel = new Label();
             propertyGrid1 = new PropertyGrid();
+            guardarCambiosButton = new Button();
             SuspendLayout();
             // 
             // tituloConfig
@@ -160,7 +161,18 @@
             propertyGrid1.Name = "propertyGrid1";
             propertyGrid1.Size = new Size(567, 252);
             propertyGrid1.TabIndex = 15;
-            propertyGrid1.Click += propertyGrid1_Click;
+            propertyGrid1.PropertyValueChanged += PropertyGrid1_PropertyValueChanged;
+            propertyGrid1.Click += PropertyGrid1_Click;
+            // 
+            // guardarCambiosButton
+            // 
+            guardarCambiosButton.Location = new Point(699, 161);
+            guardarCambiosButton.Name = "guardarCambiosButton";
+            guardarCambiosButton.Size = new Size(171, 23);
+            guardarCambiosButton.TabIndex = 16;
+            guardarCambiosButton.Text = "Guardar Cambios";
+            guardarCambiosButton.UseVisualStyleBackColor = true;
+            guardarCambiosButton.Click += GuardarCambiosButton_Click;
             // 
             // WFConfiguracion
             // 
@@ -168,6 +180,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1177, 691);
+            Controls.Add(guardarCambiosButton);
             Controls.Add(propertyGrid1);
             Controls.Add(opcionesTituloLabel);
             Controls.Add(personalizacionTituloLabel);
@@ -183,6 +196,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "WFConfiguracion";
             Text = "Configuracion Dispositivo";
+            FormClosing += WFConfiguracion_FormClosing;
             Load += WFConfiguracion_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -203,5 +217,6 @@
         private Label personalizacionTituloLabel;
         private Label opcionesTituloLabel;
         private PropertyGrid propertyGrid1;
+        private Button guardarCambiosButton;
     }
 }

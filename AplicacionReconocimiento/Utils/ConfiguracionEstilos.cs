@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -93,5 +95,67 @@ namespace DeportNetReconocimiento.Utils
             ColorFondoImagen = Color.DarkGray;
         }
 
+
+        public static void GuardarJsonConfiguracion(ConfiguracionEstilos configuracion)
+        {
+            string json = JsonSerializer.Serialize(configuracion);
+            try
+            {
+                File.WriteAllText("configuracionEstilos.json", json);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Error al guardar el archivo de configuración: " + e.Message);
+            }
+
+            
+        }
+
+        public static ConfiguracionEstilos LeerJsonConfiguracion(string rutaJson)
+        {
+            //"configuracionEstilos.json"
+            
+            ConfiguracionEstilos configuracionEstilos = new ConfiguracionEstilos();
+
+            if (File.Exists($"{rutaJson}.json"))
+            {
+                var options = new JsonSerializerOptions();
+                options.Converters.Add(new FontConverter());
+
+                string json = File.ReadAllText($"{rutaJson}.json");
+                    configuracionEstilos = JsonSerializer.Deserialize<ConfiguracionEstilos>(json);
+
+                //try
+                //{
+                //}
+                //catch
+                //{
+                //    Console.WriteLine("No se pudo leer el json de configuracion");
+                //    configuracionEstilos = new ConfiguracionEstilos(); // Configuración predeterminada
+                //}
+            }
+
+            return configuracionEstilos;
+
+        }
     }
+}
+
+public class FontConverter : JsonConverter<Font>
+{
+    private readonly TypeConverter _typeConverter = TypeDescriptor.GetConverter(typeof(Font));
+
+    public override Font Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        var fontString = reader.GetString();
+        return fontString != null ? (Font)_typeConverter.ConvertFromString(fontString) : new Font("Arial", 12);
+    }
+
+    public override void Write(Utf8JsonWriter writer, Font value, JsonSerializerOptions options)
+    {
+        var fontString = _typeConverter.ConvertToString(value);
+        writer.WriteStringValue(fontString);
+    }
+
+
 }
