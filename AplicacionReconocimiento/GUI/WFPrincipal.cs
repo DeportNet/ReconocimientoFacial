@@ -23,8 +23,8 @@ namespace DeportNetReconocimiento.GUI
         {
             InitializeComponent();
 
-            //TODO: Estos estilos se leen de un archivo de configuración o de la base de datos
-            configuracionEstilos = new ConfiguracionEstilos();
+            //estilos se leen de un archivo
+            this.configuracionEstilos= ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos");
             AplicarConfiguracion(configuracionEstilos);
 
             //InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
@@ -59,27 +59,6 @@ namespace DeportNetReconocimiento.GUI
             set { hik_Controladora_General = value; }
         }
 
-        //funciones
-
-        public void AplicarConfiguracion(ConfiguracionEstilos config)
-        {
-            ConfiguracionEstilos = config;
-
-            BackColor = config.ColorFondo;
-            Font = config.FuenteTexto;
-            fondoMensajeAcceso.BackColor = config.ColorFondoMensajeAcceso;
-            
-            HeaderLabel.BackColor = config.ColorFondoMensajeAcceso;
-
-            actividadLabel.ForeColor = config.ColorCampoActividad;
-            valorFechaVtoLabel.ForeColor = config.ColorVencimiento;
-            valorClasesRestLabel.ForeColor = config.ColorClasesRestantes;
-            valorMensajeLabel.ForeColor = config.ColorMensaje;
-            pictureBox1.BackColor = config.ColorFondoImagen;
-
-
-            //TODO: Falta el logo
-        }
 
 
 
@@ -251,6 +230,8 @@ namespace DeportNetReconocimiento.GUI
         //función para actualizar los datos en el hilo principal
         public async void ActualizarDatos(int nroLector, string json)
         {
+            string respuesta;
+
             //Si el hilo que llama a la función no es el principal, se llama a la función de nuevo en el hilo principal
             if (InvokeRequired)
             {
@@ -266,8 +247,7 @@ namespace DeportNetReconocimiento.GUI
             //Se convierte el json a un objeto de tipo Persona
             Persona persona = JSONtoPersona(json);
 
-            string respuesta;
-          respuesta = EvaluarMensajeAcceso(persona);
+            respuesta = EvaluarMensajeAcceso(persona);
 
 
             //Se actualizan los labels con los datos de la persona
@@ -291,7 +271,8 @@ namespace DeportNetReconocimiento.GUI
             string mensaje = "";
             string pregunta = "¿Lo dejas pasar de todas formas?";
             DialogResult respuesta = DialogResult.OK;
-            if (persona.Rta == "P"){
+            if (persona.Rta == "P")
+            {
                 respuesta = MessageBox.Show(
                 persona.Pregunta + pregunta,
                 "Pregunta",
@@ -306,9 +287,10 @@ namespace DeportNetReconocimiento.GUI
                 HeaderLabel.ForeColor = Color.Green;
 
             }
-            else if (persona.Rta == "N" || respuesta == DialogResult.No){
-                
-               mensaje = "Acceso denegado " + persona.Nombre;
+            else if (persona.Rta == "N" || respuesta == DialogResult.No)
+            {
+
+                mensaje = "Acceso denegado " + persona.Nombre;
                 HeaderLabel.ForeColor = Color.Red;
 
             }
@@ -428,19 +410,19 @@ namespace DeportNetReconocimiento.GUI
 
         private void ClickAbrirMenuNotifyIcon(object sender, EventArgs e)
         {
-            
+
             this.Show(); // Muestra el formulario principal
             this.WindowState = FormWindowState.Maximized; // Restaura el estado de la ventana
 
-            
+
         }
 
         private void ClickCerrarMenuNotifyIcon(object sender, EventArgs e)
         {
-                          
+
             Application.Exit(); // Cierra la aplicación
 
-            
+
         }
 
         public void MaximizarVentana()
@@ -452,6 +434,37 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
+
+        /* - - - - - - Configuracion Estilos - - - - - - */
+
+
+        public void AplicarConfiguracion(ConfiguracionEstilos config)
+        {
+            ConfiguracionEstilos = config;
+
+            BackColor = config.ColorFondo;
+            botonPersonalizar.Font = new Font("Arial Rounded MT Bold", 11);
+
+            fondoMensajeAcceso.BackColor = config.ColorFondoMensajeAcceso;
+            HeaderLabel.BackColor = config.ColorFondoMensajeAcceso;
+            HeaderLabel.Font = config.FuenteTexto;
+          
+            actividadLabel.Font = config.FuenteTexto;
+            valorFechaVtoLabel.Font = config.FuenteTexto;
+            valorClasesRestLabel.Font = config.FuenteTexto;
+            valorMensajeLabel.Font = config.FuenteTexto;
+
+            actividadLabel.ForeColor = config.ColorCampoActividad;
+            valorFechaVtoLabel.ForeColor = config.ColorVencimiento;
+            valorClasesRestLabel.ForeColor = config.ColorClasesRestantes;
+            valorMensajeLabel.ForeColor = config.ColorMensaje;
+            pictureBox1.BackColor = config.ColorFondoImagen;
+
+
+            //TODO: Falta el logo
+
+            
+        }
 
 
         private void WFPrincipal_Load(object sender, EventArgs e)
@@ -494,6 +507,11 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
-        
+        private void botonPersonalizar_Click(object sender, EventArgs e)
+        {
+            
+            WFConfiguracion wFConfiguracion = new WFConfiguracion(ConfiguracionEstilos, this);
+            wFConfiguracion.ShowDialog();
+        }
     }
 }

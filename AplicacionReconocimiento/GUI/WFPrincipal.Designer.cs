@@ -51,6 +51,7 @@ namespace DeportNetReconocimiento.GUI
             fondoMensajeAcceso = new Panel();
             Abrir = new ToolStripMenuItem();
             Cerrar = new ToolStripMenuItem();
+            botonPersonalizar = new Button();
             ((System.ComponentModel.ISupportInitialize)imagenDeportnet).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuNotifyIcon.SuspendLayout();
@@ -243,12 +244,23 @@ namespace DeportNetReconocimiento.GUI
             Cerrar.Size = new Size(180, 22);
             Cerrar.Text = "toolStripMenuItem2";
             // 
+            // botonPersonalizar
+            // 
+            botonPersonalizar.Location = new Point(37, 911);
+            botonPersonalizar.Name = "botonPersonalizar";
+            botonPersonalizar.Size = new Size(84, 23);
+            botonPersonalizar.TabIndex = 28;
+            botonPersonalizar.Text = "Personalizar";
+            botonPersonalizar.UseVisualStyleBackColor = true;
+            botonPersonalizar.Click += botonPersonalizar_Click;
+            // 
             // WFPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Silver;
             ClientSize = new Size(1904, 1041);
+            Controls.Add(botonPersonalizar);
             Controls.Add(fondoMensajeAcceso);
             Controls.Add(valorMensajeLabel);
             Controls.Add(clasesRestLabel);
@@ -299,5 +311,6 @@ namespace DeportNetReconocimiento.GUI
         private ToolStripMenuItem Cerrar;
         private ToolStripMenuItem abrirToolStripMenuItem;
         private ToolStripMenuItem cerrarToolStripMenuItem;
+        private Button botonPersonalizar;
     }
 }
