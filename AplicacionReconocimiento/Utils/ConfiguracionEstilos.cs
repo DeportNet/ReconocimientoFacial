@@ -119,20 +119,16 @@ namespace DeportNetReconocimiento.Utils
 
             if (File.Exists($"{rutaJson}.json"))
             {
-                var options = new JsonSerializerOptions();
-                options.Converters.Add(new FontConverter());
-
-                string json = File.ReadAllText($"{rutaJson}.json");
+                try
+                {
+                    string json = File.ReadAllText($"{rutaJson}.json");
                     configuracionEstilos = JsonSerializer.Deserialize<ConfiguracionEstilos>(json);
-
-                //try
-                //{
-                //}
-                //catch
-                //{
-                //    Console.WriteLine("No se pudo leer el json de configuracion");
-                //    configuracionEstilos = new ConfiguracionEstilos(); // Configuración predeterminada
-                //}
+                }
+                catch
+                {
+                    Console.WriteLine("No se pudo leer el json de configuracion");
+                    configuracionEstilos = new ConfiguracionEstilos(); // Configuración predeterminada
+                }
             }
 
             return configuracionEstilos;
@@ -141,21 +137,3 @@ namespace DeportNetReconocimiento.Utils
     }
 }
 
-public class FontConverter : JsonConverter<Font>
-{
-    private readonly TypeConverter _typeConverter = TypeDescriptor.GetConverter(typeof(Font));
-
-    public override Font Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        var fontString = reader.GetString();
-        return fontString != null ? (Font)_typeConverter.ConvertFromString(fontString) : new Font("Arial", 12);
-    }
-
-    public override void Write(Utf8JsonWriter writer, Font value, JsonSerializerOptions options)
-    {
-        var fontString = _typeConverter.ConvertToString(value);
-        writer.WriteStringValue(fontString);
-    }
-
-
-}
