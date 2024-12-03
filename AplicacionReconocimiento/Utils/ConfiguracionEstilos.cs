@@ -23,9 +23,9 @@ namespace DeportNetReconocimiento.Utils
         [DisplayName("Logo de la pantalla de bienvenida")]
         public string LogoRuta { get; set; }
 
-        [Category("General")]
-        [DisplayName("Fuente texto")]
-        public Font FuenteTexto { get; set; }
+        //[Category("General")]
+        //[DisplayName("Fuente texto")]
+        //public Font FuenteTexto { get; set; }
 
         /* - - - - - Mensaje de acceso - - - - - */
 
@@ -78,7 +78,7 @@ namespace DeportNetReconocimiento.Utils
         {
             // General
             ColorFondo = Color.Silver;
-            FuenteTexto = new Font("Arial Rounded MT Bold", 36);
+            //FuenteTexto = new Font("Arial Rounded MT Bold", 36, FontStyle.Regular);
             LogoRuta = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\Recursos\logo_deportnet_1.jpg"; ; // Logo deportnet por defecto
         
 
@@ -96,11 +96,13 @@ namespace DeportNetReconocimiento.Utils
         }
 
 
+
         public static void GuardarJsonConfiguracion(ConfiguracionEstilos configuracion)
         {
-            string json = JsonSerializer.Serialize(configuracion);
             try
             {
+                Console.WriteLine(configuracion.ColorFondo);
+                string json = JsonSerializer.Serialize(configuracion);
                 File.WriteAllText("configuracionEstilos.json", json);
             }
             catch(Exception e)
@@ -119,14 +121,18 @@ namespace DeportNetReconocimiento.Utils
 
             if (File.Exists($"{rutaJson}.json"))
             {
+
                 try
                 {
-                    string json = File.ReadAllText($"{rutaJson}.json");
-                    configuracionEstilos = JsonSerializer.Deserialize<ConfiguracionEstilos>(json);
+                    string jsonContent = File.ReadAllText($"{rutaJson}.json");
+                    configuracionEstilos = JsonSerializer.Deserialize<ConfiguracionEstilos>(jsonContent);
+
+                    Console.WriteLine(configuracionEstilos.ColorFondo);
+
                 }
                 catch
                 {
-                    Console.WriteLine("No se pudo leer el json de configuracion");
+                    MessageBox.Show("No se pudo leer el json de configuracion");
                     configuracionEstilos = new ConfiguracionEstilos(); // Configuración predeterminada
                 }
             }
@@ -134,6 +140,32 @@ namespace DeportNetReconocimiento.Utils
             return configuracionEstilos;
 
         }
+        
+
+        
+
     }
+
+    public class ColorJsonConverter : JsonConverter<Color>
+    {
+        public override Color Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            string hex = reader.GetString();
+            return ColorTranslator.FromHtml(hex);
+        }
+
+        public override void Write(Utf8JsonWriter writer, Color value, JsonSerializerOptions options)
+        {
+            string hex = ColorTranslator.ToHtml(value);
+            if (value.A != 255) // Añadir canal alpha si no es completamente opaco
+            {
+                hex += value.A.ToString("X2");
+            }
+            writer.WriteStringValue(hex);
+        }
+    }
+
+
+
 }
 
