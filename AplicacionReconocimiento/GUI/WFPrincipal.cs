@@ -27,9 +27,10 @@ namespace DeportNetReconocimiento.GUI
             
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
-            //InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-            //Escuchador_Directorio.InicializarEscuchadorEnHilo();
-            //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
+
+            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            Escuchador_Directorio.InicializarEscuchadorEnHilo();
+            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
         }
 
         //propiedades
@@ -252,10 +253,11 @@ namespace DeportNetReconocimiento.GUI
 
             //Se actualizan los labels con los datos de la persona
             HeaderLabel.Text = respuesta;
-            actividadLabel.Text = persona.Actividad;
-            valorFechaVtoLabel.Text = persona.Vencimiento;
-            valorClasesRestLabel.Text = persona.ClasesRestantes;
-            valorMensajeLabel.Text = persona.Mensaje;
+
+            actividadLabel.Text = "Actividad: " + persona.Actividad;
+            valorFechaVtoLabel.Text = "Fecha vto: " + persona.Vencimiento;
+            valorClasesRestLabel.Text = "Clases restantes: " + persona.ClasesRestantes;
+            valorMensajeLabel.Text = "Mensaje: " + persona.Mensaje;
 
             pictureBox1.Image = ObtenerFotoCliente(nroLector, persona.Id);
 
@@ -269,7 +271,7 @@ namespace DeportNetReconocimiento.GUI
         public string EvaluarMensajeAcceso(Persona persona)
         {
             string mensaje = "";
-            string pregunta = "¿Lo dejas pasar de todas formas?";
+            string pregunta = "\n ¿Lo dejas pasar de todas formas?";
             DialogResult respuesta = DialogResult.OK;
             if (persona.Rta == "P")
             {
@@ -402,7 +404,6 @@ namespace DeportNetReconocimiento.GUI
             if (this.WindowState == FormWindowState.Minimized)
             {
                 this.Hide(); // Oculta la ventana principal
-
             }
 
         }
@@ -439,16 +440,21 @@ namespace DeportNetReconocimiento.GUI
 
         public void AplicarConfiguracion(ConfiguracionEstilos config)
         {
-            ConfiguracionEstilos = config;
 
+            
             //header
+            ConfiguracionEstilos = config;
             BackColor = config.ColorFondo;
+            
+
             fondoMensajeAcceso.BackColor = config.ColorFondoMensajeAcceso;
             HeaderLabel.BackColor = config.ColorFondoMensajeAcceso;
             HeaderLabel.Font = config.FuenteTexto;
 
 
+
             //font campos
+
             actividadLabel.Font = config.FuenteTexto;
             valorFechaVtoLabel.Font = config.FuenteTexto;
             valorClasesRestLabel.Font = config.FuenteTexto;
@@ -470,7 +476,7 @@ namespace DeportNetReconocimiento.GUI
 
         private void WFPrincipal_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private void actividadLabel_Click(object sender, EventArgs e)
@@ -510,9 +516,14 @@ namespace DeportNetReconocimiento.GUI
 
         private void botonPersonalizar_Click(object sender, EventArgs e)
         {
-            
+
             WFConfiguracion wFConfiguracion = new WFConfiguracion(ConfiguracionEstilos, this);
             wFConfiguracion.ShowDialog();
+        }
+
+        private void valorClasesRestLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
