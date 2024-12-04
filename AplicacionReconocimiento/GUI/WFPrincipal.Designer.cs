@@ -35,18 +35,14 @@ namespace DeportNetReconocimiento.GUI
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WFPrincipal));
             imagenDeportnet = new PictureBox();
             pictureBox1 = new PictureBox();
-            vtoLabel = new Label();
             actividadLabel = new Label();
             valorFechaVtoLabel = new Label();
             valorClasesRestLabel = new Label();
-            mensajeOpcionalLabel = new Label();
-            clasesRestLabel = new Label();
             trayReconocimiento = new NotifyIcon(components);
             menuNotifyIcon = new ContextMenuStrip(components);
             abrirToolStripMenuItem = new ToolStripMenuItem();
             cerrarToolStripMenuItem = new ToolStripMenuItem();
             HeaderLabel = new Label();
-            valorNombreHeaderLabel = new Label();
             valorMensajeLabel = new Label();
             fondoMensajeAcceso = new Panel();
             Abrir = new ToolStripMenuItem();
@@ -60,96 +56,64 @@ namespace DeportNetReconocimiento.GUI
             // 
             // imagenDeportnet
             // 
+            imagenDeportnet.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             imagenDeportnet.BackColor = Color.DimGray;
             imagenDeportnet.Image = Resources.logo_deportnet_1;
             imagenDeportnet.Location = new Point(323, 2);
             imagenDeportnet.Name = "imagenDeportnet";
-            imagenDeportnet.Size = new Size(1265, 133);
+            imagenDeportnet.Size = new Size(709, 133);
             imagenDeportnet.SizeMode = PictureBoxSizeMode.StretchImage;
             imagenDeportnet.TabIndex = 1;
             imagenDeportnet.TabStop = false;
             // 
             // pictureBox1
             // 
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             pictureBox1.BackColor = Color.DarkGray;
-            pictureBox1.Location = new Point(97, 265);
+            pictureBox1.Location = new Point(132, 258);
+            pictureBox1.MaximumSize = new Size(480, 500);
+            pictureBox1.MinimumSize = new Size(420, 450);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(493, 518);
+            pictureBox1.Size = new Size(420, 450);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 11;
             pictureBox1.TabStop = false;
             pictureBox1.Click += pictureBox1_Click;
             // 
-            // vtoLabel
-            // 
-            vtoLabel.AutoSize = true;
-            vtoLabel.Font = new Font("Arial Rounded MT Bold", 36F);
-            vtoLabel.ForeColor = SystemColors.ControlText;
-            vtoLabel.Location = new Point(772, 372);
-            vtoLabel.Name = "vtoLabel";
-            vtoLabel.Size = new Size(331, 55);
-            vtoLabel.TabIndex = 17;
-            vtoLabel.Text = "Vencimiento:";
-            vtoLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
             // actividadLabel
             // 
-            actividadLabel.AutoSize = true;
+            actividadLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             actividadLabel.Font = new Font("Arial Rounded MT Bold", 36F);
             actividadLabel.ForeColor = SystemColors.ControlText;
-            actividadLabel.Location = new Point(772, 297);
+            actividadLabel.Location = new Point(647, 308);
             actividadLabel.Name = "actividadLabel";
-            actividadLabel.Size = new Size(0, 55);
+            actividadLabel.Size = new Size(689, 55);
             actividadLabel.TabIndex = 18;
-            actividadLabel.TextAlign = ContentAlignment.MiddleCenter;
+            actividadLabel.Text = "Actividad Label";
             actividadLabel.Click += actividadLabel_Click;
             // 
             // valorFechaVtoLabel
             // 
-            valorFechaVtoLabel.AutoSize = true;
+            valorFechaVtoLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             valorFechaVtoLabel.Font = new Font("Arial Rounded MT Bold", 36F);
             valorFechaVtoLabel.ForeColor = SystemColors.ControlText;
-            valorFechaVtoLabel.Location = new Point(1118, 372);
+            valorFechaVtoLabel.Location = new Point(647, 389);
             valorFechaVtoLabel.Name = "valorFechaVtoLabel";
-            valorFechaVtoLabel.Size = new Size(0, 55);
+            valorFechaVtoLabel.Size = new Size(689, 55);
             valorFechaVtoLabel.TabIndex = 19;
-            valorFechaVtoLabel.TextAlign = ContentAlignment.MiddleCenter;
+            valorFechaVtoLabel.Text = "Valor Fecha vto label";
             // 
             // valorClasesRestLabel
             // 
-            valorClasesRestLabel.AutoSize = true;
+            valorClasesRestLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             valorClasesRestLabel.Font = new Font("Arial Rounded MT Bold", 36F);
             valorClasesRestLabel.ForeColor = SystemColors.ControlText;
-            valorClasesRestLabel.Location = new Point(1222, 441);
+            valorClasesRestLabel.Location = new Point(647, 459);
             valorClasesRestLabel.Name = "valorClasesRestLabel";
-            valorClasesRestLabel.Size = new Size(0, 55);
+            valorClasesRestLabel.Size = new Size(689, 55);
             valorClasesRestLabel.TabIndex = 20;
-            valorClasesRestLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // mensajeOpcionalLabel
-            // 
-            mensajeOpcionalLabel.AutoSize = true;
-            mensajeOpcionalLabel.Font = new Font("Arial Rounded MT Bold", 36F);
-            mensajeOpcionalLabel.ForeColor = SystemColors.ControlText;
-            mensajeOpcionalLabel.Location = new Point(772, 502);
-            mensajeOpcionalLabel.Name = "mensajeOpcionalLabel";
-            mensajeOpcionalLabel.Size = new Size(234, 55);
-            mensajeOpcionalLabel.TabIndex = 21;
-            mensajeOpcionalLabel.Text = "Mensaje:";
-            mensajeOpcionalLabel.TextAlign = ContentAlignment.MiddleCenter;
-            mensajeOpcionalLabel.Click += mensajeOpcionalLabel_Click;
-            // 
-            // clasesRestLabel
-            // 
-            clasesRestLabel.AutoSize = true;
-            clasesRestLabel.Font = new Font("Arial Rounded MT Bold", 36F);
-            clasesRestLabel.ForeColor = SystemColors.ControlText;
-            clasesRestLabel.Location = new Point(772, 441);
-            clasesRestLabel.Name = "clasesRestLabel";
-            clasesRestLabel.Size = new Size(433, 55);
-            clasesRestLabel.TabIndex = 22;
-            clasesRestLabel.Text = "Clases restantes:";
-            clasesRestLabel.TextAlign = ContentAlignment.MiddleCenter;
+            valorClasesRestLabel.Text = "Clases restantes albel na";
+            valorClasesRestLabel.Click += valorClasesRestLabel_Click;
             // 
             // trayReconocimiento
             // 
@@ -189,46 +153,35 @@ namespace DeportNetReconocimiento.GUI
             HeaderLabel.BackColor = Color.Transparent;
             HeaderLabel.Font = new Font("Arial Rounded MT Bold", 56.25F);
             HeaderLabel.ForeColor = Color.FromArgb(192, 0, 0);
-            HeaderLabel.Location = new Point(34, 0);
+            HeaderLabel.Location = new Point(19, 15);
             HeaderLabel.Name = "HeaderLabel";
-            HeaderLabel.Size = new Size(0, 87);
+            HeaderLabel.Size = new Size(538, 87);
             HeaderLabel.TabIndex = 23;
+            HeaderLabel.Text = "Header laberl";
             HeaderLabel.TextAlign = ContentAlignment.MiddleCenter;
             HeaderLabel.Click += HeaderLabel_Click;
             // 
-            // valorNombreHeaderLabel
-            // 
-            valorNombreHeaderLabel.AutoSize = true;
-            valorNombreHeaderLabel.BackColor = Color.Transparent;
-            valorNombreHeaderLabel.Font = new Font("Arial Rounded MT Bold", 56.25F);
-            valorNombreHeaderLabel.ForeColor = Color.FromArgb(192, 0, 0);
-            valorNombreHeaderLabel.Location = new Point(971, 0);
-            valorNombreHeaderLabel.Name = "valorNombreHeaderLabel";
-            valorNombreHeaderLabel.Size = new Size(0, 87);
-            valorNombreHeaderLabel.TabIndex = 25;
-            valorNombreHeaderLabel.TextAlign = ContentAlignment.MiddleCenter;
-            valorNombreHeaderLabel.Click += valorNombreHeaderLabel_Click;
-            // 
             // valorMensajeLabel
             // 
-            valorMensajeLabel.AutoSize = true;
+            valorMensajeLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             valorMensajeLabel.Font = new Font("Arial Rounded MT Bold", 36F);
             valorMensajeLabel.ForeColor = SystemColors.ControlText;
-            valorMensajeLabel.Location = new Point(772, 557);
+            valorMensajeLabel.Location = new Point(647, 542);
             valorMensajeLabel.Name = "valorMensajeLabel";
-            valorMensajeLabel.Size = new Size(0, 55);
+            valorMensajeLabel.Size = new Size(689, 147);
             valorMensajeLabel.TabIndex = 26;
-            valorMensajeLabel.TextAlign = ContentAlignment.MiddleCenter;
+            valorMensajeLabel.Text = "Valor mensaje label";
             valorMensajeLabel.Click += valorMensajeLabel_Click;
             // 
             // fondoMensajeAcceso
             // 
+            fondoMensajeAcceso.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            fondoMensajeAcceso.AutoSize = true;
             fondoMensajeAcceso.BackColor = Color.DarkGray;
             fondoMensajeAcceso.Controls.Add(HeaderLabel);
-            fondoMensajeAcceso.Controls.Add(valorNombreHeaderLabel);
-            fondoMensajeAcceso.Location = new Point(147, 138);
+            fondoMensajeAcceso.Location = new Point(84, 138);
             fondoMensajeAcceso.Name = "fondoMensajeAcceso";
-            fondoMensajeAcceso.Size = new Size(1625, 102);
+            fondoMensajeAcceso.Size = new Size(1161, 102);
             fondoMensajeAcceso.TabIndex = 27;
             fondoMensajeAcceso.Paint += panel1_Paint;
             // 
@@ -246,7 +199,8 @@ namespace DeportNetReconocimiento.GUI
             // 
             // botonPersonalizar
             // 
-            botonPersonalizar.Location = new Point(37, 911);
+            botonPersonalizar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            botonPersonalizar.Location = new Point(1252, 692);
             botonPersonalizar.Name = "botonPersonalizar";
             botonPersonalizar.Size = new Size(84, 23);
             botonPersonalizar.TabIndex = 28;
@@ -256,23 +210,22 @@ namespace DeportNetReconocimiento.GUI
             // 
             // WFPrincipal
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.Silver;
-            ClientSize = new Size(1904, 1041);
+            ClientSize = new Size(1348, 727);
             Controls.Add(botonPersonalizar);
             Controls.Add(fondoMensajeAcceso);
             Controls.Add(valorMensajeLabel);
-            Controls.Add(clasesRestLabel);
-            Controls.Add(mensajeOpcionalLabel);
             Controls.Add(valorClasesRestLabel);
             Controls.Add(valorFechaVtoLabel);
             Controls.Add(actividadLabel);
-            Controls.Add(vtoLabel);
             Controls.Add(imagenDeportnet);
             Controls.Add(pictureBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
+            MaximumSize = new Size(1920, 1080);
+            MinimumSize = new Size(1364, 766);
             Name = "WFPrincipal";
             ShowInTaskbar = false;
             SizeGripStyle = SizeGripStyle.Hide;
@@ -295,15 +248,11 @@ namespace DeportNetReconocimiento.GUI
 
         private PictureBox imagenDeportnet;
         private PictureBox pictureBox1;
-        private Label vtoLabel;
         private Label actividadLabel;
         private Label valorFechaVtoLabel;
         private Label valorClasesRestLabel;
-        private Label mensajeOpcionalLabel;
-        private Label clasesRestLabel;
         private NotifyIcon trayReconocimiento;
         private Label HeaderLabel;
-        private Label valorNombreHeaderLabel;
         private Label valorMensajeLabel;
         private Panel fondoMensajeAcceso;
         private ContextMenuStrip menuNotifyIcon;
