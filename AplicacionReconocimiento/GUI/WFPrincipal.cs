@@ -24,8 +24,9 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
 
             //estilos se leen de un archivo
-            this.configuracionEstilos = ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos");
-            AplicarConfiguracion(configuracionEstilos);
+            
+            AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
+
 
             InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
             Escuchador_Directorio.InicializarEscuchadorEnHilo();
@@ -393,7 +394,6 @@ namespace DeportNetReconocimiento.GUI
             {
                 this.Show();
                 this.WindowState = FormWindowState.Maximized;
-
             }
 
         }
@@ -436,26 +436,31 @@ namespace DeportNetReconocimiento.GUI
 
 
         /* - - - - - - Configuracion Estilos - - - - - - */
-
+        
 
         public void AplicarConfiguracion(ConfiguracionEstilos config)
         {
 
-            Console.WriteLine("Nashe");
+            
+            //header
             ConfiguracionEstilos = config;
             BackColor = config.ColorFondo;
-
-            botonPersonalizar.Font = new Font("Arial Rounded MT Bold", 11);
+            
 
             fondoMensajeAcceso.BackColor = config.ColorFondoMensajeAcceso;
             HeaderLabel.BackColor = config.ColorFondoMensajeAcceso;
             HeaderLabel.Font = config.FuenteTexto;
+
+
+
+            //font campos
 
             actividadLabel.Font = config.FuenteTexto;
             valorFechaVtoLabel.Font = config.FuenteTexto;
             valorClasesRestLabel.Font = config.FuenteTexto;
             valorMensajeLabel.Font = config.FuenteTexto;
 
+            //colors campos
             actividadLabel.ForeColor = config.ColorCampoActividad;
             valorFechaVtoLabel.ForeColor = config.ColorVencimiento;
             valorClasesRestLabel.ForeColor = config.ColorClasesRestantes;
@@ -463,7 +468,7 @@ namespace DeportNetReconocimiento.GUI
             pictureBox1.BackColor = config.ColorFondoImagen;
 
 
-            //TODO: Falta el logo
+            //TODO: Falta el logo con drag and drop de la img
 
 
         }
