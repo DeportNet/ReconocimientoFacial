@@ -1,0 +1,14 @@
+{
+  "ColorFondo": "Silver",
+  "LogoRuta": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Recursos\\logo_deportnet_1.jpg",
+  "FuenteTexto": "Arial Rounded MT Bold/11/Regular",
+  "TiempoDeMuestraDeDatos": 3,
+  "ColorFondoMensajeAcceso": "DarkGray",
+  "ColorMensajeBienvenida": "Green",
+  "ColorMensajeAccesoDenegado": "Red",
+  "ColorCampoActividad": "Black",
+  "ColorVencimiento": "Black",
+  "ColorClasesRestantes": "Black",
+  "ColorMensaje": "Black",
+  "ColorFondoImagen": "DarkGray"
+}

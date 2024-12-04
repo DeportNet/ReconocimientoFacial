@@ -3,6 +3,7 @@ using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using System.Windows.Forms;
 
 
 namespace DeportNetReconocimiento.GUI
@@ -25,9 +26,9 @@ namespace DeportNetReconocimiento.GUI
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
 
-            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-            Escuchador_Directorio.InicializarEscuchadorEnHilo();
-            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
+            //InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            //Escuchador_Directorio.InicializarEscuchadorEnHilo();
+            //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
         }
 
         //propiedades
@@ -260,7 +261,10 @@ namespace DeportNetReconocimiento.GUI
 
             //Esperamos 5 segundos para borrar los datos
             //TODO: el tiempo sera variable
-            await Task.Delay(5000);
+
+            int tiempoMuestraDatos = (int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000);
+
+            await Task.Delay(tiempoMuestraDatos);
             LimpiarInterfaz();
         }
 
@@ -400,7 +404,14 @@ namespace DeportNetReconocimiento.GUI
             // Si la ventana se minimiza
             if (this.WindowState == FormWindowState.Minimized)
             {
-                this.Hide(); // Oculta la ventana principal
+                this.Hide(); // Ocultar la ventana principal
+                
+                trayReconocimiento.Visible = true; // Asegurar que el ícono esté visible
+
+            }
+            else if (this.WindowState == FormWindowState.Normal)
+            {
+                trayReconocimiento.Visible = false; // Ocultar el ícono si la ventana está restaurada
             }
 
         }
