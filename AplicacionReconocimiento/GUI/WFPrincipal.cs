@@ -392,7 +392,6 @@ namespace DeportNetReconocimiento.GUI
             {
                 this.Show();
                 this.WindowState = FormWindowState.Maximized;
-
             }
 
         }
@@ -441,58 +440,31 @@ namespace DeportNetReconocimiento.GUI
         public void AplicarConfiguracion(ConfiguracionEstilos config)
         {
             ConfiguracionEstilos = config;
-            
 
-            if (config.ColorFondo.IsKnownColor)
-            {
-                //color con name
-                BackColor = Color.FromName(config.ColorFondo.Name);
-                Console.WriteLine("ENTRE AL IF KNOWN COLOR");
-                Console.WriteLine(config.ColorFondo.R);
-
-            }
-            else
-            {
-                //rgb
-                //Console.WriteLine(config.ColorFondo.R);
-                //BackColor = Color.FromArgb(255, 255, 50, 50);
-
-            }
-
-            
-           
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            //botonPersonalizar.Font = new Font("Arial Rounded MT Bold", 11);
-
-            //fondoMensajeAcceso.BackColor = config.ColorFondoMensajeAcceso;
-            //HeaderLabel.BackColor = config.ColorFondoMensajeAcceso;
-            ////HeaderLabel.Font = config.FuenteTexto;
-          
-            ////actividadLabel.Font = config.FuenteTexto;
-            ////valorFechaVtoLabel.Font = config.FuenteTexto;
-            ////valorClasesRestLabel.Font = config.FuenteTexto;
-            ////valorMensajeLabel.Font = config.FuenteTexto;
-
-            //actividadLabel.ForeColor = config.ColorCampoActividad;
-            //valorFechaVtoLabel.ForeColor = config.ColorVencimiento;
-            //valorClasesRestLabel.ForeColor = config.ColorClasesRestantes;
-            //valorMensajeLabel.ForeColor = config.ColorMensaje;
-            //pictureBox1.BackColor = config.ColorFondoImagen;
+            //header
+            BackColor = config.ColorFondo;
+            fondoMensajeAcceso.BackColor = config.ColorFondoMensajeAcceso;
+            HeaderLabel.BackColor = config.ColorFondoMensajeAcceso;
+            HeaderLabel.Font = config.FuenteTexto;
 
 
-            //TODO: Falta el logo
+            //font campos
+            actividadLabel.Font = config.FuenteTexto;
+            valorFechaVtoLabel.Font = config.FuenteTexto;
+            valorClasesRestLabel.Font = config.FuenteTexto;
+            valorMensajeLabel.Font = config.FuenteTexto;
 
-            
+            //colors campos
+            actividadLabel.ForeColor = config.ColorCampoActividad;
+            valorFechaVtoLabel.ForeColor = config.ColorVencimiento;
+            valorClasesRestLabel.ForeColor = config.ColorClasesRestantes;
+            valorMensajeLabel.ForeColor = config.ColorMensaje;
+            pictureBox1.BackColor = config.ColorFondoImagen;
+
+
+            //TODO: Falta el logo con drag and drop de la img
+
+
         }
 
 
