@@ -1,12 +1,9 @@
 ﻿using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDK;
-using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.Json;
-using System.Windows.Forms;
+
 
 namespace DeportNetReconocimiento.GUI
 {

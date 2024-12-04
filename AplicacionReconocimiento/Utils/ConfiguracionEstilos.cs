@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace DeportNetReconocimiento.Utils
 {
@@ -28,6 +23,10 @@ namespace DeportNetReconocimiento.Utils
         [DisplayName("Fuente texto")]
         [JsonConverter(typeof(FontJsonConverter))]
         public Font FuenteTexto { get; set; }
+
+        [Category("General")]
+        [DisplayName("Tiempo de muestra de datos")]
+        public int TiempoMuestraDatos { get; set; }
 
         /* - - - - - Mensaje de acceso - - - - - */
 
@@ -87,7 +86,7 @@ namespace DeportNetReconocimiento.Utils
             ColorFondo = Color.Silver;
             FuenteTexto = new Font("Arial Rounded MT Bold", 11, FontStyle.Regular);
             LogoRuta = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\Recursos\logo_deportnet_1.jpg"; ; // Logo deportnet por defecto
-
+            TiempoMuestraDatos = 3;
 
             // Mensaje de acceso
             ColorFondoMensajeAcceso = Color.DarkGray;
