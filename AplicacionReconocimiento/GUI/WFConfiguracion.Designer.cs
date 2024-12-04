@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WFConfiguracion));
             tituloConfig = new Label();
             colorDialog1 = new ColorDialog();
-            tiempoDatosLabel = new Label();
             sonidosTituloLabel = new Label();
             accesoPermitidoLabel = new Label();
             accesoDenegadoLabel = new Label();
@@ -54,16 +53,6 @@
             tituloConfig.Size = new Size(679, 45);
             tituloConfig.TabIndex = 0;
             tituloConfig.Text = "Configuraciones dispositivo reconocimiento";
-            // 
-            // tiempoDatosLabel
-            // 
-            tiempoDatosLabel.AutoSize = true;
-            tiempoDatosLabel.Font = new Font("Segoe UI", 12F);
-            tiempoDatosLabel.Location = new Point(86, 404);
-            tiempoDatosLabel.Name = "tiempoDatosLabel";
-            tiempoDatosLabel.Size = new Size(269, 21);
-            tiempoDatosLabel.TabIndex = 4;
-            tiempoDatosLabel.Text = "Tiempo muestra de datos en pantalla:";
             // 
             // sonidosTituloLabel
             // 
@@ -191,7 +180,6 @@
             Controls.Add(accesoDenegadoLabel);
             Controls.Add(accesoPermitidoLabel);
             Controls.Add(sonidosTituloLabel);
-            Controls.Add(tiempoDatosLabel);
             Controls.Add(tituloConfig);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "WFConfiguracion";
@@ -206,7 +194,6 @@
 
         private Label tituloConfig;
         private ColorDialog colorDialog1;
-        private Label tiempoDatosLabel;
         private Label sonidosTituloLabel;
         private Label accesoPermitidoLabel;
         private Label accesoDenegadoLabel;

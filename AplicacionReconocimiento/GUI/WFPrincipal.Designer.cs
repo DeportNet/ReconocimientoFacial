@@ -112,7 +112,7 @@ namespace DeportNetReconocimiento.GUI
             valorClasesRestLabel.Name = "valorClasesRestLabel";
             valorClasesRestLabel.Size = new Size(689, 55);
             valorClasesRestLabel.TabIndex = 20;
-            valorClasesRestLabel.Text = "Clases restantes albel na";
+            valorClasesRestLabel.Text = "Clases restantes label";
             valorClasesRestLabel.Click += valorClasesRestLabel_Click;
             // 
             // trayReconocimiento
@@ -153,11 +153,11 @@ namespace DeportNetReconocimiento.GUI
             HeaderLabel.BackColor = Color.Transparent;
             HeaderLabel.Font = new Font("Arial Rounded MT Bold", 56.25F);
             HeaderLabel.ForeColor = Color.FromArgb(192, 0, 0);
-            HeaderLabel.Location = new Point(19, 15);
+            HeaderLabel.Location = new Point(48, 7);
             HeaderLabel.Name = "HeaderLabel";
-            HeaderLabel.Size = new Size(538, 87);
+            HeaderLabel.Size = new Size(505, 87);
             HeaderLabel.TabIndex = 23;
-            HeaderLabel.Text = "Header laberl";
+            HeaderLabel.Text = "Header label";
             HeaderLabel.TextAlign = ContentAlignment.MiddleCenter;
             HeaderLabel.Click += HeaderLabel_Click;
             // 

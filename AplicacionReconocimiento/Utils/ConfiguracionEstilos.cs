@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace DeportNetReconocimiento.Utils
 {
@@ -28,6 +23,34 @@ namespace DeportNetReconocimiento.Utils
         [DisplayName("Fuente texto")]
         [JsonConverter(typeof(FontJsonConverter))]
         public Font FuenteTexto { get; set; }
+
+        [Category("General")]
+        [DisplayName("Tiempo de muestra de datos en pantalla")]
+        public float TiempoDeMuestraDeDatos
+        {
+            get => tiempoDeMuestraDeDatos;
+            set
+            {
+                if (value < 2)
+                {
+                    MessageBox.Show(
+                    "El tiempo de muestra de datos no puede ser menor a 2 seg.", // Mensaje
+                    "Error de Validación",                                  // Título
+                    MessageBoxButtons.OK,                                   // Botones (OK)
+                    MessageBoxIcon.Error                                    // Ícono (Error)
+                    );
+                    //throw new ArgumentException("El tiempo de muestra de datos no puede ser negativo.");
+                }
+                else
+                {
+                    tiempoDeMuestraDeDatos = value;
+                }
+
+
+            }
+        }
+
+        private float tiempoDeMuestraDeDatos; // Valor predeterminado
 
         /* - - - - - Mensaje de acceso - - - - - */
 
@@ -87,7 +110,7 @@ namespace DeportNetReconocimiento.Utils
             ColorFondo = Color.Silver;
             FuenteTexto = new Font("Arial Rounded MT Bold", 11, FontStyle.Regular);
             LogoRuta = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\Recursos\logo_deportnet_1.jpg"; ; // Logo deportnet por defecto
-
+            TiempoDeMuestraDeDatos = 3.0f;
 
             // Mensaje de acceso
             ColorFondoMensajeAcceso = Color.DarkGray;
@@ -136,9 +159,10 @@ namespace DeportNetReconocimiento.Utils
             {
                 try
                 {
+                    //options es para agregar el convertidor personalizado 
                     var options = new JsonSerializerOptions
                     {
-                        Converters = { new ColorJsonConverter() } // Agregar el convertidor personalizado
+                        Converters = { new ColorJsonConverter() }
                     };
 
                     // Leer el contenido del archivo
