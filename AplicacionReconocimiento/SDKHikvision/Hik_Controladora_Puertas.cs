@@ -1,6 +1,7 @@
 ﻿using DeportNetReconocimiento.SDK;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -117,6 +118,26 @@ namespace DeportNetReconocimiento.SDKHikvision
         }
 
 
+        public static void EjecutarExe(string ruta)
+        {
+            try
+            {
+                ProcessStartInfo processStartInfo = new ProcessStartInfo
+                {
+                    FileName = ruta,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    WindowStyle = ProcessWindowStyle.Normal,
+
+                };
+
+                Process proceso = Process.Start(processStartInfo);
+            }
+            catch
+            {
+                MessageBox.Show("Error al procesar el archivo en " + ruta, "Error");
+            }
+        }
 
     }
 }
