@@ -278,14 +278,6 @@ namespace DeportNetReconocimiento.SDK
             }
 
 
-            /*
-            if (pictureBoxFace.Image != null)
-            {
-                pictureBoxFace.Image.Dispose();
-                pictureBoxFace.Image = null;
-            }*/
-
-
             Hik_SDK.NET_DVR_CAPTURE_FACE_COND struCapCond = new Hik_SDK.NET_DVR_CAPTURE_FACE_COND();
             IntPtr ptrCapCond = IntPtr.Zero;
             int dwInBufferSize = 0;

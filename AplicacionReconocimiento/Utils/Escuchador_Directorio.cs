@@ -73,7 +73,7 @@ namespace DeportNetReconocimiento.Utils
 
                 if(nombre.Length > 0 && id.Length > 0)
                 {
-                Hik_Controladora_General.InstanciaControladoraGeneral.AltaCliente(id, nombre);
+                        Hik_Controladora_General.InstanciaControladoraGeneral.AltaCliente(id, nombre);
                 }
 
 
