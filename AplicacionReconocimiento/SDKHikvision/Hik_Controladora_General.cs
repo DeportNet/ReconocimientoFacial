@@ -3,6 +3,7 @@ using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -433,15 +434,23 @@ namespace DeportNetReconocimiento.SDK
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
-            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(int.Parse(id), nombre);
-            if (resultado.Exito)
+            if (!Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(id)).Exito)
             {
-                resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
+                Thread.Sleep(2000);
+                resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(int.Parse(id), nombre);
                 if (resultado.Exito)
                 {
-                    resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, id);
-                    MessageBox.Show("Se agrego el usuario con exito");
+                    resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
+                    if (resultado.Exito)
+                    {
+                        resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, id);
+                        MessageBox.Show("Se agrego el usuario con exito");
+                    }
                 }
+            }
+            else
+            {
+                MessageBox.Show("El ID ya existe");
             }
 
             return resultado;
@@ -452,15 +461,22 @@ namespace DeportNetReconocimiento.SDK
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
-
-            resultado = Hik_Controladora_Facial.ObtenerInstancia.EliminarCara(1, id);
-            if (resultado.Exito)
+            if (Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(id)).Exito)
             {
-                resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EliminarTarjetaPorId(int.Parse(id));
+                Thread.Sleep(1000);
+                resultado = Hik_Controladora_Facial.ObtenerInstancia.EliminarCara(1, id);
                 if (resultado.Exito)
                 {
-                    MessageBox.Show("Usuario eliminado con exito");
+                    resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EliminarTarjetaPorId(int.Parse(id));
+                    if (resultado.Exito)
+                    {
+                         MessageBox.Show("Usuario eliminado con exito");
+                    }
                 }
+            }
+            else
+            {
+                MessageBox.Show("El ID no existe");
             }
             return resultado;
         }
@@ -478,5 +494,9 @@ namespace DeportNetReconocimiento.SDK
 
             return resultado;
         }
+
+
+
+
     }
 }
