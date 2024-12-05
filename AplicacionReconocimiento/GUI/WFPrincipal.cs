@@ -22,7 +22,7 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
 
             //estilos se leen de un archivo
-            
+
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
 
@@ -201,7 +201,7 @@ namespace DeportNetReconocimiento.GUI
         {
             Hik_Resultado resultado = new Hik_Resultado();
             timer = new System.Windows.Forms.Timer();
-            timer.Interval = 20000;
+            timer.Interval = 2000;
             timer.Tick += async (s, e) =>
             {
                 resultado.Exito = await verificarEstadoDispositivoAsync();
@@ -211,7 +211,18 @@ namespace DeportNetReconocimiento.GUI
                 if (!Hik_Controladora_General.VerificarConexionInternet())
                 {
                     //TODO: en realidad habria que mostrar en la GUI una ventana que diga que no hay conexion a internet (verificar que exista asi no se pone multiples veces)
-                    MessageBox.Show("No hay conexion a internet");
+                    //MessageBox.Show("No hay conexion a internet");
+                    if(PanelSinConexion.Visible == false && WFPanelOffline.ObtenerInstancia.Visible == false)
+                    {
+                    PanelSinConexion.Visible = true;
+                    WFPanelOffline.ObtenerInstancia.Show();
+                    }
+
+                }
+                else if(PanelSinConexion.Visible == true)
+                {
+                    PanelSinConexion.Visible = false;
+                    WFPanelOffline.ObtenerInstancia.Dispose();
                 }
 
 
@@ -444,16 +455,16 @@ namespace DeportNetReconocimiento.GUI
 
 
         /* - - - - - - Configuracion Estilos - - - - - - */
-        
+
 
         public void AplicarConfiguracion(ConfiguracionEstilos config)
         {
 
-            
+
             //header
             ConfiguracionEstilos = config;
             BackColor = config.ColorFondo;
-            
+
 
             fondoMensajeAcceso.BackColor = config.ColorFondoMensajeAcceso;
             HeaderLabel.BackColor = config.ColorFondoMensajeAcceso;
@@ -484,7 +495,7 @@ namespace DeportNetReconocimiento.GUI
 
         private void WFPrincipal_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void actividadLabel_Click(object sender, EventArgs e)
@@ -532,6 +543,15 @@ namespace DeportNetReconocimiento.GUI
         private void valorClasesRestLabel_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
         }
     }
 }

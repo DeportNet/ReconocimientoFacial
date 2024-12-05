@@ -7,12 +7,27 @@ namespace DeportNetReconocimiento.GUI
 
     public partial class WFPanelOffline : Form
     {
+        private static WFPanelOffline instancia; 
         public WFPanelOffline()
         {
             InitializeComponent();
 
         }
+         
 
+        public static WFPanelOffline ObtenerInstancia
+        {
+
+            get
+            {
+                if (instancia == null)
+                {
+                    instancia = new WFPanelOffline();
+                }
+                return instancia;
+
+            }
+        }
 
 
         private void WFPanelOffline_Load(object sender, EventArgs e)

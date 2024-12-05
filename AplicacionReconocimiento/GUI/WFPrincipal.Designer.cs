@@ -48,10 +48,13 @@ namespace DeportNetReconocimiento.GUI
             Abrir = new ToolStripMenuItem();
             Cerrar = new ToolStripMenuItem();
             botonPersonalizar = new Button();
+            PanelSinConexion = new Panel();
+            textoSinCoenxion = new Label();
             ((System.ComponentModel.ISupportInitialize)imagenDeportnet).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuNotifyIcon.SuspendLayout();
             fondoMensajeAcceso.SuspendLayout();
+            PanelSinConexion.SuspendLayout();
             SuspendLayout();
             // 
             // imagenDeportnet
@@ -89,7 +92,6 @@ namespace DeportNetReconocimiento.GUI
             actividadLabel.Name = "actividadLabel";
             actividadLabel.Size = new Size(689, 55);
             actividadLabel.TabIndex = 18;
-            actividadLabel.Text = "Actividad Label";
             actividadLabel.Click += actividadLabel_Click;
             // 
             // valorFechaVtoLabel
@@ -101,7 +103,6 @@ namespace DeportNetReconocimiento.GUI
             valorFechaVtoLabel.Name = "valorFechaVtoLabel";
             valorFechaVtoLabel.Size = new Size(689, 55);
             valorFechaVtoLabel.TabIndex = 19;
-            valorFechaVtoLabel.Text = "Valor Fecha vto label";
             // 
             // valorClasesRestLabel
             // 
@@ -112,7 +113,7 @@ namespace DeportNetReconocimiento.GUI
             valorClasesRestLabel.Name = "valorClasesRestLabel";
             valorClasesRestLabel.Size = new Size(689, 55);
             valorClasesRestLabel.TabIndex = 20;
-            valorClasesRestLabel.Text = "Clases restantes label";
+
             valorClasesRestLabel.Click += valorClasesRestLabel_Click;
             // 
             // trayReconocimiento
@@ -157,7 +158,7 @@ namespace DeportNetReconocimiento.GUI
             HeaderLabel.Name = "HeaderLabel";
             HeaderLabel.Size = new Size(505, 87);
             HeaderLabel.TabIndex = 23;
-            HeaderLabel.Text = "Header label";
+
             HeaderLabel.TextAlign = ContentAlignment.MiddleCenter;
             HeaderLabel.Click += HeaderLabel_Click;
             // 
@@ -170,7 +171,6 @@ namespace DeportNetReconocimiento.GUI
             valorMensajeLabel.Name = "valorMensajeLabel";
             valorMensajeLabel.Size = new Size(689, 147);
             valorMensajeLabel.TabIndex = 26;
-            valorMensajeLabel.Text = "Valor mensaje label";
             valorMensajeLabel.Click += valorMensajeLabel_Click;
             // 
             // fondoMensajeAcceso
@@ -208,12 +208,36 @@ namespace DeportNetReconocimiento.GUI
             botonPersonalizar.UseVisualStyleBackColor = true;
             botonPersonalizar.Click += botonPersonalizar_Click;
             // 
+            // PanelSinConexion
+            // 
+            PanelSinConexion.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            PanelSinConexion.BackColor = Color.Black;
+            PanelSinConexion.Controls.Add(textoSinCoenxion);
+            PanelSinConexion.Location = new Point(1048, 12);
+            PanelSinConexion.Name = "PanelSinConexion";
+            PanelSinConexion.Size = new Size(275, 82);
+            PanelSinConexion.TabIndex = 29;
+            PanelSinConexion.Visible = false;
+            // 
+            // textoSinCoenxion
+            // 
+            textoSinCoenxion.AutoSize = true;
+            textoSinCoenxion.Font = new Font("Segoe UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textoSinCoenxion.ForeColor = Color.Red;
+            textoSinCoenxion.Location = new Point(3, 24);
+            textoSinCoenxion.Name = "textoSinCoenxion";
+            textoSinCoenxion.Size = new Size(271, 28);
+            textoSinCoenxion.TabIndex = 0;
+            textoSinCoenxion.Text = "No hay conexión a internet";
+            textoSinCoenxion.Click += label1_Click;
+            // 
             // WFPrincipal
             // 
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.Silver;
             ClientSize = new Size(1348, 727);
+            Controls.Add(PanelSinConexion);
             Controls.Add(botonPersonalizar);
             Controls.Add(fondoMensajeAcceso);
             Controls.Add(valorMensajeLabel);
@@ -240,6 +264,8 @@ namespace DeportNetReconocimiento.GUI
             menuNotifyIcon.ResumeLayout(false);
             fondoMensajeAcceso.ResumeLayout(false);
             fondoMensajeAcceso.PerformLayout();
+            PanelSinConexion.ResumeLayout(false);
+            PanelSinConexion.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -261,5 +287,7 @@ namespace DeportNetReconocimiento.GUI
         private ToolStripMenuItem abrirToolStripMenuItem;
         private ToolStripMenuItem cerrarToolStripMenuItem;
         private Button botonPersonalizar;
+        private Panel PanelSinConexion;
+        private Label textoSinCoenxion;
     }
 }
