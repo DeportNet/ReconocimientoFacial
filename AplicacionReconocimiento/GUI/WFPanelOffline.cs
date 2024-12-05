@@ -13,7 +13,9 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
 
         }
-         
+        string ruta = @"C:\Molinete\AbreMolineteUSB.exe";
+
+
 
         public static WFPanelOffline ObtenerInstancia
         {
@@ -38,22 +40,23 @@ namespace DeportNetReconocimiento.GUI
         // 0-close, 1-open, 2-stay open, 3-stay close
         private void CerrarPuerta_Click(object sender, EventArgs e)
         {
+            
             Hik_Controladora_Puertas.OperadorPuerta(0);
         }
 
         private void AbrirPuerta_Click(object sender, EventArgs e)
         {
-            Hik_Controladora_Puertas.OperadorPuerta(1);
+            Hik_Controladora_Puertas.EjecutarExe(ruta);
         }
 
         private void MantenerAbiertaPuerta_Click(object sender, EventArgs e)
         {
-            Hik_Controladora_Puertas.OperadorPuerta(2);
+            //Hik_Controladora_Puertas.OperadorPuerta(2);
         }
 
         private void ManterCerradaPuerta_Click(object sender, EventArgs e)
         {
-            Hik_Controladora_Puertas.OperadorPuerta(3);
+            //Hik_Controladora_Puertas.OperadorPuerta(3);
         }
     }
 }

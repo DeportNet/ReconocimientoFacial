@@ -26,9 +26,9 @@ namespace DeportNetReconocimiento.GUI
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
 
-            //InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-            //Escuchador_Directorio.InicializarEscuchadorEnHilo();
-            //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
+            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            Escuchador_Directorio.InicializarEscuchadorEnHilo();
+            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
         }
 
         //propiedades
@@ -201,7 +201,7 @@ namespace DeportNetReconocimiento.GUI
         {
             Hik_Resultado resultado = new Hik_Resultado();
             timer = new System.Windows.Forms.Timer();
-            timer.Interval = 2000;
+            timer.Interval = 20000;
             timer.Tick += async (s, e) =>
             {
                 resultado.Exito = await verificarEstadoDispositivoAsync();

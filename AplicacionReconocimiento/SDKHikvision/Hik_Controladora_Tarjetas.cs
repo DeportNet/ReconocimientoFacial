@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.AxHost;
 
 namespace DeportNetReconocimiento.SDKHikvision
@@ -201,6 +202,10 @@ namespace DeportNetReconocimiento.SDKHikvision
             {
                 tarjetaRecord.byCardNo[i] = byTempCardNo[i];
             }
+
+            ptrTarjetaRecord = Marshal.AllocHGlobal((int)tarjetaRecord.dwSize);
+            Marshal.StructureToPtr(tarjetaRecord, ptrTarjetaRecord, false);
+
         }
         public void asignarFechaDeInicioYVencimientoTarjeta(ref Hik_SDK.NET_DVR_CARD_RECORD tarjetaRecord)
         {
@@ -426,7 +431,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                     flag = false;
                     hik_Resultado.Exito = false;
                     hik_Resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
-                    hik_Resultado.Mensaje = "Se produjo una excepcion NET_SDK_CONFIG_STATUS_EXCEPTION";
+                    hik_Resultado.Mensaje = "Se produjo una excepcion " + Hik_SDK.NET_DVR_GetLastError();
                     break;
                 default:
                     flag = false;
