@@ -332,6 +332,8 @@ namespace DeportNetReconocimiento.GUI
                 String ruta = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
                 imagen = Image.FromFile(ruta);
             }
+            //todo: Poner foto de perfil predeterminado (AVATAR)
+
 
             return imagen;
         }
@@ -360,7 +362,6 @@ namespace DeportNetReconocimiento.GUI
             LimpiarPictureBox();
 
             HeaderLabel.Text = "";
-            //valorNombreHeaderLabel.Text = "";
             actividadLabel.Text = "";
             valorFechaVtoLabel.Text = "";
             valorClasesRestLabel.Text = "";

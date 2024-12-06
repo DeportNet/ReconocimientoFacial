@@ -51,6 +51,14 @@ namespace DeportNetReconocimiento.SDK
             set { lock (this) { codigo = value; } }
         }
 
+        public  void EscribirResultado(string titulo)
+        {
+            Console.WriteLine("Titulo: " + titulo);
+            Console.WriteLine("Exito: " + Exito);
+            Console.WriteLine("Mensaje: " + Mensaje);
+            Console.WriteLine("Codigo: " + Codigo);
+        }
+
         public static bool EscribirLog()
         {
             

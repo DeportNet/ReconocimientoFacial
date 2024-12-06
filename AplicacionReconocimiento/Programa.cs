@@ -15,15 +15,13 @@ namespace DeportNetReconocimiento
         {
 
 
-
-
             ApplicationConfiguration.Initialize();
 
             //Utilizamos la instancia de singleton para que solo se cree una vez la ventana principal
-            Application.Run(WFPrincipal.ObtenerInstancia);
-            
-            //"admin", "Facundo2024*", "8000", "192.168.0.207"
+           Application.Run(WFPrincipal.ObtenerInstancia);
 
+            //Nuestro: "admin", "Facundo2024*", "8000", "192.168.0.207"
+            //Level : "admin", "020921Levelgym", "8000", "192.168.0.214"
 
         }
 
