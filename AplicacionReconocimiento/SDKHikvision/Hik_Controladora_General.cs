@@ -436,16 +436,21 @@ namespace DeportNetReconocimiento.SDK
 
             if (!Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(id)).Exito)
             {
-                Thread.Sleep(2000);
-                resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(int.Parse(id), nombre);
+                Thread.Sleep(1000);
+                resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
                 if (resultado.Exito)
                 {
-                    resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
+                    resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(int.Parse(id), nombre);
                     if (resultado.Exito)
                     {
                         resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, id);
                         MessageBox.Show("Se agrego el usuario con exito");
                     }
+
+                }
+                else
+                {
+                    MessageBox.Show("Error al capturar la cara");
                 }
             }
             else
@@ -468,10 +473,7 @@ namespace DeportNetReconocimiento.SDK
                 if (resultado.Exito)
                 {
                     resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EliminarTarjetaPorId(int.Parse(id));
-                    if (resultado.Exito)
-                    {
-                         MessageBox.Show("Usuario eliminado con exito");
-                    }
+
                 }
             }
             else
@@ -479,6 +481,7 @@ namespace DeportNetReconocimiento.SDK
                 MessageBox.Show("El ID no existe");
             }
             return resultado;
+            
         }
 
 

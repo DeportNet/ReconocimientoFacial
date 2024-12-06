@@ -331,7 +331,7 @@ namespace DeportNetReconocimiento.SDK
                     resultado.Exito = true;
                     resultado.Mensaje = "Se capturo la cara de forma exitosa";
                     capturaExitosa = true;
-
+                    
                     break;
                 case Hik_SDK.NET_SDK_GET_NEXT_STATUS_NEED_WAIT: //1001
 
@@ -363,7 +363,7 @@ namespace DeportNetReconocimiento.SDK
 
                     Hik_SDK.NET_DVR_StopRemoteConfig(CapFaceCfgHandle);
                     flag = false;
-                    resultado.Exito = true;
+                    resultado.Exito = false;
                     resultado.Mensaje = "Se agotó el tiempo de espera";
 
                     break;
@@ -383,7 +383,7 @@ namespace DeportNetReconocimiento.SDK
         //Procesa y almacena la información de la foto sacada
         private void ProcesarInformacionFacialCaptureCfg(ref Hik_SDK.NET_DVR_CAPTURE_FACE_CFG struFaceCfg, ref bool flag)
         {
-                //Si la estructra tiene una foto
+            //Si la estructra tiene una foto
             if (struFaceCfg.dwFacePicSize != 0)
             {
                 //Almaceno la foto
@@ -402,14 +402,11 @@ namespace DeportNetReconocimiento.SDK
                         fs.Close();
                     }
 
-                    //pictureBoxFace.Image = Image.FromFile(strpath);
-                    //textBoxFilePath.Text = string.Format("{0}\\{1}", Environment.CurrentDirectory, strpath);
-                    // MessageBox.Show("Capture succeed", "SUCCESSFUL", MessageBoxButtons.OK);
                 }
                 catch
                 {
                     flag = false;
-                    //MessageBox.Show("Informacion facial mal capturada", "Error", MessageBoxButtons.OK);
+                    MessageBox.Show("Informacion facial mal capturada", "Error", MessageBoxButtons.OK);
                 }
 
             }

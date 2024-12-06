@@ -91,15 +91,21 @@ namespace DeportNetReconocimiento.Utils
 
         private static void BajaCliente(string rutaCompelta)
         {
+
+                Hik_Resultado res = new Hik_Resultado();
             Console.WriteLine(rutaCompelta);
             try
             {
                 string id = File.ReadAllText(rutaCompelta);
-                Console.WriteLine("Esto es el id leido desde el documento" + id);
-
                 if (id.Length > 0)
                 {
-                    Hik_Controladora_General.InstanciaControladoraGeneral.BajaCliente(id);
+                    res = Hik_Controladora_General.InstanciaControladoraGeneral.BajaCliente(id);
+                }
+
+                if (res.Exito)
+                {
+                    MessageBox.Show("Usuario eliminado con exito");
+
                 }
             }
             catch
@@ -116,17 +122,20 @@ namespace DeportNetReconocimiento.Utils
 
         private static void BajaMasivaCliente(string rutaCompelta)
         {
+            Hik_Resultado res = new Hik_Resultado();
             try
             {
                 string contenido = File.ReadAllText(rutaCompelta);
                 string[] ids = contenido.Split(",");
-                Hik_Controladora_General.InstanciaControladoraGeneral.BajaMasivaClientes(ids);
+                res = Hik_Controladora_General.InstanciaControladoraGeneral.BajaMasivaClientes(ids);
             }
             catch
             {
                 Console.WriteLine("Error al procesar la baja masiva de clientes");
+                
             }
 
+            res.EscribirResultado("Baja masiva");
 
             if (File.Exists(rutaCompelta))
             {
