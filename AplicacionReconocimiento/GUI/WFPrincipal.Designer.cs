@@ -44,7 +44,6 @@ namespace DeportNetReconocimiento.GUI
             cerrarToolStripMenuItem = new ToolStripMenuItem();
             HeaderLabel = new Label();
             valorMensajeLabel = new Label();
-            fondoMensajeAcceso = new Panel();
             Abrir = new ToolStripMenuItem();
             Cerrar = new ToolStripMenuItem();
             botonPersonalizar = new Button();
@@ -53,7 +52,6 @@ namespace DeportNetReconocimiento.GUI
             ((System.ComponentModel.ISupportInitialize)imagenDeportnet).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuNotifyIcon.SuspendLayout();
-            fondoMensajeAcceso.SuspendLayout();
             PanelSinConexion.SuspendLayout();
             SuspendLayout();
             // 
@@ -113,7 +111,6 @@ namespace DeportNetReconocimiento.GUI
             valorClasesRestLabel.Name = "valorClasesRestLabel";
             valorClasesRestLabel.Size = new Size(689, 55);
             valorClasesRestLabel.TabIndex = 20;
-
             valorClasesRestLabel.Click += valorClasesRestLabel_Click;
             // 
             // trayReconocimiento
@@ -150,15 +147,15 @@ namespace DeportNetReconocimiento.GUI
             // 
             // HeaderLabel
             // 
-            HeaderLabel.AutoSize = true;
-            HeaderLabel.BackColor = Color.Transparent;
+            HeaderLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            HeaderLabel.BackColor = Color.DarkGray;
             HeaderLabel.Font = new Font("Arial Rounded MT Bold", 56.25F);
             HeaderLabel.ForeColor = Color.FromArgb(192, 0, 0);
-            HeaderLabel.Location = new Point(48, 7);
+            HeaderLabel.Location = new Point(93, 145);
             HeaderLabel.Name = "HeaderLabel";
-            HeaderLabel.Size = new Size(505, 87);
+            HeaderLabel.Size = new Size(1161, 102);
             HeaderLabel.TabIndex = 23;
-
+            HeaderLabel.Text = "Prueba!!";
             HeaderLabel.TextAlign = ContentAlignment.MiddleCenter;
             HeaderLabel.Click += HeaderLabel_Click;
             // 
@@ -172,18 +169,6 @@ namespace DeportNetReconocimiento.GUI
             valorMensajeLabel.Size = new Size(689, 147);
             valorMensajeLabel.TabIndex = 26;
             valorMensajeLabel.Click += valorMensajeLabel_Click;
-            // 
-            // fondoMensajeAcceso
-            // 
-            fondoMensajeAcceso.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            fondoMensajeAcceso.AutoSize = true;
-            fondoMensajeAcceso.BackColor = Color.DarkGray;
-            fondoMensajeAcceso.Controls.Add(HeaderLabel);
-            fondoMensajeAcceso.Location = new Point(84, 138);
-            fondoMensajeAcceso.Name = "fondoMensajeAcceso";
-            fondoMensajeAcceso.Size = new Size(1161, 102);
-            fondoMensajeAcceso.TabIndex = 27;
-            fondoMensajeAcceso.Paint += panel1_Paint;
             // 
             // Abrir
             // 
@@ -237,9 +222,9 @@ namespace DeportNetReconocimiento.GUI
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.Silver;
             ClientSize = new Size(1348, 727);
+            Controls.Add(HeaderLabel);
             Controls.Add(PanelSinConexion);
             Controls.Add(botonPersonalizar);
-            Controls.Add(fondoMensajeAcceso);
             Controls.Add(valorMensajeLabel);
             Controls.Add(valorClasesRestLabel);
             Controls.Add(valorFechaVtoLabel);
@@ -262,12 +247,9 @@ namespace DeportNetReconocimiento.GUI
             ((System.ComponentModel.ISupportInitialize)imagenDeportnet).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             menuNotifyIcon.ResumeLayout(false);
-            fondoMensajeAcceso.ResumeLayout(false);
-            fondoMensajeAcceso.PerformLayout();
             PanelSinConexion.ResumeLayout(false);
             PanelSinConexion.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -280,7 +262,6 @@ namespace DeportNetReconocimiento.GUI
         private NotifyIcon trayReconocimiento;
         private Label HeaderLabel;
         private Label valorMensajeLabel;
-        private Panel fondoMensajeAcceso;
         private ContextMenuStrip menuNotifyIcon;
         private ToolStripMenuItem Abrir;
         private ToolStripMenuItem Cerrar;

@@ -155,7 +155,7 @@
             // 
             // guardarCambiosButton
             // 
-            guardarCambiosButton.Location = new Point(699, 161);
+            guardarCambiosButton.Location = new Point(418, 402);
             guardarCambiosButton.Name = "guardarCambiosButton";
             guardarCambiosButton.Size = new Size(171, 23);
             guardarCambiosButton.TabIndex = 16;

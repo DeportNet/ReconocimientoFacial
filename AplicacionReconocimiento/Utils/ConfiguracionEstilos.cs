@@ -20,11 +20,6 @@ namespace DeportNetReconocimiento.Utils
         public string LogoRuta { get; set; }
 
         [Category("General")]
-        [DisplayName("Fuente texto")]
-        [JsonConverter(typeof(FontJsonConverter))]
-        public Font FuenteTexto { get; set; }
-
-        [Category("General")]
         [DisplayName("Tiempo de muestra de datos en pantalla")]
         public float TiempoDeMuestraDeDatos
         {
@@ -54,6 +49,11 @@ namespace DeportNetReconocimiento.Utils
 
         /* - - - - - Mensaje de acceso - - - - - */
 
+        [Category("General")]
+        [DisplayName("Fuente texto mensajes de acceso")]
+        [JsonConverter(typeof(FontJsonConverter))]
+        public Font FuenteTextoMensajeAcceso { get; set; }
+
         [Category("Mensaje de acceso")]
         [DisplayName("Color del fondo mensaje de acceso")]
         [JsonConverter(typeof(ColorJsonConverter))]
@@ -69,7 +69,14 @@ namespace DeportNetReconocimiento.Utils
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorMensajeAccesoDenegado { get; set; }
 
+        [Category("Mensaje de acceso")]
+        [DisplayName("Mensaje predeterminado de bienvenida")]
+        public string MensajeBienvenida { get; set; }
 
+        [Category("Mensaje de acceso")]
+        [DisplayName("Color del texto de mensaje de bienvenida")]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color ColorTextoMensajeAcceso { get; set; }
         /* - - - - - Campos de informacion - - - - - - */
 
 
@@ -78,7 +85,10 @@ namespace DeportNetReconocimiento.Utils
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorCampoActividad { get; set; }
 
-
+        [Category("General")]
+        [DisplayName("Fuente texto campos de informacion")]
+        [JsonConverter(typeof(FontJsonConverter))]
+        public Font FuenteTextoCamposInformacion { get; set; }
 
         [Category("Campos de informacion")]
         [DisplayName("Color del campo vencimiento")]
@@ -102,13 +112,11 @@ namespace DeportNetReconocimiento.Utils
 
 
 
-
         // Constructor predeterminado
         public ConfiguracionEstilos()
         {
             // General
             ColorFondo = Color.Silver;
-            FuenteTexto = new Font("Arial Rounded MT Bold", 11, FontStyle.Regular);
             LogoRuta = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\Recursos\logo_deportnet_1.jpg"; ; // Logo deportnet por defecto
             TiempoDeMuestraDeDatos = 3.0f;
 
@@ -116,6 +124,10 @@ namespace DeportNetReconocimiento.Utils
             ColorFondoMensajeAcceso = Color.DarkGray;
             ColorMensajeBienvenida = Color.Green;
             ColorMensajeAccesoDenegado = Color.Red;
+            MensajeBienvenida = "Bienvenido a DeportNet!";
+            ColorTextoMensajeAcceso = Color.Black;
+
+            FuenteTextoMensajeAcceso = new Font("Arial Rounded MT Bold", 36, FontStyle.Italic);
 
             // Campos de informacion
             ColorCampoActividad = Color.Black;
@@ -123,6 +135,8 @@ namespace DeportNetReconocimiento.Utils
             ColorClasesRestantes = Color.Black;
             ColorMensaje = Color.Black;
             ColorFondoImagen = Color.DarkGray;
+
+            FuenteTextoCamposInformacion = new Font("Arial Rounded MT Bold", 20, FontStyle.Regular);
         }
 
 
