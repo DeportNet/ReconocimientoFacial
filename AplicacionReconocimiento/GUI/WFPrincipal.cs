@@ -26,9 +26,9 @@ namespace DeportNetReconocimiento.GUI
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
 
-            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-            Escuchador_Directorio.InicializarEscuchadorEnHilo();
-            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
+            //InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            //Escuchador_Directorio.InicializarEscuchadorEnHilo();
+            //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
         }
 
         //propiedades
@@ -210,12 +210,11 @@ namespace DeportNetReconocimiento.GUI
                 //El objetivo es saber si los datos reconocidos se almacenan o no en la base de datos local
                 if (!Hik_Controladora_General.VerificarConexionInternet())
                 {
-                    //TODO: en realidad habria que mostrar en la GUI una ventana que diga que no hay conexion a internet (verificar que exista asi no se pone multiples veces)
-                    //MessageBox.Show("No hay conexion a internet");
+                    
                     if(PanelSinConexion.Visible == false && WFPanelOffline.ObtenerInstancia.Visible == false)
                     {
-                    PanelSinConexion.Visible = true;
-                    WFPanelOffline.ObtenerInstancia.Show();
+                        PanelSinConexion.Visible = true;
+                        WFPanelOffline.ObtenerInstancia.Show();
                     }
 
                 }
@@ -269,9 +268,6 @@ namespace DeportNetReconocimiento.GUI
             valorMensajeLabel.Text = "Mensaje: " + persona.Mensaje;
 
             pictureBox1.Image = ObtenerFotoCliente(nroLector, persona.Id);
-
-            //Esperamos 5 segundos para borrar los datos
-            //TODO: el tiempo sera variable
 
             int tiempoMuestraDatos = (int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000);
 
@@ -327,12 +323,19 @@ namespace DeportNetReconocimiento.GUI
             Image imagen = null;
             //Se obtiene la foto del cliente
             Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(nroLector, idCliente);
-            if (resultado.Exito)
-            {
-                String ruta = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
-                imagen = Image.FromFile(ruta);
-            }
-            //todo: Poner foto de perfil predeterminado (AVATAR)
+
+            string ruta = Path.Combine(Directory.GetCurrentDirectory(), "Recursos", "avatarPredeterminado.jpg");
+
+            //if (resultado.Exito)
+            //{
+            //    ruta = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
+            //    //imagen = Image.FromFile(ruta);
+            //}
+
+
+            //todo: Poner foto de perfil predeterminado (AVATAR) CAMBIAR COMENTARIO DE ARRIBA
+            
+            imagen = Image.FromFile(ruta);
 
 
             return imagen;
@@ -465,20 +468,16 @@ namespace DeportNetReconocimiento.GUI
             //header
             ConfiguracionEstilos = config;
             BackColor = config.ColorFondo;
-
-
-            fondoMensajeAcceso.BackColor = config.ColorFondoMensajeAcceso;
             HeaderLabel.BackColor = config.ColorFondoMensajeAcceso;
-            HeaderLabel.Font = config.FuenteTexto;
-
-
+            HeaderLabel.Font = config.FuenteTextoMensajeAcceso;
+            HeaderLabel.Text = config.MensajeBienvenida;
+            HeaderLabel.ForeColor = config.ColorTextoMensajeAcceso;
 
             //font campos
-
-            actividadLabel.Font = config.FuenteTexto;
-            valorFechaVtoLabel.Font = config.FuenteTexto;
-            valorClasesRestLabel.Font = config.FuenteTexto;
-            valorMensajeLabel.Font = config.FuenteTexto;
+            actividadLabel.Font = config.FuenteTextoCamposInformacion;
+            valorFechaVtoLabel.Font = config.FuenteTextoCamposInformacion;
+            valorClasesRestLabel.Font = config.FuenteTextoCamposInformacion;
+            valorMensajeLabel.Font = config.FuenteTextoCamposInformacion;
 
             //colors campos
             actividadLabel.ForeColor = config.ColorCampoActividad;
