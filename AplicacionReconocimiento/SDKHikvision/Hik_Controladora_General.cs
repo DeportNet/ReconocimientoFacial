@@ -151,7 +151,7 @@ namespace DeportNetReconocimiento.SDK
             }
             else
             {
-                ProcesarErrorDeLogin(struDeviceInfoV40);
+                 loginResultado = ProcesarErrorDeLogin(struDeviceInfoV40);
             }
 
             Hik_Resultado.EscribirLog();
@@ -478,10 +478,11 @@ namespace DeportNetReconocimiento.SDK
             }
             else
             {
-                MessageBox.Show("El ID no existe");
+                MessageBox.Show("El ID " + id + " no existe");
             }
+            resultado.EscribirResultado("Resultado de dar de baja un cliente");
             return resultado;
-            
+
         }
 
 

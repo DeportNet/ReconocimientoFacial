@@ -1,4 +1,5 @@
 ﻿using DeportNetReconocimiento.Modelo;
+using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
 using System.Runtime.InteropServices;
@@ -25,10 +26,9 @@ namespace DeportNetReconocimiento.GUI
 
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
-
-            //InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-            //Escuchador_Directorio.InicializarEscuchadorEnHilo();
-            //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
+            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            Escuchador_Directorio.InicializarEscuchadorEnHilo();
+            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
         }
 
         //propiedades
@@ -267,6 +267,8 @@ namespace DeportNetReconocimiento.GUI
             valorClasesRestLabel.Text = "Clases restantes: " + persona.ClasesRestantes;
             valorMensajeLabel.Text = "Mensaje: " + persona.Mensaje;
 
+            Console.WriteLine("Id de la persona" + persona.Id);
+
             pictureBox1.Image = ObtenerFotoCliente(nroLector, persona.Id);
 
             int tiempoMuestraDatos = (int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000);
@@ -324,19 +326,28 @@ namespace DeportNetReconocimiento.GUI
             //Se obtiene la foto del cliente
             Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(nroLector, idCliente);
 
-            string ruta = Path.Combine(Directory.GetCurrentDirectory(), "Recursos", "avatarPredeterminado.jpg");
+
+            /*
+            //string ruta = Path.Combine(Directory.GetCurrentDirectory(), "Recursos", "avatarPredeterminado.jpg");
 
             //if (resultado.Exito)
-            //{
-            //    ruta = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
-            //    //imagen = Image.FromFile(ruta);
-            //}
+            //  {
+            //   string ruta = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
+            //     imagen = Image.FromFile(ruta);
+            // }
 
 
             //todo: Poner foto de perfil predeterminado (AVATAR) CAMBIAR COMENTARIO DE ARRIBA
-            
-            imagen = Image.FromFile(ruta);
 
+            // imagen = Image.FromFile(ruta);
+            imagen = Resources.logo_deportnet_2;
+            */
+
+            if (resultado.Exito)
+            {
+                String ruta = Path.Combine(Directory.GetCurrentDirectory(), "captura.jpg");
+                imagen = Image.FromFile(ruta);
+            }
 
             return imagen;
         }
@@ -364,7 +375,7 @@ namespace DeportNetReconocimiento.GUI
 
             LimpiarPictureBox();
 
-            HeaderLabel.Text = "";
+            HeaderLabel.Text = configuracionEstilos.MensajeBienvenida;
             actividadLabel.Text = "";
             valorFechaVtoLabel.Text = "";
             valorClasesRestLabel.Text = "";
