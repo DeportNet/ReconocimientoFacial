@@ -9,6 +9,8 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
@@ -156,6 +158,8 @@ namespace DeportNetReconocimiento.SDK
 
             Hik_Resultado.EscribirLog();
 
+            loginResultado.EscribirResultado("Login de el sistema");
+
             return loginResultado;
         }
 
@@ -191,6 +195,8 @@ namespace DeportNetReconocimiento.SDK
                 loginResultado.Mensaje = "Error de red o el panel esta ocupado";
             }
 
+
+            MessageBox.Show("Mensaje del SDK " + mensajeDeSdk);
             return loginResultado;
         }
 
@@ -386,7 +392,7 @@ namespace DeportNetReconocimiento.SDK
             //setteamos el callback para obtener los ids de los usuarios
             this.hik_Controladora_Eventos = new Hik_Controladora_Eventos();
 
-
+            resultadoGeneral.EscribirResultado("Resultado general de Inicializar el Programa");
             return resultadoGeneral;
         }
 
@@ -444,9 +450,12 @@ namespace DeportNetReconocimiento.SDK
                     if (resultado.Exito)
                     {
                         resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, id);
-                        MessageBox.Show("Se agrego el usuario con exito");
+                        if (resultado.Exito)
+                        {
+                            MessageBox.Show("Se agrego el usuario con exito");
+                            
+                        }
                     }
-
                 }
                 else
                 {
@@ -458,9 +467,10 @@ namespace DeportNetReconocimiento.SDK
                 MessageBox.Show("El ID ya existe");
             }
 
+
+            resultado.EscribirResultado("Resultado de dar de alta un cliente");
             return resultado;
         }
-
 
         public Hik_Resultado BajaCliente(string id)
         {
@@ -473,7 +483,6 @@ namespace DeportNetReconocimiento.SDK
                 if (resultado.Exito)
                 {
                     resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EliminarTarjetaPorId(int.Parse(id));
-
                 }
             }
             else
@@ -484,8 +493,6 @@ namespace DeportNetReconocimiento.SDK
             return resultado;
 
         }
-
-
 
         public Hik_Resultado BajaMasivaClientes(string[] ids)
         {
@@ -500,7 +507,9 @@ namespace DeportNetReconocimiento.SDK
         }
 
 
+        
 
-
+        
+        
     }
 }
