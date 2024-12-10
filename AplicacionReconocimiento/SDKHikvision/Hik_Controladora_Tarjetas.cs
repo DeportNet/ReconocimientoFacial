@@ -223,17 +223,19 @@ namespace DeportNetReconocimiento.SDKHikvision
             tarjetaRecord.struValid.struBeginTime.wYear = anioActual;
             tarjetaRecord.struValid.struBeginTime.byMonth = mesActual;
             tarjetaRecord.struValid.struBeginTime.byDay = diaActual;
-            tarjetaRecord.struValid.struBeginTime.byHour = horaActual;
-            tarjetaRecord.struValid.struBeginTime.byMinute = 11;
-            tarjetaRecord.struValid.struBeginTime.bySecond = 11;
+            tarjetaRecord.struValid.struBeginTime.byHour = 0;
+            tarjetaRecord.struValid.struBeginTime.byMinute = 0;
+            tarjetaRecord.struValid.struBeginTime.bySecond = 0;
 
             //asignamos la fecha de vencimiento de la tarjeta
             tarjetaRecord.struValid.struEndTime.wYear = anioSiguiente;
             tarjetaRecord.struValid.struEndTime.byMonth = mesActual;
             tarjetaRecord.struValid.struEndTime.byDay = diaActual;
-            tarjetaRecord.struValid.struEndTime.byHour = horaActual;
-            tarjetaRecord.struValid.struEndTime.byMinute = 11;
-            tarjetaRecord.struValid.struEndTime.bySecond = 11;
+            tarjetaRecord.struValid.struEndTime.byHour = 0;
+            tarjetaRecord.struValid.struEndTime.byMinute = 0;
+            tarjetaRecord.struValid.struEndTime.bySecond = 0;
+
+
         }
         public Hik_Resultado VerificarEstadoSetTarjeta(ref bool flag, int dwEstado, ref Hik_SDK.NET_DVR_CARD_STATUS tarjetaStatus)
         {
