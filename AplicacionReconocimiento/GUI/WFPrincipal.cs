@@ -267,8 +267,6 @@ namespace DeportNetReconocimiento.GUI
             valorClasesRestLabel.Text = "Clases restantes: " + persona.ClasesRestantes;
             valorMensajeLabel.Text = "Mensaje: " + persona.Mensaje;
 
-            Console.WriteLine("Id de la persona" + persona.Id);
-
             pictureBox1.Image = ObtenerFotoCliente(nroLector, persona.Id);
 
             int tiempoMuestraDatos = (int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000);
@@ -325,30 +323,17 @@ namespace DeportNetReconocimiento.GUI
             Image imagen = null;
             //Se obtiene la foto del cliente
             Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(nroLector, idCliente);
-
+            
+            if (resultado.Exito)
+              {
+                string  ruta = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
+                imagen = Image.FromFile(ruta);
+              } else
+              {
+                imagen = Resources.avatarPredeterminado;
+              }
 
            
-            //string ruta = Path.Combine(Directory.GetCurrentDirectory(), "Recursos", "avatarPredeterminado.jpg");
-
-            //if (resultado.Exito)
-            //  {
-            //   string ruta = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
-            //     imagen = Image.FromFile(ruta);
-            // }
-
-
-            //todo: Poner foto de perfil predeterminado (AVATAR) CAMBIAR COMENTARIO DE ARRIBA
-
-            // imagen = Image.FromFile(ruta);
-            imagen = Resources.logo_deportnet_2;
-            
-
-            if (resultado.Exito)
-            {
-                String ruta = Path.Combine(Directory.GetCurrentDirectory(), "captura.jpg");
-                imagen = Image.FromFile(ruta);
-            }
-
             return imagen;
         }
 
