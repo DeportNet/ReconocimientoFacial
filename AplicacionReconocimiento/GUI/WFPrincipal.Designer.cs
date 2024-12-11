@@ -33,7 +33,7 @@ namespace DeportNetReconocimiento.GUI
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WFPrincipal));
-            imagenDeportnet = new PictureBox();
+            imagenLogo = new PictureBox();
             pictureBox1 = new PictureBox();
             actividadLabel = new Label();
             valorFechaVtoLabel = new Label();
@@ -49,23 +49,23 @@ namespace DeportNetReconocimiento.GUI
             botonPersonalizar = new Button();
             PanelSinConexion = new Panel();
             textoSinCoenxion = new Label();
-            ((System.ComponentModel.ISupportInitialize)imagenDeportnet).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)imagenLogo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuNotifyIcon.SuspendLayout();
             PanelSinConexion.SuspendLayout();
             SuspendLayout();
             // 
-            // imagenDeportnet
+            // imagenLogo
             // 
-            imagenDeportnet.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            imagenDeportnet.BackColor = Color.DimGray;
-            imagenDeportnet.Image = Resources.logo_deportnet_1;
-            imagenDeportnet.Location = new Point(323, 2);
-            imagenDeportnet.Name = "imagenDeportnet";
-            imagenDeportnet.Size = new Size(709, 133);
-            imagenDeportnet.SizeMode = PictureBoxSizeMode.StretchImage;
-            imagenDeportnet.TabIndex = 1;
-            imagenDeportnet.TabStop = false;
+            imagenLogo.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            imagenLogo.BackColor = Color.DimGray;
+            imagenLogo.Image = Resources.logo_deportnet_1;
+            imagenLogo.Location = new Point(323, 2);
+            imagenLogo.Name = "imagenLogo";
+            imagenLogo.Size = new Size(709, 133);
+            imagenLogo.SizeMode = PictureBoxSizeMode.StretchImage;
+            imagenLogo.TabIndex = 1;
+            imagenLogo.TabStop = false;
             // 
             // pictureBox1
             // 
@@ -155,7 +155,7 @@ namespace DeportNetReconocimiento.GUI
             HeaderLabel.Name = "HeaderLabel";
             HeaderLabel.Size = new Size(1161, 102);
             HeaderLabel.TabIndex = 23;
-            HeaderLabel.Text = "Prueba!!";
+            HeaderLabel.Text = "Bienvenido a Deportnet!";
             HeaderLabel.TextAlign = ContentAlignment.MiddleCenter;
             HeaderLabel.Click += HeaderLabel_Click;
             // 
@@ -229,7 +229,7 @@ namespace DeportNetReconocimiento.GUI
             Controls.Add(valorClasesRestLabel);
             Controls.Add(valorFechaVtoLabel);
             Controls.Add(actividadLabel);
-            Controls.Add(imagenDeportnet);
+            Controls.Add(imagenLogo);
             Controls.Add(pictureBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
@@ -244,7 +244,7 @@ namespace DeportNetReconocimiento.GUI
             FormClosing += cerrarFormulario;
             Load += WFPrincipal_Load;
             Resize += WFPrincipal_Resize;
-            ((System.ComponentModel.ISupportInitialize)imagenDeportnet).EndInit();
+            ((System.ComponentModel.ISupportInitialize)imagenLogo).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             menuNotifyIcon.ResumeLayout(false);
             PanelSinConexion.ResumeLayout(false);
@@ -254,7 +254,7 @@ namespace DeportNetReconocimiento.GUI
 
         #endregion
 
-        private PictureBox imagenDeportnet;
+        private PictureBox imagenLogo;
         private PictureBox pictureBox1;
         private Label actividadLabel;
         private Label valorFechaVtoLabel;

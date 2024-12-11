@@ -1,6 +1,10 @@
-﻿using System.ComponentModel;
+﻿using DeportNetReconocimiento.Properties;
+using Microsoft.VisualBasic.Logging;
+using System.ComponentModel;
+using System.Drawing.Design;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Windows.Forms.Design;
 
 
 namespace DeportNetReconocimiento.Utils
@@ -8,19 +12,30 @@ namespace DeportNetReconocimiento.Utils
     public class ConfiguracionEstilos
     {
 
+
         /* - - - - - - General - - - - - */
 
         [Category("General")]
         [DisplayName("Color de Fondo")]
+        [Description("Define el color de fondo principal de la pantalla.")]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorFondo { get; set; }
 
         [Category("General")]
         [DisplayName("Logo de la pantalla de bienvenida")]
-        public string LogoRuta { get; set; }
+        [Description("Establece el logo que se mostrará en la pantalla de bienvenida. Debe ser una imagen en formato PNG, JPG, BMP, etc.")]
+        [JsonConverter(typeof(ImageToPathJsonConverter))]
+        public Image Logo { get; set; }
+
+        [Category("General")]
+        [DisplayName("Color de Fondo del Logo")]
+        [Description("Especifica el color de fondo detrás del logo en la pantalla de bienvenida.")]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color ColorFondoLogo { get; set; }
 
         [Category("General")]
         [DisplayName("Tiempo de muestra de datos en pantalla")]
+        [Description("Indica la duración (en segundos) que se mostrarán los datos en la pantalla. No puede ser menor a 2 segundos.")]
         public float TiempoDeMuestraDeDatos
         {
             get => tiempoDeMuestraDeDatos;
@@ -34,82 +49,91 @@ namespace DeportNetReconocimiento.Utils
                     MessageBoxButtons.OK,                                   // Botones (OK)
                     MessageBoxIcon.Error                                    // Ícono (Error)
                     );
-                    //throw new ArgumentException("El tiempo de muestra de datos no puede ser negativo.");
                 }
                 else
                 {
                     tiempoDeMuestraDeDatos = value;
                 }
-
-
             }
         }
-
         private float tiempoDeMuestraDeDatos; // Valor predeterminado
+
+
 
         /* - - - - - Mensaje de acceso - - - - - */
 
-        [Category("General")]
+        [Category("Mensaje de acceso")]
         [DisplayName("Fuente texto mensajes de acceso")]
+        [Description("Selecciona la fuente utilizada para los mensajes de acceso, como el mensaje de bienvenida o acceso denegado.")]
         [JsonConverter(typeof(FontJsonConverter))]
         public Font FuenteTextoMensajeAcceso { get; set; }
 
         [Category("Mensaje de acceso")]
         [DisplayName("Color del fondo mensaje de acceso")]
+        [Description("Define el color de fondo que se mostrará detrás del mensaje de acceso.")]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorFondoMensajeAcceso { get; set; }
 
         [Category("Mensaje de acceso")]
         [DisplayName("Color de mensaje de bienvenida")]
+        [Description("Establece el color del texto para el mensaje de bienvenida.")]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorMensajeBienvenida { get; set; }
 
         [Category("Mensaje de acceso")]
         [DisplayName("Color de mensaje de acceso denegado")]
+        [Description("Define el color del texto que se mostrará en el mensaje de acceso denegado.")]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorMensajeAccesoDenegado { get; set; }
 
         [Category("Mensaje de acceso")]
         [DisplayName("Mensaje predeterminado de bienvenida")]
+        [Description("Texto que se mostrará como mensaje de bienvenida predeterminado.")]
         public string MensajeBienvenida { get; set; }
 
         [Category("Mensaje de acceso")]
         [DisplayName("Color del texto de mensaje de bienvenida")]
+        [Description("Selecciona el color del texto del mensaje de bienvenida.")]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorTextoMensajeAcceso { get; set; }
-        /* - - - - - Campos de informacion - - - - - - */
 
+        /* - - - - - Campos de informacion - - - - - - */
 
         [Category("Campos de informacion")]
         [DisplayName("Color del campo actividad")]
+        [Description("Establece el color del texto para el campo de actividad del usuario.")]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorCampoActividad { get; set; }
 
-        [Category("General")]
+        [Category("Campos de informacion")]
         [DisplayName("Fuente texto campos de informacion")]
+        [Description("Selecciona la fuente utilizada en los campos de información del usuario.")]
         [JsonConverter(typeof(FontJsonConverter))]
         public Font FuenteTextoCamposInformacion { get; set; }
 
         [Category("Campos de informacion")]
         [DisplayName("Color del campo vencimiento")]
+        [Description("Define el color del texto para el campo de vencimiento.")]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorVencimiento { get; set; }
 
         [Category("Campos de informacion")]
         [DisplayName("Color del campo clases restantes")]
+        [Description("Establece el color del texto para el campo que muestra las clases restantes del usuario.")]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorClasesRestantes { get; set; }
 
         [Category("Campos de informacion")]
         [DisplayName("Color del campo mensaje")]
+        [Description("Selecciona el color del texto para el campo de mensajes personalizados.")]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorMensaje { get; set; }
 
         [Category("Campos de informacion")]
         [DisplayName("Color de fondo imagen")]
+        [Description("Especifica el color de fondo que aparecerá detrás de las imágenes en los campos de información.")]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorFondoImagen { get; set; }
-
 
 
         // Constructor predeterminado
@@ -117,7 +141,10 @@ namespace DeportNetReconocimiento.Utils
         {
             // General
             ColorFondo = Color.Silver;
-            LogoRuta = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\Recursos\logo_deportnet_1.jpg"; ; // Logo deportnet por defecto
+            Logo = Resources.logo_deportnet_1;
+            ColorFondoLogo = Color.DimGray;
+
+            //Logo = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\Recursos\logo_deportnet_1.jpg";  // Logo deportnet por defecto
             TiempoDeMuestraDeDatos = 3.0f;
 
             // Mensaje de acceso
@@ -197,8 +224,113 @@ namespace DeportNetReconocimiento.Utils
         }
 
 
+       
+
 
     }
+
+    // Convertidor personalizado para la clase Image
+
+    public class ImageToPathJsonConverter : JsonConverter<Image>
+    {
+        private readonly string directorioBase = AppDomain.CurrentDomain.BaseDirectory;
+
+        private string GuardarImagen(Image nuevaImagen, string nombreArchivo)
+        {
+            string directorioBase = AppDomain.CurrentDomain.BaseDirectory;
+            
+            string rutaGuardar = Path.Combine(directorioBase, nombreArchivo);
+            if (nuevaImagen == null)
+            {
+                throw new ArgumentNullException(nameof(nuevaImagen), "La imagen proporcionada es nula.");
+            }
+
+            try
+            {
+                nuevaImagen.Save(rutaGuardar, System.Drawing.Imaging.ImageFormat.Png);
+                return rutaGuardar;
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show($"Error al guardar la imagen: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+            //string rutaAbsoluta = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\Recursos\logo_deportnet_1.jpg";
+            //// Obtener la ruta relativa
+            //string rutaRelativa = Path.GetRelativePath(directorioBase, rutaAbsoluta);
+
+            return null;
+
+        }
+
+        public override Image Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            // Leer la ruta de la imagen desde el JSON
+            string rutaRelativa = reader.GetString();
+
+            if (string.IsNullOrEmpty(rutaRelativa))
+            {
+                return null;
+            }
+
+            // Convertir la ruta relativa en absoluta, ya que se lee solo logoGimansio.png
+            string rutaAbsoluta = Path.Combine(directorioBase, rutaRelativa);
+
+            // Cargar la imagen desde el archivo
+            if (File.Exists(rutaAbsoluta))
+            {
+                try
+                {
+                    return Image.FromFile(rutaAbsoluta);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"read Error al cargar la imagen: {ex.Message}");
+                }
+            }
+
+            return null;
+        }
+
+        public override void Write(Utf8JsonWriter writer, Image value, JsonSerializerOptions options)
+        {
+            if (value == null)
+            {
+                writer.WriteStringValue(string.Empty); // Guardar una cadena vacía si la imagen es null
+                return;
+            }
+
+            try
+            {
+
+
+                // Ruta donde se guardará el archivo
+                string nombreArchivo = "logoGimansio.png";
+
+
+                // Guardar la imagen 
+                GuardarImagen(value, nombreArchivo);
+
+
+
+                //string rutaGuardar = Path.Combine(directorioBase, nombreArchivo);
+
+                //value.Save(rutaGuardar, System.Drawing.Imaging.ImageFormat.Png);
+
+                // Escribir la ruta relativa en el JSON
+                writer.WriteStringValue(nombreArchivo);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"write Error al guardar la imagen: {ex.Message}");
+                writer.WriteStringValue("logoGimansio.png"); // Guardar cadena vacía si ocurre un error (string.Empty)
+            }
+        }
+    }
+
+    
+
 
     // Convertidor personalizado para la clase Color
     public class ColorJsonConverter : JsonConverter<Color>
@@ -263,5 +395,6 @@ namespace DeportNetReconocimiento.Utils
         }
     }
 
+    
 }
 
