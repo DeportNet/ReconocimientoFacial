@@ -101,14 +101,11 @@ namespace DeportNetReconocimiento.SDK
             try
             {
                 Hik_SDK.NET_DVR_Init();
-                resultado.Mensaje = "NET_DVR_Init éxito";
-                resultado.Exito = true;
-
+                resultado.ActualizarResultado(true, "NET_DVR_Init éxito", Hik_SDK.NET_DVR_GetLastError().ToString());
             }
             catch
             {
-                resultado.Exito = false;
-                resultado.Mensaje = "NET_DVR_Init error";
+                resultado.ActualizarResultado(false, "NET_DVR_Init error", Hik_SDK.NET_DVR_GetLastError().ToString());
             }
 
             Hik_Resultado.EscribirLog();
@@ -118,7 +115,7 @@ namespace DeportNetReconocimiento.SDK
 
         public Hik_Resultado Login(string user, string password, string port, string ip)
         {
-            Hik_Resultado loginResultado = new Hik_Resultado();
+            Hik_Resultado resultado = new Hik_Resultado();
 
 
             //cerramos la sesion que estaba iniciada anteriormente
@@ -148,24 +145,23 @@ namespace DeportNetReconocimiento.SDK
             {
                 //si da mayor a 0 signfica exito
                 IdUsuario = auxUserID;
-                loginResultado.Mensaje = "Se inicio sesión con exito";
-                loginResultado.Exito = true;
+                resultado.ActualizarResultado(true, "Se inicio sesión con exito", Hik_SDK.NET_DVR_GetLastError().ToString());
             }
             else
             {
-                 loginResultado = ProcesarErrorDeLogin(struDeviceInfoV40);
+                 resultado = ProcesarErrorDeLogin(struDeviceInfoV40);
             }
 
             Hik_Resultado.EscribirLog();
 
-            loginResultado.EscribirResultado("Login de el sistema");
+            resultado.EscribirResultado("Login de el sistema");
 
-            return loginResultado;
+            return resultado;
         }
 
         public Hik_Resultado ProcesarErrorDeLogin(Hik_SDK.NET_DVR_DEVICEINFO_V40 struDeviceInfoV40)
         {
-            Hik_Resultado loginResultado = new Hik_Resultado();
+            Hik_Resultado resultado = new Hik_Resultado();
             //sino debemos verificar el tipo de error
             uint nroError = Hik_SDK.NET_DVR_GetLastError();
             string mensajeDeSdk = "";
@@ -173,31 +169,31 @@ namespace DeportNetReconocimiento.SDK
 
             if (nroError == Hik_SDK.NET_DVR_PASSWORD_ERROR)
             {
-                loginResultado.Exito = false;
-                loginResultado.Mensaje = "Usuario o contraseña invalidos";
                 if (1 == struDeviceInfoV40.bySupportLock)
                 {
                     mensajeDeSdk = string.Format("Te quedan {0} intentos para logearte", struDeviceInfoV40.byRetryLoginTime);
                 }
+
+                resultado.ActualizarResultado(false, "Usuario o contraseña invalidos" + mensajeDeSdk, Hik_SDK.NET_DVR_GetLastError().ToString());
+
             }
             else if (nroError == Hik_SDK.NET_DVR_USER_LOCKED)
             {
                 if (1 == struDeviceInfoV40.bySupportLock)
                 {
                     mensajeDeSdk = string.Format("Usuario bloqueado, el tiempo restante de bloqueo es de {0}", struDeviceInfoV40.dwSurplusLockTime);
-                    loginResultado.Exito = false;
-                    loginResultado.Mensaje = mensajeDeSdk;
                 }
+                resultado.ActualizarResultado(false, mensajeDeSdk, Hik_SDK.NET_DVR_GetLastError().ToString());
             }
             else
             {
-                loginResultado.Exito = false;
-                loginResultado.Mensaje = "Error de red o el panel esta ocupado";
+                resultado.ActualizarResultado(false, "Error de red o el panel está ocupado", Hik_SDK.NET_DVR_GetLastError().ToString());
+
             }
 
 
             MessageBox.Show("Mensaje del SDK " + mensajeDeSdk);
-            return loginResultado;
+            return resultado;
         }
 
         public void CerrarYLimpiar()
@@ -318,9 +314,7 @@ namespace DeportNetReconocimiento.SDK
             if (resultadoXML == null)
             {
                 //AcsAbility no soportado
-                resultado.Codigo = "1000";
-                resultado.Mensaje = GetDescripcionErrorDeviceAbility(1000);
-                resultado.Exito = false;
+                resultado.ActualizarResultado(false, GetDescripcionErrorDeviceAbility(1000), "1000");
             }
             else
             {
@@ -330,8 +324,15 @@ namespace DeportNetReconocimiento.SDK
                 SoportaTarjeta = VerificarCapacidad(resultadoXML, "//Card");
 
                 // Dar valor a resultado
-                resultado.Exito = true;
-                resultado.Mensaje = $"Soporta reconocimiento facial: {SoportaFacial} \nSoporta huella digital: {SoportaHuella} \nSoporta tarjeta: {SoportaTarjeta}";
+                resultado.ActualizarResultado(true, $"Soporta reconocimiento facial: {SoportaFacial} \nSoporta huella digital: {SoportaHuella} \nSoporta tarjeta: {SoportaTarjeta}", Hik_SDK.NET_DVR_GetLastError().ToString());
+
+
+                //Obtener Capacidad del dispositivo
+               // XmlNode valor = resultadoXML.SelectSingleNode("//maxWhiteFaceNum");
+               // Console.WriteLine("La cantidad de caras que permite es: " + valor.InnerText);
+
+
+
 
             }
 
@@ -358,33 +359,33 @@ namespace DeportNetReconocimiento.SDK
         public Hik_Resultado InicializarPrograma(string user, string password, string port, string ip)
         {
 
-            Hik_Resultado resultadoGeneral = new Hik_Resultado();
+            Hik_Resultado resultado = new Hik_Resultado();
 
-            resultadoGeneral = InicializarNet_DVR();
+            resultado = InicializarNet_DVR();
 
-            if (!resultadoGeneral.Exito)
+            if (!resultado.Exito)
             {
                 //si no se pudo inicializar
-                return resultadoGeneral;
+                return resultado;
             }
 
 
             //nos loggeamos
-            resultadoGeneral = Login(user, password, port, ip);
+            resultado = Login(user, password, port, ip);
 
-            if (!resultadoGeneral.Exito)
+            if (!resultado.Exito)
             {
                 //si no se pudo Loggear
-                return resultadoGeneral;
+                return resultado;
             }
 
             //obtenemos las capacidades
-            resultadoGeneral = ObtenerTripleCapacidadDelDispositivo();
+            resultado = ObtenerTripleCapacidadDelDispositivo();
 
-            if (!resultadoGeneral.Exito)
+            if (!resultado.Exito)
             {
                 //si no hubo exito, signfica que directamente el dispositivo no soporta acceso
-                return resultadoGeneral;
+                return resultado;
             }
 
 
@@ -392,8 +393,8 @@ namespace DeportNetReconocimiento.SDK
             //setteamos el callback para obtener los ids de los usuarios
             this.hik_Controladora_Eventos = new Hik_Controladora_Eventos();
 
-            resultadoGeneral.EscribirResultado("Resultado general de Inicializar el Programa");
-            return resultadoGeneral;
+            resultado.EscribirResultado("Resultado general de Inicializar el Programa");
+            return resultado;
         }
 
 

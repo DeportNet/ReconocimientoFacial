@@ -40,8 +40,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             int idUsuario = Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario;
             if(idUsuario == -1)
             {
-                resultado.Exito = false;
-                resultado.Mensaje = "No se ha logueado el usuario.";
+                resultado.ActualizarResultado(false, "No se ha logueado el usuario.", Hik_SDK.NET_DVR_GetLastError().ToString());
                 return resultado;
             }
 
@@ -51,28 +50,26 @@ namespace DeportNetReconocimiento.SDKHikvision
                     //0-close
                     if (Hik_SDK.NET_DVR_ControlGateway(idUsuario, 1, 0))
                     {
-                        resultado.Exito = true;
-                        resultado.Mensaje = "Puerta cerrada con exito";
+                        resultado.ActualizarResultado(true, "Puerta cerrada con exito", Hik_SDK.NET_DVR_GetLastError().ToString());
+
                     }
                     else
                     {
-                        resultado.Exito = false;
-                        resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
-                        resultado.Mensaje = "Error al cerrar la puerta";
+                        resultado.ActualizarResultado(false, "Error al cerrar la puerta", Hik_SDK.NET_DVR_GetLastError().ToString());
+
                     }
                 break;
                 case 1:
                     //1 - open
                     if(Hik_SDK.NET_DVR_ControlGateway(idUsuario, 1, 1))
                     {
-                        resultado.Exito = true;
-                        resultado.Mensaje = "Puerta abierta con exito";
+                        resultado.ActualizarResultado(true, "Puerta abierta con exito", Hik_SDK.NET_DVR_GetLastError().ToString());
+
                     }
                     else
                     {
-                        resultado.Exito = false;
-                        resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
-                        resultado.Mensaje = "Error al abrir la puerta";
+                        resultado.ActualizarResultado(false, "Error al abrir la puerta", Hik_SDK.NET_DVR_GetLastError().ToString());
+
                     }
                 break;
                 case 2:
@@ -80,14 +77,13 @@ namespace DeportNetReconocimiento.SDKHikvision
 
                     if(Hik_SDK.NET_DVR_ControlGateway(idUsuario, 1, 2))
                     {
-                        resultado.Exito = true;
-                        resultado.Mensaje = "Puerta abierta y se mantiene abierta";
+                        resultado.ActualizarResultado(true, "Puerta abierta y se mantiene abierta", Hik_SDK.NET_DVR_GetLastError().ToString());
+
                     }
                     else
                     {
-                        resultado.Exito = false;
-                        resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
-                        resultado.Mensaje = "Error al mantener la puerta abierta";
+                        resultado.ActualizarResultado(false, "Error al mantener la puerta abierta", Hik_SDK.NET_DVR_GetLastError().ToString());
+
                     }
 
                 break;
@@ -96,14 +92,13 @@ namespace DeportNetReconocimiento.SDKHikvision
 
                     if (Hik_SDK.NET_DVR_ControlGateway(idUsuario, 1, 3))
                     {
-                        resultado.Exito = true;
-                        resultado.Mensaje = "Puerta cerrada y se mantiene cerrada";
+                        resultado.ActualizarResultado(true, "Puerta cerrada y se mantiene cerrada", Hik_SDK.NET_DVR_GetLastError().ToString());
+
                     }
                     else
                     {
-                        resultado.Exito = false;
-                        resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
-                        resultado.Mensaje = "Error al mantener la puerta cerrada";
+                        resultado.ActualizarResultado(false, "Error al mantener la puerta cerrada", Hik_SDK.NET_DVR_GetLastError().ToString());
+
                     }
                 break;
                 default:
