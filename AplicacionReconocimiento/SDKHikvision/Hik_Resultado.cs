@@ -33,6 +33,15 @@ namespace DeportNetReconocimiento.SDK
             return resultado;
          */
 
+
+       // public Hik_Resultado(bool exito, string mensaje, string codigo)
+       // {
+       //     this.exito = exito;
+       //     this.mensaje = mensaje;
+       //     this.codigo = codigo;
+       // }
+
+
         public bool Exito 
         {
             get { return exito; }
@@ -57,6 +66,13 @@ namespace DeportNetReconocimiento.SDK
             Console.WriteLine("Exito: " + Exito);
             Console.WriteLine("Mensaje: " + Mensaje);
             Console.WriteLine("Codigo: " + Codigo);
+        }
+
+        public void ActualizarResultado(bool exito, string mensaje, string codigo)
+        {
+            this.exito = exito;
+            this.mensaje = mensaje;
+            this.codigo = codigo;
         }
 
         public static bool EscribirLog()
