@@ -13,33 +13,27 @@ namespace DeportNetReconocimiento.SDK
         private string codigo = "";
 
 
-        // Propiedades (getters y setters)
-        // Se usa lock para evitar problemas de concurrencia
         /* 
          * Ej de uso:
          Hik_Resultado resultado = new Hik_resultado(); 
          
             ...Logica dentro de un metodo...
 
-            if (resultado.Exito)
+            if (true)
             {
-                resultado.Mensaje= "Loggeo exitoso";
+                resultado.ActualizarResultado(true, "Exito al cargar los datos", Hik_SDK.NET_DVR_GetLastError().ToString());
             }
             else
             {
-                resultado.Mensaje= "Loggeo fallido";
+                resultado.ActualizarResultado(false, "Error al cargar los datos", Hik_SDK.NET_DVR_GetLastError().ToString());
             }
+
+            resultado.EscribirResultados("Carga de datos");
             
             return resultado;
          */
 
 
-       // public Hik_Resultado(bool exito, string mensaje, string codigo)
-       // {
-       //     this.exito = exito;
-       //     this.mensaje = mensaje;
-       //     this.codigo = codigo;
-       // }
 
 
         public bool Exito 
@@ -62,7 +56,7 @@ namespace DeportNetReconocimiento.SDK
 
         public  void EscribirResultado(string titulo)
         {
-            Console.WriteLine("Titulo: " + titulo);
+            Console.WriteLine("- - - - - - " + titulo + " - - - - - -");
             Console.WriteLine("Exito: " + Exito);
             Console.WriteLine("Mensaje: " + Mensaje);
             Console.WriteLine("Codigo: " + Codigo);

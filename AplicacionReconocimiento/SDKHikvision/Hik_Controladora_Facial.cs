@@ -82,16 +82,6 @@ namespace DeportNetReconocimiento.SDK
                 GetFaceCfgHandle = -1;
             }
 
-
-
-            //si ya hay una imagen en el picturebox de la interfaz, la elimina
-            //if (pictureBoxFace.Image != null)
-            //{
-            //    pictureBoxFace.Image.Dispose();
-            //    pictureBoxFace.Image = null;
-            //}
-
-
             //Cargamos toda la estructura NET_DVR_FACE_COND
             Hik_SDK.NET_DVR_FACE_COND struCond = new Hik_SDK.NET_DVR_FACE_COND();
             int dwSize = 0;
@@ -104,9 +94,8 @@ namespace DeportNetReconocimiento.SDK
             // revisamos el valor del handler, si sale mal, libera la memoria y muestra un mensaje de error
             if (GetFaceCfgHandle == -1)
             {
-                resultado.Exito = false;
-                resultado.Mensaje = "Error al obtener la cara";
-                resultado.Codigo= Hik_SDK.NET_DVR_GetLastError().ToString();
+                resultado.ActualizarResultado(false, "Error al obtener la cara", Hik_SDK.NET_DVR_GetLastError().ToString());
+
             }
             else
             {
@@ -146,43 +135,38 @@ namespace DeportNetReconocimiento.SDK
                     //Procesamos la informacion facial
 
                     ProcesarInformacionFacialRecord(ref struRecord, ref flag);
-
-                    resultado.Exito = true;
-                    resultado.Mensaje = "Se obtuvo la cara de forma exitosa";
+                    resultado.ActualizarResultado(true, "Se obtuvo la cara de forma exitosa", Hik_SDK.NET_DVR_GetLastError().ToString());
                     break;
                 case (int)Hik_SDK.NET_SDK_GET_NEXT_STATUS_NEED_WAIT:
-                    resultado.Exito = false;
-                    resultado.Mensaje = "Hay que esperar";
-                    resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
+
                     //Esperamos
+                    resultado.ActualizarResultado(false, "Esperamos", Hik_SDK.NET_DVR_GetLastError().ToString());
+
                     break;
                 case Hik_SDK.NET_SDK_GET_NEXT_STATUS_FAILED:
                     //Detenemos el proceso si hubo un fallo
 
                     Hik_SDK.NET_DVR_StopRemoteConfig(GetFaceCfgHandle);
-                    resultado.Exito = false;
-                    resultado.Mensaje= "Fallo a la hora de obtener estado";
-                    resultado.Codigo= Hik_SDK.NET_DVR_GetLastError().ToString();
                     flag = false;
+                    resultado.ActualizarResultado(false, "Error a la hora de obtener el estado", Hik_SDK.NET_DVR_GetLastError().ToString());
 
                     break;
                 case Hik_SDK.NET_SDK_GET_NEXT_STATUS_FINISH:
                     //Terminamos el proceso si se finalizo correctamente
 
                     Hik_SDK.NET_DVR_StopRemoteConfig(GetFaceCfgHandle);
-                    resultado.Exito = true;
-                    resultado.Mensaje= "El proceso termino";
+
                     flag = false;
+                    resultado.ActualizarResultado(true, "El proceso terminó", Hik_SDK.NET_DVR_GetLastError().ToString());
 
                     break;
                 default:
                     //Si no se conoce el estado del sistema, se detiene el proceso
 
                     Hik_SDK.NET_DVR_StopRemoteConfig(GetFaceCfgHandle);
-                    resultado.Exito = false;
-                    resultado.Mensaje= "No se conoce el estado del sistema";
-                    resultado.Codigo= Hik_SDK.NET_DVR_GetLastError().ToString();
+
                     flag = false;
+                    resultado.ActualizarResultado(false, "No se conoce el estado del sistema", Hik_SDK.NET_DVR_GetLastError().ToString());
                     break;
 
             }
@@ -291,9 +275,9 @@ namespace DeportNetReconocimiento.SDK
             if (CapFaceCfgHandle == -1)
             {
                 Marshal.FreeHGlobal(ptrCapCond);
-                resultado.Exito = false;
-                resultado.Mensaje = "Error al momento de capturar datos faciales";
-                resultado.Codigo= Hik_SDK.NET_DVR_GetLastError().ToString();
+
+                resultado.ActualizarResultado(false, "Error al capturar datos faciales", Hik_SDK.NET_DVR_GetLastError().ToString());
+
 
             }
             else
@@ -328,8 +312,8 @@ namespace DeportNetReconocimiento.SDK
                 case Hik_SDK.NET_SDK_GET_NEXT_STATUS_SUCCESS://1000
 
                     ProcesarInformacionFacialCaptureCfg(ref struFaceCfg, ref flag);
-                    resultado.Exito = true;
-                    resultado.Mensaje = "Se capturo la cara de forma exitosa";
+                    resultado.ActualizarResultado(true, "Se capturó la cara de forma exitosa", Hik_SDK.NET_DVR_GetLastError().ToString());
+
                     capturaExitosa = true;
                     
                     break;
@@ -341,9 +325,7 @@ namespace DeportNetReconocimiento.SDK
 
                     flag = false;
 
-                    resultado.Exito = false;
-                    resultado.Mensaje = "Fallo al capturar la cara";
-                    resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
+                    resultado.ActualizarResultado(false, "Error al capturar la cara", Hik_SDK.NET_DVR_GetLastError().ToString());
 
                     break;
                 case Hik_SDK.NET_SDK_GET_NEXT_STATUS_FINISH: //1002
@@ -353,8 +335,7 @@ namespace DeportNetReconocimiento.SDK
 
                     if (!capturaExitosa)
                     {
-                        resultado.Exito = true;
-                        resultado.Mensaje = "El proceso termino";
+                        resultado.ActualizarResultado(true, "El proceso termino", Hik_SDK.NET_DVR_GetLastError().ToString());
                     }
            
                         break;
@@ -363,18 +344,16 @@ namespace DeportNetReconocimiento.SDK
 
                     Hik_SDK.NET_DVR_StopRemoteConfig(CapFaceCfgHandle);
                     flag = false;
-                    resultado.Exito = false;
-                    resultado.Mensaje = "Se agotó el tiempo de espera";
+
+                    resultado.ActualizarResultado(false, "Se agotó el tiempo de espera", Hik_SDK.NET_DVR_GetLastError().ToString());
 
                     break;
                 default:
 
                     Hik_SDK.NET_DVR_StopRemoteConfig(CapFaceCfgHandle);
                     flag = false;
+                    resultado.ActualizarResultado(false, "Se Desconoce el error", Hik_SDK.NET_DVR_GetLastError().ToString());
 
-                    resultado.Exito = false;
-                    resultado.Mensaje= "Se desconoce el error";
-                    resultado.Codigo= Hik_SDK.NET_DVR_GetLastError().ToString();
                     break;
             }
 
@@ -447,9 +426,7 @@ namespace DeportNetReconocimiento.SDK
             if (SetFaceCfgHandle == -1)
             {
 
-                resultado.Exito = false;
-                resultado.Mensaje = "Error al  establecer la cara";
-                resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
+                resultado.ActualizarResultado(false, "Error al establecer la cara", Hik_SDK.NET_DVR_GetLastError().ToString());
             }
             else
             {
@@ -500,18 +477,19 @@ namespace DeportNetReconocimiento.SDK
                     break;
 
                 case Hik_SDK.NET_SDK_GET_NEXT_STATUS_NEED_WAIT: //1001
-                    resultado.Exito = false;
-                    resultado.Mensaje = "Se necesita Esperar";
-                    resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
+
+                    resultado.ActualizarResultado(false, "Se necesita esperar", Hik_SDK.NET_DVR_GetLastError().ToString());
+
+
                     break;
 
                 case Hik_SDK.NET_SDK_GET_NEXT_STATUS_FAILED: //1003
 
                     Hik_SDK.NET_DVR_StopRemoteConfig(SetFaceCfgHandle);
                     flag = false;
-                    resultado.Exito = false;
-                    resultado.Mensaje = "Fallo al establecer la cara";
-                    resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
+
+                    resultado.ActualizarResultado(false, "Error al establecer la cara", Hik_SDK.NET_DVR_GetLastError().ToString());
+
                     break;
 
                 case Hik_SDK.NET_SDK_GET_NEXT_STATUS_FINISH: //1002
@@ -520,8 +498,7 @@ namespace DeportNetReconocimiento.SDK
                     flag = false;
                     if (!caraEstabelcida)
                     {
-                        resultado.Exito = true;
-                        resultado.Mensaje = "El proceso termino";
+                        resultado.ActualizarResultado(true, "El proceso termino", Hik_SDK.NET_DVR_GetLastError().ToString());
                     }
                     break;
 
@@ -529,9 +506,8 @@ namespace DeportNetReconocimiento.SDK
                     Hik_SDK.NET_DVR_StopRemoteConfig(SetFaceCfgHandle);
                     flag = false;
 
-                    resultado.Exito = false;
-                    resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
-                    resultado.Mensaje = "Error desconocido";
+                    resultado.ActualizarResultado(false, "Error desconocido", Hik_SDK.NET_DVR_GetLastError().ToString());
+
                     break;
             }
             return resultado;
@@ -543,15 +519,12 @@ namespace DeportNetReconocimiento.SDK
 
             if (struStatus.byRecvStatus == 1)
             {
-                resultado.Exito = true;
-                resultado.Mensaje = "Se estableció la informacion facial de forma exitosa";
+                resultado.ActualizarResultado(true, "Se estableció la información acial de forma exitosa", Hik_SDK.NET_DVR_GetLastError().ToString());
             }
             else
             {
                 flag = false;
-                resultado.Exito = false;
-                resultado.Mensaje = "Hubo un error en establecer la informacion facial";
-                resultado.Codigo = struStatus.byRecvStatus.ToString();
+                resultado.ActualizarResultado(false, "huno un error al establecer la información facial ", struStatus.byRecvStatus.ToString());
             }
 
             return resultado;
@@ -564,8 +537,7 @@ namespace DeportNetReconocimiento.SDK
             if (!File.Exists(ubicacionArchivo))
             {
                 //la foto no existe
-                resultado.Exito = false;
-                resultado.Mensaje = "La foto de la cara no existe";
+                resultado.ActualizarResultado(false, "La foto de la cara no existe", Hik_SDK.NET_DVR_GetLastError().ToString());
             }
             else
             {
@@ -574,14 +546,12 @@ namespace DeportNetReconocimiento.SDK
 
                 if (fileStr.Length == 0) //la foto es 0k
                 {
-                    resultado.Exito = false;
-                    resultado.Mensaje = "La foto de la cara es de 0k, por favor ingrese otra foto";
+                    resultado.ActualizarResultado(false, "La foto de la cara es de 0k, por favor ingrese otra foto", Hik_SDK.NET_DVR_GetLastError().ToString());
 
                 }
                 else if (200 * 1024 < fileStr.Length)//la foto es 200k
                 {
-                    resultado.Exito = false;
-                    resultado.Mensaje = "La foto de la cara es mayor a 200k, por favor ingrese otra foto";
+                    resultado.ActualizarResultado(false, "La foto de la cara es mayor a 200k, por favor ingrese otra foto", Hik_SDK.NET_DVR_GetLastError().ToString());
                 }
                 else
                 {
@@ -609,15 +579,14 @@ namespace DeportNetReconocimiento.SDK
                 //textBoxFilePath.Text = "";
 
                 //resultado
-                resultado.Exito = true;
-                resultado.Mensaje = "Se leyo la foto de la cara de forma exitosa";
+                resultado.ActualizarResultado(true, "Se leyó la cara de la foto de forma exitosa", Hik_SDK.NET_DVR_GetLastError().ToString());
+
             }
             catch
             {
                 fileStr.Close();
-                resultado.Exito = false;
-                resultado.Mensaje = "Fallo leer la informacion facial, intentelo de nuevo";
-                resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
+                resultado.ActualizarResultado(false, "Fallo al leer la información facial, intentelo de nuevo", Hik_SDK.NET_DVR_GetLastError().ToString());
+
             }
             return resultado;
         }
@@ -667,14 +636,12 @@ namespace DeportNetReconocimiento.SDK
 
             if ( false == Hik_SDK.NET_DVR_RemoteControl(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_DEL_FACE_PARAM_CFG, ref  struCardNo, (int)dwSize))
             {
-                resultado.Exito = false;
-                resultado.Mensaje = "Hubo un error a la hora de eliminar la estructura";
-                resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
+                resultado.ActualizarResultado(false, "Error al elimianr la estructura", Hik_SDK.NET_DVR_GetLastError().ToString());
             }
             else
             {
-                resultado.Exito = true;
-                resultado.Mensaje = "Se eliminó la cara del id: " + cardNumber +" de manera correcta";
+                resultado.ActualizarResultado(true, "Se eliminó la cara del id: " + cardNumber + " de manera correcta", Hik_SDK.NET_DVR_GetLastError().ToString());
+
             }
 
             return resultado;

@@ -69,9 +69,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                 else
                 {
                     //hubo un error al cancelar la operacion
-                    resultado.Exito = false;
-                    resultado.Mensaje = "Error al cancelar la operacion de establecer una tarjeta";
-                    resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
+                    resultado.ActualizarResultado(true, "Error al cancelar la operacion de establecer una tarjeta", Hik_SDK.NET_DVR_GetLastError().ToString());
                     return resultado;
                 }
             }
@@ -91,9 +89,8 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
             else
             {
-                resultado.Exito = false;
-                resultado.Mensaje = "Error al establecer la tarjeta";
-                resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
+                resultado.ActualizarResultado(false, "Error al establecer la tarjeta", Hik_SDK.NET_DVR_GetLastError().ToString());
+
             }
 
             return resultado;
@@ -252,9 +249,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                 case (int)Hik_SDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_FAILED:
                     //fallo
                     flag = false;
-                    resultado.Exito = false;
-                    resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
-                    resultado.Mensaje = "Error al enviar la informacion de la tarjeta";
+                    resultado.ActualizarResultado(false, "Error al enviar la informacion de la tarjeta", Hik_SDK.NET_DVR_GetLastError().ToString());
 
                     break;
                 case (int)Hik_SDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_SUCCESS:
@@ -267,18 +262,12 @@ namespace DeportNetReconocimiento.SDKHikvision
                          * 1908-no more card can be applied, 
                          * 1917-no more access point can be linked to access controller, 
                          * 1920-one employee ID cannot be applied to multiple cards. This member is valid when the value of byStatus is "0".*/
-                        resultado.Exito = false;
-                        resultado.Codigo = tarjetaStatus.dwErrorCode.ToString();
-                        resultado.Mensaje = "Llega a Succes pero no se pudo establecer la tarjeta, revisar el codigo dwErrorCode de tarjetaStatus";
 
-
+                        resultado.ActualizarResultado(false, "Hubo un error al verificar el estado de la tarjeta", tarjetaStatus.dwErrorCode.ToString());
                     }
                     else
                     {
-                        resultado.Exito = true;
-                        resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
-                        resultado.Mensaje = "Se pudo establecer una tarjeta de forma exitosa!";
-
+                        resultado.ActualizarResultado(true, "Se pudo establecer una tarjeta de forma exitosa!", Hik_SDK.NET_DVR_GetLastError().ToString());
                     }
 
                     break;
@@ -287,16 +276,13 @@ namespace DeportNetReconocimiento.SDKHikvision
                     break;
                 case (int)Hik_SDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_EXCEPTION:
                     //exception
-                    resultado.Exito = false;
-                    resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
-                    resultado.Mensaje = "Se arrojo una excepcion, no se pudo settear tarjeta";
+
+                    resultado.ActualizarResultado(false, "Se arrojo una excepcion, no se pudo settear tarjeta", Hik_SDK.NET_DVR_GetLastError().ToString());
 
                     break;
                 default:
                     //error desconocido, no se pudo settear tarjeta
-                    resultado.Exito = false;
-                    resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
-                    resultado.Mensaje = "error desconocido, no se pudo settear tarjeta";
+                    resultado.ActualizarResultado(false, "error desconocido, no se pudo settear tarjeta", Hik_SDK.NET_DVR_GetLastError().ToString());
                     break;
             }
 
@@ -323,7 +309,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         //get tarjeta 
         public Hik_Resultado ObtenerUnaTarjeta(int nroTarjetaABuscar)
         {
-            Hik_Resultado hik_Resultado = new Hik_Resultado();
+            Hik_Resultado resultado = new Hik_Resultado();
 
             //si hay una operacion de obtener tarjeta en curso, se cancela
             if (GetCardCfgHandle != -1)
@@ -359,10 +345,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             if (getCardCfgHandle < 0)
             {
-                hik_Resultado.Exito = false;
-                hik_Resultado.Mensaje = "Error al obtener la tarjeta: ";
-                hik_Resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
-
+                resultado.ActualizarResultado(false, "Error al obtener la tarjeta", Hik_SDK.NET_DVR_GetLastError().ToString());
 
             }
             else
@@ -377,14 +360,14 @@ namespace DeportNetReconocimiento.SDKHikvision
                 {
                     dwState = Hik_SDK.NET_DVR_SendWithRecvRemoteConfigTarjeta(GetCardCfgHandle, ptrTarjetaSendData, tarjetaSendData.dwSize, ptrTarjetaRecord, tarjetaRecord.dwSize, ref dwReturned);
 
-                    //!!!!!! este metodo convierte el ptrTarjetaRecord a un objeto tarjetaRecord y despues lo castea, meterlo en un try catch si se rompe o directamente sacarlo
+                    //!!!!!! este metodo convierte el ptrTarjetaRecord a un objeto tarjetaRecord y despues lo castea
                     tarjetaRecord = (Hik_SDK.NET_DVR_CARD_RECORD)Marshal.PtrToStructure(ptrTarjetaRecord, typeof(Hik_SDK.NET_DVR_CARD_RECORD));
 
                     resultadosBucle = VerificarEstadoTarjeta(ref flag, ref dwState);
 
                 }
                 //asigno el resultado final al resultado que retorno de la funcion mayor
-                hik_Resultado = resultadosBucle;
+                resultado = resultadosBucle;
 
                 //si todo salio bien liberamos memoria
                 Hik_SDK.NET_DVR_StopRemoteConfig(GetCardCfgHandle);
@@ -392,12 +375,12 @@ namespace DeportNetReconocimiento.SDKHikvision
                 Marshal.FreeHGlobal(ptrTarjetaSendData);
                 Marshal.FreeHGlobal(ptrTarjetaRecord);
             }
-            return hik_Resultado;
+            return resultado;
         }
         public Hik_Resultado VerificarEstadoTarjeta(ref bool flag, ref int dwState)
 
         {
-            Hik_Resultado hik_Resultado = new Hik_Resultado();
+            Hik_Resultado resultado = new Hik_Resultado();
 
 
 
@@ -410,49 +393,43 @@ namespace DeportNetReconocimiento.SDKHikvision
                 case (int)Hik_SDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_FAILED:
                     //fallo
                     flag = false;
-                    hik_Resultado.Exito = false;
-                    hik_Resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
-                    hik_Resultado.Mensaje = "Error al obtener la informacion de la tarjeta";
+                    resultado.ActualizarResultado(false, "Error al obtener la informacion de la tarjeta", Hik_SDK.NET_DVR_GetLastError().ToString());
 
                     break;
                 case (int)Hik_SDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_SUCCESS:
                     //exito
+                    resultado.ActualizarResultado(true, "Se pudo obtener la informacion de la tarjeta de forma exitosa!", Hik_SDK.NET_DVR_GetLastError().ToString());
                     flag = false;
-                    hik_Resultado.Exito = true;
-                    hik_Resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
-                    hik_Resultado.Mensaje = "Se pudo obtener la informacion de la tarjeta de forma exitosa!";
+
                     break;
                 case (int)Hik_SDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_FINISH:
                     //finalizo
                     flag = false;
-                    hik_Resultado.Exito = true;
-                    hik_Resultado.Mensaje = "Obtener informacion de la tarjeta finalizo";
+                    resultado.ActualizarResultado(true, "Obtener informacion de la tarjeta finalizo", Hik_SDK.NET_DVR_GetLastError().ToString());
+
                     break;
                 case (int)Hik_SDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_EXCEPTION:
                     //exception
                     flag = false;
-                    hik_Resultado.Exito = false;
-                    hik_Resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
-                    hik_Resultado.Mensaje = "Se produjo una excepcion " + Hik_SDK.NET_DVR_GetLastError();
+                    resultado.ActualizarResultado(false, "Se produjo una excepcion ", Hik_SDK.NET_DVR_GetLastError().ToString());
+
                     break;
                 default:
                     flag = false;
                     //error desconocido, no se pudo obtener tarjeta
-                    hik_Resultado.Exito = false;
-                    hik_Resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
-                    hik_Resultado.Mensaje = "error desconocido, no se pudo obtener la tarjeta";
+                    resultado.ActualizarResultado(false, "error desconocido, no se pudo obtener la tarjeta", Hik_SDK.NET_DVR_GetLastError().ToString());
+
                     break;
             }
 
-            return hik_Resultado;
+            return resultado;
         }
 
 
         //del tarjeta
-        
         public Hik_Resultado EliminarTarjetaPorId(int idTarjeta)
         {
-            Hik_Resultado hik_Resultado = new Hik_Resultado();
+            Hik_Resultado resultado = new Hik_Resultado();
             
             if (DelCardCfgHandle != -1)
             {
@@ -490,9 +467,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             if (DelCardCfgHandle < 0)
             {
                 //ocurrio un error:
-                hik_Resultado.Exito = false;
-                hik_Resultado.Mensaje = "Error al eliminar la tarjeta: ";
-                hik_Resultado.Codigo = Hik_SDK.NET_DVR_GetLastError().ToString();
+                resultado.ActualizarResultado(false, "Error al eliminar la tarjeta: " , Hik_SDK.NET_DVR_GetLastError().ToString());
             }
             else
             {
@@ -508,7 +483,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                     hik_resultadoBucle = VerificarEstadoTarjeta(ref flag, ref dwState);
                 }
                 //asigno el resultado final al resultado que retorno de la funcion mayor
-                hik_Resultado = hik_resultadoBucle;
+                resultado = hik_resultadoBucle;
 
 
             }
@@ -521,7 +496,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             Marshal.FreeHGlobal(ptrTarjetaCond);
 
 
-            return hik_Resultado;
+            return resultado;
         }
 
     }
