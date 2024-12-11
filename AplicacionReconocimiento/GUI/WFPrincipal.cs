@@ -26,9 +26,9 @@ namespace DeportNetReconocimiento.GUI
 
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
-            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-            Escuchador_Directorio.InicializarEscuchadorEnHilo();
-            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
+            //InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            //Escuchador_Directorio.InicializarEscuchadorEnHilo();
+            //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
         }
 
         //propiedades
@@ -323,8 +323,7 @@ namespace DeportNetReconocimiento.GUI
             Image imagen = null;
             //Se obtiene la foto del cliente
             Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(nroLector, idCliente);
-
-
+            
             if (resultado.Exito)
               {
                 string  ruta = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
@@ -483,9 +482,9 @@ namespace DeportNetReconocimiento.GUI
             valorMensajeLabel.ForeColor = config.ColorMensaje;
             pictureBox1.BackColor = config.ColorFondoImagen;
 
-
-            //TODO: Falta el logo con drag and drop de la img
-
+            //Logo
+            imagenLogo.BackColor = config.ColorFondoLogo;
+            imagenLogo.Image = config.Logo;
 
         }
 

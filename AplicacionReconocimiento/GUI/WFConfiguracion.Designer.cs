@@ -57,10 +57,10 @@
             // sonidosTituloLabel
             // 
             sonidosTituloLabel.AutoSize = true;
-            sonidosTituloLabel.Font = new Font("Segoe UI", 12F, FontStyle.Underline);
-            sonidosTituloLabel.Location = new Point(609, 484);
+            sonidosTituloLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Underline);
+            sonidosTituloLabel.Location = new Point(744, 138);
             sonidosTituloLabel.Name = "sonidosTituloLabel";
-            sonidosTituloLabel.Size = new Size(66, 21);
+            sonidosTituloLabel.Size = new Size(71, 21);
             sonidosTituloLabel.TabIndex = 5;
             sonidosTituloLabel.Text = "Sonidos";
             // 
@@ -68,7 +68,7 @@
             // 
             accesoPermitidoLabel.AutoSize = true;
             accesoPermitidoLabel.Font = new Font("Segoe UI", 12F);
-            accesoPermitidoLabel.Location = new Point(607, 522);
+            accesoPermitidoLabel.Location = new Point(744, 176);
             accesoPermitidoLabel.Name = "accesoPermitidoLabel";
             accesoPermitidoLabel.Size = new Size(133, 21);
             accesoPermitidoLabel.TabIndex = 6;
@@ -78,7 +78,7 @@
             // 
             accesoDenegadoLabel.AutoSize = true;
             accesoDenegadoLabel.Font = new Font("Segoe UI", 12F);
-            accesoDenegadoLabel.Location = new Point(609, 570);
+            accesoDenegadoLabel.Location = new Point(746, 224);
             accesoDenegadoLabel.Name = "accesoDenegadoLabel";
             accesoDenegadoLabel.Size = new Size(134, 21);
             accesoDenegadoLabel.TabIndex = 7;
@@ -88,7 +88,7 @@
             // 
             preguntaLabel.AutoSize = true;
             preguntaLabel.Font = new Font("Segoe UI", 12F);
-            preguntaLabel.Location = new Point(609, 615);
+            preguntaLabel.Location = new Point(746, 269);
             preguntaLabel.Name = "preguntaLabel";
             preguntaLabel.Size = new Size(125, 21);
             preguntaLabel.TabIndex = 8;
@@ -98,7 +98,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F);
-            label6.Location = new Point(84, 534);
+            label6.Location = new Point(744, 378);
             label6.Name = "label6";
             label6.Size = new Size(139, 21);
             label6.TabIndex = 9;
@@ -108,7 +108,7 @@
             // 
             tokenIdentificadorLabel.AutoSize = true;
             tokenIdentificadorLabel.Font = new Font("Segoe UI", 12F);
-            tokenIdentificadorLabel.Location = new Point(84, 580);
+            tokenIdentificadorLabel.Location = new Point(744, 424);
             tokenIdentificadorLabel.Name = "tokenIdentificadorLabel";
             tokenIdentificadorLabel.Size = new Size(144, 21);
             tokenIdentificadorLabel.TabIndex = 10;
@@ -118,7 +118,7 @@
             // 
             alertaPorcentajeLabel.AutoSize = true;
             alertaPorcentajeLabel.Font = new Font("Segoe UI", 12F);
-            alertaPorcentajeLabel.Location = new Point(84, 625);
+            alertaPorcentajeLabel.Location = new Point(744, 469);
             alertaPorcentajeLabel.Name = "alertaPorcentajeLabel";
             alertaPorcentajeLabel.Size = new Size(271, 21);
             alertaPorcentajeLabel.TabIndex = 11;
@@ -127,47 +127,56 @@
             // personalizacionTituloLabel
             // 
             personalizacionTituloLabel.AutoSize = true;
-            personalizacionTituloLabel.Font = new Font("Segoe UI", 12F, FontStyle.Underline);
+            personalizacionTituloLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Underline);
             personalizacionTituloLabel.Location = new Point(22, 90);
             personalizacionTituloLabel.Name = "personalizacionTituloLabel";
-            personalizacionTituloLabel.Size = new Size(117, 21);
+            personalizacionTituloLabel.Size = new Size(131, 21);
             personalizacionTituloLabel.TabIndex = 12;
             personalizacionTituloLabel.Text = "Personalizacion";
             // 
             // opcionesTituloLabel
             // 
             opcionesTituloLabel.AutoSize = true;
-            opcionesTituloLabel.Font = new Font("Segoe UI", 12F, FontStyle.Underline);
-            opcionesTituloLabel.Location = new Point(84, 493);
+            opcionesTituloLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Underline);
+            opcionesTituloLabel.Location = new Point(744, 337);
             opcionesTituloLabel.Name = "opcionesTituloLabel";
-            opcionesTituloLabel.Size = new Size(75, 21);
+            opcionesTituloLabel.Size = new Size(81, 21);
             opcionesTituloLabel.TabIndex = 13;
             opcionesTituloLabel.Text = "Opciones";
             // 
             // propertyGrid1
             // 
+            propertyGrid1.AllowDrop = true;
             propertyGrid1.Location = new Point(22, 124);
             propertyGrid1.Name = "propertyGrid1";
-            propertyGrid1.Size = new Size(567, 252);
+            propertyGrid1.Size = new Size(567, 490);
             propertyGrid1.TabIndex = 15;
             propertyGrid1.PropertyValueChanged += PropertyGrid1_PropertyValueChanged;
             propertyGrid1.Click += PropertyGrid1_Click;
+            propertyGrid1.DragDrop += PropertyGrid1_DragDrop;
+            propertyGrid1.DragEnter += PropertyGrid1_DragEnter;
+            propertyGrid1.DragLeave += PropertyGrid1_DragLeave;
             // 
             // guardarCambiosButton
             // 
-            guardarCambiosButton.Location = new Point(418, 402);
+            guardarCambiosButton.BackColor = Color.OliveDrab;
+            guardarCambiosButton.Cursor = Cursors.Hand;
+            guardarCambiosButton.FlatAppearance.BorderSize = 0;
+            guardarCambiosButton.FlatStyle = FlatStyle.Flat;
+            guardarCambiosButton.ForeColor = Color.White;
+            guardarCambiosButton.Location = new Point(22, 643);
             guardarCambiosButton.Name = "guardarCambiosButton";
-            guardarCambiosButton.Size = new Size(171, 23);
+            guardarCambiosButton.Size = new Size(171, 36);
             guardarCambiosButton.TabIndex = 16;
             guardarCambiosButton.Text = "Guardar Cambios";
-            guardarCambiosButton.UseVisualStyleBackColor = true;
+            guardarCambiosButton.UseVisualStyleBackColor = false;
             guardarCambiosButton.Click += GuardarCambiosButton_Click;
             // 
             // WFConfiguracion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Gray;
+            BackColor = Color.Silver;
             ClientSize = new Size(1177, 691);
             Controls.Add(guardarCambiosButton);
             Controls.Add(propertyGrid1);
@@ -186,6 +195,8 @@
             Text = "Configuracion Dispositivo";
             FormClosing += WFConfiguracion_FormClosing;
             Load += WFConfiguracion_Load;
+            DragEnter += PropertyGrid1_DragEnter;
+            DragLeave += PropertyGrid1_DragLeave;
             ResumeLayout(false);
             PerformLayout();
         }
