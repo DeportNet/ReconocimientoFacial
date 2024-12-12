@@ -308,8 +308,8 @@ namespace DeportNetReconocimiento.SDK
 
             Hik_Resultado resultado = new Hik_Resultado();
             //leer el xml pasado por resultado
-            XmlDocument? resultadoXML = RetornarXmlConLasCapacidadesDelDispositivo();
 
+            XmlDocument? resultadoXML = RetornarXmlConLasCapacidadesDelDispositivo();
 
             if (resultadoXML == null)
             {
@@ -326,20 +326,38 @@ namespace DeportNetReconocimiento.SDK
                 // Dar valor a resultado
                 resultado.ActualizarResultado(true, $"Soporta reconocimiento facial: {SoportaFacial} \nSoporta huella digital: {SoportaHuella} \nSoporta tarjeta: {SoportaTarjeta}", Hik_SDK.NET_DVR_GetLastError().ToString());
 
-
-                //Obtener Capacidad del dispositivo
-               // XmlNode valor = resultadoXML.SelectSingleNode("//maxWhiteFaceNum");
-               // Console.WriteLine("La cantidad de caras que permite es: " + valor.InnerText);
-
-
-
-
             }
 
             Hik_Resultado.EscribirLog();
 
             return resultado;
         }
+
+        
+        public int ObtenerCapcidadCarasDispostivo()
+        {
+
+            int capacidad = -1;
+            XmlDocument? resultadoXML = RetornarXmlConLasCapacidadesDelDispositivo();
+
+            if (resultadoXML != null)
+            {
+                XmlNode valor = resultadoXML.SelectSingleNode("//maxWhiteFaceNum");
+
+                if (valor != null)
+                {
+                    capacidad = int.Parse(valor.InnerText.Trim());
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("El xml es null");
+            }
+
+            return capacidad;
+        }
+        
 
         private bool VerificarCapacidad(XmlDocument resultadoXML, string capacidad)
         {
@@ -388,7 +406,7 @@ namespace DeportNetReconocimiento.SDK
                 return resultado;
             }
 
-
+            ConfiguracionEstilos.ActualizarCapacidadMaxima();
 
             //setteamos el callback para obtener los ids de los usuarios
             this.hik_Controladora_Eventos = new Hik_Controladora_Eventos();
@@ -441,34 +459,45 @@ namespace DeportNetReconocimiento.SDK
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
-            if (!Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(id)).Exito)
+            //Busco si la tarjeta existe
+            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(id));
+            if (resultado.Exito)
             {
-                Thread.Sleep(1000);
-                resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
-                if (resultado.Exito)
-                {
-                    resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(int.Parse(id), nombre);
-                    if (resultado.Exito)
-                    {
-                        resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, id);
-                        if (resultado.Exito)
-                        {
-                            MessageBox.Show("Se agrego el usuario con exito");
-                            
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Error al capturar la cara");
-                }
-            }
-            else
-            {
+                resultado.EscribirResultado("Buscar Tarjeta");
                 MessageBox.Show("El ID ya existe");
+                return resultado;
+            }
+            
+            //Pauso el hilo para que no se cargue el dispositivo
+            Thread.Sleep(1000);
+
+
+            //Capturo la foto
+            resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
+            if (!resultado.Exito)
+            {
+                resultado.EscribirResultado("Capturar cara");
+                return resultado;
+            }
+
+            //Creo la tarjeta
+            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(int.Parse(id), nombre);
+            if (!resultado.Exito)
+            {
+                resultado.EscribirResultado("Establecer Tarjeta");
+                return resultado;
             }
 
 
+            //Asigno la cara a la tarjeta
+            resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, id);
+            if (!resultado.Exito)
+            {
+                resultado.EscribirResultado("Establecer una cara");
+                return resultado;
+            }
+
+            ConfiguracionEstilos.sumarRegistroCara();
             resultado.EscribirResultado("Resultado de dar de alta un cliente");
             return resultado;
         }
@@ -477,19 +506,36 @@ namespace DeportNetReconocimiento.SDK
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
-            if (Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(id)).Exito)
+            //Buscar tarjeta
+            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(id));
+            if (!resultado.Exito)
             {
-                Thread.Sleep(1000);
-                resultado = Hik_Controladora_Facial.ObtenerInstancia.EliminarCara(1, id);
-                if (resultado.Exito)
-                {
-                    resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EliminarTarjetaPorId(int.Parse(id));
-                }
-            }
-            else
-            {
+                resultado.EscribirResultado("Obtener Tarjeta");
                 MessageBox.Show("El ID " + id + " no existe");
+                return resultado;
             }
+
+            //Pausa el  hilo para no sobrecargar el dispositivo
+            Thread.Sleep(1000);
+
+            //Eliminar cara de la tarjeta
+            resultado = Hik_Controladora_Facial.ObtenerInstancia.EliminarCara(1, id);
+            if (!resultado.Exito)
+            {
+                resultado.EscribirResultado("Eliminar cara");
+                return resultado;
+            }
+
+            //Eliminar tarjeta
+            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EliminarTarjetaPorId(int.Parse(id));
+            if (!resultado.Exito)
+            {
+                resultado.EscribirResultado("Eliminar tarjeta");
+                return resultado;
+            }
+
+
+            ConfiguracionEstilos.restarRegistroCara();
             resultado.EscribirResultado("Resultado de dar de baja un cliente");
             return resultado;
 
