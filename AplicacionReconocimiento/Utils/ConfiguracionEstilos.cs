@@ -1,7 +1,10 @@
 ﻿using DeportNetReconocimiento.Properties;
+using DeportNetReconocimiento.SDK;
 using Microsoft.VisualBasic.Logging;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing.Design;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows.Forms.Design;
@@ -136,6 +139,51 @@ namespace DeportNetReconocimiento.Utils
         public Color ColorFondoImagen { get; set; }
 
 
+        /* - - - - - - Campos de estadísticas - - - - - - */
+
+        [Category("Estadísticas")]
+        [DisplayName("Socios registrados")]
+        [Description("Cantidad de socios que se encuentran registrados en el dispositivo")]
+        [ReadOnly(true)]
+        public int CarasRegistradas { get; set; }
+
+
+        [Category("Estadísticas")]
+        [DisplayName("Capacidad del dispositivo")]
+        [Description("Cantidad maxima de socios que pueden estar registrados en el dispositivo")]
+        [ReadOnly(true)]
+        public int CapacidadMaximaDisposotivo { get; set; }
+
+
+        [Category("Estadísticas")]
+        [DisplayName("Alerta de capacidad")]
+        [Description("Indica en que porcentaje (1 a 100) de capacidad de almacenamiento ocupada, muestra un mensaje de aviso")]
+        public int PorcentajeAlertaCapacidad
+        {
+            get => porcentajeAlertaCapacidad;
+            set
+            {
+                if (value < 0 || value > 100)
+                {
+                    MessageBox.Show(
+                        "El porcentaje debe estar entre el rango de 1 y 100",
+                        "Error de validación",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                        );
+                }
+                else
+                { 
+                porcentajeAlertaCapacidad = value;
+                }
+            }
+
+        }
+
+        private int porcentajeAlertaCapacidad;
+
+
+
         // Constructor predeterminado
         public ConfiguracionEstilos()
         {
@@ -164,6 +212,11 @@ namespace DeportNetReconocimiento.Utils
             ColorFondoImagen = Color.DarkGray;
 
             FuenteTextoCamposInformacion = new Font("Arial Rounded MT Bold", 20, FontStyle.Regular);
+
+            //Campois de estadísticas
+            CarasRegistradas = 0;
+            CapacidadMaximaDisposotivo = 0;
+            PorcentajeAlertaCapacidad = 70;
         }
 
 
@@ -223,8 +276,35 @@ namespace DeportNetReconocimiento.Utils
             return configuracionEstilos;
         }
 
+        public static void sumarRegistroCara()
+        {
+            Console.WriteLine("Entro a sumar registros");
+            string rutaJson = "configuracionEstilos";
 
+            ConfiguracionEstilos configuracion = LeerJsonConfiguracion(rutaJson);
+            configuracion.CarasRegistradas += 1;
+            Console.WriteLine(configuracion.CarasRegistradas);
+            
+            GuardarJsonConfiguracion(configuracion);
+        }
        
+        public static void restarRegistroCara()
+        {
+            string rutaJson = "configuracionEstilos";
+
+            ConfiguracionEstilos configuracion = LeerJsonConfiguracion(rutaJson);
+            configuracion.CarasRegistradas -= 1;
+            GuardarJsonConfiguracion(configuracion);
+        }
+
+        public static void ActualizarCapacidadMaxima()
+        {
+            string rutaJson = "configuracionEstilos";
+            ConfiguracionEstilos configuracion = LeerJsonConfiguracion(rutaJson);
+            int capacidad = Hik_Controladora_General.InstanciaControladoraGeneral.ObtenerCapcidadCarasDispostivo();
+            configuracion.CapacidadMaximaDisposotivo = capacidad;
+            GuardarJsonConfiguracion(configuracion);
+        }
 
 
     }
@@ -328,8 +408,6 @@ namespace DeportNetReconocimiento.Utils
             }
         }
     }
-
-    
 
 
     // Convertidor personalizado para la clase Color

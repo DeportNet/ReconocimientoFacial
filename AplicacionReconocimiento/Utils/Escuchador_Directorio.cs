@@ -63,6 +63,7 @@ namespace DeportNetReconocimiento.Utils
 
         private static void AltaCliente(string rutaCompelta)
         {
+            Hik_Resultado resultado = new Hik_Resultado();
 
             try
             {
@@ -73,19 +74,24 @@ namespace DeportNetReconocimiento.Utils
 
                 if(nombre.Length > 0 && id.Length > 0)
                 {
-                        Hik_Controladora_General.InstanciaControladoraGeneral.AltaCliente(id, nombre);
+                     resultado = Hik_Controladora_General.InstanciaControladoraGeneral.AltaCliente(id, nombre);
                 }
 
-
-                if (File.Exists(rutaCompelta))
-                { 
-                    File.Delete(rutaCompelta);
+                if (resultado.Exito)
+                {
+                    MessageBox.Show("Se agrego el usuario con exito");
                 }
 
             }
             catch
             {
                 Console.WriteLine("Error al procesar el alta del cliente");
+            }
+
+
+            if (File.Exists(rutaCompelta))
+            {
+                File.Delete(rutaCompelta);
             }
         }
 
