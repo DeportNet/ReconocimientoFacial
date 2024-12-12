@@ -1,4 +1,5 @@
-﻿using DeportNetReconocimiento.Modelo;
+﻿using DeportNetReconocimiento.GUI;
+using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
 using System;
@@ -319,9 +320,9 @@ namespace DeportNetReconocimiento.SDK
             else
             {
                 //leer nodos <FaceParam> <Card> <FingerPrint> del resultadoXML
-                SoportaFacial = VerificarCapacidad(resultadoXML, "//FaceParam");
-                SoportaHuella = VerificarCapacidad(resultadoXML, "//FingerPrint");
-                SoportaTarjeta = VerificarCapacidad(resultadoXML, "//Card");
+                SoportaFacial = VarificarCapacidad(resultadoXML, "//FaceParam");
+                SoportaHuella = VarificarCapacidad(resultadoXML, "//FingerPrint");
+                SoportaTarjeta = VarificarCapacidad(resultadoXML, "//Card");
 
                 // Dar valor a resultado
                 resultado.ActualizarResultado(true, $"Soporta reconocimiento facial: {SoportaFacial} \nSoporta huella digital: {SoportaHuella} \nSoporta tarjeta: {SoportaTarjeta}", Hik_SDK.NET_DVR_GetLastError().ToString());
@@ -359,7 +360,7 @@ namespace DeportNetReconocimiento.SDK
         }
         
 
-        private bool VerificarCapacidad(XmlDocument resultadoXML, string capacidad)
+        private bool VarificarCapacidad(XmlDocument resultadoXML, string capacidad)
         {
             bool soporta = false;
             XmlNode? nodoBuscado = resultadoXML.SelectSingleNode(capacidad);
@@ -372,6 +373,7 @@ namespace DeportNetReconocimiento.SDK
             return soporta;
 
         }
+
 
         //INICIALIZAMOS TODO
         public Hik_Resultado InicializarPrograma(string user, string password, string port, string ip)

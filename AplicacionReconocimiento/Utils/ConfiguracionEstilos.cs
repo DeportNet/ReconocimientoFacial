@@ -158,7 +158,7 @@ namespace DeportNetReconocimiento.Utils
         [Category("Estadísticas")]
         [DisplayName("Alerta de capacidad")]
         [Description("Indica en que porcentaje (1 a 100) de capacidad de almacenamiento ocupada, muestra un mensaje de aviso")]
-        public int PorcentajeAlertaCapacidad
+        public float PorcentajeAlertaCapacidad
         {
             get => porcentajeAlertaCapacidad;
             set
@@ -180,7 +180,7 @@ namespace DeportNetReconocimiento.Utils
 
         }
 
-        private int porcentajeAlertaCapacidad;
+        private float porcentajeAlertaCapacidad;
 
 
 
@@ -216,7 +216,7 @@ namespace DeportNetReconocimiento.Utils
             //Campois de estadísticas
             CarasRegistradas = 0;
             CapacidadMaximaDisposotivo = 0;
-            PorcentajeAlertaCapacidad = 70;
+            PorcentajeAlertaCapacidad = 70.0f;
         }
 
 

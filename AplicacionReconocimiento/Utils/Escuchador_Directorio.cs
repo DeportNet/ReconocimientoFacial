@@ -1,4 +1,5 @@
-﻿using DeportNetReconocimiento.SDK;
+﻿using DeportNetReconocimiento.GUI;
+using DeportNetReconocimiento.SDK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,8 @@ namespace DeportNetReconocimiento.Utils
                    BajaMasivaCliente(e.FullPath);
                     break;
             }
+
+            WFPrincipal.ObtenerInstancia.VerificarAlmacenamiento();
 
         }
 
