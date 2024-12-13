@@ -126,10 +126,10 @@ namespace DeportNetReconocimiento.GUI
             // Intenta cargarlo como imagen
             try
             {
-                Console.WriteLine("Cargando imagen");
+                
                 configuracion.Logo = Image.FromFile(filePath); // Carga la imagen en memoria 
                 
-                Console.WriteLine(filePath);
+                
                 // Notificar a la ventana principal que debe actualizarse
                 principal.AplicarConfiguracion(configuracion);
                 
@@ -204,5 +204,5 @@ namespace DeportNetReconocimiento.GUI
 
 
 
-        }
+    }
 }
