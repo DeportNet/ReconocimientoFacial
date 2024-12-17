@@ -26,7 +26,7 @@ namespace DeportNetReconocimiento.GUI
             //estilos se leen de un archivo
             InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
 
-            AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
+            //AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
             Escuchador_Directorio.InicializarEscuchadorEnHilo();
             ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
         }
@@ -135,6 +135,7 @@ namespace DeportNetReconocimiento.GUI
                 // Leer desde un archivo binario
                 using (BinaryReader reader = new BinaryReader(File.Open(rutaArchivo, FileMode.Open)))
                 {
+                    
                     while (reader.BaseStream.Position != reader.BaseStream.Length) // Lee hasta el final del archivo
                     {
                         string unDato = reader.ReadString(); // Lee cada string
@@ -184,6 +185,7 @@ namespace DeportNetReconocimiento.GUI
                 return true;
             }
             else
+                Console.WriteLine("Desconectado");
                 return false;
         }
 
@@ -208,23 +210,8 @@ namespace DeportNetReconocimiento.GUI
 
                 //Verificar estado de internet
                 //El objetivo es saber si los datos reconocidos se almacenan o no en la base de datos local
-                if (!Hik_Controladora_General.VerificarConexionInternet())
-                {
 
-                    if (PanelSinConexion.Visible == false && WFPanelOffline.ObtenerInstancia.Visible == false)
-                    {
-                        PanelSinConexion.Visible = true;
-                        WFPanelOffline.ObtenerInstancia.Show();
-                    }
-
-                }
-                else if (PanelSinConexion.Visible == true)
-                {
-                    PanelSinConexion.Visible = false;
-                    WFPanelOffline.ObtenerInstancia.Dispose();
-                }
-
-
+                VerificarConexionInternet();
 
                 if (!resultado.Exito)
                 {
@@ -234,6 +221,28 @@ namespace DeportNetReconocimiento.GUI
             };
             timer.Start();
         }
+
+
+        public void VerificarConexionInternet()
+        {
+            if (!Hik_Controladora_General.comprobarConexionInternet())
+            {
+
+                if (PanelSinConexion.Visible == false && WFPanelOffline.ObtenerInstancia.Visible == false)
+                {
+                    PanelSinConexion.Visible = true;
+                    WFPanelOffline.ObtenerInstancia.Show();
+                }
+
+            }
+            else if (PanelSinConexion.Visible == true)
+            {
+                PanelSinConexion.Visible = false;
+                WFPanelOffline.ObtenerInstancia.Dispose();
+            }
+
+        }
+
 
         public void VerificarAlmacenamiento()
         {
@@ -250,7 +259,7 @@ namespace DeportNetReconocimiento.GUI
             if (porcentajeActual > porcentaje && PanelAlmacenamiento.Visible == false)
             {
 
-                TextoAlmacenamiento.Text = $"Capacidad al: %{porcentajeActual} \nSocios: {carasActuales}/{capacidadMaxima}";
+                TextoAlmacenamiento.Text = $"Capacidad al: {porcentajeActual}% \nSocios: {carasActuales}/{capacidadMaxima}";
                 PanelAlmacenamiento.Visible= true;
             }
             else if(porcentajeActual < porcentaje && PanelAlmacenamiento.Visible == true){
@@ -262,6 +271,8 @@ namespace DeportNetReconocimiento.GUI
         //función para actualizar los datos en el hilo principal
         public async void ActualizarDatos(int nroLector, string json)
         {
+
+            Console.WriteLine("Entro aca");
             string respuesta;
 
             //Si el hilo que llama a la función no es el principal, se llama a la función de nuevo en el hilo principal

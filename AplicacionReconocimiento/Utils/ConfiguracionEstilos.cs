@@ -4,6 +4,7 @@ using Microsoft.VisualBasic.Logging;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing.Design;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -156,7 +157,7 @@ namespace DeportNetReconocimiento.Utils
 
 
         [Category("Estadísticas")]
-        [DisplayName("Alerta de capacidad")]
+        [DisplayName("Alerta de capacidad (%)")]
         [Description("Indica en que porcentaje (1 a 100) de capacidad de almacenamiento ocupada, muestra un mensaje de aviso")]
         public float PorcentajeAlertaCapacidad
         {
@@ -182,7 +183,11 @@ namespace DeportNetReconocimiento.Utils
 
         private float porcentajeAlertaCapacidad;
 
-
+        [Category("Configuración")]
+        [DisplayName("Forma de apertura")]
+        [Description("Metodo con el cual se abre el molinete (Solo lo puede modificar el administrador")]
+        [ReadOnly(true)]
+        public string MetodoApertura { get; set; }
 
         // Constructor predeterminado
         public ConfiguracionEstilos()
@@ -217,6 +222,9 @@ namespace DeportNetReconocimiento.Utils
             CarasRegistradas = 0;
             CapacidadMaximaDisposotivo = 0;
             PorcentajeAlertaCapacidad = 70.0f;
+
+            //Configuraciónes
+            MetodoApertura = ".exe";
         }
 
 
@@ -306,6 +314,27 @@ namespace DeportNetReconocimiento.Utils
             GuardarJsonConfiguracion(configuracion);
         }
 
+        public static BigInteger EncriptadorToken(BigInteger token)
+        {
+
+             token = token * 162 + 12 * 60 * 13 - 100;
+            return token;
+        }
+
+        public static string DesencriptadorToken(string token)
+        {
+
+            string tokenLimpio = token.Replace("@", "");
+
+            BigInteger tokn = BigInteger.Parse(tokenLimpio);   
+
+            tokn = tokn + 100;
+            tokn = tokn - (13 * 12 * 60);
+            tokn = tokn / 162;
+
+            Console.WriteLine(tokn);
+            return tokn.ToString();
+        }
 
     }
 

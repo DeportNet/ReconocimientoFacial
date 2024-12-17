@@ -192,8 +192,6 @@ namespace DeportNetReconocimiento.SDK
 
             }
 
-
-            MessageBox.Show("Mensaje del SDK " + mensajeDeSdk);
             return resultado;
         }
 
@@ -411,7 +409,7 @@ namespace DeportNetReconocimiento.SDK
             ConfiguracionEstilos.ActualizarCapacidadMaxima();
 
             //setteamos el callback para obtener los ids de los usuarios
-            this.hik_Controladora_Eventos = new Hik_Controladora_Eventos();
+            hik_Controladora_Eventos = new Hik_Controladora_Eventos();
 
             resultado.EscribirResultado("Resultado general de Inicializar el Programa");
             return resultado;
@@ -419,7 +417,7 @@ namespace DeportNetReconocimiento.SDK
 
 
         //Verificar conexión a internet o en general
-        public static bool VerificarConexionInternet()
+        public static bool comprobarConexionInternet()
         {
             //ponemos flag en false como predeterminado
             bool flag = false;

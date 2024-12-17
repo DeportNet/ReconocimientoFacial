@@ -43,7 +43,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             //si esta clase esta instanciada
             if (this != null)
             {
-
+                MessageBox.Show("Entro si la clase está instnaicada");
                 switch (lCommand)
                 {
                     case Hik_SDK.COMM_ALARM_ACS:
@@ -59,6 +59,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             if (infoEvento.Success)
             {
+                MessageBox.Show("Entro a esta parte de escribir el evento");
                 System.Console.WriteLine(infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description + " Tarjeta: " + infoEvento.Card_Number + " Puerta: " + infoEvento.Door_Number);
                 if(infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS)
                 {
@@ -69,6 +70,9 @@ namespace DeportNetReconocimiento.SDKHikvision
             {
                 System.Console.WriteLine(infoEvento.Exception);
             }
+
+            MessageBox.Show("Esto se muiestra al final de todo, si no hubo nada antes, hay errores");
+
         }
 
         public static void obtenerDatosClienteDeportNet(int nroReader, string numeroTarjeta)
