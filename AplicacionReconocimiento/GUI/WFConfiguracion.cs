@@ -23,6 +23,22 @@ namespace DeportNetReconocimiento.GUI
 
             // Asignar el objeto de configuración al PropertyGrid (para que se vea lo que se puede configurar)
             propertyGrid1.SelectedObject = configuracion;
+            ComboBoxAperturaMolinete.SelectedIndexChanged += ComboBoxAperturaMolinete_SelectedIndexChanged;
+        }
+
+        private void ComboBoxAperturaMolinete_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if(ComboBoxAperturaMolinete.SelectedItem.ToString() == ".exe")
+            {
+                TextBoxRutaExe.Enabled = true;
+                BotonAbrirFileDialog.Enabled = true;
+            }
+            else
+            {
+                TextBoxRutaExe.Enabled = false;
+                BotonAbrirFileDialog.Enabled = false;
+                TextBoxRutaExe.Clear();
+            }
         }
 
         //propiedades
@@ -46,20 +62,9 @@ namespace DeportNetReconocimiento.GUI
             this.Close();
             principal.AplicarConfiguracion(configuracion);
 
-        private void PropertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-
-            //se pueden cambiar los estilos de forma dinamica
-            principal.AplicarConfiguracion(configuracion);
-
-            ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
         }
-
         private void WFConfiguracion_FormClosing(object sender, FormClosingEventArgs e)
         {
-
-
-
             //TODO: modal con preguntar si desear salir sin guardar cambios
             ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
         }
@@ -67,13 +72,14 @@ namespace DeportNetReconocimiento.GUI
 
         private void PropertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            
-           
-                principal.AplicarConfiguracion(configuracion);
 
-                ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
 
-                propertyGrid1.Refresh();
+            principal.AplicarConfiguracion(configuracion);
+
+            ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
+
+            propertyGrid1.Refresh();
+
 
           
 
@@ -83,7 +89,7 @@ namespace DeportNetReconocimiento.GUI
         // - - - - -  Drag and Drop de Logo (imagen) - - - - - -//
 
 
-        
+
 
 
 
@@ -206,6 +212,9 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
+
+
+        // - - - - - Campo administrador - - - - - //
         private void label1_Click(object sender, EventArgs e)
         {
 
@@ -237,7 +246,11 @@ namespace DeportNetReconocimiento.GUI
                 string ruta = "configuracionEstilos";
                 ConfiguracionEstilos configuracion = new ConfiguracionEstilos();
                 configuracion = ConfiguracionEstilos.LeerJsonConfiguracion(ruta);
+               
+
+                TextBoxRutaExe.Text = configuracion.RutaMetodoApertura;
                 ComboBoxAperturaMolinete.SelectedItem = configuracion.MetodoApertura;
+
             }
             TextBoxAdmin.Text = "";
         }
@@ -246,13 +259,26 @@ namespace DeportNetReconocimiento.GUI
         {
             PanelConfigAdminsitrador.Visible = false;
             string apertura = ComboBoxAperturaMolinete.Text;
+            string rutaApertura = TextBoxRutaExe.Text;
+            configuracion.MetodoApertura = apertura;
+
+            if(ComboBoxAperturaMolinete.Text != ".exe")
+            {
+                configuracion.RutaMetodoApertura = "";
+            }
+            else
+            {
+                configuracion.RutaMetodoApertura = rutaApertura;
+            }
+
+
+
+            principal.AplicarConfiguracion(configuracion);
             BigInteger token = ConfiguracionEstilos.EncriptadorToken(BigInteger.Parse(TextBoxToken.Text));
             GuardarTokenCredenciales(token.ToString());
-            string contra = WFPrincipal.ObtenerInstancia.LeerCredenciales()[3];
-
         }
 
-        public void escribirArchivoCredenciales(string[] arregloDeDatos)
+        public void EscribirArchivoCredenciales(string[] arregloDeDatos)
         {
             //guardamos los datos en un archivo binario
             string rutaArchivo = "credenciales.bin";
@@ -266,16 +292,39 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
-
         public void GuardarTokenCredenciales(string token)
         {
 
             // Obtenemos las credenciales
             string[] credenciales = WFPrincipal.ObtenerInstancia.LeerCredenciales();
-            escribirArchivoCredenciales([credenciales[0], credenciales[1], credenciales[2], credenciales[3], token.ToString()]);
+            EscribirArchivoCredenciales([credenciales[0], credenciales[1], credenciales[2], credenciales[3], token.ToString()]);
 
         }
 
+        private void label1_Click_1(object sender, EventArgs e)
+        {
 
+        }
+
+        //Boton tres puntos
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Todos los archivos (*.*)|*.*"; // Filtro opcional
+                openFileDialog.Title = "Selecciona un archivo";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Muestra la ruta seleccionada en el TextBox
+                    TextBoxRutaExe.Text = openFileDialog.FileName;
+                }
+            }
+        }
+
+        private void PanelConfigAdminsitrador_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

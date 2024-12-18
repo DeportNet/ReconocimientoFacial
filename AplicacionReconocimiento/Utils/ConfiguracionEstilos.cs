@@ -184,11 +184,13 @@ namespace DeportNetReconocimiento.Utils
 
         private float porcentajeAlertaCapacidad;
 
-        [Category("Configuración")]
-        [DisplayName("Forma de apertura")]
-        [Description("Metodo con el cual se abre el molinete (Solo lo puede modificar el administrador")]
-        [ReadOnly(true)]
+
+        [Browsable(false)]
         public string MetodoApertura { get; set; }
+
+
+        [Browsable(false)]
+        public string RutaMetodoApertura { get; set; }
 
         // Constructor predeterminado
         public ConfiguracionEstilos()
@@ -226,6 +228,7 @@ namespace DeportNetReconocimiento.Utils
 
             //Configuraciónes
             MetodoApertura = ".exe";
+            RutaMetodoApertura = "";
         }
 
 
