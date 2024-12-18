@@ -45,24 +45,47 @@ namespace DeportNetReconocimiento.GUI
         {
             this.Close();
             principal.AplicarConfiguracion(configuracion);
-            ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
-        }
 
         private void PropertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
 
             //se pueden cambiar los estilos de forma dinamica
             principal.AplicarConfiguracion(configuracion);
+
             ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
         }
 
         private void WFConfiguracion_FormClosing(object sender, FormClosingEventArgs e)
         {
+
+
+
             //TODO: modal con preguntar si desear salir sin guardar cambios
             ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
         }
 
+
+        private void PropertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            
+           
+                principal.AplicarConfiguracion(configuracion);
+
+                ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
+
+                propertyGrid1.Refresh();
+
+          
+
+        }
+
+
         // - - - - -  Drag and Drop de Logo (imagen) - - - - - -//
+
+
+        
+
+
 
         private void PropertyGrid1_DragDrop(object sender, DragEventArgs e)
         {
@@ -110,32 +133,38 @@ namespace DeportNetReconocimiento.GUI
             // Intenta cargarlo como imagen
             try
             {
-
-                // Cargar la imagen en memoria
-                configuracion.Logo = Image.FromFile(filePath);
-
+                
+                configuracion.Logo = Image.FromFile(filePath); // Carga la imagen en memoria 
+                
+                
                 // Notificar a la ventana principal que debe actualizarse
                 principal.AplicarConfiguracion(configuracion);
-                ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
+                
 
                 // Refrescar el PropertyGrid
                 propertyGrid1.Refresh();
+                
 
+            }
+            catch (ArgumentException)
+            {
+                MessageBox.Show("El archivo no contiene una imagen válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
             }
             catch (OutOfMemoryException)
             {
                 MessageBox.Show("El archivo no es una imagen válida o está corrupto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al cargar la imagen //: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
 
 
 
         }
+
 
 
         private void PropertyGrid1_DragEnter(object sender, DragEventArgs e)
@@ -246,6 +275,7 @@ namespace DeportNetReconocimiento.GUI
             escribirArchivoCredenciales([credenciales[0], credenciales[1], credenciales[2], credenciales[3], token.ToString()]);
 
         }
+
 
     }
 }

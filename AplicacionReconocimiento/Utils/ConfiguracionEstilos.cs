@@ -30,6 +30,7 @@ namespace DeportNetReconocimiento.Utils
         [Description("Establece el logo que se mostrará en la pantalla de bienvenida. Debe ser una imagen en formato PNG, JPG, BMP, etc.")]
         [JsonConverter(typeof(ImageToPathJsonConverter))]
         public Image Logo { get; set; }
+        
 
         [Category("General")]
         [DisplayName("Color de Fondo del Logo")]
@@ -231,7 +232,9 @@ namespace DeportNetReconocimiento.Utils
 
         public static void GuardarJsonConfiguracion(ConfiguracionEstilos configuracion)
         {
-            string rutaJson = "configuracionEstilos";
+            string rutaJson = "configuracionEstilos.json";
+            string tempRutaJson = "configuracionEstilos_temp.json";
+
             try
             {
                 var options = new JsonSerializerOptions
@@ -241,9 +244,31 @@ namespace DeportNetReconocimiento.Utils
 
                 // Serializar la configuración
                 string json = JsonSerializer.Serialize(configuracion, options);
-                File.WriteAllText($"{rutaJson}.json", json);
+                File.WriteAllText(tempRutaJson, json);
 
-                Console.WriteLine("Configuración guardada correctamente.");
+                // Validar el archivo temporal
+                ConfiguracionEstilos configuracionValidada = LeerJsonConfiguracion(tempRutaJson);
+                if (configuracionValidada != null)
+                {
+                    // Reemplazar el archivo original con el temporal
+                    File.Replace(tempRutaJson, rutaJson, null);
+                    Console.WriteLine("Configuración guardada correctamente.");
+                }
+                else
+                {
+                    // Eliminar el archivo temporal si la validación falla
+                    File.Delete(tempRutaJson);
+                    Console.WriteLine("Error en la validación de la configuración.");
+                }
+
+
+
+
+
+
+
+
+                //Console.WriteLine("Configuración guardada correctamente.");
             }
             catch (Exception ex)
             {
@@ -344,34 +369,121 @@ namespace DeportNetReconocimiento.Utils
     {
         private readonly string directorioBase = AppDomain.CurrentDomain.BaseDirectory;
 
+       
         private string GuardarImagen(Image nuevaImagen, string nombreArchivo)
         {
             string directorioBase = AppDomain.CurrentDomain.BaseDirectory;
             
             string rutaGuardar = Path.Combine(directorioBase, nombreArchivo);
-            if (nuevaImagen == null)
+
+            if(!ValidarImagen(nuevaImagen))
             {
-                throw new ArgumentNullException(nameof(nuevaImagen), "La imagen proporcionada es nula.");
+                return null;
             }
+
+
 
             try
             {
-                nuevaImagen.Save(rutaGuardar, System.Drawing.Imaging.ImageFormat.Png);
+                
+
+                // Usar un Bitmap temporal para evitar problemas de bloqueo
+                using (var bitmap = new Bitmap(nuevaImagen))
+                {
+                    bitmap.Save(rutaGuardar, System.Drawing.Imaging.ImageFormat.Png);
+                }
+
+
                 return rutaGuardar;
             }
-            catch (IOException ex)
+            catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar la imagen: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Console.WriteLine($"Error al guardar la imagen: {ex.Message}");
             }
+            
 
-
-            //string rutaAbsoluta = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\Recursos\logo_deportnet_1.jpg";
-            //// Obtener la ruta relativa
-            //string rutaRelativa = Path.GetRelativePath(directorioBase, rutaAbsoluta);
 
             return null;
 
         }
+
+        private bool ValidarImagen(Image image)
+        {
+
+
+            // Verifica si la propiedad cambiada es "Logo" (u otra propiedad específica)
+            if (image == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                using (var tempStream = new MemoryStream())
+                {
+                    image.Save(tempStream, System.Drawing.Imaging.ImageFormat.Png); // Intenta guardar para validar
+                }
+                return true; // Si no lanza excepción, la imagen es válida
+            }
+            catch
+            {
+                return false;
+            }
+
+
+        }
+
+        public static void LiberarImagen(Image imagen)
+        {
+            try
+            {
+                imagen?.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al liberar la imagen: {ex.Message}");
+            }
+        }
+
+        public override void Write(Utf8JsonWriter writer, Image value, JsonSerializerOptions options)
+        {
+            if (value == null)
+            {
+                writer.WriteStringValue(string.Empty); // Guardar una cadena vacía si la imagen es null
+                return;
+            }
+
+            try
+            {
+                // Ruta donde se guardará el archivo
+                string nombreArchivo = "logoGimansio.png";
+
+                // Guardar la imagen (se valida internamente)
+                var rutaGuardada = GuardarImagen(value, nombreArchivo);
+
+                if(rutaGuardada != null)
+                {
+                    // Escribir la ruta relativa en el JSON
+                    writer.WriteStringValue(nombreArchivo);
+
+                }
+                else
+                {
+                    writer.WriteStringValue(string.Empty); // Guardar cadena vacía si ocurre un error
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //LiberarImagen(value);
+                //Console.WriteLine($"write Error al guardar la imagen: {ex.Message}");
+                writer.WriteStringValue(string.Empty); // Guardar cadena vacía si ocurre un error (string.Empty)
+            }
+            
+        }
+
+
+       
 
         public override Image Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -380,7 +492,7 @@ namespace DeportNetReconocimiento.Utils
 
             if (string.IsNullOrEmpty(rutaRelativa))
             {
-                return null;
+                return Resources.logo_deportnet_1; //retorno el logo deportnet si no se pudo leer nada
             }
 
             // Convertir la ruta relativa en absoluta, ya que se lee solo logoGimansio.png
@@ -402,40 +514,6 @@ namespace DeportNetReconocimiento.Utils
             return null;
         }
 
-        public override void Write(Utf8JsonWriter writer, Image value, JsonSerializerOptions options)
-        {
-            if (value == null)
-            {
-                writer.WriteStringValue(string.Empty); // Guardar una cadena vacía si la imagen es null
-                return;
-            }
-
-            try
-            {
-
-
-                // Ruta donde se guardará el archivo
-                string nombreArchivo = "logoGimansio.png";
-
-
-                // Guardar la imagen 
-                GuardarImagen(value, nombreArchivo);
-
-
-
-                //string rutaGuardar = Path.Combine(directorioBase, nombreArchivo);
-
-                //value.Save(rutaGuardar, System.Drawing.Imaging.ImageFormat.Png);
-
-                // Escribir la ruta relativa en el JSON
-                writer.WriteStringValue(nombreArchivo);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"write Error al guardar la imagen: {ex.Message}");
-                writer.WriteStringValue("logoGimansio.png"); // Guardar cadena vacía si ocurre un error (string.Empty)
-            }
-        }
     }
 
 
