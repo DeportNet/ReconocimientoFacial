@@ -43,7 +43,6 @@ namespace DeportNetReconocimiento.SDKHikvision
             //si esta clase esta instanciada
             if (this != null)
             {
-                MessageBox.Show("Entro si la clase está instnaicada");
                 switch (lCommand)
                 {
                     case Hik_SDK.COMM_ALARM_ACS:
@@ -59,7 +58,6 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             if (infoEvento.Success)
             {
-                MessageBox.Show("Entro a esta parte de escribir el evento");
                 System.Console.WriteLine(infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description + " Tarjeta: " + infoEvento.Card_Number + " Puerta: " + infoEvento.Door_Number);
                 if(infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS)
                 {
@@ -70,9 +68,6 @@ namespace DeportNetReconocimiento.SDKHikvision
             {
                 System.Console.WriteLine(infoEvento.Exception);
             }
-
-            MessageBox.Show("Esto se muiestra al final de todo, si no hubo nada antes, hay errores");
-
         }
 
         public static void obtenerDatosClienteDeportNet(int nroReader, string numeroTarjeta)
@@ -82,7 +77,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             if(!string.IsNullOrWhiteSpace(numeroTarjeta))
             {
                 /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
-                string jsonDeDeportnet = "{ \"Id\": \"9999\", \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Habrá descuentos especiales la semana que viene\", \"Vencimiento\": \"12/09/2024\", \"Rta\" : \"S\", \"Fecha\" : \"12/08/2024\", \"Hora\" : \"19:00:32\", \"Pregunta\" : \"El cliente no paga la cuota hace 1 mes\"}";
+                string jsonDeDeportnet = "{ \"Id\": \"1\", \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Habrá descuentos especiales la semana que viene\", \"Vencimiento\": \"12/09/2024\", \"Rta\" : \"S\", \"Fecha\" : \"12/08/2024\", \"Hora\" : \"19:00:32\", \"Pregunta\" : \"El cliente no paga la cuota hace 1 mes\"}";
                 WFPrincipal.ObtenerInstancia.ActualizarDatos(nroReader,jsonDeDeportnet);
             }
 
