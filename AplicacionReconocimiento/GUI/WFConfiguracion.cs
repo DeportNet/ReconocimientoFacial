@@ -1,5 +1,7 @@
 ﻿using DeportNetReconocimiento.Properties;
+using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
+using System.Numerics;
 using System.Text.Json;
 using System.Windows.Forms;
 using System.Xml;
@@ -36,7 +38,7 @@ namespace DeportNetReconocimiento.GUI
         {
 
         }
-        
+
         // - - - - -  Guardar cambios - - - - - -//
 
         private void GuardarCambiosButton_Click(object sender, EventArgs e)
@@ -44,6 +46,11 @@ namespace DeportNetReconocimiento.GUI
             this.Close();
             principal.AplicarConfiguracion(configuracion);
 
+        private void PropertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+
+            //se pueden cambiar los estilos de forma dinamica
+            principal.AplicarConfiguracion(configuracion);
 
             ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
         }
@@ -83,7 +90,7 @@ namespace DeportNetReconocimiento.GUI
         private void PropertyGrid1_DragDrop(object sender, DragEventArgs e)
         {
 
-         
+
             if (e.Data == null)
             {
                 return;
@@ -97,7 +104,7 @@ namespace DeportNetReconocimiento.GUI
             }
 
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            
+
             //solo un archivo
             if (files.Length != 1)
             {
@@ -116,7 +123,7 @@ namespace DeportNetReconocimiento.GUI
 
             //Limitamos a 100MB el tamaño de la imagen
             FileInfo fileInfo = new FileInfo(filePath);
-            if (fileInfo.Length > 100 * 1024 * 1024) 
+            if (fileInfo.Length > 100 * 1024 * 1024)
             {
                 MessageBox.Show("El archivo es demasiado grande, limite 100 MB.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -152,10 +159,9 @@ namespace DeportNetReconocimiento.GUI
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al cargar la imagen //: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                
             }
 
-            
+
 
         }
 
@@ -168,7 +174,7 @@ namespace DeportNetReconocimiento.GUI
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-                if(files != null && files.Length == 1)
+                if (files != null && files.Length == 1)
                 {
 
                     // Verifica que al menos uno de los archivos tenga una extensión válida
@@ -176,7 +182,7 @@ namespace DeportNetReconocimiento.GUI
 
                     if (Array.Exists(extensionesValidas, ext => files[0].EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
                     {
-                        
+
                         e.Effect = DragDropEffects.Copy; // Permitir el arrastre
                     }
                     else
@@ -197,11 +203,78 @@ namespace DeportNetReconocimiento.GUI
 
         private void PropertyGrid1_DragLeave(object sender, EventArgs e)
         {
-            
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BotonIngresarAdmin_Click(object sender, EventArgs e)
+        {
+
+            ValidarAdministrador(TextBoxAdmin.Text);
+
+        }
+
+        public void ValidarAdministrador(string clave)
+        {
+
+            string contra = WFPrincipal.ObtenerInstancia.LeerCredenciales()[3];
+
+            if (clave == contra)
+            {
+                PanelConfigAdminsitrador.Visible = true;
+
+                if (WFPrincipal.ObtenerInstancia.LeerCredenciales().Length > 4)
+                {
+                    TextBoxToken.Text = ConfiguracionEstilos.DesencriptadorToken(WFPrincipal.ObtenerInstancia.LeerCredenciales()[4]);
+                }
+
+
+
+                string ruta = "configuracionEstilos";
+                ConfiguracionEstilos configuracion = new ConfiguracionEstilos();
+                configuracion = ConfiguracionEstilos.LeerJsonConfiguracion(ruta);
+                ComboBoxAperturaMolinete.SelectedItem = configuracion.MetodoApertura;
+            }
+            TextBoxAdmin.Text = "";
+        }
+
+        private void BotonOcultarConfig_Click(object sender, EventArgs e)
+        {
+            PanelConfigAdminsitrador.Visible = false;
+            string apertura = ComboBoxAperturaMolinete.Text;
+            BigInteger token = ConfiguracionEstilos.EncriptadorToken(BigInteger.Parse(TextBoxToken.Text));
+            GuardarTokenCredenciales(token.ToString());
+            string contra = WFPrincipal.ObtenerInstancia.LeerCredenciales()[3];
+
+        }
+
+        public void escribirArchivoCredenciales(string[] arregloDeDatos)
+        {
+            //guardamos los datos en un archivo binario
+            string rutaArchivo = "credenciales.bin";
+
+            using (BinaryWriter writer = new BinaryWriter(File.Open(rutaArchivo, FileMode.Truncate)))
+            {
+                foreach (string dato in arregloDeDatos)
+                {
+                    writer.Write(dato);
+                }
+            }
         }
 
 
+        public void GuardarTokenCredenciales(string token)
+        {
 
+            // Obtenemos las credenciales
+            string[] credenciales = WFPrincipal.ObtenerInstancia.LeerCredenciales();
+            escribirArchivoCredenciales([credenciales[0], credenciales[1], credenciales[2], credenciales[3], token.ToString()]);
+
+        }
 
 
     }
