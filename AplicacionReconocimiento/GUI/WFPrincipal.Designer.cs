@@ -43,16 +43,19 @@ namespace DeportNetReconocimiento.GUI
             abrirToolStripMenuItem = new ToolStripMenuItem();
             cerrarToolStripMenuItem = new ToolStripMenuItem();
             HeaderLabel = new Label();
-            valorMensajeLabel = new Label();
             Abrir = new ToolStripMenuItem();
             Cerrar = new ToolStripMenuItem();
             botonPersonalizar = new Button();
             PanelSinConexion = new Panel();
             textoSinCoenxion = new Label();
+            valorMensajeLabel = new Label();
+            PanelAlmacenamiento = new Panel();
+            TextoAlmacenamiento = new Label();
             ((System.ComponentModel.ISupportInitialize)imagenLogo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuNotifyIcon.SuspendLayout();
             PanelSinConexion.SuspendLayout();
+            PanelAlmacenamiento.SuspendLayout();
             SuspendLayout();
             // 
             // imagenLogo
@@ -159,17 +162,6 @@ namespace DeportNetReconocimiento.GUI
             HeaderLabel.TextAlign = ContentAlignment.MiddleCenter;
             HeaderLabel.Click += HeaderLabel_Click;
             // 
-            // valorMensajeLabel
-            // 
-            valorMensajeLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            valorMensajeLabel.Font = new Font("Arial Rounded MT Bold", 36F);
-            valorMensajeLabel.ForeColor = SystemColors.ControlText;
-            valorMensajeLabel.Location = new Point(647, 542);
-            valorMensajeLabel.Name = "valorMensajeLabel";
-            valorMensajeLabel.Size = new Size(689, 147);
-            valorMensajeLabel.TabIndex = 26;
-            valorMensajeLabel.Click += valorMensajeLabel_Click;
-            // 
             // Abrir
             // 
             Abrir.Name = "Abrir";
@@ -200,21 +192,55 @@ namespace DeportNetReconocimiento.GUI
             PanelSinConexion.Controls.Add(textoSinCoenxion);
             PanelSinConexion.Location = new Point(1048, 12);
             PanelSinConexion.Name = "PanelSinConexion";
-            PanelSinConexion.Size = new Size(275, 82);
+            PanelSinConexion.Size = new Size(275, 80);
             PanelSinConexion.TabIndex = 29;
             PanelSinConexion.Visible = false;
             // 
             // textoSinCoenxion
             // 
-            textoSinCoenxion.AutoSize = true;
             textoSinCoenxion.Font = new Font("Segoe UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textoSinCoenxion.ForeColor = Color.Red;
-            textoSinCoenxion.Location = new Point(3, 24);
+            textoSinCoenxion.Location = new Point(0, 0);
             textoSinCoenxion.Name = "textoSinCoenxion";
-            textoSinCoenxion.Size = new Size(271, 28);
+            textoSinCoenxion.Size = new Size(275, 80);
             textoSinCoenxion.TabIndex = 0;
             textoSinCoenxion.Text = "No hay conexión a internet";
+            textoSinCoenxion.TextAlign = ContentAlignment.MiddleCenter;
             textoSinCoenxion.Click += label1_Click;
+            // 
+            // valorMensajeLabel
+            // 
+            valorMensajeLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            valorMensajeLabel.Font = new Font("Arial Rounded MT Bold", 36F);
+            valorMensajeLabel.ForeColor = SystemColors.ControlText;
+            valorMensajeLabel.Location = new Point(647, 542);
+            valorMensajeLabel.Name = "valorMensajeLabel";
+            valorMensajeLabel.Size = new Size(689, 147);
+            valorMensajeLabel.TabIndex = 26;
+            valorMensajeLabel.Click += valorMensajeLabel_Click;
+            // 
+            // panel1
+            // 
+            PanelAlmacenamiento.BackColor = Color.Black;
+            PanelAlmacenamiento.Controls.Add(TextoAlmacenamiento);
+            PanelAlmacenamiento.Location = new Point(12, 12);
+            PanelAlmacenamiento.Name = "panel1";
+            PanelAlmacenamiento.Size = new Size(275, 80);
+            PanelAlmacenamiento.TabIndex = 30;
+            PanelAlmacenamiento.Visible = false;
+
+            // 
+            // TextoAlmacenamiento
+            // 
+            TextoAlmacenamiento.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            TextoAlmacenamiento.ForeColor = Color.Red;
+            TextoAlmacenamiento.Location = new Point(0, 0);
+            TextoAlmacenamiento.Name = "TextoAlmacenamiento";
+            TextoAlmacenamiento.Size = new Size(272, 80);
+            TextoAlmacenamiento.TabIndex = 0;
+            TextoAlmacenamiento.Text = "Almacenamiento al: 100%    Socios: 1500/1500 ";
+            TextoAlmacenamiento.TextAlign = ContentAlignment.MiddleCenter;
+            TextoAlmacenamiento.Click += label1_Click_1;
             // 
             // WFPrincipal
             // 
@@ -222,6 +248,7 @@ namespace DeportNetReconocimiento.GUI
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.Silver;
             ClientSize = new Size(1348, 727);
+            Controls.Add(PanelAlmacenamiento);
             Controls.Add(HeaderLabel);
             Controls.Add(PanelSinConexion);
             Controls.Add(botonPersonalizar);
@@ -248,7 +275,7 @@ namespace DeportNetReconocimiento.GUI
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             menuNotifyIcon.ResumeLayout(false);
             PanelSinConexion.ResumeLayout(false);
-            PanelSinConexion.PerformLayout();
+            PanelAlmacenamiento.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -261,7 +288,6 @@ namespace DeportNetReconocimiento.GUI
         private Label valorClasesRestLabel;
         private NotifyIcon trayReconocimiento;
         private Label HeaderLabel;
-        private Label valorMensajeLabel;
         private ContextMenuStrip menuNotifyIcon;
         private ToolStripMenuItem Abrir;
         private ToolStripMenuItem Cerrar;
@@ -270,5 +296,8 @@ namespace DeportNetReconocimiento.GUI
         private Button botonPersonalizar;
         private Panel PanelSinConexion;
         private Label textoSinCoenxion;
+        private Label valorMensajeLabel;
+        private Panel PanelAlmacenamiento;
+        private Label TextoAlmacenamiento;
     }
 }

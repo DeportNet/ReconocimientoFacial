@@ -36,11 +36,18 @@
             preguntaLabel = new Label();
             label6 = new Label();
             tokenIdentificadorLabel = new Label();
-            alertaPorcentajeLabel = new Label();
             personalizacionTituloLabel = new Label();
             opcionesTituloLabel = new Label();
             propertyGrid1 = new PropertyGrid();
             guardarCambiosButton = new Button();
+            TextBoxToken = new TextBox();
+            ComboBoxAperturaMolinete = new ComboBox();
+            BotonOcultarConfig = new Button();
+            PanelConfigAdminsitrador = new Panel();
+            LabelAdmin = new Label();
+            TextBoxAdmin = new TextBox();
+            BotonIngresarAdmin = new Button();
+            PanelConfigAdminsitrador.SuspendLayout();
             SuspendLayout();
             // 
             // tituloConfig
@@ -97,7 +104,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F);
-            label6.Location = new Point(744, 378);
+            label6.Location = new Point(21, 44);
             label6.Name = "label6";
             label6.Size = new Size(139, 21);
             label6.TabIndex = 9;
@@ -107,21 +114,11 @@
             // 
             tokenIdentificadorLabel.AutoSize = true;
             tokenIdentificadorLabel.Font = new Font("Segoe UI", 12F);
-            tokenIdentificadorLabel.Location = new Point(744, 424);
+            tokenIdentificadorLabel.Location = new Point(21, 90);
             tokenIdentificadorLabel.Name = "tokenIdentificadorLabel";
             tokenIdentificadorLabel.Size = new Size(144, 21);
             tokenIdentificadorLabel.TabIndex = 10;
             tokenIdentificadorLabel.Text = "Token identificador:";
-            // 
-            // alertaPorcentajeLabel
-            // 
-            alertaPorcentajeLabel.AutoSize = true;
-            alertaPorcentajeLabel.Font = new Font("Segoe UI", 12F);
-            alertaPorcentajeLabel.Location = new Point(744, 469);
-            alertaPorcentajeLabel.Name = "alertaPorcentajeLabel";
-            alertaPorcentajeLabel.Size = new Size(271, 21);
-            alertaPorcentajeLabel.TabIndex = 11;
-            alertaPorcentajeLabel.Text = "Alerta porcentaje de almacenamiento:";
             // 
             // personalizacionTituloLabel
             // 
@@ -137,7 +134,7 @@
             // 
             opcionesTituloLabel.AutoSize = true;
             opcionesTituloLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Underline);
-            opcionesTituloLabel.Location = new Point(744, 337);
+            opcionesTituloLabel.Location = new Point(21, 3);
             opcionesTituloLabel.Name = "opcionesTituloLabel";
             opcionesTituloLabel.Size = new Size(81, 21);
             opcionesTituloLabel.TabIndex = 13;
@@ -171,19 +168,89 @@
             guardarCambiosButton.UseVisualStyleBackColor = false;
             guardarCambiosButton.Click += GuardarCambiosButton_Click;
             // 
+            // TextBoxToken
+            // 
+            TextBoxToken.Location = new Point(171, 92);
+            TextBoxToken.Name = "TextBoxToken";
+            TextBoxToken.Size = new Size(121, 23);
+            TextBoxToken.TabIndex = 17;
+            // 
+            // ComboBoxAperturaMolinete
+            // 
+            ComboBoxAperturaMolinete.FormattingEnabled = true;
+            ComboBoxAperturaMolinete.Items.AddRange(new object[] { ".exe", "Hikvision" });
+            ComboBoxAperturaMolinete.SelectedIndex = 0;
+            ComboBoxAperturaMolinete.Location = new Point(171, 46);
+            ComboBoxAperturaMolinete.Name = "ComboBoxAperturaMolinete";
+            ComboBoxAperturaMolinete.Size = new Size(121, 23);
+            ComboBoxAperturaMolinete.TabIndex = 18;
+            // 
+            // BotonOcultarConfig
+            // 
+            BotonOcultarConfig.Location = new Point(171, 138);
+            BotonOcultarConfig.Name = "BotonOcultarConfig";
+            BotonOcultarConfig.Size = new Size(121, 23);
+            BotonOcultarConfig.TabIndex = 19;
+            BotonOcultarConfig.Text = "Guardar/Ocultar";
+            BotonOcultarConfig.UseVisualStyleBackColor = true;
+            BotonOcultarConfig.Click += BotonOcultarConfig_Click;
+            // 
+            // PanelConfigAdminsitrador
+            // 
+            PanelConfigAdminsitrador.BackColor = Color.IndianRed;
+            PanelConfigAdminsitrador.Controls.Add(BotonOcultarConfig);
+            PanelConfigAdminsitrador.Controls.Add(ComboBoxAperturaMolinete);
+            PanelConfigAdminsitrador.Controls.Add(TextBoxToken);
+            PanelConfigAdminsitrador.Controls.Add(opcionesTituloLabel);
+            PanelConfigAdminsitrador.Controls.Add(tokenIdentificadorLabel);
+            PanelConfigAdminsitrador.Controls.Add(label6);
+            PanelConfigAdminsitrador.Location = new Point(744, 408);
+            PanelConfigAdminsitrador.Name = "PanelConfigAdminsitrador";
+            PanelConfigAdminsitrador.Size = new Size(330, 173);
+            PanelConfigAdminsitrador.TabIndex = 20;
+            PanelConfigAdminsitrador.Visible = false;
+            // 
+            // LabelAdmin
+            // 
+            LabelAdmin.AutoSize = true;
+            LabelAdmin.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            LabelAdmin.Location = new Point(746, 333);
+            LabelAdmin.Name = "LabelAdmin";
+            LabelAdmin.Size = new Size(110, 21);
+            LabelAdmin.TabIndex = 21;
+            LabelAdmin.Text = "Administrador";
+            LabelAdmin.Click += label1_Click;
+            // 
+            // TextBoxAdmin
+            // 
+            TextBoxAdmin.Location = new Point(862, 335);
+            TextBoxAdmin.Name = "TextBoxAdmin";
+            TextBoxAdmin.Size = new Size(111, 23);
+            TextBoxAdmin.TabIndex = 22;
+            // 
+            // BotonIngresarAdmin
+            // 
+            BotonIngresarAdmin.Location = new Point(979, 335);
+            BotonIngresarAdmin.Name = "BotonIngresarAdmin";
+            BotonIngresarAdmin.Size = new Size(57, 23);
+            BotonIngresarAdmin.TabIndex = 23;
+            BotonIngresarAdmin.Text = "OK";
+            BotonIngresarAdmin.UseVisualStyleBackColor = true;
+            BotonIngresarAdmin.Click += BotonIngresarAdmin_Click;
+            // 
             // WFConfiguracion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Silver;
             ClientSize = new Size(1177, 691);
+            Controls.Add(BotonIngresarAdmin);
+            Controls.Add(TextBoxAdmin);
+            Controls.Add(LabelAdmin);
+            Controls.Add(PanelConfigAdminsitrador);
             Controls.Add(guardarCambiosButton);
             Controls.Add(propertyGrid1);
-            Controls.Add(opcionesTituloLabel);
             Controls.Add(personalizacionTituloLabel);
-            Controls.Add(alertaPorcentajeLabel);
-            Controls.Add(tokenIdentificadorLabel);
-            Controls.Add(label6);
             Controls.Add(preguntaLabel);
             Controls.Add(accesoDenegadoLabel);
             Controls.Add(accesoPermitidoLabel);
@@ -196,6 +263,8 @@
             Load += WFConfiguracion_Load;
             DragEnter += PropertyGrid1_DragEnter;
             DragLeave += PropertyGrid1_DragLeave;
+            PanelConfigAdminsitrador.ResumeLayout(false);
+            PanelConfigAdminsitrador.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -214,5 +283,12 @@
         private Label opcionesTituloLabel;
         private PropertyGrid propertyGrid1;
         private Button guardarCambiosButton;
+        private TextBox TextBoxToken;
+        private ComboBox ComboBoxAperturaMolinete;
+        private Button BotonOcultarConfig;
+        private Panel PanelConfigAdminsitrador;
+        private Label LabelAdmin;
+        private TextBox TextBoxAdmin;
+        private Button BotonIngresarAdmin;
     }
 }

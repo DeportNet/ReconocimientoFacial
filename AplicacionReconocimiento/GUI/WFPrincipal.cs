@@ -1,6 +1,7 @@
 ﻿using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
+using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
 using System.Runtime.InteropServices;
 using System.Text.Json;
@@ -23,13 +24,15 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
 
             //estilos se leen de un archivo
+            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
 
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
-            //InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-            //Escuchador_Directorio.InicializarEscuchadorEnHilo();
-            //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
             ReproducirSonido(configuracionEstilos.SonidoBienvenida);
+
+            Escuchador_Directorio.InicializarEscuchadorEnHilo();
+            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
+
         }
 
         //propiedades
@@ -136,6 +139,7 @@ namespace DeportNetReconocimiento.GUI
                 // Leer desde un archivo binario
                 using (BinaryReader reader = new BinaryReader(File.Open(rutaArchivo, FileMode.Open)))
                 {
+                    
                     while (reader.BaseStream.Position != reader.BaseStream.Length) // Lee hasta el final del archivo
                     {
                         string unDato = reader.ReadString(); // Lee cada string
@@ -185,6 +189,7 @@ namespace DeportNetReconocimiento.GUI
                 return true;
             }
             else
+                Console.WriteLine("Desconectado");
                 return false;
         }
 
@@ -209,23 +214,8 @@ namespace DeportNetReconocimiento.GUI
 
                 //Verificar estado de internet
                 //El objetivo es saber si los datos reconocidos se almacenan o no en la base de datos local
-                if (!Hik_Controladora_General.VerificarConexionInternet())
-                {
-                    
-                    if(PanelSinConexion.Visible == false && WFPanelOffline.ObtenerInstancia.Visible == false)
-                    {
-                        PanelSinConexion.Visible = true;
-                        WFPanelOffline.ObtenerInstancia.Show();
-                    }
 
-                }
-                else if(PanelSinConexion.Visible == true)
-                {
-                    PanelSinConexion.Visible = false;
-                    WFPanelOffline.ObtenerInstancia.Dispose();
-                }
-
-
+                VerificarConexionInternet();
 
                 if (!resultado.Exito)
                 {
@@ -237,9 +227,56 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
+        public void VerificarConexionInternet()
+        {
+            if (!Hik_Controladora_General.comprobarConexionInternet())
+            {
+
+                if (PanelSinConexion.Visible == false && WFPanelOffline.ObtenerInstancia.Visible == false)
+                {
+                    PanelSinConexion.Visible = true;
+                    WFPanelOffline.ObtenerInstancia.Show();
+                }
+
+            }
+            else if (PanelSinConexion.Visible == true)
+            {
+                PanelSinConexion.Visible = false;
+                WFPanelOffline.ObtenerInstancia.Dispose();
+            }
+
+        }
+
+
+        public void VerificarAlmacenamiento()
+        {
+            string ruta = "configuracionEstilos";
+            ConfiguracionEstilos configuracion = new ConfiguracionEstilos();
+            configuracion = ConfiguracionEstilos.LeerJsonConfiguracion(ruta);
+
+            int capacidadMaxima = configuracion.CapacidadMaximaDisposotivo;
+            int carasActuales = configuracion.CarasRegistradas;
+            float porcentaje = configuracion.PorcentajeAlertaCapacidad;
+
+            float porcentajeActual = (carasActuales * 100) / capacidadMaxima;
+
+            if (porcentajeActual > porcentaje && PanelAlmacenamiento.Visible == false)
+            {
+
+                TextoAlmacenamiento.Text = $"Capacidad al: {porcentajeActual}% \nSocios: {carasActuales}/{capacidadMaxima}";
+                PanelAlmacenamiento.Visible= true;
+            }
+            else if(porcentajeActual < porcentaje && PanelAlmacenamiento.Visible == true){
+                PanelAlmacenamiento.Visible = false;
+            }
+        }
+
+
         //función para actualizar los datos en el hilo principal
         public async void ActualizarDatos(int nroLector, string json)
         {
+
+            Console.WriteLine("Entro aca");
             string respuesta;
 
             //Si el hilo que llama a la función no es el principal, se llama a la función de nuevo en el hilo principal
@@ -274,6 +311,8 @@ namespace DeportNetReconocimiento.GUI
 
             await Task.Delay(tiempoMuestraDatos);
             LimpiarInterfaz();
+
+
         }
 
 
@@ -324,17 +363,18 @@ namespace DeportNetReconocimiento.GUI
             Image imagen = null;
             //Se obtiene la foto del cliente
             Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(nroLector, idCliente);
-            
-            if (resultado.Exito)
-              {
-                string  ruta = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
-                imagen = Image.FromFile(ruta);
-              } else
-              {
-                imagen = Resources.avatarPredeterminado;
-              }
 
-           
+            if (resultado.Exito)
+            {
+                string ruta = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
+                imagen = Image.FromFile(ruta);
+            }
+            else
+            {
+                imagen = Resources.avatarPredeterminado;
+            }
+
+
             return imagen;
         }
 
@@ -425,7 +465,7 @@ namespace DeportNetReconocimiento.GUI
             if (this.WindowState == FormWindowState.Minimized)
             {
                 this.Hide(); // Ocultar la ventana principal
-                
+
                 trayReconocimiento.Visible = true; // Asegurar que el ícono esté visible
 
             }
@@ -495,6 +535,7 @@ namespace DeportNetReconocimiento.GUI
             imagenLogo.BackColor = config.ColorFondoLogo;
             imagenLogo.Image = config.Logo;
 
+            VerificarAlmacenamiento();
         }
         private void botonPersonalizar_Click(object sender, EventArgs e)
         {
@@ -563,6 +604,11 @@ namespace DeportNetReconocimiento.GUI
 
         private void button1_Click(object sender, EventArgs e)
         {
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }
