@@ -1,14 +1,26 @@
 {
   "ColorFondo": "Silver",
-  "LogoRuta": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Recursos\\logo_deportnet_1.jpg",
-  "FuenteTexto": "Arial Rounded MT Bold/11/Regular",
+  "Logo": "logoGimansio.png",
+  "ColorFondoLogo": "DimGray",
   "TiempoDeMuestraDeDatos": 3,
+  "FuenteTextoMensajeAcceso": "Arial Rounded MT Bold/36/Italic",
   "ColorFondoMensajeAcceso": "DarkGray",
   "ColorMensajeBienvenida": "Green",
   "ColorMensajeAccesoDenegado": "Red",
+  "MensajeBienvenida": "Bienvenido a DeportNet!",
+  "ColorTextoMensajeAcceso": "Black",
   "ColorCampoActividad": "Black",
+  "FuenteTextoCamposInformacion": "Arial Rounded MT Bold/20/Regular",
   "ColorVencimiento": "Black",
   "ColorClasesRestantes": "Black",
   "ColorMensaje": "Black",
-  "ColorFondoImagen": "DarkGray"
+  "ColorFondoImagen": "DarkGray",
+  "AccesoConcedido": {
+    "RutaArchivo": "E:\\Downloads\\large-underwater-explosion-190270.mp3",
+    "Activo": true
+  },
+  "SonidoBienvenida": {
+    "RutaArchivo": "E:\\Downloads\\sonido-bienvenida.mp3",
+    "Activo": true
+  }
 }

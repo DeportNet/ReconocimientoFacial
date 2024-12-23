@@ -27,8 +27,12 @@ namespace DeportNetReconocimiento.GUI
             InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
 
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
+
+            ReproducirSonido(configuracionEstilos.SonidoBienvenida);
+
             Escuchador_Directorio.InicializarEscuchadorEnHilo();
             ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
+
         }
 
         //propiedades
@@ -429,6 +433,14 @@ namespace DeportNetReconocimiento.GUI
             return persona;
         }
 
+        /* - - - - - - Sonidos - - - - - - */
+
+        public void ReproducirSonido(Sonido sonido)
+        {
+            ReproductorSonidos reproductor = new ReproductorSonidos();
+            reproductor.ReproducirSonido(sonido);
+        }
+
 
         /* - - - - - - Notify Icon / Tray - - - - - - */
 
@@ -525,7 +537,18 @@ namespace DeportNetReconocimiento.GUI
 
             VerificarAlmacenamiento();
         }
+        private void botonPersonalizar_Click(object sender, EventArgs e)
+        {
+            ReproducirSonido(configuracionEstilos.AccesoConcedido);
 
+            
+
+            WFConfiguracion wFConfiguracion = new WFConfiguracion(ConfiguracionEstilos, this);
+
+
+
+            wFConfiguracion.ShowDialog();
+        }
 
         private void WFPrincipal_Load(object sender, EventArgs e)
         {
@@ -567,12 +590,7 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
-        private void botonPersonalizar_Click(object sender, EventArgs e)
-        {
-
-            WFConfiguracion wFConfiguracion = new WFConfiguracion(ConfiguracionEstilos, this);
-            wFConfiguracion.ShowDialog();
-        }
+        
 
         private void valorClasesRestLabel_Click(object sender, EventArgs e)
         {

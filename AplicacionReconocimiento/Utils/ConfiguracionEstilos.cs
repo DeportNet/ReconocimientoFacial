@@ -1,5 +1,5 @@
-﻿using DeportNetReconocimiento.Properties;
-using DeportNetReconocimiento.SDK;
+using DeportNetReconocimiento.Modelo;
+using DeportNetReconocimiento.Properties;
 using Microsoft.VisualBasic.Logging;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -140,6 +140,18 @@ namespace DeportNetReconocimiento.Utils
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorFondoImagen { get; set; }
 
+        /* - - - - - - - - Sonidos - - - - - - - - */
+
+        [Category("Sonidos")]
+        [DisplayName("Acceso Concedido")]
+        [Description("Configuración del sonido cuando se concede acceso.")]
+        public Sonido AccesoConcedido { get; set; }
+
+
+        [Category("Sonidos")]
+        [DisplayName("Sonido inicial")]
+        [Description("Configuración del sonido cuando se inicia el programa.")]
+        public Sonido SonidoBienvenida { get; set; }
 
         /* - - - - - - Campos de estadísticas - - - - - - */
 
@@ -218,10 +230,16 @@ namespace DeportNetReconocimiento.Utils
             ColorClasesRestantes = Color.Black;
             ColorMensaje = Color.Black;
             ColorFondoImagen = Color.DarkGray;
-
             FuenteTextoCamposInformacion = new Font("Arial Rounded MT Bold", 20, FontStyle.Regular);
 
-            //Campois de estadísticas
+
+            //Sonidos
+
+            // Sonidos predeterminados
+            AccesoConcedido = new Sonido();
+            SonidoBienvenida = new Sonido();
+
+            //Campos de estadísticas
             CarasRegistradas = 0;
             CapacidadMaximaDisposotivo = 0;
             PorcentajeAlertaCapacidad = 70.0f;
@@ -229,6 +247,7 @@ namespace DeportNetReconocimiento.Utils
             //Configuraciónes
             MetodoApertura = ".exe";
             RutaMetodoApertura = "";
+
         }
 
 
@@ -265,12 +284,6 @@ namespace DeportNetReconocimiento.Utils
                 }
 
 
-
-
-
-
-
-
                 //Console.WriteLine("Configuración guardada correctamente.");
             }
             catch (Exception ex)
@@ -292,7 +305,11 @@ namespace DeportNetReconocimiento.Utils
                     //options es para agregar el convertidor personalizado 
                     var options = new JsonSerializerOptions
                     {
-                        Converters = { new ColorJsonConverter() }
+                        Converters = {
+                            new ColorJsonConverter(),
+                            new FontJsonConverter(),
+                            new ImageToPathJsonConverter(),
+                        }
                     };
 
                     // Leer el contenido del archivo
@@ -474,6 +491,11 @@ namespace DeportNetReconocimiento.Utils
                 {
                     writer.WriteStringValue(string.Empty); // Guardar cadena vacía si ocurre un error
                 }
+
+            }
+            catch(OutOfMemoryException ex)
+            {
+                Console.WriteLine($"write Out of memory exception: {ex.Message}");
 
             }
             catch (Exception ex)

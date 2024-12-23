@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WFConfiguracion));
             tituloConfig = new Label();
-            colorDialog1 = new ColorDialog();
             sonidosTituloLabel = new Label();
             accesoPermitidoLabel = new Label();
             accesoDenegadoLabel = new Label();
@@ -78,7 +77,7 @@
             // 
             accesoPermitidoLabel.AutoSize = true;
             accesoPermitidoLabel.Font = new Font("Segoe UI", 12F);
-            accesoPermitidoLabel.Location = new Point(744, 176);
+            accesoPermitidoLabel.Location = new Point(744, 175);
             accesoPermitidoLabel.Name = "accesoPermitidoLabel";
             accesoPermitidoLabel.Size = new Size(133, 21);
             accesoPermitidoLabel.TabIndex = 6;
@@ -88,7 +87,7 @@
             // 
             accesoDenegadoLabel.AutoSize = true;
             accesoDenegadoLabel.Font = new Font("Segoe UI", 12F);
-            accesoDenegadoLabel.Location = new Point(746, 224);
+            accesoDenegadoLabel.Location = new Point(744, 215);
             accesoDenegadoLabel.Name = "accesoDenegadoLabel";
             accesoDenegadoLabel.Size = new Size(134, 21);
             accesoDenegadoLabel.TabIndex = 7;
@@ -98,7 +97,7 @@
             // 
             preguntaLabel.AutoSize = true;
             preguntaLabel.Font = new Font("Segoe UI", 12F);
-            preguntaLabel.Location = new Point(746, 269);
+            preguntaLabel.Location = new Point(744, 258);
             preguntaLabel.Name = "preguntaLabel";
             preguntaLabel.Size = new Size(125, 21);
             preguntaLabel.TabIndex = 8;
@@ -309,7 +308,6 @@
         #endregion
 
         private Label tituloConfig;
-        private ColorDialog colorDialog1;
         private Label sonidosTituloLabel;
         private Label accesoPermitidoLabel;
         private Label accesoDenegadoLabel;
