@@ -190,6 +190,7 @@
             TextBoxRutaExe.Name = "TextBoxRutaExe";
             TextBoxRutaExe.Size = new Size(163, 23);
             TextBoxRutaExe.TabIndex = 21;
+            TextBoxRutaExe.TextChanged += TextBoxRutaExe_TextChanged;
             // 
             // label1
             // 

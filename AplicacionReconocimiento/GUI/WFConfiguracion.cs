@@ -28,7 +28,7 @@ namespace DeportNetReconocimiento.GUI
 
         private void ComboBoxAperturaMolinete_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            if(ComboBoxAperturaMolinete.SelectedItem.ToString() == ".exe")
+            if (ComboBoxAperturaMolinete.SelectedItem.ToString() == ".exe")
             {
                 TextBoxRutaExe.Enabled = true;
                 BotonAbrirFileDialog.Enabled = true;
@@ -81,7 +81,7 @@ namespace DeportNetReconocimiento.GUI
             propertyGrid1.Refresh();
 
 
-          
+
 
         }
 
@@ -139,28 +139,28 @@ namespace DeportNetReconocimiento.GUI
             // Intenta cargarlo como imagen
             try
             {
-                
+
                 configuracion.Logo = Image.FromFile(filePath); // Carga la imagen en memoria 
-                
-                
+
+
                 // Notificar a la ventana principal que debe actualizarse
                 principal.AplicarConfiguracion(configuracion);
-                
+
 
                 // Refrescar el PropertyGrid
                 propertyGrid1.Refresh();
-                
+
 
             }
             catch (ArgumentException)
             {
                 MessageBox.Show("El archivo no contiene una imagen válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                
+
             }
             catch (OutOfMemoryException)
             {
                 MessageBox.Show("El archivo no es una imagen válida o está corrupto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                
+
             }
             catch (Exception ex)
             {
@@ -242,14 +242,13 @@ namespace DeportNetReconocimiento.GUI
                 }
 
 
-
                 string ruta = "configuracionEstilos";
                 ConfiguracionEstilos configuracion = new ConfiguracionEstilos();
                 configuracion = ConfiguracionEstilos.LeerJsonConfiguracion(ruta);
-               
 
-                TextBoxRutaExe.Text = configuracion.RutaMetodoApertura;
+
                 ComboBoxAperturaMolinete.SelectedItem = configuracion.MetodoApertura;
+                TextBoxRutaExe.Text = configuracion.RutaMetodoApertura;
 
             }
             TextBoxAdmin.Text = "";
@@ -260,19 +259,12 @@ namespace DeportNetReconocimiento.GUI
             PanelConfigAdminsitrador.Visible = false;
             string apertura = ComboBoxAperturaMolinete.Text;
             string rutaApertura = TextBoxRutaExe.Text;
+            Console.WriteLine("Esta es la ruta de apertura " + rutaApertura);
             configuracion.MetodoApertura = apertura;
-
-            if(ComboBoxAperturaMolinete.Text != ".exe")
-            {
-                configuracion.RutaMetodoApertura = "";
-            }
-            else
-            {
-                configuracion.RutaMetodoApertura = rutaApertura;
-            }
+            configuracion.RutaMetodoApertura = rutaApertura;
 
 
-
+            ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
             principal.AplicarConfiguracion(configuracion);
 
             try
@@ -342,6 +334,11 @@ namespace DeportNetReconocimiento.GUI
         }
 
         private void PanelConfigAdminsitrador_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void TextBoxRutaExe_TextChanged(object sender, EventArgs e)
         {
 
         }
