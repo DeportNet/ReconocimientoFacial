@@ -44,6 +44,9 @@
             ComboBoxAperturaMolinete = new ComboBox();
             BotonOcultarConfig = new Button();
             PanelConfigAdminsitrador = new Panel();
+            BotonAbrirFileDialog = new Button();
+            TextBoxRutaExe = new TextBox();
+            label1 = new Label();
             LabelAdmin = new Label();
             TextBoxAdmin = new TextBox();
             BotonIngresarAdmin = new Button();
@@ -114,7 +117,7 @@
             // 
             tokenIdentificadorLabel.AutoSize = true;
             tokenIdentificadorLabel.Font = new Font("Segoe UI", 12F);
-            tokenIdentificadorLabel.Location = new Point(21, 90);
+            tokenIdentificadorLabel.Location = new Point(21, 135);
             tokenIdentificadorLabel.Name = "tokenIdentificadorLabel";
             tokenIdentificadorLabel.Size = new Size(144, 21);
             tokenIdentificadorLabel.TabIndex = 10;
@@ -170,7 +173,7 @@
             // 
             // TextBoxToken
             // 
-            TextBoxToken.Location = new Point(171, 92);
+            TextBoxToken.Location = new Point(171, 137);
             TextBoxToken.Name = "TextBoxToken";
             TextBoxToken.Size = new Size(121, 23);
             TextBoxToken.TabIndex = 17;
@@ -179,7 +182,6 @@
             // 
             ComboBoxAperturaMolinete.FormattingEnabled = true;
             ComboBoxAperturaMolinete.Items.AddRange(new object[] { ".exe", "Hikvision" });
-            ComboBoxAperturaMolinete.SelectedIndex = 0;
             ComboBoxAperturaMolinete.Location = new Point(171, 46);
             ComboBoxAperturaMolinete.Name = "ComboBoxAperturaMolinete";
             ComboBoxAperturaMolinete.Size = new Size(121, 23);
@@ -187,7 +189,7 @@
             // 
             // BotonOcultarConfig
             // 
-            BotonOcultarConfig.Location = new Point(171, 138);
+            BotonOcultarConfig.Location = new Point(171, 183);
             BotonOcultarConfig.Name = "BotonOcultarConfig";
             BotonOcultarConfig.Size = new Size(121, 23);
             BotonOcultarConfig.TabIndex = 19;
@@ -198,6 +200,9 @@
             // PanelConfigAdminsitrador
             // 
             PanelConfigAdminsitrador.BackColor = Color.IndianRed;
+            PanelConfigAdminsitrador.Controls.Add(BotonAbrirFileDialog);
+            PanelConfigAdminsitrador.Controls.Add(TextBoxRutaExe);
+            PanelConfigAdminsitrador.Controls.Add(label1);
             PanelConfigAdminsitrador.Controls.Add(BotonOcultarConfig);
             PanelConfigAdminsitrador.Controls.Add(ComboBoxAperturaMolinete);
             PanelConfigAdminsitrador.Controls.Add(TextBoxToken);
@@ -206,9 +211,40 @@
             PanelConfigAdminsitrador.Controls.Add(label6);
             PanelConfigAdminsitrador.Location = new Point(744, 408);
             PanelConfigAdminsitrador.Name = "PanelConfigAdminsitrador";
-            PanelConfigAdminsitrador.Size = new Size(330, 173);
+            PanelConfigAdminsitrador.Size = new Size(330, 222);
             PanelConfigAdminsitrador.TabIndex = 20;
             PanelConfigAdminsitrador.Visible = false;
+            PanelConfigAdminsitrador.Paint += PanelConfigAdminsitrador_Paint;
+            // 
+            // BotonAbrirFileDialog
+            // 
+            BotonAbrirFileDialog.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            BotonAbrirFileDialog.Location = new Point(275, 89);
+            BotonAbrirFileDialog.Name = "BotonAbrirFileDialog";
+            BotonAbrirFileDialog.Size = new Size(31, 24);
+            BotonAbrirFileDialog.TabIndex = 22;
+            BotonAbrirFileDialog.Text = "•••";
+            BotonAbrirFileDialog.TextAlign = ContentAlignment.TopCenter;
+            BotonAbrirFileDialog.UseVisualStyleBackColor = true;
+            BotonAbrirFileDialog.Click += button1_Click;
+            // 
+            // TextBoxRutaExe
+            // 
+            TextBoxRutaExe.Location = new Point(106, 90);
+            TextBoxRutaExe.Name = "TextBoxRutaExe";
+            TextBoxRutaExe.Size = new Size(163, 23);
+            TextBoxRutaExe.TabIndex = 21;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(21, 88);
+            label1.Name = "label1";
+            label1.Size = new Size(79, 21);
+            label1.TabIndex = 20;
+            label1.Text = "Ruta .exe: ";
+            label1.Click += label1_Click_1;
             // 
             // LabelAdmin
             // 
@@ -290,5 +326,8 @@
         private Label LabelAdmin;
         private TextBox TextBoxAdmin;
         private Button BotonIngresarAdmin;
+        private Label label1;
+        private TextBox TextBoxRutaExe;
+        private Button BotonAbrirFileDialog;
     }
 }

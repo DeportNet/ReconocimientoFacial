@@ -86,7 +86,7 @@ namespace DeportNetReconocimiento.Service
 
         }
 
-        public async Task<Persona> ValidacionAperturaAsync(string idSocio)
+        public static async Task<Persona> ValidacionAperturaAsync(string idSocio)
         {
             HttpClient client = new HttpClient();
             var data = new { id = idSocio };

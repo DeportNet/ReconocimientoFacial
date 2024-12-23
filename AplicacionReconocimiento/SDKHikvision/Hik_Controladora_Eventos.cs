@@ -1,6 +1,7 @@
 ﻿using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDK;
+using DeportNetReconocimiento.Service;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
@@ -18,8 +19,8 @@ namespace DeportNetReconocimiento.SDKHikvision
     {
         //Defino el delegado ( A quien el voy a pasar el evento cuando lo reciba)
         private MSGCallBack msgCallback;
-        
 
+        public static  bool libre = true;
         public int GetAcsEventHandle = -1;
         private string CsTemp = null;
         private int m_lLogNum = 0;
@@ -70,18 +71,41 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
         }
 
-        public static void obtenerDatosClienteDeportNet(int nroReader, string numeroTarjeta)
+        public static async void obtenerDatosClienteDeportNet(int nroReader, string numeroTarjeta)
         {
 
-            //Ver como mierda puedo hacer que acceda aca sin que se rompa todo 
-            if(!string.IsNullOrWhiteSpace(numeroTarjeta))
+            if (!libre)
             {
-                /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
-                string jsonDeDeportnet = "{ \"Id\": \"1\", \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Habrá descuentos especiales la semana que viene\", \"Vencimiento\": \"12/09/2024\", \"Rta\" : \"S\", \"Fecha\" : \"12/08/2024\", \"Hora\" : \"19:00:32\", \"Pregunta\" : \"El cliente no paga la cuota hace 1 mes\"}";
-                WFPrincipal.ObtenerInstancia.ActualizarDatos(nroReader,jsonDeDeportnet);
+                Console.WriteLine("Se está procesando un evento");
+                return;
             }
 
+            if(string.IsNullOrWhiteSpace(numeroTarjeta))
+            {
+                Console.WriteLine("El evento no tiene numero de tajeta");
+                return;
+            }
+
+
+            libre = false;
+            /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
+            //string jsonDeDeportnet = await DxService.ValidacionAperturaAsync(numeroTarjeta);
+            string jsonDeDeportnet = await hacerPeticion();
+            WFPrincipal.ObtenerInstancia.ActualizarDatos(nroReader,jsonDeDeportnet);
+            libre = true;
+
         }
+
+        public async  static  Task<string> hacerPeticion()
+        {
+            await Task.Delay(1000); // Demora de 5 segundos (5000 ms)
+
+            string respuesta  =  "{ \"Id\": \"1\", \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Habrá descuentos especiales la semana que viene\", \"Vencimiento\": \"12/09/2024\", \"Rta\" : \"N\", \"Fecha\" : \"12/08/2024\", \"Hora\" : \"19:00:32\", \"Pregunta\" : \"El cliente no paga la cuota hace 1 mes\"}";
+            
+            return respuesta;
+        }
+
+
 
 
         public void SetupAlarm()
