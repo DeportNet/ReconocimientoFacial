@@ -8,7 +8,7 @@
   "ColorMensajeBienvenida": "Green",
   "ColorMensajeAccesoDenegado": "Red",
   "MensajeBienvenida": "Bienvenido a DeportNet!",
-  "ColorTextoMensajeAcceso": "Black",
+  "ColorMensajeAccesoConcedido": "Black",
   "ColorCampoActividad": "Black",
   "FuenteTextoCamposInformacion": "Arial Rounded MT Bold/20/Regular",
   "ColorVencimiento": "Black",
@@ -17,10 +17,23 @@
   "ColorFondoImagen": "DarkGray",
   "AccesoConcedido": {
     "RutaArchivo": "E:\\Downloads\\large-underwater-explosion-190270.mp3",
-    "Activo": true
+    "Estado": true
   },
   "SonidoBienvenida": {
     "RutaArchivo": "E:\\Downloads\\sonido-bienvenida.mp3",
-    "Activo": true
-  }
+    "Estado": false
+  },
+  "AccesoDenegado": {
+    "RutaArchivo": "",
+    "Estado": false
+  },
+  "SonidoPregunta": {
+    "RutaArchivo": "",
+    "Estado": false
+  },
+  "CarasRegistradas": 1,
+  "CapacidadMaximaDispositivo": 500,
+  "PorcentajeAlertaCapacidad": 70,
+  "MetodoApertura": ".exe",
+  "RutaMetodoApertura": ""
 }
