@@ -24,14 +24,14 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
 
             //estilos se leen de un archivo
-            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            //InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
 
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
             ReproducirSonido(configuracionEstilos.SonidoBienvenida);
 
-            Escuchador_Directorio.InicializarEscuchadorEnHilo();
-            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
+            //Escuchador_Directorio.InicializarEscuchadorEnHilo();
+            //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
 
         }
 
@@ -254,7 +254,7 @@ namespace DeportNetReconocimiento.GUI
             ConfiguracionEstilos configuracion = new ConfiguracionEstilos();
             configuracion = ConfiguracionEstilos.LeerJsonConfiguracion(ruta);
 
-            int capacidadMaxima = configuracion.CapacidadMaximaDisposotivo;
+            int capacidadMaxima = configuracion.CapacidadMaximaDispositivo;
             int carasActuales = configuracion.CarasRegistradas;
             float porcentaje = configuracion.PorcentajeAlertaCapacidad;
 
@@ -275,9 +275,7 @@ namespace DeportNetReconocimiento.GUI
         //función para actualizar los datos en el hilo principal
         public async void ActualizarDatos(int nroLector, string json)
         {
-
-            Console.WriteLine("Entro aca");
-            string respuesta;
+            string respuesta= "";
 
             //Si el hilo que llama a la función no es el principal, se llama a la función de nuevo en el hilo principal
             if (InvokeRequired)
@@ -323,6 +321,9 @@ namespace DeportNetReconocimiento.GUI
             DialogResult respuesta = DialogResult.OK;
             if (persona.Rta == "P")
             {
+                
+                ReproducirSonido(configuracionEstilos.SonidoPregunta);
+
                 respuesta = MessageBox.Show(
                 persona.Pregunta + pregunta,
                 "Pregunta",
@@ -333,15 +334,19 @@ namespace DeportNetReconocimiento.GUI
 
             if (persona.Rta == "S" || respuesta == DialogResult.Yes)
             {
+                ReproducirSonido(configuracionEstilos.AccesoConcedido);
+
+
                 mensaje = "Bienvenido " + persona.Nombre;
-                HeaderLabel.ForeColor = Color.Green;
+                HeaderLabel.ForeColor = configuracionEstilos.ColorMensajeAccesoConcedido;
 
             }
             else if (persona.Rta == "N" || respuesta == DialogResult.No)
             {
+                ReproducirSonido(configuracionEstilos.AccesoDenegado);
 
                 mensaje = "Acceso denegado " + persona.Nombre;
-                HeaderLabel.ForeColor = Color.Red;
+                HeaderLabel.ForeColor = configuracionEstilos.ColorMensajeAccesoDenegado;
 
             }
 
@@ -402,6 +407,7 @@ namespace DeportNetReconocimiento.GUI
             LimpiarPictureBox();
 
             HeaderLabel.Text = configuracionEstilos.MensajeBienvenida;
+            HeaderLabel.ForeColor = configuracionEstilos.ColorMensajeBienvenida;
             actividadLabel.Text = "";
             valorFechaVtoLabel.Text = "";
             valorClasesRestLabel.Text = "";
@@ -437,8 +443,14 @@ namespace DeportNetReconocimiento.GUI
 
         public void ReproducirSonido(Sonido sonido)
         {
+            if(sonido == null)
+            {
+                return;
+            }
+
             ReproductorSonidos reproductor = new ReproductorSonidos();
             reproductor.ReproducirSonido(sonido);
+            
         }
 
 
@@ -516,7 +528,7 @@ namespace DeportNetReconocimiento.GUI
             HeaderLabel.BackColor = config.ColorFondoMensajeAcceso;
             HeaderLabel.Font = config.FuenteTextoMensajeAcceso;
             HeaderLabel.Text = config.MensajeBienvenida;
-            HeaderLabel.ForeColor = config.ColorTextoMensajeAcceso;
+            HeaderLabel.ForeColor = config.ColorMensajeAccesoConcedido;
 
             //font campos
             actividadLabel.Font = config.FuenteTextoCamposInformacion;
@@ -538,14 +550,9 @@ namespace DeportNetReconocimiento.GUI
             VerificarAlmacenamiento();
         }
         private void botonPersonalizar_Click(object sender, EventArgs e)
-        {
-            ReproducirSonido(configuracionEstilos.AccesoConcedido);
-
-            
+        {         
 
             WFConfiguracion wFConfiguracion = new WFConfiguracion(ConfiguracionEstilos, this);
-
-
 
             wFConfiguracion.ShowDialog();
         }

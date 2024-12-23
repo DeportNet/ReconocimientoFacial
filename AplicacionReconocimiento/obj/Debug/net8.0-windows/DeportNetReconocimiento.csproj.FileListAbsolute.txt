@@ -62,3 +62,10 @@ G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\obj\Debug\ne
 G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNetReconocimiento.pdb
 G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNetReconocimiento.genruntimeconfig.cache
 G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\ref\DeportNetReconocimiento.dll
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\NAudio.dll
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\NAudio.Asio.dll
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\NAudio.Core.dll
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\NAudio.Midi.dll
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\NAudio.Wasapi.dll
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\NAudio.WinForms.dll
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\NAudio.WinMM.dll

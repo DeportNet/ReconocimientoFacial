@@ -30,10 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WFConfiguracion));
             tituloConfig = new Label();
-            sonidosTituloLabel = new Label();
-            accesoPermitidoLabel = new Label();
-            accesoDenegadoLabel = new Label();
-            preguntaLabel = new Label();
             label6 = new Label();
             tokenIdentificadorLabel = new Label();
             personalizacionTituloLabel = new Label();
@@ -62,46 +58,6 @@
             tituloConfig.Size = new Size(679, 45);
             tituloConfig.TabIndex = 0;
             tituloConfig.Text = "Configuraciones dispositivo reconocimiento";
-            // 
-            // sonidosTituloLabel
-            // 
-            sonidosTituloLabel.AutoSize = true;
-            sonidosTituloLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Underline);
-            sonidosTituloLabel.Location = new Point(744, 138);
-            sonidosTituloLabel.Name = "sonidosTituloLabel";
-            sonidosTituloLabel.Size = new Size(71, 21);
-            sonidosTituloLabel.TabIndex = 5;
-            sonidosTituloLabel.Text = "Sonidos";
-            // 
-            // accesoPermitidoLabel
-            // 
-            accesoPermitidoLabel.AutoSize = true;
-            accesoPermitidoLabel.Font = new Font("Segoe UI", 12F);
-            accesoPermitidoLabel.Location = new Point(744, 175);
-            accesoPermitidoLabel.Name = "accesoPermitidoLabel";
-            accesoPermitidoLabel.Size = new Size(133, 21);
-            accesoPermitidoLabel.TabIndex = 6;
-            accesoPermitidoLabel.Text = "Acceso permitido:";
-            // 
-            // accesoDenegadoLabel
-            // 
-            accesoDenegadoLabel.AutoSize = true;
-            accesoDenegadoLabel.Font = new Font("Segoe UI", 12F);
-            accesoDenegadoLabel.Location = new Point(744, 215);
-            accesoDenegadoLabel.Name = "accesoDenegadoLabel";
-            accesoDenegadoLabel.Size = new Size(134, 21);
-            accesoDenegadoLabel.TabIndex = 7;
-            accesoDenegadoLabel.Text = "Acceso denegado:";
-            // 
-            // preguntaLabel
-            // 
-            preguntaLabel.AutoSize = true;
-            preguntaLabel.Font = new Font("Segoe UI", 12F);
-            preguntaLabel.Location = new Point(744, 258);
-            preguntaLabel.Name = "preguntaLabel";
-            preguntaLabel.Size = new Size(125, 21);
-            preguntaLabel.TabIndex = 8;
-            preguntaLabel.Text = "Pregunta popup:";
             // 
             // label6
             // 
@@ -148,7 +104,7 @@
             propertyGrid1.AllowDrop = true;
             propertyGrid1.Location = new Point(22, 124);
             propertyGrid1.Name = "propertyGrid1";
-            propertyGrid1.Size = new Size(567, 490);
+            propertyGrid1.Size = new Size(701, 490);
             propertyGrid1.TabIndex = 15;
             propertyGrid1.PropertyValueChanged += PropertyGrid1_PropertyValueChanged;
             propertyGrid1.Click += PropertyGrid1_Click;
@@ -209,7 +165,7 @@
             PanelConfigAdminsitrador.Controls.Add(opcionesTituloLabel);
             PanelConfigAdminsitrador.Controls.Add(tokenIdentificadorLabel);
             PanelConfigAdminsitrador.Controls.Add(label6);
-            PanelConfigAdminsitrador.Location = new Point(744, 408);
+            PanelConfigAdminsitrador.Location = new Point(827, 267);
             PanelConfigAdminsitrador.Name = "PanelConfigAdminsitrador";
             PanelConfigAdminsitrador.Size = new Size(330, 222);
             PanelConfigAdminsitrador.TabIndex = 20;
@@ -250,7 +206,7 @@
             // 
             LabelAdmin.AutoSize = true;
             LabelAdmin.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            LabelAdmin.Location = new Point(746, 333);
+            LabelAdmin.Location = new Point(829, 196);
             LabelAdmin.Name = "LabelAdmin";
             LabelAdmin.Size = new Size(110, 21);
             LabelAdmin.TabIndex = 21;
@@ -259,14 +215,14 @@
             // 
             // TextBoxAdmin
             // 
-            TextBoxAdmin.Location = new Point(862, 335);
+            TextBoxAdmin.Location = new Point(945, 194);
             TextBoxAdmin.Name = "TextBoxAdmin";
             TextBoxAdmin.Size = new Size(111, 23);
             TextBoxAdmin.TabIndex = 22;
             // 
             // BotonIngresarAdmin
             // 
-            BotonIngresarAdmin.Location = new Point(979, 335);
+            BotonIngresarAdmin.Location = new Point(1062, 194);
             BotonIngresarAdmin.Name = "BotonIngresarAdmin";
             BotonIngresarAdmin.Size = new Size(57, 23);
             BotonIngresarAdmin.TabIndex = 23;
@@ -287,10 +243,6 @@
             Controls.Add(guardarCambiosButton);
             Controls.Add(propertyGrid1);
             Controls.Add(personalizacionTituloLabel);
-            Controls.Add(preguntaLabel);
-            Controls.Add(accesoDenegadoLabel);
-            Controls.Add(accesoPermitidoLabel);
-            Controls.Add(sonidosTituloLabel);
             Controls.Add(tituloConfig);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "WFConfiguracion";
@@ -308,10 +260,6 @@
         #endregion
 
         private Label tituloConfig;
-        private Label sonidosTituloLabel;
-        private Label accesoPermitidoLabel;
-        private Label accesoDenegadoLabel;
-        private Label preguntaLabel;
         private Label label6;
         private Label tokenIdentificadorLabel;
         private Label alertaPorcentajeLabel;

@@ -274,8 +274,27 @@ namespace DeportNetReconocimiento.GUI
 
 
             principal.AplicarConfiguracion(configuracion);
-            BigInteger token = ConfiguracionEstilos.EncriptadorToken(BigInteger.Parse(TextBoxToken.Text));
-            GuardarTokenCredenciales(token.ToString());
+
+            try
+            {
+                BigInteger token = ConfiguracionEstilos.EncriptadorToken(BigInteger.Parse(TextBoxToken.Text));
+                GuardarTokenCredenciales(token.ToString());
+
+            }
+            catch (FormatException ex)
+            {
+
+                MessageBox.Show(
+                    "El numero ingresado debe ser de tipo numero", // Mensaje
+                    "Error de Formato",                                  // Título
+                    MessageBoxButtons.OK,                                   // Botones (OK)
+                    MessageBoxIcon.Error                                    // Ícono (Error)
+                    );
+
+            }
+
+
+
         }
 
         public void EscribirArchivoCredenciales(string[] arregloDeDatos)

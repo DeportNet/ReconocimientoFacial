@@ -1,5 +1,6 @@
 using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.Properties;
+using DeportNetReconocimiento.SDK;
 using Microsoft.VisualBasic.Logging;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -98,9 +99,9 @@ namespace DeportNetReconocimiento.Utils
 
         [Category("Mensaje de acceso")]
         [DisplayName("Color del texto de mensaje de bienvenida")]
-        [Description("Selecciona el color del texto del mensaje de bienvenida.")]
+        [Description("Selecciona el color del texto del mensaje de acceso concedido.")]
         [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorTextoMensajeAcceso { get; set; }
+        public Color ColorMensajeAccesoConcedido { get; set; }
 
         /* - - - - - Campos de informacion - - - - - - */
 
@@ -144,7 +145,7 @@ namespace DeportNetReconocimiento.Utils
 
         [Category("Sonidos")]
         [DisplayName("Acceso Concedido")]
-        [Description("Configuración del sonido cuando se concede acceso.")]
+        [Description("Configuración del sonido cuando se concede acceso al cliente.")]
         public Sonido AccesoConcedido { get; set; }
 
 
@@ -152,6 +153,16 @@ namespace DeportNetReconocimiento.Utils
         [DisplayName("Sonido inicial")]
         [Description("Configuración del sonido cuando se inicia el programa.")]
         public Sonido SonidoBienvenida { get; set; }
+
+        [Category("Sonidos")]
+        [DisplayName("Acceso Denegado")]
+        [Description("Configuración del sonido cuando se deniega el acceso al cliente.")]
+        public Sonido AccesoDenegado { get; set; }
+
+        [Category("Sonidos")]
+        [DisplayName("Sonido de pregunta")]
+        [Description("Configuración del sonido cuando se abre un pop up de pregunta")]
+        public Sonido SonidoPregunta { get; set; }
 
         /* - - - - - - Campos de estadísticas - - - - - - */
 
@@ -166,7 +177,7 @@ namespace DeportNetReconocimiento.Utils
         [DisplayName("Capacidad del dispositivo")]
         [Description("Cantidad maxima de socios que pueden estar registrados en el dispositivo")]
         [ReadOnly(true)]
-        public int CapacidadMaximaDisposotivo { get; set; }
+        public int CapacidadMaximaDispositivo { get; set; }
 
 
         [Category("Estadísticas")]
@@ -220,7 +231,7 @@ namespace DeportNetReconocimiento.Utils
             ColorMensajeBienvenida = Color.Green;
             ColorMensajeAccesoDenegado = Color.Red;
             MensajeBienvenida = "Bienvenido a DeportNet!";
-            ColorTextoMensajeAcceso = Color.Black;
+            ColorMensajeAccesoConcedido = Color.Black;
 
             FuenteTextoMensajeAcceso = new Font("Arial Rounded MT Bold", 36, FontStyle.Italic);
 
@@ -237,11 +248,15 @@ namespace DeportNetReconocimiento.Utils
 
             // Sonidos predeterminados
             AccesoConcedido = new Sonido();
+            AccesoDenegado = new Sonido();
+            SonidoPregunta = new Sonido();
             SonidoBienvenida = new Sonido();
 
+
+
             //Campos de estadísticas
-            CarasRegistradas = 0;
-            CapacidadMaximaDisposotivo = 0;
+            CarasRegistradas = 1;
+            CapacidadMaximaDispositivo = 500;
             PorcentajeAlertaCapacidad = 70.0f;
 
             //Configuraciónes
@@ -355,7 +370,7 @@ namespace DeportNetReconocimiento.Utils
             string rutaJson = "configuracionEstilos";
             ConfiguracionEstilos configuracion = LeerJsonConfiguracion(rutaJson);
             int capacidad = Hik_Controladora_General.InstanciaControladoraGeneral.ObtenerCapcidadCarasDispostivo();
-            configuracion.CapacidadMaximaDisposotivo = capacidad;
+            configuracion.CapacidadMaximaDispositivo = capacidad;
             GuardarJsonConfiguracion(configuracion);
         }
 

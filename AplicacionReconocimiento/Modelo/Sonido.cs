@@ -10,8 +10,6 @@ namespace DeportNetReconocimiento.Modelo
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class Sonido
     {
-        private string rutaArchivo;
-
         [DisplayName("Ruta del archivo")]
         [Description("Seleccione el archivo de sonido.")]
         [Editor(typeof(SoundFileEditor), typeof(UITypeEditor))]
@@ -20,23 +18,23 @@ namespace DeportNetReconocimiento.Modelo
 
 
         [Category("Configuración")]
-        [DisplayName("Activo")]
-        [Description("Indica si el sonido está activado.")]
+        [DisplayName("Estado")]
+        [Description("Indica si el sonido está activado o no.")]
         [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
         [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
-        public bool Activo { get; set; } = true;
+        public bool Estado { get; set; } = true;
 
 
         public Sonido()
         {
             this.RutaArchivo = "";
-            this.Activo = false;
+            this.Estado = false;
         }
 
-        public Sonido(string nombreArchivo) 
+        public Sonido(string rutaArchivo) 
         { 
-            this.RutaArchivo = nombreArchivo;
-            this.Activo = true;
+            this.RutaArchivo = rutaArchivo;
+            this.Estado = true;
         }
 
         private string GuardarSonidoEnDirectorio(string rutaArchivoOriginal)
@@ -77,6 +75,17 @@ namespace DeportNetReconocimiento.Modelo
                 return null;
             }
         }
+
+
+        public override string ToString()
+        {
+            string mostrarActivo = Estado ? "Activo" : "Inactivo";
+            string mostrarNombreArchivo = string.IsNullOrEmpty(RutaArchivo) ? "No seleccionado" : Path.GetFileName(RutaArchivo);
+
+
+            return $"Sonido: {mostrarNombreArchivo}; Estado: {mostrarActivo}";
+        }
+
 
     }
 

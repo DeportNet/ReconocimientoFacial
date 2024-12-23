@@ -28,7 +28,7 @@ namespace DeportNetReconocimiento.Utils
         public void ReproducirSonido(Sonido sonido)
         {
             //si el sonido es nulo o no esta activo, no se reproduce
-            if (sonido == null || !sonido.Activo || string.IsNullOrEmpty(sonido.RutaArchivo))
+            if (sonido == null || !sonido.Estado || string.IsNullOrEmpty(sonido.RutaArchivo))
             {
                 return;
             }
