@@ -24,14 +24,14 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
 
             //estilos se leen de un archivo
-            //InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
 
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
             ReproducirSonido(configuracionEstilos.SonidoBienvenida);
 
-            //Escuchador_Directorio.InicializarEscuchadorEnHilo();
-            //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
+            Escuchador_Directorio.InicializarEscuchadorEnHilo();
+            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
 
         }
 

@@ -1,6 +1,6 @@
 {
   "ColorFondo": "Silver",
-  "Logo": "logoGimansio.png",
+  "Logo": "",
   "ColorFondoLogo": "DimGray",
   "TiempoDeMuestraDeDatos": 3,
   "FuenteTextoMensajeAcceso": "Arial Rounded MT Bold/36/Italic",
@@ -16,11 +16,11 @@
   "ColorMensaje": "Black",
   "ColorFondoImagen": "DarkGray",
   "AccesoConcedido": {
-    "RutaArchivo": "E:\\Downloads\\large-underwater-explosion-190270.mp3",
-    "Estado": true
+    "RutaArchivo": "",
+    "Estado": false
   },
   "SonidoBienvenida": {
-    "RutaArchivo": "E:\\Downloads\\sonido-bienvenida.mp3",
+    "RutaArchivo": "",
     "Estado": false
   },
   "AccesoDenegado": {
@@ -32,8 +32,8 @@
     "Estado": false
   },
   "CarasRegistradas": 1,
-  "CapacidadMaximaDispositivo": 500,
+  "CapacidadMaximaDispositivo": 1500,
   "PorcentajeAlertaCapacidad": 70,
   "MetodoApertura": ".exe",
-  "RutaMetodoApertura": ""
+  "RutaMetodoApertura": "C:\\Users\\facun\\OneDrive\\Escritorio\\Trabajo\\large-underwater-explosion-190270.mp3"
 }
