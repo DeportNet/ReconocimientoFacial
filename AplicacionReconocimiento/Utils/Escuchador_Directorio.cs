@@ -22,7 +22,10 @@ namespace DeportNetReconocimiento.Utils
 
         public static void inicializarEscuchador()
         {
-            string rutaAEscuchar = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\Eventos\"; //Aca hay que poner la ruta correspondiente 
+
+            string rutaBase = AppDomain.CurrentDomain.BaseDirectory; // Raíz de ejecutable.
+            string rutaAEscuchar = Path.Combine(rutaBase, "Eventos");
+          //  string rutaAEscuchar = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\Eventos\"; //Aca hay que poner la ruta correspondiente 
 
             escuchador = new FileSystemWatcher
             {

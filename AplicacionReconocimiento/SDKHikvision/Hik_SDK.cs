@@ -1093,7 +1093,10 @@ namespace DeportNetReconocimiento.SDK
         #endregion
 
         #region  HCNetSDK.dll function definition
-        private const string rutaLibreriaSDK = @"D:\DeportNet\DeportNetReconocimiento\HCNetSDK\HCNetSDK.dll";
+
+
+
+        private const string rutaLibreriaSDK = @"HCNetSDK\HCNetSDK.dll";
 
 
         [DllImport(rutaLibreriaSDK)]

@@ -1,6 +1,6 @@
 {
-  "ColorFondo": "Silver",
-  "Logo": "",
+  "ColorFondo": "DarkGray",
+  "Logo": "logoGimansio.png",
   "ColorFondoLogo": "DimGray",
   "TiempoDeMuestraDeDatos": 3,
   "FuenteTextoMensajeAcceso": "Arial Rounded MT Bold/36/Italic",
