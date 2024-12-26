@@ -2,6 +2,7 @@
 using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Service;
+using DeportNetReconocimiento.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
@@ -100,7 +101,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         {
             await Task.Delay(1000); // Demora de 5 segundos (5000 ms)
 
-            string respuesta  =  "{ \"Id\": \"1\", \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Habrá descuentos especiales la semana que viene\", \"Vencimiento\": \"12/09/2024\", \"Rta\" : \"N\", \"Fecha\" : \"12/08/2024\", \"Hora\" : \"19:00:32\", \"Pregunta\" : \"El cliente no paga la cuota hace 1 mes\"}";
+            string respuesta  =  "{ \"Id\": \"1\", \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Habrá descuentos especiales la semana que viene\", \"Vencimiento\": \"12/09/2024\", \"Rta\" : \"S\", \"Fecha\" : \"12/08/2024\", \"Hora\" : \"19:00:32\", \"Pregunta\" : \"El cliente no paga la cuota hace 1 mes\"}";
             
             return respuesta;
         }

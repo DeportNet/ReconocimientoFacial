@@ -336,6 +336,11 @@ namespace DeportNetReconocimiento.GUI
             {
                 ReproducirSonido(configuracionEstilos.AccesoConcedido);
 
+                    if (ConfiguracionEstilos.LeerJsonConfiguracion("ConfiguracionEstilos").MetodoApertura == ".exe")
+                    {
+                    Console.WriteLine("Ejecuto el exe");
+                        Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos").RutaMetodoApertura);
+                    }
 
                 mensaje = "Bienvenido " + persona.Nombre;
                 HeaderLabel.ForeColor = configuracionEstilos.ColorMensajeAccesoConcedido;
