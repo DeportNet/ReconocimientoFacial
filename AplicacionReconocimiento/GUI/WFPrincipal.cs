@@ -77,10 +77,8 @@ namespace DeportNetReconocimiento.GUI
             if (credenciales.Length == 0)
             {
                 //Si no hubo exito mostrar ventana con el error. Un modal 
-                resultado.Exito = false;
-                resultado.Mensaje = "No se pudieron leer las credenciales";
-                MessageBox.Show("Error no se pudo iniciar sesion con exito... Vuelva a intentarlo");
-                //this.Close();
+                resultado.ActualizarResultado(false, "No se pudieron leer las credenciales... Vuelva a intentarlo", "-1");
+                resultado.MessageBoxResultado("Error al leer las credenciales");
             }
 
 
@@ -89,10 +87,12 @@ namespace DeportNetReconocimiento.GUI
                 Instancia_Controladora_General = Hik_Controladora_General.InstanciaControladoraGeneral;
                 resultado = Instancia_Controladora_General.InicializarPrograma(credenciales[2], credenciales[3], credenciales[1], credenciales[0]);
 
+                if(resultado.Exito == false)
+                {
+                    resultado.MessageBoxResultado("Error al inicializar el programa");
+
+                }
             }
-
-
-
 
             return resultado;
         }

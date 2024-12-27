@@ -106,7 +106,7 @@ namespace DeportNetReconocimiento.SDK
             }
             catch
             {
-                resultado.ActualizarResultado(false, "NET_DVR_Init error", Hik_SDK.NET_DVR_GetLastError().ToString());
+                resultado.ActualizarResultado(false, $"Error al inicializar el dispositivo\nNET_DVR_Init error", Hik_SDK.NET_DVR_GetLastError().ToString());
             }
 
             Hik_Resultado.EscribirLog();
@@ -154,9 +154,7 @@ namespace DeportNetReconocimiento.SDK
             }
 
             Hik_Resultado.EscribirLog();
-
-            resultado.EscribirResultado("Login de el sistema");
-
+            
             return resultado;
         }
 
@@ -174,9 +172,7 @@ namespace DeportNetReconocimiento.SDK
                 {
                     mensajeDeSdk = string.Format("Te quedan {0} intentos para logearte", struDeviceInfoV40.byRetryLoginTime);
                 }
-
-                resultado.ActualizarResultado(false, "Usuario o contraseña invalidos" + mensajeDeSdk, Hik_SDK.NET_DVR_GetLastError().ToString());
-
+                resultado.ActualizarResultado(false, $"Usuario o contraseña invalidos \n {mensajeDeSdk}", Hik_SDK.NET_DVR_GetLastError().ToString());
             }
             else if (nroError == Hik_SDK.NET_DVR_USER_LOCKED)
             {
@@ -189,7 +185,6 @@ namespace DeportNetReconocimiento.SDK
             else
             {
                 resultado.ActualizarResultado(false, "Error de red o el panel está ocupado", Hik_SDK.NET_DVR_GetLastError().ToString());
-
             }
 
             return resultado;
@@ -390,9 +385,11 @@ namespace DeportNetReconocimiento.SDK
 
             //nos loggeamos
             resultado = Login(user, password, port, ip);
+            resultado.EscribirResultado("Login");
 
             if (!resultado.Exito)
             {
+
                 //si no se pudo Loggear
                 return resultado;
             }
@@ -411,7 +408,6 @@ namespace DeportNetReconocimiento.SDK
             //setteamos el callback para obtener los ids de los usuarios
             hik_Controladora_Eventos = new Hik_Controladora_Eventos();
 
-            resultado.EscribirResultado("Resultado general de Inicializar el Programa");
             return resultado;
         }
 
@@ -463,8 +459,8 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(id));
             if (resultado.Exito)
             {
-                resultado.EscribirResultado("Buscar Tarjeta");
-                MessageBox.Show("El ID ya existe");
+                MessageBox.Show("Error de obtener la tarjeta");
+
                 return resultado;
             }
             
@@ -476,7 +472,7 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
             if (!resultado.Exito)
             {
-                resultado.EscribirResultado("Capturar cara");
+                MessageBox.Show("Error de obtener la cara");
                 return resultado;
             }
 
@@ -484,21 +480,21 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(int.Parse(id), nombre);
             if (!resultado.Exito)
             {
-                resultado.EscribirResultado("Establecer Tarjeta");
+                MessageBox.Show("Error de crear una tarjeta");
+
                 return resultado;
             }
-
 
             //Asigno la cara a la tarjeta
             resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, id);
             if (!resultado.Exito)
             {
-                resultado.EscribirResultado("Establecer una cara");
+                MessageBox.Show("Error de establecer una cara");
+
                 return resultado;
             }
 
             ConfiguracionEstilos.sumarRegistroCara();
-            resultado.EscribirResultado("Resultado de dar de alta un cliente");
             return resultado;
         }
 
@@ -510,8 +506,6 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(id));
             if (!resultado.Exito)
             {
-                resultado.EscribirResultado("Obtener Tarjeta");
-                MessageBox.Show("El ID " + id + " no existe");
                 return resultado;
             }
 
@@ -522,7 +516,6 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Facial.ObtenerInstancia.EliminarCara(1, id);
             if (!resultado.Exito)
             {
-                resultado.EscribirResultado("Eliminar cara");
                 return resultado;
             }
 
@@ -530,13 +523,11 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EliminarTarjetaPorId(int.Parse(id));
             if (!resultado.Exito)
             {
-                resultado.EscribirResultado("Eliminar tarjeta");
                 return resultado;
             }
 
 
             ConfiguracionEstilos.restarRegistroCara();
-            resultado.EscribirResultado("Resultado de dar de baja un cliente");
             return resultado;
 
         }

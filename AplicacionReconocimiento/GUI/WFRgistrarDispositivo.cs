@@ -63,8 +63,7 @@ namespace DeportNetReconocimiento
             }
             else
             {
-                MessageBox.Show("Datos de registro incorrectos. El dispositivo tiene otras credenciales.");
-
+                resultadoLogin.MessageBoxResultado("Error al incializar el programa");
             }
            
         }

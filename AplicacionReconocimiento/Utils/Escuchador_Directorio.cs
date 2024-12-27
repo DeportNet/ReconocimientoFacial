@@ -25,7 +25,6 @@ namespace DeportNetReconocimiento.Utils
 
             string rutaBase = AppDomain.CurrentDomain.BaseDirectory; // Raíz de ejecutable.
             string rutaAEscuchar = Path.Combine(rutaBase, "Eventos");
-          //  string rutaAEscuchar = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\Eventos\"; //Aca hay que poner la ruta correspondiente 
 
             escuchador = new FileSystemWatcher
             {
@@ -73,7 +72,22 @@ namespace DeportNetReconocimiento.Utils
 
             try
             {
-                string contenido = File.ReadAllText(rutaCompelta);
+                bool bloqueado = archvioBloqueado(rutaCompelta);
+
+                if (!bloqueado)
+                {
+
+
+                    // Leer el archivo dentro de un bloque using para garantizar que se cierre
+                    string contenido;
+                    using (FileStream fs = new FileStream(rutaCompelta, FileMode.Open, FileAccess.Read, FileShare.None))
+                    using (StreamReader reader = new StreamReader(fs))
+                    {
+                        contenido = reader.ReadToEnd();
+                    }
+
+
+                    Console.WriteLine("Contenido: " + contenido);
                 string[] partes = contenido.Split(",");
                 string id = partes[0].Split(":")[1];
                 string nombre = partes[1].Split(":")[1];
@@ -85,19 +99,45 @@ namespace DeportNetReconocimiento.Utils
 
                 if (resultado.Exito)
                 {
-                    MessageBox.Show("Se agrego el usuario con exito");
+                    resultado.MessageBoxResultado("Se agregó al cliente con exito");
+                }
+                else
+                {
+                    resultado.MessageBoxResultado("Error al procesar el alta del cliente");
                 }
 
+                }
+                else
+                {
+
+                    Console.WriteLine("Está bloqueado");
+                }
             }
             catch
             {
+                Console.WriteLine("El error es aca");
                 Console.WriteLine("Error al procesar el alta del cliente");
-            }
+            } 
 
 
             if (File.Exists(rutaCompelta))
             {
                 File.Delete(rutaCompelta);
+            }
+        }
+
+        private static bool archvioBloqueado(string ruta)
+        {
+
+            try
+            {
+                using(FileStream stream = File.Open(ruta, FileMode.Open, FileAccess.Read, FileShare.None))
+                {
+                    return false;
+                }
+            }catch(IOException)
+            {
+                return true;
             }
         }
 
@@ -112,17 +152,21 @@ namespace DeportNetReconocimiento.Utils
                 if (id.Length > 0)
                 {
                     res = Hik_Controladora_General.InstanciaControladoraGeneral.BajaCliente(id);
-                }
 
-                if (res.Exito)
-                {
-                    MessageBox.Show("Usuario eliminado con exito");
 
+                    if (res.Exito)
+                    {
+                        res.MessageBoxResultado("Cliente eliminado con exito");
+                    }
+                    else
+                    {
+                        res.MessageBoxResultado("Error al elimianr el cliente");
+                    }
                 }
             }
             catch
             {
-                Console.WriteLine("Error al procesar la baja del cliente");
+                Console.WriteLine("Error al procesar la baja de clientes");
             }
 
 
