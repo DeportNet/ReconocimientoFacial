@@ -30,12 +30,12 @@ namespace DeportNetReconocimiento.Utils
             {
                 Path = rutaAEscuchar,
                 NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName,
-                Filter = "*.txt"
+                Filter = "*.txt",
+                InternalBufferSize = 64 * 1024
             };
 
 
             escuchador.Created += OnChanged;
-            escuchador.Changed += OnChanged;
 
             escuchador.EnableRaisingEvents = true;
 
@@ -49,18 +49,19 @@ namespace DeportNetReconocimiento.Utils
             switch (nombreArchvio)
             {
                 case "altaCliente.txt":
-                    AltaCliente(e.FullPath);
+                    Task.Run(() => AltaCliente(e.FullPath));
                     break;
 
                 case "bajaCliente.txt":
-                    BajaCliente(e.FullPath);
+                    Task.Run(() => BajaCliente(e.FullPath));
                     break;
 
-               case "bajaMasivaClientes.txt":
-                   BajaMasivaCliente(e.FullPath);
+                case "bajaMasivaClientes.txt":
+                    Task.Run(() => BajaMasivaCliente(e.FullPath));
                     break;
             }
 
+            Task.WaitAll();
             WFPrincipal.ObtenerInstancia.VerificarAlmacenamiento();
 
         }

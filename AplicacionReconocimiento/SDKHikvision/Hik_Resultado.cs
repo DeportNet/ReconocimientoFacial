@@ -63,7 +63,11 @@ namespace DeportNetReconocimiento.SDK
         }
         public void MessageBoxResultado(string titulo)
         {
+            if(Exito == false)
             MessageBox.Show($"Exito: {Exito} \nMensaje: {Mensaje}\nCodigo: {Codigo}", titulo,MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+            MessageBox.Show($"Exito: {Exito} \nMensaje: {Mensaje}\nCodigo: {Codigo}", titulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
         }
 
 
