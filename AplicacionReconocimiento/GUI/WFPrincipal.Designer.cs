@@ -66,7 +66,7 @@ namespace DeportNetReconocimiento.GUI
             imagenLogo.Location = new Point(323, 2);
             imagenLogo.Name = "imagenLogo";
             imagenLogo.Size = new Size(709, 133);
-            imagenLogo.SizeMode = PictureBoxSizeMode.StretchImage;
+            imagenLogo.SizeMode = PictureBoxSizeMode.Zoom;
             imagenLogo.TabIndex = 1;
             imagenLogo.TabStop = false;
             // 
@@ -219,16 +219,15 @@ namespace DeportNetReconocimiento.GUI
             valorMensajeLabel.TabIndex = 26;
             valorMensajeLabel.Click += valorMensajeLabel_Click;
             // 
-            // panel1
+            // PanelAlmacenamiento
             // 
             PanelAlmacenamiento.BackColor = Color.Black;
             PanelAlmacenamiento.Controls.Add(TextoAlmacenamiento);
             PanelAlmacenamiento.Location = new Point(12, 12);
-            PanelAlmacenamiento.Name = "panel1";
+            PanelAlmacenamiento.Name = "PanelAlmacenamiento";
             PanelAlmacenamiento.Size = new Size(275, 80);
             PanelAlmacenamiento.TabIndex = 30;
             PanelAlmacenamiento.Visible = false;
-
             // 
             // TextoAlmacenamiento
             // 

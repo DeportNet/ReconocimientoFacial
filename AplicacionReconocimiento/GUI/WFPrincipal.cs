@@ -215,7 +215,8 @@ namespace DeportNetReconocimiento.GUI
                 //Verificar estado de internet
                 //El objetivo es saber si los datos reconocidos se almacenan o no en la base de datos local
 
-                VerificarConexionInternet();
+                //Esta función activa y desactiva el modo offline
+                 VerificarConexionInternet();
 
                 if (!resultado.Exito)
                 {
@@ -232,17 +233,17 @@ namespace DeportNetReconocimiento.GUI
             if (!Hik_Controladora_General.comprobarConexionInternet())
             {
 
-                if (PanelSinConexion.Visible == false && WFPanelOffline.ObtenerInstancia.Visible == false)
+                if (PanelSinConexion.Visible == false)//&& WFPanelOffline.ObtenerInstancia.Visible == false)
                 {
                     PanelSinConexion.Visible = true;
-                    WFPanelOffline.ObtenerInstancia.Show();
+                  //  WFPanelOffline.ObtenerInstancia.Show();
                 }
 
             }
             else if (PanelSinConexion.Visible == true)
             {
                 PanelSinConexion.Visible = false;
-                WFPanelOffline.ObtenerInstancia.Dispose();
+               // WFPanelOffline.ObtenerInstancia.Dispose();
             }
 
         }
