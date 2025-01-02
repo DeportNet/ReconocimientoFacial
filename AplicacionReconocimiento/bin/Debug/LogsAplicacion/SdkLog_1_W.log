@@ -1,59 +1,8 @@
-[2024-12-26 14:36:08.834][INF] The COM:HCCoreBase ver is 1.0.0.1, 2018_06_01. Async:1.
-[2024-12-26 14:36:08.834][INF] The COM:Core ver is 6.1.3.5, 2019_09_26. Async:1.
-[2024-12-26 14:36:08.834][INF] This HCNetSDK ver is 6.1.3.5 Ver 2019_09_26.
-[2024-12-26 14:36:08.849][INF] Login dev 192.168.0.209:8000.
-[2024-12-26 14:36:08.859][INF] LogonDev1 in[192.168.0.209:8000]
-[2024-12-26 14:36:08.863][INF] CCoreGlobalCtrlBase::LoadDSoByPath, load path[D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\HCNetSDK\libeay32.dll] success, handle[-234094592]
-[2024-12-26 14:36:08.863][INF] CCoreGlobalCtrlBase::LoadDSo, load path[D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\HCNetSDK\libeay32.dll] success, handle[-234094592]
-[2024-12-26 14:36:08.863][DBG] Load libeay32.dll SUCC, Real Path[D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\HCNetSDK\libeay32.dll]
-[2024-12-26 14:36:08.864][INF] CCoreGlobalCtrlBase::LoadDSoByPath, load path[D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\HCNetSDK\ssleay32.dll] success, handle[129236992]
-[2024-12-26 14:36:08.864][INF] CCoreGlobalCtrlBase::LoadDSo, load path[D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\HCNetSDK\ssleay32.dll] success, handle[129236992]
-[2024-12-26 14:36:08.864][DBG] Load ssleay32.dll SUCC, Real Path[D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\HCNetSDK\ssleay32.dll]
-[2024-12-26 14:36:08.865][INF] SSLTRANSAPI::PrintVersion, OpenSSL version info [OpenSSL 1.0.2q  20 Nov 2018]
-[2024-12-26 14:36:08.865][INF] CSSLTrans::SSLCtxInit, dwSSLVersion[0], m_fnClientMethodV23
-[2024-12-26 14:36:10.437][INF] Login use RSA1024
-[2024-12-26 14:36:10.480][INF] The COM:HCCoreBase ver is 1.0.0.1, 2018_06_01. Async:1.
-[2024-12-26 14:36:10.480][INF] The COM:Core ver is 6.1.3.5, 2019_09_26. Async:1.
-[2024-12-26 14:36:10.480][INF] This HCNetSDK ver is 6.1.3.5 Ver 2019_09_26.
-[2024-12-26 14:36:10.520][DBG] load full path[D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\HCNetSDK\HCNetSDKCom/HCGeneralCfgMgr.dll] succ
-[2024-12-26 14:36:10.520][INF] AbilityAnalyze---Init-- start
-[2024-12-26 14:36:10.521][ERR] AbilityAnalyze---open zip package error, package path D:/DeportNet/DeportNetReconocimiento/AplicacionReconocimiento/bin/Debug/net8.0-windows/HCNetSDK/LocalXml.zip
-[2024-12-26 14:36:10.521][INF] The COM:HCGeneralCfgMgr ver is 6.1.3.5, 2019_09_26.
-[2024-12-26 14:36:10.521][ERR] [0][COM_CoreDevCfg_GetDeviceAbility] AbilityType 0x801, InbufLen=[134], OutbufLen[3145728]
-[2024-12-26 14:36:10.598][INF] The COM:HCCoreBase ver is 1.0.0.1, 2018_06_01. Async:1.
-[2024-12-26 14:36:10.598][INF] The COM:Core ver is 6.1.3.5, 2019_09_26. Async:1.
-[2024-12-26 14:36:10.598][INF] This HCNetSDK ver is 6.1.3.5 Ver 2019_09_26.
-[2024-12-26 14:36:10.603][INF] The COM:HCCoreBase ver is 1.0.0.1, 2018_06_01. Async:1.
-[2024-12-26 14:36:10.603][INF] The COM:Core ver is 6.1.3.5, 2019_09_26. Async:1.
-[2024-12-26 14:36:10.603][INF] This HCNetSDK ver is 6.1.3.5 Ver 2019_09_26.
-[2024-12-26 14:36:10.793][ERR] [0][COM_CoreDevCfg_GetDeviceAbility] AbilityType 0x801, InbufLen=[134], OutbufLen[3145728]
-[2024-12-26 14:36:10.860][INF] The COM:HCCoreBase ver is 1.0.0.1, 2018_06_01. Async:1.
-[2024-12-26 14:36:10.860][INF] The COM:Core ver is 6.1.3.5, 2019_09_26. Async:1.
-[2024-12-26 14:36:10.860][INF] This HCNetSDK ver is 6.1.3.5 Ver 2019_09_26.
-[2024-12-26 14:36:11.021][DBG] load full path[D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\HCNetSDK\HCNetSDKCom/HCAlarm.dll] succ
-[2024-12-26 14:36:11.021][INF] The COM:HCAlarm ver is 6.1.3.5, 2019_09_26.
-[2024-12-26 14:36:11.036][INF] CAsyncManager::CreateHandle, m_dwCurrentCap[2], m_dwCurrentCount[1], iHandle[0]
-[2024-12-26 14:36:11.124][INF] Alarm[0] IP[192.168.0.209] data_len[384] alarm_len[376] status[400]
-[2024-12-26 14:36:11.252][INF] Alarm[0] IP[192.168.0.209] data_len[384] alarm_len[376] status[400]
-[2024-12-26 14:36:11.346][INF] Alarm[0] IP[192.168.0.209] data_len[384] alarm_len[376] status[400]
-[2024-12-26 14:36:28.104][INF] Alarm[0] IP[192.168.0.209] data_len[75308] alarm_len[75296] status[400]
-[2024-12-26 14:36:28.212][INF] Alarm[0] IP[192.168.0.209] data_len[384] alarm_len[376] status[400]
-[2024-12-26 14:36:29.163][DBG] load full path[D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\HCNetSDK\HCNetSDKCom/HCVoiceTalk.dll] succ
-[2024-12-26 14:36:29.163][INF] The COM:VoiceTalk ver is 6.1.3.5, 2019_09_26.
-[2024-12-26 14:36:29.167][DBG] load full path[D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\HCNetSDK\HCNetSDKCom/HCPlayBack.dll] succ
-[2024-12-26 14:36:29.167][INF] The COM:HCPlayback ver is 6.1.3.5, 2019_09_26.
-[2024-12-26 14:36:29.171][DBG] load full path[D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\HCNetSDK\HCNetSDKCom/HCIndustry.dll] succ
-[2024-12-26 14:36:29.171][INF] The COM:HCIndustry ver is 6.1.3.5, 2019_09_26.
-[2024-12-26 14:36:29.174][DBG] load full path[D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\HCNetSDK\HCNetSDKCom/HCDisplay.dll] succ
-[2024-12-26 14:36:29.175][INF] The COM:HCDisplay ver is 6.1.3.5, 2019_09_26.
-[2024-12-26 14:36:29.180][DBG] load full path[D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\HCNetSDK\HCNetSDKCom/HCPreview.dll] succ
-[2024-12-26 14:36:29.180][INF] The COM:Preview ver is 6.1.3.5, 2019_09_26.
-[2024-12-26 14:36:29.180][DBG] CLongConfigSessionEx::start succ [userid:0][command:2566]
-[2024-12-26 14:36:29.234][DBG] callback [2]data len[204976].
-[2024-12-26 14:36:29.240][DBG] callback [0]data len[4].
-[2024-12-26 14:36:29.240][DBG] callback status[1000].
-[2024-12-26 14:36:29.240][INF] [CLongLinkCtrlPrivate::RecvThreadFunc] RecvThreadFunc EXIT, this=0x6aaed84c, linkid=684df640
-[2024-12-26 14:36:29.241][INF] [0]CLongConfigSession::Stop in
-[2024-12-26 14:36:31.119][ERR] [0][COM_CoreDevCfg_GetDeviceAbility] AbilityType 0x0, InbufLen=[0], OutbufLen[3145728]
-[2024-12-26 14:36:33.328][INF] Alarm[0] IP[192.168.0.209] data_len[384] alarm_len[376] status[400]
-[2024-12-26 14:36:51.122][ERR] [0][COM_CoreDevCfg_GetDeviceAbility] AbilityType 0x0, InbufLen=[0], OutbufLen[3145728]
+[2025-01-02 11:08:02.381][INF] The COM:HCCoreBase ver is 1.0.0.1, 2018_06_01. Async:1.
+[2025-01-02 11:08:02.381][INF] The COM:Core ver is 6.1.3.5, 2019_09_26. Async:1.
+[2025-01-02 11:08:02.382][INF] This HCNetSDK ver is 6.1.3.5 Ver 2019_09_26.
+[2025-01-02 11:08:02.386][INF] Login dev 192.168.0.209:8000.
+[2025-01-02 11:08:05.888][ERR] [192.168.0.209:8000]LogonDevice Link_CreateLink fail[7].
+[2025-01-02 11:08:05.888][INF] The COM:HCCoreBase ver is 1.0.0.1, 2018_06_01. Async:1.
+[2025-01-02 11:08:05.888][INF] The COM:Core ver is 6.1.3.5, 2019_09_26. Async:1.
+[2025-01-02 11:08:05.888][INF] This HCNetSDK ver is 6.1.3.5 Ver 2019_09_26.

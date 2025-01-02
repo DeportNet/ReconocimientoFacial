@@ -24,12 +24,12 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
 
             //estilos se leen de un archivo
-            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-            Hik_Controladora_General.crearDirectorioEventos();
+            //InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            //Hik_Controladora_General.crearDirectorioEventos();
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
-            Escuchador_Directorio.InicializarEscuchadorEnHilo();
-            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
+            //Escuchador_Directorio.InicializarEscuchadorEnHilo();
+            //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
 
         }
 
@@ -249,13 +249,13 @@ namespace DeportNetReconocimiento.GUI
 
         public void VerificarAlmacenamiento()
         {
-            string ruta = "configuracionEstilos";
-            ConfiguracionEstilos configuracion = new ConfiguracionEstilos();
-            configuracion = ConfiguracionEstilos.LeerJsonConfiguracion(ruta);
+            //string ruta = "configuracionEstilos";
+            //ConfiguracionEstilos configuracion = new ConfiguracionEstilos();
+            //configuracion = ConfiguracionEstilos.LeerJsonConfiguracion(ruta);
 
-            int capacidadMaxima = configuracion.CapacidadMaximaDispositivo;
-            int carasActuales = configuracion.CarasRegistradas;
-            float porcentaje = configuracion.PorcentajeAlertaCapacidad;
+            int capacidadMaxima = configuracionEstilos.CapacidadMaximaDispositivo;
+            int carasActuales = configuracionEstilos.CarasRegistradas;
+            float porcentaje = configuracionEstilos.PorcentajeAlertaCapacidad;
 
             float porcentajeActual = (carasActuales * 100) / capacidadMaxima;
 
@@ -304,7 +304,7 @@ namespace DeportNetReconocimiento.GUI
 
             pictureBox1.Image = ObtenerFotoCliente(nroLector, persona.Id);
 
-            int tiempoMuestraDatos = (int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000);
+            int tiempoMuestraDatos = (int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000); // se convierten a segundos
 
             await Task.Delay(tiempoMuestraDatos);
             LimpiarInterfaz();
@@ -335,9 +335,9 @@ namespace DeportNetReconocimiento.GUI
             {
                 ReproducirSonido(configuracionEstilos.AccesoConcedido);
 
-                    if (ConfiguracionEstilos.LeerJsonConfiguracion("ConfiguracionEstilos").MetodoApertura == ".exe")
+                    if (configuracionEstilos.MetodoApertura == ".exe")
                     {
-                    Console.WriteLine("Ejecuto el exe");
+                        Console.WriteLine("Ejecuto el exe");
                         Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos").RutaMetodoApertura);
                     }
 
@@ -400,6 +400,7 @@ namespace DeportNetReconocimiento.GUI
             return imagen;
         }
 
+
         public void LimpiarInterfaz()
         {
             if (InvokeRequired)
@@ -416,7 +417,22 @@ namespace DeportNetReconocimiento.GUI
             valorFechaVtoLabel.Text = "";
             valorClasesRestLabel.Text = "";
             valorMensajeLabel.Text = "";
+
+            LimpiarFotosDirectorio();
+
         }
+
+
+        public void LimpiarFotosDirectorio()
+        {
+            String rutaCapturaCara = Path.Combine(Directory.GetCurrentDirectory(), "captura.jpg");
+            String rutaCaraAlmacenadaEnDispositivo = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
+
+            File.Delete(rutaCapturaCara);
+            File.Delete(rutaCaraAlmacenadaEnDispositivo);
+
+        }
+
 
         public static Persona JSONtoPersona(string json)
         {

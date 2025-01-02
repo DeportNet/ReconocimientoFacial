@@ -26,11 +26,36 @@ namespace DeportNetReconocimiento.Utils
         [DisplayName("Color de Fondo")]
         [Description("Define el color de fondo principal de la pantalla.")]
         [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorFondo { get; set; }
+        public Color ColorFondo
+        {
+
+            get => colorFondo;
+            set
+            {
+                if (value.Name == "Transparent")
+                {
+                    MessageBox.Show(
+                    "El color de fondo no puede ser transparente.", // Mensaje
+                    "Error de Validación",                                  // Título
+                    MessageBoxButtons.OK,                                   // Botones (OK)
+                    MessageBoxIcon.Error                                    // Ícono (Error)
+                    );
+                }
+                else
+                {
+                    colorFondo = value;
+                }
+            }
+        }
+        private Color colorFondo;
+        
+        
+        
+
 
         [Category("General")]
         [DisplayName("Logo de la pantalla de bienvenida")]
-        [Description("Establece el logo que se mostrará en la pantalla de bienvenida. Debe ser una imagen en formato PNG, JPG, BMP, etc.")]
+        [Description("Establece el logo que se mostrará en la pantalla de bienvenida. Dimensiones: 710x130. Formatos validos: .png, .jpeg, .jpg, .bmp, .gif, .tiff, .tif o .ico. Admite arrastrar y soltar imagen.")]
         [JsonConverter(typeof(ImageToPathJsonConverter))]
         public Image Logo { get; set; }
         
@@ -49,10 +74,10 @@ namespace DeportNetReconocimiento.Utils
             get => tiempoDeMuestraDeDatos;
             set
             {
-                if (value < 2)
+                if (value < 2 || value > 100)
                 {
                     MessageBox.Show(
-                    "El tiempo de muestra de datos no puede ser menor a 2 seg.", // Mensaje
+                    "El tiempo de muestra de datos no puede ser menor a 2 seg ni mayor a 100 seg.", // Mensaje
                     "Error de Validación",                                  // Título
                     MessageBoxButtons.OK,                                   // Botones (OK)
                     MessageBoxIcon.Error                                    // Ícono (Error)
@@ -272,7 +297,7 @@ namespace DeportNetReconocimiento.Utils
         public static void GuardarJsonConfiguracion(ConfiguracionEstilos configuracion)
         {
             string rutaJson = "configuracionEstilos.json";
-            string tempRutaJson = "configuracionEstilos_temp.json";
+            //string tempRutaJson = "configuracionEstilos_temp.json";
 
             try
             {
@@ -283,22 +308,22 @@ namespace DeportNetReconocimiento.Utils
 
                 // Serializar la configuración
                 string json = JsonSerializer.Serialize(configuracion, options);
-                File.WriteAllText(tempRutaJson, json);
+                File.WriteAllText(rutaJson, json);
 
-                // Validar el archivo temporal
-                ConfiguracionEstilos configuracionValidada = LeerJsonConfiguracion(tempRutaJson);
-                if (configuracionValidada != null)
-                {
-                    // Reemplazar el archivo original con el temporal
-                    File.Replace(tempRutaJson, rutaJson, null);
-                    Console.WriteLine("Configuración guardada correctamente.");
-                }
-                else
-                {
-                    // Eliminar el archivo temporal si la validación falla
-                    File.Delete(tempRutaJson);
-                    Console.WriteLine("Error en la validación de la configuración.");
-                }
+                //// Validar el archivo temporal
+                //ConfiguracionEstilos configuracionValidada = LeerJsonConfiguracion(tempRutaJson);
+                //if (configuracionValidada != null)
+                //{
+                //    // Reemplazar el archivo original con el temporal
+                //    File.Replace(tempRutaJson, rutaJson, null);
+                //    Console.WriteLine("Configuración guardada correctamente.");
+                //}
+                //else
+                //{
+                //    // Eliminar el archivo temporal si la validación falla
+                //    File.Delete(tempRutaJson);
+                //    Console.WriteLine("Error en la validación de la configuración.");
+                //}
 
                 ConfiguracionManager.ActualizarConfiguracionDesdeJson("configuracionEstilos");
 
@@ -336,7 +361,7 @@ namespace DeportNetReconocimiento.Utils
                     // Deserializar el contenido
                     configuracionEstilos = JsonSerializer.Deserialize<ConfiguracionEstilos>(jsonContent, options);
 
-                    Console.WriteLine("Configuración cargada correctamente.");
+                    Console.WriteLine("Configuración leida correctamente.");
                 }
                 catch (Exception ex)
                 {
@@ -347,29 +372,24 @@ namespace DeportNetReconocimiento.Utils
             return configuracionEstilos;
         }
 
-        public static void sumarRegistroCara()
+        public void sumarRegistroCara()
         {
-            string rutaJson = "configuracionEstilos";
-            ConfiguracionEstilos configuracion = LeerJsonConfiguracion(rutaJson);
-            configuracion.CarasRegistradas += 1;
-            GuardarJsonConfiguracion(configuracion);
+            
+            CarasRegistradas += 1;
+            GuardarJsonConfiguracion(this);
         }
 
-        public static void restarRegistroCara()
+        public void restarRegistroCara()
         {
-            string rutaJson = "configuracionEstilos";
-            ConfiguracionEstilos configuracion = LeerJsonConfiguracion(rutaJson);
-            configuracion.CarasRegistradas -= 1;
-            GuardarJsonConfiguracion(configuracion);
+            CarasRegistradas -= 1;
+            GuardarJsonConfiguracion(this);
         }
 
-        public static void ActualizarCapacidadMaxima()
+        public void ActualizarCapacidadMaxima()
         {
-            string rutaJson = "configuracionEstilos";
-            ConfiguracionEstilos configuracion = LeerJsonConfiguracion(rutaJson);
             int capacidad = Hik_Controladora_General.InstanciaControladoraGeneral.ObtenerCapcidadCarasDispostivo();
-            configuracion.CapacidadMaximaDispositivo = capacidad;
-            GuardarJsonConfiguracion(configuracion);
+            CapacidadMaximaDispositivo = capacidad;
+            GuardarJsonConfiguracion(this);
         }
 
         public static BigInteger EncriptadorToken(BigInteger token)
@@ -403,42 +423,6 @@ namespace DeportNetReconocimiento.Utils
         private readonly string directorioBase = AppDomain.CurrentDomain.BaseDirectory;
 
        
-        private string GuardarImagen(Image nuevaImagen, string nombreArchivo)
-        {
-            string directorioBase = AppDomain.CurrentDomain.BaseDirectory;
-            
-            string rutaGuardar = Path.Combine(directorioBase, nombreArchivo);
-
-            if(!ValidarImagen(nuevaImagen))
-            {
-                return null;
-            }
-
-
-
-            try
-            {
-                
-
-                // Usar un Bitmap temporal para evitar problemas de bloqueo
-                using (var bitmap = new Bitmap(nuevaImagen))
-                {
-                    bitmap.Save(rutaGuardar, System.Drawing.Imaging.ImageFormat.Png);
-                }
-
-
-                return rutaGuardar;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al guardar la imagen: {ex.Message}");
-            }
-            
-
-
-            return null;
-
-        }
 
         private bool ValidarImagen(Image image)
         {
@@ -478,16 +462,43 @@ namespace DeportNetReconocimiento.Utils
             }
         }
 
+        private string? GuardarImagen(Image nuevaImagen, string nombreArchivo)
+        {
+
+            string rutaGuardar = Path.Combine(directorioBase, nombreArchivo);
+            
+            try
+            {
+
+                // Usar un Bitmap temporal para evitar problemas de bloqueo
+                using (var bitmap = new Bitmap(nuevaImagen))
+                {
+                    bitmap.Save(rutaGuardar, System.Drawing.Imaging.ImageFormat.Png);
+                }
+
+
+                return rutaGuardar;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al guardar la imagen: {ex.Message}");
+            }
+            
+            return null;
+        }
+
+
         public override void Write(Utf8JsonWriter writer, Image value, JsonSerializerOptions options)
         {
             if (value == null)
             {
+                Console.WriteLine("Img Es null");
                 writer.WriteStringValue(string.Empty); // Guardar una cadena vacía si la imagen es null
                 return;
             }
 
             try
-            {
+            {   
                 // Ruta donde se guardará el archivo
                 string nombreArchivo = "logoGimansio.png";
 
@@ -506,11 +517,11 @@ namespace DeportNetReconocimiento.Utils
                 }
 
             }
-            catch(OutOfMemoryException ex)
-            {
-                Console.WriteLine($"write Out of memory exception: {ex.Message}");
+            //catch(OutOfMemoryException ex)
+            //{
+            //    Console.WriteLine($"write Out of memory exception: {ex.Message}");
 
-            }
+            //}
             catch (Exception ex)
             {
                 //LiberarImagen(value);
@@ -526,30 +537,33 @@ namespace DeportNetReconocimiento.Utils
         public override Image Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             // Leer la ruta de la imagen desde el JSON
+                        
             string rutaRelativa = reader.GetString();
 
-            if (string.IsNullOrEmpty(rutaRelativa))
+            string rutaAbsoluta = Path.Combine(directorioBase, rutaRelativa);
+
+            // Verificar si la ruta es válida
+            if (string.IsNullOrEmpty(rutaRelativa) || !File.Exists(rutaAbsoluta))
             {
+                Console.WriteLine("Img predeterminada");
                 return Resources.logo_deportnet_1; //retorno el logo deportnet si no se pudo leer nada
             }
 
-            // Convertir la ruta relativa en absoluta, ya que se lee solo logoGimansio.png
-            string rutaAbsoluta = Path.Combine(directorioBase, rutaRelativa);
-
-            // Cargar la imagen desde el archivo
-            if (File.Exists(rutaAbsoluta))
+            try
             {
-                try
+
+                using(Image image = Image.FromFile(rutaAbsoluta))
                 {
-                    return Image.FromFile(rutaAbsoluta);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"read Error al cargar la imagen: {ex.Message}");
+                    return new Bitmap(image);
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"read Error al cargar la imagen: {ex.Message}");
+            }
 
-            return null;
+            return Resources.logo_deportnet_1; //retorno el logo deportnet si no se pudo leer nada
+
         }
 
     }

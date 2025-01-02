@@ -39,10 +39,14 @@ namespace DeportNetReconocimiento.SDK
         private Hik_Controladora_Facial? hik_Controladora_Facial;
         private Hik_Controladora_Tarjetas? hik_Controladora_Tarjetas;
         private Hik_Controladora_Eventos? hik_Controladora_Eventos;
+        private ConfiguracionEstilos configuracion;
+
 
         //constructores
         private Hik_Controladora_General()
         {
+            configuracion = ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos");
+
 
             this.idUsuario = -1;
 
@@ -403,7 +407,7 @@ namespace DeportNetReconocimiento.SDK
                 return resultado;
             }
 
-            ConfiguracionEstilos.ActualizarCapacidadMaxima();
+            configuracion.ActualizarCapacidadMaxima();
 
             //setteamos el callback para obtener los ids de los usuarios
             hik_Controladora_Eventos = new Hik_Controladora_Eventos();
@@ -517,7 +521,7 @@ namespace DeportNetReconocimiento.SDK
                 return resultado;
             }
 
-            ConfiguracionEstilos.sumarRegistroCara();
+            configuracion.sumarRegistroCara();
             return resultado;
         }
 
@@ -550,7 +554,7 @@ namespace DeportNetReconocimiento.SDK
             }
 
 
-            ConfiguracionEstilos.restarRegistroCara();
+            configuracion.restarRegistroCara();
             return resultado;
 
         }

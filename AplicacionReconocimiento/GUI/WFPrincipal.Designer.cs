@@ -65,7 +65,7 @@ namespace DeportNetReconocimiento.GUI
             imagenLogo.Image = Resources.logo_deportnet_1;
             imagenLogo.Location = new Point(323, 2);
             imagenLogo.Name = "imagenLogo";
-            imagenLogo.Size = new Size(709, 133);
+            imagenLogo.Size = new Size(710, 130);
             imagenLogo.SizeMode = PictureBoxSizeMode.Zoom;
             imagenLogo.TabIndex = 1;
             imagenLogo.TabStop = false;
