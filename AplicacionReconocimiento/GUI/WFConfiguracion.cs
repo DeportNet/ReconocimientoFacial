@@ -24,6 +24,8 @@ namespace DeportNetReconocimiento.GUI
             // Asignar el objeto de configuración al PropertyGrid (para que se vea lo que se puede configurar)
             propertyGrid1.SelectedObject = configuracion;
             ComboBoxAperturaMolinete.SelectedIndexChanged += ComboBoxAperturaMolinete_SelectedIndexChanged;
+            ConfiguracionManager.OnConfiguracionActualizada += RefrescarPropertyGrid;
+
         }
 
         private void ComboBoxAperturaMolinete_SelectedIndexChanged(object? sender, EventArgs e)
@@ -66,23 +68,30 @@ namespace DeportNetReconocimiento.GUI
         private void WFConfiguracion_FormClosing(object sender, FormClosingEventArgs e)
         {
             //TODO: modal con preguntar si desear salir sin guardar cambios
-            ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
+            //ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
+            ConfiguracionManager.OnConfiguracionActualizada -= RefrescarPropertyGrid;
+
         }
 
 
         private void PropertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
 
-
             principal.AplicarConfiguracion(configuracion);
-
             ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
-
             propertyGrid1.Refresh();
 
+        }
 
+        private void RefrescarPropertyGrid()
+        {
+            // Recargar el objeto desde el JSON
+            configuracion = ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos");
 
-
+            // Actualizar el PropertyGrid
+            propertyGrid1.SelectedObject = null; // Limpia la referencia
+            propertyGrid1.SelectedObject = configuracion; // Asigna el objeto actualizado
+            propertyGrid1.Refresh();
         }
 
 

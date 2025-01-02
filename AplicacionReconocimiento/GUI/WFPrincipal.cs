@@ -25,10 +25,8 @@ namespace DeportNetReconocimiento.GUI
 
             //estilos se leen de un archivo
             InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-
+            Hik_Controladora_General.crearDirectorioEventos();
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
-
-            ReproducirSonido(configuracionEstilos.SonidoBienvenida);
 
             Escuchador_Directorio.InicializarEscuchadorEnHilo();
             ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
@@ -552,6 +550,7 @@ namespace DeportNetReconocimiento.GUI
             //Logo
             imagenLogo.BackColor = config.ColorFondoLogo;
             imagenLogo.Image = config.Logo;
+
 
             VerificarAlmacenamiento();
         }

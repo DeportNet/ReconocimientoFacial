@@ -444,10 +444,33 @@ namespace DeportNetReconocimiento.SDK
                 Console.WriteLine("Error: " + e.Message);
             }
 
-
-
-
             return flag;
+        }
+
+
+        public static void crearDirectorioEventos()
+        {
+
+            // Obtén la ruta raíz del proyecto
+            string raiz = AppDomain.CurrentDomain.BaseDirectory;
+
+            // Define la ruta del nuevo directorio en el root del proyecto
+            string nuevoDirectorio= Path.Combine(raiz, "Eventos");
+
+            // Verifica si el directorio ya existe
+            if (!Directory.Exists(nuevoDirectorio))
+            {
+                // Crea el directorio si no existe
+                Directory.CreateDirectory(nuevoDirectorio);
+                Console.WriteLine($"El directorio '{nuevoDirectorio}' se ha creado exitosamente.");
+            }
+            else
+            {
+                Console.WriteLine($"El directorio '{nuevoDirectorio}' ya existe.");
+            }
+
+
+
         }
 
 

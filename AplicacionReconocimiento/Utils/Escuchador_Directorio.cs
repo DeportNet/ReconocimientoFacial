@@ -59,6 +59,9 @@ namespace DeportNetReconocimiento.Utils
                 case "bajaMasivaClientes.txt":
                     Task.Run(() => BajaMasivaCliente(e.FullPath));
                     break;
+                default:
+                        File.Delete(e.FullPath);
+                    break;
             }
 
             Task.WaitAll();

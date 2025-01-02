@@ -5,10 +5,12 @@ using Microsoft.VisualBasic.Logging;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing.Design;
+using System.Net.Http.Json;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
 
@@ -298,6 +300,7 @@ namespace DeportNetReconocimiento.Utils
                     Console.WriteLine("Error en la validación de la configuración.");
                 }
 
+                ConfiguracionManager.ActualizarConfiguracionDesdeJson("configuracionEstilos");
 
                 //Console.WriteLine("Configuración guardada correctamente.");
             }
@@ -346,20 +349,15 @@ namespace DeportNetReconocimiento.Utils
 
         public static void sumarRegistroCara()
         {
-            Console.WriteLine("Entro a sumar registros");
             string rutaJson = "configuracionEstilos";
-
             ConfiguracionEstilos configuracion = LeerJsonConfiguracion(rutaJson);
             configuracion.CarasRegistradas += 1;
-            Console.WriteLine(configuracion.CarasRegistradas);
-            
             GuardarJsonConfiguracion(configuracion);
         }
-       
+
         public static void restarRegistroCara()
         {
             string rutaJson = "configuracionEstilos";
-
             ConfiguracionEstilos configuracion = LeerJsonConfiguracion(rutaJson);
             configuracion.CarasRegistradas -= 1;
             GuardarJsonConfiguracion(configuracion);
@@ -620,6 +618,20 @@ namespace DeportNetReconocimiento.Utils
         }
     }
 
-    
+
+    public static class ConfiguracionManager
+    {
+        public static event Action OnConfiguracionActualizada;
+
+        public static void ActualizarConfiguracionDesdeJson(string jsonPath)
+        {
+            // Lógica para cargar y aplicar cambios al JSON
+            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos");
+
+            // Notificar a los suscriptores que la configuración ha cambiado
+            OnConfiguracionActualizada?.Invoke();
+        }
+    }
+
 }
 
