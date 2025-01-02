@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj": {}
+    "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj": {}
   },
   "projects": {
-    "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj": {
+    "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
+        "projectUniqueName": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
         "projectName": "DeportNetReconocimiento",
-        "projectPath": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
-        "packagesPath": "C:\\Users\\facun\\.nuget\\packages\\",
-        "outputPath": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\obj\\",
+        "projectPath": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
+        "packagesPath": "C:\\Users\\fabri\\.nuget\\packages\\",
+        "outputPath": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "G:\\Programs\\Visual Studio Community\\SharedComponents IDE\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\facun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\fabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -74,7 +78,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

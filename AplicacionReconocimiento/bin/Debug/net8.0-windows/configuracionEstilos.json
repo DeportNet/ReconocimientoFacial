@@ -1,23 +1,23 @@
 {
   "ColorFondo": "DarkGray",
   "Logo": "logoGimansio.png",
-  "ColorFondoLogo": "DimGray",
-  "TiempoDeMuestraDeDatos": 3,
-  "FuenteTextoMensajeAcceso": "Arial Rounded MT Bold/36/Italic",
-  "ColorFondoMensajeAcceso": "DarkGray",
-  "ColorMensajeBienvenida": "Green",
-  "ColorMensajeAccesoDenegado": "Red",
-  "MensajeBienvenida": "Bienvenido a DeportNet!",
-  "ColorMensajeAccesoConcedido": "Black",
+  "ColorFondoLogo": "LightGray",
+  "TiempoDeMuestraDeDatos": 2,
+  "FuenteTextoMensajeAcceso": "Baskerville Old Face/72/Bold, Underline",
+  "ColorFondoMensajeAcceso": "Transparent",
+  "ColorMensajeBienvenida": "Transparent",
+  "ColorMensajeAccesoDenegado": "Transparent",
+  "MensajeBienvenida": "HOla 123 Prueba sexo anal porfavor Masculino, Vengo a praaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaobar clasesaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "ColorMensajeAccesoConcedido": "Transparent",
   "ColorCampoActividad": "Black",
   "FuenteTextoCamposInformacion": "Arial Rounded MT Bold/20/Regular",
-  "ColorVencimiento": "Black",
+  "ColorVencimiento": "DimGray",
   "ColorClasesRestantes": "Black",
   "ColorMensaje": "Black",
   "ColorFondoImagen": "DarkGray",
   "AccesoConcedido": {
     "RutaArchivo": "",
-    "Estado": false
+    "Estado": true
   },
   "SonidoBienvenida": {
     "RutaArchivo": "",
