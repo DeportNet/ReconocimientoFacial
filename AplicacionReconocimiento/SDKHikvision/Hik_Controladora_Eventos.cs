@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using static DeportNetReconocimiento.SDK.Hik_SDK;
 
@@ -63,6 +64,8 @@ namespace DeportNetReconocimiento.SDKHikvision
                 System.Console.WriteLine(infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description + " Tarjeta: " + infoEvento.Card_Number + " Puerta: " + infoEvento.Door_Number);
                 if(infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS)
                 {
+
+
                     obtenerDatosClienteDeportNet(infoEvento.Card_Reader_Number, infoEvento.Card_Number);
                 }
             }
@@ -91,22 +94,29 @@ namespace DeportNetReconocimiento.SDKHikvision
             libre = false;
             /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
             //string jsonDeDeportnet = await DxService.ValidacionAperturaAsync(numeroTarjeta);
-            string jsonDeDeportnet = await hacerPeticion();
-            WFPrincipal.ObtenerInstancia.ActualizarDatos(nroReader,jsonDeDeportnet);
+
+            string[] credenciales = WFPrincipal.ObtenerInstancia.LeerCredenciales();
+
+            string idSucursal = credenciales[4];
+
+            var data = new { memberId = numeroTarjeta, activeBranchId = idSucursal };
+            var jsonRequest = JsonSerializer.Serialize(data);
+
+
+            await DxService.manejarReconocimientoSociosAsync(jsonRequest);
+
             libre = true;
 
         }
 
         public async  static  Task<string> hacerPeticion()
         {
-            await Task.Delay(1000); // Demora de 5 segundos (5000 ms)
+            await Task.Delay(1000); // Demora de 1 segundos (1000 ms)
 
             string respuesta  =  "{ \"Id\": \"1\", \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Habrá descuentos especiales la semana que viene\", \"Vencimiento\": \"12/09/2024\", \"Rta\" : \"S\", \"Fecha\" : \"12/08/2024\", \"Hora\" : \"19:00:32\", \"Pregunta\" : \"El cliente no paga la cuota hace 1 mes\"}";
             
             return respuesta;
         }
-
-
 
 
         public void SetupAlarm()
