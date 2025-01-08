@@ -5,6 +5,7 @@ using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 
@@ -85,7 +86,7 @@ namespace DeportNetReconocimiento.GUI
                 Instancia_Controladora_General = Hik_Controladora_General.InstanciaControladoraGeneral;
                 resultado = Instancia_Controladora_General.InicializarPrograma(credenciales[2], credenciales[3], credenciales[1], credenciales[0]);
 
-                if(resultado.Exito == false)
+                if (resultado.Exito == false)
                 {
                     resultado.MessageBoxResultado("Error al inicializar el programa");
 
@@ -137,7 +138,7 @@ namespace DeportNetReconocimiento.GUI
                 // Leer desde un archivo binario
                 using (BinaryReader reader = new BinaryReader(File.Open(rutaArchivo, FileMode.Open)))
                 {
-                    
+
                     while (reader.BaseStream.Position != reader.BaseStream.Length) // Lee hasta el final del archivo
                     {
                         string unDato = reader.ReadString(); // Lee cada string
@@ -188,7 +189,7 @@ namespace DeportNetReconocimiento.GUI
             }
             else
                 Console.WriteLine("Desconectado");
-                return false;
+            return false;
         }
 
         //Se crea un objeto de tipo Task para que la función se ejecute en un hilo distinto al principal
@@ -214,7 +215,7 @@ namespace DeportNetReconocimiento.GUI
                 //El objetivo es saber si los datos reconocidos se almacenan o no en la base de datos local
 
                 //Esta función activa y desactiva el modo offline
-                 VerificarConexionInternet();
+                VerificarConexionInternet();
 
                 if (!resultado.Exito)
                 {
@@ -234,14 +235,14 @@ namespace DeportNetReconocimiento.GUI
                 if (PanelSinConexion.Visible == false)//&& WFPanelOffline.ObtenerInstancia.Visible == false)
                 {
                     PanelSinConexion.Visible = true;
-                  //  WFPanelOffline.ObtenerInstancia.Show();
+                    //  WFPanelOffline.ObtenerInstancia.Show();
                 }
 
             }
             else if (PanelSinConexion.Visible == true)
             {
                 PanelSinConexion.Visible = false;
-               // WFPanelOffline.ObtenerInstancia.Dispose();
+                // WFPanelOffline.ObtenerInstancia.Dispose();
             }
 
         }
@@ -263,23 +264,24 @@ namespace DeportNetReconocimiento.GUI
             {
 
                 TextoAlmacenamiento.Text = $"Capacidad al: {porcentajeActual}% \nSocios: {carasActuales}/{capacidadMaxima}";
-                PanelAlmacenamiento.Visible= true;
+                PanelAlmacenamiento.Visible = true;
             }
-            else if(porcentajeActual < porcentaje && PanelAlmacenamiento.Visible == true){
+            else if (porcentajeActual < porcentaje && PanelAlmacenamiento.Visible == true)
+            {
                 PanelAlmacenamiento.Visible = false;
             }
         }
 
 
         //función para actualizar los datos en el hilo principal
-        public async void ActualizarDatos(int nroLector, string json)
+        public async void ActualizarDatos(int nroLector, RespuestaDx json)
         {
-            string respuesta= "";
+            string respuesta = "";
 
             //Si el hilo que llama a la función no es el principal, se llama a la función de nuevo en el hilo principal
             if (InvokeRequired)
             {
-                Invoke(new Action<int, string>(ActualizarDatos), nroLector, json);
+                Invoke(new Action<int, RespuestaDx>(ActualizarDatos), nroLector, json);
                 return;
             }
 
@@ -289,20 +291,24 @@ namespace DeportNetReconocimiento.GUI
 
 
             //Se convierte el json a un objeto de tipo Persona
-            Persona persona = JSONtoPersona(json);
 
-            respuesta = EvaluarMensajeAcceso(persona);
+            respuesta = EvaluarMensajeAcceso(json);
 
 
             //Se actualizan los labels con los datos de la persona
             HeaderLabel.Text = respuesta;
 
+            actividadLabel.Text = limpiarTextoEnriquecido(json.MensajeCrudo);
+
+            //Esta es la alternativa ORIGINAL. 
+            //TODO: BORRAR EN CASO DE QUE SE DECIDA USAR LA ALTERNATIVA DE TEXTO PLANO
+            /*
             actividadLabel.Text = "Actividad: " + persona.Actividad;
             valorFechaVtoLabel.Text = "Fecha vto: " + persona.Vencimiento;
             valorClasesRestLabel.Text = "Clases restantes: " + persona.ClasesRestantes;
             valorMensajeLabel.Text = "Mensaje: " + persona.Mensaje;
-
-            pictureBox1.Image = ObtenerFotoCliente(nroLector, persona.Id);
+            */
+            pictureBox1.Image = ObtenerFotoCliente(nroLector, json.Id);
 
             int tiempoMuestraDatos = (int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000); // se convierten a segundos
 
@@ -313,43 +319,56 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-        public string EvaluarMensajeAcceso(Persona persona)
+        public string limpiarTextoEnriquecido(string textoOriginal)
+        {
+            // Se utilizan Regex (Expresiones regulares) PAra poder modificar y alterar las cadenas de texto.
+            // Elimino las lineas de escape 
+            string textoDecodificado = Regex.Unescape(textoOriginal);
+            // Elimina las etiquetas HTML
+            string textoPlano = Regex.Replace(textoDecodificado, "<.*?>", string.Empty);
+
+            return textoPlano;
+        }
+
+
+        public string EvaluarMensajeAcceso(RespuestaDx json)
         {
             string mensaje = "";
             string pregunta = "\n ¿Lo dejas pasar de todas formas?";
             DialogResult respuesta = DialogResult.OK;
-            if (persona.Rta == "P")
+            if (json.Estado == "P")
             {
-                
+
                 ReproducirSonido(configuracionEstilos.SonidoPregunta);
 
                 respuesta = MessageBox.Show(
-                persona.Pregunta + pregunta,
+                json.MensajeCrudo + pregunta,
                 "Pregunta",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
                 );
             }
 
-            if (persona.Rta == "S" || respuesta == DialogResult.Yes)
+            if (json.Estado == "T" || respuesta == DialogResult.Yes)
             {
                 ReproducirSonido(configuracionEstilos.AccesoConcedido);
 
-                    if (configuracionEstilos.MetodoApertura == ".exe")
-                    {
-                        Console.WriteLine("Ejecuto el exe");
-                        Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos").RutaMetodoApertura);
-                    }
+                if (ConfiguracionEstilos.LeerJsonConfiguracion("ConfiguracionEstilos").MetodoApertura == ".exe")
+                {
+                    Console.WriteLine("Ejecuto el exe");
+                    Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos").RutaMetodoApertura);
+                }
 
-                mensaje = "Bienvenido " + persona.Nombre;
+
+                mensaje = "Bienvenido " + json.Nombre;
                 HeaderLabel.ForeColor = configuracionEstilos.ColorMensajeAccesoConcedido;
 
             }
-            else if (persona.Rta == "N" || respuesta == DialogResult.No)
+            else if (json.Estado == "F" || respuesta == DialogResult.No)
             {
                 ReproducirSonido(configuracionEstilos.AccesoDenegado);
 
-                mensaje = "Acceso denegado " + persona.Nombre;
+                mensaje = "Acceso denegado " + json.Nombre;
                 HeaderLabel.ForeColor = configuracionEstilos.ColorMensajeAccesoDenegado;
 
             }
@@ -463,14 +482,14 @@ namespace DeportNetReconocimiento.GUI
 
         public void ReproducirSonido(Sonido sonido)
         {
-            if(sonido == null)
+            if (sonido == null)
             {
                 return;
             }
 
             ReproductorSonidos reproductor = new ReproductorSonidos();
             reproductor.ReproducirSonido(sonido);
-            
+
         }
 
 
@@ -571,7 +590,7 @@ namespace DeportNetReconocimiento.GUI
             VerificarAlmacenamiento();
         }
         private void botonPersonalizar_Click(object sender, EventArgs e)
-        {         
+        {
 
             WFConfiguracion wFConfiguracion = new WFConfiguracion(ConfiguracionEstilos, this);
 
@@ -618,7 +637,7 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
-        
+
 
         private void valorClasesRestLabel_Click(object sender, EventArgs e)
         {
@@ -635,6 +654,11 @@ namespace DeportNetReconocimiento.GUI
         }
 
         private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
 
         }
