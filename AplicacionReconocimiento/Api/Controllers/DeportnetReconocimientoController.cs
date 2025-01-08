@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DeportNetReconocimiento.Api.Dtos.Request;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,10 @@ namespace DeportNetReconocimiento.Api.Controllers
     public class DeportnetReconocimientoController : ControllerBase
     {
         [HttpPost("alta-facial-cliente")]
-        public IActionResult PostFacialCliente()
+        public IActionResult PostFacialCliente(AltaFacialClienteRequest clienteRequest)
         {
 
-            return Ok(new { message = "¡Hola desde el servidor API!" });
+            return Ok(new { message = "¡Hola desde el servidor API! Este es tu dto: "+ clienteRequest.ToString() });
         }
 
     }
