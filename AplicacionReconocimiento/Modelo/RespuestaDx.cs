@@ -8,6 +8,8 @@ namespace DeportNetReconocimiento.Modelo
 {
     public class RespuestaDx
     {
+
+        // Atributos
         private string id { get; set; }
         private string nombre { get; set; }
         private string apellido { get; set; }
@@ -18,8 +20,25 @@ namespace DeportNetReconocimiento.Modelo
         private string mensajeAccesoDenegado { get; set; }
         private string mostrarcumpleanios { get; set; }
 
+
+        //Constructores 
         public RespuestaDx() { }
 
+        public RespuestaDx(string id, string nombre, string apellido, string nombreCompleto, string estado, string mensajeCrudo, string mensajeAccesoAceptado, string mensajeAccesoDenegado, string mostrarcumpleanios)
+        {
+            this.id = id;
+            this.nombre = nombre;
+            this.apellido = apellido;
+            this.nombreCompleto = nombreCompleto;
+            this.estado = estado;
+            this.mensajeCrudo = mensajeCrudo;
+            this.mensajeAccesoAceptado = mensajeAccesoAceptado;
+            this.mensajeAccesoDenegado = mensajeAccesoDenegado;
+            this.mostrarcumpleanios = mostrarcumpleanios;
+        }
+
+
+        // Getters y Setters 
 
         public string Id { get { return id; } set { id = value; } }
         public string Nombre { get { return nombre; } set { nombre = value; } }
@@ -30,5 +49,6 @@ namespace DeportNetReconocimiento.Modelo
         public string MensajeAccesoAceptado { get { return mensajeAccesoAceptado; } set { mensajeAccesoAceptado = value; } }
         public string MensajeAccesoDenegado { get { return mensajeAccesoDenegado; } set { mensajeAccesoDenegado = value; } }
         public string Mostrarcumpleanios { get { return mostrarcumpleanios; } set { mostrarcumpleanios = value; } }
+
     }
 }
