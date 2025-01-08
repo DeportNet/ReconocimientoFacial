@@ -114,7 +114,11 @@ namespace DeportNetReconocimiento.GUI
 
             if (!e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                MessageBox.Show("Los datos arrastrados no son archivos válidos.");
+                MessageBox.Show("Los datos arrastrados no son archivos válidos.",
+                     "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                    );
                 return;
             }
 
@@ -123,7 +127,12 @@ namespace DeportNetReconocimiento.GUI
             //solo un archivo
             if (files.Length != 1)
             {
-                MessageBox.Show("Por favor, arrastra solo una imagen.");
+                MessageBox.Show("Por favor, arrastra solo una imagen.",
+                    "Advertencia",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                    );
+
                 return;
             }
 
@@ -133,14 +142,25 @@ namespace DeportNetReconocimiento.GUI
             string[] extensionesValidas = { ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".tiff", ".tif", ".ico" };
             if (!Array.Exists(extensionesValidas, ext => filePath.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
             {
-                MessageBox.Show("Por favor, arrastra un archivo de imagen válido (.jpg, .png, .jpeg, .bmp, .gif, .tiff, .tif o .ico).", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Por favor, arrastra un archivo de imagen válido (.jpg, .png, .jpeg, .bmp, .gif, .tiff, .tif o .ico).", 
+                    "Error de tipo de imagen",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                    );
+                return;
             }
 
             //Limitamos a 100MB el tamaño de la imagen
             FileInfo fileInfo = new FileInfo(filePath);
             if (fileInfo.Length > 100 * 1024 * 1024)
             {
-                MessageBox.Show("El archivo es demasiado grande, limite 100 MB.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "El archivo es demasiado grande, limite 100 MB.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                    );
                 return;
             }
 
@@ -251,9 +271,9 @@ namespace DeportNetReconocimiento.GUI
                 }
 
 
-                string ruta = "configuracionEstilos";
-                ConfiguracionEstilos configuracion = new ConfiguracionEstilos();
-                configuracion = ConfiguracionEstilos.LeerJsonConfiguracion(ruta);
+                //string ruta = "configuracionEstilos";
+                //ConfiguracionEstilos configuracion = new ConfiguracionEstilos();
+                //configuracion = ConfiguracionEstilos.LeerJsonConfiguracion(ruta);
 
 
                 ComboBoxAperturaMolinete.SelectedItem = configuracion.MetodoApertura;
