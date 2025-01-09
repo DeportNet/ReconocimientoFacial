@@ -1,11 +1,6 @@
 ﻿using DeportNetReconocimiento.Modelo;
 using NAudio.Wave;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Media;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DeportNetReconocimiento.Utils
 {
@@ -79,80 +74,6 @@ namespace DeportNetReconocimiento.Utils
             wavePlayer = null;
             audioFile = null;
         }
-        //// Método para agregar un nuevo sonido con su estado inicial pasandole la ruta
-        //public void AgregarSonido(string nombre, string ruta, bool activo = true)
-        //{
-        //    if (File.Exists(ruta))
-        //    {
-        //        Sonidos[nombre] = ruta;
-        //        EstadoSonidos[nombre] = activo; // Estado del sonido (activado/desactivado)
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show($"La ruta '{ruta}' no existe.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //}
-
-        //// Metodo para agregar un sonido con su estado inicial seleccionando el archivo
-        //public void AgregarSonido(string nombre, bool activo = true)
-        //{
-        //    OpenFileDialog openFileDialog = new OpenFileDialog
-        //    {
-        //        Title = "Seleccionar un archivo de sonido",
-        //        Filter = "Archivos de sonido|*.mp3;*.wav;*.wma;*.aac;*.flac;*.ogg;*.aiff|Todos los archivos (*.*)|*.*"
-        //    };
-
-        //    if (openFileDialog.ShowDialog() == DialogResult.OK)
-        //    {
-        //        Sonidos[nombre] = openFileDialog.FileName;
-        //        EstadoSonidos[nombre] = activo; // Estado del sonido (activado/desactivado)
-        //        MessageBox.Show($"Sonido '{nombre}' agregado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("No se agrego ningun sonido");
-        //    }
-        //}
-
-        // Método para cambiar el estado de un sonido
-        //public void ActivarDesactivarSonido(string nombre, bool estado)
-        //{
-        //    if (EstadoSonidos.ContainsKey(nombre))
-        //    {
-        //        EstadoSonidos[nombre] = estado;
-        //    }
-        //}
-
-        //// Método para reproducir un sonido si está activado
-        //public void ReproducirSonido(string nombreSonido)
-        //{
-        //    if (!Sonidos.ContainsKey(nombreSonido) || !File.Exists(Sonidos[nombreSonido]))
-        //    {
-        //        MessageBox.Show($"El sonido '{nombreSonido}' no existe.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //        return;
-        //    }
-
-        //    if (!EstadoSonidos[nombreSonido])
-        //    {
-        //        Console.WriteLine($"El sonido '{nombreSonido}' está desactivado y no se reproducirá.");
-        //        return;
-        //    }
-
-        //    try
-        //    {
-        //        DetenerSonido(); // Detener sonido previo si existe
-
-        //        audioFile = new AudioFileReader(Sonidos[nombreSonido]);
-        //        wavePlayer = new WaveOutEvent();
-        //        wavePlayer.Init(audioFile);
-        //        wavePlayer.Play();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Error al reproducir el sonido '{nombreSonido}': {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //}
-
 
     }
 }

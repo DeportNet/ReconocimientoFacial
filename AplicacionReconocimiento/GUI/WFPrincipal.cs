@@ -1,12 +1,11 @@
-﻿using DeportNetReconocimiento.Modelo;
+﻿using DeportNetReconocimiento.Api.Dtos.Response;
+using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
 using System.Runtime.InteropServices;
-using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 
 
 namespace DeportNetReconocimiento.GUI
@@ -29,9 +28,8 @@ namespace DeportNetReconocimiento.GUI
             //Hik_Controladora_General.crearDirectorioEventos();
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
-            //Escuchador_Directorio.InicializarEscuchadorEnHilo();
             //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
-
+            ReproducirSonido(configuracionEstilos.SonidoBienvenida);
         }
 
         //propiedades
@@ -250,9 +248,6 @@ namespace DeportNetReconocimiento.GUI
 
         public void VerificarAlmacenamiento()
         {
-            //string ruta = "configuracionEstilos";
-            //ConfiguracionEstilos configuracion = new ConfiguracionEstilos();
-            //configuracion = ConfiguracionEstilos.LeerJsonConfiguracion(ruta);
 
             int capacidadMaxima = configuracionEstilos.CapacidadMaximaDispositivo;
             int carasActuales = configuracionEstilos.CarasRegistradas;
@@ -274,14 +269,14 @@ namespace DeportNetReconocimiento.GUI
 
 
         //función para actualizar los datos en el hilo principal
-        public async void ActualizarDatos(int nroLector, RespuestaDx json)
+        public async void ActualizarDatos(int nroLector, ValidarAccesoResponse json)
         {
             string respuesta = "";
 
             //Si el hilo que llama a la función no es el principal, se llama a la función de nuevo en el hilo principal
             if (InvokeRequired)
             {
-                Invoke(new Action<int, RespuestaDx>(ActualizarDatos), nroLector, json);
+                Invoke(new Action<int, ValidarAccesoResponse>(ActualizarDatos), nroLector, json);
                 return;
             }
 
@@ -308,6 +303,7 @@ namespace DeportNetReconocimiento.GUI
             valorClasesRestLabel.Text = "Clases restantes: " + persona.ClasesRestantes;
             valorMensajeLabel.Text = "Mensaje: " + persona.Mensaje;
             */
+
             pictureBox1.Image = ObtenerFotoCliente(nroLector, json.Id);
 
             int tiempoMuestraDatos = (int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000); // se convierten a segundos
@@ -331,12 +327,12 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-        public string EvaluarMensajeAcceso(RespuestaDx json)
+        public string EvaluarMensajeAcceso(ValidarAccesoResponse json)
         {
             string mensaje = "";
             string pregunta = "\n ¿Lo dejas pasar de todas formas?";
             DialogResult respuesta = DialogResult.OK;
-            if (json.Estado == "P")
+            if (json.Estado == "Q")
             {
 
                 ReproducirSonido(configuracionEstilos.SonidoPregunta);
@@ -453,30 +449,7 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-        public static Persona JSONtoPersona(string json)
-        {
-
-            Persona persona = new Persona();
-
-            using (JsonDocument doc = JsonDocument.Parse(json))
-            {
-                JsonElement root = doc.RootElement;
-
-                // Acceder a cada campo del objeto JSON
-                persona.Id = root.GetProperty("Id").GetString();
-                persona.Nombre = root.GetProperty("Nombre").GetString();
-                persona.Apellido = root.GetProperty("Apellido").GetString();
-                persona.Actividad = root.GetProperty("Actividad").GetString();
-                persona.Vencimiento = root.GetProperty("Vencimiento").GetString();
-                persona.ClasesRestantes = root.GetProperty("ClasesRestantes").GetString();
-                persona.Rta = root.GetProperty("Rta").GetString();
-                persona.Mensaje = root.GetProperty("Mensaje").GetString();
-                persona.Fecha = root.GetProperty("Fecha").GetString();
-                persona.Hora = root.GetProperty("Hora").GetString();
-                persona.Pregunta = root.GetProperty("Pregunta").GetString();
-            }
-            return persona;
-        }
+       
 
         /* - - - - - - Sonidos - - - - - - */
 
@@ -597,70 +570,5 @@ namespace DeportNetReconocimiento.GUI
             wFConfiguracion.ShowDialog();
         }
 
-        private void WFPrincipal_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void actividadLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void HeaderLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void valorNombreHeaderLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void mensajeOpcionalLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void valorMensajeLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
-
-        private void valorClasesRestLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

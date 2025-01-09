@@ -1,71 +1,16 @@
-﻿using DeportNetReconocimiento.GUI;
-using DeportNetReconocimiento.Modelo;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Runtime.InteropServices.ObjectiveC;
-using System.Security.Policy;
+﻿using DeportNetReconocimiento.Api.Dtos.Response;
+using DeportNetReconocimiento.GUI;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using static System.Net.WebRequestMethods;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace DeportNetReconocimiento.Service
+
+namespace DeportNetReconocimiento.Api.Services
 {
-    internal class DxService
+    internal class ValidarAccesoService
     {
 
         const string url = "https://testing.deportnet.com/facialAccess/facialAccessCheckUserEnter";
 
-
-        public static async Task ConfirmarAccesoPreguntaAsync(string idSocio, string rta)
-        {
-            HttpClient client = new HttpClient();
-
-            var data = new
-            {
-                id = idSocio,
-                fechaHora = DateTime.UtcNow.ToString("o"),
-                respuesta = rta
-            };
-
-
-            var JsonContent = JsonSerializer.Serialize(data);
-            var content = new StringContent(JsonContent, Encoding.UTF8, "application/json");
-
-            var response = await client.PostAsync("api/confirmacionPregunta", content);
-
-            // Validar la respuesta
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception($"Error al registrar al enviar la respuesta: {response.ReasonPhrase}");
-            }
-
-        }
-
-        public static async Task<Persona> ValidacionAperturaAsync(string idSocio)
-        {
-            HttpClient client = new HttpClient();
-            var data = new { id = idSocio };
-            var jsonContent = JsonSerializer.Serialize(data);
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-            var response = await client.PostAsync("api/validarsocio", content);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-
-                return JsonSerializer.Deserialize<Persona>(jsonResponse);
-            }
-            else
-            {
-                throw new Exception($"Error al validar socio: {response.ReasonPhrase}");
-            }
-
-        }
 
         public static async Task manejarReconocimientoSociosAsync(object json)
         {
@@ -97,7 +42,7 @@ namespace DeportNetReconocimiento.Service
 
                     if (branchAccess[2].ValueKind != JsonValueKind.Null)
                     {
-                        RespuestaDx jsonDeportnet = new RespuestaDx();
+                        ValidarAccesoResponse jsonDeportnet = new ValidarAccesoResponse();
 
 
                         jsonDeportnet.Id = branchAccess[2].GetProperty("id").ToString();
@@ -108,7 +53,7 @@ namespace DeportNetReconocimiento.Service
                         jsonDeportnet.MensajeCrudo = branchAccess[2].GetProperty("accesStatus").ToString();
                         jsonDeportnet.MensajeAccesoDenegado = branchAccess[2].GetProperty("accessError").ToString();
                         jsonDeportnet.MensajeAccesoAceptado = branchAccess[2].GetProperty("accessOK").ToString();
-                        jsonDeportnet.Mostrarcumpleanios= branchAccess[2].GetProperty("showBirthday").ToString();
+                        jsonDeportnet.Mostrarcumpleanios = branchAccess[2].GetProperty("showBirthday").ToString();
 
 
                         WFPrincipal.ObtenerInstancia.ActualizarDatos(1, jsonDeportnet);
@@ -124,7 +69,6 @@ namespace DeportNetReconocimiento.Service
             }
         }
 
-
         public static async Task<string> SocioDetectadoAsync(object json)
         {
 
@@ -132,7 +76,6 @@ namespace DeportNetReconocimiento.Service
             {
                 string jsonString = JsonSerializer.Serialize(json);
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 response.EnsureSuccessStatusCode();
 

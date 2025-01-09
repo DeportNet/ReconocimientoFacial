@@ -1,17 +1,9 @@
-﻿using DeportNetReconocimiento.GUI;
+﻿using DeportNetReconocimiento.Api.Services;
+using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDK;
-using DeportNetReconocimiento.Service;
-using DeportNetReconocimiento.Utils;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Globalization;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using static DeportNetReconocimiento.SDK.Hik_SDK;
 
 namespace DeportNetReconocimiento.SDKHikvision
@@ -103,19 +95,10 @@ namespace DeportNetReconocimiento.SDKHikvision
             var jsonRequest = JsonSerializer.Serialize(data);
 
 
-            await DxService.manejarReconocimientoSociosAsync(jsonRequest);
+            await ValidarAccesoService.manejarReconocimientoSociosAsync(jsonRequest);
 
             libre = true;
 
-        }
-
-        public async  static  Task<string> hacerPeticion()
-        {
-            await Task.Delay(1000); // Demora de 1 segundos (1000 ms)
-
-            string respuesta  =  "{ \"Id\": \"1\", \"Nombre\": \"Juan\", \"Actividad\": \"Gimnasio\", \"Apellido\": \"Doe\", \"ClasesRestantes\": \"5\", \"Mensaje\": \"Habrá descuentos especiales la semana que viene\", \"Vencimiento\": \"12/09/2024\", \"Rta\" : \"S\", \"Fecha\" : \"12/08/2024\", \"Hora\" : \"19:00:32\", \"Pregunta\" : \"El cliente no paga la cuota hace 1 mes\"}";
-            
-            return respuesta;
         }
 
 

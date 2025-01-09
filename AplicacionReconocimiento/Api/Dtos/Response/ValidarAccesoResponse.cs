@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeportNetReconocimiento.Modelo
+﻿namespace DeportNetReconocimiento.Api.Dtos.Response
 {
-    public class RespuestaDx
+    public class ValidarAccesoResponse
     {
 
         // Atributos
@@ -22,9 +16,9 @@ namespace DeportNetReconocimiento.Modelo
 
 
         //Constructores 
-        public RespuestaDx() { }
+        public ValidarAccesoResponse() { }
 
-        public RespuestaDx(string id, string nombre, string apellido, string nombreCompleto, string estado, string mensajeCrudo, string mensajeAccesoAceptado, string mensajeAccesoDenegado, string mostrarcumpleanios)
+        public ValidarAccesoResponse(string id, string nombre, string apellido, string nombreCompleto, string estado, string mensajeCrudo, string mensajeAccesoAceptado, string mensajeAccesoDenegado, string mostrarcumpleanios)
         {
             this.id = id;
             this.nombre = nombre;

@@ -1,17 +1,11 @@
 using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
-using Microsoft.VisualBasic.Logging;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Drawing.Design;
-using System.Net.Http.Json;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Windows.Forms;
-using System.Windows.Forms.Design;
+
 
 
 namespace DeportNetReconocimiento.Utils
