@@ -1,0 +1,39 @@
+{
+  "ColorFondo": "Silver",
+  "Logo": "logoGimansio.png",
+  "ColorFondoLogo": "DimGray",
+  "TiempoDeMuestraDeDatos": 3,
+  "FuenteTextoMensajeAcceso": "Arial Rounded MT Bold/36/Italic",
+  "ColorFondoMensajeAcceso": "DarkGray",
+  "ColorMensajeBienvenida": "Green",
+  "ColorMensajeAccesoDenegado": "Red",
+  "MensajeBienvenida": "Bienvenido a DeportNet!",
+  "ColorMensajeAccesoConcedido": "Black",
+  "ColorCampoActividad": "Black",
+  "FuenteTextoCamposInformacion": "Arial Rounded MT Bold/20/Regular",
+  "ColorVencimiento": "Black",
+  "ColorClasesRestantes": "Black",
+  "ColorMensaje": "Black",
+  "ColorFondoImagen": "White",
+  "AccesoConcedido": {
+    "RutaArchivo": "",
+    "Estado": true
+  },
+  "SonidoBienvenida": {
+    "RutaArchivo": "C:\\Users\\facun\\OneDrive\\Escritorio\\Trabajo\\large-underwater-explosion-190270 (1).mp3",
+    "Estado": true
+  },
+  "AccesoDenegado": {
+    "RutaArchivo": "",
+    "Estado": false
+  },
+  "SonidoPregunta": {
+    "RutaArchivo": "",
+    "Estado": false
+  },
+  "CarasRegistradas": 480,
+  "CapacidadMaximaDispositivo": 500,
+  "PorcentajeAlertaCapacidad": 70,
+  "MetodoApertura": ".exe",
+  "RutaMetodoApertura": ""
+}

@@ -1,10 +1,6 @@
-﻿using DeportNetReconocimiento.Properties;
-using DeportNetReconocimiento.SDK;
+﻿
 using DeportNetReconocimiento.Utils;
 using System.Numerics;
-using System.Text.Json;
-using System.Windows.Forms;
-using System.Xml;
 
 
 namespace DeportNetReconocimiento.GUI

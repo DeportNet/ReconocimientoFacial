@@ -1,9 +1,6 @@
-﻿using Microsoft.VisualBasic.Logging;
-using System;
-using System.IO;
+﻿
 using System.Runtime.InteropServices;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using static System.Windows.Forms.LinkLabel;
+
 
 namespace DeportNetReconocimiento.SDK
 {

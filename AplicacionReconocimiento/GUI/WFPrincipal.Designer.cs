@@ -82,7 +82,6 @@ namespace DeportNetReconocimiento.GUI
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 11;
             pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click;
             // 
             // actividadLabel
             // 
@@ -93,7 +92,6 @@ namespace DeportNetReconocimiento.GUI
             actividadLabel.Name = "actividadLabel";
             actividadLabel.Size = new Size(689, 55);
             actividadLabel.TabIndex = 18;
-            actividadLabel.Click += actividadLabel_Click;
             // 
             // valorFechaVtoLabel
             // 
@@ -114,7 +112,6 @@ namespace DeportNetReconocimiento.GUI
             valorClasesRestLabel.Name = "valorClasesRestLabel";
             valorClasesRestLabel.Size = new Size(689, 55);
             valorClasesRestLabel.TabIndex = 20;
-            valorClasesRestLabel.Click += valorClasesRestLabel_Click;
             // 
             // trayReconocimiento
             // 
@@ -160,7 +157,6 @@ namespace DeportNetReconocimiento.GUI
             HeaderLabel.TabIndex = 23;
             HeaderLabel.Text = "Bienvenido a Deportnet!";
             HeaderLabel.TextAlign = ContentAlignment.MiddleCenter;
-            HeaderLabel.Click += HeaderLabel_Click;
             // 
             // Abrir
             // 
@@ -206,7 +202,6 @@ namespace DeportNetReconocimiento.GUI
             textoSinCoenxion.TabIndex = 0;
             textoSinCoenxion.Text = "No hay conexión a internet";
             textoSinCoenxion.TextAlign = ContentAlignment.MiddleCenter;
-            textoSinCoenxion.Click += label1_Click;
             // 
             // valorMensajeLabel
             // 
@@ -217,7 +212,6 @@ namespace DeportNetReconocimiento.GUI
             valorMensajeLabel.Name = "valorMensajeLabel";
             valorMensajeLabel.Size = new Size(689, 147);
             valorMensajeLabel.TabIndex = 26;
-            valorMensajeLabel.Click += valorMensajeLabel_Click;
             // 
             // PanelAlmacenamiento
             // 
@@ -239,7 +233,6 @@ namespace DeportNetReconocimiento.GUI
             TextoAlmacenamiento.TabIndex = 0;
             TextoAlmacenamiento.Text = "Almacenamiento al: 100%    Socios: 1500/1500 ";
             TextoAlmacenamiento.TextAlign = ContentAlignment.MiddleCenter;
-            TextoAlmacenamiento.Click += label1_Click_1;
             // 
             // WFPrincipal
             // 
@@ -268,7 +261,6 @@ namespace DeportNetReconocimiento.GUI
             Text = "Pantalla Bienvenida";
             WindowState = FormWindowState.Maximized;
             FormClosing += cerrarFormulario;
-            Load += WFPrincipal_Load;
             Resize += WFPrincipal_Resize;
             ((System.ComponentModel.ISupportInitialize)imagenLogo).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

@@ -4,9 +4,6 @@
     <Compile Update="GUI\WFConfiguracion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="GUI\WFPanelOffline.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="GUI\WFPrincipal.cs">
       <SubType>Form</SubType>
     </Compile>

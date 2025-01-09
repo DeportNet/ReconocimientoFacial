@@ -1,23 +1,10 @@
-﻿using DeportNetReconocimiento.GUI;
-using DeportNetReconocimiento.Modelo;
+﻿
 using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing.Imaging;
-using System.Linq;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Xml;
-using System.Xml.Schema;
-using static DeportNetReconocimiento.SDK.Hik_SDK;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 
 namespace DeportNetReconocimiento.SDK

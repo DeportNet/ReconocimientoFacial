@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
+﻿
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
-using static DeportNetReconocimiento.SDK.Hik_SDK;
+
 
 namespace DeportNetReconocimiento.SDK
 {
@@ -179,7 +175,6 @@ public class Hik_Controladora_Facial
         string strpath = null;
         DateTime dt = DateTime.Now;
         strpath = string.Format("FacePicture.jpg");
-
 
         //si la longitud de la cara es 0, no hace nada y volvemos para atras
         if (struRecord.dwFaceLen != 0)
@@ -646,10 +641,6 @@ public class Hik_Controladora_Facial
 
         return resultado;
     }
-
-
-
-
 
     private void InicilizarParamControlCardNo(ref Hik_SDK.NET_DVR_FACE_PARAM_CTRL_CARDNO struCardNo,ref int dwSize, string cardNumber, ref IntPtr lpInBuffer, int cardReaderNumber)
     {

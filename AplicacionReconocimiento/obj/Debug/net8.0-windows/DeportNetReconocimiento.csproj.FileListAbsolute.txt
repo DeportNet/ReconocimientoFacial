@@ -83,10 +83,13 @@ D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-w
 D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\runtimes\win-x86\native\SQLite.Interop.dll
 D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNetReconocimiento.csproj.AssemblyReference.cache
 D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNetReconocimiento.GUI.WFConfiguracion.resources
-D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNetReconocimiento.GUI.WFPanelOffline.resources
 D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNetReconocimiento.WFRgistrarDispositivo.resources
 D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNe.56A4BE5F.Up2Date
 G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\Microsoft.OpenApi.dll
 G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\Swashbuckle.AspNetCore.Swagger.dll
 G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\Swashbuckle.AspNetCore.SwaggerGen.dll
 G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\Microsoft.OpenApi.dll
+D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\Swashbuckle.AspNetCore.Swagger.dll
+D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\Swashbuckle.AspNetCore.SwaggerUI.dll

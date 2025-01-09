@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeportNetReconocimiento.Modelo
+﻿namespace DeportNetReconocimiento.Api.Dtos.Response
 {
-    public class RespuestaDx
+    public class ValidarAccesoResponse
     {
+
+        // Atributos
         private string id { get; set; }
         private string nombre { get; set; }
         private string apellido { get; set; }
@@ -18,8 +14,25 @@ namespace DeportNetReconocimiento.Modelo
         private string mensajeAccesoDenegado { get; set; }
         private string mostrarcumpleanios { get; set; }
 
-        public RespuestaDx() { }
 
+        //Constructores 
+        public ValidarAccesoResponse() { }
+
+        public ValidarAccesoResponse(string id, string nombre, string apellido, string nombreCompleto, string estado, string mensajeCrudo, string mensajeAccesoAceptado, string mensajeAccesoDenegado, string mostrarcumpleanios)
+        {
+            this.id = id;
+            this.nombre = nombre;
+            this.apellido = apellido;
+            this.nombreCompleto = nombreCompleto;
+            this.estado = estado;
+            this.mensajeCrudo = mensajeCrudo;
+            this.mensajeAccesoAceptado = mensajeAccesoAceptado;
+            this.mensajeAccesoDenegado = mensajeAccesoDenegado;
+            this.mostrarcumpleanios = mostrarcumpleanios;
+        }
+
+
+        // Getters y Setters 
 
         public string Id { get { return id; } set { id = value; } }
         public string Nombre { get { return nombre; } set { nombre = value; } }
@@ -30,5 +43,6 @@ namespace DeportNetReconocimiento.Modelo
         public string MensajeAccesoAceptado { get { return mensajeAccesoAceptado; } set { mensajeAccesoAceptado = value; } }
         public string MensajeAccesoDenegado { get { return mensajeAccesoDenegado; } set { mensajeAccesoDenegado = value; } }
         public string Mostrarcumpleanios { get { return mostrarcumpleanios; } set { mostrarcumpleanios = value; } }
+
     }
 }
