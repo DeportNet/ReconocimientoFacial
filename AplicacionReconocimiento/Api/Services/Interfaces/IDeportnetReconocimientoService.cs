@@ -8,9 +8,9 @@ namespace DeportNetReconocimiento.Api.Services.Interfaces
     public interface IDeportnetReconocimientoService
     {
 
-        public DetallesResponse AltaFacialCliente(AltaFacialClienteRequest clienteRequest);
+        public string AltaFacialCliente(AltaFacialClienteRequest clienteRequest);
 
-        public DetallesResponse BajaFacialCliente(BajaFacialClienteRequest clienteRequest);
+        public string BajaFacialCliente(BajaFacialClienteRequest clienteRequest);
 
     }
 }

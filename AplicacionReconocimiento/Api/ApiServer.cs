@@ -28,7 +28,7 @@ namespace DeportNetReconocimiento.Api
                         services.AddControllers(); // Agregar soporte para controladores
 
 
-                        services.AddScoped<IDeportnetReconocimientoService,DeportnetReconocimientoService>();
+                        services.AddScoped<IDeportnetReconocimientoService,ReconocimientoService>();
 
                         // Configurar CORS
                         services.AddCors(options =>

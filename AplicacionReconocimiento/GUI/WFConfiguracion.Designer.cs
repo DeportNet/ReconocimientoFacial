@@ -73,11 +73,11 @@
             // 
             tokenIdentificadorLabel.AutoSize = true;
             tokenIdentificadorLabel.Font = new Font("Segoe UI", 12F);
-            tokenIdentificadorLabel.Location = new Point(21, 135);
+            tokenIdentificadorLabel.Location = new Point(21, 137);
             tokenIdentificadorLabel.Name = "tokenIdentificadorLabel";
-            tokenIdentificadorLabel.Size = new Size(144, 21);
+            tokenIdentificadorLabel.Size = new Size(91, 21);
             tokenIdentificadorLabel.TabIndex = 10;
-            tokenIdentificadorLabel.Text = "Token identificador:";
+            tokenIdentificadorLabel.Text = "Sucursal ID:";
             // 
             // personalizacionTituloLabel
             // 
@@ -129,9 +129,9 @@
             // 
             // TextBoxToken
             // 
-            TextBoxToken.Location = new Point(171, 137);
+            TextBoxToken.Location = new Point(118, 137);
             TextBoxToken.Name = "TextBoxToken";
-            TextBoxToken.Size = new Size(121, 23);
+            TextBoxToken.Size = new Size(174, 23);
             TextBoxToken.TabIndex = 17;
             // 
             // ComboBoxAperturaMolinete
@@ -175,7 +175,7 @@
             // BotonAbrirFileDialog
             // 
             BotonAbrirFileDialog.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            BotonAbrirFileDialog.Location = new Point(275, 89);
+            BotonAbrirFileDialog.Location = new Point(275, 90);
             BotonAbrirFileDialog.Name = "BotonAbrirFileDialog";
             BotonAbrirFileDialog.Size = new Size(31, 24);
             BotonAbrirFileDialog.TabIndex = 22;

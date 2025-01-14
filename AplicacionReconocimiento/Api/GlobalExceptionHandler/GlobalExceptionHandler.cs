@@ -52,7 +52,7 @@ namespace DeportNetReconocimiento.Api.GlobalExceptionHandler
                 case UnauthorizedAccessException:
                     statusCode = HttpStatusCode.Unauthorized;
                     message = "No autorizado";
-                    
+
                     break;
                 default:
                     // Registrar la excepción para análisis futuro
@@ -67,12 +67,13 @@ namespace DeportNetReconocimiento.Api.GlobalExceptionHandler
             context.Response.StatusCode = (int)statusCode;
 
             return context.Response.WriteAsync(
-                new DetallesResponse(
+            new
+            {
                 result,
                 context.Response.StatusCode,
                 message
-                ).ToString()
-                );
+
+            }.ToString());
         }
     }
 

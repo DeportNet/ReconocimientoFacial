@@ -41,6 +41,8 @@
             label4 = new Label();
             label2 = new Label();
             textBoxDeviceAddress = new TextBox();
+            label6 = new Label();
+            textBoxSucursalID = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -69,7 +71,7 @@
             // btnCancel
             // 
             btnCancel.FlatStyle = FlatStyle.Flat;
-            btnCancel.Location = new Point(314, 253);
+            btnCancel.Location = new Point(314, 280);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(103, 29);
             btnCancel.TabIndex = 63;
@@ -80,7 +82,7 @@
             // btnAdd
             // 
             btnAdd.FlatStyle = FlatStyle.Flat;
-            btnAdd.Location = new Point(131, 253);
+            btnAdd.Location = new Point(116, 280);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(103, 29);
             btnAdd.TabIndex = 62;
@@ -103,7 +105,7 @@
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Consolas", 10.5F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.DimGray;
-            label5.Location = new Point(131, 203);
+            label5.Location = new Point(131, 200);
             label5.Name = "label5";
             label5.Size = new Size(88, 17);
             label5.TabIndex = 61;
@@ -115,7 +117,7 @@
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Consolas", 10.5F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.DimGray;
-            label3.Location = new Point(163, 168);
+            label3.Location = new Point(163, 169);
             label3.Name = "label3";
             label3.Size = new Size(56, 17);
             label3.TabIndex = 59;
@@ -143,7 +145,7 @@
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Consolas", 10.5F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.DimGray;
-            label4.Location = new Point(99, 136);
+            label4.Location = new Point(99, 137);
             label4.Name = "label4";
             label4.Size = new Size(120, 17);
             label4.TabIndex = 57;
@@ -155,7 +157,7 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Consolas", 10.5F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.DimGray;
-            label2.Location = new Point(19, 105);
+            label2.Location = new Point(19, 106);
             label2.Name = "label2";
             label2.Size = new Size(200, 17);
             label2.TabIndex = 55;
@@ -169,12 +171,36 @@
             textBoxDeviceAddress.TabIndex = 54;
             textBoxDeviceAddress.Text = "10.21.80.42";
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.BackColor = Color.Transparent;
+            label6.Font = new Font("Consolas", 10.5F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.ForeColor = Color.DimGray;
+            label6.Location = new Point(123, 231);
+            label6.Name = "label6";
+            label6.Size = new Size(96, 17);
+            label6.TabIndex = 64;
+            label6.Text = "Sucursal ID";
+            // 
+            // textBoxSucursalID
+            // 
+            textBoxSucursalID.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxSucursalID.Location = new Point(225, 229);
+            textBoxSucursalID.Name = "textBoxSucursalID";
+            textBoxSucursalID.Size = new Size(250, 22);
+            textBoxSucursalID.TabIndex = 65;
+            textBoxSucursalID.UseSystemPasswordChar = true;
+            textBoxSucursalID.TextChanged += textBox1_TextChanged;
+            // 
             // WFRgistrarDispositivo
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonFace;
             ClientSize = new Size(553, 321);
+            Controls.Add(textBoxSucursalID);
+            Controls.Add(label6);
             Controls.Add(btnCancel);
             Controls.Add(btnAdd);
             Controls.Add(textBoxPassword);
@@ -215,5 +241,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxDeviceAddress;
+        private Label label6;
+        private TextBox textBoxSucursalID;
     }
 }

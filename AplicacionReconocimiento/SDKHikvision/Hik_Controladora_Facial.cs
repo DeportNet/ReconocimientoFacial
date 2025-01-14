@@ -405,7 +405,6 @@ public class Hik_Controladora_Facial
 
 
     //Establecer una cara en el dispositivo
-    //Hay que hacer algo para poder crear tarjetas y numeros de tarjetas y esos mandarlos, porque para poder agregar una cara, es necesario el numero de tarjeta.
     public Hik_Resultado EstablecerUnaCara(uint cardReaderNumber, string cardNumber)
     {
         Hik_Resultado resultado = new Hik_Resultado();
@@ -524,7 +523,7 @@ public class Hik_Controladora_Facial
 
         return resultado;
     }
-    //Evalua si la foto seleccionada cumple con los requeusitos
+    //Evalua si la foto seleccionada cumple con los requisitos
     private Hik_Resultado BuscarFotoParaIngresar(ref Hik_SDK.NET_DVR_FACE_RECORD struRecord, String ubicacionArchivo)
     {
         Hik_Resultado resultado = new Hik_Resultado();
@@ -533,26 +532,26 @@ public class Hik_Controladora_Facial
         {
             //la foto no existe
             resultado.ActualizarResultado(false, "La foto de la cara no existe", Hik_SDK.NET_DVR_GetLastError().ToString());
+            return resultado;
         }
-        else
+        
+
+        FileStream fileStr = new FileStream(ubicacionArchivo, FileMode.OpenOrCreate);
+
+        if (fileStr.Length == 0) //la foto es 0k
         {
-
-            FileStream fileStr = new FileStream(ubicacionArchivo, FileMode.OpenOrCreate);
-
-            if (fileStr.Length == 0) //la foto es 0k
-            {
-                resultado.ActualizarResultado(false, "La foto de la cara es de 0k, por favor ingrese otra foto", Hik_SDK.NET_DVR_GetLastError().ToString());
-
-            }
-            else if (200 * 1024 < fileStr.Length)//la foto es 200k
-            {
-                resultado.ActualizarResultado(false, "La foto de la cara es mayor a 200k, por favor ingrese otra foto", Hik_SDK.NET_DVR_GetLastError().ToString());
-            }
-            else
-            {
-                resultado = ProcesarFotoEncontrada(ref struRecord, fileStr); 
-            }
+            resultado.ActualizarResultado(false, "La foto de la cara es de 0k, por favor ingrese otra foto", Hik_SDK.NET_DVR_GetLastError().ToString());
+            return resultado;
         }
+
+        if (200 * 1024 < fileStr.Length)//la foto es 200k
+        {
+            resultado.ActualizarResultado(false, "La foto de la cara es mayor a 200k, por favor ingrese otra foto", Hik_SDK.NET_DVR_GetLastError().ToString());
+            return resultado;
+        }
+       
+        resultado = ProcesarFotoEncontrada(ref struRecord, fileStr); 
+        
         return resultado;
     }
     private Hik_Resultado ProcesarFotoEncontrada(ref Hik_SDK.NET_DVR_FACE_RECORD struRecord, FileStream fileStr)
@@ -627,7 +626,7 @@ public class Hik_Controladora_Facial
 
         int dwSize = 0;
         IntPtr lpInBuffer = IntPtr.Zero;
-        InicilizarParamControlCardNo(ref struCardNo, ref dwSize, cardNumber, ref lpInBuffer, cardReaderNumber);
+        InicializarParamControlCardNo(ref struCardNo, ref dwSize, cardNumber, ref lpInBuffer, cardReaderNumber);
 
         if ( false == Hik_SDK.NET_DVR_RemoteControl(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_DEL_FACE_PARAM_CFG, ref  struCardNo, (int)dwSize))
         {
@@ -642,7 +641,7 @@ public class Hik_Controladora_Facial
         return resultado;
     }
 
-    private void InicilizarParamControlCardNo(ref Hik_SDK.NET_DVR_FACE_PARAM_CTRL_CARDNO struCardNo,ref int dwSize, string cardNumber, ref IntPtr lpInBuffer, int cardReaderNumber)
+    private void InicializarParamControlCardNo(ref Hik_SDK.NET_DVR_FACE_PARAM_CTRL_CARDNO struCardNo,ref int dwSize, string cardNumber, ref IntPtr lpInBuffer, int cardReaderNumber)
     {
         struCardNo.Init();
         struCardNo.dwSize = Marshal.SizeOf(struCardNo);

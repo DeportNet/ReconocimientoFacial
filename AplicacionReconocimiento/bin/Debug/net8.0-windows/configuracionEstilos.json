@@ -31,7 +31,7 @@
     "RutaArchivo": "",
     "Estado": false
   },
-  "CarasRegistradas": 3,
+  "CarasRegistradas": 2,
   "CapacidadMaximaDispositivo": 1500,
   "PorcentajeAlertaCapacidad": 70,
   "MetodoApertura": ".exe",

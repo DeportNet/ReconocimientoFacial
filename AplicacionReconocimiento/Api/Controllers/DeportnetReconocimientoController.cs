@@ -24,27 +24,41 @@ namespace DeportNetReconocimiento.Api.Controllers
         }
 
         [HttpGet("alta-facial-cliente")]
-        public IActionResult PostFacialCliente(
+        public IActionResult AltaFacialCliente(
             [FromQuery] int idCliente,
-            [FromQuery] int idGimnasio,
+            [FromQuery] int idSucursal,
             [FromQuery] string nombreCliente
             )
         {
+            //VALIDAR TOKEN
+            //[FromHeader(Name = "HTTP_X_SIGNATURE")] string signature
+            // if (signature != "1234")
+            //{
+            //      return Unauthorized(new { Mensaje = "Token inválido" });
+            //}
 
-            if (idCliente == null || idGimnasio == null || nombreCliente == null)
+            if (idCliente == null || idSucursal == null || nombreCliente == null)
             {
                 return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
             }
 
-            DetallesResponse detalle= deportnetReconocimientoService.AltaFacialCliente(new AltaFacialClienteRequest(idCliente,idGimnasio,nombreCliente));
+            string detalle= deportnetReconocimientoService.AltaFacialCliente(new AltaFacialClienteRequest(idCliente,idSucursal,nombreCliente));
             return Ok(detalle);
         }
 
         [HttpDelete("baja-facial-cliente")]
-        public IActionResult DeleteFacialCliente(BajaFacialClienteRequest clienteRequest)
+        public IActionResult BajaFacialCliente(
+            [FromQuery] int idCliente,
+            [FromQuery] int idSucursal
+            )
         {
+            if (idCliente == null || idSucursal == null || nombreCliente == null)
+            {
+                return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
+            }
 
-            return Ok(new { message = "¡Hola desde el servidor API! Este es tu dto: " + clienteRequest.ToString() });
+            string detalle = deportnetReconocimientoService.BajaFacialCliente(new BajaFacialClienteRequest(idCliente, idSucursal));
+            return Ok(detalle);
         }
 
     }

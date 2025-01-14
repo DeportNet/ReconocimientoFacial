@@ -31,7 +31,7 @@ namespace DeportNetReconocimiento.GUI
             ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
 
            
-                ReproducirSonido(configuracionEstilos.SonidoBienvenida);
+            ReproducirSonido(configuracionEstilos.SonidoBienvenida);
             
         }
 

@@ -1,4 +1,5 @@
-﻿using DeportNetReconocimiento.Api.Services;
+﻿using DeportNetReconocimiento.Api.Dtos.Response;
+using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDK;
@@ -76,7 +77,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             if(string.IsNullOrWhiteSpace(numeroTarjeta))
             {
-                Console.WriteLine("El evento no tiene numero de tajeta");
+                Console.WriteLine("El evento no tiene numero de tarjeta");
                 return;
             }
 
@@ -86,19 +87,60 @@ namespace DeportNetReconocimiento.SDKHikvision
             //string jsonDeDeportnet = await DxService.ValidacionAperturaAsync(numeroTarjeta);
 
             string[] credenciales = WFPrincipal.ObtenerInstancia.LeerCredenciales();
-            //todo pedir el id sucursal en WFRegistrarDispositivo
-            string idSucursal = "4"; //credenciales[4];
+            string idSucursal = credenciales[4];
+            
 
-            var data = new { memberId = numeroTarjeta, activeBranchId = idSucursal };
-            var jsonRequest = JsonSerializer.Serialize(data);
-
-
-            await ValidarAccesoService.ManejarReconocimientoSociosAsync(jsonRequest);
+            var response = await WebServicesDeportnet.ControlDeAcceso(numeroTarjeta,idSucursal);
+            Console.WriteLine(response);
+            ProcesarRespuestaAcceso(response);
 
             libre = true;
 
         }
 
+        public static void ProcesarRespuestaAcceso(string response)
+        {
+
+            using (JsonDocument doc = JsonDocument.Parse(response))
+            {
+                JsonElement root = doc.RootElement;
+
+                //Busco la propiedad branchAcces y digo que el elemento  es de tipo arreglo
+                if (root.TryGetProperty("branchAccess", out JsonElement branchAccess) && branchAccess.ValueKind == JsonValueKind.Array)
+                {
+                    if (branchAccess[0].ValueKind == JsonValueKind.String)
+                    {
+                        MessageBox.Show("Proceso todo el tema de la pregunta");
+                    }
+
+                    if (branchAccess[2].ValueKind != JsonValueKind.Null)
+                    {
+                        ValidarAccesoResponse jsonDeportnet = new ValidarAccesoResponse();
+
+
+                        jsonDeportnet.Id = branchAccess[2].GetProperty("id").ToString();
+                        jsonDeportnet.Nombre = branchAccess[2].GetProperty("firstName").ToString();
+                        jsonDeportnet.Apellido = branchAccess[2].GetProperty("lastName").ToString();
+                        jsonDeportnet.NombreCompleto = branchAccess[2].GetProperty("name").ToString();
+                        jsonDeportnet.Estado = branchAccess[2].GetProperty("status").ToString();
+                        jsonDeportnet.MensajeCrudo = branchAccess[2].GetProperty("accesStatus").ToString();
+                        jsonDeportnet.MensajeAccesoDenegado = branchAccess[2].GetProperty("accessError").ToString();
+                        jsonDeportnet.MensajeAccesoAceptado = branchAccess[2].GetProperty("accessOK").ToString();
+                        jsonDeportnet.Mostrarcumpleanios = branchAccess[2].GetProperty("showBirthday").ToString();
+
+
+                        WFPrincipal.ObtenerInstancia.ActualizarDatos(1, jsonDeportnet);
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("No está la propiedad branch access.");
+                }
+
+
+            }
+        }
 
         public void SetupAlarm()
         {
