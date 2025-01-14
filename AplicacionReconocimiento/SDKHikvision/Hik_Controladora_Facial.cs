@@ -451,7 +451,7 @@ public class Hik_Controladora_Facial
                 while (flag)
                 {
                     dwStatus = Hik_SDK.NET_DVR_SendWithRecvRemoteConfigFacial(SetFaceCfgHandle, ref struRecord, dwInBufferSize, ref struStatus, (int)dwOutBufferSize, dwOutDataLen);
-                    resultado = verificarEstadoEstableceCara(ref struStatus, dwStatus, ref flag);
+                    resultado = VerificarEstadoEstablecerCara(ref struStatus, dwStatus, ref flag);
                 }
             }
         }
@@ -460,7 +460,7 @@ public class Hik_Controladora_Facial
 
         return resultado;
     }
-    private Hik_Resultado verificarEstadoEstableceCara(ref Hik_SDK.NET_DVR_FACE_STATUS struStatus, int dwStatus, ref bool flag)
+    private Hik_Resultado VerificarEstadoEstablecerCara(ref Hik_SDK.NET_DVR_FACE_STATUS struStatus, int dwStatus, ref bool flag)
     {
         Hik_Resultado resultado = new Hik_Resultado();
         bool caraEstabelcida = false;
@@ -514,12 +514,12 @@ public class Hik_Controladora_Facial
 
         if (struStatus.byRecvStatus == 1)
         {
-            resultado.ActualizarResultado(true, "Se estableció la información acial de forma exitosa", Hik_SDK.NET_DVR_GetLastError().ToString());
+            resultado.ActualizarResultado(true, "Se estableció la información facial de forma exitosa", Hik_SDK.NET_DVR_GetLastError().ToString());
         }
         else
         {
             flag = false;
-            resultado.ActualizarResultado(false, "huno un error al establecer la información facial ", struStatus.byRecvStatus.ToString());
+            resultado.ActualizarResultado(false, "Hubo un error al establecer la información facial ", struStatus.byRecvStatus.ToString());
         }
 
         return resultado;

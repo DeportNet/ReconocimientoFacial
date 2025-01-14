@@ -46,7 +46,6 @@ G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\ne
 G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\runtimes\win-x86\native\SQLite.Interop.dll
 G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNetReconocimiento.csproj.AssemblyReference.cache
 G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNetReconocimiento.GUI.WFConfiguracion.resources
-G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNetReconocimiento.GUI.WFPanelOffline.resources
 G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNetReconocimiento.GUI.WFPrincipal.resources
 G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNetReconocimiento.WFRgistrarDispositivo.resources
 G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNetReconocimiento.Properties.Resources.resources

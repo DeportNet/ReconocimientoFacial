@@ -14,14 +14,14 @@
   "ColorVencimiento": "Black",
   "ColorClasesRestantes": "Black",
   "ColorMensaje": "Black",
-  "ColorFondoImagen": "White",
+  "ColorFondoImagen": "DarkGray",
   "AccesoConcedido": {
     "RutaArchivo": "",
-    "Estado": true
+    "Estado": false
   },
   "SonidoBienvenida": {
-    "RutaArchivo": "C:\\Users\\facun\\OneDrive\\Escritorio\\Trabajo\\large-underwater-explosion-190270 (1).mp3",
-    "Estado": true
+    "RutaArchivo": "",
+    "Estado": false
   },
   "AccesoDenegado": {
     "RutaArchivo": "",
@@ -31,8 +31,8 @@
     "RutaArchivo": "",
     "Estado": false
   },
-  "CarasRegistradas": 480,
-  "CapacidadMaximaDispositivo": 500,
+  "CarasRegistradas": 3,
+  "CapacidadMaximaDispositivo": 1500,
   "PorcentajeAlertaCapacidad": 70,
   "MetodoApertura": ".exe",
   "RutaMetodoApertura": ""

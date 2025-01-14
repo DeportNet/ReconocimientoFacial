@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DeportNetReconocimiento.Api.Dtos.Response;
+using DeportNetReconocimiento.Api.GlobalExceptionHandler.Exceptions;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,17 +36,23 @@ namespace DeportNetReconocimiento.Api.GlobalExceptionHandler
         {
             var statusCode = HttpStatusCode.InternalServerError; // Predeterminado
             string message = "Error interno del servidor";
+            string result = "F";
 
             // Manejo específico por tipo de excepción
             switch (exception)
             {
-                //case ResourceNotFoundException:
-                //    statusCode = HttpStatusCode.NotFound;
-                //    message = exception.Message;
-                //    break;
+                case HikvisionException:
+                    statusCode = HttpStatusCode.InternalServerError;
+                    message = exception.Message;
+                    break;
+                case DispositivoEnUsoException:
+                    statusCode = HttpStatusCode.Conflict;
+                    message = exception.Message;
+                    break;
                 case UnauthorizedAccessException:
                     statusCode = HttpStatusCode.Unauthorized;
                     message = "No autorizado";
+                    
                     break;
                 default:
                     // Registrar la excepción para análisis futuro
@@ -57,10 +66,13 @@ namespace DeportNetReconocimiento.Api.GlobalExceptionHandler
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)statusCode;
 
-            return context.Response.WriteAsync(new ErrorDetails(
+            return context.Response.WriteAsync(
+                new DetallesResponse(
+                result,
                 context.Response.StatusCode,
-                message,
-                exception.StackTrace).ToString());
+                message
+                ).ToString()
+                );
         }
     }
 

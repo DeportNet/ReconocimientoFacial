@@ -1,82 +1,130 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\",
+  "WorkspaceRootPath": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\bd\\bdclientes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:bd\\bdclientes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\modelo\\evento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:modelo\\evento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\sdkhikvision\\hik_controladora_facial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:sdkhikvision\\hik_controladora_facial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\sdkhikvision\\hik_controladora_eventos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\sdkhikvision\\hik_controladora_eventos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:sdkhikvision\\hik_controladora_eventos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\utils\\configuracionestilos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:utils\\configuracionestilos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\utils\\reproductorsonidos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:utils\\reproductorsonidos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\gui\\wfprincipal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:gui\\wfprincipal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\gui\\wfprincipal.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:gui\\wfprincipal.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\programa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:programa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\controllers\\deportnetreconocimientocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:api\\controllers\\deportnetreconocimientocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\services\\deportnetreconocimientoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\services\\deportnetreconocimientoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:api\\services\\deportnetreconocimientoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\dtos\\response\\validaraccesoresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:api\\dtos\\response\\validaraccesoresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\gui\\wfrgistrardispositivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:gui\\wfrgistrardispositivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\sdkhikvision\\hik_controladora_general.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\sdkhikvision\\hik_controladora_general.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:sdkhikvision\\hik_controladora_general.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\sdkhikvision\\hik_controladora_tarjetas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\controllers\\deportnetreconocimientocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:api\\controllers\\deportnetreconocimientocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\globalexceptionhandler\\globalexceptionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:api\\globalexceptionhandler\\globalexceptionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\globalexceptionhandler\\detallesresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:api\\globalexceptionhandler\\detallesresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\sdkhikvision\\hik_controladora_tarjetas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:sdkhikvision\\hik_controladora_tarjetas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\sdkhikvision\\hik_evento_mapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:sdkhikvision\\hik_evento_mapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\services\\validaraccesoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:api\\services\\validaraccesoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\sdkhikvision\\hik_resultado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\services\\interfaces\\ideportnetreconocimientoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:api\\services\\interfaces\\ideportnetreconocimientoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\gui\\wfconfiguracion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:gui\\wfconfiguracion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\gui\\wfrgistrardispositivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:gui\\wfrgistrardispositivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\gui\\wfconfiguracion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:gui\\wfconfiguracion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\gui\\wfprincipal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:gui\\wfprincipal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\gui\\wfprincipal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:gui\\wfprincipal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\programa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:programa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\dtos\\request\\altafacialclienterequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:api\\dtos\\request\\altafacialclienterequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\apiserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:api\\apiserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\globalexceptionhandler\\exceptions\\dispositivoenusoexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:api\\globalexceptionhandler\\exceptions\\dispositivoenusoexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\globalexceptionhandler\\exceptions\\hikvisionexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:api\\globalexceptionhandler\\exceptions\\hikvisionexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\sdkhikvision\\hik_resultado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:sdkhikvision\\hik_resultado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\sdkhikvision\\hik_sdk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\sdkhikvision\\hik_sdk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:sdkhikvision\\hik_sdk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|d:\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\gui\\wfprincipal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:gui\\wfprincipal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\dtos\\request\\bajafacialclienterequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:api\\dtos\\request\\bajafacialclienterequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\sdkhikvision\\hik_controladora_facial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:sdkhikvision\\hik_controladora_facial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\dtos\\response\\validaraccesoresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:api\\dtos\\response\\validaraccesoresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\bd\\bdclientes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:bd\\bdclientes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\modelo\\evento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:modelo\\evento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\utils\\configuracionestilos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:utils\\configuracionestilos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\utils\\reproductorsonidos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:utils\\reproductorsonidos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\gui\\wfprincipal.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:gui\\wfprincipal.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\gui\\wfrgistrardispositivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:gui\\wfrgistrardispositivo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\sdkhikvision\\hik_evento_mapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:sdkhikvision\\hik_evento_mapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -86,49 +134,343 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
-            },
-            {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "BdClientes.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\BD\\BdClientes.cs",
-              "RelativeDocumentMoniker": "BD\\BdClientes.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\BD\\BdClientes.cs",
-              "RelativeToolTip": "BD\\BdClientes.cs",
-              "ViewState": "AQIAAH4AAAAAAAAAAAAmwAAAAAAAAAAA",
+              "Title": "Hik_Controladora_Eventos.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Controladora_Eventos.cs",
+              "RelativeDocumentMoniker": "SDKHikvision\\Hik_Controladora_Eventos.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Controladora_Eventos.cs",
+              "RelativeToolTip": "SDKHikvision\\Hik_Controladora_Eventos.cs",
+              "ViewState": "AgIAADsAAAAAAAAAAAAgwF8AAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-09T00:20:59.804Z",
+              "WhenOpened": "2025-01-08T23:18:34.876Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Evento.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Modelo\\Evento.cs",
-              "RelativeDocumentMoniker": "Modelo\\Evento.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Modelo\\Evento.cs",
-              "RelativeToolTip": "Modelo\\Evento.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "DeportnetReconocimientoService.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\Services\\DeportnetReconocimientoService.cs",
+              "RelativeDocumentMoniker": "Api\\Services\\DeportnetReconocimientoService.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\Services\\DeportnetReconocimientoService.cs",
+              "RelativeToolTip": "Api\\Services\\DeportnetReconocimientoService.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAhwCwAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-09T00:19:45.02Z",
+              "WhenOpened": "2025-01-08T23:57:45.997Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Hik_Controladora_General.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Controladora_General.cs",
+              "RelativeDocumentMoniker": "SDKHikvision\\Hik_Controladora_General.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Controladora_General.cs",
+              "RelativeToolTip": "SDKHikvision\\Hik_Controladora_General.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAAAwwNQBAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-08T23:45:54.547Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Hik_Controladora_Tarjetas.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Controladora_Tarjetas.cs",
+              "RelativeDocumentMoniker": "SDKHikvision\\Hik_Controladora_Tarjetas.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Controladora_Tarjetas.cs",
+              "RelativeToolTip": "SDKHikvision\\Hik_Controladora_Tarjetas.cs",
+              "ViewState": "AgIAAEgBAAAAAAAAAAAIwC4BAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-08T23:46:31.1Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DetallesResponse.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\GlobalExceptionHandler\\DetallesResponse.cs",
+              "RelativeDocumentMoniker": "Api\\GlobalExceptionHandler\\DetallesResponse.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\GlobalExceptionHandler\\DetallesResponse.cs",
+              "RelativeToolTip": "Api\\GlobalExceptionHandler\\DetallesResponse.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAADgvw8AAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T15:39:24.204Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GlobalExceptionHandler.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\GlobalExceptionHandler\\GlobalExceptionHandler.cs",
+              "RelativeDocumentMoniker": "Api\\GlobalExceptionHandler\\GlobalExceptionHandler.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\GlobalExceptionHandler\\GlobalExceptionHandler.cs",
+              "RelativeToolTip": "Api\\GlobalExceptionHandler\\GlobalExceptionHandler.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAIAwwCYAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T15:42:43.692Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DeportnetReconocimientoController.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\Controllers\\DeportnetReconocimientoController.cs",
+              "RelativeDocumentMoniker": "Api\\Controllers\\DeportnetReconocimientoController.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\Controllers\\DeportnetReconocimientoController.cs",
+              "RelativeToolTip": "Api\\Controllers\\DeportnetReconocimientoController.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAcwCYAAABWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-08T23:19:53.505Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
+              "Title": "ValidarAccesoService.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\Services\\ValidarAccesoService.cs",
+              "RelativeDocumentMoniker": "Api\\Services\\ValidarAccesoService.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\Services\\ValidarAccesoService.cs",
+              "RelativeToolTip": "Api\\Services\\ValidarAccesoService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T15:33:35.052Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "WFConfiguracion.cs [Design]",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\GUI\\WFConfiguracion.cs",
+              "RelativeDocumentMoniker": "GUI\\WFConfiguracion.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\GUI\\WFConfiguracion.cs [Design]",
+              "RelativeToolTip": "GUI\\WFConfiguracion.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-14T01:25:29.409Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "WFConfiguracion.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\GUI\\WFConfiguracion.cs",
+              "RelativeDocumentMoniker": "GUI\\WFConfiguracion.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\GUI\\WFConfiguracion.cs",
+              "RelativeToolTip": "GUI\\WFConfiguracion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-14T01:29:17.455Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IDeportnetReconocimientoService.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\Services\\Interfaces\\IDeportnetReconocimientoService.cs",
+              "RelativeDocumentMoniker": "Api\\Services\\Interfaces\\IDeportnetReconocimientoService.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\Services\\Interfaces\\IDeportnetReconocimientoService.cs",
+              "RelativeToolTip": "Api\\Services\\Interfaces\\IDeportnetReconocimientoService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T16:13:31.473Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "WFRgistrarDispositivo.cs [Design]",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\GUI\\WFRgistrarDispositivo.cs",
+              "RelativeDocumentMoniker": "GUI\\WFRgistrarDispositivo.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\GUI\\WFRgistrarDispositivo.cs [Design]",
+              "RelativeToolTip": "GUI\\WFRgistrarDispositivo.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-14T01:29:19.283Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Programa.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Programa.cs",
+              "RelativeDocumentMoniker": "Programa.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Programa.cs",
+              "RelativeToolTip": "Programa.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwBYAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-08T23:45:02.13Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "WFPrincipal.cs [Design]",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\GUI\\WFPrincipal.cs",
+              "RelativeDocumentMoniker": "GUI\\WFPrincipal.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\GUI\\WFPrincipal.cs [Design]",
+              "RelativeToolTip": "GUI\\WFPrincipal.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-08T23:34:58.075Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "WFPrincipal.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\GUI\\WFPrincipal.cs",
+              "RelativeDocumentMoniker": "GUI\\WFPrincipal.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\GUI\\WFPrincipal.cs",
+              "RelativeToolTip": "GUI\\WFPrincipal.cs",
+              "ViewState": "AgIAAEEAAAAAAAAAAAD4v0MAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-08T23:10:58.047Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ApiServer.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\ApiServer.cs",
+              "RelativeDocumentMoniker": "Api\\ApiServer.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\ApiServer.cs",
+              "RelativeToolTip": "Api\\ApiServer.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAIwEoAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T16:16:17.665Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "AltaFacialClienteRequest.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\Dtos\\Request\\AltaFacialClienteRequest.cs",
+              "RelativeDocumentMoniker": "Api\\Dtos\\Request\\AltaFacialClienteRequest.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\Dtos\\Request\\AltaFacialClienteRequest.cs",
+              "RelativeToolTip": "Api\\Dtos\\Request\\AltaFacialClienteRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAsAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T15:48:59.512Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "HikvisionException.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\GlobalExceptionHandler\\Exceptions\\HikvisionException.cs",
+              "RelativeDocumentMoniker": "Api\\GlobalExceptionHandler\\Exceptions\\HikvisionException.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\GlobalExceptionHandler\\Exceptions\\HikvisionException.cs",
+              "RelativeToolTip": "Api\\GlobalExceptionHandler\\Exceptions\\HikvisionException.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAoAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T15:52:55.478Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "DispositivoEnUsoException.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\GlobalExceptionHandler\\Exceptions\\DispositivoEnUsoException.cs",
+              "RelativeDocumentMoniker": "Api\\GlobalExceptionHandler\\Exceptions\\DispositivoEnUsoException.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\GlobalExceptionHandler\\Exceptions\\DispositivoEnUsoException.cs",
+              "RelativeToolTip": "Api\\GlobalExceptionHandler\\Exceptions\\DispositivoEnUsoException.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T18:58:05.209Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Hik_Resultado.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Resultado.cs",
+              "RelativeDocumentMoniker": "SDKHikvision\\Hik_Resultado.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Resultado.cs",
+              "RelativeToolTip": "SDKHikvision\\Hik_Resultado.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAQwDQAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-08T23:45:36.451Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Hik_SDK.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_SDK.cs",
+              "RelativeDocumentMoniker": "SDKHikvision\\Hik_SDK.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_SDK.cs",
+              "RelativeToolTip": "SDKHikvision\\Hik_SDK.cs",
+              "ViewState": "AgIAAGQEAAAAAAAAAAAwwHgEAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-08T23:45:31.953Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Hik_Controladora_Facial.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Controladora_Facial.cs",
+              "RelativeDocumentMoniker": "SDKHikvision\\Hik_Controladora_Facial.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Controladora_Facial.cs",
+              "RelativeToolTip": "SDKHikvision\\Hik_Controladora_Facial.cs",
+              "ViewState": "AgIAAIQBAAAAAAAAAAAawJgBAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-08T23:47:27.694Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "BajaFacialClienteRequest.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\Dtos\\Request\\BajaFacialClienteRequest.cs",
+              "RelativeDocumentMoniker": "Api\\Dtos\\Request\\BajaFacialClienteRequest.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\Dtos\\Request\\BajaFacialClienteRequest.cs",
+              "RelativeToolTip": "Api\\Dtos\\Request\\BajaFacialClienteRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T15:38:35.837Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "BdClientes.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\BD\\BdClientes.cs",
+              "RelativeDocumentMoniker": "BD\\BdClientes.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\BD\\BdClientes.cs",
+              "RelativeToolTip": "BD\\BdClientes.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAADIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-09T00:20:59.804Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "ValidarAccesoResponse.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\Dtos\\Response\\ValidarAccesoResponse.cs",
+              "RelativeDocumentMoniker": "Api\\Dtos\\Response\\ValidarAccesoResponse.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\Dtos\\Response\\ValidarAccesoResponse.cs",
+              "RelativeToolTip": "Api\\Dtos\\Response\\ValidarAccesoResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-08T23:09:19.318Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "ReproductorSonidos.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Utils\\ReproductorSonidos.cs",
+              "RelativeDocumentMoniker": "Utils\\ReproductorSonidos.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Utils\\ReproductorSonidos.cs",
+              "RelativeToolTip": "Utils\\ReproductorSonidos.cs",
+              "ViewState": "AQIAADUAAAAAAAAAAAAiwEsAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-08T23:47:49.861Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
               "Title": "WFPrincipal.Designer.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\GUI\\WFPrincipal.Designer.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\GUI\\WFPrincipal.Designer.cs",
               "RelativeDocumentMoniker": "GUI\\WFPrincipal.Designer.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\GUI\\WFPrincipal.Designer.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\GUI\\WFPrincipal.Designer.cs",
               "RelativeToolTip": "GUI\\WFPrincipal.Designer.cs",
               "ViewState": "AQIAANYAAAAAAAAAAAAlwAcBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -137,102 +479,35 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "WFPrincipal.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\GUI\\WFPrincipal.cs",
-              "RelativeDocumentMoniker": "GUI\\WFPrincipal.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\GUI\\WFPrincipal.cs",
-              "RelativeToolTip": "GUI\\WFPrincipal.cs",
-              "ViewState": "AQIAACkCAAAAAAAAAAAqwBcAAAAfAAAA",
+              "DocumentIndex": 25,
+              "Title": "Evento.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Modelo\\Evento.cs",
+              "RelativeDocumentMoniker": "Modelo\\Evento.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Modelo\\Evento.cs",
+              "RelativeToolTip": "Modelo\\Evento.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:10:58.047Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-09T00:19:45.02Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ReproductorSonidos.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Utils\\ReproductorSonidos.cs",
-              "RelativeDocumentMoniker": "Utils\\ReproductorSonidos.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Utils\\ReproductorSonidos.cs",
-              "RelativeToolTip": "Utils\\ReproductorSonidos.cs",
-              "ViewState": "AQIAADUAAAAAAAAAAAAiwEsAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:47:49.861Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "DeportnetReconocimientoController.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Api\\Controllers\\DeportnetReconocimientoController.cs",
-              "RelativeDocumentMoniker": "Api\\Controllers\\DeportnetReconocimientoController.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Api\\Controllers\\DeportnetReconocimientoController.cs",
-              "RelativeToolTip": "Api\\Controllers\\DeportnetReconocimientoController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:19:53.505Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 26,
               "Title": "ConfiguracionEstilos.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Utils\\ConfiguracionEstilos.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Utils\\ConfiguracionEstilos.cs",
               "RelativeDocumentMoniker": "Utils\\ConfiguracionEstilos.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Utils\\ConfiguracionEstilos.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Utils\\ConfiguracionEstilos.cs",
               "RelativeToolTip": "Utils\\ConfiguracionEstilos.cs",
               "ViewState": "AQIAAHkAAAAAAAAAAAAYwAkAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:47:55.944Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-08T23:47:55.944Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Hik_Controladora_Eventos.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Controladora_Eventos.cs",
-              "RelativeDocumentMoniker": "SDKHikvision\\Hik_Controladora_Eventos.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Controladora_Eventos.cs",
-              "RelativeToolTip": "SDKHikvision\\Hik_Controladora_Eventos.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAAAUAAAAXAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:18:34.876Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Hik_Controladora_Facial.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Controladora_Facial.cs",
-              "RelativeDocumentMoniker": "SDKHikvision\\Hik_Controladora_Facial.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Controladora_Facial.cs",
-              "RelativeToolTip": "SDKHikvision\\Hik_Controladora_Facial.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAJcBAAChAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:47:27.694Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "DeportnetReconocimientoService.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Api\\Services\\DeportnetReconocimientoService.cs",
-              "RelativeDocumentMoniker": "Api\\Services\\DeportnetReconocimientoService.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Api\\Services\\DeportnetReconocimientoService.cs",
-              "RelativeToolTip": "Api\\Services\\DeportnetReconocimientoService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:57:45.997Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 29,
               "Title": "WFRgistrarDispositivo.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\GUI\\WFRgistrarDispositivo.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\GUI\\WFRgistrarDispositivo.cs",
               "RelativeDocumentMoniker": "GUI\\WFRgistrarDispositivo.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\GUI\\WFRgistrarDispositivo.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\GUI\\WFRgistrarDispositivo.cs",
               "RelativeToolTip": "GUI\\WFRgistrarDispositivo.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -241,106 +516,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Programa.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Programa.cs",
-              "RelativeDocumentMoniker": "Programa.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Programa.cs",
-              "RelativeToolTip": "Programa.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAQwAoAAAAbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:45:02.13Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "ValidarAccesoResponse.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Api\\Dtos\\Response\\ValidarAccesoResponse.cs",
-              "RelativeDocumentMoniker": "Api\\Dtos\\Response\\ValidarAccesoResponse.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\Api\\Dtos\\Response\\ValidarAccesoResponse.cs",
-              "RelativeToolTip": "Api\\Dtos\\Response\\ValidarAccesoResponse.cs",
-              "ViewState": "AQIAAAcAAAAAAAAAAAAgwBEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:09:19.318Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Hik_Controladora_Tarjetas.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Controladora_Tarjetas.cs",
-              "RelativeDocumentMoniker": "SDKHikvision\\Hik_Controladora_Tarjetas.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Controladora_Tarjetas.cs",
-              "RelativeToolTip": "SDKHikvision\\Hik_Controladora_Tarjetas.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:46:31.1Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 30,
               "Title": "Hik_Evento_Mapper.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Evento_Mapper.cs",
+              "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Evento_Mapper.cs",
               "RelativeDocumentMoniker": "SDKHikvision\\Hik_Evento_Mapper.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Evento_Mapper.cs",
+              "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Evento_Mapper.cs",
               "RelativeToolTip": "SDKHikvision\\Hik_Evento_Mapper.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:46:31.573Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Hik_Controladora_General.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Controladora_General.cs",
-              "RelativeDocumentMoniker": "SDKHikvision\\Hik_Controladora_General.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Controladora_General.cs",
-              "RelativeToolTip": "SDKHikvision\\Hik_Controladora_General.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAlAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:45:54.547Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "Hik_Resultado.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Resultado.cs",
-              "RelativeDocumentMoniker": "SDKHikvision\\Hik_Resultado.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_Resultado.cs",
-              "RelativeToolTip": "SDKHikvision\\Hik_Resultado.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:45:36.451Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "Hik_SDK.cs",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_SDK.cs",
-              "RelativeDocumentMoniker": "SDKHikvision\\Hik_SDK.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\SDKHikvision\\Hik_SDK.cs",
-              "RelativeToolTip": "SDKHikvision\\Hik_SDK.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:45:31.953Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "WFPrincipal.cs [Dise\u00F1o]",
-              "DocumentMoniker": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\GUI\\WFPrincipal.cs",
-              "RelativeDocumentMoniker": "GUI\\WFPrincipal.cs",
-              "ToolTip": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\GUI\\WFPrincipal.cs [Dise\u00F1o]",
-              "RelativeToolTip": "GUI\\WFPrincipal.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:34:58.075Z",
-              "EditorCaption": " [Dise\u00F1o]"
+              "WhenOpened": "2025-01-08T23:46:31.573Z"
             }
           ]
         }

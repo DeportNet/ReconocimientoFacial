@@ -14,7 +14,7 @@ namespace DeportNetReconocimiento.BD
 
         public BdClientes()
         {
-            
+            CrearTablaClientes();
 
         }
 
@@ -49,7 +49,7 @@ namespace DeportNetReconocimiento.BD
                     command.ExecuteNonQuery();
                 }
 
-                Console.WriteLine("Base de datos y tabla creada.");
+                Console.WriteLine("Tabla creada.");
             }
         }
 

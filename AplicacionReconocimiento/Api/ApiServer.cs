@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using DeportNetReconocimiento.Api.Services.Interfaces;
+using DeportNetReconocimiento.Api.Services;
 
 
 namespace DeportNetReconocimiento.Api
@@ -24,6 +26,9 @@ namespace DeportNetReconocimiento.Api
                     webBuilder.ConfigureServices(services =>
                     {
                         services.AddControllers(); // Agregar soporte para controladores
+
+
+                        services.AddScoped<IDeportnetReconocimientoService,DeportnetReconocimientoService>();
 
                         // Configurar CORS
                         services.AddCors(options =>
@@ -58,7 +63,7 @@ namespace DeportNetReconocimiento.Api
                         // Middleware global para manejar excepciones
                         app.UseMiddleware<GlobalExceptionHandler.GlobalExceptionHandler>();
 
-                        app.UseCors("AllowSpecificOrigins");
+                        app.UseCors("AllowAll");//AllowSpecificOrigins
 
                         app.UseRouting();
                         app.UseEndpoints(endpoints =>
@@ -67,6 +72,7 @@ namespace DeportNetReconocimiento.Api
                         });
 
                     });
+                    webBuilder.UseUrls("http://localhost:5000");
                 })
                 .Build();
 

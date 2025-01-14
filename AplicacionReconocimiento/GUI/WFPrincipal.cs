@@ -24,12 +24,15 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
 
             //estilos se leen de un archivo
-            //InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-            //Hik_Controladora_General.crearDirectorioEventos();
+            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
-            //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
-            ReproducirSonido(configuracionEstilos.SonidoBienvenida);
+            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
+
+           
+                ReproducirSonido(configuracionEstilos.SonidoBienvenida);
+            
         }
 
         //propiedades

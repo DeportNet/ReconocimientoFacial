@@ -95,7 +95,6 @@
             textBoxPassword.Name = "textBoxPassword";
             textBoxPassword.Size = new Size(250, 22);
             textBoxPassword.TabIndex = 60;
-            textBoxPassword.Text = "hik12345";
             textBoxPassword.UseSystemPasswordChar = true;
             // 
             // label5

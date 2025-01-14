@@ -14,7 +14,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         //Defino el delegado ( A quien el voy a pasar el evento cuando lo reciba)
         private MSGCallBack msgCallback;
 
-        public static  bool libre = true;
+        public static bool libre = true;
         public int GetAcsEventHandle = -1;
         private string CsTemp = null;
         private int m_lLogNum = 0;
@@ -56,9 +56,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                 System.Console.WriteLine(infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description + " Tarjeta: " + infoEvento.Card_Number + " Puerta: " + infoEvento.Door_Number);
                 if(infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS)
                 {
-
-
-                    obtenerDatosClienteDeportNet(infoEvento.Card_Reader_Number, infoEvento.Card_Number);
+                    ObtenerDatosClienteDeportNet(infoEvento.Card_Reader_Number, infoEvento.Card_Number);
                 }
             }
             else
@@ -67,7 +65,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
         }
 
-        public static async void obtenerDatosClienteDeportNet(int nroReader, string numeroTarjeta)
+        public static async void ObtenerDatosClienteDeportNet(int nroReader, string numeroTarjeta)
         {
 
             if (!libre)
@@ -88,14 +86,14 @@ namespace DeportNetReconocimiento.SDKHikvision
             //string jsonDeDeportnet = await DxService.ValidacionAperturaAsync(numeroTarjeta);
 
             string[] credenciales = WFPrincipal.ObtenerInstancia.LeerCredenciales();
-
-            string idSucursal = credenciales[4];
+            //todo pedir el id sucursal en WFRegistrarDispositivo
+            string idSucursal = "4"; //credenciales[4];
 
             var data = new { memberId = numeroTarjeta, activeBranchId = idSucursal };
             var jsonRequest = JsonSerializer.Serialize(data);
 
 
-            await ValidarAccesoService.manejarReconocimientoSociosAsync(jsonRequest);
+            await ValidarAccesoService.ManejarReconocimientoSociosAsync(jsonRequest);
 
             libre = true;
 

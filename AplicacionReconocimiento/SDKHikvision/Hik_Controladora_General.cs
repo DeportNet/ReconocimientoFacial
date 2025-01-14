@@ -4,6 +4,7 @@ using DeportNetReconocimiento.Utils;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Xml;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 
@@ -439,30 +440,30 @@ namespace DeportNetReconocimiento.SDK
         }
 
 
-        public static void crearDirectorioEventos()
-        {
+        //public static void crearDirectorioEventos()
+        //{
 
-            // Obtén la ruta raíz del proyecto
-            string raiz = AppDomain.CurrentDomain.BaseDirectory;
+        //    // Obtén la ruta raíz del proyecto
+        //    string raiz = AppDomain.CurrentDomain.BaseDirectory;
 
-            // Define la ruta del nuevo directorio en el root del proyecto
-            string nuevoDirectorio= Path.Combine(raiz, "Eventos");
+        //    // Define la ruta del nuevo directorio en el root del proyecto
+        //    string nuevoDirectorio= Path.Combine(raiz, "Eventos");
 
-            // Verifica si el directorio ya existe
-            if (!Directory.Exists(nuevoDirectorio))
-            {
-                // Crea el directorio si no existe
-                Directory.CreateDirectory(nuevoDirectorio);
-                Console.WriteLine($"El directorio '{nuevoDirectorio}' se ha creado exitosamente.");
-            }
-            else
-            {
-                Console.WriteLine($"El directorio '{nuevoDirectorio}' ya existe.");
-            }
+        //    // Verifica si el directorio ya existe
+        //    if (!Directory.Exists(nuevoDirectorio))
+        //    {
+        //        // Crea el directorio si no existe
+        //        Directory.CreateDirectory(nuevoDirectorio);
+        //        Console.WriteLine($"El directorio '{nuevoDirectorio}' se ha creado exitosamente.");
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine($"El directorio '{nuevoDirectorio}' ya existe.");
+        //    }
 
 
 
-        }
+        //}
 
 
         public Hik_Resultado AltaCliente(string id, string nombre)
@@ -473,8 +474,8 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(id));
             if (resultado.Exito)
             {
-                MessageBox.Show("Error de obtener la tarjeta");
-
+               // MessageBox.Show("Error de obtener la tarjeta");
+                resultado.Mensaje = "Error de obtener la tarjeta";
                 return resultado;
             }
             
@@ -486,7 +487,8 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
             if (!resultado.Exito)
             {
-                MessageBox.Show("Error de obtener la cara");
+                //MessageBox.Show("Error de obtener la cara");
+                resultado.Mensaje = "Error de obtener la cara";
                 return resultado;
             }
 
@@ -494,8 +496,8 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(int.Parse(id), nombre);
             if (!resultado.Exito)
             {
-                MessageBox.Show("Error de crear una tarjeta");
-
+                //MessageBox.Show("Error de crear una tarjeta");
+                resultado.Mensaje = "Error de crear una tarjeta";
                 return resultado;
             }
 
@@ -503,8 +505,8 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, id);
             if (!resultado.Exito)
             {
-                MessageBox.Show("Error de establecer una cara");
-
+                //MessageBox.Show("Error de establecer una cara");
+                resultado.Mensaje = "Error de establecer una cara";
                 return resultado;
             }
 
@@ -546,17 +548,17 @@ namespace DeportNetReconocimiento.SDK
 
         }
 
-        public Hik_Resultado BajaMasivaClientes(string[] ids)
-        {
-            Hik_Resultado resultado = new Hik_Resultado();
+        //public Hik_Resultado BajaMasivaClientes(string[] ids)
+        //{
+        //    Hik_Resultado resultado = new Hik_Resultado();
 
-            foreach (string id in ids)
-            {
-                resultado = BajaCliente(id);
-            }
+        //    foreach (string id in ids)
+        //    {
+        //        resultado = BajaCliente(id);
+        //    }
 
-            return resultado;
-        }
+        //    return resultado;
+        //}
 
 
         

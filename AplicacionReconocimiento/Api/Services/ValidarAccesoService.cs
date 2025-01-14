@@ -12,7 +12,7 @@ namespace DeportNetReconocimiento.Api.Services
         const string url = "https://testing.deportnet.com/facialAccess/facialAccessCheckUserEnter";
 
 
-        public static async Task manejarReconocimientoSociosAsync(object json)
+        public static async Task ManejarReconocimientoSociosAsync(object json)
         {
             try
             {
