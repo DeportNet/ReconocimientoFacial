@@ -110,7 +110,16 @@ namespace DeportNetReconocimiento.SDKHikvision
                 {
                     if (branchAccess[0].ValueKind == JsonValueKind.String)
                     {
-                        MessageBox.Show("Proceso todo el tema de la pregunta");
+
+                        // Crear y mostrar el formulario HTMLMessageBox
+                        HTMLMessageBox htmlMessageBox = new HTMLMessageBox(branchAccess[0].ToString());
+
+                        // Suscribir al evento para recibir la respuesta
+                        htmlMessageBox.OpcionSeleccionada += OnProcesarRespuesta; //Este evento maneja las peticiones 
+
+                        // Mostrar el formulario
+                        htmlMessageBox.ShowDialog();
+
                     }
 
                     if (branchAccess[2].ValueKind != JsonValueKind.Null)
@@ -139,6 +148,20 @@ namespace DeportNetReconocimiento.SDKHikvision
                 }
 
 
+            }
+        }
+
+        // Método que maneja la respuesta del formulario
+        public static void  OnProcesarRespuesta(bool response)
+        {
+            if (response)
+            {
+                MessageBox.Show("Aca se tiene que hacer el llamado diciendo que la respuesta es TRUE  //// ESTOY EN HikControladoraEventos linea 150");
+                //Después fijate bien para donde queres mandar las respuestas o lo que sea para hacer las peticiones y eso. Pero esto ya está casi cosido nashe 
+            }
+            else
+            {
+                MessageBox.Show("Aca se tiene que hacer el llamado diciendo que la respuesta es FALSE  //// ESTOY EN HikControladoraEventos");
             }
         }
 
