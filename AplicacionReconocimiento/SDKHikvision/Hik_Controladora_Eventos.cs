@@ -108,7 +108,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                 //Busco la propiedad branchAcces y digo que el elemento  es de tipo arreglo
                 if (root.TryGetProperty("branchAccess", out JsonElement branchAccess) && branchAccess.ValueKind == JsonValueKind.Array)
                 {
-                    if (branchAccess[0].ValueKind == JsonValueKind.String)
+                    if (branchAccess[1].ToString() == "Q")
                     {
 
                         // Crear y mostrar el formulario HTMLMessageBox
