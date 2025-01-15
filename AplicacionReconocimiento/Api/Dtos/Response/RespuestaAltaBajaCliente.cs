@@ -36,12 +36,14 @@ namespace DeportNetReconocimiento.Api.Dtos.Response
                 SuccessMessage = mensaje;
                 ErrorMessage = null;
             }
-            else
+            else if(exito.Equals("F"))
             {
                 ErrorMessage = mensaje;
                 SuccessMessage = null;
             }
         }
+
+
 
         public string ToJson()
         {

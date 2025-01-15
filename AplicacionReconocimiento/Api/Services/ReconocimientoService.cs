@@ -36,23 +36,36 @@ namespace DeportNetReconocimiento.Api.Services
         {
             if (hik_Controladora.IdUsuario == -1)
             {
-                MensajeDeErrorAltaBajaCliente(clienteRequest, "El idUsuario del dispositivo de reconocimiento facial es -1. El dispositivo no esta conectado.");
+                MensajeDeErrorAltaBajaCliente(
+                                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
+                                    clienteRequest.IdCliente.ToString(),
+                                    "El idUsuario del dispositivo de reconocimiento facial es -1. El dispositivo no esta conectado.",
+                                    "F")
+                                );
                 return "F";
-                //throw new HikvisionException("El idUsuario del dispositivo de reconocimiento facial es -1. El dispositivo no esta conectado.");
             }
 
             if(idSucursal != clienteRequest.IdSucursal)
             {
-                MensajeDeErrorAltaBajaCliente(clienteRequest, "El idSucursal del dispositivo no coincide con el idSucursal del cliente.");
+                MensajeDeErrorAltaBajaCliente(
+                                   new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
+                                   clienteRequest.IdCliente.ToString(),
+                                   "El idSucursal del dispositivo no coincide con el idSucursal del cliente.",
+                                   "F")
+                               );
                 return "F";
-                //throw new HikvisionException("El idSucursal del dispositivo no coincide con el idSucursal del cliente.");
             }
             
             if (enUso)
             {
-                MensajeDeErrorAltaBajaCliente(clienteRequest, "El dispositivo ya está en uso.");
+                MensajeDeErrorAltaBajaCliente(
+                   new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
+                   clienteRequest.IdCliente.ToString(),
+                   "El dispositivo ya está en uso.",
+                   "F")
+               );
+
                 return "F";
-                //throw new DispositivoEnUsoException("El dispositivo ya está en uso.");
             }
 
             //asincronico no se espera
@@ -65,38 +78,63 @@ namespace DeportNetReconocimiento.Api.Services
 
         public string BajaFacialCliente(BajaFacialClienteRequest clienteRequest)
         {
+            
             if (hik_Controladora.IdUsuario == -1)
             {
-                MensajeDeErrorAltaBajaCliente(clienteRequest, "El idUsuario del dispositivo de reconocimiento facial es -1. El dispositivo no esta conectado.");
+                MensajeDeErrorAltaBajaCliente(
+                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
+                    clienteRequest.IdCliente.ToString(),
+                    "El idUsuario del dispositivo de reconocimiento facial es -1. El dispositivo no esta conectado.",
+                    "F")
+                );
+
                 return "F";
-                //throw new HikvisionException("El idUsuario del dispositivo de reconocimiento facial es -1. El dispositivo no esta conectado.");
             }
 
             if (idSucursal != clienteRequest.IdSucursal)
             {
-                MensajeDeErrorAltaBajaCliente(clienteRequest, "El idSucursal del dispositivo no coincide con el idSucursal del cliente.");
+                MensajeDeErrorAltaBajaCliente(
+                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
+                    clienteRequest.IdCliente.ToString(),
+                    "El idSucursal del dispositivo no coincide con el idSucursal del cliente.",
+                    "F")
+                );
+
+               
                 return "F";
-                //throw new HikvisionException("El idSucursal del dispositivo no coincide con el idSucursal del cliente.");
             }
 
             if (enUso)
             {
-                MensajeDeErrorAltaBajaCliente(clienteRequest, "El dispositivo ya está en uso.");
+                MensajeDeErrorAltaBajaCliente(
+                   new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
+                   clienteRequest.IdCliente.ToString(),
+                   "El dispositivo ya está en uso.",
+                   "F")
+               );
+
+             
                 return "F";
-                //throw new DispositivoEnUsoException("El dispositivo ya está en uso.");
+               
             }
 
             //asincronico no se espera
-            _ = AltaClienteDeportnet(clienteRequest);
+            _ = BajaClienteDeportnet(clienteRequest);
 
 
             return "T";
 
         }
 
-        private void MensajeDeErrorAltaBajaCliente( clienteRequest, string mensaje)
+        private object BajaClienteDeportnet(BajaFacialClienteRequest clienteRequest)
         {
-            RespuestaAltaBajaCliente respuestaAlta = new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(), clienteRequest.IdCliente.ToString(), mensaje, "F");
+           //todo baja cliente con hik_contgrtoladora
+            throw new NotImplementedException();
+        }
+
+        private void MensajeDeErrorAltaBajaCliente(RespuestaAltaBajaCliente respuestaAlta)
+        {
+            //RespuestaAltaBajaCliente respuestaAlta = new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(), clienteRequest.IdCliente.ToString(), mensaje, "F");
 
             _ = WebServicesDeportnet.AltaClienteDeportnet(respuestaAlta.ToJson());
         }
@@ -109,7 +147,14 @@ namespace DeportNetReconocimiento.Api.Services
 
             if (!resAlta.Exito)
             {
-                MensajeDeErrorAltaBajaCliente(altaFacialClienteRequest, resAlta.Mensaje);
+                MensajeDeErrorAltaBajaCliente(
+                    new RespuestaAltaBajaCliente(altaFacialClienteRequest.IdSucursal.ToString(),
+                    altaFacialClienteRequest.IdCliente.ToString(),
+                    resAlta.Mensaje,
+                    "F")
+                );
+             
+                    
                 //throw new HikvisionException(resAlta.Mensaje);
             }
             else
