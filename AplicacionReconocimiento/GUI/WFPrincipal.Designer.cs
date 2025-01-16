@@ -35,9 +35,6 @@ namespace DeportNetReconocimiento.GUI
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WFPrincipal));
             imagenLogo = new PictureBox();
             pictureBox1 = new PictureBox();
-            actividadLabel = new Label();
-            valorFechaVtoLabel = new Label();
-            valorClasesRestLabel = new Label();
             trayReconocimiento = new NotifyIcon(components);
             menuNotifyIcon = new ContextMenuStrip(components);
             abrirToolStripMenuItem = new ToolStripMenuItem();
@@ -48,14 +45,15 @@ namespace DeportNetReconocimiento.GUI
             botonPersonalizar = new Button();
             PanelSinConexion = new Panel();
             textoSinCoenxion = new Label();
-            valorMensajeLabel = new Label();
             PanelAlmacenamiento = new Panel();
             TextoAlmacenamiento = new Label();
+            datosSocio = new Microsoft.Web.WebView2.WinForms.WebView2();
             ((System.ComponentModel.ISupportInitialize)imagenLogo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuNotifyIcon.SuspendLayout();
             PanelSinConexion.SuspendLayout();
             PanelAlmacenamiento.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)datosSocio).BeginInit();
             SuspendLayout();
             // 
             // imagenLogo
@@ -82,36 +80,6 @@ namespace DeportNetReconocimiento.GUI
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 11;
             pictureBox1.TabStop = false;
-            // 
-            // actividadLabel
-            // 
-            actividadLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            actividadLabel.Font = new Font("Arial Rounded MT Bold", 36F);
-            actividadLabel.ForeColor = SystemColors.ControlText;
-            actividadLabel.Location = new Point(647, 308);
-            actividadLabel.Name = "actividadLabel";
-            actividadLabel.Size = new Size(689, 55);
-            actividadLabel.TabIndex = 18;
-            // 
-            // valorFechaVtoLabel
-            // 
-            valorFechaVtoLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            valorFechaVtoLabel.Font = new Font("Arial Rounded MT Bold", 36F);
-            valorFechaVtoLabel.ForeColor = SystemColors.ControlText;
-            valorFechaVtoLabel.Location = new Point(647, 389);
-            valorFechaVtoLabel.Name = "valorFechaVtoLabel";
-            valorFechaVtoLabel.Size = new Size(689, 55);
-            valorFechaVtoLabel.TabIndex = 19;
-            // 
-            // valorClasesRestLabel
-            // 
-            valorClasesRestLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            valorClasesRestLabel.Font = new Font("Arial Rounded MT Bold", 36F);
-            valorClasesRestLabel.ForeColor = SystemColors.ControlText;
-            valorClasesRestLabel.Location = new Point(647, 459);
-            valorClasesRestLabel.Name = "valorClasesRestLabel";
-            valorClasesRestLabel.Size = new Size(689, 55);
-            valorClasesRestLabel.TabIndex = 20;
             // 
             // trayReconocimiento
             // 
@@ -203,16 +171,6 @@ namespace DeportNetReconocimiento.GUI
             textoSinCoenxion.Text = "No hay conexión a internet";
             textoSinCoenxion.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // valorMensajeLabel
-            // 
-            valorMensajeLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            valorMensajeLabel.Font = new Font("Arial Rounded MT Bold", 36F);
-            valorMensajeLabel.ForeColor = SystemColors.ControlText;
-            valorMensajeLabel.Location = new Point(647, 542);
-            valorMensajeLabel.Name = "valorMensajeLabel";
-            valorMensajeLabel.Size = new Size(689, 147);
-            valorMensajeLabel.TabIndex = 26;
-            // 
             // PanelAlmacenamiento
             // 
             PanelAlmacenamiento.BackColor = Color.Black;
@@ -234,20 +192,28 @@ namespace DeportNetReconocimiento.GUI
             TextoAlmacenamiento.Text = "Almacenamiento al: 100%    Socios: 1500/1500 ";
             TextoAlmacenamiento.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // webView
+            // 
+            datosSocio.AllowExternalDrop = true;
+            datosSocio.CreationProperties = null;
+            datosSocio.DefaultBackgroundColor = Color.White;
+            datosSocio.Location = new Point(609, 282);
+            datosSocio.Name = "webView";
+            datosSocio.Size = new Size(714, 376);
+            datosSocio.TabIndex = 31;
+            datosSocio.ZoomFactor = 1D;
+            // 
             // WFPrincipal
             // 
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.Silver;
             ClientSize = new Size(1348, 727);
+            Controls.Add(datosSocio);
             Controls.Add(PanelAlmacenamiento);
             Controls.Add(HeaderLabel);
             Controls.Add(PanelSinConexion);
             Controls.Add(botonPersonalizar);
-            Controls.Add(valorMensajeLabel);
-            Controls.Add(valorClasesRestLabel);
-            Controls.Add(valorFechaVtoLabel);
-            Controls.Add(actividadLabel);
             Controls.Add(imagenLogo);
             Controls.Add(pictureBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -261,12 +227,14 @@ namespace DeportNetReconocimiento.GUI
             Text = "Pantalla Bienvenida";
             WindowState = FormWindowState.Maximized;
             FormClosing += cerrarFormulario;
+            Load += WFPrincipal_Load;
             Resize += WFPrincipal_Resize;
             ((System.ComponentModel.ISupportInitialize)imagenLogo).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             menuNotifyIcon.ResumeLayout(false);
             PanelSinConexion.ResumeLayout(false);
             PanelAlmacenamiento.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)datosSocio).EndInit();
             ResumeLayout(false);
         }
 
@@ -274,9 +242,6 @@ namespace DeportNetReconocimiento.GUI
 
         private PictureBox imagenLogo;
         private PictureBox pictureBox1;
-        private Label actividadLabel;
-        private Label valorFechaVtoLabel;
-        private Label valorClasesRestLabel;
         private NotifyIcon trayReconocimiento;
         private Label HeaderLabel;
         private ContextMenuStrip menuNotifyIcon;
@@ -287,8 +252,8 @@ namespace DeportNetReconocimiento.GUI
         private Button botonPersonalizar;
         private Panel PanelSinConexion;
         private Label textoSinCoenxion;
-        private Label valorMensajeLabel;
         private Panel PanelAlmacenamiento;
         private Label TextoAlmacenamiento;
+        private Microsoft.Web.WebView2.WinForms.WebView2 datosSocio;
     }
 }

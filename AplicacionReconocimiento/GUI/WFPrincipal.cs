@@ -25,14 +25,14 @@ namespace DeportNetReconocimiento.GUI
 
             //estilos se leen de un archivo
             InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-            
+
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
             ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
 
-           
+
             ReproducirSonido(configuracionEstilos.SonidoBienvenida);
-            
+
         }
 
         //propiedades
@@ -296,7 +296,17 @@ namespace DeportNetReconocimiento.GUI
             //Se actualizan los labels con los datos de la persona
             HeaderLabel.Text = respuesta;
 
-            actividadLabel.Text = limpiarTextoEnriquecido(json.MensajeCrudo);
+            json.MensajeAccesoAceptado = @"\u003Cdiv\u003E*Tiene servicios\/membres\u00edas no vigentes: 4 a seleccionar CON DIAS (vencida el 23-11-2024).\u003C\/div\u003E\u003Cdiv\u003E*Ya ha ingresado hoy a las 16:05.\u003C\/div\u003E";
+
+            if (json.Estado == "T")
+            {
+                datosSocio.NavigateToString(LimpiarTextoEnriquecido(json.MensajeAccesoAceptado));
+            } else if (json.Estado == "F")
+            {
+                datosSocio.NavigateToString(LimpiarTextoEnriquecido(json.MensajeAccesoDenegado));
+            }
+
+            // actividadLabel.Text = limpiarTextoEnriquecido(json.MensajeCrudo);
 
             //Esta es la alternativa ORIGINAL. 
             //TODO: BORRAR EN CASO DE QUE SE DECIDA USAR LA ALTERNATIVA DE TEXTO PLANO
@@ -318,17 +328,44 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-        public string limpiarTextoEnriquecido(string textoOriginal)
-        {
-            // Se utilizan Regex (Expresiones regulares) PAra poder modificar y alterar las cadenas de texto.
-            // Elimino las lineas de escape 
-            string textoDecodificado = Regex.Unescape(textoOriginal);
-            // Elimina las etiquetas HTML
-            string textoPlano = Regex.Replace(textoDecodificado, "<.*?>", string.Empty);
 
-            return textoPlano;
+
+        public string LimpiarTextoEnriquecido(string htmlContent)
+        {
+
+
+            // Preparo el texto para cargarlo como corresponde
+            string textoSinCaracteresEscape = LimpiarCaracteresEscape(htmlContent);
+            string textoSinUnicode = SacarFormaToUnicode(textoSinCaracteresEscape);
+            string textoDecodificado = System.Net.WebUtility.HtmlDecode(textoSinUnicode);
+
+            return textoDecodificado;
         }
 
+
+        static string SacarFormaToUnicode(string input)
+        {
+            // Reemplaza las secuencias de escape Unicode con los caracteres correspondientes
+            return Regex.Replace(input, @"\\u([0-9A-Fa-f]{4})", match =>
+            {
+                // Convierte el código Unicode en el carácter correspondiente
+                return char.ConvertFromUtf32(int.Parse(match.Groups[1].Value, System.Globalization.NumberStyles.HexNumber));
+            });
+        }
+
+
+        // Método para eliminar caracteres de escape innecesarios
+        static string LimpiarCaracteresEscape(string input)
+        {
+            // Reemplazar \/ por /
+            input = input.Replace(@"\/", "/");
+
+            // Reemplazar \n por un salto de línea
+            input = input.Replace(@"\n", "\n");
+
+            // Devolver el texto limpio
+            return input;
+        }
 
         public string EvaluarMensajeAcceso(ValidarAccesoResponse json)
         {
@@ -431,11 +468,13 @@ namespace DeportNetReconocimiento.GUI
 
             HeaderLabel.Text = configuracionEstilos.MensajeBienvenida;
             HeaderLabel.ForeColor = configuracionEstilos.ColorMensajeBienvenida;
+            datosSocio.NavigateToString("");
+            /*
             actividadLabel.Text = "";
             valorFechaVtoLabel.Text = "";
             valorClasesRestLabel.Text = "";
             valorMensajeLabel.Text = "";
-
+            */
             LimpiarFotosDirectorio();
 
         }
@@ -452,7 +491,7 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-       
+
 
         /* - - - - - - Sonidos - - - - - - */
 
@@ -546,6 +585,7 @@ namespace DeportNetReconocimiento.GUI
             HeaderLabel.ForeColor = config.ColorMensajeAccesoConcedido;
 
             //font campos
+            /*
             actividadLabel.Font = config.FuenteTextoCamposInformacion;
             valorFechaVtoLabel.Font = config.FuenteTextoCamposInformacion;
             valorClasesRestLabel.Font = config.FuenteTextoCamposInformacion;
@@ -556,6 +596,7 @@ namespace DeportNetReconocimiento.GUI
             valorFechaVtoLabel.ForeColor = config.ColorVencimiento;
             valorClasesRestLabel.ForeColor = config.ColorClasesRestantes;
             valorMensajeLabel.ForeColor = config.ColorMensaje;
+            */
             pictureBox1.BackColor = config.ColorFondoImagen;
 
             //Logo
@@ -573,5 +614,7 @@ namespace DeportNetReconocimiento.GUI
             wFConfiguracion.ShowDialog();
         }
 
-    }
-}
+        private async void WFPrincipal_Load(object sender, EventArgs e)
+        {
+            await datosSocio.EnsureCoreWebView2Async(null);
+} } }
