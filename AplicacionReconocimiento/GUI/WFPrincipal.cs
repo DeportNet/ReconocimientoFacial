@@ -19,7 +19,7 @@ namespace DeportNetReconocimiento.GUI
         public bool ignorarCierre = false;
 
 
-        public WFPrincipal()
+        private WFPrincipal()
         {
             InitializeComponent();
 
@@ -275,7 +275,7 @@ namespace DeportNetReconocimiento.GUI
         public async void ActualizarDatos(int nroLector, ValidarAccesoResponse json)
         {
             string respuesta = "";
-
+            
             //Si el hilo que llama a la función no es el principal, se llama a la función de nuevo en el hilo principal
             if (InvokeRequired)
             {
@@ -284,20 +284,18 @@ namespace DeportNetReconocimiento.GUI
             }
 
 
-            MaximizarVentana();
             LimpiarPictureBox();
+            MaximizarVentana();
+            
 
-
-            //Se convierte el json a un objeto de tipo Persona
-
-            respuesta = EvaluarMensajeAcceso(json);
+            EvaluarMensajeAcceso(json);
 
 
             //Se actualizan los labels con los datos de la persona
-            HeaderLabel.Text = respuesta;
+            
 
-            json.MensajeAccesoAceptado = @"\u003Cdiv\u003E*Tiene servicios\/membres\u00edas no vigentes: 4 a seleccionar CON DIAS (vencida el 23-11-2024).\u003C\/div\u003E\u003Cdiv\u003E*Ya ha ingresado hoy a las 16:05.\u003C\/div\u003E";
-
+            //json.MensajeAccesoAceptado = @"\u003Cdiv\u003E*Tiene servicios\/membres\u00edas no vigentes: 4 a seleccionar CON DIAS (vencida el 23-11-2024).\u003C\/div\u003E\u003Cdiv\u003E*Ya ha ingresado hoy a las 16:05.\u003C\/div\u003E";
+            //todo cambiar que ValidarAccesoResponse tenga un solo mensaje
             if (json.Estado == "T")
             {
                 datosSocio.NavigateToString(LimpiarTextoEnriquecido(json.MensajeAccesoAceptado));
@@ -372,10 +370,11 @@ namespace DeportNetReconocimiento.GUI
             string mensaje = "";
             string pregunta = "\n ¿Lo dejas pasar de todas formas?";
             DialogResult respuesta = DialogResult.OK;
+
             if (json.Estado == "Q")
             {
 
-                ReproducirSonido(configuracionEstilos.SonidoPregunta);
+                ReproducirSonido(ConfiguracionEstilos.SonidoPregunta);
 
                 respuesta = MessageBox.Show(
                 json.MensajeCrudo + pregunta,
@@ -387,28 +386,29 @@ namespace DeportNetReconocimiento.GUI
 
             if (json.Estado == "T" || respuesta == DialogResult.Yes)
             {
-                ReproducirSonido(configuracionEstilos.AccesoConcedido);
+                ReproducirSonido(ConfiguracionEstilos.AccesoConcedido);
 
-                if (ConfiguracionEstilos.LeerJsonConfiguracion("ConfiguracionEstilos").MetodoApertura == ".exe")
+                if (ConfiguracionEstilos.MetodoApertura == ".exe")
                 {
                     Console.WriteLine("Ejecuto el exe");
-                    Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos").RutaMetodoApertura);
+                    Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.RutaMetodoApertura);
                 }
 
 
                 mensaje = "Bienvenido " + json.Nombre;
-                HeaderLabel.ForeColor = configuracionEstilos.ColorMensajeAccesoConcedido;
+                //todo ver si los cambios del color van aca
+                HeaderLabel.ForeColor = ConfiguracionEstilos.ColorMensajeAccesoConcedido;
 
             }
             else if (json.Estado == "F" || respuesta == DialogResult.No)
             {
-                ReproducirSonido(configuracionEstilos.AccesoDenegado);
+                ReproducirSonido(ConfiguracionEstilos.AccesoDenegado);
 
                 mensaje = "Acceso denegado " + json.Nombre;
-                HeaderLabel.ForeColor = configuracionEstilos.ColorMensajeAccesoDenegado;
+                HeaderLabel.ForeColor = ConfiguracionEstilos.ColorMensajeAccesoDenegado;
 
             }
-
+            HeaderLabel.Text = mensaje;
             return mensaje;
 
         }
@@ -617,4 +617,7 @@ namespace DeportNetReconocimiento.GUI
         private async void WFPrincipal_Load(object sender, EventArgs e)
         {
             await datosSocio.EnsureCoreWebView2Async(null);
-} } }
+
+        } 
+    }     
+}

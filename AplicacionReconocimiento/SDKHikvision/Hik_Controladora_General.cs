@@ -398,7 +398,7 @@ namespace DeportNetReconocimiento.SDK
             configuracion.ActualizarCapacidadMaxima();
 
             //setteamos el callback para obtener los ids de los usuarios
-            hik_Controladora_Eventos = new Hik_Controladora_Eventos();
+            hik_Controladora_Eventos = Hik_Controladora_Eventos.InstanciaControladoraEventos;
 
             return resultado;
         }

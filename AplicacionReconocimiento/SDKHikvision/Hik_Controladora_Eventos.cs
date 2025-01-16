@@ -5,6 +5,7 @@ using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDK;
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using System.Web;
 using static DeportNetReconocimiento.SDK.Hik_SDK;
 
 namespace DeportNetReconocimiento.SDKHikvision
@@ -13,6 +14,8 @@ namespace DeportNetReconocimiento.SDKHikvision
     public class Hik_Controladora_Eventos
     {
         //Defino el delegado ( A quien el voy a pasar el evento cuando lo reciba)
+        private static Hik_Controladora_Eventos? instanciaControladoraEventos;
+
         private MSGCallBack msgCallback;
 
         public static bool libre = true;
@@ -21,7 +24,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         private int m_lLogNum = 0;
 
      
-        public Hik_Controladora_Eventos(){
+        private Hik_Controladora_Eventos(){
             this.SetupAlarm();
 
             msgCallback = new MSGCallBack(MsgCallback);
@@ -31,6 +34,20 @@ namespace DeportNetReconocimiento.SDKHikvision
                 Console.WriteLine("Error al asociar callback");
             }
         }
+
+
+        public static Hik_Controladora_Eventos InstanciaControladoraEventos
+        {
+            get
+            {
+                if (instanciaControladoraEventos == null)
+                {
+                    instanciaControladoraEventos = new Hik_Controladora_Eventos();
+                }
+                return instanciaControladoraEventos;
+            }
+        }
+
 
         private void MsgCallback(int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
         {
@@ -66,6 +83,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
         }
 
+        //todo verificar si es necesario el nroReader realmente
         public static async void ObtenerDatosClienteDeportNet(int nroReader, string numeroTarjeta)
         {
 
@@ -83,14 +101,14 @@ namespace DeportNetReconocimiento.SDKHikvision
 
 
             libre = false;
-            /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
             
 
             string[] credenciales = WFPrincipal.ObtenerInstancia.LeerCredenciales();
             string idSucursal = credenciales[4];
             
 
-            var response = await WebServicesDeportnet.ControlDeAcceso(numeroTarjeta,idSucursal);
+            /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
+            string response = await WebServicesDeportnet.ControlDeAcceso(numeroTarjeta,idSucursal);
             
             ProcesarRespuestaAcceso(response);
 
@@ -101,53 +119,59 @@ namespace DeportNetReconocimiento.SDKHikvision
         public static void ProcesarRespuestaAcceso(string response)
         {
 
-            using (JsonDocument doc = JsonDocument.Parse(response))
+            using JsonDocument doc = JsonDocument.Parse(response);
+            JsonElement root = doc.RootElement;
+
+            //Busco la propiedad branchAcces y digo que el elemento  es de tipo arreglo
+            if (root.TryGetProperty("branchAccess", out JsonElement branchAccess) && branchAccess.ValueKind == JsonValueKind.Array)
             {
-                JsonElement root = doc.RootElement;
-
-                //Busco la propiedad branchAcces y digo que el elemento  es de tipo arreglo
-                if (root.TryGetProperty("branchAccess", out JsonElement branchAccess) && branchAccess.ValueKind == JsonValueKind.Array)
+                //verificamos el estado del acceso, si es pregunta
+                if (branchAccess[1].ToString() == "Q")
                 {
-                    if (branchAccess[1].ToString() == "Q")
-                    {
-
-                        // Crear y mostrar el formulario HTMLMessageBox
-                        HTMLMessageBox htmlMessageBox = new HTMLMessageBox(branchAccess[0].ToString());
-
-                        // Suscribir al evento para recibir la respuesta
-                        htmlMessageBox.OpcionSeleccionada += OnProcesarRespuesta; //Este evento maneja las peticiones 
-
-                        // Mostrar el formulario
-                        htmlMessageBox.ShowDialog();
-
-                    }
-
-                    if (branchAccess[2].ValueKind != JsonValueKind.Null)
-                    {
-                        ValidarAccesoResponse jsonDeportnet = new ValidarAccesoResponse();
+                    
 
 
-                        jsonDeportnet.Id = branchAccess[2].GetProperty("id").ToString();
-                        jsonDeportnet.Nombre = branchAccess[2].GetProperty("firstName").ToString();
-                        jsonDeportnet.Apellido = branchAccess[2].GetProperty("lastName").ToString();
-                        jsonDeportnet.NombreCompleto = branchAccess[2].GetProperty("name").ToString();
-                        jsonDeportnet.Estado = branchAccess[2].GetProperty("status").ToString();
-                        jsonDeportnet.MensajeCrudo = branchAccess[2].GetProperty("accesStatus").ToString();
-                        jsonDeportnet.MensajeAccesoDenegado = branchAccess[2].GetProperty("accessError").ToString();
-                        jsonDeportnet.MensajeAccesoAceptado = branchAccess[2].GetProperty("accessOK").ToString();
-                        jsonDeportnet.Mostrarcumpleanios = branchAccess[2].GetProperty("showBirthday").ToString();
+                    //obtenemos la pregunta con formato html
+                    string preguntaFormatoHtml = HttpUtility.HtmlDecode(branchAccess[0].ToString());
 
+                    
+                    // Crear y mostrar el formulario HTMLMessageBox
+                    HTMLMessageBox htmlMessageBox = new HTMLMessageBox(preguntaFormatoHtml);
 
-                        WFPrincipal.ObtenerInstancia.ActualizarDatos(1, jsonDeportnet);
-                    }
+                    // Suscribir al evento para recibir la respuesta
+                    htmlMessageBox.OpcionSeleccionada += OnProcesarRespuesta; //Este evento maneja las peticiones 
+
+                    // Mostrar el formulario
+                    htmlMessageBox.ShowDialog();
+
 
                 }
-                else
+
+                //Verificamos el jsonObject en la pos 2 que serian los datos del cliente
+                if (branchAccess[2].ValueKind != JsonValueKind.Null)
                 {
-                    Console.WriteLine("No está la propiedad branch access.");
+                    ValidarAccesoResponse jsonDeportnet = new ValidarAccesoResponse();
+
+
+                    jsonDeportnet.Id = branchAccess[2].GetProperty("id").ToString();
+                    jsonDeportnet.Nombre = branchAccess[2].GetProperty("firstName").ToString();
+                    jsonDeportnet.Apellido = branchAccess[2].GetProperty("lastName").ToString();
+                    jsonDeportnet.NombreCompleto = branchAccess[2].GetProperty("name").ToString();
+                    jsonDeportnet.Estado = branchAccess[2].GetProperty("status").ToString();
+                    jsonDeportnet.MensajeCrudo = branchAccess[2].GetProperty("accessStatus").ToString();
+                    jsonDeportnet.MensajeAccesoDenegado = branchAccess[2].GetProperty("accessError").ToString();
+                    jsonDeportnet.MensajeAccesoAceptado = branchAccess[2].GetProperty("accessOk").ToString();
+                    jsonDeportnet.Mostrarcumpleanios = branchAccess[2].GetProperty("showBirthday").ToString();
+
+                    Console.WriteLine(branchAccess);
+                    //todo ver como hacer para que se muestre un "conecedido o denegado anonimo", ya que la pregunta no tiene datos del cliente y una vez respondida tenemos que mostrar algo
+                    WFPrincipal.ObtenerInstancia.ActualizarDatos(1, jsonDeportnet);
                 }
 
-
+            }
+            else
+            {
+                Console.WriteLine("No está la propiedad branch access.");
             }
         }
 

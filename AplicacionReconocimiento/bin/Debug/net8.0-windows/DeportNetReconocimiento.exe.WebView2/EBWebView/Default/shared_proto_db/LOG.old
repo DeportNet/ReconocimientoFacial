@@ -1,2 +1,3 @@
-2025/01/15-15:56:10.209 ef8 Creating DB D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\DeportNetReconocimiento.exe.WebView2\EBWebView\Default\shared_proto_db since it was missing.
-2025/01/15-15:56:10.557 ef8 Reusing MANIFEST D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\DeportNetReconocimiento.exe.WebView2\EBWebView\Default\shared_proto_db/MANIFEST-000001
+2025/01/16-15:59:27.946 30b8 Reusing MANIFEST G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\DeportNetReconocimiento.exe.WebView2\EBWebView\Default\shared_proto_db/MANIFEST-000001
+2025/01/16-15:59:27.947 30b8 Recovering log #3
+2025/01/16-15:59:27.947 30b8 Reusing old log G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\DeportNetReconocimiento.exe.WebView2\EBWebView\Default\shared_proto_db/000003.log 

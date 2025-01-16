@@ -1,6 +1,6 @@
 ﻿namespace DeportNetReconocimiento.GUI
 {
-    partial class HTMLMessageBox
+    partial class WFPopupPregunta
     {
         /// <summary>
         /// Required designer variable.
@@ -28,81 +28,78 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HTMLMessageBox));
-            panel1 = new Panel();
-            BotonNo = new Button();
-            botonSi = new Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WFPopupPregunta));
+            button1 = new Button();
+            button2 = new Button();
             label1 = new Label();
+            panel1 = new Panel();
             webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
             SuspendLayout();
             // 
-            // panel1
+            // button1
             // 
-            panel1.Controls.Add(BotonNo);
-            panel1.Controls.Add(botonSi);
-            panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 197);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(484, 64);
-            panel1.TabIndex = 0;
+            button1.Location = new Point(96, 20);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 1;
+            button1.Text = "Si";
+            button1.UseVisualStyleBackColor = true;
             // 
-            // BotonNo
+            // button2
             // 
-            BotonNo.Location = new Point(313, 12);
-            BotonNo.Name = "BotonNo";
-            BotonNo.Size = new Size(100, 40);
-            BotonNo.TabIndex = 1;
-            BotonNo.Text = "No";
-            BotonNo.UseVisualStyleBackColor = true;
-            BotonNo.Click += BotonNo_Click;
-            // 
-            // botonSi
-            // 
-            botonSi.Location = new Point(85, 12);
-            botonSi.Name = "botonSi";
-            botonSi.Size = new Size(100, 40);
-            botonSi.TabIndex = 0;
-            botonSi.Text = "Sí";
-            botonSi.UseVisualStyleBackColor = true;
-            botonSi.Click += BotonSi_Click;
+            button2.Location = new Point(407, 20);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 2;
+            button2.Text = "No";
+            button2.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(216, 9);
+            label1.Location = new Point(251, 59);
             label1.Name = "label1";
             label1.Size = new Size(58, 15);
-            label1.TabIndex = 2;
+            label1.TabIndex = 3;
             label1.Text = "Atencion!";
+            // 
+            // panel1
+            // 
+            panel1.BackColor = SystemColors.ActiveBorder;
+            panel1.Controls.Add(button2);
+            panel1.Controls.Add(button1);
+            panel1.Location = new Point(0, 381);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(556, 71);
+            panel1.TabIndex = 5;
             // 
             // webView21
             // 
             webView21.AllowExternalDrop = true;
             webView21.CreationProperties = null;
             webView21.DefaultBackgroundColor = Color.White;
-            webView21.Location = new Point(62, 59);
+            webView21.Location = new Point(96, 97);
             webView21.Name = "webView21";
-            webView21.Size = new Size(346, 110);
-            webView21.TabIndex = 3;
+            webView21.Size = new Size(369, 235);
+            webView21.TabIndex = 6;
             webView21.ZoomFactor = 1D;
-            webView21.CoreWebView2InitializationCompleted += InicializarWebView2;
             // 
-            // HTMLMessageBox
+            // WFPopupPregunta
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(484, 261);
+            ClientSize = new Size(553, 450);
             ControlBox = false;
             Controls.Add(webView21);
-            Controls.Add(label1);
             Controls.Add(panel1);
+            Controls.Add(label1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Name = "HTMLMessageBox";
+            Name = "WFPopupPregunta";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Pregunta";
-            Load += HTMLMessageBox_Load;
+            Text = "Pregunta Acceso";
+            Load += WFPopupPregunta_LoadAsync;
             panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)webView21).EndInit();
             ResumeLayout(false);
@@ -110,11 +107,10 @@
         }
 
         #endregion
-
-        private Panel panel1;
-        private Button BotonNo;
-        private Button botonSi;
+        private Button button1;
+        private Button button2;
         private Label label1;
+        private Panel panel1;
         private Microsoft.Web.WebView2.WinForms.WebView2 webView21;
     }
 }

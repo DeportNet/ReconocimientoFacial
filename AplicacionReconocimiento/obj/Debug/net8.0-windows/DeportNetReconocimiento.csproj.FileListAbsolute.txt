@@ -92,3 +92,14 @@ D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-w
 D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\Swashbuckle.AspNetCore.Swagger.dll
 D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\Swashbuckle.AspNetCore.SwaggerUI.dll
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\runtimes\win-x86\native\WebView2Loader.dll
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\runtimes\win-x64\native\WebView2Loader.dll
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\runtimes\win-arm64\native\WebView2Loader.dll
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\Microsoft.Web.WebView2.Core.dll
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\Microsoft.Web.WebView2.WinForms.dll
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\Microsoft.Web.WebView2.Wpf.dll
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\Microsoft.Web.WebView2.Core.xml
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\Microsoft.Web.WebView2.WinForms.xml
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\bin\Debug\net8.0-windows\Microsoft.Web.WebView2.Wpf.xml
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNetReconocimiento.GUI.HTMLMessageBox.resources
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\obj\Debug\net8.0-windows\DeportNetReconocimiento.GUI.WFPopupPregunta.resources
