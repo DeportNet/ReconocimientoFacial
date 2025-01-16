@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Web.WebView2.WinForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,7 +14,8 @@ namespace DeportNetReconocimiento.GUI
 {
     public partial class HTMLMessageBox : Form
     {
-        private WebBrowser webBrowser;
+        private WebView2 webView;
+
 
         public event Action<bool> OpcionSeleccionada;
 
@@ -29,44 +31,48 @@ namespace DeportNetReconocimiento.GUI
             this.StartPosition = FormStartPosition.CenterScreen;
 
             // Quitar los botones de minimizar, maximizar y cerrar
-            this.ControlBox = false; 
+            this.ControlBox = false;
 
-            // Inicializar WebBrowser
-            //Renderiza HTML - CSS y JS de manera local 
-            webBrowser = new WebBrowser
+            // Inicializar WebView2
+            webView = new WebView2
             {
-                Dock = DockStyle.Fill,
-                ScrollBarsEnabled = true
+                Dock = DockStyle.Fill
             };
 
+            // Inicializar WebView2 Core
+            webView.CoreWebView2InitializationCompleted += async (sender, e) =>
+            {
+                if (!e.IsSuccess)
+                {
+                    MessageBox.Show("Error al inicializar WebView2.");
+                    return;
+                }
 
-            //Preparo el texto para cargarlo como corresponde
-            string textoSinCaracteresEscape = LimpiarCaracteresEscape(htmlContent);
-            string textoSinUnicode = SacarFormaToUnicode(textoSinCaracteresEscape);
-            string textoDecodificado = System.Net.WebUtility.HtmlDecode(textoSinUnicode);
+                // Preparo el texto para cargarlo como corresponde
+                string textoSinCaracteresEscape = LimpiarCaracteresEscape(htmlContent);
+                string textoSinUnicode = SacarFormaToUnicode(textoSinCaracteresEscape);
+                string textoDecodificado = System.Net.WebUtility.HtmlDecode(textoSinUnicode);
 
-            // Cargar el contenido HTML
-            webBrowser.DocumentText = textoDecodificado;
-
-
-
+                // Cargar el contenido HTML
+                webView.NavigateToString(textoDecodificado);
+            };
 
             // Crear un panel para los botones en la parte inferior
             Panel bottomPanel = new Panel
             {
                 Dock = DockStyle.Bottom,
-                Height = 50 
+                Height = 50
             };
 
             FlowLayoutPanel flowPanel = new FlowLayoutPanel
             {
                 Dock = DockStyle.Fill,
-                FlowDirection = FlowDirection.LeftToRight, 
-                Padding = new Padding(130, 2, 20, 0), 
+                FlowDirection = FlowDirection.LeftToRight,
+                Padding = new Padding(130, 2, 20, 0),
                 AutoSize = true
             };
 
-            //  Botón "Sí"
+            // Botón "Sí"
             Button yesButton = new Button
             {
                 Text = "Sí",
@@ -75,9 +81,8 @@ namespace DeportNetReconocimiento.GUI
             };
             yesButton.Click += (sender, e) =>
             {
-                // Acción cuando se hace clic en "Sí"
-                OpcionSeleccionada?.Invoke(true); 
-                this.Close(); 
+                OpcionSeleccionada?.Invoke(true);
+                this.Close();
             };
 
             // Botón "No"
@@ -89,9 +94,8 @@ namespace DeportNetReconocimiento.GUI
             };
             noButton.Click += (sender, e) =>
             {
-                // Acción cuando se hace clic en "No"
-                OpcionSeleccionada?.Invoke(false); 
-                this.Close(); 
+                OpcionSeleccionada?.Invoke(false);
+                this.Close();
             };
 
             // Agregar los botones al FlowLayoutPanel
@@ -102,8 +106,23 @@ namespace DeportNetReconocimiento.GUI
             bottomPanel.Controls.Add(flowPanel);
 
             // Agregar controles al formulario
-            this.Controls.Add(webBrowser);
-            this.Controls.Add(bottomPanel); // Agregar panel con FlowLayoutPanel al formulario
+            this.Controls.Add(webView);
+            this.Controls.Add(bottomPanel);
+
+            // Inicializar WebView2
+            InitializeWebView2Async();
+        }
+
+        private async void InitializeWebView2Async()
+        {
+            try
+            {
+                await webView.EnsureCoreWebView2Async();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al inicializar WebView2: {ex.Message}");
+            }
         }
 
 
