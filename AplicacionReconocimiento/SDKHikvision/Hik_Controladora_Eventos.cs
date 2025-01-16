@@ -84,14 +84,14 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             libre = false;
             /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
-            //string jsonDeDeportnet = await DxService.ValidacionAperturaAsync(numeroTarjeta);
+            
 
             string[] credenciales = WFPrincipal.ObtenerInstancia.LeerCredenciales();
             string idSucursal = credenciales[4];
             
 
             var response = await WebServicesDeportnet.ControlDeAcceso(numeroTarjeta,idSucursal);
-            Console.WriteLine(response);
+            
             ProcesarRespuestaAcceso(response);
 
             libre = true;

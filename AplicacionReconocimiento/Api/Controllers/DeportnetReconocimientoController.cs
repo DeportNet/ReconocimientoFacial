@@ -46,13 +46,13 @@ namespace DeportNetReconocimiento.Api.Controllers
             return Ok(detalle);
         }
 
-        [HttpDelete("baja-facial-cliente")]
+        [HttpGet("baja-facial-cliente")]
         public IActionResult BajaFacialCliente(
             [FromQuery] int idCliente,
             [FromQuery] int idSucursal
             )
         {
-            if (idCliente == null || idSucursal == null || nombreCliente == null)
+            if (idCliente == null || idSucursal == null)
             {
                 return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
             }
