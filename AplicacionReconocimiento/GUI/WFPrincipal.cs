@@ -288,6 +288,9 @@ namespace DeportNetReconocimiento.GUI
             MaximizarVentana();
             
 
+
+
+
             EvaluarMensajeAcceso(json);
 
 
