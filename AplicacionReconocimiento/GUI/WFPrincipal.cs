@@ -298,22 +298,12 @@ namespace DeportNetReconocimiento.GUI
             //todo cambiar que ValidarAccesoResponse tenga un solo mensaje
             if (json.Estado == "T")
             {
-                datosSocio.NavigateToString(LimpiarTextoEnriquecido(json.MensajeAccesoAceptado));
+                richTextBox1.Rtf = LimpiarTextoEnriquecido(json.MensajeAccesoAceptado);
             } else if (json.Estado == "F")
             {
-                datosSocio.NavigateToString(LimpiarTextoEnriquecido(json.MensajeAccesoDenegado));
+                richTextBox1.Rtf = LimpiarTextoEnriquecido(json.MensajeAccesoDenegado);
             }
 
-            // actividadLabel.Text = limpiarTextoEnriquecido(json.MensajeCrudo);
-
-            //Esta es la alternativa ORIGINAL. 
-            //TODO: BORRAR EN CASO DE QUE SE DECIDA USAR LA ALTERNATIVA DE TEXTO PLANO
-            /*
-            actividadLabel.Text = "Actividad: " + persona.Actividad;
-            valorFechaVtoLabel.Text = "Fecha vto: " + persona.Vencimiento;
-            valorClasesRestLabel.Text = "Clases restantes: " + persona.ClasesRestantes;
-            valorMensajeLabel.Text = "Mensaje: " + persona.Mensaje;
-            */
 
             pictureBox1.Image = ObtenerFotoCliente(nroLector, json.Id);
 
@@ -326,8 +316,6 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-
-
         public string LimpiarTextoEnriquecido(string htmlContent)
         {
 
@@ -335,9 +323,25 @@ namespace DeportNetReconocimiento.GUI
             // Preparo el texto para cargarlo como corresponde
             string textoSinCaracteresEscape = LimpiarCaracteresEscape(htmlContent);
             string textoSinUnicode = SacarFormaToUnicode(textoSinCaracteresEscape);
-            string textoDecodificado = System.Net.WebUtility.HtmlDecode(textoSinUnicode);
+            string textoRTF = ConvertirHtmlToRtf(textoSinUnicode);
 
-            return textoDecodificado;
+            return textoRTF;
+        }
+
+        static string ConvertirHtmlToRtf(string html)
+        {
+            // Reemplazar etiquetas HTML por RTF
+            html = html.Replace("<strong>", @"\b ").Replace("</strong>", @"\b0 ");
+            html = html.Replace("<br>", @"\line ");
+            html = html.Replace("<div>", @"\line ");
+            html = html.Replace("</div>", "");
+            html = html.Replace("\n", @"\line ");
+
+            // Darle el formato RTF a lo demas 
+            string rtfHeader = @"{\rtf1\ansi\deff0 {\fonttbl {\f0 Arial;}} ";
+            string rtfFooter = "}";
+
+            return rtfHeader + html + rtfFooter;
         }
 
 
@@ -468,7 +472,7 @@ namespace DeportNetReconocimiento.GUI
 
             HeaderLabel.Text = configuracionEstilos.MensajeBienvenida;
             HeaderLabel.ForeColor = configuracionEstilos.ColorMensajeBienvenida;
-            datosSocio.NavigateToString("");
+            richTextBox1.Rtf = "";
             /*
             actividadLabel.Text = "";
             valorFechaVtoLabel.Text = "";

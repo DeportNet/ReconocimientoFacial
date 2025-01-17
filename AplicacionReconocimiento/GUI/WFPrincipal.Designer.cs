@@ -47,14 +47,12 @@ namespace DeportNetReconocimiento.GUI
             textoSinCoenxion = new Label();
             PanelAlmacenamiento = new Panel();
             TextoAlmacenamiento = new Label();
-            datosSocio = new Microsoft.Web.WebView2.WinForms.WebView2();
             richTextBox1 = new RichTextBox();
             ((System.ComponentModel.ISupportInitialize)imagenLogo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuNotifyIcon.SuspendLayout();
             PanelSinConexion.SuspendLayout();
             PanelAlmacenamiento.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)datosSocio).BeginInit();
             SuspendLayout();
             // 
             // imagenLogo
@@ -193,22 +191,11 @@ namespace DeportNetReconocimiento.GUI
             TextoAlmacenamiento.Text = "Almacenamiento al: 100%    Socios: 1500/1500 ";
             TextoAlmacenamiento.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // datosSocio
-            // 
-            datosSocio.AllowExternalDrop = true;
-            datosSocio.CreationProperties = null;
-            datosSocio.DefaultBackgroundColor = Color.WhiteSmoke;
-            datosSocio.Location = new Point(558, 297);
-            datosSocio.Name = "datosSocio";
-            datosSocio.Size = new Size(714, 376);
-            datosSocio.TabIndex = 31;
-            datosSocio.ZoomFactor = 1D;
-            // 
             // richTextBox1
             // 
-            richTextBox1.Location = new Point(55, 481);
+            richTextBox1.Location = new Point(586, 271);
             richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(242, 170);
+            richTextBox1.Size = new Size(627, 409);
             richTextBox1.TabIndex = 32;
             richTextBox1.Text = "";
             // 
@@ -219,7 +206,6 @@ namespace DeportNetReconocimiento.GUI
             BackColor = Color.Silver;
             ClientSize = new Size(1348, 727);
             Controls.Add(richTextBox1);
-            Controls.Add(datosSocio);
             Controls.Add(PanelAlmacenamiento);
             Controls.Add(HeaderLabel);
             Controls.Add(PanelSinConexion);
@@ -244,7 +230,6 @@ namespace DeportNetReconocimiento.GUI
             menuNotifyIcon.ResumeLayout(false);
             PanelSinConexion.ResumeLayout(false);
             PanelAlmacenamiento.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)datosSocio).EndInit();
             ResumeLayout(false);
         }
 
@@ -264,7 +249,6 @@ namespace DeportNetReconocimiento.GUI
         private Label textoSinCoenxion;
         private Panel PanelAlmacenamiento;
         private Label TextoAlmacenamiento;
-        private Microsoft.Web.WebView2.WinForms.WebView2 datosSocio;
         private RichTextBox richTextBox1;
     }
 }
