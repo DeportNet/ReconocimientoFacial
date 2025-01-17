@@ -64,7 +64,7 @@ public class Hik_Controladora_Facial
     }
 
     //Obtener una cara desde el dispositivo
-    public Hik_Resultado ObtenerCara(int cardReaderNumber, String cardNumber)
+    public Hik_Resultado ObtenerCara(int cardReaderNumber, string cardNumber)
     {
 
         Hik_Resultado resultado = new Hik_Resultado();
@@ -82,6 +82,7 @@ public class Hik_Controladora_Facial
         Hik_SDK.NET_DVR_FACE_COND struCond = new Hik_SDK.NET_DVR_FACE_COND();
         int dwSize = 0;
         IntPtr ptrStruCond = IntPtr.Zero;
+
         InicializarFaceCond(ref struCond, ref dwSize, (uint)cardReaderNumber, cardNumber, ref ptrStruCond);
 
         GetFaceCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_GET_FACE, ptrStruCond, dwSize, null, IntPtr.Zero);
@@ -131,6 +132,7 @@ public class Hik_Controladora_Facial
                 //Procesamos la informacion facial
 
                 ProcesarInformacionFacialRecord(ref struRecord, ref flag);
+
                 resultado.ActualizarResultado(true, "Se obtuvo la cara de forma exitosa", Hik_SDK.NET_DVR_GetLastError().ToString());
                 break;
             case (int)Hik_SDK.NET_SDK_GET_NEXT_STATUS_NEED_WAIT:
@@ -174,9 +176,9 @@ public class Hik_Controladora_Facial
     {
         string strpath = null;
         DateTime dt = DateTime.Now;
-        strpath = string.Format("FacePicture.jpg");
+        strpath = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
 
-        //si la longitud de la cara es 0, no hace nada y volvemos para atras
+            //si la longitud de la cara es 0, no hace nada y volvemos para atras
         if (struRecord.dwFaceLen != 0)
         {
 
@@ -211,7 +213,7 @@ public class Hik_Controladora_Facial
         dwOutBuffSize = (uint)struRecord.dwSize;
 
     }
-    private void InicializarFaceCond(ref Hik_SDK.NET_DVR_FACE_COND struCond, ref int dwSize, uint cardReaderNumber, String cardNumber, ref IntPtr ptrStruCond)
+    private void InicializarFaceCond(ref Hik_SDK.NET_DVR_FACE_COND struCond, ref int dwSize, uint cardReaderNumber, string cardNumber, ref IntPtr ptrStruCond)
     {
         struCond.Init();
         struCond.dwSize = Marshal.SizeOf(struCond);
@@ -223,13 +225,19 @@ public class Hik_Controladora_Facial
         struCond.dwEnableReaderNo = (int)cardReaderNumber;
         struCond.dwFaceNum = 1;
 
-
-
-        //Se pasa byte por byte para evitar errores de desbordamiento
-        byte[] byTemp = Encoding.UTF8.GetBytes(cardNumber);
-        for (int i = 0; i < byTemp.Length; i++)
+        try
         {
-            struCond.byCardNo[i] = byTemp[i];
+            //Se pasa byte por byte para evitar errores de desbordamiento
+            byte[] byTemp = Encoding.UTF8.GetBytes(cardNumber);
+            for (int i = 0; i < byTemp.Length; i++)
+            {
+                struCond.byCardNo[i] = byTemp[i];
+            }
+
+        }
+        catch(Exception ex)
+        {
+                Console.WriteLine("Excepcion en Inicializar FaceCond", ex.Message);
         }
 
 

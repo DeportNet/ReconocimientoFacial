@@ -193,9 +193,12 @@ namespace DeportNetReconocimiento.GUI
             // 
             // richTextBox1
             // 
-            richTextBox1.Location = new Point(586, 271);
+            richTextBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            richTextBox1.BackColor = SystemColors.ButtonHighlight;
+            richTextBox1.Location = new Point(696, 277);
             richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(627, 409);
+            richTextBox1.ReadOnly = true;
+            richTextBox1.Size = new Size(558, 357);
             richTextBox1.TabIndex = 32;
             richTextBox1.Text = "";
             // 
@@ -222,8 +225,7 @@ namespace DeportNetReconocimiento.GUI
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Pantalla Bienvenida";
             WindowState = FormWindowState.Maximized;
-            FormClosing += cerrarFormulario;
-            Load += WFPrincipal_Load;
+            FormClosing += CerrarFormulario;
             Resize += WFPrincipal_Resize;
             ((System.ComponentModel.ISupportInitialize)imagenLogo).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

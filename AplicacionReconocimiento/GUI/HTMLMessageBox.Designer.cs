@@ -87,7 +87,6 @@
             richTextBox1.Size = new Size(454, 158);
             richTextBox1.TabIndex = 3;
             richTextBox1.Text = "";
-            richTextBox1.UseWaitCursor = true;
             // 
             // HTMLMessageBox
             // 

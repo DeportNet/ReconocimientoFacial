@@ -31,15 +31,20 @@ namespace DeportNetReconocimiento.Api.Dtos.Response
             MemberId = idCliente;
             IsSuccessful = exito;
 
-            if (exito.Equals("T"))
+            switch (exito)
             {
-                SuccessMessage = mensaje;
-                ErrorMessage = null;
-            }
-            else if(exito.Equals("F"))
-            {
-                ErrorMessage = mensaje;
-                SuccessMessage = null;
+                case "T":
+                    SuccessMessage = mensaje;
+                    ErrorMessage = null;
+                    break;
+                case "F":
+                    ErrorMessage = mensaje;
+                    SuccessMessage = null;
+                    break;
+                default:
+                    ErrorMessage = mensaje;
+                    SuccessMessage = null;
+                    break;
             }
         }
 

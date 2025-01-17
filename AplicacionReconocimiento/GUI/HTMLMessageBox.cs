@@ -1,4 +1,4 @@
-﻿using Microsoft.Web.WebView2.WinForms;
+﻿using DeportNetReconocimiento.Api.Dtos.Response;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,19 +16,23 @@ namespace DeportNetReconocimiento.GUI
     public partial class HTMLMessageBox : Form
     {
 
-        public event Action<bool>? OpcionSeleccionada;
+        public event Action<RespuestaAccesoManual>? OpcionSeleccionada;
 
-        private string preguntaRTF;
-        public HTMLMessageBox(string mensajeUnicode)
+        private ValidarAccesoResponse accesoResponse;
+
+        public ValidarAccesoResponse AccesoResponse { get => accesoResponse; set => accesoResponse = value; }
+
+
+
+
+        public HTMLMessageBox(ValidarAccesoResponse accesoResponse)
         {
            
             InitializeComponent();
-            string limpiarEscapes = LimpiarCaracteresEscape(mensajeUnicode);
-            string limpiarFormatoUnicode = SacarFormaToUnicode(limpiarEscapes);
-            string preguntaFormatoRTF = ConvertirHtmlToRtf(limpiarFormatoUnicode);
 
-            preguntaRTF = preguntaFormatoRTF;
-            richTextBox1.Rtf = preguntaRTF;
+            this.AccesoResponse = accesoResponse;
+
+            richTextBox1.Rtf = MensajeCrudoARtf(accesoResponse.MensajeCrudo);
 
 
             panel1.Controls.Add(BotonNo);
@@ -37,7 +41,15 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
-        static string ConvertirHtmlToRtf(string html)
+        private static string MensajeCrudoARtf(string mensajeCrudo)
+        {
+
+            string limpiarEscapes = LimpiarCaracteresEscape(mensajeCrudo);
+            string limpiarFormatoUnicode = SacarFormaToUnicode(limpiarEscapes);
+            return ConvertirHtmlToRtf(limpiarFormatoUnicode);
+        }
+
+        private static string ConvertirHtmlToRtf(string html)
         {
             // Reemplazar etiquetas HTML por RTF
             html = html.Replace("<strong>", @"\b ").Replace("</strong>", @"\b0 ");
@@ -54,7 +66,7 @@ namespace DeportNetReconocimiento.GUI
         }
 
         // Método para eliminar caracteres de escape innecesarios
-        static string LimpiarCaracteresEscape(string input)
+        private static string LimpiarCaracteresEscape(string input)
         {
             // Reemplazar \/ por /
             input = input.Replace(@"\/", "/");
@@ -67,7 +79,7 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
-        static string SacarFormaToUnicode(string input)
+        private static string SacarFormaToUnicode(string input)
         {
             // Reemplaza las secuencias de escape Unicode con los caracteres correspondientes
             return Regex.Replace(input, @"\\u([0-9A-Fa-f]{4})", match =>
@@ -82,13 +94,15 @@ namespace DeportNetReconocimiento.GUI
 
         private void BotonNo_Click(object sender, EventArgs e)
         {
-            OpcionSeleccionada?.Invoke(false);
+            OpcionSeleccionada?.Invoke(new RespuestaAccesoManual(accesoResponse.IdSucursal, accesoResponse.IdCliente, "F"));
+
             this.Close();
         }
 
         private void BotonSi_Click(object sender, EventArgs e)
         {
-            OpcionSeleccionada?.Invoke(true);
+            OpcionSeleccionada?.Invoke(new RespuestaAccesoManual(accesoResponse.IdSucursal, accesoResponse.IdCliente, "T"));
+
             this.Close();
         }
 

@@ -3,6 +3,7 @@ using DeportNetReconocimiento.Api.Dtos.Response;
 using DeportNetReconocimiento.GUI;
 using System.Text;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace DeportNetReconocimiento.Api.Services
@@ -14,30 +15,37 @@ namespace DeportNetReconocimiento.Api.Services
         const string urlBajaCliente = "https://testing.deportnet.com/facialAccess/facialAccessDeleteResult";
         const string urlAltaCliente = "https://testing.deportnet.com/facialAccess/facialAccessLectureResult";
 
-        public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal,bool accesoManual = false) 
+        public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal) 
         {
             object data = new { };
 
-            if (accesoManual)
-            {
-                /*
-                 { 
-	"activeBranchId": "1",
-	"memberId": "17393",
-	"manualAllowedAccess": "17393", (T o F)
-	"isSuccessful": "T" ( T o F)
-}
-*/
-                data = new { };
-            }
-            else
-            {
+          
+            
                 data = new { memberId = nroTarjeta, activeBranchId = idSucursal };
-            }
 
           
             return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
         }
+
+        
+        public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal, string rtaManual)
+        {
+            
+                /*
+                { 
+	                "activeBranchId": "1",
+	                "memberId": "17393",
+	                "manualAllowedAccess": "17393", (T o F)
+	                "isSuccessful": "T" ( T o F)
+                }
+                */
+            
+            object data = new { memberId = nroTarjeta, activeBranchId = idSucursal, manualAllowedAccess = nroTarjeta, isSuccessful = rtaManual};
+            
+            
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
+        }
+
 
         public static async Task<string> AltaClienteDeportnet(string json)
         {

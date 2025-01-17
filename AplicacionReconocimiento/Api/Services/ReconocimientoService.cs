@@ -126,10 +126,35 @@ namespace DeportNetReconocimiento.Api.Services
 
         }
 
-        private object BajaClienteDeportnet(BajaFacialClienteRequest clienteRequest)
+        private async Task BajaClienteDeportnet(BajaFacialClienteRequest clienteRequest)
         {
-           //todo baja cliente con hik_contgrtoladora
-            throw new NotImplementedException();
+            enUso = true;
+            Hik_Resultado resBaja = hik_Controladora.BajaCliente(clienteRequest.IdCliente.ToString());
+
+            if (!resBaja.Exito)
+            {
+                MensajeDeErrorAltaBajaCliente(
+                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
+                    clienteRequest.IdCliente.ToString(),
+                    resBaja.Mensaje,
+                    "F")
+                );
+
+
+                //throw new HikvisionException(resAlta.Mensaje);
+            }
+            else
+            {
+                RespuestaAltaBajaCliente respuestaAlta = new RespuestaAltaBajaCliente(
+                    clienteRequest.IdSucursal.ToString(),
+                    clienteRequest.IdCliente.ToString(),
+                    "Alta facial cliente exitosa", 
+                    "T");
+                string mensaje = await WebServicesDeportnet.BajaClienteDeportnet(respuestaAlta.ToJson());
+                Console.WriteLine(mensaje);
+            }
+            enUso = false;
+            Console.WriteLine("Se ha dado de baja el cliente facial con id: " + clienteRequest.IdCliente);
         }
 
         private void MensajeDeErrorAltaBajaCliente(RespuestaAltaBajaCliente respuestaAlta)
@@ -159,7 +184,12 @@ namespace DeportNetReconocimiento.Api.Services
             }
             else
             {
-                RespuestaAltaBajaCliente respuestaAlta = new RespuestaAltaBajaCliente(altaFacialClienteRequest.IdSucursal.ToString(),altaFacialClienteRequest.IdCliente.ToString(), "Alta facial cliente exitosa", "T");
+                RespuestaAltaBajaCliente respuestaAlta = new RespuestaAltaBajaCliente(
+                    altaFacialClienteRequest.IdSucursal.ToString(),
+                    altaFacialClienteRequest.IdCliente.ToString(),
+                    "Alta facial cliente exitosa",
+                    "T");
+
                 string mensaje = await WebServicesDeportnet.AltaClienteDeportnet(respuestaAlta.ToJson());
                 Console.WriteLine(mensaje);
             }

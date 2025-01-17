@@ -119,42 +119,31 @@ namespace DeportNetReconocimiento.Utils
         public string MensajeBienvenida { get; set; }
 
         [Category("Mensaje de acceso")]
-        [DisplayName("Color del texto de mensaje de bienvenida")]
+        [DisplayName("Color del texto de mensaje de acceso concedido")]
         [Description("Selecciona el color del texto del mensaje de acceso concedido.")]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorMensajeAccesoConcedido { get; set; }
 
         /* - - - - - Campos de informacion - - - - - - */
 
+      
         [Category("Campos de informacion")]
-        [DisplayName("Color del campo actividad")]
-        [Description("Establece el color del texto para el campo de actividad del usuario.")]
+        [DisplayName("Color de fondo de la informacion del cliente")]
+        [Description("Selecciona el color de fondo para el campo donde se muestra la informacion del cliente.")]
         [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorCampoActividad { get; set; }
+        public Color FondoColorInformacionCliente { get; set; }
 
         [Category("Campos de informacion")]
-        [DisplayName("Fuente texto campos de informacion")]
-        [Description("Selecciona la fuente utilizada en los campos de información del usuario.")]
+        [DisplayName("Color de texto de la informacion del cliente")]
+        [Description("Selecciona el color de texto para el campo donde se muestra la informacion del cliente.")]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color TextoColorInformacionCliente { get; set; }
+
+        [Category("Campos de informacion")]
+        [DisplayName("Fuente de texto de la informacion del cliente")]
+        [Description("Selecciona la fuente de texto para el campo donde se muestra la informacion del cliente.")]
         [JsonConverter(typeof(FontJsonConverter))]
-        public Font FuenteTextoCamposInformacion { get; set; }
-
-        [Category("Campos de informacion")]
-        [DisplayName("Color del campo vencimiento")]
-        [Description("Define el color del texto para el campo de vencimiento.")]
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorVencimiento { get; set; }
-
-        [Category("Campos de informacion")]
-        [DisplayName("Color del campo clases restantes")]
-        [Description("Establece el color del texto para el campo que muestra las clases restantes del usuario.")]
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorClasesRestantes { get; set; }
-
-        [Category("Campos de informacion")]
-        [DisplayName("Color del campo mensaje")]
-        [Description("Selecciona el color del texto para el campo de mensajes personalizados.")]
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorMensaje { get; set; }
+        public Font FuenteTextoInformacionCliente { get; set; }
 
         [Category("Campos de informacion")]
         [DisplayName("Color de fondo imagen")]
@@ -249,20 +238,20 @@ namespace DeportNetReconocimiento.Utils
 
             // Mensaje de acceso
             ColorFondoMensajeAcceso = Color.DarkGray;
-            ColorMensajeBienvenida = Color.Green;
+            ColorMensajeBienvenida = Color.Black;
             ColorMensajeAccesoDenegado = Color.Red;
+            ColorMensajeAccesoConcedido = Color.Green;
             MensajeBienvenida = "Bienvenido a DeportNet!";
-            ColorMensajeAccesoConcedido = Color.Black;
 
             FuenteTextoMensajeAcceso = new Font("Arial Rounded MT Bold", 36, FontStyle.Italic);
 
             // Campos de informacion
-            ColorCampoActividad = Color.Black;
-            ColorVencimiento = Color.Black;
-            ColorClasesRestantes = Color.Black;
-            ColorMensaje = Color.Black;
+            TextoColorInformacionCliente = Color.Black;
+            FondoColorInformacionCliente = Color.WhiteSmoke;
+            FuenteTextoInformacionCliente = new Font("Arial Rounded MT Bold", 20, FontStyle.Regular);
+        
+            //Imagen
             ColorFondoImagen = Color.DarkGray;
-            FuenteTextoCamposInformacion = new Font("Arial Rounded MT Bold", 20, FontStyle.Regular);
 
 
             //Sonidos

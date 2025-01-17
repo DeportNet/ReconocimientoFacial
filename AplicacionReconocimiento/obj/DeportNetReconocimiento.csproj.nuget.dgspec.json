@@ -50,10 +50,6 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "dependencies": {
-            "Microsoft.Web.WebView2": {
-              "target": "Package",
-              "version": "[1.0.2903.40, )"
-            },
             "NAudio": {
               "target": "Package",
               "version": "[2.2.1, )"

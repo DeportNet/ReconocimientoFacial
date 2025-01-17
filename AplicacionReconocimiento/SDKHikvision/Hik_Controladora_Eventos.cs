@@ -99,7 +99,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                 return;
             }
 
-
+            
             libre = false;
             
 
@@ -110,13 +110,15 @@ namespace DeportNetReconocimiento.SDKHikvision
             /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
             string response = await WebServicesDeportnet.ControlDeAcceso(numeroTarjeta,idSucursal);
             
-            ProcesarRespuestaAcceso(response);
+            
+
+            ProcesarRespuestaAcceso(response, numeroTarjeta, idSucursal);
 
             libre = true;
 
         }
 
-        public static void ProcesarRespuestaAcceso(string response)
+        public static void ProcesarRespuestaAcceso(string response, string nroTarjeta, string idSucursal)
         {
 
             using JsonDocument doc = JsonDocument.Parse(response);
@@ -127,21 +129,27 @@ namespace DeportNetReconocimiento.SDKHikvision
             {
                 ValidarAccesoResponse jsonDeportnet = new ValidarAccesoResponse();
 
+                jsonDeportnet.IdCliente = nroTarjeta;
+                jsonDeportnet.IdSucursal = idSucursal;
+
+                if (branchAccess[1].ToString() == "U")
+                {
+                    MessageBox.Show(branchAccess[0].ToString(),
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                    );
+                    //todo validar si es necesario hacer return o agregamos una condicion mas en el switch
+                    //verificar si existe en el dispositivo eliminarlo
+                    return;
+                }
+
+
                 //verificamos el estado del acceso, si es pregunta
                 if (branchAccess[1].ToString() == "Q")
                 {
                     jsonDeportnet.MensajeCrudo = branchAccess[0].ToString();
                     jsonDeportnet.Estado = "Q";
-
-                    //// Crear y mostrar el formulario HTMLMessageBox
-                    //WFPopupPregunta wFPopupPregunta = new WFPopupPregunta(branchAccess[0].ToString());
-
-                    //// Suscribir al evento para recibir la respuesta
-                    //wFPopupPregunta.OpcionSeleccionada += OnProcesarRespuesta; //Este evento maneja las peticiones 
-
-                    //// Mostrar el formulario
-                    //wFPopupPregunta.ShowDialog();
-
 
                 }
 
@@ -149,19 +157,24 @@ namespace DeportNetReconocimiento.SDKHikvision
                 if (branchAccess[2].ValueKind != JsonValueKind.Null)
                 {
 
-
-                    jsonDeportnet.Id = branchAccess[2].GetProperty("id").ToString();
+                    //jsonDeportnet.Id = branchAccess[2].GetProperty("id").ToString();
                     jsonDeportnet.Nombre = branchAccess[2].GetProperty("firstName").ToString();
                     jsonDeportnet.Apellido = branchAccess[2].GetProperty("lastName").ToString();
                     jsonDeportnet.NombreCompleto = branchAccess[2].GetProperty("name").ToString();
-                    jsonDeportnet.Estado = branchAccess[2].GetProperty("status").ToString();
+                    jsonDeportnet.Estado = branchAccess[2].GetProperty("status").ToString(); ;
                     jsonDeportnet.MensajeCrudo = branchAccess[2].GetProperty("accessStatus").ToString();
-                    jsonDeportnet.MensajeAccesoDenegado = branchAccess[2].GetProperty("accessError").ToString();
-                    jsonDeportnet.MensajeAccesoAceptado = branchAccess[2].GetProperty("accessOk").ToString();
                     jsonDeportnet.Mostrarcumpleanios = branchAccess[2].GetProperty("showBirthday").ToString();
+                    
+                    if(jsonDeportnet.Estado == "T")
+                    {
+                        jsonDeportnet.MensajeAcceso = branchAccess[2].GetProperty("accessOk").ToString();
+                    }
+                    else if (jsonDeportnet.Estado == "F")
+                    {
+                        jsonDeportnet.MensajeAcceso = branchAccess[2].GetProperty("accessError").ToString();
+                    }
 
                     Console.WriteLine(branchAccess);
-                    //todo ver como hacer para que se muestre un "conecedido o denegado anonimo", ya que la pregunta no tiene datos del cliente y una vez respondida tenemos que mostrar algo
                 }
 
                 WFPrincipal.ObtenerInstancia.ActualizarDatos(1, jsonDeportnet);
