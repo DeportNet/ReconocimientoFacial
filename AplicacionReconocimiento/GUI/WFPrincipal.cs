@@ -313,6 +313,18 @@ namespace DeportNetReconocimiento.GUI
             LimpiarInterfaz();
 
 
+        // Método que maneja la respuesta del formulario
+        public static void OnProcesarRespuesta(bool response)
+        {
+            if (response)
+            {
+                MessageBox.Show("Aca se tiene que hacer el llamado diciendo que la respuesta es TRUE  //// ESTOY EN HikControladoraEventos linea 150");
+                //Después fijate bien para donde queres mandar las respuestas o lo que sea para hacer las peticiones y eso. Pero esto ya está casi cosido nashe 
+            }
+            else
+            {
+                MessageBox.Show("Aca se tiene que hacer el llamado diciendo que la respuesta es FALSE  //// ESTOY EN HikControladoraEventos");
+            }
         }
 
 
@@ -380,12 +392,14 @@ namespace DeportNetReconocimiento.GUI
 
                 ReproducirSonido(ConfiguracionEstilos.SonidoPregunta);
 
-                respuesta = MessageBox.Show(
-                json.MensajeCrudo + pregunta,
-                "Pregunta",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-                );
+                // Crear y mostrar el formulario HTMLMessageBox
+                WFPopupPregunta wFPopupPregunta = new WFPopupPregunta(json.MensajeCrudo);
+
+                // Suscribir al evento para recibir la respuesta
+                wFPopupPregunta.OpcionSeleccionada += OnProcesarRespuesta; //Este evento maneja las peticiones 
+
+                // Mostrar el formulario
+                wFPopupPregunta.ShowDialog();
             }
 
             if (json.Estado == "T" || respuesta == DialogResult.Yes)

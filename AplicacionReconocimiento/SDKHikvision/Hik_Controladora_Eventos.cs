@@ -125,19 +125,22 @@ namespace DeportNetReconocimiento.SDKHikvision
             //Busco la propiedad branchAcces y digo que el elemento  es de tipo arreglo
             if (root.TryGetProperty("branchAccess", out JsonElement branchAccess) && branchAccess.ValueKind == JsonValueKind.Array)
             {
+                ValidarAccesoResponse jsonDeportnet = new ValidarAccesoResponse();
+
                 //verificamos el estado del acceso, si es pregunta
                 if (branchAccess[1].ToString() == "Q")
                 {
+                    jsonDeportnet.MensajeCrudo = branchAccess[0].ToString();
+                    jsonDeportnet.Estado = "Q";
 
+                    //// Crear y mostrar el formulario HTMLMessageBox
+                    //WFPopupPregunta wFPopupPregunta = new WFPopupPregunta(branchAccess[0].ToString());
 
-                    // Crear y mostrar el formulario HTMLMessageBox
-                    HTMLMessageBox htmlMessageBox = new HTMLMessageBox(branchAccess[0].ToString());
+                    //// Suscribir al evento para recibir la respuesta
+                    //wFPopupPregunta.OpcionSeleccionada += OnProcesarRespuesta; //Este evento maneja las peticiones 
 
-                    // Suscribir al evento para recibir la respuesta
-                    htmlMessageBox.OpcionSeleccionada += OnProcesarRespuesta; //Este evento maneja las peticiones 
-
-                    // Mostrar el formulario
-                    htmlMessageBox.ShowDialog();
+                    //// Mostrar el formulario
+                    //wFPopupPregunta.ShowDialog();
 
 
                 }
@@ -145,7 +148,6 @@ namespace DeportNetReconocimiento.SDKHikvision
                 //Verificamos el jsonObject en la pos 2 que serian los datos del cliente
                 if (branchAccess[2].ValueKind != JsonValueKind.Null)
                 {
-                    ValidarAccesoResponse jsonDeportnet = new ValidarAccesoResponse();
 
 
                     jsonDeportnet.Id = branchAccess[2].GetProperty("id").ToString();
@@ -160,9 +162,9 @@ namespace DeportNetReconocimiento.SDKHikvision
 
                     Console.WriteLine(branchAccess);
                     //todo ver como hacer para que se muestre un "conecedido o denegado anonimo", ya que la pregunta no tiene datos del cliente y una vez respondida tenemos que mostrar algo
-                    WFPrincipal.ObtenerInstancia.ActualizarDatos(1, jsonDeportnet);
                 }
 
+                WFPrincipal.ObtenerInstancia.ActualizarDatos(1, jsonDeportnet);
             }
             else
             {
@@ -170,19 +172,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
         }
 
-        // Método que maneja la respuesta del formulario
-        public static void  OnProcesarRespuesta(bool response)
-        {
-            if (response)
-            {
-                MessageBox.Show("Aca se tiene que hacer el llamado diciendo que la respuesta es TRUE  //// ESTOY EN HikControladoraEventos linea 150");
-                //Después fijate bien para donde queres mandar las respuestas o lo que sea para hacer las peticiones y eso. Pero esto ya está casi cosido nashe 
-            }
-            else
-            {
-                MessageBox.Show("Aca se tiene que hacer el llamado diciendo que la respuesta es FALSE  //// ESTOY EN HikControladoraEventos");
-            }
-        }
+        
 
         public void SetupAlarm()
         {
