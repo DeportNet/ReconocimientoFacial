@@ -33,9 +33,8 @@
             BotonNo = new Button();
             botonSi = new Button();
             label1 = new Label();
-            webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
+            richTextBox1 = new RichTextBox();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -77,17 +76,18 @@
             label1.TabIndex = 2;
             label1.Text = "Atencion!";
             // 
-            // webView21
+            // richTextBox1
             // 
-            webView21.AllowExternalDrop = true;
-            webView21.CreationProperties = null;
-            webView21.DefaultBackgroundColor = Color.White;
-            webView21.Location = new Point(62, 59);
-            webView21.Name = "webView21";
-            webView21.Size = new Size(346, 110);
-            webView21.TabIndex = 3;
-            webView21.ZoomFactor = 1D;
-            webView21.CoreWebView2InitializationCompleted += InicializarWebView2;
+            richTextBox1.BackColor = SystemColors.Window;
+            richTextBox1.BorderStyle = BorderStyle.None;
+            richTextBox1.DetectUrls = false;
+            richTextBox1.Location = new Point(18, 33);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.ScrollBars = RichTextBoxScrollBars.None;
+            richTextBox1.Size = new Size(454, 158);
+            richTextBox1.TabIndex = 3;
+            richTextBox1.Text = "";
+            richTextBox1.UseWaitCursor = true;
             // 
             // HTMLMessageBox
             // 
@@ -95,16 +95,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(484, 261);
             ControlBox = false;
-            Controls.Add(webView21);
+            Controls.Add(richTextBox1);
             Controls.Add(label1);
             Controls.Add(panel1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "HTMLMessageBox";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Pregunta";
-            Load += HTMLMessageBox_Load;
             panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)webView21).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -115,6 +113,6 @@
         private Button BotonNo;
         private Button botonSi;
         private Label label1;
-        private Microsoft.Web.WebView2.WinForms.WebView2 webView21;
+        private RichTextBox richTextBox1;
     }
 }

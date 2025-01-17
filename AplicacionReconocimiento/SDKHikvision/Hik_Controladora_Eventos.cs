@@ -128,15 +128,10 @@ namespace DeportNetReconocimiento.SDKHikvision
                 //verificamos el estado del acceso, si es pregunta
                 if (branchAccess[1].ToString() == "Q")
                 {
-                    
 
 
-                    //obtenemos la pregunta con formato html
-                    string preguntaFormatoHtml = HttpUtility.HtmlDecode(branchAccess[0].ToString());
-
-                    
                     // Crear y mostrar el formulario HTMLMessageBox
-                    HTMLMessageBox htmlMessageBox = new HTMLMessageBox(preguntaFormatoHtml);
+                    HTMLMessageBox htmlMessageBox = new HTMLMessageBox(branchAccess[0].ToString());
 
                     // Suscribir al evento para recibir la respuesta
                     htmlMessageBox.OpcionSeleccionada += OnProcesarRespuesta; //Este evento maneja las peticiones 

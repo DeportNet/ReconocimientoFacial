@@ -18,51 +18,66 @@ namespace DeportNetReconocimiento.GUI
 
         public event Action<bool>? OpcionSeleccionada;
 
-        private string preguntaHtml;
-        public HTMLMessageBox(string htmlContent)
+        private string preguntaRTF;
+        public HTMLMessageBox(string mensajeUnicode)
         {
            
             InitializeComponent();
+            string limpiarEscapes = LimpiarCaracteresEscape(mensajeUnicode);
+            string limpiarFormatoUnicode = SacarFormaToUnicode(limpiarEscapes);
+            string preguntaFormatoRTF = ConvertirHtmlToRtf(limpiarFormatoUnicode);
 
-            preguntaHtml = htmlContent;
+            preguntaRTF = preguntaFormatoRTF;
+            richTextBox1.Rtf = preguntaRTF;
+
 
             panel1.Controls.Add(BotonNo);
             panel1.Controls.Add(botonSi);
-            this.Controls.Add(webView21);
             this.Controls.Add(panel1);
 
-
-        
-            
         }
 
-        private void InicializarWebView2(object sender, Microsoft.Web.WebView2.Core.CoreWebView2InitializationCompletedEventArgs e)
+        static string ConvertirHtmlToRtf(string html)
         {
-            // Inicializar WebView2 Core
-            Console.WriteLine("Entro a inicializar");
-            try
-            {
-                Console.WriteLine("Ensure Core web 2 async, adentro del try");
-                webView21.EnsureCoreWebView2Async();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Problema con inicializar, adentro del catch");
-                MessageBox.Show($"Error al inicializar WebView2: {ex.Message}");
-            }
+            // Reemplazar etiquetas HTML por RTF
+            html = html.Replace("<strong>", @"\b ").Replace("</strong>", @"\b0 ");
+            html = html.Replace("<br>", @"\line ");
+            html = html.Replace("<div>", @"\line ");
+            html = html.Replace("</div>", "");
+            html = html.Replace("\n", @"\line ");
 
-            if (!e.IsSuccess)
-            {
-                Console.WriteLine("no hubo succes");
-                MessageBox.Show("Error al inicializar WebView2.");
-                return;
-            }
+            // Darle el formato RTF a lo demas 
+            string rtfHeader = @"{\rtf1\ansi\deff0 {\fonttbl {\f0 Arial;}} ";
+            string rtfFooter = "}";
 
-
-            Console.WriteLine("MOstramos el string");
-            // Cargar el contenido HTML
-            webView21.NavigateToString(preguntaHtml);
+            return rtfHeader + html + rtfFooter;
         }
+
+        // Método para eliminar caracteres de escape innecesarios
+        static string LimpiarCaracteresEscape(string input)
+        {
+            // Reemplazar \/ por /
+            input = input.Replace(@"\/", "/");
+
+            // Reemplazar \n por un salto de línea
+            input = input.Replace(@"\n", "\n");
+
+            // Devolver el texto limpio
+            return input;
+
+        }
+
+        static string SacarFormaToUnicode(string input)
+        {
+            // Reemplaza las secuencias de escape Unicode con los caracteres correspondientes
+            return Regex.Replace(input, @"\\u([0-9A-Fa-f]{4})", match =>
+            {
+                // Convierte el código Unicode en el carácter correspondiente
+                return char.ConvertFromUtf32(int.Parse(match.Groups[1].Value, System.Globalization.NumberStyles.HexNumber));
+            });
+
+        }
+
 
 
         private void BotonNo_Click(object sender, EventArgs e)
@@ -77,10 +92,5 @@ namespace DeportNetReconocimiento.GUI
             this.Close();
         }
 
-
-        private async void HTMLMessageBox_Load(object sender, EventArgs e)
-        {
-           
-        }
     }
 }
