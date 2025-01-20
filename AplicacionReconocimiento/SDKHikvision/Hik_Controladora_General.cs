@@ -24,9 +24,9 @@ namespace DeportNetReconocimiento.SDK
         private bool soportaFacial;
         private bool soportaHuella;
         private bool soportaTarjeta;
-        private Hik_Controladora_Facial? hik_Controladora_Facial;
-        private Hik_Controladora_Tarjetas? hik_Controladora_Tarjetas;
-        private Hik_Controladora_Eventos? hik_Controladora_Eventos;
+        private static Hik_Controladora_Facial? hik_Controladora_Facial;
+        private static Hik_Controladora_Tarjetas? hik_Controladora_Tarjetas;
+        private static Hik_Controladora_Eventos? hik_Controladora_Eventos;
         private ConfiguracionEstilos configuracion;
 
 
@@ -162,7 +162,7 @@ namespace DeportNetReconocimiento.SDK
             {
                 if (1 == struDeviceInfoV40.bySupportLock)
                 {
-                    mensajeDeSdk = string.Format("Te quedan {0} intentos para logearte", struDeviceInfoV40.byRetryLoginTime);
+                    mensajeDeSdk = string.Format($"Te quedan {struDeviceInfoV40.byRetryLoginTime} intentos para logearte" /*struDeviceInfoV40.byRetryLoginTime*/);
                 }
                 resultado.ActualizarResultado(false, $"Usuario o contraseña invalidos \n {mensajeDeSdk}", Hik_SDK.NET_DVR_GetLastError().ToString());
             }
@@ -176,7 +176,7 @@ namespace DeportNetReconocimiento.SDK
             }
             else
             {
-                resultado.ActualizarResultado(false, "Error de red o el panel está ocupado", Hik_SDK.NET_DVR_GetLastError().ToString());
+                resultado.ActualizarResultado(false, "Error IP Incorrecta o Dispositivo no conectado", Hik_SDK.NET_DVR_GetLastError().ToString());
             }
 
             return resultado;
@@ -320,7 +320,7 @@ namespace DeportNetReconocimiento.SDK
         }
 
         
-        public int ObtenerCapcidadCarasDispostivo()
+        public int ObtenerCapacidadCarasDispositivo()
         {
 
             int capacidad = -1;
@@ -374,7 +374,6 @@ namespace DeportNetReconocimiento.SDK
                 return resultado;
             }
 
-
             //nos loggeamos
             resultado = Login(user, password, port, ip);
             resultado.EscribirResultado("Login");
@@ -399,13 +398,15 @@ namespace DeportNetReconocimiento.SDK
 
             //setteamos el callback para obtener los ids de los usuarios
             hik_Controladora_Eventos = Hik_Controladora_Eventos.InstanciaControladoraEventos;
-
+            hik_Controladora_Facial = Hik_Controladora_Facial.ObtenerInstancia;
+            hik_Controladora_Tarjetas = Hik_Controladora_Tarjetas.ObtenerInstancia;
+            
             return resultado;
         }
 
 
         //Verificar conexión a internet o en general
-        public static bool comprobarConexionInternet()
+        public static bool ComprobarConexionInternet()
         {
             //ponemos flag en false como predeterminado
             bool flag = false;
@@ -421,9 +422,9 @@ namespace DeportNetReconocimiento.SDK
                 if (reply.Status == IPStatus.Success)
                 {
                     flag = true;
-                    Console.WriteLine("Tenemos conexion a internet");
-                    Console.WriteLine("Dirección: " + reply.Address.ToString());
-                    Console.WriteLine("Tiempo: " + reply.RoundtripTime + " ms");
+                    Console.WriteLine("Tenemos conexion a internet; Tiempo: " + reply.RoundtripTime + " ms");
+                    //Console.WriteLine("Dirección: " + reply.Address.ToString());
+                    
                 }
                 else
                 {
@@ -438,32 +439,6 @@ namespace DeportNetReconocimiento.SDK
 
             return flag;
         }
-
-
-        //public static void crearDirectorioEventos()
-        //{
-
-        //    // Obtén la ruta raíz del proyecto
-        //    string raiz = AppDomain.CurrentDomain.BaseDirectory;
-
-        //    // Define la ruta del nuevo directorio en el root del proyecto
-        //    string nuevoDirectorio= Path.Combine(raiz, "Eventos");
-
-        //    // Verifica si el directorio ya existe
-        //    if (!Directory.Exists(nuevoDirectorio))
-        //    {
-        //        // Crea el directorio si no existe
-        //        Directory.CreateDirectory(nuevoDirectorio);
-        //        Console.WriteLine($"El directorio '{nuevoDirectorio}' se ha creado exitosamente.");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine($"El directorio '{nuevoDirectorio}' ya existe.");
-        //    }
-
-
-
-        //}
 
 
         public Hik_Resultado AltaCliente(string id, string nombre)

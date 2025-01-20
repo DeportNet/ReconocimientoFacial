@@ -14,8 +14,9 @@ namespace DeportNetReconocimiento.GUI
 {
     public partial class WFPrincipal : Form
     {
-        private Hik_Controladora_General? hik_Controladora_General;
-        private System.Windows.Forms.Timer? timer;
+        private static Hik_Controladora_General? hik_Controladora_General;
+       
+
         private static WFPrincipal? instancia;
         private ConfiguracionEstilos configuracionEstilos;
         public bool ignorarCierre = false;
@@ -30,7 +31,7 @@ namespace DeportNetReconocimiento.GUI
 
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
-            ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
+            //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
 
 
             ReproducirSonido(ConfiguracionEstilos.SonidoBienvenida);
@@ -73,7 +74,7 @@ namespace DeportNetReconocimiento.GUI
             Hik_Resultado resultado = new Hik_Resultado();
 
             //ip , puerto, usuario, contraseña en ese orden
-            string[] credenciales = LeerCredenciales();
+            string[] credenciales = CredencialesUtils.LeerCredenciales();
 
 
             if (credenciales.Length == 0)
@@ -122,38 +123,7 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
-        public string[] LeerCredenciales()
-        {
-            var listaDatos = new System.Collections.Generic.List<string>();
-            string rutaArchivo = "credenciales.bin";
-
-
-            //si el archivo no existe, se abre la ventana para registrar el dispositivo
-            if (!File.Exists(rutaArchivo))
-            {
-                //this.Hide();
-                WFRgistrarDispositivo wFRgistrarDispositivo = new WFRgistrarDispositivo();
-                wFRgistrarDispositivo.ShowDialog();
-            }
-            else
-            {
-
-                // Leer desde un archivo binario
-                using (BinaryReader reader = new BinaryReader(File.Open(rutaArchivo, FileMode.Open)))
-                {
-
-                    while (reader.BaseStream.Position != reader.BaseStream.Length) // Lee hasta el final del archivo
-                    {
-                        string unDato = reader.ReadString(); // Lee cada string
-                        listaDatos.Add(unDato);
-
-                        Console.WriteLine($"Leído: {unDato}");
-                    }
-                }
-            }
-
-            return listaDatos.ToArray();
-        }
+        
 
 
         //función que verifica si el programa tiene conexión con el dispositivo
@@ -176,7 +146,7 @@ namespace DeportNetReconocimiento.GUI
                 //si perdio conexión
                 if (iLastErr == 17)
                 {
-                    Console.WriteLine("sin conexion");
+                    Console.WriteLine("Se perdio la conexion con el dispositivo");
                     return false;
                 }
 
@@ -197,55 +167,68 @@ namespace DeportNetReconocimiento.GUI
 
         //Se crea un objeto de tipo Task para que la función se ejecute en un hilo distinto al principal
         //Se usa async await para manejar la asincronía 
-        public async Task<bool> verificarEstadoDispositivoAsync()
+        public async void VerificarEstadoDispositivoAsync(object sender, EventArgs e)
         {
+            VerificarConexionInternet();
+
             //Se espera al resultado de la función verificarEstadoDispositivo 
             //Mientras se pone a correr un hilo secundario para que no se bloquee el hilo principal
-            return await Task.Run(() => VerificarEstadoDispositivo());
+            bool estado = await Task.Run(() => VerificarEstadoDispositivo());
+
+            Console.WriteLine("Verificamos el estado del dispositivo. Estado: " + estado);
+
+            if (!estado)
+            {
+                InstanciarPrograma();
+            }
+
+
         }
 
         //Timer para verificar la conexión
-        private void ConfigurarTimer()
-        {
-            Hik_Resultado resultado = new Hik_Resultado();
-            timer = new System.Windows.Forms.Timer();
-            timer.Interval = 20000;
-            timer.Tick += async (s, e) =>
-            {
-                resultado.Exito = await verificarEstadoDispositivoAsync();
+        //private void ConfigurarTimer(object sender, EventArgs e)
+        //{
+        //    Hik_Resultado resultado = new Hik_Resultado();
 
-                //Verificar estado de internet
-                //El objetivo es saber si los datos reconocidos se almacenan o no en la base de datos local
+        //    //timer = new System.Windows.Forms.Timer();
 
-                //Esta función activa y desactiva el modo offline
-                VerificarConexionInternet();
+        //    //timer.Interval = 20000;
+        //    resultado.Exito = VerificarEstadoDispositivoAsync();
 
-                if (!resultado.Exito)
-                {
-                    InstanciarPrograma();
-                }
+        //    VerificarConexionInternet();
+        //    timer.Tick += async (s, e) =>
+        //    {
 
-            };
-            timer.Start();
-        }
+        //        //Verificar estado de internet
+        //        //El objetivo es saber si los datos reconocidos se almacenan o no en la base de datos local
+
+        //        //Esta función activa y desactiva el modo offline
+
+        //        //if (!resultado.Exito)
+        //        //{
+        //        //    InstanciarPrograma();
+        //        //}
+
+        //    };
+        //    timer.Start();
+        //}
 
 
         public void VerificarConexionInternet()
         {
-            if (!Hik_Controladora_General.comprobarConexionInternet())
+            if (!Hik_Controladora_General.ComprobarConexionInternet())
             {
 
-                if (PanelSinConexion.Visible == false)//&& WFPanelOffline.ObtenerInstancia.Visible == false)
+                if (PanelSinConexion.Visible == false)
                 {
                     PanelSinConexion.Visible = true;
-                    //  WFPanelOffline.ObtenerInstancia.Show();
+
                 }
 
             }
             else if (PanelSinConexion.Visible == true)
             {
                 PanelSinConexion.Visible = false;
-                // WFPanelOffline.ObtenerInstancia.Dispose();
             }
 
         }
@@ -274,29 +257,30 @@ namespace DeportNetReconocimiento.GUI
 
 
         //función para actualizar los datos en el hilo principal
-        public async void ActualizarDatos(int nroLector, ValidarAccesoResponse json)
+        public async void ActualizarDatos(ValidarAccesoResponse json)
         {
-            
+
             //Si el hilo que llama a la función no es el principal, se llama a la función de nuevo en el hilo principal
             if (InvokeRequired)
             {
-                Invoke(new Action<int, ValidarAccesoResponse>(ActualizarDatos), nroLector, json);
+                Invoke(new Action<ValidarAccesoResponse>(ActualizarDatos), json);
                 return;
             }
 
 
-            LimpiarPictureBox();
+            LimpiarInterfaz();
             MaximizarVentana();
 
 
             //Se actualizan los labels con los datos de la persona o verificamos si es pregunta
             EvaluarMensajeAcceso(json);
 
-
+            int tiempoMuestraDatos = (int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000); // se convierten a segundos
+            await Task.Delay(tiempoMuestraDatos);
             LimpiarInterfaz();
         }
 
-        
+
 
         public static string LimpiarTextoEnriquecido(string htmlContent)
         {
@@ -358,9 +342,11 @@ namespace DeportNetReconocimiento.GUI
         {
             string titulo = "";
             string mensaje = "";
-            
 
-            
+            pictureBox1.Image = ObtenerFotoCliente(1, json.IdCliente);
+            Console.WriteLine("Estado json:" + json.Estado);
+
+
             switch (json.Estado)
             {
                 case "Q":
@@ -369,11 +355,11 @@ namespace DeportNetReconocimiento.GUI
 
                     // Crear y mostrar el formulario HTMLMessageBox
                     HTMLMessageBox popupPregunta = new HTMLMessageBox(json);
-                    
+
 
                     // Suscribir al evento para recibir la respuesta
                     popupPregunta.OpcionSeleccionada += OnProcesarRespuesta; //Este evento maneja las peticiones 
-                    
+
                     // Mostrar el formulario
                     popupPregunta.ShowDialog();
 
@@ -392,10 +378,6 @@ namespace DeportNetReconocimiento.GUI
 
                     titulo = "Bienvenido " + json.Nombre;
                     mensaje = LimpiarTextoEnriquecido(json.MensajeAcceso);
-                    
-                    Console.WriteLine(mensaje);
-
-                    pictureBox1.Image = ObtenerFotoCliente(1, json.IdCliente);
 
                     break;
                 case "F":
@@ -406,33 +388,26 @@ namespace DeportNetReconocimiento.GUI
                     titulo = "Acceso denegado " + json.Nombre;
                     mensaje = LimpiarTextoEnriquecido(json.MensajeAcceso);
 
-                    pictureBox1.Image = ObtenerFotoCliente(1, json.IdCliente);
+
 
                     break;
             }
+            Console.WriteLine(titulo);
+            HeaderLabel.Text = titulo;
+
             Console.WriteLine(mensaje);
             richTextBox1.Rtf = mensaje;
-            HeaderLabel.Text = titulo;
-            
+
+
+
         }
 
         // Método que maneja la respuesta del formulario
         public async void OnProcesarRespuesta(RespuestaAccesoManual response)
         {
-            //switch (response.IsSuccessful)
-            //{
-            //    case "T":
-            //        HeaderLabel.Text = "Bienvenido Cliente!";
-            //        break;
-            //    case "F":
-            //        HeaderLabel.Text = "Accedo denegado";
-            //        break;
-            //}
-
-
-            //si lo dejo pasar
-            string mensaje =await WebServicesDeportnet.ControlDeAcceso(response.MemberId, response.ActiveBranchId, response.IsSuccessful);
-            Console.WriteLine(mensaje);
+         
+            string mensaje = await WebServicesDeportnet.ControlDeAcceso(response.MemberId, response.ActiveBranchId, response.IsSuccessful);
+            Console.WriteLine("MEnsaje pregunta: "+ mensaje);
 
             Hik_Controladora_Eventos.ProcesarRespuestaAcceso(mensaje, response.MemberId, response.ActiveBranchId);
         }
@@ -483,11 +458,9 @@ namespace DeportNetReconocimiento.GUI
 
         public async void LimpiarInterfaz()
         {
-            int tiempoMuestraDatos = (int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000); // se convierten a segundos
-            await Task.Delay(tiempoMuestraDatos);
-
             if (InvokeRequired)
             {
+                Console.WriteLine("Invoco limpiar Interfaz");
                 Invoke(LimpiarInterfaz);
                 return;
             }
@@ -497,12 +470,7 @@ namespace DeportNetReconocimiento.GUI
             richTextBox1.Rtf = "";
 
             LimpiarPictureBox();
-            /*
-            actividadLabel.Text = "";
-            valorFechaVtoLabel.Text = "";
-            valorClasesRestLabel.Text = "";
-            valorMensajeLabel.Text = "";
-            */
+            
             LimpiarFotosDirectorio();
 
         }
@@ -646,6 +614,15 @@ namespace DeportNetReconocimiento.GUI
             wFConfiguracion.ShowDialog();
         }
 
-       
-    }     
+        private void WFPrincipal_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textoSinCoenxion_Click(object sender, EventArgs e)
+        {
+
+        }
+
+    }
 }

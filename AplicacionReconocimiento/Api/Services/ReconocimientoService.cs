@@ -5,6 +5,7 @@ using DeportNetReconocimiento.Api.GlobalExceptionHandler.Exceptions;
 using DeportNetReconocimiento.Api.Services.Interfaces;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.SDK;
+using DeportNetReconocimiento.Utils;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace DeportNetReconocimiento.Api.Services
         {
             enUso = false;
             hik_Controladora = Hik_Controladora_General.InstanciaControladoraGeneral;
-            string[] credenciales = WFPrincipal.ObtenerInstancia.LeerCredenciales();
+            string[] credenciales = CredencialesUtils.LeerCredenciales();
 
             idSucursal = int.Parse(credenciales[4]);
         }

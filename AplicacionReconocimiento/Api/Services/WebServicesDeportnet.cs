@@ -35,7 +35,7 @@ namespace DeportNetReconocimiento.Api.Services
                 { 
 	                "activeBranchId": "1",
 	                "memberId": "17393",
-	                "manualAllowedAccess": "17393", (T o F)
+	                "manualAllowedAccess": "17393", (opcional)
 	                "isSuccessful": "T" ( T o F)
                 }
                 */

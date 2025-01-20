@@ -8,7 +8,7 @@ namespace DeportNetReconocimiento.SDK
 public class Hik_Controladora_Facial
 {
 
-    public static Hik_Controladora_Facial? instancia;
+    private static Hik_Controladora_Facial? instancia;
 
 
 

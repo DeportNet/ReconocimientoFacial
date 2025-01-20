@@ -254,16 +254,16 @@ namespace DeportNetReconocimiento.GUI
 
         public void ValidarAdministrador(string clave)
         {
-
-            string contra = WFPrincipal.ObtenerInstancia.LeerCredenciales()[3];
-
-            if (clave == contra)
+            string[] credenciales = CredencialesUtils.LeerCredenciales();
+           
+            //posicion 3 es la clave del dispositivo, pero usamos la misma
+            if (clave == credenciales[3])
             {
                 PanelConfigAdminsitrador.Visible = true;
 
-                if (WFPrincipal.ObtenerInstancia.LeerCredenciales().Length > 4)
+                if (CredencialesUtils.LeerCredenciales().Length > 4)
                 {
-                    TextBoxToken.Text = ConfiguracionEstilos.DesencriptadorToken(WFPrincipal.ObtenerInstancia.LeerCredenciales()[4]);
+                    TextBoxToken.Text = credenciales[4]; //ConfiguracionEstilos.DesencriptadorToken(WFPrincipal.ObtenerInstancia.LeerCredenciales()[4]);
                 }
 
 
@@ -284,7 +284,7 @@ namespace DeportNetReconocimiento.GUI
             PanelConfigAdminsitrador.Visible = false;
             string apertura = ComboBoxAperturaMolinete.Text;
             string rutaApertura = TextBoxRutaExe.Text;
-            Console.WriteLine("Esta es la ruta de apertura " + rutaApertura);
+            
             configuracion.MetodoApertura = apertura;
             configuracion.RutaMetodoApertura = rutaApertura;
 
@@ -294,13 +294,13 @@ namespace DeportNetReconocimiento.GUI
 
             try
             {
-                BigInteger token = ConfiguracionEstilos.EncriptadorToken(BigInteger.Parse(TextBoxToken.Text));
-                GuardarTokenCredenciales(token.ToString());
+                //BigInteger token = ConfiguracionEstilos.EncriptadorToken(BigInteger.Parse(TextBoxToken.Text));
+                GuardarTokenCredenciales(TextBoxToken.Text);
 
             }
             catch (FormatException ex)
             {
-
+                Console.WriteLine(ex.Message);
                 MessageBox.Show(
                     "El numero ingresado debe ser de tipo numero", // Mensaje
                     "Error de Formato",                                  // Título
@@ -332,7 +332,7 @@ namespace DeportNetReconocimiento.GUI
         {
 
             // Obtenemos las credenciales
-            string[] credenciales = WFPrincipal.ObtenerInstancia.LeerCredenciales();
+            string[] credenciales = CredencialesUtils.LeerCredenciales();
             EscribirArchivoCredenciales([credenciales[0], credenciales[1], credenciales[2], credenciales[3], token.ToString()]);
 
         }

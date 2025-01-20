@@ -2,15 +2,15 @@
   "ColorFondo": "Silver",
   "Logo": "logoGimansio.png",
   "ColorFondoLogo": "DimGray",
-  "TiempoDeMuestraDeDatos": 3,
+  "TiempoDeMuestraDeDatos": 10,
   "FuenteTextoMensajeAcceso": "Arial Rounded MT Bold/36/Italic",
   "ColorFondoMensajeAcceso": "DarkGray",
   "ColorMensajeBienvenida": "Black",
   "ColorMensajeAccesoDenegado": "Red",
   "MensajeBienvenida": "Bienvenido a DeportNet!",
   "ColorMensajeAccesoConcedido": "Green",
-  "FondoColorInformacionCliente": "WhiteSmoke",
-  "TextoColorInformacionCliente": "Black",
+  "FondoColorInformacionCliente": "RosyBrown",
+  "TextoColorInformacionCliente": "DimGray",
   "FuenteTextoInformacionCliente": "Arial Rounded MT Bold/20/Regular",
   "ColorFondoImagen": "DarkGray",
   "AccesoConcedido": {
@@ -32,6 +32,6 @@
   "CarasRegistradas": 1,
   "CapacidadMaximaDispositivo": 1500,
   "PorcentajeAlertaCapacidad": 70,
-  "MetodoApertura": ".exe",
+  "MetodoApertura": "Ninguno",
   "RutaMetodoApertura": ""
 }

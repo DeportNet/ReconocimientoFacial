@@ -137,7 +137,7 @@
             // ComboBoxAperturaMolinete
             // 
             ComboBoxAperturaMolinete.FormattingEnabled = true;
-            ComboBoxAperturaMolinete.Items.AddRange(new object[] { ".exe", "Hikvision" });
+            ComboBoxAperturaMolinete.Items.AddRange(new object[] { ".exe", "Hikvision", "Ninguno" });
             ComboBoxAperturaMolinete.Location = new Point(171, 46);
             ComboBoxAperturaMolinete.Name = "ComboBoxAperturaMolinete";
             ComboBoxAperturaMolinete.Size = new Size(121, 23);

@@ -131,13 +131,59 @@ namespace DeportNetReconocimiento.Utils
         [DisplayName("Color de fondo de la informacion del cliente")]
         [Description("Selecciona el color de fondo para el campo donde se muestra la informacion del cliente.")]
         [JsonConverter(typeof(ColorJsonConverter))]
-        public Color FondoColorInformacionCliente { get; set; }
+        public Color FondoColorInformacionCliente
+        {
+
+            get => fondoColorInformacionCliente;
+            set
+            {
+                if (value.Name == "Transparent")
+                {
+                    fondoColorInformacionCliente = ColorFondo;
+                    //MessageBox.Show(
+                    //"El color de fondo no puede ser transparente.", // Mensaje
+                    //"Error de Validación",                                  // Título
+                    //MessageBoxButtons.OK,                                   // Botones (OK)
+                    //MessageBoxIcon.Error                                    // Ícono (Error)
+                    //);
+                }
+                else
+                {
+                    fondoColorInformacionCliente = value;
+                }
+            }
+        }
+        private Color fondoColorInformacionCliente;
+
+
 
         [Category("Campos de informacion")]
         [DisplayName("Color de texto de la informacion del cliente")]
         [Description("Selecciona el color de texto para el campo donde se muestra la informacion del cliente.")]
         [JsonConverter(typeof(ColorJsonConverter))]
-        public Color TextoColorInformacionCliente { get; set; }
+        public Color TextoColorInformacionCliente
+        {
+
+            get => textoColorInformacionCliente;
+            set
+            {
+                if (value.Name == "Transparent")
+                {
+                    //textoColorInformacionCliente = ColorFondo;
+                    MessageBox.Show(
+                    "El color de fondo no puede ser transparente.", // Mensaje
+                    "Error de Validación",                                  // Título
+                    MessageBoxButtons.OK,                                   // Botones (OK)
+                    MessageBoxIcon.Error                                    // Ícono (Error)
+                    );
+                }
+                else
+                {
+                    textoColorInformacionCliente = value;
+                }
+            }
+        }
+        private Color textoColorInformacionCliente;
 
         [Category("Campos de informacion")]
         [DisplayName("Fuente de texto de la informacion del cliente")]
@@ -370,7 +416,7 @@ namespace DeportNetReconocimiento.Utils
 
         public void ActualizarCapacidadMaxima()
         {
-            int capacidad = Hik_Controladora_General.InstanciaControladoraGeneral.ObtenerCapcidadCarasDispostivo();
+            int capacidad = Hik_Controladora_General.InstanciaControladoraGeneral.ObtenerCapacidadCarasDispositivo();
             CapacidadMaximaDispositivo = capacidad;
             GuardarJsonConfiguracion(this);
         }
