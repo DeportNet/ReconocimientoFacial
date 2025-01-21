@@ -107,7 +107,6 @@
             propertyGrid1.Size = new Size(701, 490);
             propertyGrid1.TabIndex = 15;
             propertyGrid1.PropertyValueChanged += PropertyGrid1_PropertyValueChanged;
-            propertyGrid1.Click += PropertyGrid1_Click;
             propertyGrid1.DragDrop += PropertyGrid1_DragDrop;
             propertyGrid1.DragEnter += PropertyGrid1_DragEnter;
             propertyGrid1.DragLeave += PropertyGrid1_DragLeave;
@@ -170,7 +169,6 @@
             PanelConfigAdminsitrador.Size = new Size(330, 222);
             PanelConfigAdminsitrador.TabIndex = 20;
             PanelConfigAdminsitrador.Visible = false;
-            PanelConfigAdminsitrador.Paint += PanelConfigAdminsitrador_Paint;
             // 
             // BotonAbrirFileDialog
             // 
@@ -190,7 +188,6 @@
             TextBoxRutaExe.Name = "TextBoxRutaExe";
             TextBoxRutaExe.Size = new Size(163, 23);
             TextBoxRutaExe.TabIndex = 21;
-            TextBoxRutaExe.TextChanged += TextBoxRutaExe_TextChanged;
             // 
             // label1
             // 
@@ -201,7 +198,6 @@
             label1.Size = new Size(79, 21);
             label1.TabIndex = 20;
             label1.Text = "Ruta .exe: ";
-            label1.Click += label1_Click_1;
             // 
             // LabelAdmin
             // 
@@ -249,7 +245,6 @@
             Name = "WFConfiguracion";
             Text = "Configuracion Dispositivo";
             FormClosing += WFConfiguracion_FormClosing;
-            Load += WFConfiguracion_Load;
             DragEnter += PropertyGrid1_DragEnter;
             DragLeave += PropertyGrid1_DragLeave;
             PanelConfigAdminsitrador.ResumeLayout(false);

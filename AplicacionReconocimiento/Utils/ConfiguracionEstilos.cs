@@ -42,52 +42,48 @@ namespace DeportNetReconocimiento.Utils
             }
         }
         private Color colorFondo;
-        
-        
-        
 
 
-        [Category("General")]
+        /* - - - - - - LOGO - - - - - */
+
+        [Category("Logo")]
         [DisplayName("Logo de la pantalla de bienvenida")]
         [Description("Establece el logo que se mostrará en la pantalla de bienvenida. Dimensiones: 710x130. Formatos validos: .png, .jpeg, .jpg, .bmp, .gif, .tiff, .tif o .ico. Admite arrastrar y soltar imagen.")]
         [JsonConverter(typeof(ImageToPathJsonConverter))]
         public Image Logo { get; set; }
-        
 
-        [Category("General")]
+        [Category("Logo")]
         [DisplayName("Color de Fondo del Logo")]
         [Description("Especifica el color de fondo detrás del logo en la pantalla de bienvenida.")]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorFondoLogo { get; set; }
 
-        [Category("General")]
-        [DisplayName("Tiempo de muestra de datos en pantalla")]
-        [Description("Indica la duración (en segundos) que se mostrarán los datos en la pantalla. No puede ser menor a 2 segundos.")]
-        public float TiempoDeMuestraDeDatos
-        {
-            get => tiempoDeMuestraDeDatos;
-            set
-            {
-                if (value < 2 || value > 100)
-                {
-                    MessageBox.Show(
-                    "El tiempo de muestra de datos no puede ser menor a 2 seg ni mayor a 100 seg.", // Mensaje
-                    "Error de Validación",                                  // Título
-                    MessageBoxButtons.OK,                                   // Botones (OK)
-                    MessageBoxIcon.Error                                    // Ícono (Error)
-                    );
-                }
-                else
-                {
-                    tiempoDeMuestraDeDatos = value;
-                }
-            }
-        }
-        private float tiempoDeMuestraDeDatos; // Valor predeterminado
+        /* - - - - - - Bienvenida - - - - - */
 
+        [Category("Bienvenida")]
+        [DisplayName("Color de mensaje de bienvenida")]
+        [Description("Establece el color del texto para el mensaje de bienvenida.")]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color ColorMensajeBienvenida { get; set; }
 
+        [Category("Bienvenida")]
+        [DisplayName("Color de mensaje de acceso denegado")]
+        [Description("Define el color del texto que se mostrará en el mensaje de acceso denegado.")]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color ColorMensajeAccesoDenegado { get; set; }
 
-        /* - - - - - Mensaje de acceso - - - - - */
+        [Category("Bienvenida")]
+        [DisplayName("Mensaje predeterminado de bienvenida")]
+        [Description("Texto que se mostrará como mensaje de bienvenida predeterminado.")]
+        public string MensajeBienvenida { get; set; }
+
+        [Category("Bienvenida")]
+        [DisplayName("Color del texto de mensaje de acceso concedido")]
+        [Description("Selecciona el color del texto del mensaje de acceso concedido.")]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color ColorMensajeAccesoConcedido { get; set; }
+
+        /* - - - - - - Mensaje de Acceso - - - - - */
 
         [Category("Mensaje de acceso")]
         [DisplayName("Fuente texto mensajes de acceso")]
@@ -102,32 +98,6 @@ namespace DeportNetReconocimiento.Utils
         public Color ColorFondoMensajeAcceso { get; set; }
 
         [Category("Mensaje de acceso")]
-        [DisplayName("Color de mensaje de bienvenida")]
-        [Description("Establece el color del texto para el mensaje de bienvenida.")]
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorMensajeBienvenida { get; set; }
-
-        [Category("Mensaje de acceso")]
-        [DisplayName("Color de mensaje de acceso denegado")]
-        [Description("Define el color del texto que se mostrará en el mensaje de acceso denegado.")]
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorMensajeAccesoDenegado { get; set; }
-
-        [Category("Mensaje de acceso")]
-        [DisplayName("Mensaje predeterminado de bienvenida")]
-        [Description("Texto que se mostrará como mensaje de bienvenida predeterminado.")]
-        public string MensajeBienvenida { get; set; }
-
-        [Category("Mensaje de acceso")]
-        [DisplayName("Color del texto de mensaje de acceso concedido")]
-        [Description("Selecciona el color del texto del mensaje de acceso concedido.")]
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorMensajeAccesoConcedido { get; set; }
-
-        /* - - - - - Campos de informacion - - - - - - */
-
-      
-        [Category("Campos de informacion")]
         [DisplayName("Color de fondo de la informacion del cliente")]
         [Description("Selecciona el color de fondo para el campo donde se muestra la informacion del cliente.")]
         [JsonConverter(typeof(ColorJsonConverter))]
@@ -157,7 +127,7 @@ namespace DeportNetReconocimiento.Utils
 
 
 
-        [Category("Campos de informacion")]
+        [Category("Mensaje de acceso")]
         [DisplayName("Color de texto de la informacion del cliente")]
         [Description("Selecciona el color de texto para el campo donde se muestra la informacion del cliente.")]
         [JsonConverter(typeof(ColorJsonConverter))]
@@ -185,17 +155,49 @@ namespace DeportNetReconocimiento.Utils
         }
         private Color textoColorInformacionCliente;
 
-        [Category("Campos de informacion")]
+        [Category("Mensaje de acceso")]
         [DisplayName("Fuente de texto de la informacion del cliente")]
         [Description("Selecciona la fuente de texto para el campo donde se muestra la informacion del cliente.")]
         [JsonConverter(typeof(FontJsonConverter))]
         public Font FuenteTextoInformacionCliente { get; set; }
 
-        [Category("Campos de informacion")]
+        [Category("Mensaje de acceso")]
+        [DisplayName("Tiempo de muestra de datos en pantalla")]
+        [Description("Indica la duración (en segundos) que se mostrarán los datos en la pantalla. No puede ser menor a 2 segundos.")]
+        public float TiempoDeMuestraDeDatos
+        {
+            get => tiempoDeMuestraDeDatos;
+            set
+            {
+                if (value < 2 || value > 100)
+                {
+                    MessageBox.Show(
+                    "El tiempo de muestra de datos no puede ser menor a 2 seg ni mayor a 100 seg.", // Mensaje
+                    "Error de Validación",                                  // Título
+                    MessageBoxButtons.OK,                                   // Botones (OK)
+                    MessageBoxIcon.Error                                    // Ícono (Error)
+                    );
+                }
+                else
+                {
+                    tiempoDeMuestraDeDatos = value;
+                }
+            }
+        }
+        private float tiempoDeMuestraDeDatos; // Valor predeterminado
+
+
+        /* - - - - - Imagen Cliente - - - - - */
+
+
+        [Category("Imagen")]
         [DisplayName("Color de fondo imagen")]
         [Description("Especifica el color de fondo que aparecerá detrás de las imágenes en los campos de información.")]
         [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorFondoImagen { get; set; }
+        public Color ColorFondoImagen { get; set; } 
+
+
+
 
         /* - - - - - - - - Sonidos - - - - - - - - */
 

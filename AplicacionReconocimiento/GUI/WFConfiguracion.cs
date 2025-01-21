@@ -42,17 +42,6 @@ namespace DeportNetReconocimiento.GUI
         //propiedades
 
 
-
-        private void WFConfiguracion_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void PropertyGrid1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         // - - - - -  Guardar cambios - - - - - -//
 
         private void GuardarCambiosButton_Click(object sender, EventArgs e)
@@ -263,14 +252,8 @@ namespace DeportNetReconocimiento.GUI
 
                 if (CredencialesUtils.LeerCredenciales().Length > 4)
                 {
-                    TextBoxToken.Text = credenciales[4]; //ConfiguracionEstilos.DesencriptadorToken(WFPrincipal.ObtenerInstancia.LeerCredenciales()[4]);
+                    TextBoxToken.Text = credenciales[4]; 
                 }
-
-
-                //string ruta = "configuracionEstilos";
-                //ConfiguracionEstilos configuracion = new ConfiguracionEstilos();
-                //configuracion = ConfiguracionEstilos.LeerJsonConfiguracion(ruta);
-
 
                 ComboBoxAperturaMolinete.SelectedItem = configuracion.MetodoApertura;
                 TextBoxRutaExe.Text = configuracion.RutaMetodoApertura;
@@ -294,7 +277,6 @@ namespace DeportNetReconocimiento.GUI
 
             try
             {
-                //BigInteger token = ConfiguracionEstilos.EncriptadorToken(BigInteger.Parse(TextBoxToken.Text));
                 GuardarTokenCredenciales(TextBoxToken.Text);
 
             }
@@ -337,10 +319,6 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
-        }
 
         //Boton tres puntos
         private void button1_Click(object sender, EventArgs e)
@@ -358,14 +336,5 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
-        private void PanelConfigAdminsitrador_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void TextBoxRutaExe_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
