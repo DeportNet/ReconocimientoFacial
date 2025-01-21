@@ -5,6 +5,7 @@ using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -15,7 +16,7 @@ namespace DeportNetReconocimiento.GUI
     public partial class WFPrincipal : Form
     {
         private static Hik_Controladora_General? hik_Controladora_General;
-       
+
 
         private static WFPrincipal? instancia;
         private ConfiguracionEstilos configuracionEstilos;
@@ -27,14 +28,14 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
 
             //estilos se leen de un archivo
-            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            //  InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
 
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
             //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
 
 
-            ReproducirSonido(ConfiguracionEstilos.SonidoBienvenida);
+            //  ReproducirSonido(ConfiguracionEstilos.SonidoBienvenida);
 
         }
 
@@ -356,6 +357,12 @@ namespace DeportNetReconocimiento.GUI
                     // Crear y mostrar el formulario HTMLMessageBox
                     HTMLMessageBox popupPregunta = new HTMLMessageBox(json);
 
+                    //Ajustar la posicón para que no tape la imagen 
+                    int x, y;
+                    x = this.Right - instancia.Width + (this.Width / 3); // 33% desde el borde derecho del formulario
+                    y = 280;
+                    popupPregunta.Location = new Point(x, y);
+
 
                     // Suscribir al evento para recibir la respuesta
                     popupPregunta.OpcionSeleccionada += OnProcesarRespuesta; //Este evento maneja las peticiones 
@@ -407,7 +414,7 @@ namespace DeportNetReconocimiento.GUI
         {
 
             string mensaje = await WebServicesDeportnet.ControlDeAcceso(response.MemberId, response.ActiveBranchId, response.IsSuccessful);
-            Console.WriteLine("MEnsaje pregunta: "+ mensaje);
+            Console.WriteLine("MEnsaje pregunta: " + mensaje);
 
             Hik_Controladora_Eventos.ProcesarRespuestaAcceso(mensaje, response.MemberId, response.ActiveBranchId);
         }
@@ -470,7 +477,7 @@ namespace DeportNetReconocimiento.GUI
             richTextBox1.Rtf = "";
 
             LimpiarPictureBox();
-            
+
             LimpiarFotosDirectorio();
 
         }
@@ -571,38 +578,30 @@ namespace DeportNetReconocimiento.GUI
         public void AplicarConfiguracion(ConfiguracionEstilos config)
         {
 
-
-            //header
             ConfiguracionEstilos = config;
+
+            //header Colores
             BackColor = config.ColorFondo;
             HeaderLabel.BackColor = config.ColorFondoMensajeAcceso;
-            HeaderLabel.Font = config.FuenteTextoMensajeAcceso;
-            HeaderLabel.Text = config.MensajeBienvenida;
             HeaderLabel.ForeColor = config.ColorMensajeBienvenida;
 
+            //Header Texto
+            HeaderLabel.Text = config.MensajeBienvenida;
+            HeaderLabel.Font = config.FuenteTextoMensajeAcceso;
+            
+            //Infromación Colores
             richTextBox1.ForeColor = config.TextoColorInformacionCliente;
             richTextBox1.BackColor = config.FondoColorInformacionCliente;
+
+            //Información Fuente
             richTextBox1.Font = config.FuenteTextoInformacionCliente;
-
-            //font campos
-            /*
-            actividadLabel.Font = config.FuenteTextoCamposInformacion;
-            valorFechaVtoLabel.Font = config.FuenteTextoCamposInformacion;
-            valorClasesRestLabel.Font = config.FuenteTextoCamposInformacion;
-            valorMensajeLabel.Font = config.FuenteTextoCamposInformacion;
-
-            //colors campos
-            actividadLabel.ForeColor = config.ColorCampoActividad;
-            valorFechaVtoLabel.ForeColor = config.ColorVencimiento;
-            valorClasesRestLabel.ForeColor = config.ColorClasesRestantes;
-            valorMensajeLabel.ForeColor = config.ColorMensaje;
-            */
-            pictureBox1.BackColor = config.ColorFondoImagen;
 
             //Logo
             imagenLogo.BackColor = config.ColorFondoLogo;
             imagenLogo.Image = config.Logo;
 
+            //Foto
+            pictureBox1.BackColor = config.ColorFondoImagen;
 
             VerificarAlmacenamiento();
         }

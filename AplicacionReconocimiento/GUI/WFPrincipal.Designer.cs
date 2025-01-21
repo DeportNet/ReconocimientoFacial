@@ -49,11 +49,13 @@ namespace DeportNetReconocimiento.GUI
             TextoAlmacenamiento = new Label();
             richTextBox1 = new RichTextBox();
             timerConexion = new System.Windows.Forms.Timer(components);
+            tableLayoutPanel1 = new TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)imagenLogo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuNotifyIcon.SuspendLayout();
             PanelSinConexion.SuspendLayout();
             PanelAlmacenamiento.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // imagenLogo
@@ -72,10 +74,11 @@ namespace DeportNetReconocimiento.GUI
             // 
             pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             pictureBox1.BackColor = Color.DarkGray;
-            pictureBox1.Location = new Point(0, 243);
+            pictureBox1.Location = new Point(0, 0);
+            pictureBox1.Margin = new Padding(0);
             pictureBox1.MinimumSize = new Size(420, 450);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(640, 798);
+            pictureBox1.Size = new Size(628, 763);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 11;
             pictureBox1.TabStop = false;
@@ -140,7 +143,7 @@ namespace DeportNetReconocimiento.GUI
             // botonPersonalizar
             // 
             botonPersonalizar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            botonPersonalizar.Location = new Point(1808, 1006);
+            botonPersonalizar.Location = new Point(1808, 1011);
             botonPersonalizar.Name = "botonPersonalizar";
             botonPersonalizar.Size = new Size(84, 23);
             botonPersonalizar.TabIndex = 28;
@@ -177,7 +180,7 @@ namespace DeportNetReconocimiento.GUI
             PanelAlmacenamiento.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             PanelAlmacenamiento.BackColor = Color.Black;
             PanelAlmacenamiento.Controls.Add(TextoAlmacenamiento);
-            PanelAlmacenamiento.Location = new Point(1083, 1002);
+            PanelAlmacenamiento.Location = new Point(1083, 1006);
             PanelAlmacenamiento.Name = "PanelAlmacenamiento";
             PanelAlmacenamiento.Size = new Size(438, 35);
             PanelAlmacenamiento.TabIndex = 30;
@@ -189,7 +192,7 @@ namespace DeportNetReconocimiento.GUI
             TextoAlmacenamiento.BackColor = Color.Silver;
             TextoAlmacenamiento.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             TextoAlmacenamiento.ForeColor = Color.Red;
-            TextoAlmacenamiento.Location = new Point(0, -1);
+            TextoAlmacenamiento.Location = new Point(0, 0);
             TextoAlmacenamiento.Name = "TextoAlmacenamiento";
             TextoAlmacenamiento.Size = new Size(438, 36);
             TextoAlmacenamiento.TabIndex = 0;
@@ -201,10 +204,12 @@ namespace DeportNetReconocimiento.GUI
             richTextBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             richTextBox1.BackColor = Color.DimGray;
             richTextBox1.BorderStyle = BorderStyle.None;
-            richTextBox1.Location = new Point(640, 243);
+            richTextBox1.Font = new Font("Segoe UI", 26.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            richTextBox1.Location = new Point(628, 0);
+            richTextBox1.Margin = new Padding(0);
             richTextBox1.Name = "richTextBox1";
             richTextBox1.ReadOnly = true;
-            richTextBox1.Size = new Size(1264, 757);
+            richTextBox1.Size = new Size(1276, 763);
             richTextBox1.TabIndex = 32;
             richTextBox1.Text = "";
             // 
@@ -214,19 +219,34 @@ namespace DeportNetReconocimiento.GUI
             timerConexion.Interval = 20000;
             timerConexion.Tick += VerificarEstadoDispositivoAsync;
             // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 67F));
+            tableLayoutPanel1.Controls.Add(richTextBox1, 1, 0);
+            tableLayoutPanel1.Controls.Add(pictureBox1, 0, 0);
+            tableLayoutPanel1.Location = new Point(0, 243);
+            tableLayoutPanel1.Margin = new Padding(0);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Size = new Size(1904, 763);
+            tableLayoutPanel1.TabIndex = 33;
+            // 
             // WFPrincipal
             // 
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.Silver;
             ClientSize = new Size(1904, 1041);
+            Controls.Add(tableLayoutPanel1);
             Controls.Add(PanelAlmacenamiento);
             Controls.Add(HeaderLabel);
             Controls.Add(PanelSinConexion);
             Controls.Add(botonPersonalizar);
             Controls.Add(imagenLogo);
-            Controls.Add(pictureBox1);
-            Controls.Add(richTextBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MaximumSize = new Size(1920, 1080);
@@ -238,12 +258,14 @@ namespace DeportNetReconocimiento.GUI
             Text = "Pantalla Bienvenida";
             WindowState = FormWindowState.Maximized;
             FormClosing += CerrarFormulario;
+            Load += WFPrincipal_Load;
             Resize += WFPrincipal_Resize;
             ((System.ComponentModel.ISupportInitialize)imagenLogo).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             menuNotifyIcon.ResumeLayout(false);
             PanelSinConexion.ResumeLayout(false);
             PanelAlmacenamiento.ResumeLayout(false);
+            tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -265,5 +287,6 @@ namespace DeportNetReconocimiento.GUI
         private Label TextoAlmacenamiento;
         private RichTextBox richTextBox1;
         private System.Windows.Forms.Timer timerConexion;
+        private TableLayoutPanel tableLayoutPanel1;
     }
 }
