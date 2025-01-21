@@ -75,7 +75,7 @@ namespace DeportNetReconocimiento.GUI
             pictureBox1.Location = new Point(0, 243);
             pictureBox1.MinimumSize = new Size(420, 450);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(664, 798);
+            pictureBox1.Size = new Size(640, 798);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 11;
             pictureBox1.TabStop = false;
@@ -201,10 +201,10 @@ namespace DeportNetReconocimiento.GUI
             richTextBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             richTextBox1.BackColor = Color.DimGray;
             richTextBox1.BorderStyle = BorderStyle.None;
-            richTextBox1.Location = new Point(664, 243);
+            richTextBox1.Location = new Point(640, 243);
             richTextBox1.Name = "richTextBox1";
             richTextBox1.ReadOnly = true;
-            richTextBox1.Size = new Size(1240, 757);
+            richTextBox1.Size = new Size(1264, 757);
             richTextBox1.TabIndex = 32;
             richTextBox1.Text = "";
             // 
