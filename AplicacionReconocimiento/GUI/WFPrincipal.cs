@@ -123,7 +123,7 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
-        
+
 
 
         //función que verifica si el programa tiene conexión con el dispositivo
@@ -246,7 +246,7 @@ namespace DeportNetReconocimiento.GUI
             if (porcentajeActual > porcentaje && PanelAlmacenamiento.Visible == false)
             {
 
-                TextoAlmacenamiento.Text = $"Capacidad al: {porcentajeActual}% \nSocios: {carasActuales}/{capacidadMaxima}";
+                TextoAlmacenamiento.Text = $"- Capacidad al: {porcentajeActual}%     - Socios: {carasActuales}/{capacidadMaxima}";
                 PanelAlmacenamiento.Visible = true;
             }
             else if (porcentajeActual < porcentaje && PanelAlmacenamiento.Visible == true)
@@ -405,7 +405,7 @@ namespace DeportNetReconocimiento.GUI
         // Método que maneja la respuesta del formulario
         public async void OnProcesarRespuesta(RespuestaAccesoManual response)
         {
-         
+
             string mensaje = await WebServicesDeportnet.ControlDeAcceso(response.MemberId, response.ActiveBranchId, response.IsSuccessful);
             Console.WriteLine("MEnsaje pregunta: "+ mensaje);
 
@@ -613,16 +613,5 @@ namespace DeportNetReconocimiento.GUI
 
             wFConfiguracion.ShowDialog();
         }
-
-        private void WFPrincipal_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textoSinCoenxion_Click(object sender, EventArgs e)
-        {
-
-        }
-
     }
 }
