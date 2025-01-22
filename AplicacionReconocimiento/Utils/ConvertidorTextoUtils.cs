@@ -81,5 +81,10 @@ namespace DeportNetReconocimiento.Utils
         }
 
 
+        public static string PrimerLetraMayuscula(string nombre)
+        {
+            return char.ToUpper(nombre[0]) + nombre.Substring(1);
+        }
+
     }
 }

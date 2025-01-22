@@ -308,7 +308,7 @@ namespace DeportNetReconocimiento.GUI
                         Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.RutaMetodoApertura);
                     }
 
-                    titulo = "Bienvenido " + json.Nombre;
+                    titulo = "Bienvenido " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Nombre); ;
                     mensaje = ConvertidorTextoUtils.LimpiarTextoAccesoConcedido(json.MensajeAcceso);
 
 
