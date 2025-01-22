@@ -1,9 +1,12 @@
-﻿using DeportNetReconocimiento.Api.Services;
+﻿using DeportNetReconocimiento.Api.Dtos.Response;
+using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDK;
+using DeportNetReconocimiento.Utils;
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using System.Web;
 using static DeportNetReconocimiento.SDK.Hik_SDK;
 
 namespace DeportNetReconocimiento.SDKHikvision
@@ -12,17 +15,19 @@ namespace DeportNetReconocimiento.SDKHikvision
     public class Hik_Controladora_Eventos
     {
         //Defino el delegado ( A quien el voy a pasar el evento cuando lo reciba)
+        private static Hik_Controladora_Eventos? instanciaControladoraEventos;
+
         private MSGCallBack msgCallback;
 
-        public static  bool libre = true;
+        public static bool libre = true;
         public int GetAcsEventHandle = -1;
         private string CsTemp = null;
         private int m_lLogNum = 0;
 
      
-        public Hik_Controladora_Eventos(){
+        private Hik_Controladora_Eventos(){
             this.SetupAlarm();
-
+            Console.WriteLine("Incializo hik controladora eventos");
             msgCallback = new MSGCallBack(MsgCallback);
 
             if (!Hik_SDK.NET_DVR_SetDVRMessageCallBack_V50(0, msgCallback, IntPtr.Zero))
@@ -31,43 +36,72 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
         }
 
+
+        public static Hik_Controladora_Eventos InstanciaControladoraEventos
+        {
+            get
+            {
+                if (instanciaControladoraEventos == null)
+                {
+                    instanciaControladoraEventos = new Hik_Controladora_Eventos();
+                }
+                return instanciaControladoraEventos;
+            }
+        }
+
+
         private void MsgCallback(int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
         {
             Evento infoEvento = new Evento();
 
             //si esta clase esta instanciada
-            if (this != null)
+            Console.WriteLine("HOla msg callback");
+            if(this == null)
             {
-                switch (lCommand)
-                {
-                    case Hik_SDK.COMM_ALARM_ACS:
-                        infoEvento= AlarmInfoToEvent(ref pAlarmer, pAlarmInfo, dwBufLen, pUser);
-                        break;
-                    default:
-                        infoEvento.Exception = "NO_COMM_ALARM_ACS_FOUND";
-                        infoEvento.Success = false;
-                        break;
-                }
-
+                Console.WriteLine("Clase Hik_Controladora_Eventos no instanciada");
+                return;
             }
 
-            if (infoEvento.Success)
+       
+            
+            switch (lCommand)
             {
-                System.Console.WriteLine(infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description + " Tarjeta: " + infoEvento.Card_Number + " Puerta: " + infoEvento.Door_Number);
+                case Hik_SDK.COMM_ALARM_ACS:
+                    infoEvento= AlarmInfoToEvent(ref pAlarmer, pAlarmInfo, dwBufLen, pUser);
+                    break;
+                default:
+                    infoEvento.Exception = "NO_COMM_ALARM_ACS_FOUND";
+                    infoEvento.Success = false;
+                    break;
+            }
+
+            //DateTime tiempoActualMenosMedioSegundo = DateTime.Now.AddSeconds(-1);
+            DateTime tiempoAtrasadoCincoSegundos = DateTime.Now.AddSeconds(-5);
+            Console.WriteLine("tiempo Actual "+ tiempoAtrasadoCincoSegundos);
+            Console.WriteLine("Tiempo evento "+infoEvento.Time);
+            //si el evento es exitoso y el tiempo del evento es mayor a la hora actual
+            if (infoEvento.Success && infoEvento.Time >= tiempoAtrasadoCincoSegundos)
+            {
+                Console.WriteLine(
+                    infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description +
+                    " Tarjeta: " + infoEvento.Card_Number +
+                    " Puerta: " + infoEvento.Door_Number
+                );
+
                 if(infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS)
                 {
-
-
-                    obtenerDatosClienteDeportNet(infoEvento.Card_Reader_Number, infoEvento.Card_Number);
+                    ObtenerDatosClienteDeportNet(infoEvento.Card_Reader_Number, infoEvento.Card_Number);
                 }
             }
             else
             {
-                System.Console.WriteLine(infoEvento.Exception);
+                Console.WriteLine(infoEvento.Exception);
             }
+
         }
 
-        public static async void obtenerDatosClienteDeportNet(int nroReader, string numeroTarjeta)
+        //todo verificar si es necesario el nroReader realmente
+        public static async void ObtenerDatosClienteDeportNet(int nroReader, string numeroTarjeta)
         {
 
             if (!libre)
@@ -78,29 +112,98 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             if(string.IsNullOrWhiteSpace(numeroTarjeta))
             {
-                Console.WriteLine("El evento no tiene numero de tajeta");
+                Console.WriteLine("El evento no tiene numero de tarjeta");
                 return;
             }
 
-
+            
             libre = false;
-            /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
-            //string jsonDeDeportnet = await DxService.ValidacionAperturaAsync(numeroTarjeta);
+            
 
-            string[] credenciales = WFPrincipal.ObtenerInstancia.LeerCredenciales();
-
+            string[] credenciales = CredencialesUtils.LeerCredenciales();
             string idSucursal = credenciales[4];
+            
 
-            var data = new { memberId = numeroTarjeta, activeBranchId = idSucursal };
-            var jsonRequest = JsonSerializer.Serialize(data);
+            /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
+            string response = await WebServicesDeportnet.ControlDeAcceso(numeroTarjeta,idSucursal);
+            
+            ProcesarRespuestaAcceso(response, numeroTarjeta, idSucursal);
+            
 
-
-            await ValidarAccesoService.manejarReconocimientoSociosAsync(jsonRequest);
 
             libre = true;
 
         }
 
+        public static void ProcesarRespuestaAcceso(string response, string nroTarjeta, string idSucursal)
+        {
+
+            using JsonDocument doc = JsonDocument.Parse(response);
+            JsonElement root = doc.RootElement;
+
+            //Busco la propiedad branchAcces y digo que el elemento  es de tipo arreglo
+            if (root.TryGetProperty("branchAccess", out JsonElement branchAccess) && branchAccess.ValueKind == JsonValueKind.Array)
+            {
+                ValidarAccesoResponse jsonDeportnet = new ValidarAccesoResponse();
+
+                jsonDeportnet.IdCliente = nroTarjeta;
+                jsonDeportnet.IdSucursal = idSucursal;
+
+                if (branchAccess[1].ToString() == "U")
+                {
+                    MessageBox.Show(branchAccess[0].ToString(),
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                    );
+                    //todo validar si es necesario hacer return o agregamos una condicion mas en el switch
+                    //verificar si existe en el dispositivo eliminarlo
+                    return;
+                }
+
+
+                //verificamos el estado del acceso, si es pregunta
+                if (branchAccess[1].ToString() == "Q")
+                {
+                    jsonDeportnet.MensajeCrudo = branchAccess[0].ToString();
+                    jsonDeportnet.Estado = "Q";
+
+                }
+
+                //Verificamos el jsonObject en la pos 2 que serian los datos del cliente
+                if (branchAccess[2].ValueKind != JsonValueKind.Null)
+                {
+
+                    //jsonDeportnet.Id = branchAccess[2].GetProperty("id").ToString();
+                    jsonDeportnet.Nombre = branchAccess[2].GetProperty("firstName").ToString();
+                    jsonDeportnet.Apellido = branchAccess[2].GetProperty("lastName").ToString();
+                    jsonDeportnet.NombreCompleto = branchAccess[2].GetProperty("name").ToString();
+                    jsonDeportnet.MensajeCrudo = branchAccess[2].GetProperty("accessStatus").ToString();
+                    jsonDeportnet.Mostrarcumpleanios = branchAccess[2].GetProperty("showBirthday").ToString();
+                    
+                    jsonDeportnet.Estado = branchAccess[2].GetProperty("status").ToString(); 
+
+                    if(jsonDeportnet.Estado == "T")
+                    {
+                        jsonDeportnet.MensajeAcceso = branchAccess[2].GetProperty("accessOk").ToString();
+                    }
+                    else if (jsonDeportnet.Estado == "F")
+                    {
+                        jsonDeportnet.MensajeAcceso = branchAccess[2].GetProperty("accessError").ToString();
+                    }
+
+                    
+                }
+
+                WFPrincipal.ObtenerInstancia.ActualizarDatos(jsonDeportnet);
+            }
+            else
+            {
+                Console.WriteLine("No está la propiedad branch access.");
+            }
+        }
+
+        
 
         public void SetupAlarm()
         {
@@ -119,10 +222,12 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             try
             {
-
+                //obtenemos el evento
                 Hik_SDK.NET_DVR_ACS_ALARM_INFO struAcsAlarmInfo = new Hik_SDK.NET_DVR_ACS_ALARM_INFO();
                 struAcsAlarmInfo = (Hik_SDK.NET_DVR_ACS_ALARM_INFO)Marshal.PtrToStructure(pAlarmInfo, typeof(Hik_SDK.NET_DVR_ACS_ALARM_INFO));
                 Hik_SDK.NET_DVR_LOG_V30 struFileInfo = new Hik_SDK.NET_DVR_LOG_V30();
+
+                //obtenemos la descripcion del evento, Major y Minor
                 struFileInfo.dwMajorType = struAcsAlarmInfo.dwMajor;
                 struFileInfo.dwMinorType = struAcsAlarmInfo.dwMinor;
                 char[] csTmp = new char[256];
@@ -130,7 +235,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                 EventInfo.Major_Type = (int)struFileInfo.dwMajorType;
                 EventInfo.Minor_Type = (int)struFileInfo.dwMinorType;
 
-
+                //Obtenemos la descripcion del evento Major
                 switch (struFileInfo.dwMajorType) {
 
                     case Hik_SDK.MAJOR_ALARM:
@@ -177,7 +282,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
                 EventInfo.Remote_IP_Address = struAcsAlarmInfo.struRemoteHostAddr.sIpV4;
                 EventInfo.Time = new DateTime(struAcsAlarmInfo.struTime.dwYear, struAcsAlarmInfo.struTime.dwMonth, struAcsAlarmInfo.struTime.dwDay, struAcsAlarmInfo.struTime.dwHour, struAcsAlarmInfo.struTime.dwMinute, struAcsAlarmInfo.struTime.dwSecond);
-
+                //EventInfo.Time = DateTime.Now; 
 
                 if (struAcsAlarmInfo.struAcsEventInfo.byCardNo[0] != 0)
                 {

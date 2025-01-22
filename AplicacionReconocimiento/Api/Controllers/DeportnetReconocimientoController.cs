@@ -1,4 +1,7 @@
 ﻿using DeportNetReconocimiento.Api.Dtos.Request;
+using DeportNetReconocimiento.Api.Dtos.Response;
+using DeportNetReconocimiento.Api.GlobalExceptionHandler;
+using DeportNetReconocimiento.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,11 +15,50 @@ namespace DeportNetReconocimiento.Api.Controllers
     [Route("api/[controller]")]
     public class DeportnetReconocimientoController : ControllerBase
     {
-        [HttpPost("alta-facial-cliente")]
-        public IActionResult PostFacialCliente(AltaFacialClienteRequest clienteRequest)
-        {
 
-            return Ok(new { message = "¡Hola desde el servidor API! Este es tu dto: "+ clienteRequest.ToString() });
+        private readonly IDeportnetReconocimientoService deportnetReconocimientoService;
+
+        public DeportnetReconocimientoController(IDeportnetReconocimientoService deportnetReconocimientoService)
+        {
+            this.deportnetReconocimientoService = deportnetReconocimientoService;
+        }
+
+        [HttpGet("alta-facial-cliente")]
+        public IActionResult AltaFacialCliente(
+            [FromQuery] int idCliente,
+            [FromQuery] int idSucursal,
+            [FromQuery] string nombreCliente
+            )
+        {
+            //VALIDAR TOKEN
+            //[FromHeader(Name = "HTTP_X_SIGNATURE")] string signature
+            // if (signature != "1234")
+            //{
+            //      return Unauthorized(new { Mensaje = "Token inválido" });
+            //}
+
+            if (idCliente == null || idSucursal == null || nombreCliente == null)
+            {
+                return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
+            }
+
+            string detalle= deportnetReconocimientoService.AltaFacialCliente(new AltaFacialClienteRequest(idCliente,idSucursal,nombreCliente));
+            return Ok(detalle);
+        }
+
+        [HttpGet("baja-facial-cliente")]
+        public IActionResult BajaFacialCliente(
+            [FromQuery] int idCliente,
+            [FromQuery] int idSucursal
+            )
+        {
+            if (idCliente == null || idSucursal == null)
+            {
+                return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
+            }
+
+            string detalle = deportnetReconocimientoService.BajaFacialCliente(new BajaFacialClienteRequest(idCliente, idSucursal));
+            return Ok(detalle);
         }
 
     }

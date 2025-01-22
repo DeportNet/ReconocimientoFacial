@@ -4,6 +4,7 @@ using DeportNetReconocimiento.Utils;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Xml;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 
@@ -23,9 +24,9 @@ namespace DeportNetReconocimiento.SDK
         private bool soportaFacial;
         private bool soportaHuella;
         private bool soportaTarjeta;
-        private Hik_Controladora_Facial? hik_Controladora_Facial;
-        private Hik_Controladora_Tarjetas? hik_Controladora_Tarjetas;
-        private Hik_Controladora_Eventos? hik_Controladora_Eventos;
+        private static Hik_Controladora_Facial? hik_Controladora_Facial;
+        private static Hik_Controladora_Tarjetas? hik_Controladora_Tarjetas;
+        private static Hik_Controladora_Eventos? hik_Controladora_Eventos;
         private ConfiguracionEstilos configuracion;
 
 
@@ -161,7 +162,7 @@ namespace DeportNetReconocimiento.SDK
             {
                 if (1 == struDeviceInfoV40.bySupportLock)
                 {
-                    mensajeDeSdk = string.Format("Te quedan {0} intentos para logearte", struDeviceInfoV40.byRetryLoginTime);
+                    mensajeDeSdk = string.Format($"Te quedan {struDeviceInfoV40.byRetryLoginTime} intentos para logearte" /*struDeviceInfoV40.byRetryLoginTime*/);
                 }
                 resultado.ActualizarResultado(false, $"Usuario o contraseña invalidos \n {mensajeDeSdk}", Hik_SDK.NET_DVR_GetLastError().ToString());
             }
@@ -175,7 +176,7 @@ namespace DeportNetReconocimiento.SDK
             }
             else
             {
-                resultado.ActualizarResultado(false, "Error de red o el panel está ocupado", Hik_SDK.NET_DVR_GetLastError().ToString());
+                resultado.ActualizarResultado(false, "Error IP Incorrecta o Dispositivo no conectado", Hik_SDK.NET_DVR_GetLastError().ToString());
             }
 
             return resultado;
@@ -319,7 +320,7 @@ namespace DeportNetReconocimiento.SDK
         }
 
         
-        public int ObtenerCapcidadCarasDispostivo()
+        public int ObtenerCapacidadCarasDispositivo()
         {
 
             int capacidad = -1;
@@ -373,7 +374,6 @@ namespace DeportNetReconocimiento.SDK
                 return resultado;
             }
 
-
             //nos loggeamos
             resultado = Login(user, password, port, ip);
             resultado.EscribirResultado("Login");
@@ -397,14 +397,16 @@ namespace DeportNetReconocimiento.SDK
             configuracion.ActualizarCapacidadMaxima();
 
             //setteamos el callback para obtener los ids de los usuarios
-            hik_Controladora_Eventos = new Hik_Controladora_Eventos();
-
+            hik_Controladora_Eventos = Hik_Controladora_Eventos.InstanciaControladoraEventos;
+            hik_Controladora_Facial = Hik_Controladora_Facial.ObtenerInstancia;
+            hik_Controladora_Tarjetas = Hik_Controladora_Tarjetas.ObtenerInstancia;
+            
             return resultado;
         }
 
 
         //Verificar conexión a internet o en general
-        public static bool comprobarConexionInternet()
+        public static bool ComprobarConexionInternet()
         {
             //ponemos flag en false como predeterminado
             bool flag = false;
@@ -420,9 +422,9 @@ namespace DeportNetReconocimiento.SDK
                 if (reply.Status == IPStatus.Success)
                 {
                     flag = true;
-                    Console.WriteLine("Tenemos conexion a internet");
-                    Console.WriteLine("Dirección: " + reply.Address.ToString());
-                    Console.WriteLine("Tiempo: " + reply.RoundtripTime + " ms");
+                    Console.WriteLine("Tenemos conexion a internet; Tiempo: " + reply.RoundtripTime + " ms");
+                    //Console.WriteLine("Dirección: " + reply.Address.ToString());
+                    
                 }
                 else
                 {
@@ -439,32 +441,6 @@ namespace DeportNetReconocimiento.SDK
         }
 
 
-        public static void crearDirectorioEventos()
-        {
-
-            // Obtén la ruta raíz del proyecto
-            string raiz = AppDomain.CurrentDomain.BaseDirectory;
-
-            // Define la ruta del nuevo directorio en el root del proyecto
-            string nuevoDirectorio= Path.Combine(raiz, "Eventos");
-
-            // Verifica si el directorio ya existe
-            if (!Directory.Exists(nuevoDirectorio))
-            {
-                // Crea el directorio si no existe
-                Directory.CreateDirectory(nuevoDirectorio);
-                Console.WriteLine($"El directorio '{nuevoDirectorio}' se ha creado exitosamente.");
-            }
-            else
-            {
-                Console.WriteLine($"El directorio '{nuevoDirectorio}' ya existe.");
-            }
-
-
-
-        }
-
-
         public Hik_Resultado AltaCliente(string id, string nombre)
         {
             Hik_Resultado resultado = new Hik_Resultado();
@@ -473,8 +449,8 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(id));
             if (resultado.Exito)
             {
-                MessageBox.Show("Error de obtener la tarjeta");
-
+               // MessageBox.Show("Error de obtener la tarjeta");
+                resultado.Mensaje = "Error de obtener la tarjeta";
                 return resultado;
             }
             
@@ -486,7 +462,8 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
             if (!resultado.Exito)
             {
-                MessageBox.Show("Error de obtener la cara");
+                //MessageBox.Show("Error de obtener la cara");
+                resultado.Mensaje = "Error de obtener la cara";
                 return resultado;
             }
 
@@ -494,8 +471,8 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(int.Parse(id), nombre);
             if (!resultado.Exito)
             {
-                MessageBox.Show("Error de crear una tarjeta");
-
+                //MessageBox.Show("Error de crear una tarjeta");
+                resultado.Mensaje = "Error de crear una tarjeta";
                 return resultado;
             }
 
@@ -503,8 +480,8 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, id);
             if (!resultado.Exito)
             {
-                MessageBox.Show("Error de establecer una cara");
-
+                //MessageBox.Show("Error de establecer una cara");
+                resultado.Mensaje = "Error de establecer una cara";
                 return resultado;
             }
 
@@ -546,17 +523,17 @@ namespace DeportNetReconocimiento.SDK
 
         }
 
-        public Hik_Resultado BajaMasivaClientes(string[] ids)
-        {
-            Hik_Resultado resultado = new Hik_Resultado();
+        //public Hik_Resultado BajaMasivaClientes(string[] ids)
+        //{
+        //    Hik_Resultado resultado = new Hik_Resultado();
 
-            foreach (string id in ids)
-            {
-                resultado = BajaCliente(id);
-            }
+        //    foreach (string id in ids)
+        //    {
+        //        resultado = BajaCliente(id);
+        //    }
 
-            return resultado;
-        }
+        //    return resultado;
+        //}
 
 
         

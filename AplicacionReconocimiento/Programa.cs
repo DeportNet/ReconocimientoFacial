@@ -15,22 +15,29 @@ namespace DeportNetReconocimiento
         [STAThread]
         static void Main(string[] args)
         {
+            /*API*/
+            //iniciamos el API nuestra
             apiServer = new ApiServer();
             apiServer.Start();
-            
+
+            /*WEB VIEW*/
+            // Habilitar estilos visuales para los controles (estética moderna)
+            Application.EnableVisualStyles();
+            // Configurar el renderizado de texto para ser compatible con versiones antiguas
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            //esto no me acuerdo que era
             ApplicationConfiguration.Initialize();
 
-            //Utilizamos la instancia de singleton para que solo se cree una vez la ventana principal
-            Application.Run(WFPrincipal.ObtenerInstancia);
 
-            //Nuestro: "admin", "Facundo2024*", "8000", "192.168.0.207"
-            //Level : "admin", "020921Levelgym", "8000", "192.168.0.214"
+            //iniciazamos la ventana principal de acceso
+            Application.Run(WFPrincipal.ObtenerInstancia);
 
             // Detener el servidor cuando la aplicación cierre
             AppDomain.CurrentDomain.ProcessExit += (s, e) => apiServer?.Stop();
+
         }
-
-
-
+            //Nuestro: "admin", "Facundo2024*", "8000", "192.168.0.207"
+            //Level : "admin", "020921Levelgym", "8000", "192.168.0.214"
     }
 }

@@ -16,8 +16,9 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\facun\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\facun\\.nuget\\packages"
+      "C:\\Users\\fabri\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\fabri\\.nuget\\packages",
+      "G:\\Programs\\Visual Studio Community\\SharedComponents IDE\\NuGetPackages"
     ],
     "configProperties": {
       "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": true,

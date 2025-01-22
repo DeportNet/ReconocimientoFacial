@@ -353,7 +353,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                 {
                     dwState = Hik_SDK.NET_DVR_SendWithRecvRemoteConfigTarjeta(GetCardCfgHandle, ptrTarjetaSendData, tarjetaSendData.dwSize, ptrTarjetaRecord, tarjetaRecord.dwSize, ref dwReturned);
 
-                    //!!!!!! este metodo convierte el ptrTarjetaRecord a un objeto tarjetaRecord y despues lo castea
+                  
                     tarjetaRecord = (Hik_SDK.NET_DVR_CARD_RECORD)Marshal.PtrToStructure(ptrTarjetaRecord, typeof(Hik_SDK.NET_DVR_CARD_RECORD));
 
                     resultadosBucle = VerificarEstadoTarjeta(ref flag, ref dwState);

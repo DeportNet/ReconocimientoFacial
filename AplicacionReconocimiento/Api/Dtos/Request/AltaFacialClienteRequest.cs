@@ -10,13 +10,13 @@ namespace DeportNetReconocimiento.Api.Dtos.Request
     {
 
         private int idCliente;
-        private int idGimnasio;
+        private int idSucursal;
         private string nombreCliente;
 
         public AltaFacialClienteRequest(int idCliente, int idGimnasio, string nombreCliente)
         {
             this.idCliente = idCliente;
-            this.idGimnasio = idGimnasio;
+            this.idSucursal = idGimnasio;
             this.nombreCliente = nombreCliente;
         }
 
@@ -28,10 +28,10 @@ namespace DeportNetReconocimiento.Api.Dtos.Request
             get { return idCliente; }
             set { idCliente = value; }
         }
-        public int IdGimnasio
+        public int IdSucursal
         {
-            get { return idGimnasio; }
-            set { idGimnasio = value; }
+            get { return idSucursal; }
+            set { idSucursal = value; }
         }
 
         public string NombreCliente
@@ -42,7 +42,7 @@ namespace DeportNetReconocimiento.Api.Dtos.Request
 
         public override string ToString()
         {
-            return  "IdCliente: " + idCliente + ", IdGimnasio: " + idGimnasio + ", NombreCliente: " + nombreCliente;
+            return  "IdCliente: " + idCliente + ", IdGimnasio: " + idSucursal + ", NombreCliente: " + nombreCliente;
         }
 
     }

@@ -73,11 +73,11 @@
             // 
             tokenIdentificadorLabel.AutoSize = true;
             tokenIdentificadorLabel.Font = new Font("Segoe UI", 12F);
-            tokenIdentificadorLabel.Location = new Point(21, 135);
+            tokenIdentificadorLabel.Location = new Point(21, 137);
             tokenIdentificadorLabel.Name = "tokenIdentificadorLabel";
-            tokenIdentificadorLabel.Size = new Size(144, 21);
+            tokenIdentificadorLabel.Size = new Size(91, 21);
             tokenIdentificadorLabel.TabIndex = 10;
-            tokenIdentificadorLabel.Text = "Token identificador:";
+            tokenIdentificadorLabel.Text = "Sucursal ID:";
             // 
             // personalizacionTituloLabel
             // 
@@ -107,7 +107,6 @@
             propertyGrid1.Size = new Size(701, 490);
             propertyGrid1.TabIndex = 15;
             propertyGrid1.PropertyValueChanged += PropertyGrid1_PropertyValueChanged;
-            propertyGrid1.Click += PropertyGrid1_Click;
             propertyGrid1.DragDrop += PropertyGrid1_DragDrop;
             propertyGrid1.DragEnter += PropertyGrid1_DragEnter;
             propertyGrid1.DragLeave += PropertyGrid1_DragLeave;
@@ -129,15 +128,15 @@
             // 
             // TextBoxToken
             // 
-            TextBoxToken.Location = new Point(171, 137);
+            TextBoxToken.Location = new Point(118, 137);
             TextBoxToken.Name = "TextBoxToken";
-            TextBoxToken.Size = new Size(121, 23);
+            TextBoxToken.Size = new Size(174, 23);
             TextBoxToken.TabIndex = 17;
             // 
             // ComboBoxAperturaMolinete
             // 
             ComboBoxAperturaMolinete.FormattingEnabled = true;
-            ComboBoxAperturaMolinete.Items.AddRange(new object[] { ".exe", "Hikvision" });
+            ComboBoxAperturaMolinete.Items.AddRange(new object[] { ".exe", "Hikvision", "Ninguno" });
             ComboBoxAperturaMolinete.Location = new Point(171, 46);
             ComboBoxAperturaMolinete.Name = "ComboBoxAperturaMolinete";
             ComboBoxAperturaMolinete.Size = new Size(121, 23);
@@ -170,12 +169,11 @@
             PanelConfigAdminsitrador.Size = new Size(330, 222);
             PanelConfigAdminsitrador.TabIndex = 20;
             PanelConfigAdminsitrador.Visible = false;
-            PanelConfigAdminsitrador.Paint += PanelConfigAdminsitrador_Paint;
             // 
             // BotonAbrirFileDialog
             // 
             BotonAbrirFileDialog.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            BotonAbrirFileDialog.Location = new Point(275, 89);
+            BotonAbrirFileDialog.Location = new Point(275, 90);
             BotonAbrirFileDialog.Name = "BotonAbrirFileDialog";
             BotonAbrirFileDialog.Size = new Size(31, 24);
             BotonAbrirFileDialog.TabIndex = 22;
@@ -190,7 +188,6 @@
             TextBoxRutaExe.Name = "TextBoxRutaExe";
             TextBoxRutaExe.Size = new Size(163, 23);
             TextBoxRutaExe.TabIndex = 21;
-            TextBoxRutaExe.TextChanged += TextBoxRutaExe_TextChanged;
             // 
             // label1
             // 
@@ -201,7 +198,6 @@
             label1.Size = new Size(79, 21);
             label1.TabIndex = 20;
             label1.Text = "Ruta .exe: ";
-            label1.Click += label1_Click_1;
             // 
             // LabelAdmin
             // 
@@ -249,7 +245,6 @@
             Name = "WFConfiguracion";
             Text = "Configuracion Dispositivo";
             FormClosing += WFConfiguracion_FormClosing;
-            Load += WFConfiguracion_Load;
             DragEnter += PropertyGrid1_DragEnter;
             DragLeave += PropertyGrid1_DragLeave;
             PanelConfigAdminsitrador.ResumeLayout(false);

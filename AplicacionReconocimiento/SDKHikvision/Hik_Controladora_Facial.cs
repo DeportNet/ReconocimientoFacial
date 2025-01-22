@@ -8,7 +8,7 @@ namespace DeportNetReconocimiento.SDK
 public class Hik_Controladora_Facial
 {
 
-    public static Hik_Controladora_Facial? instancia;
+    private static Hik_Controladora_Facial? instancia;
 
 
 
@@ -64,7 +64,7 @@ public class Hik_Controladora_Facial
     }
 
     //Obtener una cara desde el dispositivo
-    public Hik_Resultado ObtenerCara(int cardReaderNumber, String cardNumber)
+    public Hik_Resultado ObtenerCara(int cardReaderNumber, string cardNumber)
     {
 
         Hik_Resultado resultado = new Hik_Resultado();
@@ -82,6 +82,7 @@ public class Hik_Controladora_Facial
         Hik_SDK.NET_DVR_FACE_COND struCond = new Hik_SDK.NET_DVR_FACE_COND();
         int dwSize = 0;
         IntPtr ptrStruCond = IntPtr.Zero;
+
         InicializarFaceCond(ref struCond, ref dwSize, (uint)cardReaderNumber, cardNumber, ref ptrStruCond);
 
         GetFaceCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_GET_FACE, ptrStruCond, dwSize, null, IntPtr.Zero);
@@ -131,6 +132,7 @@ public class Hik_Controladora_Facial
                 //Procesamos la informacion facial
 
                 ProcesarInformacionFacialRecord(ref struRecord, ref flag);
+
                 resultado.ActualizarResultado(true, "Se obtuvo la cara de forma exitosa", Hik_SDK.NET_DVR_GetLastError().ToString());
                 break;
             case (int)Hik_SDK.NET_SDK_GET_NEXT_STATUS_NEED_WAIT:
@@ -174,9 +176,9 @@ public class Hik_Controladora_Facial
     {
         string strpath = null;
         DateTime dt = DateTime.Now;
-        strpath = string.Format("FacePicture.jpg");
+        strpath = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
 
-        //si la longitud de la cara es 0, no hace nada y volvemos para atras
+            //si la longitud de la cara es 0, no hace nada y volvemos para atras
         if (struRecord.dwFaceLen != 0)
         {
 
@@ -211,7 +213,7 @@ public class Hik_Controladora_Facial
         dwOutBuffSize = (uint)struRecord.dwSize;
 
     }
-    private void InicializarFaceCond(ref Hik_SDK.NET_DVR_FACE_COND struCond, ref int dwSize, uint cardReaderNumber, String cardNumber, ref IntPtr ptrStruCond)
+    private void InicializarFaceCond(ref Hik_SDK.NET_DVR_FACE_COND struCond, ref int dwSize, uint cardReaderNumber, string cardNumber, ref IntPtr ptrStruCond)
     {
         struCond.Init();
         struCond.dwSize = Marshal.SizeOf(struCond);
@@ -223,13 +225,19 @@ public class Hik_Controladora_Facial
         struCond.dwEnableReaderNo = (int)cardReaderNumber;
         struCond.dwFaceNum = 1;
 
-
-
-        //Se pasa byte por byte para evitar errores de desbordamiento
-        byte[] byTemp = Encoding.UTF8.GetBytes(cardNumber);
-        for (int i = 0; i < byTemp.Length; i++)
+        try
         {
-            struCond.byCardNo[i] = byTemp[i];
+            //Se pasa byte por byte para evitar errores de desbordamiento
+            byte[] byTemp = Encoding.UTF8.GetBytes(cardNumber);
+            for (int i = 0; i < byTemp.Length; i++)
+            {
+                struCond.byCardNo[i] = byTemp[i];
+            }
+
+        }
+        catch(Exception ex)
+        {
+                Console.WriteLine("Excepcion en Inicializar FaceCond", ex.Message);
         }
 
 
@@ -405,7 +413,6 @@ public class Hik_Controladora_Facial
 
 
     //Establecer una cara en el dispositivo
-    //Hay que hacer algo para poder crear tarjetas y numeros de tarjetas y esos mandarlos, porque para poder agregar una cara, es necesario el numero de tarjeta.
     public Hik_Resultado EstablecerUnaCara(uint cardReaderNumber, string cardNumber)
     {
         Hik_Resultado resultado = new Hik_Resultado();
@@ -451,7 +458,7 @@ public class Hik_Controladora_Facial
                 while (flag)
                 {
                     dwStatus = Hik_SDK.NET_DVR_SendWithRecvRemoteConfigFacial(SetFaceCfgHandle, ref struRecord, dwInBufferSize, ref struStatus, (int)dwOutBufferSize, dwOutDataLen);
-                    resultado = verificarEstadoEstableceCara(ref struStatus, dwStatus, ref flag);
+                    resultado = VerificarEstadoEstablecerCara(ref struStatus, dwStatus, ref flag);
                 }
             }
         }
@@ -460,7 +467,7 @@ public class Hik_Controladora_Facial
 
         return resultado;
     }
-    private Hik_Resultado verificarEstadoEstableceCara(ref Hik_SDK.NET_DVR_FACE_STATUS struStatus, int dwStatus, ref bool flag)
+    private Hik_Resultado VerificarEstadoEstablecerCara(ref Hik_SDK.NET_DVR_FACE_STATUS struStatus, int dwStatus, ref bool flag)
     {
         Hik_Resultado resultado = new Hik_Resultado();
         bool caraEstabelcida = false;
@@ -514,17 +521,17 @@ public class Hik_Controladora_Facial
 
         if (struStatus.byRecvStatus == 1)
         {
-            resultado.ActualizarResultado(true, "Se estableció la información acial de forma exitosa", Hik_SDK.NET_DVR_GetLastError().ToString());
+            resultado.ActualizarResultado(true, "Se estableció la información facial de forma exitosa", Hik_SDK.NET_DVR_GetLastError().ToString());
         }
         else
         {
             flag = false;
-            resultado.ActualizarResultado(false, "huno un error al establecer la información facial ", struStatus.byRecvStatus.ToString());
+            resultado.ActualizarResultado(false, "Hubo un error al establecer la información facial ", struStatus.byRecvStatus.ToString());
         }
 
         return resultado;
     }
-    //Evalua si la foto seleccionada cumple con los requeusitos
+    //Evalua si la foto seleccionada cumple con los requisitos
     private Hik_Resultado BuscarFotoParaIngresar(ref Hik_SDK.NET_DVR_FACE_RECORD struRecord, String ubicacionArchivo)
     {
         Hik_Resultado resultado = new Hik_Resultado();
@@ -533,26 +540,26 @@ public class Hik_Controladora_Facial
         {
             //la foto no existe
             resultado.ActualizarResultado(false, "La foto de la cara no existe", Hik_SDK.NET_DVR_GetLastError().ToString());
+            return resultado;
         }
-        else
+        
+
+        FileStream fileStr = new FileStream(ubicacionArchivo, FileMode.OpenOrCreate);
+
+        if (fileStr.Length == 0) //la foto es 0k
         {
-
-            FileStream fileStr = new FileStream(ubicacionArchivo, FileMode.OpenOrCreate);
-
-            if (fileStr.Length == 0) //la foto es 0k
-            {
-                resultado.ActualizarResultado(false, "La foto de la cara es de 0k, por favor ingrese otra foto", Hik_SDK.NET_DVR_GetLastError().ToString());
-
-            }
-            else if (200 * 1024 < fileStr.Length)//la foto es 200k
-            {
-                resultado.ActualizarResultado(false, "La foto de la cara es mayor a 200k, por favor ingrese otra foto", Hik_SDK.NET_DVR_GetLastError().ToString());
-            }
-            else
-            {
-                resultado = ProcesarFotoEncontrada(ref struRecord, fileStr); 
-            }
+            resultado.ActualizarResultado(false, "La foto de la cara es de 0k, por favor ingrese otra foto", Hik_SDK.NET_DVR_GetLastError().ToString());
+            return resultado;
         }
+
+        if (200 * 1024 < fileStr.Length)//la foto es 200k
+        {
+            resultado.ActualizarResultado(false, "La foto de la cara es mayor a 200k, por favor ingrese otra foto", Hik_SDK.NET_DVR_GetLastError().ToString());
+            return resultado;
+        }
+       
+        resultado = ProcesarFotoEncontrada(ref struRecord, fileStr); 
+        
         return resultado;
     }
     private Hik_Resultado ProcesarFotoEncontrada(ref Hik_SDK.NET_DVR_FACE_RECORD struRecord, FileStream fileStr)
@@ -627,7 +634,7 @@ public class Hik_Controladora_Facial
 
         int dwSize = 0;
         IntPtr lpInBuffer = IntPtr.Zero;
-        InicilizarParamControlCardNo(ref struCardNo, ref dwSize, cardNumber, ref lpInBuffer, cardReaderNumber);
+        InicializarParamControlCardNo(ref struCardNo, ref dwSize, cardNumber, ref lpInBuffer, cardReaderNumber);
 
         if ( false == Hik_SDK.NET_DVR_RemoteControl(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_DEL_FACE_PARAM_CFG, ref  struCardNo, (int)dwSize))
         {
@@ -642,7 +649,7 @@ public class Hik_Controladora_Facial
         return resultado;
     }
 
-    private void InicilizarParamControlCardNo(ref Hik_SDK.NET_DVR_FACE_PARAM_CTRL_CARDNO struCardNo,ref int dwSize, string cardNumber, ref IntPtr lpInBuffer, int cardReaderNumber)
+    private void InicializarParamControlCardNo(ref Hik_SDK.NET_DVR_FACE_PARAM_CTRL_CARDNO struCardNo,ref int dwSize, string cardNumber, ref IntPtr lpInBuffer, int cardReaderNumber)
     {
         struCardNo.Init();
         struCardNo.dwSize = Marshal.SizeOf(struCardNo);

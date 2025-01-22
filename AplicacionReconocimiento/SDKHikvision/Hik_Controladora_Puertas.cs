@@ -109,6 +109,12 @@ namespace DeportNetReconocimiento.SDKHikvision
 
         public static void EjecutarExe(string ruta)
         {
+            if (string.IsNullOrEmpty(ruta))
+            {
+                Console.WriteLine("Ruta nula o vacia, no hago nada");
+                return;
+            }
+
             try
             {
                 ProcessStartInfo processStartInfo = new ProcessStartInfo
@@ -124,6 +130,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
             catch
             {
+                
                 MessageBox.Show("Error al procesar el archivo en " + ruta, "Error");
             }
         }

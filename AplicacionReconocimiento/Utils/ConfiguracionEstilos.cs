@@ -42,25 +42,126 @@ namespace DeportNetReconocimiento.Utils
             }
         }
         private Color colorFondo;
-        
-        
-        
 
 
-        [Category("General")]
+        /* - - - - - - LOGO - - - - - */
+
+        [Category("Logo")]
         [DisplayName("Logo de la pantalla de bienvenida")]
         [Description("Establece el logo que se mostrará en la pantalla de bienvenida. Dimensiones: 710x130. Formatos validos: .png, .jpeg, .jpg, .bmp, .gif, .tiff, .tif o .ico. Admite arrastrar y soltar imagen.")]
         [JsonConverter(typeof(ImageToPathJsonConverter))]
         public Image Logo { get; set; }
-        
 
-        [Category("General")]
+        [Category("Logo")]
         [DisplayName("Color de Fondo del Logo")]
         [Description("Especifica el color de fondo detrás del logo en la pantalla de bienvenida.")]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorFondoLogo { get; set; }
 
-        [Category("General")]
+        /* - - - - - - Bienvenida - - - - - */
+
+        [Category("Bienvenida")]
+        [DisplayName("Color de mensaje de bienvenida")]
+        [Description("Establece el color del texto para el mensaje de bienvenida.")]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color ColorMensajeBienvenida { get; set; }
+
+        [Category("Bienvenida")]
+        [DisplayName("Color de mensaje de acceso denegado")]
+        [Description("Define el color del texto que se mostrará en el mensaje de acceso denegado.")]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color ColorMensajeAccesoDenegado { get; set; }
+
+        [Category("Bienvenida")]
+        [DisplayName("Mensaje predeterminado de bienvenida")]
+        [Description("Texto que se mostrará como mensaje de bienvenida predeterminado.")]
+        public string MensajeBienvenida { get; set; }
+
+        [Category("Bienvenida")]
+        [DisplayName("Color del texto de mensaje de acceso concedido")]
+        [Description("Selecciona el color del texto del mensaje de acceso concedido.")]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color ColorMensajeAccesoConcedido { get; set; }
+
+        /* - - - - - - Mensaje de Acceso - - - - - */
+
+        [Category("Mensaje de acceso")]
+        [DisplayName("Fuente texto mensajes de acceso")]
+        [Description("Selecciona la fuente utilizada para los mensajes de acceso, como el mensaje de bienvenida o acceso denegado.")]
+        [JsonConverter(typeof(FontJsonConverter))]
+        public Font FuenteTextoMensajeAcceso { get; set; }
+
+        [Category("Mensaje de acceso")]
+        [DisplayName("Color del fondo mensaje de acceso")]
+        [Description("Define el color de fondo que se mostrará detrás del mensaje de acceso.")]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color ColorFondoMensajeAcceso { get; set; }
+
+        [Category("Mensaje de acceso")]
+        [DisplayName("Color de fondo de la informacion del cliente")]
+        [Description("Selecciona el color de fondo para el campo donde se muestra la informacion del cliente.")]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color FondoColorInformacionCliente
+        {
+
+            get => fondoColorInformacionCliente;
+            set
+            {
+                if (value.Name == "Transparent")
+                {
+                    fondoColorInformacionCliente = ColorFondo;
+                    //MessageBox.Show(
+                    //"El color de fondo no puede ser transparente.", // Mensaje
+                    //"Error de Validación",                                  // Título
+                    //MessageBoxButtons.OK,                                   // Botones (OK)
+                    //MessageBoxIcon.Error                                    // Ícono (Error)
+                    //);
+                }
+                else
+                {
+                    fondoColorInformacionCliente = value;
+                }
+            }
+        }
+        private Color fondoColorInformacionCliente;
+
+
+
+        [Category("Mensaje de acceso")]
+        [DisplayName("Color de texto de la informacion del cliente")]
+        [Description("Selecciona el color de texto para el campo donde se muestra la informacion del cliente.")]
+        [JsonConverter(typeof(ColorJsonConverter))]
+        public Color TextoColorInformacionCliente
+        {
+
+            get => textoColorInformacionCliente;
+            set
+            {
+                if (value.Name == "Transparent")
+                {
+                    //textoColorInformacionCliente = ColorFondo;
+                    MessageBox.Show(
+                    "El color de fondo no puede ser transparente.", // Mensaje
+                    "Error de Validación",                                  // Título
+                    MessageBoxButtons.OK,                                   // Botones (OK)
+                    MessageBoxIcon.Error                                    // Ícono (Error)
+                    );
+                }
+                else
+                {
+                    textoColorInformacionCliente = value;
+                }
+            }
+        }
+        private Color textoColorInformacionCliente;
+
+        [Category("Mensaje de acceso")]
+        [DisplayName("Fuente de texto de la informacion del cliente")]
+        [Description("Selecciona la fuente de texto para el campo donde se muestra la informacion del cliente.")]
+        [JsonConverter(typeof(FontJsonConverter))]
+        public Font FuenteTextoInformacionCliente { get; set; }
+
+        [Category("Mensaje de acceso")]
         [DisplayName("Tiempo de muestra de datos en pantalla")]
         [Description("Indica la duración (en segundos) que se mostrarán los datos en la pantalla. No puede ser menor a 2 segundos.")]
         public float TiempoDeMuestraDeDatos
@@ -86,81 +187,17 @@ namespace DeportNetReconocimiento.Utils
         private float tiempoDeMuestraDeDatos; // Valor predeterminado
 
 
+        /* - - - - - Imagen Cliente - - - - - */
 
-        /* - - - - - Mensaje de acceso - - - - - */
 
-        [Category("Mensaje de acceso")]
-        [DisplayName("Fuente texto mensajes de acceso")]
-        [Description("Selecciona la fuente utilizada para los mensajes de acceso, como el mensaje de bienvenida o acceso denegado.")]
-        [JsonConverter(typeof(FontJsonConverter))]
-        public Font FuenteTextoMensajeAcceso { get; set; }
-
-        [Category("Mensaje de acceso")]
-        [DisplayName("Color del fondo mensaje de acceso")]
-        [Description("Define el color de fondo que se mostrará detrás del mensaje de acceso.")]
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorFondoMensajeAcceso { get; set; }
-
-        [Category("Mensaje de acceso")]
-        [DisplayName("Color de mensaje de bienvenida")]
-        [Description("Establece el color del texto para el mensaje de bienvenida.")]
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorMensajeBienvenida { get; set; }
-
-        [Category("Mensaje de acceso")]
-        [DisplayName("Color de mensaje de acceso denegado")]
-        [Description("Define el color del texto que se mostrará en el mensaje de acceso denegado.")]
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorMensajeAccesoDenegado { get; set; }
-
-        [Category("Mensaje de acceso")]
-        [DisplayName("Mensaje predeterminado de bienvenida")]
-        [Description("Texto que se mostrará como mensaje de bienvenida predeterminado.")]
-        public string MensajeBienvenida { get; set; }
-
-        [Category("Mensaje de acceso")]
-        [DisplayName("Color del texto de mensaje de bienvenida")]
-        [Description("Selecciona el color del texto del mensaje de acceso concedido.")]
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorMensajeAccesoConcedido { get; set; }
-
-        /* - - - - - Campos de informacion - - - - - - */
-
-        [Category("Campos de informacion")]
-        [DisplayName("Color del campo actividad")]
-        [Description("Establece el color del texto para el campo de actividad del usuario.")]
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorCampoActividad { get; set; }
-
-        [Category("Campos de informacion")]
-        [DisplayName("Fuente texto campos de informacion")]
-        [Description("Selecciona la fuente utilizada en los campos de información del usuario.")]
-        [JsonConverter(typeof(FontJsonConverter))]
-        public Font FuenteTextoCamposInformacion { get; set; }
-
-        [Category("Campos de informacion")]
-        [DisplayName("Color del campo vencimiento")]
-        [Description("Define el color del texto para el campo de vencimiento.")]
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorVencimiento { get; set; }
-
-        [Category("Campos de informacion")]
-        [DisplayName("Color del campo clases restantes")]
-        [Description("Establece el color del texto para el campo que muestra las clases restantes del usuario.")]
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorClasesRestantes { get; set; }
-
-        [Category("Campos de informacion")]
-        [DisplayName("Color del campo mensaje")]
-        [Description("Selecciona el color del texto para el campo de mensajes personalizados.")]
-        [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorMensaje { get; set; }
-
-        [Category("Campos de informacion")]
+        [Category("Imagen")]
         [DisplayName("Color de fondo imagen")]
         [Description("Especifica el color de fondo que aparecerá detrás de las imágenes en los campos de información.")]
         [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorFondoImagen { get; set; }
+        public Color ColorFondoImagen { get; set; } 
+
+
+
 
         /* - - - - - - - - Sonidos - - - - - - - - */
 
@@ -249,20 +286,20 @@ namespace DeportNetReconocimiento.Utils
 
             // Mensaje de acceso
             ColorFondoMensajeAcceso = Color.DarkGray;
-            ColorMensajeBienvenida = Color.Green;
+            ColorMensajeBienvenida = Color.Black;
             ColorMensajeAccesoDenegado = Color.Red;
+            ColorMensajeAccesoConcedido = Color.Green;
             MensajeBienvenida = "Bienvenido a DeportNet!";
-            ColorMensajeAccesoConcedido = Color.Black;
 
             FuenteTextoMensajeAcceso = new Font("Arial Rounded MT Bold", 36, FontStyle.Italic);
 
             // Campos de informacion
-            ColorCampoActividad = Color.Black;
-            ColorVencimiento = Color.Black;
-            ColorClasesRestantes = Color.Black;
-            ColorMensaje = Color.Black;
+            TextoColorInformacionCliente = Color.Black;
+            FondoColorInformacionCliente = Color.WhiteSmoke;
+            FuenteTextoInformacionCliente = new Font("Arial Rounded MT Bold", 20, FontStyle.Regular);
+        
+            //Imagen
             ColorFondoImagen = Color.DarkGray;
-            FuenteTextoCamposInformacion = new Font("Arial Rounded MT Bold", 20, FontStyle.Regular);
 
 
             //Sonidos
@@ -381,7 +418,7 @@ namespace DeportNetReconocimiento.Utils
 
         public void ActualizarCapacidadMaxima()
         {
-            int capacidad = Hik_Controladora_General.InstanciaControladoraGeneral.ObtenerCapcidadCarasDispostivo();
+            int capacidad = Hik_Controladora_General.InstanciaControladoraGeneral.ObtenerCapacidadCarasDispositivo();
             CapacidadMaximaDispositivo = capacidad;
             GuardarJsonConfiguracion(this);
         }

@@ -1,35 +1,42 @@
 ﻿using DeportNetReconocimiento.Api.Dtos.Response;
+using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 
 namespace DeportNetReconocimiento.GUI
 {
     public partial class WFPrincipal : Form
     {
-        private Hik_Controladora_General? hik_Controladora_General;
-        private System.Windows.Forms.Timer? timer;
+        private static Hik_Controladora_General? hik_Controladora_General;
+
+
         private static WFPrincipal? instancia;
         private ConfiguracionEstilos configuracionEstilos;
         public bool ignorarCierre = false;
 
 
-        public WFPrincipal()
+        private WFPrincipal()
         {
             InitializeComponent();
 
             //estilos se leen de un archivo
-            //InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-            //Hik_Controladora_General.crearDirectorioEventos();
+            //  InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
             //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
-            ReproducirSonido(configuracionEstilos.SonidoBienvenida);
+
+
+            //  ReproducirSonido(ConfiguracionEstilos.SonidoBienvenida);
+
         }
 
         //propiedades
@@ -68,7 +75,7 @@ namespace DeportNetReconocimiento.GUI
             Hik_Resultado resultado = new Hik_Resultado();
 
             //ip , puerto, usuario, contraseña en ese orden
-            string[] credenciales = LeerCredenciales();
+            string[] credenciales = CredencialesUtils.LeerCredenciales();
 
 
             if (credenciales.Length == 0)
@@ -94,7 +101,7 @@ namespace DeportNetReconocimiento.GUI
             return resultado;
         }
 
-        private void cerrarFormulario(object sender, FormClosingEventArgs e)
+        private void CerrarFormulario(object sender, FormClosingEventArgs e)
         {
             if (!ignorarCierre)
             {
@@ -117,38 +124,7 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
-        public string[] LeerCredenciales()
-        {
-            var listaDatos = new System.Collections.Generic.List<string>();
-            string rutaArchivo = "credenciales.bin";
 
-
-            //si el archivo no existe, se abre la ventana para registrar el dispositivo
-            if (!File.Exists(rutaArchivo))
-            {
-                //this.Hide();
-                WFRgistrarDispositivo wFRgistrarDispositivo = new WFRgistrarDispositivo();
-                wFRgistrarDispositivo.ShowDialog();
-            }
-            else
-            {
-
-                // Leer desde un archivo binario
-                using (BinaryReader reader = new BinaryReader(File.Open(rutaArchivo, FileMode.Open)))
-                {
-
-                    while (reader.BaseStream.Position != reader.BaseStream.Length) // Lee hasta el final del archivo
-                    {
-                        string unDato = reader.ReadString(); // Lee cada string
-                        listaDatos.Add(unDato);
-
-                        Console.WriteLine($"Leído: {unDato}");
-                    }
-                }
-            }
-
-            return listaDatos.ToArray();
-        }
 
 
         //función que verifica si el programa tiene conexión con el dispositivo
@@ -171,7 +147,7 @@ namespace DeportNetReconocimiento.GUI
                 //si perdio conexión
                 if (iLastErr == 17)
                 {
-                    Console.WriteLine("sin conexion");
+                    Console.WriteLine("Se perdio la conexion con el dispositivo");
                     return false;
                 }
 
@@ -192,55 +168,68 @@ namespace DeportNetReconocimiento.GUI
 
         //Se crea un objeto de tipo Task para que la función se ejecute en un hilo distinto al principal
         //Se usa async await para manejar la asincronía 
-        public async Task<bool> verificarEstadoDispositivoAsync()
+        public async void VerificarEstadoDispositivoAsync(object sender, EventArgs e)
         {
+            VerificarConexionInternet();
+
             //Se espera al resultado de la función verificarEstadoDispositivo 
             //Mientras se pone a correr un hilo secundario para que no se bloquee el hilo principal
-            return await Task.Run(() => VerificarEstadoDispositivo());
+            bool estado = await Task.Run(() => VerificarEstadoDispositivo());
+
+            Console.WriteLine("Verificamos el estado del dispositivo. Estado: " + estado);
+
+            if (!estado)
+            {
+                InstanciarPrograma();
+            }
+
+
         }
 
         //Timer para verificar la conexión
-        private void ConfigurarTimer()
-        {
-            Hik_Resultado resultado = new Hik_Resultado();
-            timer = new System.Windows.Forms.Timer();
-            timer.Interval = 20000;
-            timer.Tick += async (s, e) =>
-            {
-                resultado.Exito = await verificarEstadoDispositivoAsync();
+        //private void ConfigurarTimer(object sender, EventArgs e)
+        //{
+        //    Hik_Resultado resultado = new Hik_Resultado();
 
-                //Verificar estado de internet
-                //El objetivo es saber si los datos reconocidos se almacenan o no en la base de datos local
+        //    //timer = new System.Windows.Forms.Timer();
 
-                //Esta función activa y desactiva el modo offline
-                VerificarConexionInternet();
+        //    //timer.Interval = 20000;
+        //    resultado.Exito = VerificarEstadoDispositivoAsync();
 
-                if (!resultado.Exito)
-                {
-                    InstanciarPrograma();
-                }
+        //    VerificarConexionInternet();
+        //    timer.Tick += async (s, e) =>
+        //    {
 
-            };
-            timer.Start();
-        }
+        //        //Verificar estado de internet
+        //        //El objetivo es saber si los datos reconocidos se almacenan o no en la base de datos local
+
+        //        //Esta función activa y desactiva el modo offline
+
+        //        //if (!resultado.Exito)
+        //        //{
+        //        //    InstanciarPrograma();
+        //        //}
+
+        //    };
+        //    timer.Start();
+        //}
 
 
         public void VerificarConexionInternet()
         {
-            if (!Hik_Controladora_General.comprobarConexionInternet())
+            if (!Hik_Controladora_General.ComprobarConexionInternet())
             {
 
-                if (PanelSinConexion.Visible == false)//&& WFPanelOffline.ObtenerInstancia.Visible == false)
+                if (PanelSinConexion.Visible == false)
                 {
                     PanelSinConexion.Visible = true;
-                    //  WFPanelOffline.ObtenerInstancia.Show();
+
                 }
 
             }
             else if (PanelSinConexion.Visible == true)
             {
                 PanelSinConexion.Visible = false;
-                // WFPanelOffline.ObtenerInstancia.Dispose();
             }
 
         }
@@ -258,7 +247,7 @@ namespace DeportNetReconocimiento.GUI
             if (porcentajeActual > porcentaje && PanelAlmacenamiento.Visible == false)
             {
 
-                TextoAlmacenamiento.Text = $"Capacidad al: {porcentajeActual}% \nSocios: {carasActuales}/{capacidadMaxima}";
+                TextoAlmacenamiento.Text = $"- Capacidad al: {porcentajeActual}%     - Socios: {carasActuales}/{capacidadMaxima}";
                 PanelAlmacenamiento.Visible = true;
             }
             else if (porcentajeActual < porcentaje && PanelAlmacenamiento.Visible == true)
@@ -269,109 +258,167 @@ namespace DeportNetReconocimiento.GUI
 
 
         //función para actualizar los datos en el hilo principal
-        public async void ActualizarDatos(int nroLector, ValidarAccesoResponse json)
+        public async void ActualizarDatos(ValidarAccesoResponse json)
         {
-            string respuesta = "";
 
             //Si el hilo que llama a la función no es el principal, se llama a la función de nuevo en el hilo principal
             if (InvokeRequired)
             {
-                Invoke(new Action<int, ValidarAccesoResponse>(ActualizarDatos), nroLector, json);
+                Invoke(new Action<ValidarAccesoResponse>(ActualizarDatos), json);
                 return;
             }
 
 
+            LimpiarInterfaz();
             MaximizarVentana();
-            LimpiarPictureBox();
 
 
-            //Se convierte el json a un objeto de tipo Persona
-
-            respuesta = EvaluarMensajeAcceso(json);
-
-
-            //Se actualizan los labels con los datos de la persona
-            HeaderLabel.Text = respuesta;
-
-            actividadLabel.Text = limpiarTextoEnriquecido(json.MensajeCrudo);
-
-            //Esta es la alternativa ORIGINAL. 
-            //TODO: BORRAR EN CASO DE QUE SE DECIDA USAR LA ALTERNATIVA DE TEXTO PLANO
-            /*
-            actividadLabel.Text = "Actividad: " + persona.Actividad;
-            valorFechaVtoLabel.Text = "Fecha vto: " + persona.Vencimiento;
-            valorClasesRestLabel.Text = "Clases restantes: " + persona.ClasesRestantes;
-            valorMensajeLabel.Text = "Mensaje: " + persona.Mensaje;
-            */
-
-            pictureBox1.Image = ObtenerFotoCliente(nroLector, json.Id);
+            //Se actualizan los labels con los datos de la persona o verificamos si es pregunta
+            EvaluarMensajeAcceso(json);
 
             int tiempoMuestraDatos = (int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000); // se convierten a segundos
-
             await Task.Delay(tiempoMuestraDatos);
             LimpiarInterfaz();
-
-
         }
 
 
-        public string limpiarTextoEnriquecido(string textoOriginal)
-        {
-            // Se utilizan Regex (Expresiones regulares) PAra poder modificar y alterar las cadenas de texto.
-            // Elimino las lineas de escape 
-            string textoDecodificado = Regex.Unescape(textoOriginal);
-            // Elimina las etiquetas HTML
-            string textoPlano = Regex.Replace(textoDecodificado, "<.*?>", string.Empty);
 
-            return textoPlano;
+        public static string LimpiarTextoEnriquecido(string htmlContent)
+        {
+            if (string.IsNullOrEmpty(htmlContent))
+            {
+                return ConvertirHtmlToRtf("<strong> Bienvenido! </strong>");
+            }
+
+            // Preparo el texto para cargarlo como corresponde
+            string textoSinCaracteresEscape = LimpiarCaracteresEscape(htmlContent);
+            string textoSinUnicode = SacarFormaToUnicode(textoSinCaracteresEscape);
+            string textoRTF = ConvertirHtmlToRtf(textoSinUnicode);
+
+            return textoRTF;
+        }
+
+        public static string ConvertirHtmlToRtf(string html)
+        {
+            // Reemplazar etiquetas HTML por RTF
+            html = html.Replace("<strong>", @"\b ").Replace("</strong>", @"\b0 ");
+            html = html.Replace("<br>", @"\line ");
+            html = html.Replace("<div>", @"\line ");
+            html = html.Replace("</div>", "");
+            html = html.Replace("\n", @"\line ");
+
+            // Darle el formato RTF a lo demas 
+            string rtfHeader = @"{\rtf1\ansi\deff0 {\fonttbl {\f0 Arial;}} ";
+            string rtfFooter = "}";
+
+            return rtfHeader + html + rtfFooter;
         }
 
 
-        public string EvaluarMensajeAcceso(ValidarAccesoResponse json)
+        public static string SacarFormaToUnicode(string input)
         {
+            // Reemplaza las secuencias de escape Unicode con los caracteres correspondientes
+            return Regex.Replace(input, @"\\u([0-9A-Fa-f]{4})", match =>
+            {
+                // Convierte el código Unicode en el carácter correspondiente
+                return char.ConvertFromUtf32(int.Parse(match.Groups[1].Value, System.Globalization.NumberStyles.HexNumber));
+            });
+        }
+
+
+        // Método para eliminar caracteres de escape innecesarios
+        public static string LimpiarCaracteresEscape(string input)
+        {
+            // Reemplazar \/ por /
+            input = input.Replace(@"\/", "/");
+
+            // Reemplazar \n por un salto de línea
+            input = input.Replace(@"\n", "\n");
+
+            // Devolver el texto limpio
+            return input;
+        }
+
+        public void EvaluarMensajeAcceso(ValidarAccesoResponse json)
+        {
+            string titulo = "";
             string mensaje = "";
-            string pregunta = "\n ¿Lo dejas pasar de todas formas?";
-            DialogResult respuesta = DialogResult.OK;
-            if (json.Estado == "Q")
+
+            pictureBox1.Image = ObtenerFotoCliente(1, json.IdCliente);
+            Console.WriteLine("Estado json:" + json.Estado);
+
+
+            switch (json.Estado)
             {
+                case "Q":
 
-                ReproducirSonido(configuracionEstilos.SonidoPregunta);
+                    ReproducirSonido(ConfiguracionEstilos.SonidoPregunta);
 
-                respuesta = MessageBox.Show(
-                json.MensajeCrudo + pregunta,
-                "Pregunta",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-                );
+                    // Crear y mostrar el formulario HTMLMessageBox
+                    HTMLMessageBox popupPregunta = new HTMLMessageBox(json);
+
+                    //Ajustar la posicón para que no tape la imagen 
+                    int x, y;
+                    x = this.Right - instancia.Width + (this.Width / 3); // 33% desde el borde derecho del formulario
+                    y = 280;
+                    popupPregunta.Location = new Point(x, y);
+
+
+                    // Suscribir al evento para recibir la respuesta
+                    popupPregunta.OpcionSeleccionada += OnProcesarRespuesta; //Este evento maneja las peticiones 
+
+                    // Mostrar el formulario
+                    popupPregunta.ShowDialog();
+
+                    break;
+                case "T":
+
+                    ReproducirSonido(ConfiguracionEstilos.AccesoConcedido);
+                    HeaderLabel.ForeColor = ConfiguracionEstilos.ColorMensajeAccesoConcedido;
+
+                    if (ConfiguracionEstilos.MetodoApertura == ".exe")
+                    {
+                        Console.WriteLine("Ejecuto el exe");
+                        Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.RutaMetodoApertura);
+                    }
+
+
+                    titulo = "Bienvenido " + json.Nombre;
+                    mensaje = LimpiarTextoEnriquecido(json.MensajeAcceso);
+
+                    break;
+                case "F":
+                    ReproducirSonido(ConfiguracionEstilos.AccesoDenegado);
+                    HeaderLabel.ForeColor = ConfiguracionEstilos.ColorMensajeAccesoDenegado;
+
+
+                    titulo = "Acceso denegado " + json.Nombre;
+                    mensaje = LimpiarTextoEnriquecido(json.MensajeAcceso);
+
+
+
+                    break;
             }
+            Console.WriteLine(titulo);
+            HeaderLabel.Text = titulo;
 
-            if (json.Estado == "T" || respuesta == DialogResult.Yes)
-            {
-                ReproducirSonido(configuracionEstilos.AccesoConcedido);
-
-                if (ConfiguracionEstilos.LeerJsonConfiguracion("ConfiguracionEstilos").MetodoApertura == ".exe")
-                {
-                    Console.WriteLine("Ejecuto el exe");
-                    Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos").RutaMetodoApertura);
-                }
+            Console.WriteLine(mensaje);
+            richTextBox1.Rtf = mensaje;
 
 
-                mensaje = "Bienvenido " + json.Nombre;
-                HeaderLabel.ForeColor = configuracionEstilos.ColorMensajeAccesoConcedido;
-
-            }
-            else if (json.Estado == "F" || respuesta == DialogResult.No)
-            {
-                ReproducirSonido(configuracionEstilos.AccesoDenegado);
-
-                mensaje = "Acceso denegado " + json.Nombre;
-                HeaderLabel.ForeColor = configuracionEstilos.ColorMensajeAccesoDenegado;
-
-            }
-
-            return mensaje;
 
         }
+
+        // Método que maneja la respuesta del formulario
+        public async void OnProcesarRespuesta(RespuestaAccesoManual response)
+        {
+
+            string mensaje = await WebServicesDeportnet.ControlDeAcceso(response.MemberId, response.ActiveBranchId, response.IsSuccessful);
+            Console.WriteLine("MEnsaje pregunta: " + mensaje);
+
+            Hik_Controladora_Eventos.ProcesarRespuestaAcceso(mensaje, response.MemberId, response.ActiveBranchId);
+        }
+
 
         public void LimpiarPictureBox()
         {
@@ -416,22 +463,20 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-        public void LimpiarInterfaz()
+        public async void LimpiarInterfaz()
         {
             if (InvokeRequired)
             {
+                Console.WriteLine("Invoco limpiar Interfaz");
                 Invoke(LimpiarInterfaz);
                 return;
             }
 
-            LimpiarPictureBox();
-
             HeaderLabel.Text = configuracionEstilos.MensajeBienvenida;
             HeaderLabel.ForeColor = configuracionEstilos.ColorMensajeBienvenida;
-            actividadLabel.Text = "";
-            valorFechaVtoLabel.Text = "";
-            valorClasesRestLabel.Text = "";
-            valorMensajeLabel.Text = "";
+            richTextBox1.Rtf = "";
+
+            LimpiarPictureBox();
 
             LimpiarFotosDirectorio();
 
@@ -449,7 +494,7 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-       
+
 
         /* - - - - - - Sonidos - - - - - - */
 
@@ -533,32 +578,30 @@ namespace DeportNetReconocimiento.GUI
         public void AplicarConfiguracion(ConfiguracionEstilos config)
         {
 
-
-            //header
             ConfiguracionEstilos = config;
+
+            //header Colores
             BackColor = config.ColorFondo;
             HeaderLabel.BackColor = config.ColorFondoMensajeAcceso;
-            HeaderLabel.Font = config.FuenteTextoMensajeAcceso;
+            HeaderLabel.ForeColor = config.ColorMensajeBienvenida;
+
+            //Header Texto
             HeaderLabel.Text = config.MensajeBienvenida;
-            HeaderLabel.ForeColor = config.ColorMensajeAccesoConcedido;
+            HeaderLabel.Font = config.FuenteTextoMensajeAcceso;
+            
+            //Infromación Colores
+            richTextBox1.ForeColor = config.TextoColorInformacionCliente;
+            richTextBox1.BackColor = config.FondoColorInformacionCliente;
 
-            //font campos
-            actividadLabel.Font = config.FuenteTextoCamposInformacion;
-            valorFechaVtoLabel.Font = config.FuenteTextoCamposInformacion;
-            valorClasesRestLabel.Font = config.FuenteTextoCamposInformacion;
-            valorMensajeLabel.Font = config.FuenteTextoCamposInformacion;
-
-            //colors campos
-            actividadLabel.ForeColor = config.ColorCampoActividad;
-            valorFechaVtoLabel.ForeColor = config.ColorVencimiento;
-            valorClasesRestLabel.ForeColor = config.ColorClasesRestantes;
-            valorMensajeLabel.ForeColor = config.ColorMensaje;
-            pictureBox1.BackColor = config.ColorFondoImagen;
+            //Información Fuente
+            richTextBox1.Font = config.FuenteTextoInformacionCliente;
 
             //Logo
             imagenLogo.BackColor = config.ColorFondoLogo;
             imagenLogo.Image = config.Logo;
 
+            //Foto
+            pictureBox1.BackColor = config.ColorFondoImagen;
 
             VerificarAlmacenamiento();
         }
@@ -569,6 +612,5 @@ namespace DeportNetReconocimiento.GUI
 
             wFConfiguracion.ShowDialog();
         }
-
     }
 }
