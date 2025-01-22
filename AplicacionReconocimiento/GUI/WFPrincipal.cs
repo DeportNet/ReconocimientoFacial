@@ -28,7 +28,7 @@ namespace DeportNetReconocimiento.GUI
         private WFPrincipal()
         {
             InitializeComponent();
-
+            
             //estilos se leen de un archivo
             InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
             timerConexion.Enabled = true; //una vez exitosa la conexion con el dispositivo, iniciamos el timer, para verificar la conexion con el disp.
@@ -244,40 +244,49 @@ namespace DeportNetReconocimiento.GUI
 
 
         //función para actualizar los datos en el hilo principal
+        private CancellationTokenSource _cts = new CancellationTokenSource();
+
         public async void ActualizarDatos(ValidarAccesoResponse json)
         {
+            _cts.Cancel(); // Cancelar cualquier tarea previa
+            _cts = new CancellationTokenSource(); // Crear un nuevo token
+            CancellationToken token = _cts.Token;
 
-            //Si el hilo que llama a la función no es el principal, se llama a la función de nuevo en el hilo principal
-            if (InvokeRequired)
+            try
             {
-                Invoke(new Action<ValidarAccesoResponse>(ActualizarDatos), json);
-                return;
+                if (InvokeRequired)
+                {
+                    Invoke(new Action<ValidarAccesoResponse>(ActualizarDatos), json);
+                    return;
+                }
+
+                LimpiarInterfaz();
+                MaximizarVentana();
+
+                pictureBox1.Image = ObtenerFotoCliente(1, json.IdCliente);
+
+                EvaluarMensajeAcceso(json);
+
+                Console.WriteLine("salgo de evaluar msj de acceso");
+
+                await Task.Delay((int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000), token);
+                LimpiarInterfaz();
             }
-
-
-            LimpiarInterfaz();
-            MaximizarVentana();
-
-
-            //Se actualizan los labels con los datos de la persona o verificamos si es pregunta
-            EvaluarMensajeAcceso(json);
-
-            int tiempoMuestraDatos = (int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000); // se convierten a segundos
-            await Task.Delay(tiempoMuestraDatos);
-            LimpiarInterfaz();
+            catch (TaskCanceledException)
+            {
+                // Ignorar si la tarea fue cancelada
+                Console.WriteLine("Tarea cancelada.");
+            }
         }
 
 
-
-      
-
-        public void EvaluarMensajeAcceso(ValidarAccesoResponse json)
+            public void EvaluarMensajeAcceso(ValidarAccesoResponse json)
         {
             string titulo = "";
             string mensaje = "";
 
-            pictureBox1.Image = ObtenerFotoCliente(1, json.IdCliente);
-            Console.WriteLine("Estado json:" + json.Estado);
+            
+            //Console.WriteLine("Estado json:" + json.Estado);
 
 
             switch (json.Estado)
@@ -293,6 +302,8 @@ namespace DeportNetReconocimiento.GUI
 
                     // Suscribir al evento para recibir la respuesta
                     popupPregunta.OpcionSeleccionada += OnProcesarRespuesta; //Este evento maneja las peticiones 
+
+                    Console.WriteLine("HAy una pregunta");
 
                     popupPregunta.ShowDialog();
 
@@ -511,6 +522,7 @@ namespace DeportNetReconocimiento.GUI
 
         public void AplicarConfiguracion(ConfiguracionEstilos config)
         {
+            
 
             ConfiguracionEstilos = config;
 
@@ -523,12 +535,13 @@ namespace DeportNetReconocimiento.GUI
             HeaderLabel.Text = config.MensajeBienvenida;
             HeaderLabel.Font = config.FuenteTextoMensajeAcceso;
             
-            //Infromación Colores
+            //Información Colores
             richTextBox1.ForeColor = config.TextoColorInformacionCliente;
             richTextBox1.BackColor = config.FondoColorInformacionCliente;
 
             //Información Fuente
             richTextBox1.Font = config.FuenteTextoInformacionCliente;
+            richTextBox1.Cursor = Cursors.Arrow;
 
             //Logo
             imagenLogo.BackColor = config.ColorFondoLogo;

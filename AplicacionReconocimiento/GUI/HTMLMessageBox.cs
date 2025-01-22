@@ -32,7 +32,7 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
 
             this.AccesoResponse = accesoResponse;
-
+            richTextBox1.Cursor = Cursors.Arrow;
             richTextBox1.Rtf = ConvertidorTextoUtils.LimpiarTextoEnriquecido(accesoResponse.MensajeCrudo);
 
             panel1.Controls.Add(BotonNo);

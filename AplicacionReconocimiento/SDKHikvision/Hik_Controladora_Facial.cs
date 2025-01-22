@@ -137,9 +137,9 @@ public class Hik_Controladora_Facial
                 break;
             case (int)Hik_SDK.NET_SDK_GET_NEXT_STATUS_NEED_WAIT:
 
-                //Esperamos
-                resultado.ActualizarResultado(false, "Esperamos", Hik_SDK.NET_DVR_GetLastError().ToString());
-
+                //Esperamos, y si el resultado final es esperamos, signifca que no se tomo ningun dato
+                resultado.ActualizarResultado(false, "El cliente no posiciono la cara frente al dispositivo", Hik_SDK.NET_DVR_GetLastError().ToString());
+                
                 break;
             case Hik_SDK.NET_SDK_GET_NEXT_STATUS_FAILED:
                 //Detenemos el proceso si hubo un fallo
@@ -155,7 +155,7 @@ public class Hik_Controladora_Facial
                 Hik_SDK.NET_DVR_StopRemoteConfig(GetFaceCfgHandle);
 
                 flag = false;
-                resultado.ActualizarResultado(true, "El proceso terminó", Hik_SDK.NET_DVR_GetLastError().ToString());
+                resultado.ActualizarResultado(true, "El proceso terminó con exito", Hik_SDK.NET_DVR_GetLastError().ToString());
 
                 break;
             default:

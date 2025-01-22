@@ -48,7 +48,7 @@ namespace DeportNetReconocimiento.Utils
 
         [Category("Logo")]
         [DisplayName("Logo de la pantalla de bienvenida")]
-        [Description("Establece el logo que se mostrará en la pantalla de bienvenida. Dimensiones: 710x130. Formatos validos: .png, .jpeg, .jpg, .bmp, .gif, .tiff, .tif o .ico. Admite arrastrar y soltar imagen.")]
+        [Description("Establece el logo que se mostrará en la pantalla de bienvenida. Dimensiones: 1900x130. Formatos validos: .png, .jpeg, .jpg, .bmp, .gif, .tiff, .tif o .ico. Admite arrastrar y soltar imagen.")]
         [JsonConverter(typeof(ImageToPathJsonConverter))]
         public Image Logo { get; set; }
 
@@ -169,10 +169,10 @@ namespace DeportNetReconocimiento.Utils
             get => tiempoDeMuestraDeDatos;
             set
             {
-                if (value < 2 || value > 100)
+                if (value < 3 || value > 50)
                 {
                     MessageBox.Show(
-                    "El tiempo de muestra de datos no puede ser menor a 2 seg ni mayor a 100 seg.", // Mensaje
+                    "El tiempo de muestra de datos no puede ser menor a 3 seg ni mayor a 50 seg.", // Mensaje
                     "Error de Validación",                                  // Título
                     MessageBoxButtons.OK,                                   // Botones (OK)
                     MessageBoxIcon.Error                                    // Ícono (Error)
@@ -282,7 +282,7 @@ namespace DeportNetReconocimiento.Utils
             ColorFondoLogo = Color.DimGray;
 
             //Logo = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\Recursos\logo_deportnet_1.jpg";  // Logo deportnet por defecto
-            TiempoDeMuestraDeDatos = 3.0f;
+            TiempoDeMuestraDeDatos = 5.0f;
 
             // Mensaje de acceso
             ColorFondoMensajeAcceso = Color.DarkGray;

@@ -49,35 +49,43 @@
             // 
             // BotonNo
             // 
+            BotonNo.BackColor = Color.Salmon;
             BotonNo.CausesValidation = false;
-            BotonNo.Location = new Point(478, 3);
+            BotonNo.Cursor = Cursors.Hand;
+            BotonNo.FlatStyle = FlatStyle.Flat;
+            BotonNo.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            BotonNo.Location = new Point(512, 3);
             BotonNo.Name = "BotonNo";
-            BotonNo.Size = new Size(100, 40);
+            BotonNo.Size = new Size(174, 40);
             BotonNo.TabIndex = 0;
             BotonNo.TabStop = false;
             BotonNo.Text = "No";
-            BotonNo.UseVisualStyleBackColor = true;
+            BotonNo.UseVisualStyleBackColor = false;
             BotonNo.Click += BotonNo_Click;
             // 
             // botonSi
             // 
+            botonSi.BackColor = Color.DarkSeaGreen;
             botonSi.CausesValidation = false;
-            botonSi.Location = new Point(324, 3);
+            botonSi.Cursor = Cursors.Hand;
+            botonSi.FlatStyle = FlatStyle.Flat;
+            botonSi.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            botonSi.Location = new Point(208, 3);
             botonSi.Name = "botonSi";
-            botonSi.Size = new Size(100, 40);
+            botonSi.Size = new Size(174, 40);
             botonSi.TabIndex = 0;
             botonSi.TabStop = false;
             botonSi.Text = "Sí";
-            botonSi.UseVisualStyleBackColor = true;
+            botonSi.UseVisualStyleBackColor = false;
             botonSi.Click += BotonSi_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(393, 5);
+            label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(381, 5);
             label1.Name = "label1";
-            label1.Size = new Size(116, 32);
+            label1.Size = new Size(125, 32);
             label1.TabIndex = 2;
             label1.Text = "Atención!";
             // 
@@ -89,6 +97,7 @@
             richTextBox1.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             richTextBox1.Location = new Point(0, 40);
             richTextBox1.Name = "richTextBox1";
+            richTextBox1.ReadOnly = true;
             richTextBox1.ScrollBars = RichTextBoxScrollBars.None;
             richTextBox1.Size = new Size(870, 309);
             richTextBox1.TabIndex = 3;
@@ -103,12 +112,11 @@
             Controls.Add(richTextBox1);
             Controls.Add(label1);
             Controls.Add(panel1);
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Location = new Point(450, 260);
             Name = "HTMLMessageBox";
             StartPosition = FormStartPosition.Manual;
-            Text = "Pregunta";
             panel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
