@@ -15,7 +15,6 @@ namespace DeportNetReconocimiento.BD
         public BdClientes()
         {
             CrearTablaClientes();
-
         }
 
         private void CrearBaseDeDatos()
@@ -27,7 +26,7 @@ namespace DeportNetReconocimiento.BD
             Console.WriteLine("Base de datos creada.");
         }
 
-        public void CrearTablaClientes()
+        private void CrearTablaClientes()
         {
             CrearBaseDeDatos();
 
@@ -53,7 +52,7 @@ namespace DeportNetReconocimiento.BD
             }
         }
 
-        public bool InsertarCliente(int idCliente, string nombreCliente)
+        public static bool InsertarCliente(int idCliente, string nombreCliente)
         {
             bool flag = false;
 
@@ -88,7 +87,7 @@ namespace DeportNetReconocimiento.BD
             return flag;
         }
 
-        static void LeerClientes()
+        public static void LeerClientes()
         {
             using (var conexion = new SQLiteConnection(rutaBaseDeDatos))
             {
@@ -108,7 +107,7 @@ namespace DeportNetReconocimiento.BD
             }
         }
 
-        public int ContarClientePorId(int idCliente)
+        public static int ContarClientePorId(int idCliente)
         {
             int nroDeOcurrencia = 0;
             using (var conexion = new SQLiteConnection(rutaBaseDeDatos))
@@ -134,7 +133,7 @@ namespace DeportNetReconocimiento.BD
             return nroDeOcurrencia;
         }
 
-        public int ContarTotalClientesDiaActual()
+        public static int ContarTotalClientesDiaActual()
         {
             int totalClientes = 0;
             using(var conexion = new SQLiteConnection(rutaBaseDeDatos))

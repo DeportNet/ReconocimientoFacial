@@ -20,26 +20,32 @@ namespace DeportNetReconocimiento.GUI
 
         private static WFPrincipal? instancia;
         private ConfiguracionEstilos configuracionEstilos;
-        public bool ignorarCierre = false;
+        private bool ignorarCierre = false;
 
+        private bool conexionInternet = true;
+        
 
         private WFPrincipal()
         {
             InitializeComponent();
 
             //estilos se leen de un archivo
-            //  InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            timerConexion.Enabled = true; //una vez exitosa la conexion con el dispositivo, iniciamos el timer, para verificar la conexion con el disp.
 
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
-            //ConfigurarTimer(); //configuramos el timer para que cada un tiempo determinado verifique el estado del dispositivo
-
-
-            //  ReproducirSonido(ConfiguracionEstilos.SonidoBienvenida);
+            ReproducirSonido(ConfiguracionEstilos.SonidoBienvenida);
 
         }
 
         //propiedades
+
+        public bool ConexionInternet
+        {
+            get => conexionInternet;
+            set => conexionInternet = value;
+        }
 
         public ConfiguracionEstilos ConfiguracionEstilos
         {
@@ -60,14 +66,18 @@ namespace DeportNetReconocimiento.GUI
 
             }
         }
+
         public Hik_Controladora_General? Instancia_Controladora_General
         {
-            get { return hik_Controladora_General; }
+            get {
+                if (instancia == null)
+                {
+                    hik_Controladora_General = Hik_Controladora_General.InstanciaControladoraGeneral;
+                }
+                return hik_Controladora_General; 
+            }
             set { hik_Controladora_General = value; }
         }
-
-
-
 
         public Hik_Resultado InstanciarPrograma()
         {
@@ -77,12 +87,13 @@ namespace DeportNetReconocimiento.GUI
             //ip , puerto, usuario, contraseña en ese orden
             string[] credenciales = CredencialesUtils.LeerCredenciales();
 
-
+            
             if (credenciales.Length == 0)
             {
                 //Si no hubo exito mostrar ventana con el error. Un modal 
                 resultado.ActualizarResultado(false, "No se pudieron leer las credenciales... Vuelva a intentarlo", "-1");
                 resultado.MessageBoxResultado("Error al leer las credenciales");
+                //return resultado;
             }
 
 
@@ -166,6 +177,8 @@ namespace DeportNetReconocimiento.GUI
             return false;
         }
 
+        
+
         //Se crea un objeto de tipo Task para que la función se ejecute en un hilo distinto al principal
         //Se usa async await para manejar la asincronía 
         public async void VerificarEstadoDispositivoAsync(object sender, EventArgs e)
@@ -186,38 +199,13 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
-        //Timer para verificar la conexión
-        //private void ConfigurarTimer(object sender, EventArgs e)
-        //{
-        //    Hik_Resultado resultado = new Hik_Resultado();
-
-        //    //timer = new System.Windows.Forms.Timer();
-
-        //    //timer.Interval = 20000;
-        //    resultado.Exito = VerificarEstadoDispositivoAsync();
-
-        //    VerificarConexionInternet();
-        //    timer.Tick += async (s, e) =>
-        //    {
-
-        //        //Verificar estado de internet
-        //        //El objetivo es saber si los datos reconocidos se almacenan o no en la base de datos local
-
-        //        //Esta función activa y desactiva el modo offline
-
-        //        //if (!resultado.Exito)
-        //        //{
-        //        //    InstanciarPrograma();
-        //        //}
-
-        //    };
-        //    timer.Start();
-        //}
-
-
         public void VerificarConexionInternet()
         {
-            if (!Hik_Controladora_General.ComprobarConexionInternet())
+            //verificamos y asignamos la conexion a internet
+            ConexionInternet = Hik_Controladora_General.ComprobarConexionInternet();
+
+            //si no hay internet, levantamos un panel de offline
+            if (!ConexionInternet)
             {
 
                 if (PanelSinConexion.Visible == false)
@@ -231,9 +219,7 @@ namespace DeportNetReconocimiento.GUI
             {
                 PanelSinConexion.Visible = false;
             }
-
         }
-
 
         public void VerificarAlmacenamiento()
         {

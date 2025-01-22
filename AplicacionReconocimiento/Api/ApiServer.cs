@@ -16,6 +16,9 @@ namespace DeportNetReconocimiento.Api
     public class ApiServer
     {
         private IHost host;
+        public ApiServer()
+        {
+        }
 
         public void Start()
         {

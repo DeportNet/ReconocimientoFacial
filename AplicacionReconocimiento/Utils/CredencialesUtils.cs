@@ -15,12 +15,23 @@ namespace DeportNetReconocimiento.Utils
             var listaDatos = new System.Collections.Generic.List<string>();
             string rutaArchivo = "credenciales.bin";
 
+            WFRgistrarDispositivo wFRgistrarDispositivo = WFRgistrarDispositivo.ObtenerInstancia;
+
+            
+
+
 
             //si el archivo no existe, se abre la ventana para registrar el dispositivo
             if (!File.Exists(rutaArchivo))
             {
-                WFRgistrarDispositivo wFRgistrarDispositivo = new WFRgistrarDispositivo();
-                wFRgistrarDispositivo.ShowDialog();
+
+                //si no esta levantado el formulario, se levanta para que haya solo uno
+                if (!wFRgistrarDispositivo.Visible)
+                {
+
+                    wFRgistrarDispositivo.ShowDialog();
+                }
+
             }
             else
             {

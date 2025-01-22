@@ -21,20 +21,53 @@ namespace DeportNetReconocimiento.Api.Services
     {
         private Hik_Controladora_General hik_Controladora;
         private bool enUso;
-        private int idSucursal;
+        private int? idSucursal;
         public bool EnUso { get => enUso; set => enUso = value; }
 
         public ReconocimientoService()
         {
             enUso = false;
             hik_Controladora = Hik_Controladora_General.InstanciaControladoraGeneral;
+            LeerCredencialesReconocimientoService();
+        }
+
+        private void LeerCredencialesReconocimientoService()
+        {
             string[] credenciales = CredencialesUtils.LeerCredenciales();
 
-            idSucursal = int.Parse(credenciales[4]);
+            if(credenciales.Length == 0)
+            {
+                idSucursal = null;
+                return;
+            }
+           
+            try
+            {
+                idSucursal = int.Parse(credenciales[4]);
+
+            }
+            catch(Exception e)
+            {
+                idSucursal = null;
+            }
+
         }
+
 
         public string AltaFacialCliente(AltaFacialClienteRequest clienteRequest) 
         {
+            if(idSucursal == null)
+            {
+                MensajeDeErrorAltaBajaCliente(
+                                   new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
+                                   clienteRequest.IdCliente.ToString(),
+                                   "El idSucursal es nulo, debido a que todavia no se ingresaron las credenciales correspondientes y se esta queriendo realizar una accion desde Deportnet.",
+                                   "F")
+                               );
+                return "F";
+            }
+
+
             if (hik_Controladora.IdUsuario == -1)
             {
                 MensajeDeErrorAltaBajaCliente(
@@ -79,7 +112,18 @@ namespace DeportNetReconocimiento.Api.Services
 
         public string BajaFacialCliente(BajaFacialClienteRequest clienteRequest)
         {
-            
+
+            if (idSucursal == null)
+            {
+                MensajeDeErrorAltaBajaCliente(
+                                   new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
+                                   clienteRequest.IdCliente.ToString(),
+                                   "El idSucursal es nulo, debido a que todavia no se ingresaron las credenciales correspondientes y se esta queriendo realizar una accion desde Deportnet.",
+                                   "F")
+                               );
+                return "F";
+            }
+
             if (hik_Controladora.IdUsuario == -1)
             {
                 MensajeDeErrorAltaBajaCliente(

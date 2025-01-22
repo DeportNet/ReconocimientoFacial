@@ -5,10 +5,25 @@ namespace DeportNetReconocimiento
     public partial class WFRgistrarDispositivo : Form
     {
         public bool ignorarCierre = false;
+        private static WFRgistrarDispositivo? instancia;
+        
 
-        public WFRgistrarDispositivo()
+        private WFRgistrarDispositivo()
         {
             InitializeComponent();
+        }
+
+
+        public static WFRgistrarDispositivo ObtenerInstancia
+        {
+            get
+            {
+                if (instancia == null)
+                {
+                    instancia = new WFRgistrarDispositivo();
+                }
+                return instancia;
+            }
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -21,7 +36,13 @@ namespace DeportNetReconocimiento
                 return;
             }
 
-            int.TryParse(textBoxPort.Text, out int port);
+            bool parsePuerto = int.TryParse(textBoxPort.Text, out int port);
+            if (!parsePuerto)
+            {
+                MessageBox.Show("El puerto debe ser numerico");
+                return;
+            }
+
             if (textBoxPort.Text.Length > 5 || port <= 0)
             {
                 //Properties.Resources.portTips
@@ -43,10 +64,17 @@ namespace DeportNetReconocimiento
                 return;
             }
 
-            int.TryParse(textBoxSucursalID.Text, out int sucursalId);
+            bool parseSucursalId= int.TryParse(textBoxSucursalID.Text, out int sucursalId);
+
+            if (!parseSucursalId)
+            {
+                MessageBox.Show("El ID de la sucursal debe ser numerico");
+                return;
+            }
             if(textBoxSucursalID.Text.Length > 12 || sucursalId <= 0)
             {
                 MessageBox.Show("El ID de la sucursal no puede ser mayor a 12 caracteres ni menor a 1");
+                return;
             }
 
             Hik_Resultado resultadoLogin = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(textBoxUserName.Text, textBoxPassword.Text, textBoxPort.Text, textBoxDeviceAddress.Text);
