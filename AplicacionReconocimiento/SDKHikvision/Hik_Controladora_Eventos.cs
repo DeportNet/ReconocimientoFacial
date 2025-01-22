@@ -20,6 +20,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         private MSGCallBack msgCallback;
 
         public static bool libre = true;
+
         public int GetAcsEventHandle = -1;
         private string CsTemp = null;
         private int m_lLogNum = 0;
@@ -54,15 +55,15 @@ namespace DeportNetReconocimiento.SDKHikvision
         {
             Evento infoEvento = new Evento();
 
+            
             //si esta clase esta instanciada
-            Console.WriteLine("HOla msg callback");
             if(this == null)
             {
-                Console.WriteLine("Clase Hik_Controladora_Eventos no instanciada");
+                Console.WriteLine("Clase Hik_Controladora_Eventos no instanciada. La instancio de nuevo");
+                Hik_Controladora_Eventos instancia = InstanciaControladoraEventos;
                 return;
             }
 
-       
             
             switch (lCommand)
             {
@@ -75,10 +76,12 @@ namespace DeportNetReconocimiento.SDKHikvision
                     break;
             }
 
-            //DateTime tiempoActualMenosMedioSegundo = DateTime.Now.AddSeconds(-1);
+            
             DateTime tiempoAtrasadoCincoSegundos = DateTime.Now.AddSeconds(-5);
+
             Console.WriteLine("tiempo Actual "+ tiempoAtrasadoCincoSegundos);
-            Console.WriteLine("Tiempo evento "+infoEvento.Time);
+            Console.WriteLine("Tiempo evento "+ infoEvento.Time);
+
             //si el evento es exitoso y el tiempo del evento es mayor a la hora actual
             if (infoEvento.Success && infoEvento.Time >= tiempoAtrasadoCincoSegundos)
             {
@@ -95,7 +98,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
             else
             {
-                Console.WriteLine(infoEvento.Exception);
+                Console.WriteLine("Excepcion evento hikvision: "+infoEvento.Exception);
             }
 
         }

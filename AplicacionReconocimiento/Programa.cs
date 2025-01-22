@@ -1,4 +1,5 @@
 using DeportNetReconocimiento.Api;
+using DeportNetReconocimiento.BD;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.SDKHikvision;
@@ -15,19 +16,15 @@ namespace DeportNetReconocimiento
         [STAThread]
         static void Main(string[] args)
         {
+            /*Base de Datos*/
+            BdClientes bdClientes = new BdClientes();
+            
             /*API*/
-            //iniciamos el API nuestra
             apiServer = new ApiServer();
             apiServer.Start();
 
-            /*WEB VIEW*/
-            // Habilitar estilos visuales para los controles (estética moderna)
-            Application.EnableVisualStyles();
-            // Configurar el renderizado de texto para ser compatible con versiones antiguas
-            Application.SetCompatibleTextRenderingDefault(false);
-
             //esto no me acuerdo que era
-            ApplicationConfiguration.Initialize();
+            //ApplicationConfiguration.Initialize();
 
 
             //iniciazamos la ventana principal de acceso

@@ -80,7 +80,6 @@
             label1.Size = new Size(116, 32);
             label1.TabIndex = 2;
             label1.Text = "Atención!";
-            label1.Click += label1_Click;
             // 
             // richTextBox1
             // 
@@ -94,7 +93,6 @@
             richTextBox1.Size = new Size(900, 309);
             richTextBox1.TabIndex = 3;
             richTextBox1.Text = "";
-            richTextBox1.TextChanged += richTextBox1_TextChanged;
             // 
             // HTMLMessageBox
             // 
