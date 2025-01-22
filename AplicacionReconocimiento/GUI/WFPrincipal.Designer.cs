@@ -143,6 +143,8 @@ namespace DeportNetReconocimiento.GUI
             // botonPersonalizar
             // 
             botonPersonalizar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            botonPersonalizar.Cursor = Cursors.Hand;
+            botonPersonalizar.FlatStyle = FlatStyle.System;
             botonPersonalizar.Location = new Point(1808, 1011);
             botonPersonalizar.Name = "botonPersonalizar";
             botonPersonalizar.Size = new Size(84, 23);
@@ -168,9 +170,9 @@ namespace DeportNetReconocimiento.GUI
             textoSinCoenxion.BackColor = Color.Silver;
             textoSinCoenxion.Font = new Font("Segoe UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textoSinCoenxion.ForeColor = Color.Red;
-            textoSinCoenxion.Location = new Point(0, 0);
+            textoSinCoenxion.Location = new Point(0, 5);
             textoSinCoenxion.Name = "textoSinCoenxion";
-            textoSinCoenxion.Size = new Size(275, 36);
+            textoSinCoenxion.Size = new Size(275, 31);
             textoSinCoenxion.TabIndex = 0;
             textoSinCoenxion.Text = "No hay conexión a internet";
             textoSinCoenxion.TextAlign = ContentAlignment.MiddleCenter;

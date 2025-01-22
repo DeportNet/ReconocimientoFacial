@@ -44,6 +44,7 @@ namespace DeportNetReconocimiento.Utils
             // Reemplazar etiquetas HTML por RTF
             html = html.Replace("<strong>", @"\b ").Replace("</strong>", @"\b0 ");
             html = html.Replace("<br>", @"\line ");
+            html = html.Replace("<br />", @"\line ");
             html = html.Replace("<div>", @"\line ");
             html = html.Replace("</div>", "");
             html = html.Replace("\n", @"\line ");

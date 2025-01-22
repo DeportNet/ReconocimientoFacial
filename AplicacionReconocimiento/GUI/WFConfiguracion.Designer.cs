@@ -144,6 +144,7 @@
             // 
             // BotonOcultarConfig
             // 
+            BotonOcultarConfig.Cursor = Cursors.Hand;
             BotonOcultarConfig.Location = new Point(171, 183);
             BotonOcultarConfig.Name = "BotonOcultarConfig";
             BotonOcultarConfig.Size = new Size(121, 23);
@@ -172,6 +173,7 @@
             // 
             // BotonAbrirFileDialog
             // 
+            BotonAbrirFileDialog.Cursor = Cursors.Hand;
             BotonAbrirFileDialog.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             BotonAbrirFileDialog.Location = new Point(275, 90);
             BotonAbrirFileDialog.Name = "BotonAbrirFileDialog";
@@ -212,6 +214,7 @@
             // 
             // TextBoxAdmin
             // 
+            TextBoxAdmin.Cursor = Cursors.IBeam;
             TextBoxAdmin.Location = new Point(945, 194);
             TextBoxAdmin.Name = "TextBoxAdmin";
             TextBoxAdmin.Size = new Size(111, 23);
@@ -219,6 +222,8 @@
             // 
             // BotonIngresarAdmin
             // 
+            BotonIngresarAdmin.Cursor = Cursors.Hand;
+            BotonIngresarAdmin.FlatStyle = FlatStyle.System;
             BotonIngresarAdmin.Location = new Point(1062, 194);
             BotonIngresarAdmin.Name = "BotonIngresarAdmin";
             BotonIngresarAdmin.Size = new Size(57, 23);
@@ -241,6 +246,7 @@
             Controls.Add(propertyGrid1);
             Controls.Add(personalizacionTituloLabel);
             Controls.Add(tituloConfig);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "WFConfiguracion";
             Text = "Configuracion Dispositivo";
