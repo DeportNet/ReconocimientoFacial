@@ -283,61 +283,7 @@ namespace DeportNetReconocimiento.GUI
 
 
 
-        public static string LimpiarTextoEnriquecido(string htmlContent)
-        {
-            if (string.IsNullOrEmpty(htmlContent))
-            {
-                return ConvertirHtmlToRtf("<strong> Bienvenido! </strong>");
-            }
-
-            // Preparo el texto para cargarlo como corresponde
-            string textoSinCaracteresEscape = LimpiarCaracteresEscape(htmlContent);
-            string textoSinUnicode = SacarFormaToUnicode(textoSinCaracteresEscape);
-            string textoRTF = ConvertirHtmlToRtf(textoSinUnicode);
-
-            return textoRTF;
-        }
-
-        public static string ConvertirHtmlToRtf(string html)
-        {
-            // Reemplazar etiquetas HTML por RTF
-            html = html.Replace("<strong>", @"\b ").Replace("</strong>", @"\b0 ");
-            html = html.Replace("<br>", @"\line ");
-            html = html.Replace("<div>", @"\line ");
-            html = html.Replace("</div>", "");
-            html = html.Replace("\n", @"\line ");
-
-            // Darle el formato RTF a lo demas 
-            string rtfHeader = @"{\rtf1\ansi\deff0 {\fonttbl {\f0 Arial;}} ";
-            string rtfFooter = "}";
-
-            return rtfHeader + html + rtfFooter;
-        }
-
-
-        public static string SacarFormaToUnicode(string input)
-        {
-            // Reemplaza las secuencias de escape Unicode con los caracteres correspondientes
-            return Regex.Replace(input, @"\\u([0-9A-Fa-f]{4})", match =>
-            {
-                // Convierte el código Unicode en el carácter correspondiente
-                return char.ConvertFromUtf32(int.Parse(match.Groups[1].Value, System.Globalization.NumberStyles.HexNumber));
-            });
-        }
-
-
-        // Método para eliminar caracteres de escape innecesarios
-        public static string LimpiarCaracteresEscape(string input)
-        {
-            // Reemplazar \/ por /
-            input = input.Replace(@"\/", "/");
-
-            // Reemplazar \n por un salto de línea
-            input = input.Replace(@"\n", "\n");
-
-            // Devolver el texto limpio
-            return input;
-        }
+      
 
         public void EvaluarMensajeAcceso(ValidarAccesoResponse json)
         {
@@ -357,17 +303,11 @@ namespace DeportNetReconocimiento.GUI
                     // Crear y mostrar el formulario HTMLMessageBox
                     HTMLMessageBox popupPregunta = new HTMLMessageBox(json);
 
-                    //Ajustar la posicón para que no tape la imagen 
-                    int x, y;
-                    x = this.Right - instancia.Width + (this.Width / 3); // 33% desde el borde derecho del formulario
-                    y = 280;
-                    popupPregunta.Location = new Point(x, y);
-
+                    CalcularPosicion(popupPregunta);
 
                     // Suscribir al evento para recibir la respuesta
                     popupPregunta.OpcionSeleccionada += OnProcesarRespuesta; //Este evento maneja las peticiones 
 
-                    // Mostrar el formulario
                     popupPregunta.ShowDialog();
 
                     break;
@@ -382,18 +322,17 @@ namespace DeportNetReconocimiento.GUI
                         Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.RutaMetodoApertura);
                     }
 
-
                     titulo = "Bienvenido " + json.Nombre;
-                    mensaje = LimpiarTextoEnriquecido(json.MensajeAcceso);
+                    mensaje = ConvertidorTextoUtils.LimpiarTextoAccesoConcedido(json.MensajeAcceso);
+
 
                     break;
                 case "F":
                     ReproducirSonido(ConfiguracionEstilos.AccesoDenegado);
                     HeaderLabel.ForeColor = ConfiguracionEstilos.ColorMensajeAccesoDenegado;
 
-
                     titulo = "Acceso denegado " + json.Nombre;
-                    mensaje = LimpiarTextoEnriquecido(json.MensajeAcceso);
+                    mensaje = ConvertidorTextoUtils.LimpiarTextoEnriquecido(json.MensajeAcceso);
 
 
 
@@ -404,17 +343,26 @@ namespace DeportNetReconocimiento.GUI
 
             Console.WriteLine(mensaje);
             richTextBox1.Rtf = mensaje;
-
-
-
         }
+
+
+
+        private void CalcularPosicion(HTMLMessageBox popupPregunta)
+        {
+            //Ajustar la posicón para que no tape la imagen 
+            int x, y;
+            x = this.Right - instancia.Width + (this.Width / 3); // 33% desde el borde derecho del formulario
+            y = 280;
+            popupPregunta.Location = new Point(x, y);
+        }
+
 
         // Método que maneja la respuesta del formulario
         public async void OnProcesarRespuesta(RespuestaAccesoManual response)
         {
 
             string mensaje = await WebServicesDeportnet.ControlDeAcceso(response.MemberId, response.ActiveBranchId, response.IsSuccessful);
-            Console.WriteLine("MEnsaje pregunta: " + mensaje);
+            Console.WriteLine("Mensaje pregunta: " + mensaje);
 
             Hik_Controladora_Eventos.ProcesarRespuestaAcceso(mensaje, response.MemberId, response.ActiveBranchId);
         }
