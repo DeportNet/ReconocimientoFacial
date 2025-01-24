@@ -28,16 +28,19 @@ namespace DeportNetReconocimiento.Utils
 
         //El mensaje de acceso concedido trae html y css 
         //Esta función reemplaza todo eso  por saltos de linea para mostrarlo de manera correcta
-        public static string LimpiarTextoAccesoConcedido(string mensajeHTMLCrudo)
+        public static string LimpiarTextoHtml(string mensajeHTMLCrudo)
         {
-            string textoHTMLSimplificado = Regex.Replace(mensajeHTMLCrudo, "<.*?>", "\n");
-            string textoRTF = ConvertirHtmlToRtf(textoHTMLSimplificado);
 
-            return textoRTF;
+            if (string.IsNullOrEmpty(mensajeHTMLCrudo))
+            {
+                return "";
+            }
+
+            string textoHTMLSimplificado = Regex.Replace(mensajeHTMLCrudo, "<.*?>", "\n");
+            
+            return textoHTMLSimplificado;
 
         }
-
-
 
         public static string ConvertirHtmlToRtf(string html)
         {
@@ -53,7 +56,9 @@ namespace DeportNetReconocimiento.Utils
             string rtfHeader = @"{\rtf1\ansi\deff0 {\fonttbl {\f0 Arial;}} ";
             string rtfFooter = "}";
 
-            return rtfHeader + html + rtfFooter;
+            string rtfCompleto = rtfHeader + html + rtfFooter;
+
+            return rtfCompleto;
         }
 
 

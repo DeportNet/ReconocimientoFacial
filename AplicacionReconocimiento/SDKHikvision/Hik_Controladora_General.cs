@@ -485,7 +485,7 @@ namespace DeportNetReconocimiento.SDK
                 return resultado;
             }
 
-            configuracion.sumarRegistroCara();
+            configuracion.SumarRegistroCara();
             return resultado;
         }
 
@@ -518,7 +518,7 @@ namespace DeportNetReconocimiento.SDK
             }
 
 
-            configuracion.restarRegistroCara();
+            configuracion.RestarRegistroCara();
             return resultado;
 
         }
