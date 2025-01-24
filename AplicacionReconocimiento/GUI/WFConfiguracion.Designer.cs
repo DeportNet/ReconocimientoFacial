@@ -144,13 +144,16 @@
             // 
             // BotonOcultarConfig
             // 
+            BotonOcultarConfig.BackColor = Color.WhiteSmoke;
             BotonOcultarConfig.Cursor = Cursors.Hand;
+            BotonOcultarConfig.FlatAppearance.BorderSize = 0;
+            BotonOcultarConfig.FlatStyle = FlatStyle.Flat;
             BotonOcultarConfig.Location = new Point(171, 183);
             BotonOcultarConfig.Name = "BotonOcultarConfig";
             BotonOcultarConfig.Size = new Size(121, 23);
             BotonOcultarConfig.TabIndex = 19;
             BotonOcultarConfig.Text = "Guardar/Ocultar";
-            BotonOcultarConfig.UseVisualStyleBackColor = true;
+            BotonOcultarConfig.UseVisualStyleBackColor = false;
             BotonOcultarConfig.Click += BotonOcultarConfig_Click;
             // 
             // PanelConfigAdminsitrador
@@ -222,21 +225,23 @@
             // 
             // BotonIngresarAdmin
             // 
+            BotonIngresarAdmin.BackColor = Color.WhiteSmoke;
             BotonIngresarAdmin.Cursor = Cursors.Hand;
-            BotonIngresarAdmin.FlatStyle = FlatStyle.System;
+            BotonIngresarAdmin.FlatAppearance.BorderSize = 0;
+            BotonIngresarAdmin.FlatStyle = FlatStyle.Flat;
             BotonIngresarAdmin.Location = new Point(1062, 194);
             BotonIngresarAdmin.Name = "BotonIngresarAdmin";
             BotonIngresarAdmin.Size = new Size(57, 23);
             BotonIngresarAdmin.TabIndex = 23;
             BotonIngresarAdmin.Text = "OK";
-            BotonIngresarAdmin.UseVisualStyleBackColor = true;
+            BotonIngresarAdmin.UseVisualStyleBackColor = false;
             BotonIngresarAdmin.Click += BotonIngresarAdmin_Click;
             // 
             // WFConfiguracion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Silver;
+            BackColor = Color.DarkGray;
             ClientSize = new Size(1177, 691);
             Controls.Add(BotonIngresarAdmin);
             Controls.Add(TextBoxAdmin);

@@ -1,5 +1,6 @@
 ﻿using DeportNetReconocimiento.Api.Dtos.Response;
 using DeportNetReconocimiento.Api.Services;
+using DeportNetReconocimiento.BD;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDK;
@@ -28,7 +29,7 @@ namespace DeportNetReconocimiento.SDKHikvision
      
         private Hik_Controladora_Eventos(){
             this.SetupAlarm();
-            Console.WriteLine("Incializo hik controladora eventos");
+            
             msgCallback = new MSGCallBack(MsgCallback);
 
             if (!Hik_SDK.NET_DVR_SetDVRMessageCallBack_V50(0, msgCallback, IntPtr.Zero))
@@ -55,6 +56,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         {
             Evento infoEvento = new Evento();
 
+            
             
             //si esta clase esta instanciada
             if(this == null)
@@ -88,12 +90,26 @@ namespace DeportNetReconocimiento.SDKHikvision
                 Console.WriteLine(
                     infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description +
                     " Tarjeta: " + infoEvento.Card_Number +
-                    " Puerta: " + infoEvento.Door_Number
+                    " Puerta: " + infoEvento.Door_Number 
                 );
 
-                if(infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS)
+
+                //Si no tenemos conexion a internet, hay que guardar el evento en la base de datos
+                
+
+                if (infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS)
                 {
-                    ObtenerDatosClienteDeportNet(infoEvento.Card_Reader_Number, infoEvento.Card_Number);
+                    if (!WFPrincipal.ObtenerInstancia.ConexionInternet)
+                    {
+                        Console.WriteLine("Guardo al cliente en bd y no dx");
+                        int.TryParse(infoEvento.Card_Number, out int nroTarjeta);
+
+                        BdClientes.InsertarCliente(nroTarjeta, "Cliente");
+                    }
+                    else
+                    {
+                        ObtenerDatosClienteDeportNet(infoEvento.Card_Number);
+                    }
                 }
             }
             else
@@ -104,7 +120,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         }
 
         //todo verificar si es necesario el nroReader realmente
-        public static async void ObtenerDatosClienteDeportNet(int nroReader, string numeroTarjeta)
+        public static async void ObtenerDatosClienteDeportNet(string numeroTarjeta)
         {
 
             if (!libre)
@@ -280,12 +296,12 @@ namespace DeportNetReconocimiento.SDKHikvision
                         break;
                     }
                 }
-
+               
                 EventInfo.User = name;
 
                 EventInfo.Remote_IP_Address = struAcsAlarmInfo.struRemoteHostAddr.sIpV4;
                 EventInfo.Time = new DateTime(struAcsAlarmInfo.struTime.dwYear, struAcsAlarmInfo.struTime.dwMonth, struAcsAlarmInfo.struTime.dwDay, struAcsAlarmInfo.struTime.dwHour, struAcsAlarmInfo.struTime.dwMinute, struAcsAlarmInfo.struTime.dwSecond);
-                //EventInfo.Time = DateTime.Now; 
+                
 
                 if (struAcsAlarmInfo.struAcsEventInfo.byCardNo[0] != 0)
                 {

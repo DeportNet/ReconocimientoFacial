@@ -6,6 +6,7 @@ using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -32,7 +33,6 @@ namespace DeportNetReconocimiento.GUI
             //estilos se leen de un archivo
             InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
             timerConexion.Enabled = true; //una vez exitosa la conexion con el dispositivo, iniciamos el timer, para verificar la conexion con el disp.
-
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
             ReproducirSonido(ConfiguracionEstilos.SonidoBienvenida);
@@ -242,10 +242,10 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
-
-        //función para actualizar los datos en el hilo principal
+        //Codigo para identificar un hilo secundario, se utiliza en ActualizarDatos
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
+        //función para actualizar los datos en el hilo principal
         public async void ActualizarDatos(ValidarAccesoResponse json)
         {
             _cts.Cancel(); // Cancelar cualquier tarea previa
@@ -267,7 +267,7 @@ namespace DeportNetReconocimiento.GUI
 
                 EvaluarMensajeAcceso(json);
 
-                Console.WriteLine("salgo de evaluar msj de acceso");
+                
 
                 await Task.Delay((int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000), token);
                 LimpiarInterfaz();
@@ -275,12 +275,12 @@ namespace DeportNetReconocimiento.GUI
             catch (TaskCanceledException)
             {
                 // Ignorar si la tarea fue cancelada
-                Console.WriteLine("Tarea cancelada.");
+                Console.WriteLine("Limpiar interfaz cancelada. Hubo otra lectura.");
             }
         }
 
 
-            public void EvaluarMensajeAcceso(ValidarAccesoResponse json)
+        public void EvaluarMensajeAcceso(ValidarAccesoResponse json)
         {
             string titulo = "";
             string mensaje = "";
@@ -303,13 +303,11 @@ namespace DeportNetReconocimiento.GUI
                     // Suscribir al evento para recibir la respuesta
                     popupPregunta.OpcionSeleccionada += OnProcesarRespuesta; //Este evento maneja las peticiones 
 
-                    Console.WriteLine("HAy una pregunta");
-
                     popupPregunta.ShowDialog();
 
                     break;
                 case "T":
-
+                    
                     ReproducirSonido(ConfiguracionEstilos.AccesoConcedido);
                     HeaderLabel.ForeColor = ConfiguracionEstilos.ColorMensajeAccesoConcedido;
 
@@ -319,8 +317,8 @@ namespace DeportNetReconocimiento.GUI
                         Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.RutaMetodoApertura);
                     }
 
-                    titulo = "Bienvenido " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Nombre); ;
-                    mensaje = ConvertidorTextoUtils.LimpiarTextoAccesoConcedido(json.MensajeAcceso);
+                    titulo = "Bienvenido/a " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Nombre); 
+                    mensaje = ConvertidorTextoUtils.LimpiarTextoHtml(json.MensajeAcceso);
 
 
                     break;
@@ -328,18 +326,14 @@ namespace DeportNetReconocimiento.GUI
                     ReproducirSonido(ConfiguracionEstilos.AccesoDenegado);
                     HeaderLabel.ForeColor = ConfiguracionEstilos.ColorMensajeAccesoDenegado;
 
-                    titulo = "Acceso denegado " + json.Nombre;
-                    mensaje = ConvertidorTextoUtils.LimpiarTextoEnriquecido(json.MensajeAcceso);
-
-
+                    titulo = "Acceso denegado " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Nombre);
+                    mensaje = ConvertidorTextoUtils.LimpiarTextoHtml(json.MensajeAcceso);
 
                     break;
             }
-            Console.WriteLine(titulo);
-            HeaderLabel.Text = titulo;
 
-            Console.WriteLine(mensaje);
-            richTextBox1.Rtf = mensaje;
+            HeaderLabel.Text = titulo;
+            textoInformacionCliente.Text = mensaje;//ConvertidorTextoUtils.ConvertirAHtmlPRueba(json.MensajeAcceso);
         }
 
 
@@ -412,14 +406,13 @@ namespace DeportNetReconocimiento.GUI
         {
             if (InvokeRequired)
             {
-                Console.WriteLine("Invoco limpiar Interfaz");
                 Invoke(LimpiarInterfaz);
                 return;
             }
 
             HeaderLabel.Text = configuracionEstilos.MensajeBienvenida;
             HeaderLabel.ForeColor = configuracionEstilos.ColorMensajeBienvenida;
-            richTextBox1.Rtf = "";
+            textoInformacionCliente.Text = "";
 
             LimpiarPictureBox();
 
@@ -522,26 +515,25 @@ namespace DeportNetReconocimiento.GUI
 
         public void AplicarConfiguracion(ConfiguracionEstilos config)
         {
-            
 
             ConfiguracionEstilos = config;
 
             //header Colores
             BackColor = config.ColorFondo;
-            HeaderLabel.BackColor = config.ColorFondoMensajeAcceso;
+            HeaderLabel.BackColor = config.ColorFondoMensajeBienvenida;
             HeaderLabel.ForeColor = config.ColorMensajeBienvenida;
 
             //Header Texto
             HeaderLabel.Text = config.MensajeBienvenida;
             HeaderLabel.Font = config.FuenteTextoMensajeAcceso;
-            
-            //Información Colores
-            richTextBox1.ForeColor = config.TextoColorInformacionCliente;
-            richTextBox1.BackColor = config.FondoColorInformacionCliente;
 
-            //Información Fuente
-            richTextBox1.Font = config.FuenteTextoInformacionCliente;
-            richTextBox1.Cursor = Cursors.Arrow;
+            //Información Cliente Colores
+            textoInformacionCliente.ForeColor = config.ColorTextoInformacionCliente;
+            textoInformacionCliente.BackColor = config.ColorFondoInformacionCliente;
+
+            //Información Cliente Fuente
+            textoInformacionCliente.Font = config.FuenteTextoInformacionCliente;
+            textoInformacionCliente.Cursor = Cursors.Arrow;
 
             //Logo
             imagenLogo.BackColor = config.ColorFondoLogo;

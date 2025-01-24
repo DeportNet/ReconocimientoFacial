@@ -167,7 +167,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
 
             //asignamos la fecha de inicio y vencimiento de la tarjeta
-            asignarFechaDeInicioYVencimientoTarjeta(ref tarjetaRecord);
+            AsignarFechaDeInicioYVencimientoTarjeta(ref tarjetaRecord);
 
             //asignamos los permisos de la tarjeta (1 = default osea todos)
             tarjetaRecord.byDoorRight[0] = 1;
@@ -197,7 +197,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             Marshal.StructureToPtr(tarjetaRecord, ptrTarjetaRecord, false);
 
         }
-        public void asignarFechaDeInicioYVencimientoTarjeta(ref Hik_SDK.NET_DVR_CARD_RECORD tarjetaRecord)
+        public void AsignarFechaDeInicioYVencimientoTarjeta(ref Hik_SDK.NET_DVR_CARD_RECORD tarjetaRecord)
         {
             ushort anioActual = (ushort)DateTime.Now.Year;
             byte mesActual = (byte)DateTime.Now.Month;
