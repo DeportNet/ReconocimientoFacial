@@ -276,7 +276,7 @@ namespace DeportNetReconocimiento.Utils
         [Description("Indica si se minimizao no la pantalla automaticamente.")]
         [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
         [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
-        public bool EstadoMinimizar{ get; set; } = true;
+        public bool EstadoMinimizar{ get; set; } = false;
 
 
         [Category("Minimizar ventana")]
