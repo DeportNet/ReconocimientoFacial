@@ -5,6 +5,7 @@ using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
+using System.Timers;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.InteropServices;
@@ -22,9 +23,9 @@ namespace DeportNetReconocimiento.GUI
         private static WFPrincipal? instancia;
         private ConfiguracionEstilos configuracionEstilos;
         private bool ignorarCierre = false;
-
         private bool conexionInternet = true;
-        
+        private System.Timers.Timer timerMinimizar;
+
 
         private WFPrincipal()
         {
@@ -261,13 +262,13 @@ namespace DeportNetReconocimiento.GUI
                 }
 
                 LimpiarInterfaz();
-                MaximizarVentana();
 
                 pictureBox1.Image = ObtenerFotoCliente(1, json.IdCliente);
 
                 EvaluarMensajeAcceso(json);
+                AnalizarMinimizarVentana();
 
-                
+
 
                 await Task.Delay((int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000), token);
                 LimpiarInterfaz();
@@ -285,14 +286,16 @@ namespace DeportNetReconocimiento.GUI
             string titulo = "";
             string mensaje = "";
 
-            
+
             //Console.WriteLine("Estado json:" + json.Estado);
+            AnalizarMaximizarVentana(json.Estado);
 
 
             switch (json.Estado)
             {
                 case "Q":
 
+                    
                     ReproducirSonido(ConfiguracionEstilos.SonidoPregunta);
 
                     // Crear y mostrar el formulario HTMLMessageBox
@@ -335,6 +338,9 @@ namespace DeportNetReconocimiento.GUI
             HeaderLabel.Text = titulo;
             textoInformacionCliente.Text = mensaje;//ConvertidorTextoUtils.ConvertirAHtmlPRueba(json.MensajeAcceso);
         }
+
+
+
 
 
 
@@ -500,12 +506,65 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
+        public void AnalizarMaximizarVentana(string estado)
+        {
+                switch (estado)
+                {
+                    case "T":
+                    if (configuracionEstilos.MaximizarAccesoConcedidio)
+                        MaximizarVentana();
+                        break;
+                    case "F":
+                    if (configuracionEstilos.MaximizarAccesoDenegado)
+                        MaximizarVentana();
+                    break;
+                    case "Q":
+                    if (configuracionEstilos.MaximizarPregunta)
+                        MaximizarVentana();
+                    break;
+                }
+
+        }
+
+
         public void MaximizarVentana()
         {
             if (this.WindowState == FormWindowState.Minimized)
             {
                 this.Show(); // Muestra el formulario principal
                 this.WindowState = FormWindowState.Maximized; // Restaura el estado de la ventana
+            }
+        }
+
+
+        public void AnalizarMinimizarVentana()
+        {
+            if (configuracionEstilos.EstadoMinimizar)
+            {
+                if( timerMinimizar != null)
+                {
+                    timerMinimizar.Stop();
+                    timerMinimizar.Dispose();
+                }
+
+                timerMinimizar = new System.Timers.Timer(configuracionEstilos.SegundosMinimizar * 1000);
+                timerMinimizar.Elapsed += (sender, args) =>
+                {
+                    timerMinimizar.Stop();
+                    MinimizarVentana();
+                };
+                timerMinimizar.AutoReset = false; // Ejecuta solo una vez
+                timerMinimizar.Start();
+
+            }
+        }
+
+        public void MinimizarVentana()
+        {
+            if(this.WindowState == FormWindowState.Maximized)
+            {
+                this.Hide();
+                this.WindowState = FormWindowState.Minimized;
             }
         }
 

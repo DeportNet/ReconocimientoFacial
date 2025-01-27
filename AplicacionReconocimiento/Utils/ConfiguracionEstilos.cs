@@ -2,9 +2,11 @@ using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
 using System.ComponentModel;
+using System.Drawing.Design;
 using System.Numerics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using static DeportNetReconocimiento.Modelo.BooleanToggleEditor;
 
 
 
@@ -243,6 +245,68 @@ namespace DeportNetReconocimiento.Utils
 
         private float porcentajeAlertaCapacidad;
 
+        /* - - - - - - Maximizar Ventana  - - - - - - */
+
+        [Category("Maximizar ventana")]
+        [DisplayName("Acceso Concedidio")]
+        [Description("Indica si la ventana se pone en pantalla completa en caso de que haya un acceso concedido.")]
+        [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
+        [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
+        public bool MaximizarAccesoConcedidio { get; set; } = true;
+
+        [Category("Maximizar ventana")]
+        [DisplayName("Acceso denegado")]
+        [Description("Indica si la ventana se pone en pantalla completa en caso de que haya un acceso denegado.")]
+        [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
+        [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
+        public bool MaximizarAccesoDenegado { get; set; } = true;
+
+        [Category("Maximizar ventana")]
+        [DisplayName("Acceso pregunta")]
+        [Description("Indica si la ventana se pone en pantalla completa en caso de que haya una pregunta")]
+        [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
+        [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
+        public bool MaximizarPregunta { get; set; } = true;
+
+
+        /* - - - - - - Minimizar Ventana  - - - - - - */
+
+        [Category("Minimizar ventana")]
+        [DisplayName("Estado")]
+        [Description("Indica si se minimizao no la pantalla automaticamente.")]
+        [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
+        [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
+        public bool EstadoMinimizar{ get; set; } = true;
+
+
+        [Category("Minimizar ventana")]
+        [DisplayName("Segundos de retraso")]
+        [Description("Cuantos segundos tarda en minimizarse la pantalla luego de un reconocimiento")]
+        public float SegundosMinimizar
+        {
+            get => segundosMinimizar;
+            set
+            {
+                if (value < 0 || value > 250)
+                {
+                    MessageBox.Show(
+                        "El mensaje no puede permanecer más de 5 minutos (250 segundos)",
+                        "Error de validación",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                        );
+                }
+                else
+                {
+                    segundosMinimizar = value;
+                }
+            }
+
+        }
+        private float segundosMinimizar;
+
+
+
 
         [Browsable(false)]
         public string MetodoApertura { get; set; }
@@ -399,27 +463,6 @@ namespace DeportNetReconocimiento.Utils
             GuardarJsonConfiguracion(this);
         }
 
-        public static BigInteger EncriptadorToken(BigInteger token)
-        {
-
-             token = token * 162 + 12 * 60 * 13 - 100;
-            return token;
-        }
-
-        public static string DesencriptadorToken(string token)
-        {
-
-            string tokenLimpio = token.Replace("@", "");
-
-            BigInteger tokn = BigInteger.Parse(tokenLimpio);   
-
-            tokn = tokn + 100;
-            tokn = tokn - (13 * 12 * 60);
-            tokn = tokn / 162;
-
-            Console.WriteLine(tokn);
-            return tokn.ToString();
-        }
 
     }
 
