@@ -77,13 +77,13 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
 
             
-            DateTime tiempoAtrasadoCincoSegundos = DateTime.Now.AddSeconds(-5);
+            DateTime tiempoAtrasadoSegundos = DateTime.Now.AddSeconds(-5);
 
-            Console.WriteLine("tiempo Actual "+ tiempoAtrasadoCincoSegundos);
-            Console.WriteLine("Tiempo evento "+ infoEvento.Time);
+            //Console.WriteLine("tiempo Actual "+ tiempoAtrasadoCincoSegundos);
+            //Console.WriteLine("Tiempo evento "+ infoEvento.Time);
 
             //si el evento es exitoso y el tiempo del evento es mayor a la hora actual
-            if (infoEvento.Success && infoEvento.Time >= tiempoAtrasadoCincoSegundos)
+            if (infoEvento.Success && infoEvento.Time >= tiempoAtrasadoSegundos)
             {
                 Console.WriteLine(
                     infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description +
@@ -98,7 +98,10 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
             else
             {
-                Console.WriteLine("Excepcion evento hikvision: "+infoEvento.Exception);
+                if (!string.IsNullOrEmpty(infoEvento.Exception))
+                {
+                    Console.WriteLine("Excepcion evento hikvision: "+infoEvento.Exception);
+                }
             }
 
         }
