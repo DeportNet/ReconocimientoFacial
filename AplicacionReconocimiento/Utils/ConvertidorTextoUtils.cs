@@ -51,6 +51,7 @@ namespace DeportNetReconocimiento.Utils
             html = html.Replace("<div>", @"\line ");
             html = html.Replace("</div>", "");
             html = html.Replace("\n", @"\line ");
+            html = Regex.Replace(html, "<.*?>", "");
 
             // Darle el formato RTF a lo demas 
             string rtfHeader = @"{\rtf1\ansi\deff0 {\fonttbl {\f0 Arial;}} ";
