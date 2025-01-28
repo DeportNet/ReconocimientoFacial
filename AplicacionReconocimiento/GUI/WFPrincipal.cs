@@ -246,6 +246,7 @@ namespace DeportNetReconocimiento.GUI
         //Codigo para identificar un hilo secundario, se utiliza en ActualizarDatos
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
+
         //función para actualizar los datos en el hilo principal
         public async void ActualizarDatos(ValidarAccesoResponse json)
         {
@@ -267,7 +268,7 @@ namespace DeportNetReconocimiento.GUI
 
                 EvaluarMensajeAcceso(json);
                 AnalizarMinimizarVentana();
-
+                ConservarImagenSocio(json.NombreCompleto);
 
 
                 await Task.Delay((int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000), token);
@@ -278,6 +279,44 @@ namespace DeportNetReconocimiento.GUI
                 // Ignorar si la tarea fue cancelada
                 Console.WriteLine("Limpiar interfaz cancelada. Hubo otra lectura.");
             }
+        }
+
+
+
+        public void ConservarImagenSocio(string nombreCompletoSocio)
+        {
+            string rutaOriginal = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "captura.jpg");
+            string rutaNueva = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FotosSocios");    
+
+            if (ConfiguracionEstilos.AlmacenarFotoSocio)
+            {
+
+                //Si no existe el directorio, lo creo 
+                if (Directory.Exists(rutaNueva))
+                {
+                    Directory.CreateDirectory(rutaNueva);
+                }
+
+                //Configuro el nombre de la foto
+
+                string nuevoNombre = CambiarNombreFoto(nombreCompletoSocio);
+                string rutaDestino = Path.Combine(rutaNueva, nuevoNombre);
+
+                //Hago la copia de un directorio a otro
+                try
+                {
+                    File.Copy(rutaOriginal, rutaDestino, overwrite: true);
+                }
+                catch(Exception ex) 
+                { 
+                    Console.WriteLine(ex.ToString()); 
+                }
+            }
+        }
+
+        private string CambiarNombreFoto(string nombreCompletoSocio)
+        {
+            return Regex.Replace(nombreCompletoSocio, " ", "_") + ".jpg";
         }
 
 
@@ -336,7 +375,7 @@ namespace DeportNetReconocimiento.GUI
             }
 
             HeaderLabel.Text = titulo;
-            textoInformacionCliente.Text = mensaje;//ConvertidorTextoUtils.ConvertirAHtmlPRueba(json.MensajeAcceso);
+            textoInformacionCliente.Text = mensaje;
         }
 
 

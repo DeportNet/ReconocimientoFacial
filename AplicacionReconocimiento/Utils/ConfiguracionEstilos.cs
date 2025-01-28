@@ -16,6 +16,9 @@ namespace DeportNetReconocimiento.Utils
     {
 
 
+
+
+
         /* - - - - - - General - - - - - */
 
         [Category("General")]
@@ -202,23 +205,23 @@ namespace DeportNetReconocimiento.Utils
         [Description("Configuración del sonido cuando se abre un pop up de pregunta")]
         public Sonido SonidoPregunta { get; set; }
 
-        /* - - - - - - Campos de estadísticas - - - - - - */
+        /* - - - - - - Almacenamiento - - - - - - */
 
-        [Category("Estadísticas")]
+        [Category("Almacenamiento")]
         [DisplayName("Socios registrados")]
         [Description("Cantidad de socios que se encuentran registrados en el dispositivo")]
         [ReadOnly(true)]
         public int CarasRegistradas { get; set; }
 
 
-        [Category("Estadísticas")]
+        [Category("Almacenamiento")]
         [DisplayName("Capacidad del dispositivo")]
         [Description("Cantidad maxima de socios que pueden estar registrados en el dispositivo")]
         [ReadOnly(true)]
         public int CapacidadMaximaDispositivo { get; set; }
 
 
-        [Category("Estadísticas")]
+        [Category("Almacenamiento")]
         [DisplayName("Alerta de capacidad (%)")]
         [Description("Indica en que porcentaje (1 a 100) de capacidad de almacenamiento ocupada, muestra un mensaje de aviso")]
         public float PorcentajeAlertaCapacidad
@@ -244,6 +247,13 @@ namespace DeportNetReconocimiento.Utils
         }
 
         private float porcentajeAlertaCapacidad;
+
+        [Category("Almacenamiento")]
+        [DisplayName("Almacenar foto socio")]
+        [Description("Indica si las fotos de los socios se almacenan o no en la computadora")]
+        [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
+        [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
+        public bool AlmacenarFotoSocio { get; set; } = false;
 
         /* - - - - - - Maximizar Ventana  - - - - - - */
 
