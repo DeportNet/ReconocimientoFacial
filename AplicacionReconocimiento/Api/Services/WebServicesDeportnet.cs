@@ -73,21 +73,31 @@ namespace DeportNetReconocimiento.Api.Services
 
 
             HttpResponseMessage response = new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError);
-            switch (metodo.Method)
+
+            try
             {
-                case "POST":
-                    response = await client.PostAsync(url, content);
-                    break;
-                case "DELETE":
-                    response = await client.DeleteAsync(url);
-                    break;
-                case "GET":
-                    response = await client.GetAsync(url);
-                    break;
-                case "PUT":
-                    response = await client.PutAsync(url, content);
-                    break;
+                switch (metodo.Method)
+                {
+                    case "POST":
+                        response = await client.PostAsync(url, content);
+                        break;
+                    case "DELETE":
+                        response = await client.DeleteAsync(url);
+                        break;
+                    case "GET":
+                        response = await client.GetAsync(url);
+                        break;
+                    case "PUT":
+                        response = await client.PutAsync(url, content);
+                        break;
+                }
+
             }
+            catch(Exception e)
+            {
+                Console.WriteLine("Error al hacer fetch de informacion: " + e.Message);
+            }
+
 
 
             //response.EnsureSuccessStatusCode();

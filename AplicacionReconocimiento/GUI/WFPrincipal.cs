@@ -25,15 +25,17 @@ namespace DeportNetReconocimiento.GUI
         private bool ignorarCierre = false;
         private bool conexionInternet = true;
         private System.Timers.Timer timerMinimizar;
-
+        private static ReproductorSonidos reproductorSonidos;
 
         private WFPrincipal()
         {
             InitializeComponent();
             
             //estilos se leen de un archivo
-            InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            Hik_Resultado resultadoInicio =  InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+
             timerConexion.Enabled = true; //una vez exitosa la conexion con el dispositivo, iniciamos el timer, para verificar la conexion con el disp.
+
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
             ReproducirSonido(ConfiguracionEstilos.SonidoBienvenida);
@@ -41,6 +43,18 @@ namespace DeportNetReconocimiento.GUI
         }
 
         //propiedades
+
+        public ReproductorSonidos ReproductorSonidos
+        {
+            get 
+            {
+                if (reproductorSonidos == null)
+                {
+                    reproductorSonidos = new ReproductorSonidos();
+                }
+                return reproductorSonidos;
+            }
+        }
 
         public bool ConexionInternet
         {
@@ -106,7 +120,7 @@ namespace DeportNetReconocimiento.GUI
                 if (resultado.Exito == false)
                 {
                     resultado.MessageBoxResultado("Error al inicializar el programa");
-
+                   
                 }
             }
 
@@ -137,15 +151,13 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-
-
         //función que verifica si el programa tiene conexión con el dispositivo
         public bool VerificarEstadoDispositivo()
         {
             IntPtr pInBuf;
             Int32 nSize;
             int iLastErr = 17;
-
+            bool conectado = false;
             pInBuf = IntPtr.Zero;
             nSize = 0;
 
@@ -160,7 +172,7 @@ namespace DeportNetReconocimiento.GUI
                 if (iLastErr == 17)
                 {
                     Console.WriteLine("Se perdio la conexion con el dispositivo");
-                    return false;
+                    return conectado;
                 }
 
             }
@@ -170,31 +182,66 @@ namespace DeportNetReconocimiento.GUI
 
             if (iLastErr == 1000)
             {
-                Console.WriteLine("Conectado");
-                return true;
+               // Console.WriteLine("Conectado");
+                conectado = true;
             }
             else
-                Console.WriteLine("Desconectado");
-            return false;
+            {
+                //Console.WriteLine("Desconectado");
+            }
+            return conectado;
         }
 
         
+        private static int intentosConexionADispositivo = 0;
 
-        //Se crea un objeto de tipo Task para que la función se ejecute en un hilo distinto al principal
-        //Se usa async await para manejar la asincronía 
+        //Funcion que se ejecuta en cada TICK del timer
         public async void VerificarEstadoDispositivoAsync(object sender, EventArgs e)
         {
+            Hik_Resultado resultadoInstanciar = new Hik_Resultado();
+
             VerificarConexionInternet();
-
+            
             //Se espera al resultado de la función verificarEstadoDispositivo 
-            //Mientras se pone a correr un hilo secundario para que no se bloquee el hilo principal
-            bool estado = await Task.Run(() => VerificarEstadoDispositivo());
+            bool estadoConexionDispositivo = await Task.Run(() => VerificarEstadoDispositivo());
 
-            Console.WriteLine("Verificamos el estado del dispositivo. Estado: " + estado);
+            Console.WriteLine("Verificamos el estado del dispositivo. Estado: " + estadoConexionDispositivo);
 
-            if (!estado)
+
+
+            //si perdemos la conexion con el dispositivo
+            if (!estadoConexionDispositivo)
             {
-                InstanciarPrograma();
+                //intentamos volver a conectarnos
+                resultadoInstanciar = InstanciarPrograma();
+                Console.WriteLine("No hay conexion, instanciamos programa. nro de intentos: "+ intentosConexionADispositivo);
+                
+                //si el resultado no tuvo exito 
+                if (!resultadoInstanciar.Exito)
+                {
+                    intentosConexionADispositivo++;
+                    //despues de 5 veces seguidas
+                    if (intentosConexionADispositivo >= 3)
+                    {
+                        Console.WriteLine("llegamos a los 3 intentos, dejamos de intentar conectarnos");
+                        timerConexion.Stop();
+                        MessageBox.Show("No se pudo conectar con el dispositivo, revise si el dispositivo esta conectado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    //si hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado
+                    Console.WriteLine("hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado");
+                    intentosConexionADispositivo = 0;
+
+                    Hik_Controladora_Eventos.InstanciaControladoraEventos.ReinstanciarMsgCallback();
+
+                    if (!timerConexion.Enabled)
+                    {
+                        timerConexion.Start();
+                    }
+                }
+
             }
 
 
@@ -247,12 +294,18 @@ namespace DeportNetReconocimiento.GUI
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
 
+        private CancellationToken CancelarTiempoDeMuestraDeDatos()
+        {
+            //token para limpiar interfaz
+            _cts.Cancel(); // Cancelar cualquier tarea previa
+            _cts = new CancellationTokenSource(); // Crear un nuevo token
+            return _cts.Token;
+        }
+
         //función para actualizar los datos en el hilo principal
         public async void ActualizarDatos(ValidarAccesoResponse json)
         {
-            _cts.Cancel(); // Cancelar cualquier tarea previa
-            _cts = new CancellationTokenSource(); // Crear un nuevo token
-            CancellationToken token = _cts.Token;
+            CancellationToken tokenDeCancelacion = CancelarTiempoDeMuestraDeDatos();
 
             try
             {
@@ -263,15 +316,16 @@ namespace DeportNetReconocimiento.GUI
                 }
 
                 LimpiarInterfaz();
-
+                
                 pictureBox1.Image = ObtenerFotoCliente(1, json.IdCliente);
 
                 EvaluarMensajeAcceso(json);
+
                 AnalizarMinimizarVentana();
+
                 ConservarImagenSocio(json.NombreCompleto);
 
-
-                await Task.Delay((int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000), token);
+                await Task.Delay((int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000), tokenDeCancelacion);
                 LimpiarInterfaz();
             }
             catch (TaskCanceledException)
@@ -387,7 +441,7 @@ namespace DeportNetReconocimiento.GUI
         {
             //Ajustar la posicón para que no tape la imagen 
             int x, y;
-            x = this.Right - instancia.Width + (this.Width / 3); // 33% desde el borde derecho del formulario
+            x = this.Right - ObtenerInstancia.Width + (this.Width / 3); // 33% desde el borde derecho del formulario
             y = 280;
             popupPregunta.Location = new Point(x, y);
         }
@@ -483,13 +537,13 @@ namespace DeportNetReconocimiento.GUI
 
         public void ReproducirSonido(Sonido sonido)
         {
-            if (sonido == null)
+            if (sonido == null || string.IsNullOrEmpty(sonido.RutaArchivo) || !sonido.Estado)
             {
                 return;
             }
+            Console.WriteLine("Reproducimos sonido");
 
-            ReproductorSonidos reproductor = new ReproductorSonidos();
-            reproductor.ReproducirSonido(sonido);
+            ReproductorSonidos.ReproducirSonido(sonido);
 
         }
 
