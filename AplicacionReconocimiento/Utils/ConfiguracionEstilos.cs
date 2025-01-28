@@ -6,6 +6,7 @@ using System.Drawing.Design;
 using System.Numerics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Windows.Forms.Design;
 using static DeportNetReconocimiento.Modelo.BooleanToggleEditor;
 
 
@@ -254,6 +255,12 @@ namespace DeportNetReconocimiento.Utils
         [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
         [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
         public bool AlmacenarFotoSocio { get; set; } = false;
+
+        [Category("Almacenamiento")]
+        [DisplayName("Ruta de almacenamiento")]
+        [Description("Seleccione la carpeta en donde se almacenan las caras de los socios.")]
+        [Editor(typeof(FolderSelectorEditor), typeof(UITypeEditor))]
+        public string RutaCarpeta { get; set; }
 
         /* - - - - - - Maximizar Ventana  - - - - - - */
 
@@ -702,6 +709,38 @@ namespace DeportNetReconocimiento.Utils
 
             // Notificar a los suscriptores que la configuración ha cambiado
             OnConfiguracionActualizada?.Invoke();
+        }
+    }
+
+    public class FolderSelectorEditor : UITypeEditor
+    {
+        public override UITypeEditorEditStyle GetEditStyle(System.ComponentModel.ITypeDescriptorContext context)
+        {
+            // Define que el estilo de edición es modal (abre un cuadro de diálogo)
+            return UITypeEditorEditStyle.Modal;
+        }
+
+        public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, IServiceProvider provider, object value)
+        {
+            // Obtiene el servicio de edición para mostrar el cuadro de diálogo
+            if (provider.GetService(typeof(IWindowsFormsEditorService)) is IWindowsFormsEditorService editorService)
+            {
+                using (var folderBrowserDialog = new FolderBrowserDialog())
+                {
+                    // Establece la carpeta seleccionada previamente (si aplica)
+                    if (value is string currentPath && !string.IsNullOrEmpty(currentPath))
+                    {
+                        folderBrowserDialog.SelectedPath = currentPath;
+                    }
+
+                    // Muestra el cuadro de diálogo y devuelve la carpeta seleccionada
+                    if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        return folderBrowserDialog.SelectedPath;
+                    }
+                }
+            }
+            return value; // Devuelve el valor original si no se selecciona nada
         }
     }
 

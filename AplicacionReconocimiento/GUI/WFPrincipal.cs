@@ -268,7 +268,6 @@ namespace DeportNetReconocimiento.GUI
 
                 EvaluarMensajeAcceso(json);
                 AnalizarMinimizarVentana();
-                ConservarImagenSocio(json.NombreCompleto);
 
 
                 await Task.Delay((int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000), token);
@@ -283,41 +282,7 @@ namespace DeportNetReconocimiento.GUI
 
 
 
-        public void ConservarImagenSocio(string nombreCompletoSocio)
-        {
-            string rutaOriginal = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "captura.jpg");
-            string rutaNueva = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FotosSocios");    
-
-            if (ConfiguracionEstilos.AlmacenarFotoSocio)
-            {
-
-                //Si no existe el directorio, lo creo 
-                if (Directory.Exists(rutaNueva))
-                {
-                    Directory.CreateDirectory(rutaNueva);
-                }
-
-                //Configuro el nombre de la foto
-
-                string nuevoNombre = CambiarNombreFoto(nombreCompletoSocio);
-                string rutaDestino = Path.Combine(rutaNueva, nuevoNombre);
-
-                //Hago la copia de un directorio a otro
-                try
-                {
-                    File.Copy(rutaOriginal, rutaDestino, overwrite: true);
-                }
-                catch(Exception ex) 
-                { 
-                    Console.WriteLine(ex.ToString()); 
-                }
-            }
-        }
-
-        private string CambiarNombreFoto(string nombreCompletoSocio)
-        {
-            return Regex.Replace(nombreCompletoSocio, " ", "_") + ".jpg";
-        }
+       
 
 
         public void EvaluarMensajeAcceso(ValidarAccesoResponse json)
