@@ -170,7 +170,7 @@ namespace DeportNetReconocimiento.SDK
             {
                 if (1 == struDeviceInfoV40.bySupportLock)
                 {
-                    mensajeDeSdk = string.Format("Usuario bloqueado, el tiempo restante de bloqueo es de {0}", struDeviceInfoV40.dwSurplusLockTime);
+                    mensajeDeSdk = string.Format($"Usuario bloqueado, el tiempo restante de bloqueo es de {struDeviceInfoV40.dwSurplusLockTime}" /* struDeviceInfoV40.dwSurplusLockTime*/);
                 }
                 resultado.ActualizarResultado(false, mensajeDeSdk, Hik_SDK.NET_DVR_GetLastError().ToString());
             }
@@ -371,6 +371,8 @@ namespace DeportNetReconocimiento.SDK
             if (!resultado.Exito)
             {
                 //si no se pudo inicializar
+                
+                
                 return resultado;
             }
 
@@ -380,7 +382,6 @@ namespace DeportNetReconocimiento.SDK
 
             if (!resultado.Exito)
             {
-
                 //si no se pudo Loggear
                 return resultado;
             }
