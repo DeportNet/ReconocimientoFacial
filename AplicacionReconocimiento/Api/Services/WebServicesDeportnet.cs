@@ -65,17 +65,15 @@ namespace DeportNetReconocimiento.Api.Services
             // Configurar el header HTTP_X_SIGNATURE con el valor "1234"
             client.DefaultRequestHeaders.Add("X-Signature", "1234");
 
-
             //creamos el contenido
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-
-
-
+            //respuesta fetch, la inicializamos con error
             HttpResponseMessage response = new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError);
 
             try
             {
+
                 switch (metodo.Method)
                 {
                     case "POST":
@@ -93,10 +91,12 @@ namespace DeportNetReconocimiento.Api.Services
                 }
 
             }
-            catch(Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine("Error al hacer fetch de informacion: " + e.Message);
+                Console.WriteLine("Error al hacer fetch de informacion: "+ex.Message);
+
             }
+
 
 
 

@@ -92,7 +92,6 @@ namespace DeportNetReconocimiento.SDKHikvision
                     break;
             }
 
-
             DateTime tiempoActual = DateTime.Now.AddSeconds(-8);
 
             //Console.WriteLine("tiempo Actual "+ tiempoActual);
@@ -126,7 +125,11 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
             else
             {
-                Console.WriteLine("Excepcion evento hikvision: " + infoEvento.Exception);
+
+                if (!string.IsNullOrEmpty(infoEvento.Exception))
+                {
+                    Console.WriteLine("Excepcion evento hikvision: "+infoEvento.Exception);
+                }
 
             }
 
