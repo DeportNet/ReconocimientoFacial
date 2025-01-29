@@ -24,7 +24,6 @@ namespace DeportNetReconocimiento.GUI
         private ConfiguracionEstilos configuracionEstilos;
         private bool ignorarCierre = false;
         private bool conexionInternet = true;
-        private System.Timers.Timer timerMinimizar;
         private static ReproductorSonidos reproductorSonidos;
 
         private WFPrincipal()
@@ -198,14 +197,19 @@ namespace DeportNetReconocimiento.GUI
         //Funcion que se ejecuta en cada TICK del timer
         public async void VerificarEstadoDispositivoAsync(object sender, EventArgs e)
         {
+            VerificarConexionInternet();
+
+            VerificarConexionConDispositivo();
+        }
+
+        public async void VerificarConexionConDispositivo()
+        {
             Hik_Resultado resultadoInstanciar = new Hik_Resultado();
 
-            VerificarConexionInternet();
-            
             //Se espera al resultado de la función verificarEstadoDispositivo 
             bool estadoConexionDispositivo = await Task.Run(() => VerificarEstadoDispositivo());
 
-            Console.WriteLine("Verificamos el estado del dispositivo. Estado: " + estadoConexionDispositivo);
+            Console.WriteLine("Verificamos el estado de la conexion con el dispositivo. Estado: " + estadoConexionDispositivo);
 
 
 
@@ -214,8 +218,8 @@ namespace DeportNetReconocimiento.GUI
             {
                 //intentamos volver a conectarnos
                 resultadoInstanciar = InstanciarPrograma();
-                Console.WriteLine("No hay conexion, instanciamos programa. nro de intentos: "+ intentosConexionADispositivo);
-                
+                Console.WriteLine("No hay conexion, intentamos reinstanciar programa. nro de intentos: " + intentosConexionADispositivo);
+
                 //si el resultado no tuvo exito 
                 if (!resultadoInstanciar.Exito)
                 {
@@ -223,7 +227,7 @@ namespace DeportNetReconocimiento.GUI
                     //despues de 5 veces seguidas
                     if (intentosConexionADispositivo >= 3)
                     {
-                        Console.WriteLine("llegamos a los 3 intentos, dejamos de intentar conectarnos");
+                        Console.WriteLine("Llegamos a los 3 intentos, dejamos de intentar conectarnos");
                         timerConexion.Stop();
                         MessageBox.Show("No se pudo conectar con el dispositivo, revise si el dispositivo esta conectado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -231,7 +235,7 @@ namespace DeportNetReconocimiento.GUI
                 else
                 {
                     //si hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado
-                    Console.WriteLine("hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado");
+                    Console.WriteLine("Hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado");
                     intentosConexionADispositivo = 0;
 
                     Hik_Controladora_Eventos.InstanciaControladoraEventos.ReinstanciarMsgCallback();
@@ -243,8 +247,6 @@ namespace DeportNetReconocimiento.GUI
                 }
 
             }
-
-
         }
 
         public void VerificarConexionInternet()
@@ -291,21 +293,21 @@ namespace DeportNetReconocimiento.GUI
         }
 
         //Codigo para identificar un hilo secundario, se utiliza en ActualizarDatos
-        private CancellationTokenSource _cts = new CancellationTokenSource();
+        private CancellationTokenSource tokenCancelarTiempoMuestraDeDatos = new CancellationTokenSource();
 
 
-        private CancellationToken CancelarTiempoDeMuestraDeDatos()
+        private CancellationTokenSource CancelarTokenYGenerarNuevoHilos(CancellationTokenSource tokenSource)
         {
             //token para limpiar interfaz
-            _cts.Cancel(); // Cancelar cualquier tarea previa
-            _cts = new CancellationTokenSource(); // Crear un nuevo token
-            return _cts.Token;
+            tokenSource.Cancel(); // Cancelar cualquier tarea previa
+            return new CancellationTokenSource(); // Crear un nuevo token
+            
         }
 
         //función para actualizar los datos en el hilo principal
         public async void ActualizarDatos(ValidarAccesoResponse json)
         {
-            CancellationToken tokenDeCancelacion = CancelarTiempoDeMuestraDeDatos();
+            CancellationTokenSource tokenDeCancelacion = CancelarTokenYGenerarNuevoHilos(tokenCancelarTiempoMuestraDeDatos);
 
             try
             {
@@ -323,9 +325,8 @@ namespace DeportNetReconocimiento.GUI
 
                 AnalizarMinimizarVentana();
 
-                ConservarImagenSocio(json.NombreCompleto);
-
-                await Task.Delay((int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000), tokenDeCancelacion);
+                //tiempo de muestra de datos
+                await Task.Delay((int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000), tokenDeCancelacion.Token);
                 LimpiarInterfaz();
             }
             catch (TaskCanceledException)
@@ -334,10 +335,6 @@ namespace DeportNetReconocimiento.GUI
                 Console.WriteLine("Limpiar interfaz cancelada. Hubo otra lectura.");
             }
         }
-
-
-
-       
 
 
         public void EvaluarMensajeAcceso(ValidarAccesoResponse json)
@@ -397,11 +394,6 @@ namespace DeportNetReconocimiento.GUI
             HeaderLabel.Text = titulo;
             textoInformacionCliente.Text = mensaje;
         }
-
-
-
-
-
 
         private void CalcularPosicion(HTMLMessageBox popupPregunta)
         {
@@ -497,8 +489,6 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-
-
         /* - - - - - - Sonidos - - - - - - */
 
         public void ReproducirSonido(Sonido sonido)
@@ -559,18 +549,17 @@ namespace DeportNetReconocimiento.GUI
 
         private void ClickCerrarMenuNotifyIcon(object sender, EventArgs e)
         {
-
             Application.Exit(); // Cierra la aplicación
-
-
         }
+
+        /* - - - - - - Maximizar Minimizar Ventana - - - - - - */
 
         public void AnalizarMaximizarVentana(string estado)
         {
                 switch (estado)
                 {
                     case "T":
-                    if (configuracionEstilos.MaximizarAccesoConcedidio)
+                    if (configuracionEstilos.MaximizarAccesoConcedido)
                         MaximizarVentana();
                         break;
                     case "F":
@@ -595,32 +584,38 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
-
-        public void AnalizarMinimizarVentana()
+        private CancellationTokenSource tokenCancelarTimerMinimizar = new CancellationTokenSource();
+        public async void AnalizarMinimizarVentana()
         {
+
             if (configuracionEstilos.EstadoMinimizar)
             {
-                if( timerMinimizar != null)
+                try
                 {
-                    timerMinimizar.Stop();
-                    timerMinimizar.Dispose();
-                }
+                    CancellationTokenSource tokenDeCancelacion = CancelarTokenYGenerarNuevoHilos(tokenCancelarTimerMinimizar);
 
-                timerMinimizar = new System.Timers.Timer(configuracionEstilos.SegundosMinimizar * 1000);
-                timerMinimizar.Elapsed += (sender, args) =>
-                {
-                    timerMinimizar.Stop();
+                    await Task.Delay((int)(ConfiguracionEstilos.SegundosMinimizar * 1000), tokenDeCancelacion.Token);
+
                     MinimizarVentana();
-                };
-                timerMinimizar.AutoReset = false; // Ejecuta solo una vez
-                timerMinimizar.Start();
 
+                }
+                catch (TaskCanceledException ex)
+                {
+                    Console.WriteLine("Se cancelo el timer minimizar");
+                }
             }
+
         }
 
         public void MinimizarVentana()
         {
-            if(this.WindowState == FormWindowState.Maximized)
+
+            if (InvokeRequired)
+            {
+                Invoke(new Action(MinimizarVentana)); //Invocamos el metodo en el hilo principal
+            }
+
+            if (this.WindowState == FormWindowState.Maximized)
             {
                 this.Hide();
                 this.WindowState = FormWindowState.Minimized;
