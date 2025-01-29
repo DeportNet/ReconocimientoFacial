@@ -254,7 +254,7 @@ namespace DeportNetReconocimiento.Utils
         [Description("Indica si las fotos de los socios se almacenan o no en la computadora")]
         [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
         [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
-        public bool AlmacenarFotoSocio { get; set; } = false;
+        public bool AlmacenarFotoSocio { get; set; }
 
         [Category("Almacenamiento")]
         [DisplayName("Ruta de almacenamiento")]
@@ -269,31 +269,31 @@ namespace DeportNetReconocimiento.Utils
         [Description("Indica si la ventana se pone en pantalla completa en caso de que haya un acceso concedido.")]
         [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
         [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
-        public bool MaximizarAccesoConcedidio { get; set; } = true;
+        public bool MaximizarAccesoConcedido { get; set; } 
 
         [Category("Maximizar ventana")]
         [DisplayName("Acceso denegado")]
         [Description("Indica si la ventana se pone en pantalla completa en caso de que haya un acceso denegado.")]
         [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
         [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
-        public bool MaximizarAccesoDenegado { get; set; } = true;
+        public bool MaximizarAccesoDenegado { get; set; }
 
         [Category("Maximizar ventana")]
         [DisplayName("Acceso pregunta")]
         [Description("Indica si la ventana se pone en pantalla completa en caso de que haya una pregunta")]
         [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
         [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
-        public bool MaximizarPregunta { get; set; } = true;
+        public bool MaximizarPregunta { get; set; }
 
 
         /* - - - - - - Minimizar Ventana  - - - - - - */
 
         [Category("Minimizar ventana")]
         [DisplayName("Estado")]
-        [Description("Indica si se minimizao no la pantalla automaticamente.")]
+        [Description("Indica si se minimiza la pantalla automaticamente luego de un reconocimiento.")]
         [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
         [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
-        public bool EstadoMinimizar{ get; set; } = false;
+        public bool EstadoMinimizar{ get; set; }
 
 
         [Category("Minimizar ventana")]
@@ -312,6 +312,14 @@ namespace DeportNetReconocimiento.Utils
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error
                         );
+                }else if(value < tiempoDeMuestraDeDatos)
+                {
+                    MessageBox.Show(
+                        "El tiempo de retraso de minimizar, debe ser mayor al tiempo de muestra de datos del cliente",
+                        "Error de validación",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                        );
                 }
                 else
                 {
@@ -321,8 +329,6 @@ namespace DeportNetReconocimiento.Utils
 
         }
         private float segundosMinimizar;
-
-
 
 
         [Browsable(false)]
@@ -341,7 +347,6 @@ namespace DeportNetReconocimiento.Utils
             ColorFondoLogo = Color.DimGray;
 
             //Logo = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\Recursos\logo_deportnet_1.jpg";  // Logo deportnet por defecto
-            TiempoDeMuestraDeDatos = 5.0f;
 
             // Mensaje de acceso
             ColorFondoMensajeBienvenida = Color.DarkGray;
@@ -356,6 +361,7 @@ namespace DeportNetReconocimiento.Utils
             ColorTextoInformacionCliente = Color.Black;
             ColorFondoInformacionCliente = Color.WhiteSmoke;
             FuenteTextoInformacionCliente = new Font("Arial Rounded MT Bold", 20, FontStyle.Regular);
+            TiempoDeMuestraDeDatos = 5;
         
             //Imagen
             ColorFondoImagen = Color.DarkGray;
@@ -367,16 +373,24 @@ namespace DeportNetReconocimiento.Utils
             SonidoPregunta = new Sonido();
             SonidoBienvenida = new Sonido();
 
-
-
             //Campos de estadísticas
             CarasRegistradas = 1;
             CapacidadMaximaDispositivo = 500;
             PorcentajeAlertaCapacidad = 70.0f;
 
-            //Configuraciónes
+            //Configuraciones apertura
             MetodoApertura = ".exe";
             RutaMetodoApertura = "";
+
+            //Maximizar y Minimizar 
+            MaximizarAccesoConcedido = true;
+            MaximizarAccesoDenegado = true;
+            MaximizarPregunta = true;
+            EstadoMinimizar = false;
+            SegundosMinimizar = 10;
+
+            //Guardar fotos socio
+            AlmacenarFotoSocio = false;
 
         }
 

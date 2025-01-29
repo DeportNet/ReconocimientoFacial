@@ -93,10 +93,10 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
 
 
-            DateTime tiempoActual = DateTime.Now.AddSeconds(-3);
+            DateTime tiempoActual = DateTime.Now.AddSeconds(-8);
 
-            Console.WriteLine("tiempo Actual "+ tiempoActual);
-            Console.WriteLine("Tiempo evento "+ infoEvento.Time);
+            //Console.WriteLine("tiempo Actual "+ tiempoActual);
+            //Console.WriteLine("Tiempo evento "+ infoEvento.Time);
 
 
             //si el evento es exitoso y el tiempo del evento es mayorIgual a la hora actual
@@ -108,21 +108,21 @@ namespace DeportNetReconocimiento.SDKHikvision
                 " Tarjeta: " + infoEvento.Card_Number +
                 " Puerta: " + infoEvento.Door_Number);
 
-            if (infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS)
-            {
-                //Si no tenemos conexion a internet, hay que guardar el evento en la base de datos
-                if (!WFPrincipal.ObtenerInstancia.ConexionInternet)
+                if (infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS)
                 {
-                    Console.WriteLine("Guardo al cliente en bd y no dx");
-                    int.TryParse(infoEvento.Card_Number, out int nroTarjeta);
+                    //Si no tenemos conexion a internet, hay que guardar el evento en la base de datos
+                    if (!WFPrincipal.ObtenerInstancia.ConexionInternet)
+                    {
+                        Console.WriteLine("Guardo al cliente en bd y no dx");
+                        int.TryParse(infoEvento.Card_Number, out int nroTarjeta);
 
-                    BdClientes.InsertarCliente(nroTarjeta, "Cliente", infoEvento.Time);
+                        BdClientes.InsertarCliente(nroTarjeta, "Cliente", infoEvento.Time);
+                    }
+                    else
+                    {
+                        ObtenerDatosClienteDeportNet(infoEvento.Card_Number);
+                    }
                 }
-                else
-                {
-                    ObtenerDatosClienteDeportNet(infoEvento.Card_Number);
-                }
-            }
             }
             else
             {
