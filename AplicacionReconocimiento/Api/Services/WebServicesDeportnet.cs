@@ -89,11 +89,15 @@ namespace DeportNetReconocimiento.Api.Services
                         response = await client.PutAsync(url, content);
                         break;
                 }
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error al hacer fetch de informacion: "+ex.Message);
+
             }
+
+
 
 
             //response.EnsureSuccessStatusCode();

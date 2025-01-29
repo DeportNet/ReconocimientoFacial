@@ -2,9 +2,12 @@ using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
 using System.ComponentModel;
+using System.Drawing.Design;
 using System.Numerics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Windows.Forms.Design;
+using static DeportNetReconocimiento.Modelo.BooleanToggleEditor;
 
 
 
@@ -12,6 +15,9 @@ namespace DeportNetReconocimiento.Utils
 {
     public class ConfiguracionEstilos
     {
+
+
+
 
 
         /* - - - - - - General - - - - - */
@@ -200,23 +206,23 @@ namespace DeportNetReconocimiento.Utils
         [Description("Configuración del sonido cuando se abre un pop up de pregunta")]
         public Sonido SonidoPregunta { get; set; }
 
-        /* - - - - - - Campos de estadísticas - - - - - - */
+        /* - - - - - - Almacenamiento - - - - - - */
 
-        [Category("Estadísticas")]
+        [Category("Almacenamiento")]
         [DisplayName("Socios registrados")]
         [Description("Cantidad de socios que se encuentran registrados en el dispositivo")]
         [ReadOnly(true)]
         public int CarasRegistradas { get; set; }
 
 
-        [Category("Estadísticas")]
+        [Category("Almacenamiento")]
         [DisplayName("Capacidad del dispositivo")]
         [Description("Cantidad maxima de socios que pueden estar registrados en el dispositivo")]
         [ReadOnly(true)]
         public int CapacidadMaximaDispositivo { get; set; }
 
 
-        [Category("Estadísticas")]
+        [Category("Almacenamiento")]
         [DisplayName("Alerta de capacidad (%)")]
         [Description("Indica en que porcentaje (1 a 100) de capacidad de almacenamiento ocupada, muestra un mensaje de aviso")]
         public float PorcentajeAlertaCapacidad
@@ -243,6 +249,87 @@ namespace DeportNetReconocimiento.Utils
 
         private float porcentajeAlertaCapacidad;
 
+        [Category("Almacenamiento")]
+        [DisplayName("Almacenar foto socio")]
+        [Description("Indica si las fotos de los socios se almacenan o no en la computadora")]
+        [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
+        [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
+        public bool AlmacenarFotoSocio { get; set; }
+
+        [Category("Almacenamiento")]
+        [DisplayName("Ruta de almacenamiento")]
+        [Description("Seleccione la carpeta en donde se almacenan las caras de los socios.")]
+        [Editor(typeof(FolderSelectorEditor), typeof(UITypeEditor))]
+        public string RutaCarpeta { get; set; }
+
+        /* - - - - - - Maximizar Ventana  - - - - - - */
+
+        [Category("Maximizar ventana")]
+        [DisplayName("Acceso Concedidio")]
+        [Description("Indica si la ventana se pone en pantalla completa en caso de que haya un acceso concedido.")]
+        [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
+        [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
+        public bool MaximizarAccesoConcedido { get; set; } 
+
+        [Category("Maximizar ventana")]
+        [DisplayName("Acceso denegado")]
+        [Description("Indica si la ventana se pone en pantalla completa en caso de que haya un acceso denegado.")]
+        [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
+        [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
+        public bool MaximizarAccesoDenegado { get; set; }
+
+        [Category("Maximizar ventana")]
+        [DisplayName("Acceso pregunta")]
+        [Description("Indica si la ventana se pone en pantalla completa en caso de que haya una pregunta")]
+        [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
+        [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
+        public bool MaximizarPregunta { get; set; }
+
+
+        /* - - - - - - Minimizar Ventana  - - - - - - */
+
+        [Category("Minimizar ventana")]
+        [DisplayName("Estado")]
+        [Description("Indica si se minimiza la pantalla automaticamente luego de un reconocimiento.")]
+        [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
+        [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
+        public bool EstadoMinimizar{ get; set; }
+
+
+        [Category("Minimizar ventana")]
+        [DisplayName("Segundos de retraso")]
+        [Description("Cuantos segundos tarda en minimizarse la pantalla luego de un reconocimiento")]
+        public float SegundosMinimizar
+        {
+            get => segundosMinimizar;
+            set
+            {
+                if (value < 0 || value > 250)
+                {
+                    MessageBox.Show(
+                        "El mensaje no puede permanecer más de 5 minutos (250 segundos)",
+                        "Error de validación",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                        );
+                }else if(value < tiempoDeMuestraDeDatos)
+                {
+                    MessageBox.Show(
+                        "El tiempo de retraso de minimizar, debe ser mayor al tiempo de muestra de datos del cliente",
+                        "Error de validación",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                        );
+                }
+                else
+                {
+                    segundosMinimizar = value;
+                }
+            }
+
+        }
+        private float segundosMinimizar;
+
 
         [Browsable(false)]
         public string MetodoApertura { get; set; }
@@ -260,7 +347,6 @@ namespace DeportNetReconocimiento.Utils
             ColorFondoLogo = Color.DimGray;
 
             //Logo = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\Recursos\logo_deportnet_1.jpg";  // Logo deportnet por defecto
-            TiempoDeMuestraDeDatos = 5.0f;
 
             // Mensaje de acceso
             ColorFondoMensajeBienvenida = Color.DarkGray;
@@ -275,6 +361,7 @@ namespace DeportNetReconocimiento.Utils
             ColorTextoInformacionCliente = Color.Black;
             ColorFondoInformacionCliente = Color.WhiteSmoke;
             FuenteTextoInformacionCliente = new Font("Arial Rounded MT Bold", 20, FontStyle.Regular);
+            TiempoDeMuestraDeDatos = 5;
         
             //Imagen
             ColorFondoImagen = Color.DarkGray;
@@ -286,16 +373,24 @@ namespace DeportNetReconocimiento.Utils
             SonidoPregunta = new Sonido();
             SonidoBienvenida = new Sonido();
 
-
-
             //Campos de estadísticas
             CarasRegistradas = 1;
             CapacidadMaximaDispositivo = 500;
             PorcentajeAlertaCapacidad = 70.0f;
 
-            //Configuraciónes
+            //Configuraciones apertura
             MetodoApertura = ".exe";
             RutaMetodoApertura = "";
+
+            //Maximizar y Minimizar 
+            MaximizarAccesoConcedido = true;
+            MaximizarAccesoDenegado = true;
+            MaximizarPregunta = true;
+            EstadoMinimizar = false;
+            SegundosMinimizar = 10;
+
+            //Guardar fotos socio
+            AlmacenarFotoSocio = false;
 
         }
 
@@ -399,27 +494,6 @@ namespace DeportNetReconocimiento.Utils
             GuardarJsonConfiguracion(this);
         }
 
-        public static BigInteger EncriptadorToken(BigInteger token)
-        {
-
-             token = token * 162 + 12 * 60 * 13 - 100;
-            return token;
-        }
-
-        public static string DesencriptadorToken(string token)
-        {
-
-            string tokenLimpio = token.Replace("@", "");
-
-            BigInteger tokn = BigInteger.Parse(tokenLimpio);   
-
-            tokn = tokn + 100;
-            tokn = tokn - (13 * 12 * 60);
-            tokn = tokn / 162;
-
-            Console.WriteLine(tokn);
-            return tokn.ToString();
-        }
 
     }
 
@@ -649,6 +723,38 @@ namespace DeportNetReconocimiento.Utils
 
             // Notificar a los suscriptores que la configuración ha cambiado
             OnConfiguracionActualizada?.Invoke();
+        }
+    }
+
+    public class FolderSelectorEditor : UITypeEditor
+    {
+        public override UITypeEditorEditStyle GetEditStyle(System.ComponentModel.ITypeDescriptorContext context)
+        {
+            // Define que el estilo de edición es modal (abre un cuadro de diálogo)
+            return UITypeEditorEditStyle.Modal;
+        }
+
+        public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, IServiceProvider provider, object value)
+        {
+            // Obtiene el servicio de edición para mostrar el cuadro de diálogo
+            if (provider.GetService(typeof(IWindowsFormsEditorService)) is IWindowsFormsEditorService editorService)
+            {
+                using (var folderBrowserDialog = new FolderBrowserDialog())
+                {
+                    // Establece la carpeta seleccionada previamente (si aplica)
+                    if (value is string currentPath && !string.IsNullOrEmpty(currentPath))
+                    {
+                        folderBrowserDialog.SelectedPath = currentPath;
+                    }
+
+                    // Muestra el cuadro de diálogo y devuelve la carpeta seleccionada
+                    if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        return folderBrowserDialog.SelectedPath;
+                    }
+                }
+            }
+            return value; // Devuelve el valor original si no se selecciona nada
         }
     }
 

@@ -50,6 +50,7 @@ namespace DeportNetReconocimiento.GUI
             timerConexion = new System.Windows.Forms.Timer(components);
             tableLayoutPanel1 = new TableLayoutPanel();
             textoInformacionCliente = new Label();
+            timerMinimizar = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)imagenLogo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuNotifyIcon.SuspendLayout();
@@ -286,5 +287,6 @@ namespace DeportNetReconocimiento.GUI
         private System.Windows.Forms.Timer timerConexion;
         private TableLayoutPanel tableLayoutPanel1;
         private Label textoInformacionCliente;
+        private System.Windows.Forms.Timer timerMinimizar;
     }
 }

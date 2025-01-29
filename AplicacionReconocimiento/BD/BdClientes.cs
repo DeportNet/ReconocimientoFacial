@@ -52,7 +52,7 @@ namespace DeportNetReconocimiento.BD
             }
         }
 
-        public static bool InsertarCliente(int idCliente, string nombreCliente)
+        public static bool InsertarCliente(int idCliente, string nombreCliente, DateTime horaIngreso)
         {
             bool flag = false;
 
@@ -77,7 +77,7 @@ namespace DeportNetReconocimiento.BD
 
                     command.Parameters.AddWithValue("@IdCliente", idCliente);
                     command.Parameters.AddWithValue("@NombreCliente", nombreCliente);
-                    command.Parameters.AddWithValue("@HoraIngreso", DateTime.Now);
+                    command.Parameters.AddWithValue("@HoraIngreso", horaIngreso);
 
                     command.ExecuteNonQuery();
                     flag = true;

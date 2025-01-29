@@ -22,10 +22,10 @@ namespace DeportNetReconocimiento.SDKHikvision
 
         public static bool libre = true;
 
-        public int GetAcsEventHandle = -1;
-        private string CsTemp = null;
-        private int m_lLogNum = 0;
-
+        //public int GetAcsEventHandle = -1;
+        //private string CsTemp = null;
+        //private int m_lLogNum = 0;
+        
      
         private Hik_Controladora_Eventos(){
             this.SetupAlarm();
@@ -51,6 +51,20 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
         }
 
+
+        public void ReinstanciarMsgCallback() {
+            Console.WriteLine("Reinstanciamos msgCallback");
+
+
+            this.SetupAlarm();
+
+            msgCallback = new MSGCallBack(MsgCallback);
+
+            if (!Hik_SDK.NET_DVR_SetDVRMessageCallBack_V50(0, msgCallback, IntPtr.Zero))
+            {
+                Console.WriteLine("Error al asociar callback");
+            }
+        }
 
         private void MsgCallback(int lCommand, ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)
         {
@@ -78,33 +92,30 @@ namespace DeportNetReconocimiento.SDKHikvision
                     break;
             }
 
-            
-            DateTime tiempoAtrasadoSegundos = DateTime.Now.AddSeconds(-5);
+            DateTime tiempoActual = DateTime.Now.AddSeconds(-8);
 
-            //Console.WriteLine("tiempo Actual "+ tiempoAtrasadoCincoSegundos);
+            //Console.WriteLine("tiempo Actual "+ tiempoActual);
             //Console.WriteLine("Tiempo evento "+ infoEvento.Time);
 
-            //si el evento es exitoso y el tiempo del evento es mayor a la hora actual
-            if (infoEvento.Success && infoEvento.Time >= tiempoAtrasadoSegundos)
+
+            //si el evento es exitoso y el tiempo del evento es mayorIgual a la hora actual
+
+            if (infoEvento.Success && infoEvento.Time >= tiempoActual)
             {
                 Console.WriteLine(
-                    infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description +
-                    " Tarjeta: " + infoEvento.Card_Number +
-                    " Puerta: " + infoEvento.Door_Number 
-                );
-
-
-                //Si no tenemos conexion a internet, hay que guardar el evento en la base de datos
-                
+                infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description +
+                " Tarjeta: " + infoEvento.Card_Number +
+                " Puerta: " + infoEvento.Door_Number);
 
                 if (infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS)
                 {
+                    //Si no tenemos conexion a internet, hay que guardar el evento en la base de datos
                     if (!WFPrincipal.ObtenerInstancia.ConexionInternet)
                     {
                         Console.WriteLine("Guardo al cliente en bd y no dx");
                         int.TryParse(infoEvento.Card_Number, out int nroTarjeta);
 
-                        BdClientes.InsertarCliente(nroTarjeta, "Cliente");
+                        BdClientes.InsertarCliente(nroTarjeta, "Cliente", infoEvento.Time);
                     }
                     else
                     {
@@ -114,10 +125,12 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
             else
             {
+
                 if (!string.IsNullOrEmpty(infoEvento.Exception))
                 {
                     Console.WriteLine("Excepcion evento hikvision: "+infoEvento.Exception);
                 }
+
             }
 
         }

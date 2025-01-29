@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Api.Services
@@ -104,10 +105,50 @@ namespace DeportNetReconocimiento.Api.Services
 
             //asincronico no se espera
             _ = AltaClienteDeportnet(clienteRequest);
-            
+            ConservarImagenSocio(clienteRequest.NombreCliente, clienteRequest.IdCliente);
            
             return "T";
 
+        }
+
+        public static void ConservarImagenSocio(string nombreCompletoSocio, int idSocio)
+        {
+            Console.WriteLine("Entro aca");
+            //Leo las configuraciones
+            ConfiguracionEstilos configuracionEstilos = ConfiguracionEstilos.LeerJsonConfiguracion("ConfiguracionEstilos");
+            
+            //Obtengo las rutas necesarias
+            string rutaOriginal = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "captura.jpg");
+            string rutaNueva = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, configuracionEstilos.RutaCarpeta);
+
+            if (configuracionEstilos.AlmacenarFotoSocio)
+            {
+
+                //Si no existe el directorio, lo creo 
+                if (Directory.Exists(rutaNueva))
+                {
+                    Directory.CreateDirectory(rutaNueva);
+                }
+
+                //Configuro el nombre de la foto
+                string nuevoNombre = CambiarNombreFoto(nombreCompletoSocio, idSocio);
+                string rutaDestino = Path.Combine(rutaNueva, nuevoNombre);
+
+                //Hago la copia de un directorio a otro
+                try
+                {
+                    File.Copy(rutaOriginal, rutaDestino, overwrite: true);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+        }
+
+        private static string CambiarNombreFoto(string nombreCompletoSocio, int idSocio)
+        {
+            return Regex.Replace(nombreCompletoSocio, " ", "_") + "_" + idSocio.ToString() + ".jpg";
         }
 
         public string BajaFacialCliente(BajaFacialClienteRequest clienteRequest)

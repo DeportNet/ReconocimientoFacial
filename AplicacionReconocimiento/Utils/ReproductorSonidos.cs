@@ -6,15 +6,10 @@ namespace DeportNetReconocimiento.Utils
 {
     public class ReproductorSonidos
     {
-        private IWavePlayer wavePlayer;
+        private static IWavePlayer wavePlayer;
         private AudioFileReader audioFile;
 
-        // Diccionario con rutas de sonidos
-        //public Dictionary<string, string> Sonidos { get; private set; } = new Dictionary<string, string>();
-
-        // Diccionario para el estado de activación de cada sonido
-        //public Dictionary<string, bool> EstadoSonidos { get; private set; } = new Dictionary<string, bool>();
-
+        
         public ReproductorSonidos()
         {
       
@@ -45,11 +40,6 @@ namespace DeportNetReconocimiento.Utils
                 // Reproducir
                 wavePlayer.Play();
 
-                wavePlayer.PlaybackStopped += (sender, args) =>
-                {
-                    // Liberar recursos cuando termine de reproducir
-                    LiberarRecursos();
-                };
             }
             catch (Exception ex)
             {
@@ -59,8 +49,9 @@ namespace DeportNetReconocimiento.Utils
 
         public void DetenerSonido()
         {
-            if (wavePlayer != null && wavePlayer.PlaybackState == PlaybackState.Playing)
+            if (wavePlayer != null /*&& wavePlayer.PlaybackState == PlaybackState.Playing*/)
             {
+                
                 wavePlayer.Stop();
             }
 
