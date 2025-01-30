@@ -51,7 +51,7 @@ namespace DeportNetReconocimiento.SDK
         public const int ACS_ABILITY = 0x801; //acs ability
             #endregion
 
-            #region definicion constantes tarjeta
+        #region definicion constantes tarjeta
 
         public const int NAME_LEN = 32;// name length
         public const int MAX_DOOR_NUM_256 = 256; //max door num
@@ -411,6 +411,7 @@ namespace DeportNetReconocimiento.SDK
         #endregion
 
         #region HCNetSDK.dll structure definition
+
         #region definicion estructuras facial
         [StructLayoutAttribute(LayoutKind.Sequential)]
         public struct NET_DVR_DEVICEINFO_V30
@@ -1091,9 +1092,13 @@ namespace DeportNetReconocimiento.SDK
 
         #region  HCNetSDK.dll function definition
 
+        // Obtiene el directorio base donde se ejecuta el programa
+        //private static string directorioBase = AppDomain.CurrentDomain.BaseDirectory;
 
-
+        // Define la ruta relativa a partir del directorio base
         private const string rutaLibreriaSDK = @"HCNetSDK\HCNetSDK.dll";
+
+        //private const string rutaLibreriaSDK = @"HCNetSDK\HCNetSDK.dll";
 
 
         [DllImport(rutaLibreriaSDK)]

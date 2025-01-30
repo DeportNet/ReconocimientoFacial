@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeportNetReconocimiento", "DeportNetReconocimiento.csproj", "{1D104223-4A88-45AC-B747-2304FB048F4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeportNetReconocimiento", "DeportNetReconocimiento.csproj", "{1D104223-4A88-45AC-B747-2304FB048F4E}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupReconocimientoFacial", "..\SetupReconocimientoFacial\SetupReconocimientoFacial.vdproj", "{2BB8413C-43C1-4CA5-9439-4AF6197F6197}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,8 @@ Global
 		{1D104223-4A88-45AC-B747-2304FB048F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D104223-4A88-45AC-B747-2304FB048F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D104223-4A88-45AC-B747-2304FB048F4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BB8413C-43C1-4CA5-9439-4AF6197F6197}.Debug|Any CPU.ActiveCfg = Debug
+		{2BB8413C-43C1-4CA5-9439-4AF6197F6197}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

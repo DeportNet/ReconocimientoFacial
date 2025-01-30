@@ -438,6 +438,7 @@ namespace DeportNetReconocimiento.GUI
             }
             else
             {
+                
                 imagen = Resources.avatarPredeterminado;
             }
 

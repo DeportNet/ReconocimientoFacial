@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DeportNetReconocimiento")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f33aeafe426aa79e480fdf0eb9a15c24939096ce")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3c730fc062f9fdcc6d4ef747ff726e12ee20b211")]
 [assembly: System.Reflection.AssemblyProductAttribute("DeportNetReconocimiento")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DeportNetReconocimiento")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
