@@ -265,7 +265,7 @@ namespace DeportNetReconocimiento.Utils
         /* - - - - - - Maximizar Ventana  - - - - - - */
 
         [Category("Maximizar ventana")]
-        [DisplayName("Acceso Concedidio")]
+        [DisplayName("Acceso concedido")]
         [Description("Indica si la ventana se pone en pantalla completa en caso de que haya un acceso concedido.")]
         [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
         [TypeConverter(typeof(BooleanToActivoInactivoConverter))]

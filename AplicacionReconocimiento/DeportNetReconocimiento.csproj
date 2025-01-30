@@ -23,6 +23,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+
+  
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.2.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
@@ -33,5 +35,11 @@
     <!-- Referencia al metapaquete ASP.NET Core -->
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
+
+   <ItemGroup>
+  <Content Include="HCNetSDK\**\*">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>
 
 </Project>

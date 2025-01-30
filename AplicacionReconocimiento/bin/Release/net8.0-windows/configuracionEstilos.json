@@ -1,0 +1,44 @@
+{
+  "ColorFondo": "Silver",
+  "Logo": "logoGimansio.png",
+  "ColorFondoLogo": "DimGray",
+  "ColorMensajeBienvenida": "Black",
+  "MensajeBienvenida": "Bienvenido a DeportNet!",
+  "ColorFondoMensajeBienvenida": "DarkGray",
+  "FuenteTextoMensajeAcceso": "Arial Rounded MT Bold/36/Italic",
+  "ColorMensajeAccesoDenegado": "Red",
+  "ColorMensajeAccesoConcedido": "Green",
+  "ColorFondoInformacionCliente": "WhiteSmoke",
+  "ColorTextoInformacionCliente": "Black",
+  "FuenteTextoInformacionCliente": "Arial Rounded MT Bold/20/Regular",
+  "TiempoDeMuestraDeDatos": 5,
+  "ColorFondoImagen": "DarkGray",
+  "AccesoConcedido": {
+    "RutaArchivo": "",
+    "Estado": false
+  },
+  "SonidoBienvenida": {
+    "RutaArchivo": "",
+    "Estado": false
+  },
+  "AccesoDenegado": {
+    "RutaArchivo": "",
+    "Estado": false
+  },
+  "SonidoPregunta": {
+    "RutaArchivo": "",
+    "Estado": false
+  },
+  "CarasRegistradas": 2,
+  "CapacidadMaximaDispositivo": 1500,
+  "PorcentajeAlertaCapacidad": 70,
+  "AlmacenarFotoSocio": true,
+  "RutaCarpeta": "E:\\PRueba\\Caras Hikvisioon",
+  "MaximizarAccesoConcedido": true,
+  "MaximizarAccesoDenegado": true,
+  "MaximizarPregunta": true,
+  "EstadoMinimizar": false,
+  "SegundosMinimizar": 10,
+  "MetodoApertura": ".exe",
+  "RutaMetodoApertura": ""
+}
