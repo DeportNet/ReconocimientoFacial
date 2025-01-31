@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\deportnetreconocimiento.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:deportnetreconocimiento.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\services\\reconocimientoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:api\\services\\reconocimientoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\services\\webservicesdeportnet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:api\\services\\webservicesdeportnet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\deportnetreconocimiento.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|solutionrelative:deportnetreconocimiento.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1D104223-4A88-45AC-B747-2304FB048F4E}|DeportNetReconocimiento.csproj|g:\\fabri\\deportnet\\deportnetreconocimiento\\aplicacionreconocimiento\\api\\controllers\\deportnetreconocimientocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -170,7 +170,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -178,7 +178,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "DeportNetReconocimiento",
               "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
               "RelativeDocumentMoniker": "DeportNetReconocimiento.csproj",
@@ -198,12 +198,11 @@
               "RelativeToolTip": "Api\\Services\\Interfaces\\IDeportnetReconocimientoService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAoAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-10T16:13:31.473Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-10T16:13:31.473Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "WebServicesDeportnet.cs",
               "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\Services\\WebServicesDeportnet.cs",
               "RelativeDocumentMoniker": "Api\\Services\\WebServicesDeportnet.cs",
@@ -211,18 +210,17 @@
               "RelativeToolTip": "Api\\Services\\WebServicesDeportnet.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAAAqwCUAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-10T15:33:35.052Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-10T15:33:35.052Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "ReconocimientoService.cs",
               "DocumentMoniker": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\Services\\ReconocimientoService.cs",
               "RelativeDocumentMoniker": "Api\\Services\\ReconocimientoService.cs",
               "ToolTip": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\Api\\Services\\ReconocimientoService.cs",
               "RelativeToolTip": "Api\\Services\\ReconocimientoService.cs",
-              "ViewState": "AgIAAH8AAAAAAAAAAAAMwIwAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAGoAAAAAAAAAAIAwwIwAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-08T23:57:45.997Z",
               "EditorCaption": ""
@@ -237,8 +235,7 @@
               "RelativeToolTip": "Api\\Controllers\\DeportnetReconocimientoController.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAkwCwAAABMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:19:53.505Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-08T23:19:53.505Z"
             },
             {
               "$type": "Document",
@@ -250,8 +247,7 @@
               "RelativeToolTip": "Api\\GlobalExceptionHandler\\GlobalExceptionHandler.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAAAAAB4AAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-10T15:42:43.692Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-10T15:42:43.692Z"
             },
             {
               "$type": "Document",
@@ -263,8 +259,7 @@
               "RelativeToolTip": "Utils\\ConfiguracionEstilos.cs",
               "ViewState": "AgIAAPYAAAAAAAAAAAAAwAsBAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:47:55.944Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-08T23:47:55.944Z"
             },
             {
               "$type": "Document",
@@ -276,8 +271,7 @@
               "RelativeToolTip": "Utils\\ReproductorSonidos.cs",
               "ViewState": "AgIAADUAAAAAAAAAAAAiwEYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:47:49.861Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-08T23:47:49.861Z"
             },
             {
               "$type": "Document",
@@ -289,8 +283,7 @@
               "RelativeToolTip": "SDKHikvision\\Hik_SDK.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAJwBAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:45:31.953Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-08T23:45:31.953Z"
             },
             {
               "$type": "Document",
@@ -363,7 +356,8 @@
               "RelativeToolTip": "GUI\\WFConfiguracion.cs",
               "ViewState": "AgIAAEEAAAAAAAAAAAAswFQAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T01:29:17.455Z"
+              "WhenOpened": "2025-01-14T01:29:17.455Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -387,7 +381,8 @@
               "RelativeToolTip": "GUI\\HTMLMessageBox.cs",
               "ViewState": "AgIAACsAAAAAAAAAAAArwDgAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-16T18:52:45.071Z"
+              "WhenOpened": "2025-01-16T18:52:45.071Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -471,7 +466,8 @@
               "RelativeToolTip": "GUI\\WFRgistrarDispositivo.cs",
               "ViewState": "AgIAAB0AAAAAAAAAAAAQwDMAAAB0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T23:50:29.993Z"
+              "WhenOpened": "2025-01-08T23:50:29.993Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
