@@ -1,6 +1,5 @@
 
 /AplicacionReconocimiento/bin/Debug/net8.0-windows/DeportNetReconocimiento.exe.WebView2/EBWebView
 *.vsidx
-*.dll
-*.dll
 *.bin
+AplicacionReconocimiento/.vs/ProjectEvaluation/deportnetreconocimiento.projects.v9.bin

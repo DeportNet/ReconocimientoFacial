@@ -16,9 +16,8 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\fabri\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\fabri\\.nuget\\packages",
-      "G:\\Programs\\Visual Studio Community\\SharedComponents IDE\\NuGetPackages"
+      "C:\\Users\\facun\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\facun\\.nuget\\packages"
     ],
     "configProperties": {
       "System.Reflection.Metadata.MetadataUpdater.IsSupported": false,
