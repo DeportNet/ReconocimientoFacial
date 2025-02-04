@@ -36,10 +36,12 @@
             opcionesTituloLabel = new Label();
             propertyGrid1 = new PropertyGrid();
             guardarCambiosButton = new Button();
-            TextBoxToken = new TextBox();
+            TextBoxIdSucursal = new TextBox();
             ComboBoxAperturaMolinete = new ComboBox();
             BotonOcultarConfig = new Button();
             PanelConfigAdminsitrador = new Panel();
+            textBoxTokenSucursal = new TextBox();
+            tokenSucursal = new Label();
             BotonAbrirFileDialog = new Button();
             TextBoxRutaExe = new TextBox();
             label1 = new Label();
@@ -93,7 +95,7 @@
             // 
             opcionesTituloLabel.AutoSize = true;
             opcionesTituloLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Underline);
-            opcionesTituloLabel.Location = new Point(21, 3);
+            opcionesTituloLabel.Location = new Point(21, 9);
             opcionesTituloLabel.Name = "opcionesTituloLabel";
             opcionesTituloLabel.Size = new Size(81, 21);
             opcionesTituloLabel.TabIndex = 13;
@@ -126,12 +128,12 @@
             guardarCambiosButton.UseVisualStyleBackColor = false;
             guardarCambiosButton.Click += GuardarCambiosButton_Click;
             // 
-            // TextBoxToken
+            // TextBoxIdSucursal
             // 
-            TextBoxToken.Location = new Point(118, 137);
-            TextBoxToken.Name = "TextBoxToken";
-            TextBoxToken.Size = new Size(174, 23);
-            TextBoxToken.TabIndex = 17;
+            TextBoxIdSucursal.Location = new Point(118, 137);
+            TextBoxIdSucursal.Name = "TextBoxIdSucursal";
+            TextBoxIdSucursal.Size = new Size(174, 23);
+            TextBoxIdSucursal.TabIndex = 17;
             // 
             // ComboBoxAperturaMolinete
             // 
@@ -148,7 +150,7 @@
             BotonOcultarConfig.Cursor = Cursors.Hand;
             BotonOcultarConfig.FlatAppearance.BorderSize = 0;
             BotonOcultarConfig.FlatStyle = FlatStyle.Flat;
-            BotonOcultarConfig.Location = new Point(171, 183);
+            BotonOcultarConfig.Location = new Point(171, 225);
             BotonOcultarConfig.Name = "BotonOcultarConfig";
             BotonOcultarConfig.Size = new Size(121, 23);
             BotonOcultarConfig.TabIndex = 19;
@@ -159,26 +161,45 @@
             // PanelConfigAdminsitrador
             // 
             PanelConfigAdminsitrador.BackColor = Color.IndianRed;
+            PanelConfigAdminsitrador.Controls.Add(textBoxTokenSucursal);
+            PanelConfigAdminsitrador.Controls.Add(tokenSucursal);
             PanelConfigAdminsitrador.Controls.Add(BotonAbrirFileDialog);
             PanelConfigAdminsitrador.Controls.Add(TextBoxRutaExe);
             PanelConfigAdminsitrador.Controls.Add(label1);
             PanelConfigAdminsitrador.Controls.Add(BotonOcultarConfig);
             PanelConfigAdminsitrador.Controls.Add(ComboBoxAperturaMolinete);
-            PanelConfigAdminsitrador.Controls.Add(TextBoxToken);
+            PanelConfigAdminsitrador.Controls.Add(TextBoxIdSucursal);
             PanelConfigAdminsitrador.Controls.Add(opcionesTituloLabel);
             PanelConfigAdminsitrador.Controls.Add(tokenIdentificadorLabel);
             PanelConfigAdminsitrador.Controls.Add(label6);
-            PanelConfigAdminsitrador.Location = new Point(827, 267);
+            PanelConfigAdminsitrador.Location = new Point(827, 269);
             PanelConfigAdminsitrador.Name = "PanelConfigAdminsitrador";
-            PanelConfigAdminsitrador.Size = new Size(330, 222);
+            PanelConfigAdminsitrador.Size = new Size(330, 275);
             PanelConfigAdminsitrador.TabIndex = 20;
             PanelConfigAdminsitrador.Visible = false;
+            // 
+            // textBoxTokenSucursal
+            // 
+            textBoxTokenSucursal.Location = new Point(143, 175);
+            textBoxTokenSucursal.Name = "textBoxTokenSucursal";
+            textBoxTokenSucursal.Size = new Size(149, 23);
+            textBoxTokenSucursal.TabIndex = 24;
+            // 
+            // tokenSucursal
+            // 
+            tokenSucursal.AutoSize = true;
+            tokenSucursal.Font = new Font("Segoe UI", 12F);
+            tokenSucursal.Location = new Point(21, 177);
+            tokenSucursal.Name = "tokenSucursal";
+            tokenSucursal.Size = new Size(116, 21);
+            tokenSucursal.TabIndex = 23;
+            tokenSucursal.Text = "Token Sucursal:";
             // 
             // BotonAbrirFileDialog
             // 
             BotonAbrirFileDialog.Cursor = Cursors.Hand;
             BotonAbrirFileDialog.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            BotonAbrirFileDialog.Location = new Point(275, 90);
+            BotonAbrirFileDialog.Location = new Point(263, 90);
             BotonAbrirFileDialog.Name = "BotonAbrirFileDialog";
             BotonAbrirFileDialog.Size = new Size(31, 24);
             BotonAbrirFileDialog.TabIndex = 22;
@@ -191,7 +212,7 @@
             // 
             TextBoxRutaExe.Location = new Point(106, 90);
             TextBoxRutaExe.Name = "TextBoxRutaExe";
-            TextBoxRutaExe.Size = new Size(163, 23);
+            TextBoxRutaExe.Size = new Size(151, 23);
             TextBoxRutaExe.TabIndex = 21;
             // 
             // label1
@@ -274,7 +295,7 @@
         private Label opcionesTituloLabel;
         private PropertyGrid propertyGrid1;
         private Button guardarCambiosButton;
-        private TextBox TextBoxToken;
+        private TextBox TextBoxIdSucursal;
         private ComboBox ComboBoxAperturaMolinete;
         private Button BotonOcultarConfig;
         private Panel PanelConfigAdminsitrador;
@@ -284,5 +305,7 @@
         private Label label1;
         private TextBox TextBoxRutaExe;
         private Button BotonAbrirFileDialog;
+        private TextBox textBoxTokenSucursal;
+        private Label tokenSucursal;
     }
 }

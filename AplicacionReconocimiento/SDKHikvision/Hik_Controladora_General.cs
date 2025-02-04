@@ -158,25 +158,36 @@ namespace DeportNetReconocimiento.SDK
             string mensajeDeSdk = "";
 
 
-            if (nroError == Hik_SDK.NET_DVR_PASSWORD_ERROR)
+            switch (nroError)
             {
-                if (1 == struDeviceInfoV40.bySupportLock)
-                {
-                    mensajeDeSdk = string.Format($"Te quedan {struDeviceInfoV40.byRetryLoginTime} intentos para logearte" /*struDeviceInfoV40.byRetryLoginTime*/);
-                }
-                resultado.ActualizarResultado(false, $"Usuario o contraseña invalidos \n {mensajeDeSdk}", Hik_SDK.NET_DVR_GetLastError().ToString());
-            }
-            else if (nroError == Hik_SDK.NET_DVR_USER_LOCKED)
-            {
-                if (1 == struDeviceInfoV40.bySupportLock)
-                {
-                    mensajeDeSdk = string.Format($"Usuario bloqueado, el tiempo restante de bloqueo es de {struDeviceInfoV40.dwSurplusLockTime}" /* struDeviceInfoV40.dwSurplusLockTime*/);
-                }
-                resultado.ActualizarResultado(false, mensajeDeSdk, Hik_SDK.NET_DVR_GetLastError().ToString());
-            }
-            else
-            {
-                resultado.ActualizarResultado(false, "Error IP Incorrecta o Dispositivo no conectado", Hik_SDK.NET_DVR_GetLastError().ToString());
+                case Hik_SDK.NET_DVR_PASSWORD_ERROR:
+                
+                    if (1 == struDeviceInfoV40.bySupportLock)
+                    {
+                        mensajeDeSdk = string.Format($"Te quedan {struDeviceInfoV40.byRetryLoginTime} intentos para logearte" /*struDeviceInfoV40.byRetryLoginTime*/);
+                    }
+                    resultado.ActualizarResultado(false, $"Usuario o contraseña invalidos \n {mensajeDeSdk}", Hik_SDK.NET_DVR_GetLastError().ToString());
+                
+                break;
+                case Hik_SDK.NET_DVR_USER_LOCKED:
+
+                    if (1 == struDeviceInfoV40.bySupportLock)
+                    {
+                        mensajeDeSdk = string.Format($"Usuario bloqueado, el tiempo restante de bloqueo es de {struDeviceInfoV40.dwSurplusLockTime}" /* struDeviceInfoV40.dwSurplusLockTime*/);
+                    }
+                    resultado.ActualizarResultado(false, mensajeDeSdk, Hik_SDK.NET_DVR_GetLastError().ToString());
+
+                break;
+                case Hik_SDK.NET_DVR_NETWORK_FAIL_CONNECT:
+                    resultado.ActualizarResultado(false, "Error IP Incorrecta o Dispositivo no conectado", Hik_SDK.NET_DVR_GetLastError().ToString());
+                    break;
+                case Hik_SDK.NET_DVR_DVROPRATEFAILED:
+                    resultado.ActualizarResultado(false, "Falló la operación del dispositivo", Hik_SDK.NET_DVR_GetLastError().ToString());
+                    break;
+                default:
+                    resultado.ActualizarResultado(false, "Error de Hikvision", Hik_SDK.NET_DVR_GetLastError().ToString());
+
+                    break;
             }
 
             return resultado;
@@ -228,7 +239,7 @@ namespace DeportNetReconocimiento.SDK
                 try
                 {
                     // Especifica la ruta donde quieres guardar el archivo XML
-                    string filePath = @"archivoXML.xml";
+                    string filePath = @"capacidadesDispositivo.xml";
                     documentoXml.Save(filePath); // Guarda el XML en el archivo 
                 }
                 catch (Exception ex)

@@ -1,4 +1,5 @@
-﻿using DeportNetReconocimiento.SDK;
+﻿using DeportNetReconocimiento.Api.Services;
+using DeportNetReconocimiento.SDK;
 
 namespace DeportNetReconocimiento
 {
@@ -26,7 +27,7 @@ namespace DeportNetReconocimiento
             }
         }
 
-        private void btnAdd_Click(object sender, EventArgs e)
+        private async void BtnAdd_Click(object sender, EventArgs e)
         {
 
             if (textBoxDeviceAddress.Text.Length <= 0 || textBoxDeviceAddress.Text.Length > 128)
@@ -73,32 +74,45 @@ namespace DeportNetReconocimiento
             }
             if(textBoxSucursalID.Text.Length > 12 || sucursalId <= 0)
             {
-                MessageBox.Show("El ID de la sucursal no puede ser mayor a 12 caracteres ni menor a 1");
+                MessageBox.Show("El ID de la sucursal no puede ser mayor a 12 caracteres ni negativo");
                 return;
             }
+
+            if (textBoxTokenSucursal.Text.Length > 12 || textBoxTokenSucursal.Text.Length < 1)
+            {
+                MessageBox.Show("El token de la sucursal no puede ser mayor a 12 caracteres ni menor a 1");
+                return;
+            }
+
+            
+            Hik_Resultado conexionDx = await WebServicesDeportnet.TestearConexionDeportnet(textBoxTokenSucursal.Text, textBoxSucursalID.Text);
+            
+
+            if (!conexionDx.Exito) {
+                conexionDx.MessageBoxResultado("Conexion con Deportnet");
+                return;
+            }
+
 
             Hik_Resultado resultadoLogin = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(textBoxUserName.Text, textBoxPassword.Text, textBoxPort.Text, textBoxDeviceAddress.Text);
 
 
-            if (resultadoLogin.Exito)
-            {
-
-                //creamos un arreglo de strings con los datos que recibimos del input
-                //ip , puerto, usuario, contraseña, sucursalId
-                escribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text, textBoxSucursalID.Text]);
-                ignorarCierre = true;
-                this.Close();
-                Environment.Exit(0); // 0 indica salida exitosa; otro valor indica error.
-
+            if (!resultadoLogin.Exito) { 
+                resultadoLogin.MessageBoxResultado("Error al incializar el programa Hikvision");
+                return;
             }
-            else
-            {
-                resultadoLogin.MessageBoxResultado("Error al incializar el programa");
-            }
+
+            
+            //creamos un arreglo de strings con los datos que recibimos del input
+            //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
+            EscribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text, textBoxSucursalID.Text, textBoxTokenSucursal.Text]);
+            ignorarCierre = true;
+            this.Close();
+            Environment.Exit(0); // 0 indica salida exitosa; otro valor indica error.
 
         }
 
-        public void escribirArchivoCredenciales(string[] arregloDeDatos)
+        public void EscribirArchivoCredenciales(string[] arregloDeDatos)
         {
             //guardamos los datos en un archivo binario
             string rutaArchivo = "credenciales.bin";
@@ -112,14 +126,14 @@ namespace DeportNetReconocimiento
             }
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void BtnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
 
 
-        private void cerrarFormulario(object sender, FormClosingEventArgs e)
+        private void CerrarFormulario(object sender, FormClosingEventArgs e)
         {
             if (!ignorarCierre)
             {
@@ -147,9 +161,5 @@ namespace DeportNetReconocimiento
 
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

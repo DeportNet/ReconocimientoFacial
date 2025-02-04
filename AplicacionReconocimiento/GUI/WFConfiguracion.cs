@@ -252,7 +252,7 @@ namespace DeportNetReconocimiento.GUI
 
                 if (CredencialesUtils.LeerCredenciales().Length > 4)
                 {
-                    TextBoxToken.Text = credenciales[4]; 
+                    TextBoxIdSucursal.Text = credenciales[4]; 
                 }
 
                 ComboBoxAperturaMolinete.SelectedItem = configuracion.MetodoApertura;
@@ -277,7 +277,7 @@ namespace DeportNetReconocimiento.GUI
 
             try
             {
-                GuardarTokenCredenciales(TextBoxToken.Text);
+                GuardarIDSucursalCredenciales(TextBoxIdSucursal.Text);
 
             }
             catch (FormatException ex)
@@ -310,12 +310,12 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
-        public void GuardarTokenCredenciales(string token)
+        public void GuardarIDSucursalCredenciales(string idSucursal)
         {
 
             // Obtenemos las credenciales
             string[] credenciales = CredencialesUtils.LeerCredenciales();
-            EscribirArchivoCredenciales([credenciales[0], credenciales[1], credenciales[2], credenciales[3], token.ToString()]);
+            EscribirArchivoCredenciales([credenciales[0], credenciales[1], credenciales[2], credenciales[3], idSucursal.ToString()]);
 
         }
 
