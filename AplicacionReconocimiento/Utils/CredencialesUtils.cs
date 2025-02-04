@@ -9,6 +9,20 @@ namespace DeportNetReconocimiento.Utils
     public class CredencialesUtils
     {
 
+        public static void EscribirArchivoCredenciales(string[] arregloDeDatos)
+        {
+            //guardamos los datos en un archivo binario
+            string rutaArchivo = "credenciales.bin";
+
+            using (BinaryWriter writer = new BinaryWriter(File.Open(rutaArchivo, FileMode.Create)))
+            {
+                foreach (string dato in arregloDeDatos)
+                {
+                    writer.Write(dato);
+                }
+            }
+        }
+
 
         public static string[] LeerCredenciales()
         {

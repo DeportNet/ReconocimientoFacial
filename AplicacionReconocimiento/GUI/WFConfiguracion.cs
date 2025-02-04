@@ -1,4 +1,6 @@
 ﻿
+using DeportNetReconocimiento.Api.Services;
+using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
 using System.Numerics;
 
@@ -252,7 +254,8 @@ namespace DeportNetReconocimiento.GUI
 
                 if (CredencialesUtils.LeerCredenciales().Length > 4)
                 {
-                    TextBoxIdSucursal.Text = credenciales[4]; 
+                    TextBoxIdSucursal.Text = credenciales[4];
+                    textBoxTokenSucursal.Text = credenciales[5];
                 }
 
                 ComboBoxAperturaMolinete.SelectedItem = configuracion.MetodoApertura;
@@ -262,61 +265,55 @@ namespace DeportNetReconocimiento.GUI
             TextBoxAdmin.Text = "";
         }
 
-        private void BotonOcultarConfig_Click(object sender, EventArgs e)
+        private async void BotonOcultarConfig_Click(object sender, EventArgs e)
         {
-            PanelConfigAdminsitrador.Visible = false;
-            string apertura = ComboBoxAperturaMolinete.Text;
-            string rutaApertura = TextBoxRutaExe.Text;
-            
-            configuracion.MetodoApertura = apertura;
-            configuracion.RutaMetodoApertura = rutaApertura;
+            //validaciones primero 
 
+            if (!int.TryParse(TextBoxIdSucursal.Text, out int idSucursalOut))
+            {
+                MessageBox.Show(
+                   "El id ingresado debe ser de tipo numero", // Mensaje
+                   "Error de Formato",                                  // Título
+                   MessageBoxButtons.OK,                                   // Botones (OK)
+                   MessageBoxIcon.Error                                    // Ícono (Error)
+                   );
+                return;
+            }
+            
+            string tokenSucursal = textBoxTokenSucursal.Text;
+            string idSucursalTexto = TextBoxIdSucursal.Text;
+
+            Hik_Resultado resultado = await WebServicesDeportnet.TestearConexionDeportnet(tokenSucursal, idSucursalTexto);
+
+            if (!resultado.Exito)
+            {
+                resultado.MessageBoxResultado("Conexion con deportnet");
+                return;
+            }
+
+            ActualizarDatosCredenciales(idSucursalTexto, tokenSucursal);
+
+
+            configuracion.MetodoApertura = ComboBoxAperturaMolinete.Text;
+            configuracion.RutaMetodoApertura = TextBoxRutaExe.Text;
 
             ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
             principal.AplicarConfiguracion(configuracion);
+           
 
-            try
-            {
-                GuardarIDSucursalCredenciales(TextBoxIdSucursal.Text);
-
-            }
-            catch (FormatException ex)
-            {
-                Console.WriteLine(ex.Message);
-                MessageBox.Show(
-                    "El numero ingresado debe ser de tipo numero", // Mensaje
-                    "Error de Formato",                                  // Título
-                    MessageBoxButtons.OK,                                   // Botones (OK)
-                    MessageBoxIcon.Error                                    // Ícono (Error)
-                    );
-
-            }
-
-
+            PanelConfigAdminsitrador.Visible = false;
 
         }
 
-        public void EscribirArchivoCredenciales(string[] arregloDeDatos)
+        public void ActualizarDatosCredenciales(string idSucursal, string tokenSucursal)
         {
-            //guardamos los datos en un archivo binario
-            string rutaArchivo = "credenciales.bin";
-
-            using (BinaryWriter writer = new BinaryWriter(File.Open(rutaArchivo, FileMode.Truncate)))
-            {
-                foreach (string dato in arregloDeDatos)
-                {
-                    writer.Write(dato);
-                }
-            }
-        }
-
-        public void GuardarIDSucursalCredenciales(string idSucursal)
-        {
-
-            // Obtenemos las credenciales
             string[] credenciales = CredencialesUtils.LeerCredenciales();
-            EscribirArchivoCredenciales([credenciales[0], credenciales[1], credenciales[2], credenciales[3], idSucursal.ToString()]);
 
+            credenciales[4] = idSucursal;
+            credenciales[5] = tokenSucursal;
+
+
+            CredencialesUtils.EscribirArchivoCredenciales(credenciales);
         }
 
 
