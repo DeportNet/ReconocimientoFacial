@@ -1,5 +1,6 @@
 ﻿using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.SDK;
+using DeportNetReconocimiento.Utils;
 
 namespace DeportNetReconocimiento
 {
@@ -105,26 +106,14 @@ namespace DeportNetReconocimiento
             
             //creamos un arreglo de strings con los datos que recibimos del input
             //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
-            EscribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text, textBoxSucursalID.Text, textBoxTokenSucursal.Text]);
+            CredencialesUtils.EscribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text, textBoxSucursalID.Text, textBoxTokenSucursal.Text]);
             ignorarCierre = true;
             this.Close();
             Environment.Exit(0); // 0 indica salida exitosa; otro valor indica error.
 
         }
 
-        public void EscribirArchivoCredenciales(string[] arregloDeDatos)
-        {
-            //guardamos los datos en un archivo binario
-            string rutaArchivo = "credenciales.bin";
-
-            using (BinaryWriter writer = new BinaryWriter(File.Open(rutaArchivo, FileMode.Create)))
-            {
-                foreach (string dato in arregloDeDatos)
-                {
-                    writer.Write(dato);
-                }
-            }
-        }
+        
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
