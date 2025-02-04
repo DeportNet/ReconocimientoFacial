@@ -30,12 +30,7 @@ namespace DeportNetReconocimiento.Api.Controllers
             [FromQuery] string nombreCliente
             )
         {
-            //VALIDAR TOKEN
-            //[FromHeader(Name = "HTTP_X_SIGNATURE")] string signature
-            // if (signature != "1234")
-            //{
-            //      return Unauthorized(new { Mensaje = "Token inválido" });
-            //}
+
 
             if (idCliente == null || idSucursal == null || nombreCliente == null)
             {
@@ -52,6 +47,9 @@ namespace DeportNetReconocimiento.Api.Controllers
             [FromQuery] int idSucursal
             )
         {
+
+          
+
             if (idCliente == null || idSucursal == null)
             {
                 return BadRequest("El cuerpo de la solicitud no puede estar vacío.");

@@ -1,14 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net8.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>Recursos\icono_deportnet.ico</ApplicationIcon>
     <Copyright>Deportnet</Copyright>
     <PackageIcon>logo_deportnet_1.jpg</PackageIcon>
+    <ApplicationIcon>Recursos\icono_deportnet.ico</ApplicationIcon>
+    <AssemblyName>DeportNetReconocimiento</AssemblyName>
+    <RootNamespace>DeportNetReconocimiento</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,16 +36,16 @@
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
   </ItemGroup>
 
-   <ItemGroup>
+  <ItemGroup>
     <!-- Referencia al metapaquete ASP.NET Core -->
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
-   <ItemGroup>
-  <Content Include="HCNetSDK\**\*">
-    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-  </Content>
-</ItemGroup>
+  <ItemGroup>
+    <Content Include="HCNetSDK\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
    <ItemGroup>
      <Content Include="Recursos\icono_deportnet.ico" />

@@ -43,6 +43,8 @@
             textBoxDeviceAddress = new TextBox();
             label6 = new Label();
             textBoxSucursalID = new TextBox();
+            label7 = new Label();
+            textBoxTokenSucursal = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -71,24 +73,24 @@
             // btnCancel
             // 
             btnCancel.FlatStyle = FlatStyle.Flat;
-            btnCancel.Location = new Point(314, 280);
+            btnCancel.Location = new Point(328, 303);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(103, 29);
             btnCancel.TabIndex = 63;
             btnCancel.Text = "Cancelar";
             btnCancel.UseVisualStyleBackColor = true;
-            btnCancel.Click += btnCancel_Click;
+            btnCancel.Click += BtnCancel_Click;
             // 
             // btnAdd
             // 
             btnAdd.FlatStyle = FlatStyle.Flat;
-            btnAdd.Location = new Point(116, 280);
+            btnAdd.Location = new Point(116, 303);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(103, 29);
             btnAdd.TabIndex = 62;
             btnAdd.Text = "Login";
             btnAdd.UseVisualStyleBackColor = true;
-            btnAdd.Click += btnAdd_Click;
+            btnAdd.Click += BtnAdd_Click;
             // 
             // textBoxPassword
             // 
@@ -191,14 +193,36 @@
             textBoxSucursalID.Size = new Size(250, 22);
             textBoxSucursalID.TabIndex = 65;
             textBoxSucursalID.UseSystemPasswordChar = true;
-            textBoxSucursalID.TextChanged += textBox1_TextChanged;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.BackColor = Color.Transparent;
+            label7.Font = new Font("Consolas", 10.5F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.ForeColor = Color.DimGray;
+            label7.Location = new Point(99, 261);
+            label7.Name = "label7";
+            label7.Size = new Size(120, 17);
+            label7.TabIndex = 66;
+            label7.Text = "Sucursal Token";
+            // 
+            // textBoxTokenSucursal
+            // 
+            textBoxTokenSucursal.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxTokenSucursal.Location = new Point(225, 261);
+            textBoxTokenSucursal.Name = "textBoxTokenSucursal";
+            textBoxTokenSucursal.Size = new Size(250, 22);
+            textBoxTokenSucursal.TabIndex = 67;
+            textBoxTokenSucursal.UseSystemPasswordChar = true;
             // 
             // WFRgistrarDispositivo
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonFace;
-            ClientSize = new Size(553, 321);
+            ClientSize = new Size(553, 344);
+            Controls.Add(textBoxTokenSucursal);
+            Controls.Add(label7);
             Controls.Add(textBoxSucursalID);
             Controls.Add(label6);
             Controls.Add(btnCancel);
@@ -219,7 +243,7 @@
             Name = "WFRgistrarDispositivo";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Registrar Dispositivo";
-            FormClosing += cerrarFormulario;
+            FormClosing += CerrarFormulario;
             Load += WFRgistrarDispositivo_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -243,5 +267,7 @@
         private System.Windows.Forms.TextBox textBoxDeviceAddress;
         private Label label6;
         private TextBox textBoxSucursalID;
+        private Label label7;
+        private TextBox textBoxTokenSucursal;
     }
 }

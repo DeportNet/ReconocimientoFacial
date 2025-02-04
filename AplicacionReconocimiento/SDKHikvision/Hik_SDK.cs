@@ -17,6 +17,8 @@ namespace DeportNetReconocimiento.SDK
         public const int NET_DVR_LOGIN_USERNAME_MAX_LEN = 64;   //login username max length
         public const int NET_DVR_LOGIN_PASSWD_MAX_LEN = 64; //login password max length
 
+        public const int NET_DVR_NETWORK_FAIL_CONNECT = 7;
+        public const int NET_DVR_DVROPRATEFAILED = 29;
 
         public const int NET_DVR_PASSWORD_ERROR = 1;//Username or Password error
         public const int NET_DVR_USER_LOCKED = 153;
@@ -1092,14 +1094,8 @@ namespace DeportNetReconocimiento.SDK
 
         #region  HCNetSDK.dll function definition
 
-        // Obtiene el directorio base donde se ejecuta el programa
-        //private static string directorioBase = AppDomain.CurrentDomain.BaseDirectory;
-
-        // Define la ruta relativa a partir del directorio base
+        //ruta libreria sdk hikvision
         private const string rutaLibreriaSDK = @"HCNetSDK\HCNetSDK.dll";
-
-        //private const string rutaLibreriaSDK = @"HCNetSDK\HCNetSDK.dll";
-
 
         [DllImport(rutaLibreriaSDK)]
         public static extern bool NET_DVR_Init();
