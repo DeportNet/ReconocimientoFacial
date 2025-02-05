@@ -214,6 +214,7 @@
             textBoxTokenSucursal.Size = new Size(250, 22);
             textBoxTokenSucursal.TabIndex = 67;
             textBoxTokenSucursal.UseSystemPasswordChar = true;
+            textBoxTokenSucursal.TextChanged += textBoxTokenSucursal_TextChanged;
             // 
             // WFRgistrarDispositivo
             // 

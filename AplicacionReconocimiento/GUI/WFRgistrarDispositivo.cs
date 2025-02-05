@@ -8,7 +8,7 @@ namespace DeportNetReconocimiento
     {
         public bool ignorarCierre = false;
         private static WFRgistrarDispositivo? instancia;
-        
+
 
         private WFRgistrarDispositivo()
         {
@@ -66,30 +66,31 @@ namespace DeportNetReconocimiento
                 return;
             }
 
-            bool parseSucursalId= int.TryParse(textBoxSucursalID.Text, out int sucursalId);
+            bool parseSucursalId = int.TryParse(textBoxSucursalID.Text, out int sucursalId);
 
             if (!parseSucursalId)
             {
                 MessageBox.Show("El ID de la sucursal debe ser numerico");
                 return;
             }
-            if(textBoxSucursalID.Text.Length > 12 || sucursalId <= 0)
+            if (textBoxSucursalID.Text.Length > 12 || sucursalId <= 0)
             {
                 MessageBox.Show("El ID de la sucursal no puede ser mayor a 12 caracteres ni negativo");
                 return;
             }
 
-            if (textBoxTokenSucursal.Text.Length > 12 || textBoxTokenSucursal.Text.Length < 1)
+            if (textBoxTokenSucursal.Text.Length < 1)
             {
-                MessageBox.Show("El token de la sucursal no puede ser mayor a 12 caracteres ni menor a 1");
+                MessageBox.Show("El token de la sucursal es obligatorio");
                 return;
             }
 
-            
-            Hik_Resultado conexionDx = await WebServicesDeportnet.TestearConexionDeportnet(textBoxTokenSucursal.Text, textBoxSucursalID.Text);
-            
 
-            if (!conexionDx.Exito) {
+            Hik_Resultado conexionDx = await WebServicesDeportnet.TestearConexionDeportnet(textBoxTokenSucursal.Text, textBoxSucursalID.Text);
+
+
+            if (!conexionDx.Exito)
+            {
                 conexionDx.MessageBoxResultado("Conexion con Deportnet");
                 return;
             }
@@ -98,12 +99,13 @@ namespace DeportNetReconocimiento
             Hik_Resultado resultadoLogin = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(textBoxUserName.Text, textBoxPassword.Text, textBoxPort.Text, textBoxDeviceAddress.Text);
 
 
-            if (!resultadoLogin.Exito) { 
+            if (!resultadoLogin.Exito)
+            {
                 resultadoLogin.MessageBoxResultado("Error al incializar el programa Hikvision");
                 return;
             }
 
-            
+
             //creamos un arreglo de strings con los datos que recibimos del input
             //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
             CredencialesUtils.EscribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text, textBoxSucursalID.Text, textBoxTokenSucursal.Text]);
@@ -113,7 +115,7 @@ namespace DeportNetReconocimiento
 
         }
 
-        
+
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
@@ -150,5 +152,9 @@ namespace DeportNetReconocimiento
 
         }
 
+        private void textBoxTokenSucursal_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
