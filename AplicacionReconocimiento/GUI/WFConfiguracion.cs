@@ -251,13 +251,10 @@ namespace DeportNetReconocimiento.GUI
             if (clave == credenciales[3])
             {
                 PanelConfigAdminsitrador.Visible = true;
-
-                if (CredencialesUtils.LeerCredenciales().Length > 4)
-                {
-                    TextBoxIdSucursal.Text = credenciales[4];
-                    textBoxTokenSucursal.Text = credenciales[5];
-                }
-
+                               
+                TextBoxIdSucursal.Text = credenciales[4];
+                textBoxTokenSucursal.Text = credenciales[5];
+                
                 ComboBoxAperturaMolinete.SelectedItem = configuracion.MetodoApertura;
                 TextBoxRutaExe.Text = configuracion.RutaMetodoApertura;
 

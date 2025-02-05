@@ -80,9 +80,9 @@ namespace DeportNetReconocimiento
                 return;
             }
 
-            if (textBoxTokenSucursal.Text.Length > 12 || textBoxTokenSucursal.Text.Length < 1)
+            if (textBoxTokenSucursal.Text.Length < 1)
             {
-                MessageBox.Show("El token de la sucursal no puede ser mayor a 12 caracteres ni menor a 1");
+                MessageBox.Show("El token de la sucursal es obligatorio");
                 return;
             }
 
@@ -194,6 +194,7 @@ namespace DeportNetReconocimiento
                 textBoxTokenSucursal.UseSystemPasswordChar = true;
                 BotonVer3.Image = Resources.eye1;
             }
+
 
         }
     }
