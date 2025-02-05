@@ -45,6 +45,9 @@
             textBoxSucursalID = new TextBox();
             label7 = new Label();
             textBoxTokenSucursal = new TextBox();
+            BotonVer1 = new Button();
+            BotonVer2 = new Button();
+            BotonVer3 = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -54,7 +57,7 @@
             panel1.Controls.Add(label1);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(553, 82);
+            panel1.Size = new Size(637, 82);
             panel1.TabIndex = 1;
             // 
             // label1
@@ -64,7 +67,7 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Consolas", 26.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(71, 19);
+            label1.Location = new Point(99, 20);
             label1.Name = "label1";
             label1.Size = new Size(417, 41);
             label1.TabIndex = 2;
@@ -73,7 +76,7 @@
             // btnCancel
             // 
             btnCancel.FlatStyle = FlatStyle.Flat;
-            btnCancel.Location = new Point(328, 303);
+            btnCancel.Location = new Point(372, 303);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(103, 29);
             btnCancel.TabIndex = 63;
@@ -84,7 +87,7 @@
             // btnAdd
             // 
             btnAdd.FlatStyle = FlatStyle.Flat;
-            btnAdd.Location = new Point(116, 303);
+            btnAdd.Location = new Point(163, 303);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(103, 29);
             btnAdd.TabIndex = 62;
@@ -215,12 +218,48 @@
             textBoxTokenSucursal.TabIndex = 67;
             textBoxTokenSucursal.UseSystemPasswordChar = true;
             // 
+            // BotonVer1
+            // 
+            BotonVer1.FlatStyle = FlatStyle.Flat;
+            BotonVer1.Image = Properties.Resources.eye1;
+            BotonVer1.Location = new Point(481, 200);
+            BotonVer1.Name = "BotonVer1";
+            BotonVer1.Size = new Size(35, 22);
+            BotonVer1.TabIndex = 68;
+            BotonVer1.UseVisualStyleBackColor = false;
+            BotonVer1.Click += button1_Click;
+            // 
+            // BotonVer2
+            // 
+            BotonVer2.FlatStyle = FlatStyle.Flat;
+            BotonVer2.Image = Properties.Resources.eye1;
+            BotonVer2.Location = new Point(481, 231);
+            BotonVer2.Name = "BotonVer2";
+            BotonVer2.Size = new Size(35, 22);
+            BotonVer2.TabIndex = 69;
+            BotonVer2.UseVisualStyleBackColor = false;
+            BotonVer2.Click += button2_Click;
+            // 
+            // BotonVer3
+            // 
+            BotonVer3.FlatStyle = FlatStyle.Flat;
+            BotonVer3.Image = Properties.Resources.eye1;
+            BotonVer3.Location = new Point(481, 262);
+            BotonVer3.Name = "BotonVer3";
+            BotonVer3.Size = new Size(35, 22);
+            BotonVer3.TabIndex = 70;
+            BotonVer3.UseVisualStyleBackColor = false;
+            BotonVer3.Click += BotonVer3_Click;
+            // 
             // WFRgistrarDispositivo
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonFace;
-            ClientSize = new Size(553, 344);
+            ClientSize = new Size(636, 364);
+            Controls.Add(BotonVer3);
+            Controls.Add(BotonVer2);
+            Controls.Add(BotonVer1);
             Controls.Add(textBoxTokenSucursal);
             Controls.Add(label7);
             Controls.Add(textBoxSucursalID);
@@ -269,5 +308,8 @@
         private TextBox textBoxSucursalID;
         private Label label7;
         private TextBox textBoxTokenSucursal;
+        private Button BotonVer1;
+        private Button BotonVer2;
+        private Button BotonVer3;
     }
 }

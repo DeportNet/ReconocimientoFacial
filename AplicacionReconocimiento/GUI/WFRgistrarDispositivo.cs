@@ -1,4 +1,5 @@
 ﻿using DeportNetReconocimiento.Api.Services;
+using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
 
@@ -8,7 +9,7 @@ namespace DeportNetReconocimiento
     {
         public bool ignorarCierre = false;
         private static WFRgistrarDispositivo? instancia;
-        
+
 
         private WFRgistrarDispositivo()
         {
@@ -66,14 +67,14 @@ namespace DeportNetReconocimiento
                 return;
             }
 
-            bool parseSucursalId= int.TryParse(textBoxSucursalID.Text, out int sucursalId);
+            bool parseSucursalId = int.TryParse(textBoxSucursalID.Text, out int sucursalId);
 
             if (!parseSucursalId)
             {
                 MessageBox.Show("El ID de la sucursal debe ser numerico");
                 return;
             }
-            if(textBoxSucursalID.Text.Length > 12 || sucursalId <= 0)
+            if (textBoxSucursalID.Text.Length > 12 || sucursalId <= 0)
             {
                 MessageBox.Show("El ID de la sucursal no puede ser mayor a 12 caracteres ni negativo");
                 return;
@@ -85,11 +86,12 @@ namespace DeportNetReconocimiento
                 return;
             }
 
-            
-            Hik_Resultado conexionDx = await WebServicesDeportnet.TestearConexionDeportnet(textBoxTokenSucursal.Text, textBoxSucursalID.Text);
-            
 
-            if (!conexionDx.Exito) {
+            Hik_Resultado conexionDx = await WebServicesDeportnet.TestearConexionDeportnet(textBoxTokenSucursal.Text, textBoxSucursalID.Text);
+
+
+            if (!conexionDx.Exito)
+            {
                 conexionDx.MessageBoxResultado("Conexion con Deportnet");
                 return;
             }
@@ -98,12 +100,13 @@ namespace DeportNetReconocimiento
             Hik_Resultado resultadoLogin = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(textBoxUserName.Text, textBoxPassword.Text, textBoxPort.Text, textBoxDeviceAddress.Text);
 
 
-            if (!resultadoLogin.Exito) { 
+            if (!resultadoLogin.Exito)
+            {
                 resultadoLogin.MessageBoxResultado("Error al incializar el programa Hikvision");
                 return;
             }
 
-            
+
             //creamos un arreglo de strings con los datos que recibimos del input
             //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
             CredencialesUtils.EscribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text, textBoxSucursalID.Text, textBoxTokenSucursal.Text]);
@@ -113,7 +116,7 @@ namespace DeportNetReconocimiento
 
         }
 
-        
+
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
@@ -150,5 +153,48 @@ namespace DeportNetReconocimiento
 
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (textBoxPassword.UseSystemPasswordChar)
+            {
+                textBoxPassword.UseSystemPasswordChar = false;
+                BotonVer1.Image = Resources.hidden1;
+            }
+            else
+            {
+                textBoxPassword.UseSystemPasswordChar = true;
+                BotonVer1.Image = Resources.eye1;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (textBoxSucursalID.UseSystemPasswordChar)
+            {
+                textBoxSucursalID.UseSystemPasswordChar = false;
+                BotonVer2.Image = Resources.hidden1;
+            }
+            else
+            {
+                textBoxSucursalID.UseSystemPasswordChar = true;
+                BotonVer2.Image = Resources.eye1;
+            }
+
+        }
+
+        private void BotonVer3_Click(object sender, EventArgs e)
+        {
+            if (textBoxTokenSucursal.UseSystemPasswordChar)
+            {
+                textBoxTokenSucursal.UseSystemPasswordChar = false;
+                BotonVer3.Image = Resources.hidden1;
+            }
+            else
+            {
+                textBoxTokenSucursal.UseSystemPasswordChar = true;
+                BotonVer3.Image = Resources.eye1;
+            }
+
+        }
     }
 }
