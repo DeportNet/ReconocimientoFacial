@@ -49,6 +49,7 @@ namespace DeportNetReconocimiento.Api.Services
             }
             catch(Exception e)
             {
+                Console.WriteLine(e.ToString());
                 idSucursal = null;
             }
 

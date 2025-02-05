@@ -39,7 +39,7 @@ public class Hik_Controladora_Facial
         {
             if (instancia == null)
             {
-                return new Hik_Controladora_Facial();
+                instancia = new Hik_Controladora_Facial();
             }
             return instancia;
         }
