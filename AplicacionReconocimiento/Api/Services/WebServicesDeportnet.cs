@@ -3,11 +3,17 @@ using DeportNetReconocimiento.Api.Dtos.Response;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
+using NAudio.Gui;
+using NAudio.Wave;
 using System;
+using System.Configuration;
+using System.Diagnostics;
+using System.Drawing;
 using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using static System.Windows.Forms.DataFormats;
 
 
 namespace DeportNetReconocimiento.Api.Services
@@ -65,9 +71,9 @@ namespace DeportNetReconocimiento.Api.Services
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
-            object data = new { };
+            object dataEnviar = new { };
 
-            data = new { memberId = 1, activeBranchId = idSucursal };
+            dataEnviar = new { memberId = 1, activeBranchId = idSucursal };
             
             
             using HttpClient client = new HttpClient();
@@ -76,39 +82,74 @@ namespace DeportNetReconocimiento.Api.Services
             client.DefaultRequestHeaders.Add("X-Signature", tokenSucursal);
             
             //creamos el contenido
-            var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(dataEnviar), Encoding.UTF8, "application/json");
 
 
             //respuesta fetch, la inicializamos con error
             HttpResponseMessage response = new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError);
             try
             {
+                //309 = No se envió HTTP_X_SIGNATURE
+                //308 = El HTTP_X_SIGNATURE es nulo o vacío
+                //400 = No se pudo procesar el request(por no venir en formato json por ejemplo)
+                //401 = No se envió el Id de sucursal
+                //402 = No se envió el Id de socio
+                //403 = El Id de sucursal es nulo o vacío
+                //404 = El Id de socio es nulo o vacío
+                //501 = El módulo de acceso facial no existe o ha sido inactivado en DeportNet(es un campo en una tabla)
+                //503 = La sucursal no tiene asignada el módulo de acceso facial
+                //504 = La sucursal no tiene configurado el token
+                //507 = Token inválido(no coinciden el que está configurado con el que se envía)
+                //505 = La sucursal no tiene la configuración de acceso facial
+
                 response = await client.PostAsync(urlEntradaCliente, content);
 
-                // Verificar el estado de la respuesta
-                Console.WriteLine(await response.Content.ReadAsStringAsync());
-                string error = await response.Content.ReadAsStringAsync();
+                string dataRecibida = await response.Content.ReadAsStringAsync();
+                
+                using JsonDocument doc = JsonDocument.Parse(dataRecibida);
+                
+                JsonElement root = doc.RootElement;
 
-                // Capturar errores HTTP específicos
-                switch (error)
+                //Busco la propiedad branchAcces y digo que el elemento  es de tipo arreglo
+                if (root.TryGetProperty("branchAccess", out JsonElement branchAccess) && branchAccess.ValueKind == JsonValueKind.Array)
                 {
-                    case "200":
-                        resultado.ActualizarResultado(true, "Conexión exitosa", "200");
-                        break;
-                    case "503":
-                        resultado.ActualizarResultado(false, "La sucursal con el Id: " + idSucursal + " proporcionado no existe.", "503");
-                        break;
-                    case "309":
-                        resultado.ActualizarResultado(false, "No se envio en la cabecera el X-Signature", "309");
-                        break;
-                    case "505":
-                        resultado.ActualizarResultado(false, "El X-Signature: " + tokenSucursal + " proporcionado es erroneo.", "505");
-                        break;
-                    default:
-                        resultado.ActualizarResultado(false, $"Código de estado HTTP {(int)response.StatusCode} - {response.ReasonPhrase}", ((int)response.StatusCode).ToString());
-                        break;
+                    //en realidad arroja "No se encontro el Socio" pero es justamente lo que necesitamos para saber si la conexión fue exitosa
+                    resultado.ActualizarResultado(true, "Conexión exitosa.", "200");
                 }
-               
+                else
+                {
+                    // Capturar errores HTTP específicos
+                    switch (dataRecibida)
+                    {
+                        case "200":
+                            resultado.ActualizarResultado(true, "Conexión exitosa.", "200");
+                            break;
+                        case "309":
+                            resultado.ActualizarResultado(false, "No se envio en la cabecera el X-Signature.", "309");
+                            break;
+                        case "400":
+                            resultado.ActualizarResultado(false, "No se pudo procesar el request(por no venir en formato json por ejemplo).", "400");
+                            break;
+                        case "403":
+                            resultado.ActualizarResultado(false, "El Id de sucursal es nulo o vacío.", "403");
+                            break;
+                        case "503":
+                            resultado.ActualizarResultado(false, "La sucursal con el Id: " + idSucursal + " no tiene asignada el módulo de acceso facial.", "503");
+                            break;
+                        case "504":
+                            resultado.ActualizarResultado(false, "La sucursal con el Id: " + idSucursal + " no tiene configurado el token.", "504");
+                            break;
+                        case "505":
+                            resultado.ActualizarResultado(false, "La sucursal no tiene la configuración de acceso facial.", "505");
+                            break;
+                        case "507":
+                            resultado.ActualizarResultado(false, "El X-Signature: " + tokenSucursal + " proporcionado es invalido, no coincide con el de la sucursal.", "507");
+                            break;
+                        default:
+                            resultado.ActualizarResultado(false, $"Código de estado HTTP {(int)response.StatusCode} - {response.ReasonPhrase}", ((int)response.StatusCode).ToString());
+                            break;
+                    }
+                }
             }
             catch (HttpRequestException e)
             {
