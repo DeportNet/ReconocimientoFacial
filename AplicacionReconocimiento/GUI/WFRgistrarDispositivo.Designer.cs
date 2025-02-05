@@ -221,7 +221,7 @@
             // BotonVer1
             // 
             BotonVer1.FlatStyle = FlatStyle.Flat;
-            BotonVer1.Image = Properties.Resources.eye1;
+            BotonVer1.Image = Properties.Resources.eye;
             BotonVer1.Location = new Point(481, 200);
             BotonVer1.Name = "BotonVer1";
             BotonVer1.Size = new Size(35, 22);
@@ -232,7 +232,7 @@
             // BotonVer2
             // 
             BotonVer2.FlatStyle = FlatStyle.Flat;
-            BotonVer2.Image = Properties.Resources.eye1;
+            BotonVer2.Image = Properties.Resources.eye;
             BotonVer2.Location = new Point(481, 231);
             BotonVer2.Name = "BotonVer2";
             BotonVer2.Size = new Size(35, 22);
@@ -243,7 +243,7 @@
             // BotonVer3
             // 
             BotonVer3.FlatStyle = FlatStyle.Flat;
-            BotonVer3.Image = Properties.Resources.eye1;
+            BotonVer3.Image = Properties.Resources.eye;
             BotonVer3.Location = new Point(481, 262);
             BotonVer3.Name = "BotonVer3";
             BotonVer3.Size = new Size(35, 22);
