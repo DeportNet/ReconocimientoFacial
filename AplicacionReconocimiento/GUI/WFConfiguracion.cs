@@ -1,5 +1,6 @@
 ﻿
 using DeportNetReconocimiento.Api.Services;
+using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
 using System.Numerics;
@@ -130,7 +131,7 @@ namespace DeportNetReconocimiento.GUI
             if (!Array.Exists(extensionesValidas, ext => filePath.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
             {
                 MessageBox.Show(
-                    "Por favor, arrastra un archivo de imagen válido (.jpg, .png, .jpeg, .bmp, .gif, .tiff, .tif o .ico).", 
+                    "Por favor, arrastra un archivo de imagen válido (.jpg, .png, .jpeg, .bmp, .gif, .tiff, .tif o .ico).",
                     "Error de tipo de imagen",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
@@ -246,15 +247,15 @@ namespace DeportNetReconocimiento.GUI
         public void ValidarAdministrador(string clave)
         {
             string[] credenciales = CredencialesUtils.LeerCredenciales();
-           
+
             //posicion 3 es la clave del dispositivo, pero usamos la misma
             if (clave == credenciales[3])
             {
                 PanelConfigAdminsitrador.Visible = true;
-                               
+
                 TextBoxIdSucursal.Text = credenciales[4];
                 textBoxTokenSucursal.Text = credenciales[5];
-                
+
                 ComboBoxAperturaMolinete.SelectedItem = configuracion.MetodoApertura;
                 TextBoxRutaExe.Text = configuracion.RutaMetodoApertura;
 
@@ -276,7 +277,7 @@ namespace DeportNetReconocimiento.GUI
                    );
                 return;
             }
-            
+
             string tokenSucursal = textBoxTokenSucursal.Text;
             string idSucursalTexto = TextBoxIdSucursal.Text;
 
@@ -296,7 +297,7 @@ namespace DeportNetReconocimiento.GUI
 
             ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
             principal.AplicarConfiguracion(configuracion);
-           
+
 
             PanelConfigAdminsitrador.Visible = false;
 
@@ -330,5 +331,46 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            if (TextBoxAdmin.UseSystemPasswordChar)
+            {
+                TextBoxAdmin.UseSystemPasswordChar = false;
+                button1.Image = Resources.hidden1;
+            }
+            else
+            {
+                TextBoxAdmin.UseSystemPasswordChar = true;
+                button1.Image = Resources.eye1;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (TextBoxIdSucursal.UseSystemPasswordChar)
+            {
+                TextBoxIdSucursal.UseSystemPasswordChar = false;
+                button2.Image = Resources.hidden1;
+            }
+            else
+            {
+                TextBoxIdSucursal.UseSystemPasswordChar = true;
+                button2.Image = Resources.eye1;
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (textBoxTokenSucursal.UseSystemPasswordChar)
+            {
+                textBoxTokenSucursal.UseSystemPasswordChar = false;
+                button3.Image = Resources.hidden1;
+            }
+            else
+            {
+                textBoxTokenSucursal.UseSystemPasswordChar = true;
+                button3.Image = Resources.eye1;
+            }
+        }
     }
 }

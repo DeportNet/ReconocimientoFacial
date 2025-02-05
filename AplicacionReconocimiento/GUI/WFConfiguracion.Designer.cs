@@ -48,6 +48,9 @@
             LabelAdmin = new Label();
             TextBoxAdmin = new TextBox();
             BotonIngresarAdmin = new Button();
+            button1 = new Button();
+            button2 = new Button();
+            button3 = new Button();
             PanelConfigAdminsitrador.SuspendLayout();
             SuspendLayout();
             // 
@@ -161,6 +164,8 @@
             // PanelConfigAdminsitrador
             // 
             PanelConfigAdminsitrador.BackColor = Color.IndianRed;
+            PanelConfigAdminsitrador.Controls.Add(button3);
+            PanelConfigAdminsitrador.Controls.Add(button2);
             PanelConfigAdminsitrador.Controls.Add(textBoxTokenSucursal);
             PanelConfigAdminsitrador.Controls.Add(tokenSucursal);
             PanelConfigAdminsitrador.Controls.Add(BotonAbrirFileDialog);
@@ -172,9 +177,9 @@
             PanelConfigAdminsitrador.Controls.Add(opcionesTituloLabel);
             PanelConfigAdminsitrador.Controls.Add(tokenIdentificadorLabel);
             PanelConfigAdminsitrador.Controls.Add(label6);
-            PanelConfigAdminsitrador.Location = new Point(827, 269);
+            PanelConfigAdminsitrador.Location = new Point(780, 269);
             PanelConfigAdminsitrador.Name = "PanelConfigAdminsitrador";
-            PanelConfigAdminsitrador.Size = new Size(330, 275);
+            PanelConfigAdminsitrador.Size = new Size(377, 275);
             PanelConfigAdminsitrador.TabIndex = 20;
             PanelConfigAdminsitrador.Visible = false;
             // 
@@ -250,7 +255,7 @@
             BotonIngresarAdmin.Cursor = Cursors.Hand;
             BotonIngresarAdmin.FlatAppearance.BorderSize = 0;
             BotonIngresarAdmin.FlatStyle = FlatStyle.Flat;
-            BotonIngresarAdmin.Location = new Point(1062, 194);
+            BotonIngresarAdmin.Location = new Point(999, 223);
             BotonIngresarAdmin.Name = "BotonIngresarAdmin";
             BotonIngresarAdmin.Size = new Size(57, 23);
             BotonIngresarAdmin.TabIndex = 23;
@@ -258,12 +263,43 @@
             BotonIngresarAdmin.UseVisualStyleBackColor = false;
             BotonIngresarAdmin.Click += BotonIngresarAdmin_Click;
             // 
+            // button1
+            // 
+            button1.Image = Properties.Resources.eye;
+            button1.Location = new Point(1062, 193);
+            button1.Name = "button1";
+            button1.Size = new Size(35, 22);
+            button1.TabIndex = 24;
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click_1;
+            // 
+            // button2
+            // 
+            button2.Image = Properties.Resources.eye;
+            button2.Location = new Point(298, 138);
+            button2.Name = "button2";
+            button2.Size = new Size(35, 22);
+            button2.TabIndex = 25;
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // button3
+            // 
+            button3.Image = Properties.Resources.eye;
+            button3.Location = new Point(298, 178);
+            button3.Name = "button3";
+            button3.Size = new Size(35, 22);
+            button3.TabIndex = 26;
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // WFConfiguracion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DarkGray;
             ClientSize = new Size(1177, 691);
+            Controls.Add(button1);
             Controls.Add(BotonIngresarAdmin);
             Controls.Add(TextBoxAdmin);
             Controls.Add(LabelAdmin);
@@ -307,5 +343,8 @@
         private Button BotonAbrirFileDialog;
         private TextBox textBoxTokenSucursal;
         private Label tokenSucursal;
+        private Button button3;
+        private Button button2;
+        private Button button1;
     }
 }
