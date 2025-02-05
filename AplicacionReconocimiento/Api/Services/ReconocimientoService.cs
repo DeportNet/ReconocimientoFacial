@@ -124,7 +124,7 @@ namespace DeportNetReconocimiento.Api.Services
             
             //Obtengo las rutas necesarias
             string rutaOriginal = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "captura.jpg");
-            string rutaNueva = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, configuracionEstilos.RutaCarpeta);
+            string rutaNueva =  configuracionEstilos.RutaCarpeta;
 
 
             if (string.IsNullOrEmpty(rutaNueva))
@@ -137,7 +137,7 @@ namespace DeportNetReconocimiento.Api.Services
             try
             {
                 //Si no existe el directorio, lo creo 
-                if (Directory.Exists(rutaNueva))
+                if (!Directory.Exists(rutaNueva))
                 {
                     Directory.CreateDirectory(rutaNueva);
                 }
