@@ -25,7 +25,7 @@ namespace DeportNetReconocimiento.Api.Services
 
           
             
-                data = new { memberId = nroTarjeta, activeBranchId = idSucursal };
+            data = new { memberId = nroTarjeta, activeBranchId = idSucursal };
 
           
             return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
@@ -86,38 +86,29 @@ namespace DeportNetReconocimiento.Api.Services
                 response = await client.PostAsync(urlEntradaCliente, content);
 
                 // Verificar el estado de la respuesta
-                if (response.IsSuccessStatusCode)
+                Console.WriteLine(await response.Content.ReadAsStringAsync());
+                string error = await response.Content.ReadAsStringAsync();
+
+                // Capturar errores HTTP específicos
+                switch (error)
                 {
-                    resultado.ActualizarResultado(true, "Conexión exitosa", "200");
-
-                    //return true; // Éxito
+                    case "200":
+                        resultado.ActualizarResultado(true, "Conexión exitosa", "200");
+                        break;
+                    case "503":
+                        resultado.ActualizarResultado(false, "La sucursal con el Id: " + idSucursal + " proporcionado no existe.", "503");
+                        break;
+                    case "309":
+                        resultado.ActualizarResultado(false, "No se envio en la cabecera el X-Signature", "309");
+                        break;
+                    case "505":
+                        resultado.ActualizarResultado(false, "El X-Signature: " + tokenSucursal + " proporcionado es erroneo.", "505");
+                        break;
+                    default:
+                        resultado.ActualizarResultado(false, $"Código de estado HTTP {(int)response.StatusCode} - {response.ReasonPhrase}", ((int)response.StatusCode).ToString());
+                        break;
                 }
-                else
-                {
-                    //503 sucursal no existe
-                    //309 no tenemos x-signature
-                    //505 x-signature erroneo
-
-                    Console.WriteLine(await response.Content.ReadAsStringAsync());
-                    string error = await response.Content.ReadAsStringAsync();
-                    // Capturar errores HTTP específicos
-                    switch (error)
-                    {
-                        case "503":
-                            resultado.ActualizarResultado(false, "La sucursal con el Id: " + idSucursal + " proporcionado no existe.", "503");
-                            break;
-                        case "309":
-                            resultado.ActualizarResultado(false, "No se envio en la cabecera el X-Signature", "309");
-                            break;
-                        case "505":
-                            resultado.ActualizarResultado(false, "El X-Signature: " + tokenSucursal + " proporcionado es erroneo.", "505");
-                            break;
-                        default:
-                            resultado.ActualizarResultado(false, $"Código de estado HTTP {(int)response.StatusCode} - {response.ReasonPhrase}", ((int)response.StatusCode).ToString());
-                            break;
-                    }
-
-                }
+               
             }
             catch (HttpRequestException e)
             {
