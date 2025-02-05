@@ -1,4 +1,5 @@
 ﻿using DeportNetReconocimiento.Api.Services;
+using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
 
@@ -152,8 +153,48 @@ namespace DeportNetReconocimiento
 
         }
 
-        private void textBoxTokenSucursal_TextChanged(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
+            if (textBoxPassword.UseSystemPasswordChar)
+            {
+                textBoxPassword.UseSystemPasswordChar = false;
+                BotonVer1.Image = Resources.hidden1;
+            }
+            else
+            {
+                textBoxPassword.UseSystemPasswordChar = true;
+                BotonVer1.Image = Resources.eye1;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (textBoxSucursalID.UseSystemPasswordChar)
+            {
+                textBoxSucursalID.UseSystemPasswordChar = false;
+                BotonVer2.Image = Resources.hidden1;
+            }
+            else
+            {
+                textBoxSucursalID.UseSystemPasswordChar = true;
+                BotonVer2.Image = Resources.eye1;
+            }
+
+        }
+
+        private void BotonVer3_Click(object sender, EventArgs e)
+        {
+            if (textBoxTokenSucursal.UseSystemPasswordChar)
+            {
+                textBoxTokenSucursal.UseSystemPasswordChar = false;
+                BotonVer3.Image = Resources.hidden1;
+            }
+            else
+            {
+                textBoxTokenSucursal.UseSystemPasswordChar = true;
+                BotonVer3.Image = Resources.eye1;
+            }
+
 
         }
     }
