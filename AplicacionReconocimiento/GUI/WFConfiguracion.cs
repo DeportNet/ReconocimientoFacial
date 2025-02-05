@@ -67,7 +67,7 @@ namespace DeportNetReconocimiento.GUI
 
             principal.AplicarConfiguracion(configuracion);
             ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
-            propertyGrid1.Refresh();
+           // propertyGrid1.Refresh();
 
         }
 
