@@ -80,7 +80,7 @@ namespace DeportNetReconocimiento.GUI
         private void PropertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             principal.AplicarConfiguracion(configuracion);
-            ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);   
+            ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
         }
 
         private void RefrescarPropertyGrid()
