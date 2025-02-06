@@ -22,8 +22,8 @@ namespace DeportNetReconocimiento.BD
             if (!System.IO.File.Exists(nombreBaseDeDatos)){
                 SQLiteConnection.CreateFile(nombreBaseDeDatos);
             }
+                Console.WriteLine("Base de datos creada.");
 
-            Console.WriteLine("Base de datos creada.");
         }
 
         private void CrearTablaClientes()
@@ -57,11 +57,6 @@ namespace DeportNetReconocimiento.BD
             bool flag = false;
 
 
-            if(nombreCliente.Length > 50)
-            {
-                Console.WriteLine("El nombre del cliente no puede tener mas de 50 caracteres.");
-                return flag;
-            }
 
             using (var conexion = new SQLiteConnection(rutaBaseDeDatos))
             {

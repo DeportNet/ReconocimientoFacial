@@ -56,7 +56,7 @@ namespace DeportNetReconocimiento.Api.GlobalExceptionHandler
                     break;
                 default:
                     // Registrar la excepción para análisis futuro
-                    Console.WriteLine(exception);
+                    Console.WriteLine("Global Exception Handler, Excepcion Inesperada: "+ exception);
                     break;
             }
 

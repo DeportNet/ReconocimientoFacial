@@ -108,7 +108,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             if (infoEvento.Success && infoEvento.Time >= tiempoActual)
             {
-                Console.WriteLine(
+                Console.WriteLine("Evento Hikvision: \n"+
                 infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description +
                 " Tarjeta: " + infoEvento.Card_Number +
                 " Puerta: " + infoEvento.Door_Number);
@@ -147,13 +147,13 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             if (!libre)
             {
-                Console.WriteLine("Se está procesando un evento");
+                Console.WriteLine("Se está procesando un evento, dispositivo no esta libre.");
                 return;
             }
 
             if(string.IsNullOrWhiteSpace(numeroTarjeta))
             {
-                Console.WriteLine("El evento no tiene numero de tarjeta");
+                Console.WriteLine("El evento no tiene numero de tarjeta.");
                 return;
             }
 
