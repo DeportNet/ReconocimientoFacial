@@ -116,7 +116,7 @@ namespace DeportNetReconocimiento.Api.Services
 
             //leo el json de la respuesta recibida
             string dataRecibida = await responseMessage.Content.ReadAsStringAsync();
-
+            Console.WriteLine("DATA RECIBIDA: " + dataRecibida);
             //si el status code es 200, entonces la conexión fue exitosa
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -135,13 +135,13 @@ namespace DeportNetReconocimiento.Api.Services
             }
             else
             {
-                CapturarErroresDeportnet(dataRecibida);
+                resultado = CapturarErroresDeportnet(dataRecibida);
             }
             return resultado;
         }
 
 
-        private static Hik_Resultado CapturarErroresDeportnet(string dataRecibida, string idSucursal = "", string tokenSucursal ="")
+        private static Hik_Resultado CapturarErroresDeportnet(string dataRecibida)
         {
             //200 = Proceso realizado correctamente
             //308 = El HTTP_X_SIGNATURE es nulo o vacío
@@ -194,19 +194,19 @@ namespace DeportNetReconocimiento.Api.Services
                     resultado.ActualizarResultado(false, "No se encontró la sucursal.", "502");
                     break;
                 case "503":
-                    resultado.ActualizarResultado(false, "La sucursal con el Id: " + idSucursal + " no tiene asignada el módulo de acceso facial.", "503");
+                    resultado.ActualizarResultado(false, "La sucursal con el ID ingresado no tiene asignada el módulo de acceso facial.", "503");
                     break;
                 case "504":
-                    resultado.ActualizarResultado(false, "La sucursal con el Id: " + idSucursal + " no tiene configurado el token.", "504");
+                    resultado.ActualizarResultado(false, "La sucursal con el ID ingresado no tiene configurado el token.", "504");
                     break;
                 case "505":
                     resultado.ActualizarResultado(false, "La sucursal no tiene la configuración de acceso facial.", "505");
                     break;
                 case "507":
-                    resultado.ActualizarResultado(false, "El X-Signature: " + tokenSucursal + " proporcionado es invalido, no coincide con el de la sucursal.", "507");
+                    resultado.ActualizarResultado(false, "El token de la sucursal proporcionado es invalido, no coincide con el de la sucursal.", "507");
                     break;
                 default:
-                    resultado.ActualizarResultado(false, $"Error no esperado: "+ dataRecibida, "No esperado.");
+                    resultado.ActualizarResultado(false, $"Error inesperado: "+ dataRecibida, "Inesperado.");
                     break;
             }
 
