@@ -40,6 +40,8 @@
             ComboBoxAperturaMolinete = new ComboBox();
             BotonOcultarConfig = new Button();
             PanelConfigAdminsitrador = new Panel();
+            button3 = new Button();
+            button2 = new Button();
             textBoxTokenSucursal = new TextBox();
             tokenSucursal = new Label();
             BotonAbrirFileDialog = new Button();
@@ -49,8 +51,6 @@
             TextBoxAdmin = new TextBox();
             BotonIngresarAdmin = new Button();
             button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
             PanelConfigAdminsitrador.SuspendLayout();
             SuspendLayout();
             // 
@@ -183,6 +183,28 @@
             PanelConfigAdminsitrador.TabIndex = 20;
             PanelConfigAdminsitrador.Visible = false;
             // 
+            // button3
+            // 
+            button3.Cursor = Cursors.Hand;
+            button3.Image = Properties.Resources.eye;
+            button3.Location = new Point(298, 178);
+            button3.Name = "button3";
+            button3.Size = new Size(35, 22);
+            button3.TabIndex = 26;
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // button2
+            // 
+            button2.Cursor = Cursors.Hand;
+            button2.Image = Properties.Resources.eye;
+            button2.Location = new Point(298, 138);
+            button2.Name = "button2";
+            button2.Size = new Size(35, 22);
+            button2.TabIndex = 25;
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // textBoxTokenSucursal
             // 
             textBoxTokenSucursal.Location = new Point(143, 175);
@@ -239,7 +261,6 @@
             LabelAdmin.Size = new Size(110, 21);
             LabelAdmin.TabIndex = 21;
             LabelAdmin.Text = "Administrador";
-            LabelAdmin.Click += label1_Click;
             // 
             // TextBoxAdmin
             // 
@@ -248,6 +269,7 @@
             TextBoxAdmin.Name = "TextBoxAdmin";
             TextBoxAdmin.Size = new Size(111, 23);
             TextBoxAdmin.TabIndex = 22;
+            TextBoxAdmin.UseSystemPasswordChar = true;
             // 
             // BotonIngresarAdmin
             // 
@@ -265,6 +287,7 @@
             // 
             // button1
             // 
+            button1.Cursor = Cursors.Hand;
             button1.Image = Properties.Resources.eye;
             button1.Location = new Point(1062, 193);
             button1.Name = "button1";
@@ -272,26 +295,6 @@
             button1.TabIndex = 24;
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click_1;
-            // 
-            // button2
-            // 
-            button2.Image = Properties.Resources.eye;
-            button2.Location = new Point(298, 138);
-            button2.Name = "button2";
-            button2.Size = new Size(35, 22);
-            button2.TabIndex = 25;
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
-            // 
-            // button3
-            // 
-            button3.Image = Properties.Resources.eye;
-            button3.Location = new Point(298, 178);
-            button3.Name = "button3";
-            button3.Size = new Size(35, 22);
-            button3.TabIndex = 26;
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
             // 
             // WFConfiguracion
             // 
