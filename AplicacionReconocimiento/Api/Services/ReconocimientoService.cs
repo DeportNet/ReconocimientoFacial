@@ -23,12 +23,14 @@ namespace DeportNetReconocimiento.Api.Services
         private Hik_Controladora_General hik_Controladora;
         private bool enUso;
         private int? idSucursal;
+        
         public bool EnUso { get => enUso; set => enUso = value; }
 
         public ReconocimientoService()
         {
             enUso = false;
             hik_Controladora = Hik_Controladora_General.InstanciaControladoraGeneral;
+            
             LeerCredencialesReconocimientoService();
         }
 
@@ -81,6 +83,8 @@ namespace DeportNetReconocimiento.Api.Services
                 return "F";
             }
 
+            
+
             if(idSucursal != clienteRequest.IdSucursal)
             {
                 MensajeDeErrorAltaBajaCliente(
@@ -110,6 +114,59 @@ namespace DeportNetReconocimiento.Api.Services
            
             return "T";
 
+        }
+
+        private static int tiempoRetrasoLuegoDeUnAlta;
+        public static bool estaEsperandoLuegoDeUnAlta;
+
+        public void IniciarTiempoEspera()
+        {
+            tiempoRetrasoLuegoDeUnAlta = ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos").TiempoDeRetrasoAltaCliente;
+
+            estaEsperandoLuegoDeUnAlta = true;
+            Thread.Sleep(tiempoRetrasoLuegoDeUnAlta * 1000);
+            estaEsperandoLuegoDeUnAlta = false;
+
+        }
+
+        public async Task AltaClienteDeportnet(AltaFacialClienteRequest altaFacialClienteRequest)
+        {
+            enUso = true;
+            Hik_Resultado resAlta= hik_Controladora.AltaCliente(altaFacialClienteRequest.IdCliente.ToString(), altaFacialClienteRequest.NombreCliente);
+
+            IniciarTiempoEspera();
+
+            if (!resAlta.Exito)
+            {
+                
+                MensajeDeErrorAltaBajaCliente(
+                    new RespuestaAltaBajaCliente(altaFacialClienteRequest.IdSucursal.ToString(),
+                    altaFacialClienteRequest.IdCliente.ToString(),
+                    resAlta.Mensaje,
+                    "F")
+                );
+                
+                    
+                //throw new HikvisionException(resAlta.Mensaje);
+            }
+            else
+            {
+                RespuestaAltaBajaCliente respuestaAlta = new RespuestaAltaBajaCliente(
+                    altaFacialClienteRequest.IdSucursal.ToString(),
+                    altaFacialClienteRequest.IdCliente.ToString(),
+                    "Alta facial cliente exitosa",
+                    "T");
+
+                Console.WriteLine(respuestaAlta.ToJson());
+
+                string mensaje = await WebServicesDeportnet.AltaClienteDeportnet(respuestaAlta.ToJson());
+
+                
+                Console.WriteLine("Se ha dado de alta el cliente facial con id: " + altaFacialClienteRequest.IdCliente + " y nombre: " + altaFacialClienteRequest.NombreCliente);
+            }
+            
+            
+            enUso = false;
         }
 
         public void ConservarImagenSocio(string nombreCompletoSocio, int idSocio)
@@ -230,6 +287,8 @@ namespace DeportNetReconocimiento.Api.Services
 
             if (!resBaja.Exito)
             {
+                Console.WriteLine("No hubo exito Baja facial"); 
+
                 MensajeDeErrorAltaBajaCliente(
                     new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                     clienteRequest.IdCliente.ToString(),
@@ -248,7 +307,7 @@ namespace DeportNetReconocimiento.Api.Services
                     "Alta facial cliente exitosa", 
                     "T");
                 string mensaje = await WebServicesDeportnet.BajaClienteDeportnet(respuestaAlta.ToJson());
-                Console.WriteLine(mensaje);
+                Console.WriteLine("MENSAJE DEBERIA ESCRIBIR 200 SI SALIO BIEN: "+mensaje);
             }
             enUso = false;
             Console.WriteLine("Se ha dado de baja el cliente facial con id: " + clienteRequest.IdCliente);
@@ -261,38 +320,6 @@ namespace DeportNetReconocimiento.Api.Services
             _ = WebServicesDeportnet.AltaClienteDeportnet(respuestaAlta.ToJson());
         }
 
-
-        public async Task AltaClienteDeportnet(AltaFacialClienteRequest altaFacialClienteRequest)
-        {
-            enUso = true;
-            Hik_Resultado resAlta= hik_Controladora.AltaCliente(altaFacialClienteRequest.IdCliente.ToString(), altaFacialClienteRequest.NombreCliente);
-
-            if (!resAlta.Exito)
-            {
-                MensajeDeErrorAltaBajaCliente(
-                    new RespuestaAltaBajaCliente(altaFacialClienteRequest.IdSucursal.ToString(),
-                    altaFacialClienteRequest.IdCliente.ToString(),
-                    resAlta.Mensaje,
-                    "F")
-                );
-             
-                    
-                //throw new HikvisionException(resAlta.Mensaje);
-            }
-            else
-            {
-                RespuestaAltaBajaCliente respuestaAlta = new RespuestaAltaBajaCliente(
-                    altaFacialClienteRequest.IdSucursal.ToString(),
-                    altaFacialClienteRequest.IdCliente.ToString(),
-                    "Alta facial cliente exitosa",
-                    "T");
-
-                string mensaje = await WebServicesDeportnet.AltaClienteDeportnet(respuestaAlta.ToJson());
-                Console.WriteLine(mensaje);
-            }
-            enUso = false;
-            Console.WriteLine("Se ha dado de alta el cliente facial con id: " + altaFacialClienteRequest.IdCliente + " y nombre: " + altaFacialClienteRequest.NombreCliente);
-        }
 
 
     }

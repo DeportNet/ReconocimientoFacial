@@ -70,6 +70,12 @@ namespace DeportNetReconocimiento.SDKHikvision
         {
             Evento infoEvento = new Evento();
 
+            if (ReconocimientoService.estaEsperandoLuegoDeUnAlta)
+            {
+                Console.WriteLine("Esperando cierto tiempo luego de un alta");
+                return;
+            }
+
             
             
             //si esta clase esta instanciada
@@ -92,7 +98,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                     break;
             }
 
-            DateTime tiempoActual = DateTime.Now.AddSeconds(-8);
+            DateTime tiempoActual = DateTime.Now.AddSeconds(-10);
 
             //Console.WriteLine("tiempo Actual "+ tiempoActual);
             //Console.WriteLine("Tiempo evento "+ infoEvento.Time);

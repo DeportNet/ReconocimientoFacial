@@ -49,8 +49,33 @@ namespace DeportNetReconocimiento.Utils
         }
         private Color colorFondo;
 
+        [Category("General")]
+        [DisplayName("Tiempo de retraso luego de un Alta de un cliente")]
+        [Description("Indica la duración (en segundos) que esperara el programa luego de un Alta de un cliente, para que no se reconozca al instante.")]
+        public int TiempoDeRetrasoAltaCliente
+        {
+            get => tiempoDeRetrasoAltaCliente;
+            set
+            {
+                if (value < 3 || value > 15)
+                {
+                    MessageBox.Show(
+                    "El tiempo de retraso alta cliente no puede ser menor a 3 seg ni mayor a 15 seg.", // Mensaje
+                    "Error de Validación",                                  // Título
+                    MessageBoxButtons.OK,                                   // Botones (OK)
+                    MessageBoxIcon.Error                                    // Ícono (Error)
+                    );
+                }
+                else
+                {
+                    tiempoDeRetrasoAltaCliente = value;
+                }
+            }
+        }
+        private int tiempoDeRetrasoAltaCliente; // Valor predeterminado
 
-        /* - - - - - - LOGO - - - - - */
+
+        /* - - - - - - Logo - - - - - */
 
         [Category("Logo")]
         [DisplayName("Logo de la pantalla de bienvenida")]
@@ -343,19 +368,24 @@ namespace DeportNetReconocimiento.Utils
         {
             // General
             ColorFondo = Color.Silver;
+            TiempoDeRetrasoAltaCliente = 5;
+
+            // Logo 
+
+            // @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\Recursos\logo_deportnet_1.jpg";  // Logo deportnet por defecto
             Logo = Resources.logo_deportnet_1;
             ColorFondoLogo = Color.DimGray;
 
-            //Logo = @"D:\DeportNet\DeportNetReconocimiento\AplicacionReconocimiento\Recursos\logo_deportnet_1.jpg";  // Logo deportnet por defecto
-
-            // Mensaje de acceso
+            // Bienvenida
             ColorFondoMensajeBienvenida = Color.DarkGray;
             ColorMensajeBienvenida = Color.Black;
+            MensajeBienvenida = "Bienvenido a DeportNet!";
+            FuenteTextoMensajeAcceso = new Font("Arial Rounded MT Bold", 36, FontStyle.Italic);
+
+            // Mensaje de acceso
+
             ColorMensajeAccesoDenegado = Color.Red;
             ColorMensajeAccesoConcedido = Color.Green;
-            MensajeBienvenida = "Bienvenido a DeportNet!";
-
-            FuenteTextoMensajeAcceso = new Font("Arial Rounded MT Bold", 36, FontStyle.Italic);
 
             // Campos de informacion
             ColorTextoInformacionCliente = Color.Black;
@@ -363,33 +393,33 @@ namespace DeportNetReconocimiento.Utils
             FuenteTextoInformacionCliente = new Font("Arial Rounded MT Bold", 20, FontStyle.Regular);
             TiempoDeMuestraDeDatos = 5;
         
-            //Imagen
+            // Imagen Cliente
             ColorFondoImagen = Color.DarkGray;
 
 
-            //Sonidos
+            // Sonidos
             AccesoConcedido = new Sonido();
             AccesoDenegado = new Sonido();
             SonidoPregunta = new Sonido();
             SonidoBienvenida = new Sonido();
 
-            //Campos de estadísticas
+            // Campos de estadísticas
             CarasRegistradas = 1;
             CapacidadMaximaDispositivo = 500;
             PorcentajeAlertaCapacidad = 70.0f;
 
-            //Configuraciones apertura
+            // Configuraciones apertura
             MetodoApertura = ".exe";
             RutaMetodoApertura = "";
 
-            //Maximizar y Minimizar 
+            // Maximizar y Minimizar 
             MaximizarAccesoConcedido = true;
             MaximizarAccesoDenegado = true;
             MaximizarPregunta = true;
             EstadoMinimizar = false;
             SegundosMinimizar = 10;
 
-            //Guardar fotos socio
+            // Guardar fotos socio
             AlmacenarFotoSocio = false;
 
         }
