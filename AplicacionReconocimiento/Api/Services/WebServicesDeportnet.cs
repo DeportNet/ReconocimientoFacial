@@ -1,19 +1,8 @@
-﻿using DeportNetReconocimiento.Api.Dtos.Request;
-using DeportNetReconocimiento.Api.Dtos.Response;
-using DeportNetReconocimiento.GUI;
-using DeportNetReconocimiento.SDK;
+﻿using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
-using NAudio.Gui;
-using NAudio.Wave;
-using System;
-using System.Configuration;
-using System.Diagnostics;
-using System.Drawing;
-using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using static System.Windows.Forms.DataFormats;
+
 
 
 namespace DeportNetReconocimiento.Api.Services
@@ -114,27 +103,38 @@ namespace DeportNetReconocimiento.Api.Services
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
+            
+
             //leo el json de la respuesta recibida
             string dataRecibida = await responseMessage.Content.ReadAsStringAsync();
-            Console.WriteLine("DATA RECIBIDA: " + dataRecibida);
+
+            
             //si el status code es 200, entonces la conexión fue exitosa
             if (responseMessage.IsSuccessStatusCode)
             {
+                //if(dataRecibida != "200")
+                //{
 
-                using JsonDocument doc = JsonDocument.Parse(dataRecibida);
+                //    using JsonDocument doc = JsonDocument.Parse(dataRecibida);
 
-                JsonElement root = doc.RootElement;
+                //    JsonElement root = doc.RootElement;
 
-                //Busco la propiedad branchAcces y digo que el elemento  es de tipo arreglo
-                if (root.TryGetProperty("branchAccess", out JsonElement branchAccess) && branchAccess.ValueKind == JsonValueKind.Array)
-                {
-                    //en realidad arroja "No se encontro el Socio" pero es justamente lo que necesitamos para saber si la conexión fue exitosa
-                    resultado.ActualizarResultado(true, dataRecibida, "200");
-                }
+                //    //Busco la propiedad branchAcces y digo que el elemento  es de tipo arreglo
+
+                //    if ((root.TryGetProperty("branchAccess", out JsonElement branchAccess) && branchAccess.ValueKind == JsonValueKind.Array))
+                //    {
+                //        //en realidad arroja "No se encontro el Socio" pero es justamente lo que necesitamos para saber si la conexión fue exitosa
+                //    }
+                //}
+                
+                resultado.ActualizarResultado(true, dataRecibida, "200");
+
+
 
             }
             else
             {
+                
                 resultado = CapturarErroresDeportnet(dataRecibida);
             }
             return resultado;
@@ -252,7 +252,7 @@ namespace DeportNetReconocimiento.Api.Services
 
 
                 resultado = await VerificarResponseDeportnet(response);
-
+                Console.WriteLine("VERIFICAMOS RESULTADOO"+ resultado.Mensaje);
 
 
 

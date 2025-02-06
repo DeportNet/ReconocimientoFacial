@@ -638,7 +638,7 @@ public class Hik_Controladora_Facial
 
         if ( false == Hik_SDK.NET_DVR_RemoteControl(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_DEL_FACE_PARAM_CFG, ref  struCardNo, (int)dwSize))
         {
-            resultado.ActualizarResultado(false, "Error al elimianr la estructura", Hik_SDK.NET_DVR_GetLastError().ToString());
+            resultado.ActualizarResultado(false, "Error al eliminar la estructura", Hik_SDK.NET_DVR_GetLastError().ToString());
         }
         else
         {

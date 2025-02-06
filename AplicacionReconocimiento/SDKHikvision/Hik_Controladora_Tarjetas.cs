@@ -404,7 +404,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                 case (int)Hik_SDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_EXCEPTION:
                     //exception
                     flag = false;
-                    resultado.ActualizarResultado(false, "Se produjo una excepcion ", Hik_SDK.NET_DVR_GetLastError().ToString());
+                    resultado.ActualizarResultado(false, "Se produjo una excepcion. Puede que no exista la tarjeta.", Hik_SDK.NET_DVR_GetLastError().ToString());
 
                     break;
                 default:
