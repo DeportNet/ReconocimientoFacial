@@ -287,8 +287,11 @@ namespace DeportNetReconocimiento.GUI
             string idSucursalTexto = TextBoxIdSucursal.Text;
 
 
-            VerificarCambiosCredenciales(tokenSucursal, idSucursalTexto);
-
+            bool conexion= await VerificarCambiosCredenciales(tokenSucursal, idSucursalTexto);
+            if (!conexion)
+            {
+                return;
+            }
 
 
             configuracion.MetodoApertura = ComboBoxAperturaMolinete.Text;
@@ -302,21 +305,28 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
-        private async void VerificarCambiosCredenciales(string tokenSucursal, string idSucursalTexto)
+        private async Task<bool> VerificarCambiosCredenciales(string tokenSucursal, string idSucursalTexto)
         {
+            bool conexion = false;
+            //si hay cambios en las credenciales, se testea la conexion
             if (tokenSucursal != _credenciales[5] || idSucursalTexto != _credenciales[4])
             {
                
                 Hik_Resultado resultado = await WebServicesDeportnet.TestearConexionDeportnet(tokenSucursal, idSucursalTexto);
 
+                //si no es exitoso, se muestra el mensaje de error
                 if (!resultado.Exito)
                 {
                     resultado.MessageBoxResultado("Conexion con deportnet");
-                    return;
+                    return conexion;
                 }
 
+                conexion = true;
                 ActualizarDatosCredenciales(idSucursalTexto, tokenSucursal);
+                
+
             }
+            return conexion;
         }
 
         public void ActualizarDatosCredenciales(string idSucursal, string tokenSucursal)
