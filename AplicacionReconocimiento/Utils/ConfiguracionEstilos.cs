@@ -602,7 +602,7 @@ namespace DeportNetReconocimiento.Utils
         {
             if (value == null)
             {
-                Console.WriteLine("Img Es null");
+                Console.WriteLine("Img Es null. Estoy en Write de ImageToPathJsonConverter");
                 writer.WriteStringValue(string.Empty); // Guardar una cadena vacía si la imagen es null
                 return;
             }
@@ -655,7 +655,7 @@ namespace DeportNetReconocimiento.Utils
             // Verificar si la ruta es válida
             if (string.IsNullOrEmpty(rutaRelativa) || !File.Exists(rutaAbsoluta))
             {
-                Console.WriteLine("Img predeterminada");
+                Console.WriteLine("Si hay algun problema, ponemos la img predeterminada");
                 return Resources.logo_deportnet_1; //retorno el logo deportnet si no se pudo leer nada
             }
 

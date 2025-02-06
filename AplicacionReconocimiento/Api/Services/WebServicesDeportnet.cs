@@ -252,8 +252,7 @@ namespace DeportNetReconocimiento.Api.Services
 
 
                 resultado = await VerificarResponseDeportnet(response);
-                Console.WriteLine("VERIFICAMOS RESULTADOO"+ resultado.Mensaje);
-
+                
 
 
             }

@@ -1,8 +1,11 @@
 ﻿
+using DeportNetReconocimiento.BD;
+using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Xml;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -27,15 +30,11 @@ namespace DeportNetReconocimiento.SDK
         private static Hik_Controladora_Facial? hik_Controladora_Facial;
         private static Hik_Controladora_Tarjetas? hik_Controladora_Tarjetas;
         private static Hik_Controladora_Eventos? hik_Controladora_Eventos;
-        private ConfiguracionEstilos configuracion;
 
 
         //constructores
         private Hik_Controladora_General()
         {
-            configuracion = ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos");
-
-
             this.idUsuario = -1;
 
             this.soportaFacial = false;
@@ -374,7 +373,7 @@ namespace DeportNetReconocimiento.SDK
         //INICIALIZAMOS TODO
         public Hik_Resultado InicializarPrograma(string user, string password, string port, string ip)
         {
-
+            ConfiguracionEstilos configuracion= ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos");
             Hik_Resultado resultado = new Hik_Resultado();
 
             resultado = InicializarNet_DVR();
@@ -453,12 +452,13 @@ namespace DeportNetReconocimiento.SDK
         }
 
 
-        public Hik_Resultado AltaCliente(string id, string nombre)
+        public Hik_Resultado AltaCliente(string idCliente, string nombre)
         {
             Hik_Resultado resultado = new Hik_Resultado();
+            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos");
 
             //Busco si la tarjeta existe
-            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(id));
+            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(idCliente));
             if (resultado.Exito)
             {
                // MessageBox.Show("Error de obtener la tarjeta");
@@ -480,7 +480,7 @@ namespace DeportNetReconocimiento.SDK
             }
 
             //Creo la tarjeta
-            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(int.Parse(id), nombre);
+            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(int.Parse(idCliente), nombre);
             if (!resultado.Exito)
             {
                 //MessageBox.Show("Error de crear una tarjeta");
@@ -489,7 +489,7 @@ namespace DeportNetReconocimiento.SDK
             }
 
             //Asigno la cara a la tarjeta
-            resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, id);
+            resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, idCliente);
             if (!resultado.Exito)
             {
                 //MessageBox.Show("Error de establecer una cara");
@@ -497,12 +497,63 @@ namespace DeportNetReconocimiento.SDK
                 return resultado;
             }
 
+            ConservarImagenSocio(configuracion, nombre, idCliente);
             configuracion.SumarRegistroCara();
+
             return resultado;
+        }
+        
+
+        private static string CambiarNombreFoto(string nombreCompletoSocio, string idSocio)
+        {
+            string aux = Regex.Replace(nombreCompletoSocio, "'", "");
+            return Regex.Replace(aux, " ", "_") + "_" + idSocio + ".jpg";
+        }
+
+
+
+        public void ConservarImagenSocio(ConfiguracionEstilos configuracion, string nombreCompletoSocio, string idSocio)
+        {            
+            if (!configuracion.AlmacenarFotoSocio)
+            {
+                return;
+            }
+
+            //Obtengo las rutas necesarias
+            string rutaOriginal = "captura.jpg";
+            string rutaNueva = configuracion.RutaCarpeta;
+          
+
+            if (string.IsNullOrEmpty(rutaNueva))
+            {
+                return;
+            }
+
+            try
+            {
+                //Si no existe el directorio, lo creo 
+                if (!Directory.Exists(rutaNueva))
+                {
+                    Directory.CreateDirectory(rutaNueva);
+                }
+
+                //Configuro el nombre de la foto
+                string nuevoNombre = CambiarNombreFoto(nombreCompletoSocio, idSocio);
+                string rutaDestino = Path.Combine(rutaNueva, nuevoNombre);
+
+                //Hago la copia de un directorio a otro
+                File.Copy(rutaOriginal, rutaDestino, overwrite: true);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
 
         public Hik_Resultado BajaCliente(string id)
         {
+            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos");
             Hik_Resultado resultado = new Hik_Resultado();
 
             //Buscar tarjeta

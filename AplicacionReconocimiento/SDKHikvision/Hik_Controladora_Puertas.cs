@@ -111,7 +111,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         {
             if (string.IsNullOrEmpty(ruta))
             {
-                Console.WriteLine("Ruta nula o vacia, no hago nada");
+                Console.WriteLine("Ruta nula o vacia, no ejecuto el exe.");
                 return;
             }
 

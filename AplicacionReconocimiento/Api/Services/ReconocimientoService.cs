@@ -7,6 +7,7 @@ using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,7 +52,7 @@ namespace DeportNetReconocimiento.Api.Services
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.ToString());
+                Console.WriteLine("LeerCredencialesReconocimientoService Excp: " + e.ToString());
                 idSucursal = null;
             }
 
@@ -110,7 +111,7 @@ namespace DeportNetReconocimiento.Api.Services
 
             //asincronico no se espera
             _ = AltaClienteDeportnet(clienteRequest);
-            ConservarImagenSocio(clienteRequest.NombreCliente, clienteRequest.IdCliente);
+            
            
             return "T";
 
@@ -145,8 +146,8 @@ namespace DeportNetReconocimiento.Api.Services
                     resAlta.Mensaje,
                     "F")
                 );
-                
-                    
+
+                Console.WriteLine("Hubo un Error en alta facial: "+ resAlta.Mensaje);
                 //throw new HikvisionException(resAlta.Mensaje);
             }
             else
@@ -157,7 +158,7 @@ namespace DeportNetReconocimiento.Api.Services
                     "Alta facial cliente exitosa",
                     "T");
 
-                Console.WriteLine(respuestaAlta.ToJson());
+                
 
                 string mensaje = await WebServicesDeportnet.AltaClienteDeportnet(respuestaAlta.ToJson());
 
@@ -169,56 +170,9 @@ namespace DeportNetReconocimiento.Api.Services
             enUso = false;
         }
 
-        public void ConservarImagenSocio(string nombreCompletoSocio, int idSocio)
-        {
-            //Leo las configuraciones
-            ConfiguracionEstilos configuracionEstilos = ConfiguracionEstilos.LeerJsonConfiguracion("ConfiguracionEstilos");
+       
 
-            if (!configuracionEstilos.AlmacenarFotoSocio)
-            {
-                return;
-            }
-            
-            //Obtengo las rutas necesarias
-            string rutaOriginal = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "captura.jpg");
-            string rutaNueva =  configuracionEstilos.RutaCarpeta;
-
-
-            if (string.IsNullOrEmpty(rutaNueva))
-            {
-                return;
-            }
-
-
-
-            try
-            {
-                //Si no existe el directorio, lo creo 
-                if (!Directory.Exists(rutaNueva))
-                {
-                    Directory.CreateDirectory(rutaNueva);
-                }
-
-                //Configuro el nombre de la foto
-                string nuevoNombre = CambiarNombreFoto(nombreCompletoSocio, idSocio);
-                string rutaDestino = Path.Combine(rutaNueva, nuevoNombre);
-
-                //Hago la copia de un directorio a otro
-                File.Copy(rutaOriginal, rutaDestino, overwrite: true);
-                    
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-        }
-
-        private static string CambiarNombreFoto(string nombreCompletoSocio, int idSocio)
-        {
-            string aux = Regex.Replace(nombreCompletoSocio, "'", "");
-            return Regex.Replace(aux, " ", "_") + "_" + idSocio.ToString() + ".jpg";
-        }
-
+      
         public string BajaFacialCliente(BajaFacialClienteRequest clienteRequest)
         {
 
@@ -287,7 +241,6 @@ namespace DeportNetReconocimiento.Api.Services
 
             if (!resBaja.Exito)
             {
-                Console.WriteLine("No hubo exito Baja facial"); 
 
                 MensajeDeErrorAltaBajaCliente(
                     new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
@@ -295,6 +248,7 @@ namespace DeportNetReconocimiento.Api.Services
                     resBaja.Mensaje,
                     "F")
                 );
+                Console.WriteLine("Hubo un Error en Baja facial: " + resBaja.Mensaje);
 
 
                 //throw new HikvisionException(resAlta.Mensaje);
@@ -307,10 +261,10 @@ namespace DeportNetReconocimiento.Api.Services
                     "Alta facial cliente exitosa", 
                     "T");
                 string mensaje = await WebServicesDeportnet.BajaClienteDeportnet(respuestaAlta.ToJson());
-                Console.WriteLine("MENSAJE DEBERIA ESCRIBIR 200 SI SALIO BIEN: "+mensaje);
+                
+                Console.WriteLine("Se ha dado de baja el cliente facial con id: " + clienteRequest.IdCliente);
             }
             enUso = false;
-            Console.WriteLine("Se ha dado de baja el cliente facial con id: " + clienteRequest.IdCliente);
         }
 
         private void MensajeDeErrorAltaBajaCliente(RespuestaAltaBajaCliente respuestaAlta)
