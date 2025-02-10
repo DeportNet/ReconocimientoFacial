@@ -10,9 +10,14 @@ namespace DeportNetReconocimiento.Api.Services
     public class WebServicesDeportnet
     {
 
-        const string urlEntradaCliente = "https://testing.deportnet.com/facialAccess/facialAccessCheckUserEnter";
-        const string urlBajaCliente = "https://testing.deportnet.com/facialAccess/facialAccessDeleteResult";
-        const string urlAltaCliente = "https://testing.deportnet.com/facialAccess/facialAccessLectureResult";
+        const string urlEntradaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessCheckUserEnter";
+        const string urlBajaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessDeleteResult";
+        const string urlAltaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessLectureResult";
+
+
+        const string urlEntradaCliente = "https://deportnet.com/facialAccess/facialAccessCheckUserEnter";
+        const string urlBajaCliente = "https://deportnet.com/facialAccess/facialAccessDeleteResult";
+        const string urlAltaCliente = "https://deportnet.com/facialAccess/facialAccessLectureResult";
 
         public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal) 
         {
@@ -103,7 +108,7 @@ namespace DeportNetReconocimiento.Api.Services
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
-            
+        
 
             //leo el json de la respuesta recibida
             string dataRecibida = await responseMessage.Content.ReadAsStringAsync();
@@ -112,6 +117,8 @@ namespace DeportNetReconocimiento.Api.Services
             //si el status code es 200, entonces la conexión fue exitosa
             if (responseMessage.IsSuccessStatusCode)
             {
+
+                /*
                 //if(dataRecibida != "200")
                 //{
 
@@ -126,7 +133,7 @@ namespace DeportNetReconocimiento.Api.Services
                 //        //en realidad arroja "No se encontro el Socio" pero es justamente lo que necesitamos para saber si la conexión fue exitosa
                 //    }
                 //}
-                
+                */
                 resultado.ActualizarResultado(true, dataRecibida, "200");
 
 
