@@ -79,7 +79,7 @@ namespace DeportNetReconocimiento.GUI
             pictureBox1.Margin = new Padding(0);
             pictureBox1.MinimumSize = new Size(420, 450);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(628, 763);
+            pictureBox1.Size = new Size(628, 723);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 11;
             pictureBox1.TabStop = false;
@@ -149,7 +149,7 @@ namespace DeportNetReconocimiento.GUI
             botonPersonalizar.FlatAppearance.BorderSize = 0;
             botonPersonalizar.FlatStyle = FlatStyle.Flat;
             botonPersonalizar.ForeColor = Color.Black;
-            botonPersonalizar.Location = new Point(1808, 1011);
+            botonPersonalizar.Location = new Point(1808, 971);
             botonPersonalizar.Name = "botonPersonalizar";
             botonPersonalizar.Size = new Size(84, 23);
             botonPersonalizar.TabIndex = 28;
@@ -162,7 +162,7 @@ namespace DeportNetReconocimiento.GUI
             PanelSinConexion.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             PanelSinConexion.BackColor = Color.Black;
             PanelSinConexion.Controls.Add(textoSinCoenxion);
-            PanelSinConexion.Location = new Point(1527, 1001);
+            PanelSinConexion.Location = new Point(1527, 961);
             PanelSinConexion.Name = "PanelSinConexion";
             PanelSinConexion.Size = new Size(275, 36);
             PanelSinConexion.TabIndex = 29;
@@ -186,7 +186,7 @@ namespace DeportNetReconocimiento.GUI
             PanelAlmacenamiento.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             PanelAlmacenamiento.BackColor = Color.Black;
             PanelAlmacenamiento.Controls.Add(TextoAlmacenamiento);
-            PanelAlmacenamiento.Location = new Point(1083, 1006);
+            PanelAlmacenamiento.Location = new Point(1083, 966);
             PanelAlmacenamiento.Name = "PanelAlmacenamiento";
             PanelAlmacenamiento.Size = new Size(438, 35);
             PanelAlmacenamiento.TabIndex = 30;
@@ -223,7 +223,7 @@ namespace DeportNetReconocimiento.GUI
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new Size(1904, 763);
+            tableLayoutPanel1.Size = new Size(1904, 723);
             tableLayoutPanel1.TabIndex = 33;
             // 
             // textoInformacionCliente
@@ -232,7 +232,7 @@ namespace DeportNetReconocimiento.GUI
             textoInformacionCliente.Location = new Point(628, 0);
             textoInformacionCliente.Margin = new Padding(0);
             textoInformacionCliente.Name = "textoInformacionCliente";
-            textoInformacionCliente.Size = new Size(1276, 763);
+            textoInformacionCliente.Size = new Size(1276, 723);
             textoInformacionCliente.TabIndex = 12;
             // 
             // WFPrincipal
@@ -240,7 +240,7 @@ namespace DeportNetReconocimiento.GUI
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.Silver;
-            ClientSize = new Size(1904, 1041);
+            ClientSize = new Size(1904, 1001);
             Controls.Add(botonPersonalizar);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(PanelAlmacenamiento);
@@ -249,7 +249,7 @@ namespace DeportNetReconocimiento.GUI
             Controls.Add(imagenLogo);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
-            MaximumSize = new Size(1920, 1080);
+            MaximumSize = new Size(1920, 1040);
             MinimumSize = new Size(1364, 766);
             Name = "WFPrincipal";
             ShowInTaskbar = false;
