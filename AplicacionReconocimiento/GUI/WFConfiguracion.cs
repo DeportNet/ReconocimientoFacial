@@ -287,13 +287,22 @@ namespace DeportNetReconocimiento.GUI
             string idSucursalTexto = TextBoxIdSucursal.Text;
 
 
-            bool conexion= await VerificarCambiosCredenciales(tokenSucursal, idSucursalTexto);
-            if (!conexion)
+
+
+            bool conexion = true;
+            //si hay cambios en las credenciales, se testea la conexion
+            if (tokenSucursal != _credenciales[5] || idSucursalTexto != _credenciales[4])
             {
-                return;
+                conexion= await VerificarCambiosCredenciales(tokenSucursal, idSucursalTexto);
+
             }
 
-
+            //si fallo la conexion, no se guarda nada
+            if (!conexion) {
+                return;
+            }
+            
+            
             configuracion.MetodoApertura = ComboBoxAperturaMolinete.Text;
             configuracion.RutaMetodoApertura = TextBoxRutaExe.Text;
 
@@ -303,29 +312,28 @@ namespace DeportNetReconocimiento.GUI
 
             PanelConfigAdminsitrador.Visible = false;
 
+
+
         }
 
         private async Task<bool> VerificarCambiosCredenciales(string tokenSucursal, string idSucursalTexto)
         {
             bool conexion = false;
-            //si hay cambios en las credenciales, se testea la conexion
-            if (tokenSucursal != _credenciales[5] || idSucursalTexto != _credenciales[4])
+            
+            Hik_Resultado resultado = await WebServicesDeportnet.TestearConexionDeportnet(tokenSucursal, idSucursalTexto);
+
+            //si no es exitoso, se muestra el mensaje de error
+            if (!resultado.Exito)
             {
-               
-                Hik_Resultado resultado = await WebServicesDeportnet.TestearConexionDeportnet(tokenSucursal, idSucursalTexto);
+                resultado.MessageBoxResultado("Conexion con deportnet");
+                return conexion;
+            }
 
-                //si no es exitoso, se muestra el mensaje de error
-                if (!resultado.Exito)
-                {
-                    resultado.MessageBoxResultado("Conexion con deportnet");
-                    return conexion;
-                }
-
-                conexion = true;
-                ActualizarDatosCredenciales(idSucursalTexto, tokenSucursal);
+            //si hubo exito, cambiamos las credenciales
+            conexion = true;
+            ActualizarDatosCredenciales(idSucursalTexto, tokenSucursal);
                 
 
-            }
             return conexion;
         }
 
