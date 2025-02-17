@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DeportnetOffline")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a6049574f65261f4fce6777fefb79441b5b61cbc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+12f4b22b8aa1c64c7b34905436a790cafba340f4")]
 [assembly: System.Reflection.AssemblyProductAttribute("DeportnetOffline")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DeportnetOffline")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

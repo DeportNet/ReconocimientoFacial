@@ -123,36 +123,6 @@
           }
         }
       },
-      "Stub.System.Data.SQLite.Core.NetStandard/1.0.119": {
-        "runtime": {
-          "lib/netstandard2.1/System.Data.SQLite.dll": {
-            "assemblyVersion": "1.0.119.0",
-            "fileVersion": "1.0.119.0"
-          }
-        },
-        "runtimeTargets": {
-          "runtimes/linux-x64/native/SQLite.Interop.dll": {
-            "rid": "linux-x64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/osx-x64/native/SQLite.Interop.dll": {
-            "rid": "osx-x64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/win-x64/native/SQLite.Interop.dll": {
-            "rid": "win-x64",
-            "assetType": "native",
-            "fileVersion": "1.0.119.0"
-          },
-          "runtimes/win-x86/native/SQLite.Interop.dll": {
-            "rid": "win-x86",
-            "assetType": "native",
-            "fileVersion": "1.0.119.0"
-          }
-        }
-      },
       "Swashbuckle.AspNetCore/7.2.0": {
         "dependencies": {
           "Microsoft.Extensions.ApiDescription.Server": "6.0.5",
@@ -189,11 +159,6 @@
             "assemblyVersion": "7.2.0.0",
             "fileVersion": "7.2.0.956"
           }
-        }
-      },
-      "System.Data.SQLite.Core/1.0.119": {
-        "dependencies": {
-          "Stub.System.Data.SQLite.Core.NetStandard": "1.0.119"
         }
       },
       "System.Security.AccessControl/4.7.0": {
@@ -318,13 +283,6 @@
       "path": "naudio.winmm/2.2.1",
       "hashPath": "naudio.winmm.2.2.1.nupkg.sha512"
     },
-    "Stub.System.Data.SQLite.Core.NetStandard/1.0.119": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-dI7ngiCNgdm+n00nQvFTa+LbHvE9MIQXwMSLRzJI/KAJ7G1WmCachsvfE1CD6xvb3OXJvYYEfv3+S/LHyhN0Rg==",
-      "path": "stub.system.data.sqlite.core.netstandard/1.0.119",
-      "hashPath": "stub.system.data.sqlite.core.netstandard.1.0.119.nupkg.sha512"
-    },
     "Swashbuckle.AspNetCore/7.2.0": {
       "type": "package",
       "serviceable": true,
@@ -352,13 +310,6 @@
       "sha512": "sha512-hgrXeKzyp5OGN8qVvL7A+vhmU7mDJTfGpiMBRL66IcfLOyna8UTLtn3cC3CghamXpRDufcc9ciklTszUGEQK0w==",
       "path": "swashbuckle.aspnetcore.swaggerui/7.2.0",
       "hashPath": "swashbuckle.aspnetcore.swaggerui.7.2.0.nupkg.sha512"
-    },
-    "System.Data.SQLite.Core/1.0.119": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-bhQB8HVtRA+OOYw8UTD1F1kU+nGJ0/OZvH1JmlVUI4bGvgVEWeX1NcHjA765NvUoRVuCPlt8PrEpZ1thSsk1jg==",
-      "path": "system.data.sqlite.core/1.0.119",
-      "hashPath": "system.data.sqlite.core.1.0.119.nupkg.sha512"
     },
     "System.Security.AccessControl/4.7.0": {
       "type": "package",

@@ -1,6 +1,4 @@
-﻿
-using DeportNetReconocimiento.BD;
-using DeportNetReconocimiento.GUI;
+﻿using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
 using System.Net.NetworkInformation;

@@ -33,7 +33,6 @@
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.2.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +55,10 @@
        <Pack>True</Pack>
        <PackagePath>\</PackagePath>
      </None>
+   </ItemGroup>
+
+   <ItemGroup>
+     <Folder Include="BD\" />
    </ItemGroup>
 
 </Project>

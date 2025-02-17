@@ -1,6 +1,5 @@
 ﻿using DeportNetReconocimiento.Api.Dtos.Response;
 using DeportNetReconocimiento.Api.Services;
-using DeportNetReconocimiento.BD;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDK;
@@ -119,9 +118,9 @@ namespace DeportNetReconocimiento.SDKHikvision
                     if (!WFPrincipal.ObtenerInstancia.ConexionInternet)
                     {
                         Console.WriteLine("Guardo al cliente en bd y no dx");
-                        int.TryParse(infoEvento.Card_Number, out int nroTarjeta);
+                        //int.TryParse(infoEvento.Card_Number, out int nroTarjeta);
 
-                        BdClientes.InsertarCliente(nroTarjeta, "Cliente", infoEvento.Time);
+                        
                     }
                     else
                     {

@@ -1,5 +1,4 @@
 using DeportNetReconocimiento.Api;
-using DeportNetReconocimiento.BD;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.SDKHikvision;
@@ -16,8 +15,6 @@ namespace DeportNetReconocimiento
         [STAThread]
         static void Main(string[] args)
         {
-            /*Base de Datos*/
-            BdClientes bdClientes = new BdClientes();
             
             /*API*/
             apiServer = new ApiServer();
