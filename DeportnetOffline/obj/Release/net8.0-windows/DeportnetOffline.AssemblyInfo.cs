@@ -11,13 +11,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("DeportNetReconocimiento")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("DeportnetOffline")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
-[assembly: System.Reflection.AssemblyCopyrightAttribute("Deportnet")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a6049574f65261f4fce6777fefb79441b5b61cbc")]
-[assembly: System.Reflection.AssemblyProductAttribute("DeportNetReconocimiento")]
-[assembly: System.Reflection.AssemblyTitleAttribute("DeportNetReconocimiento")]
+[assembly: System.Reflection.AssemblyProductAttribute("DeportnetOffline")]
+[assembly: System.Reflection.AssemblyTitleAttribute("DeportnetOffline")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 [assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows7.0")]
 [assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows7.0")]
