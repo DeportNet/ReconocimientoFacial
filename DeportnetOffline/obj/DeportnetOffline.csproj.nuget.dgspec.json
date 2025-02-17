@@ -50,9 +50,9 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows7.0",
           "dependencies": {
-            "Microsoft.NETCore.Platforms": {
+            "MySql.Data": {
               "target": "Package",
-              "version": "[7.0.4, )"
+              "version": "[9.2.0, )"
             },
             "NAudio": {
               "target": "Package",
@@ -138,6 +138,12 @@
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[9.2.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
