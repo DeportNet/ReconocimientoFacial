@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\DeportnetOffline\\DeportnetOffline.csproj": {}
+    "D:\\DeportNet\\DeportNetReconocimiento\\DeportnetOffline\\DeportnetOffline.csproj": {}
   },
   "projects": {
-    "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj": {
+    "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
+        "projectUniqueName": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
         "projectName": "DeportNetReconocimiento",
-        "projectPath": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
-        "packagesPath": "C:\\Users\\fabri\\.nuget\\packages\\",
-        "outputPath": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\obj\\",
+        "projectPath": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
+        "packagesPath": "C:\\Users\\facun\\.nuget\\packages\\",
+        "outputPath": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "G:\\Programs\\Visual Studio Community\\SharedComponents IDE\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\fabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\facun\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -85,25 +81,21 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\DeportnetOffline\\DeportnetOffline.csproj": {
+    "D:\\DeportNet\\DeportNetReconocimiento\\DeportnetOffline\\DeportnetOffline.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\DeportnetOffline\\DeportnetOffline.csproj",
+        "projectUniqueName": "D:\\DeportNet\\DeportNetReconocimiento\\DeportnetOffline\\DeportnetOffline.csproj",
         "projectName": "DeportnetOffline",
-        "projectPath": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\DeportnetOffline\\DeportnetOffline.csproj",
-        "packagesPath": "C:\\Users\\fabri\\.nuget\\packages\\",
-        "outputPath": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\DeportnetOffline\\obj\\",
+        "projectPath": "D:\\DeportNet\\DeportNetReconocimiento\\DeportnetOffline\\DeportnetOffline.csproj",
+        "packagesPath": "C:\\Users\\facun\\.nuget\\packages\\",
+        "outputPath": "D:\\DeportNet\\DeportNetReconocimiento\\DeportnetOffline\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "G:\\Programs\\Visual Studio Community\\SharedComponents IDE\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\fabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\facun\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -118,8 +110,8 @@
           "net8.0-windows7.0": {
             "targetAlias": "net8.0-windows",
             "projectReferences": {
-              "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj": {
-                "projectPath": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj"
+              "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj": {
+                "projectPath": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj"
               }
             }
           }
@@ -163,7 +155,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
