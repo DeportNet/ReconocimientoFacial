@@ -43,6 +43,9 @@
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tableLayoutPanel1.AutoSize = true;
+            tableLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 82F));
@@ -52,25 +55,30 @@
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(1348, 728);
+            tableLayoutPanel1.Size = new Size(1344, 728);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // panel1
             // 
+            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            panel1.BackColor = Color.Red;
             panel1.Controls.Add(botonCobros);
             panel1.Controls.Add(botonAccesos);
             panel1.Controls.Add(botonSocios);
             panel1.Controls.Add(pictureBox1);
             panel1.Location = new Point(3, 3);
             panel1.Name = "panel1";
-            panel1.Size = new Size(236, 722);
+            panel1.Size = new Size(235, 722);
             panel1.TabIndex = 0;
             // 
             // botonCobros
             // 
+            botonCobros.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            botonCobros.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             botonCobros.Location = new Point(-3, 298);
             botonCobros.Name = "botonCobros";
-            botonCobros.Size = new Size(239, 60);
+            botonCobros.Size = new Size(238, 60);
             botonCobros.TabIndex = 3;
             botonCobros.Text = "Cobros";
             botonCobros.UseVisualStyleBackColor = true;
@@ -78,9 +86,11 @@
             // 
             // botonAccesos
             // 
+            botonAccesos.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            botonAccesos.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             botonAccesos.Location = new Point(0, 232);
             botonAccesos.Name = "botonAccesos";
-            botonAccesos.Size = new Size(233, 60);
+            botonAccesos.Size = new Size(232, 60);
             botonAccesos.TabIndex = 2;
             botonAccesos.Text = "Accesos";
             botonAccesos.UseVisualStyleBackColor = true;
@@ -88,9 +98,10 @@
             // 
             // botonSocios
             // 
+            botonSocios.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             botonSocios.Location = new Point(0, 168);
             botonSocios.Name = "botonSocios";
-            botonSocios.Size = new Size(236, 60);
+            botonSocios.Size = new Size(235, 60);
             botonSocios.TabIndex = 1;
             botonSocios.Text = "Socios";
             botonSocios.UseVisualStyleBackColor = true;
@@ -98,20 +109,24 @@
             // 
             // pictureBox1
             // 
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pictureBox1.BackColor = Color.Transparent;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(0, 3);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(233, 104);
+            pictureBox1.Size = new Size(232, 104);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
             // panelContenido
             // 
-            panelContenido.Location = new Point(245, 3);
+            panelContenido.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panelContenido.AutoSize = true;
+            panelContenido.BackColor = Color.Blue;
+            panelContenido.Location = new Point(244, 3);
             panelContenido.Name = "panelContenido";
-            panelContenido.Size = new Size(1100, 722);
+            panelContenido.Size = new Size(1097, 722);
             panelContenido.TabIndex = 1;
             // 
             // Form1
@@ -123,9 +138,11 @@
             Name = "Form1";
             Text = "Form1";
             tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel1.PerformLayout();
             panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
