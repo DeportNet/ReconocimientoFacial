@@ -12,7 +12,7 @@ namespace DeportNetReconocimiento.GUI
     {
         private ConfiguracionEstilos configuracion;
         private WFPrincipal principal;
-        private string[] _credenciales; 
+        private string[] _credenciales;
 
         public WFConfiguracion(ConfiguracionEstilos configuracionEstilos, WFPrincipal principal)
         {
@@ -20,7 +20,7 @@ namespace DeportNetReconocimiento.GUI
             this.configuracion = configuracionEstilos;
             this.principal = principal;
 
-            _credenciales= CredencialesUtils.LeerCredenciales();
+            _credenciales = CredencialesUtils.LeerCredenciales();
 
 
             // Asignar el objeto de configuración al PropertyGrid (para que se vea lo que se puede configurar)
@@ -251,7 +251,7 @@ namespace DeportNetReconocimiento.GUI
 
         public void ValidarAdministrador(string clave)
         {
-            
+
 
             //posicion 3 es la clave del dispositivo, pero usamos la misma
             if (clave == _credenciales[3])
@@ -293,16 +293,17 @@ namespace DeportNetReconocimiento.GUI
             //si hay cambios en las credenciales, se testea la conexion
             if (tokenSucursal != _credenciales[5] || idSucursalTexto != _credenciales[4])
             {
-                conexion= await VerificarCambiosCredenciales(tokenSucursal, idSucursalTexto);
+                conexion = await VerificarCambiosCredenciales(tokenSucursal, idSucursalTexto);
 
             }
 
             //si fallo la conexion, no se guarda nada
-            if (!conexion) {
+            if (!conexion)
+            {
                 return;
             }
-            
-            
+
+
             configuracion.MetodoApertura = ComboBoxAperturaMolinete.Text;
             configuracion.RutaMetodoApertura = TextBoxRutaExe.Text;
 
@@ -319,7 +320,7 @@ namespace DeportNetReconocimiento.GUI
         private async Task<bool> VerificarCambiosCredenciales(string tokenSucursal, string idSucursalTexto)
         {
             bool conexion = false;
-            
+
             Hik_Resultado resultado = await WebServicesDeportnet.TestearConexionDeportnet(tokenSucursal, idSucursalTexto);
 
             //si no es exitoso, se muestra el mensaje de error
@@ -332,14 +333,14 @@ namespace DeportNetReconocimiento.GUI
             //si hubo exito, cambiamos las credenciales
             conexion = true;
             ActualizarDatosCredenciales(idSucursalTexto, tokenSucursal);
-                
+
 
             return conexion;
         }
 
         public void ActualizarDatosCredenciales(string idSucursal, string tokenSucursal)
         {
-            
+
             _credenciales[4] = idSucursal;
             _credenciales[5] = tokenSucursal;
 
@@ -404,6 +405,14 @@ namespace DeportNetReconocimiento.GUI
                 textBoxTokenSucursal.UseSystemPasswordChar = true;
                 button3.Image = Resources.eye1;
             }
+        }
+
+        private void botonEditarCredenciales_Click(object sender, EventArgs e)
+        {
+            WFRgistrarDispositivo dialogo = WFRgistrarDispositivo.ObtenerInstancia;
+
+            dialogo.ShowDialog();
+
         }
     }
 }

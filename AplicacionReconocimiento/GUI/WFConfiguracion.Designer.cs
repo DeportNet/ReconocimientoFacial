@@ -51,6 +51,8 @@
             TextBoxAdmin = new TextBox();
             BotonIngresarAdmin = new Button();
             button1 = new Button();
+            label2 = new Label();
+            botonEditarCredenciales = new Button();
             PanelConfigAdminsitrador.SuspendLayout();
             SuspendLayout();
             // 
@@ -153,7 +155,7 @@
             BotonOcultarConfig.Cursor = Cursors.Hand;
             BotonOcultarConfig.FlatAppearance.BorderSize = 0;
             BotonOcultarConfig.FlatStyle = FlatStyle.Flat;
-            BotonOcultarConfig.Location = new Point(171, 225);
+            BotonOcultarConfig.Location = new Point(21, 304);
             BotonOcultarConfig.Name = "BotonOcultarConfig";
             BotonOcultarConfig.Size = new Size(121, 23);
             BotonOcultarConfig.TabIndex = 19;
@@ -164,6 +166,8 @@
             // PanelConfigAdminsitrador
             // 
             PanelConfigAdminsitrador.BackColor = Color.IndianRed;
+            PanelConfigAdminsitrador.Controls.Add(botonEditarCredenciales);
+            PanelConfigAdminsitrador.Controls.Add(label2);
             PanelConfigAdminsitrador.Controls.Add(button3);
             PanelConfigAdminsitrador.Controls.Add(button2);
             PanelConfigAdminsitrador.Controls.Add(textBoxTokenSucursal);
@@ -179,30 +183,32 @@
             PanelConfigAdminsitrador.Controls.Add(label6);
             PanelConfigAdminsitrador.Location = new Point(780, 269);
             PanelConfigAdminsitrador.Name = "PanelConfigAdminsitrador";
-            PanelConfigAdminsitrador.Size = new Size(377, 275);
+            PanelConfigAdminsitrador.Size = new Size(377, 345);
             PanelConfigAdminsitrador.TabIndex = 20;
             PanelConfigAdminsitrador.Visible = false;
             // 
             // button3
             // 
+            button3.BackColor = Color.Gainsboro;
             button3.Cursor = Cursors.Hand;
             button3.Image = Properties.Resources.eye;
             button3.Location = new Point(298, 178);
             button3.Name = "button3";
             button3.Size = new Size(35, 22);
             button3.TabIndex = 26;
-            button3.UseVisualStyleBackColor = true;
+            button3.UseVisualStyleBackColor = false;
             button3.Click += button3_Click;
             // 
             // button2
             // 
+            button2.BackColor = Color.Gainsboro;
             button2.Cursor = Cursors.Hand;
             button2.Image = Properties.Resources.eye;
             button2.Location = new Point(298, 138);
             button2.Name = "button2";
             button2.Size = new Size(35, 22);
             button2.TabIndex = 25;
-            button2.UseVisualStyleBackColor = true;
+            button2.UseVisualStyleBackColor = false;
             button2.Click += button2_Click;
             // 
             // textBoxTokenSucursal
@@ -224,6 +230,7 @@
             // 
             // BotonAbrirFileDialog
             // 
+            BotonAbrirFileDialog.BackColor = Color.Gainsboro;
             BotonAbrirFileDialog.Cursor = Cursors.Hand;
             BotonAbrirFileDialog.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             BotonAbrirFileDialog.Location = new Point(263, 90);
@@ -232,7 +239,7 @@
             BotonAbrirFileDialog.TabIndex = 22;
             BotonAbrirFileDialog.Text = "•••";
             BotonAbrirFileDialog.TextAlign = ContentAlignment.TopCenter;
-            BotonAbrirFileDialog.UseVisualStyleBackColor = true;
+            BotonAbrirFileDialog.UseVisualStyleBackColor = false;
             BotonAbrirFileDialog.Click += button1_Click;
             // 
             // TextBoxRutaExe
@@ -296,6 +303,31 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click_1;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 12F);
+            label2.Location = new Point(21, 217);
+            label2.Name = "label2";
+            label2.Size = new Size(142, 21);
+            label2.TabIndex = 28;
+            label2.Text = "Editar credenciales:";
+            // 
+            // botonEditarCredenciales
+            // 
+            botonEditarCredenciales.BackColor = Color.Gainsboro;
+            botonEditarCredenciales.Cursor = Cursors.Hand;
+            botonEditarCredenciales.FlatAppearance.BorderSize = 0;
+            botonEditarCredenciales.FlatStyle = FlatStyle.Flat;
+            botonEditarCredenciales.Location = new Point(165, 217);
+            botonEditarCredenciales.Margin = new Padding(0);
+            botonEditarCredenciales.Name = "botonEditarCredenciales";
+            botonEditarCredenciales.Size = new Size(75, 23);
+            botonEditarCredenciales.TabIndex = 29;
+            botonEditarCredenciales.Text = "Editar";
+            botonEditarCredenciales.UseVisualStyleBackColor = false;
+            botonEditarCredenciales.Click += botonEditarCredenciales_Click;
+            // 
             // WFConfiguracion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -349,5 +381,7 @@
         private Button button3;
         private Button button2;
         private Button button1;
+        private Label label2;
+        private Button botonEditarCredenciales;
     }
 }

@@ -23,6 +23,16 @@ namespace DeportNetReconocimiento.Utils
             }
         }
 
+        public static bool ExisteArchivoCredenciales()
+        {
+            bool flag = false;
+            if (File.Exists("credenciales.bin"))
+            {
+                flag = true;
+            }
+            return flag;
+        }
+
 
         public static string[] LeerCredenciales()
         {

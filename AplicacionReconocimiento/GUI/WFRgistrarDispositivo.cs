@@ -9,11 +9,34 @@ namespace DeportNetReconocimiento
     {
         public bool ignorarCierre = false;
         private static WFRgistrarDispositivo? instancia;
-
+        private string[] credencialesLeidas;
 
         private WFRgistrarDispositivo()
         {
             InitializeComponent();
+
+            if (CredencialesUtils.ExisteArchivoCredenciales())
+            {
+                credencialesLeidas = CredencialesUtils.LeerCredenciales();
+                AgregarValoresAInputs(credencialesLeidas);
+            }
+
+
+        }
+
+
+        private void AgregarValoresAInputs(string[] credencialesLeidas)
+        {
+            if (credencialesLeidas != null && credencialesLeidas.Length >= 6 )
+            {
+                //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
+                textBoxDeviceAddress.Text = credencialesLeidas[0];
+                textBoxPort.Text = credencialesLeidas[1];
+                textBoxUserName.Text = credencialesLeidas[2];
+                textBoxPassword.Text = credencialesLeidas[3];
+                textBoxSucursalID.Text = credencialesLeidas[4];
+                textBoxTokenSucursal.Text = credencialesLeidas[5];
+            }
         }
 
 
