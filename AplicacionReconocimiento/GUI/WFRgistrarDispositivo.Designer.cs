@@ -75,6 +75,7 @@
             // 
             // btnCancel
             // 
+            btnCancel.Cursor = Cursors.Hand;
             btnCancel.FlatStyle = FlatStyle.Flat;
             btnCancel.Location = new Point(372, 303);
             btnCancel.Name = "btnCancel";
@@ -86,6 +87,7 @@
             // 
             // btnAdd
             // 
+            btnAdd.Cursor = Cursors.Hand;
             btnAdd.FlatStyle = FlatStyle.Flat;
             btnAdd.Location = new Point(163, 303);
             btnAdd.Name = "btnAdd";
@@ -220,6 +222,7 @@
             // 
             // BotonVer1
             // 
+            BotonVer1.Cursor = Cursors.Hand;
             BotonVer1.FlatStyle = FlatStyle.Flat;
             BotonVer1.Image = Properties.Resources.eye;
             BotonVer1.Location = new Point(481, 200);
@@ -231,6 +234,7 @@
             // 
             // BotonVer2
             // 
+            BotonVer2.Cursor = Cursors.Hand;
             BotonVer2.FlatStyle = FlatStyle.Flat;
             BotonVer2.Image = Properties.Resources.eye;
             BotonVer2.Location = new Point(481, 231);
@@ -242,6 +246,7 @@
             // 
             // BotonVer3
             // 
+            BotonVer3.Cursor = Cursors.Hand;
             BotonVer3.FlatStyle = FlatStyle.Flat;
             BotonVer3.Image = Properties.Resources.eye;
             BotonVer3.Location = new Point(481, 262);
@@ -282,7 +287,6 @@
             Name = "WFRgistrarDispositivo";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Registrar Dispositivo";
-            FormClosing += CerrarFormulario;
             Load += WFRgistrarDispositivo_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

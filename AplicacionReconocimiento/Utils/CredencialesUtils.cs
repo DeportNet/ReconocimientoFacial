@@ -37,16 +37,12 @@ namespace DeportNetReconocimiento.Utils
         public static string[] LeerCredenciales()
         {
             var listaDatos = new System.Collections.Generic.List<string>();
-            string rutaArchivo = "credenciales.bin";
 
             WFRgistrarDispositivo wFRgistrarDispositivo = WFRgistrarDispositivo.ObtenerInstancia;
 
-            
-
-
 
             //si el archivo no existe, se abre la ventana para registrar el dispositivo
-            if (!File.Exists(rutaArchivo))
+            if (!CredencialesUtils.ExisteArchivoCredenciales())
             {
 
                 //si no esta levantado el formulario, se levanta para que haya solo uno
@@ -59,6 +55,7 @@ namespace DeportNetReconocimiento.Utils
             }
             else
             {
+                string rutaArchivo = "credenciales.bin";
 
                 // Leer desde un archivo binario
                 using (BinaryReader reader = new BinaryReader(File.Open(rutaArchivo, FileMode.Open)))
