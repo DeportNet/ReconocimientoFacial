@@ -12,7 +12,7 @@ namespace DeportNetReconocimiento.GUI
     {
         private ConfiguracionEstilos configuracion;
         private WFPrincipal principal;
-        private string[] _credenciales; 
+        private string[] _credenciales;
 
         public WFConfiguracion(ConfiguracionEstilos configuracionEstilos, WFPrincipal principal)
         {
@@ -20,7 +20,7 @@ namespace DeportNetReconocimiento.GUI
             this.configuracion = configuracionEstilos;
             this.principal = principal;
 
-            _credenciales= CredencialesUtils.LeerCredenciales();
+            _credenciales = CredencialesUtils.LeerCredenciales();
 
 
             // Asignar el objeto de configuración al PropertyGrid (para que se vea lo que se puede configurar)
@@ -251,15 +251,15 @@ namespace DeportNetReconocimiento.GUI
 
         public void ValidarAdministrador(string clave)
         {
-            
+
 
             //posicion 3 es la clave del dispositivo, pero usamos la misma
             if (clave == _credenciales[3])
             {
                 PanelConfigAdminsitrador.Visible = true;
 
-                TextBoxIdSucursal.Text = _credenciales[4];
-                textBoxTokenSucursal.Text = _credenciales[5];
+                //TextBoxIdSucursal.Text = _credenciales[4];
+                //textBoxTokenSucursal.Text = _credenciales[5];
 
                 ComboBoxAperturaMolinete.SelectedItem = configuracion.MetodoApertura;
                 TextBoxRutaExe.Text = configuracion.RutaMetodoApertura;
@@ -268,41 +268,42 @@ namespace DeportNetReconocimiento.GUI
             TextBoxAdmin.Text = "";
         }
 
-        private async void BotonOcultarConfig_Click(object sender, EventArgs e)
+        private void BotonOcultarConfig_Click(object sender, EventArgs e)
         {
             //validaciones primero 
 
-            if (!int.TryParse(TextBoxIdSucursal.Text, out int idSucursalOut))
-            {
-                MessageBox.Show(
-                   "El id ingresado debe ser de tipo numero", // Mensaje
-                   "Error de Formato",                                  // Título
-                   MessageBoxButtons.OK,                                   // Botones (OK)
-                   MessageBoxIcon.Error                                    // Ícono (Error)
-                   );
-                return;
-            }
+            //if (!int.TryParse(TextBoxIdSucursal.Text, out int idSucursalOut))
+            //{
+            //    MessageBox.Show(
+            //       "El id ingresado debe ser de tipo numero", // Mensaje
+            //       "Error de Formato",                                  // Título
+            //       MessageBoxButtons.OK,                                   // Botones (OK)
+            //       MessageBoxIcon.Error                                    // Ícono (Error)
+            //       );
+            //    return;
+            //}
 
-            string tokenSucursal = textBoxTokenSucursal.Text;
-            string idSucursalTexto = TextBoxIdSucursal.Text;
-
-
+            //string tokenSucursal = textBoxTokenSucursal.Text;
+            //string idSucursalTexto = TextBoxIdSucursal.Text;
 
 
-            bool conexion = true;
-            //si hay cambios en las credenciales, se testea la conexion
-            if (tokenSucursal != _credenciales[5] || idSucursalTexto != _credenciales[4])
-            {
-                conexion= await VerificarCambiosCredenciales(tokenSucursal, idSucursalTexto);
 
-            }
 
-            //si fallo la conexion, no se guarda nada
-            if (!conexion) {
-                return;
-            }
-            
-            
+            //bool conexion = true;
+            ////si hay cambios en las credenciales, se testea la conexion
+            //if (tokenSucursal != _credenciales[5] || idSucursalTexto != _credenciales[4])
+            //{
+            //    conexion = await VerificarCambiosCredenciales(tokenSucursal, idSucursalTexto);
+
+            //}
+
+            ////si fallo la conexion, no se guarda nada
+            //if (!conexion)
+            //{
+            //    return;
+            //}
+
+
             configuracion.MetodoApertura = ComboBoxAperturaMolinete.Text;
             configuracion.RutaMetodoApertura = TextBoxRutaExe.Text;
 
@@ -319,7 +320,7 @@ namespace DeportNetReconocimiento.GUI
         private async Task<bool> VerificarCambiosCredenciales(string tokenSucursal, string idSucursalTexto)
         {
             bool conexion = false;
-            
+
             Hik_Resultado resultado = await WebServicesDeportnet.TestearConexionDeportnet(tokenSucursal, idSucursalTexto);
 
             //si no es exitoso, se muestra el mensaje de error
@@ -332,14 +333,14 @@ namespace DeportNetReconocimiento.GUI
             //si hubo exito, cambiamos las credenciales
             conexion = true;
             ActualizarDatosCredenciales(idSucursalTexto, tokenSucursal);
-                
+
 
             return conexion;
         }
 
         public void ActualizarDatosCredenciales(string idSucursal, string tokenSucursal)
         {
-            
+
             _credenciales[4] = idSucursal;
             _credenciales[5] = tokenSucursal;
 
@@ -378,32 +379,12 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void botonEditarCredenciales_Click(object sender, EventArgs e)
         {
-            if (TextBoxIdSucursal.UseSystemPasswordChar)
-            {
-                TextBoxIdSucursal.UseSystemPasswordChar = false;
-                button2.Image = Resources.hidden1;
-            }
-            else
-            {
-                TextBoxIdSucursal.UseSystemPasswordChar = true;
-                button2.Image = Resources.eye1;
-            }
-        }
+            WFRgistrarDispositivo dialogo = WFRgistrarDispositivo.ObtenerInstancia;
+            
+            dialogo.ShowDialog();
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            if (textBoxTokenSucursal.UseSystemPasswordChar)
-            {
-                textBoxTokenSucursal.UseSystemPasswordChar = false;
-                button3.Image = Resources.hidden1;
-            }
-            else
-            {
-                textBoxTokenSucursal.UseSystemPasswordChar = true;
-                button3.Image = Resources.eye1;
-            }
         }
     }
 }

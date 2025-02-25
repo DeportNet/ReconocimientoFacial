@@ -1,4 +1,5 @@
 ﻿using DeportNetReconocimiento.Api.Services;
+using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
@@ -9,11 +10,35 @@ namespace DeportNetReconocimiento
     {
         public bool ignorarCierre = false;
         private static WFRgistrarDispositivo? instancia;
-
+        private string[] credencialesLeidas;
 
         private WFRgistrarDispositivo()
         {
             InitializeComponent();
+        }
+
+
+        private void AgregarValoresAInputs(string[] credencialesLeidas)
+        {
+
+           
+            if (credencialesLeidas != null && credencialesLeidas.Length >= 6 )
+            {
+                //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
+                textBoxDeviceAddress.Text = credencialesLeidas[0];
+                textBoxPort.Text = credencialesLeidas[1];
+                textBoxUserName.Text = credencialesLeidas[2];
+                textBoxPassword.Text = credencialesLeidas[3];
+                textBoxSucursalID.Text = credencialesLeidas[4];
+                textBoxTokenSucursal.Text = credencialesLeidas[5];
+            }
+        }
+
+        private void WFRgistrarDispositivo_Load(object sender, EventArgs e)
+        {
+            if (CredencialesUtils.ExisteArchivoCredenciales()) { 
+                AgregarValoresAInputs(CredencialesUtils.LeerCredenciales());
+            }
         }
 
 
@@ -110,13 +135,14 @@ namespace DeportNetReconocimiento
             //creamos un arreglo de strings con los datos que recibimos del input
             //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
             CredencialesUtils.EscribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text, textBoxSucursalID.Text, textBoxTokenSucursal.Text]);
-            ignorarCierre = true;
+
             this.Close();
-            Environment.Exit(0); // 0 indica salida exitosa; otro valor indica error.
+            //WFPrincipal.ObtenerInstancia.Show();
+            //LevantarWFPrincipal();
+            //ignorarCierre = true;
+            //Environment.Exit(0); 
 
         }
-
-
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
@@ -138,7 +164,7 @@ namespace DeportNetReconocimiento
                 if (result == DialogResult.Yes)
                 {
                     // Cerrar completamente la aplicación
-                    Environment.Exit(0);
+                    Environment.Exit(0); // 0 indica salida exitosa; otro valor indica error.
                 }
                 else
                 {
@@ -148,10 +174,7 @@ namespace DeportNetReconocimiento
             }
         }
 
-        private void WFRgistrarDispositivo_Load(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void button1_Click(object sender, EventArgs e)
         {

@@ -36,7 +36,7 @@
     <WeekPlan>
       <weekPlanNo min="1" max="2" />
       <maxDaySegment>8</maxDaySegment>
-      <verifyType opt="swipecardandpassword,swipecard,fingerPrint,fingerPrintorCard,fingerPrintAndCard,faceAndPassword,faceAndCard,face,swipecardOrFaceOrPw,cardOrFace,cardOrFpOrPw">
+      <verifyType opt="swipecardandpassword,swipecard,fingerPrint,fingerPrintAndPasswd,fingerPrintorCard,fingerPrintAndCard,fingerPrintAndCardAndPasswd,faceOrFpOrCardOrPw,faceAndFingerPrint,faceAndPassword,faceAndCard,face,faceAndFpAndCard,faceAndPwAndFp,fingerPrintOrFace,cardOrFace,cardOrFaceOrFp,cardOrFpOrPw">
       </verifyType>
       <purePwdVerifyEnable>true</purePwdVerifyEnable>
       <TimeAccuracy>
@@ -159,7 +159,7 @@
     <hostAntiDismantleStatus>enable</hostAntiDismantleStatus>
     <cardReaderOnlineStatus>enable</cardReaderOnlineStatus>
     <cardReaderAntiDismantleStatus>enable</cardReaderAntiDismantleStatus>
-    <cardReaderVerifyMode opt="swipecardandpassword,swipecard,fingerPrint,fingerPrintorCard,fingerPrintAndCard,faceAndPassword,faceAndCard,face,swipecardOrFaceOrPw,cardOrFace,cardOrFpOrPw" />
+    <cardReaderVerifyMode opt="swipecardandpassword,swipecard,fingerPrint,fingerPrintAndPasswd,fingerPrintorCard,fingerPrintAndCard,fingerPrintAndCardAndPasswd,faceOrFpOrCardOrPw,faceAndFingerPrint,faceAndPassword,faceAndCard,face,faceAndFpAndCard,faceAndPwAndFp,fingerPrintOrFace,cardOrFace,cardOrFaceOrFp,cardOrFpOrPw" />
     <cardNum>enable</cardNum>
     <whiteFaceNum>enable</whiteFaceNum>
   </AcsWorkStatus>
@@ -173,22 +173,26 @@
     <maxReadCardFailNum min="1" max="10" />
     <enableTamperCheck>enable</enableTamperCheck>
     <offlineCheckTime min="0" max="255" />
+    <fingerPrintCheckLevel opt="1/1000,3/100000,1/100000,3/1000000,1/1000000" />
     <cardReaderFunction opt="fingerPrint,face" />
     <cardReaderDescription min="1" max="32" />
     <faceMatchThresholdN min="0" max="100" />
     <livingBodyDetect opt="disable,enable" />
-    <faceMatchThreshold1 min="0" max="100">
-    </faceMatchThreshold1>
-    <envirMode opt="1,2">
+    <faceMatchThreshold1 min="0" max="100" />
+    <envirMode opt="1">
     </envirMode>
-    <liveDetLevelSet opt="1,2,3">
+    <liveDetLevelSet opt="1,2">
     </liveDetLevelSet>
+    <fingerPrintCapacity min="0" max="3000" />
+    <fingerPrintNum min="0" max="5000" />
+    <enableFingerPrintNum opt="true" />
     <enableLiveDetAntiAttack opt="1,2">
     </enableLiveDetAntiAttack>
     <faceContrastMotionDetLevel opt="low,middle,high">
     </faceContrastMotionDetLevel>
     <faceRecogizeEnable opt="true">
     </faceRecogizeEnable>
+    <faceRecogizeTimeOut min="1" max="20" />
     <faceRecogizeInterval min="1" max="10" />
     <enableReverseCardNo opt="true" />
     <independSwipeIntervals min="0" max="65535" />
@@ -295,20 +299,34 @@
           <subEventName>EMCardRecognizeNotEnabled</subEventName>
           <subEventName>M1CardRecognizeNotEnabled</subEventName>
           <subEventName>CPUCardRecognizeNotEnabled</subEventName>
-          <subEventName>IDCardRecognizeNotEnabled</subEventName>
           <subEventName>CPUCardEncryptVerifyFail</subEventName>
           <subEventName>CardAndPasswdPass</subEventName>
           <subEventName>CardAndPasswdFail</subEventName>
           <subEventName>CardAndPasswdTimeout</subEventName>
+          <subEventName>FingerprintPasswdVerifyPass</subEventName>
+          <subEventName>FingerprintPasswdVerifyFail</subEventName>
+          <subEventName>FingerprintPasswdVerifyTimeout</subEventName>
           <subEventName>CardFingerprintVerifyPass</subEventName>
           <subEventName>CardFingerprintVerifyFail</subEventName>
           <subEventName>CardFingerprintVerifyTimeout</subEventName>
+          <subEventName>CardFingerprintPasswdVerifyPass</subEventName>
+          <subEventName>CardFingerprintPasswdVerifyFail</subEventName>
+          <subEventName>CardFingerprintPasswdVerifyTimeout</subEventName>
+          <subEventName>FaceAndFpVerifyPass</subEventName>
+          <subEventName>FaceAndFpVerifyFail</subEventName>
+          <subEventName>FaceAndFpVerifyTimeout</subEventName>
           <subEventName>FaceAndPwVerifyPass</subEventName>
           <subEventName>FaceAndPwVerifyFail</subEventName>
           <subEventName>FaceAndPwVerifyTimeout</subEventName>
           <subEventName>FaceAndCardVerifyPass</subEventName>
           <subEventName>FaceAndCardVerifyFail</subEventName>
           <subEventName>FaceAndCardVerifyTimeout</subEventName>
+          <subEventName>FaceAndCardAndFpVerifyPass</subEventName>
+          <subEventName>FaceAndCardAndFpVerifyFail</subEventName>
+          <subEventName>FaceAndCardAndFpVerifyTimeout</subEventName>
+          <subEventName>FaceAndPwAndFpVerifyPass</subEventName>
+          <subEventName>FaceAndPwAndFpVerifyFail</subEventName>
+          <subEventName>FaceAndPwAndFpVerifyTimeout</subEventName>
           <subEventName>AntiSneakFail</subEventName>
         </SubEventNameList>
       </EventEntry>
@@ -350,6 +368,8 @@
     </JpegParam>
   </ContinuousShootCfg>
   <CaptureFingerPrint>
+    <isSupportFingerData opt="true" />
+    <fingerPrintQuality min="0" max="100" />
   </CaptureFingerPrint>
   <FaceParam>
     <enable opt="true" />

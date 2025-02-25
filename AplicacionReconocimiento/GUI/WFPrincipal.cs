@@ -27,9 +27,9 @@ namespace DeportNetReconocimiento.GUI
         private static ReproductorSonidos reproductorSonidos;
 
         private WFPrincipal()
-        {
+        {           
             InitializeComponent();
-            
+                
             //estilos se leen de un archivo
             Hik_Resultado resultadoInicio =  InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
 
@@ -38,7 +38,6 @@ namespace DeportNetReconocimiento.GUI
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
 
             ReproducirSonido(ConfiguracionEstilos.SonidoBienvenida);
-
         }
 
         //propiedades
@@ -105,9 +104,9 @@ namespace DeportNetReconocimiento.GUI
             if (credenciales.Length == 0)
             {
                 //Si no hubo exito mostrar ventana con el error. Un modal 
+                //resultado.MessageBoxResultado("Error al leer las credenciales");
                 resultado.ActualizarResultado(false, "No se pudieron leer las credenciales... Vuelva a intentarlo", "-1");
-                resultado.MessageBoxResultado("Error al leer las credenciales");
-                //return resultado;
+                return resultado;
             }
 
 
