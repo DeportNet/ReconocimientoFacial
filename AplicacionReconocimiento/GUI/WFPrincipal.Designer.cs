@@ -258,6 +258,7 @@ namespace DeportNetReconocimiento.GUI
             Text = "Pantalla Bienvenida";
             WindowState = FormWindowState.Maximized;
             FormClosing += CerrarFormulario;
+            Load += WFPrincipal_Load;
             Resize += WFPrincipal_Resize;
             ((System.ComponentModel.ISupportInitialize)imagenLogo).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

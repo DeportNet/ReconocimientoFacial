@@ -1,13 +1,6 @@
 ﻿using DeportNetReconocimiento.Api.Dtos.Request;
-using DeportNetReconocimiento.Api.Dtos.Response;
-using DeportNetReconocimiento.Api.GlobalExceptionHandler;
 using DeportNetReconocimiento.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Api.Controllers
 {

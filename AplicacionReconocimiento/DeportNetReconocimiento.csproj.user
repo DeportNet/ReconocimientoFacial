@@ -4,6 +4,9 @@
     <Compile Update="GUI\HTMLMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="GUI\Loading.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="GUI\WFConfiguracion.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -48,6 +48,7 @@
             BotonVer1 = new Button();
             BotonVer2 = new Button();
             BotonVer3 = new Button();
+            botonBuscarIp = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -176,7 +177,7 @@
             textBoxDeviceAddress.Name = "textBoxDeviceAddress";
             textBoxDeviceAddress.Size = new Size(250, 22);
             textBoxDeviceAddress.TabIndex = 54;
-            textBoxDeviceAddress.Text = "10.21.80.42";
+            textBoxDeviceAddress.Text = "192.168.1.42";
             // 
             // label6
             // 
@@ -256,12 +257,25 @@
             BotonVer3.UseVisualStyleBackColor = false;
             BotonVer3.Click += BotonVer3_Click;
             // 
+            // botonBuscarIp
+            // 
+            botonBuscarIp.Cursor = Cursors.Hand;
+            botonBuscarIp.FlatStyle = FlatStyle.Flat;
+            botonBuscarIp.Image = (Image)resources.GetObject("botonBuscarIp.Image");
+            botonBuscarIp.Location = new Point(481, 103);
+            botonBuscarIp.Name = "botonBuscarIp";
+            botonBuscarIp.Size = new Size(35, 23);
+            botonBuscarIp.TabIndex = 71;
+            botonBuscarIp.UseVisualStyleBackColor = true;
+            botonBuscarIp.Click += botonBuscarIp_Click;
+            // 
             // WFRgistrarDispositivo
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonFace;
             ClientSize = new Size(636, 364);
+            Controls.Add(botonBuscarIp);
             Controls.Add(BotonVer3);
             Controls.Add(BotonVer2);
             Controls.Add(BotonVer1);
@@ -287,6 +301,7 @@
             Name = "WFRgistrarDispositivo";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Registrar Dispositivo";
+            FormClosing += CerrarFormulario;
             Load += WFRgistrarDispositivo_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -315,5 +330,6 @@
         private Button BotonVer1;
         private Button BotonVer2;
         private Button BotonVer3;
+        private Button botonBuscarIp;
     }
 }
