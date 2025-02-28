@@ -33,6 +33,16 @@ namespace DeportNetReconocimiento.Utils
             return flag;
         }
 
+        public static bool ExisteArchivoCredencialesYRegistrarDispositivo()
+        {
+            bool flag = false;
+            if (File.Exists("credenciales.bin"))
+            {
+                flag = true;
+            }
+            return flag;
+        }
+
 
         public static string[] LeerCredenciales()
         {

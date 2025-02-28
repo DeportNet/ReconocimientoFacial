@@ -145,7 +145,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         public static async void ObtenerDatosClienteDeportNet(string numeroTarjeta)
         {
 
-            Console.WriteLine("Entramos aca");
+           
 
             if (!libre)
             {

@@ -178,6 +178,7 @@ namespace DeportNetReconocimiento.SDK
 
                 break;
                 case Hik_SDK.NET_DVR_NETWORK_FAIL_CONNECT:
+                    
                     resultado.ActualizarResultado(false, "Error IP Incorrecta o Dispositivo no conectado", Hik_SDK.NET_DVR_GetLastError().ToString());
                     break;
                 case Hik_SDK.NET_DVR_DVROPRATEFAILED:
@@ -381,8 +382,6 @@ namespace DeportNetReconocimiento.SDK
             if (!resultado.Exito)
             {
                 //si no se pudo inicializar
-                
-                
                 return resultado;
             }
 

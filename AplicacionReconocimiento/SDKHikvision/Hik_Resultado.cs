@@ -30,7 +30,12 @@ namespace DeportNetReconocimiento.SDK
          */
 
 
-
+        public Hik_Resultado()
+        {
+            this.exito = false;
+            this.mensaje = "";
+            this.codigo = "";
+        }
 
         public bool Exito 
         {
