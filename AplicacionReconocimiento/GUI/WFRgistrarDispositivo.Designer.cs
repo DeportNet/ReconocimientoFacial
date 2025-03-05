@@ -48,6 +48,7 @@
             BotonVer1 = new Button();
             BotonVer2 = new Button();
             BotonVer3 = new Button();
+            botonBuscarIp = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -75,6 +76,7 @@
             // 
             // btnCancel
             // 
+            btnCancel.Cursor = Cursors.Hand;
             btnCancel.FlatStyle = FlatStyle.Flat;
             btnCancel.Location = new Point(372, 303);
             btnCancel.Name = "btnCancel";
@@ -86,6 +88,7 @@
             // 
             // btnAdd
             // 
+            btnAdd.Cursor = Cursors.Hand;
             btnAdd.FlatStyle = FlatStyle.Flat;
             btnAdd.Location = new Point(163, 303);
             btnAdd.Name = "btnAdd";
@@ -174,7 +177,7 @@
             textBoxDeviceAddress.Name = "textBoxDeviceAddress";
             textBoxDeviceAddress.Size = new Size(250, 22);
             textBoxDeviceAddress.TabIndex = 54;
-            textBoxDeviceAddress.Text = "10.21.80.42";
+            textBoxDeviceAddress.Text = "192.168.1.42";
             // 
             // label6
             // 
@@ -220,6 +223,7 @@
             // 
             // BotonVer1
             // 
+            BotonVer1.Cursor = Cursors.Hand;
             BotonVer1.FlatStyle = FlatStyle.Flat;
             BotonVer1.Image = Properties.Resources.eye;
             BotonVer1.Location = new Point(481, 200);
@@ -231,6 +235,7 @@
             // 
             // BotonVer2
             // 
+            BotonVer2.Cursor = Cursors.Hand;
             BotonVer2.FlatStyle = FlatStyle.Flat;
             BotonVer2.Image = Properties.Resources.eye;
             BotonVer2.Location = new Point(481, 231);
@@ -242,6 +247,7 @@
             // 
             // BotonVer3
             // 
+            BotonVer3.Cursor = Cursors.Hand;
             BotonVer3.FlatStyle = FlatStyle.Flat;
             BotonVer3.Image = Properties.Resources.eye;
             BotonVer3.Location = new Point(481, 262);
@@ -251,12 +257,25 @@
             BotonVer3.UseVisualStyleBackColor = false;
             BotonVer3.Click += BotonVer3_Click;
             // 
+            // botonBuscarIp
+            // 
+            botonBuscarIp.Cursor = Cursors.Hand;
+            botonBuscarIp.FlatStyle = FlatStyle.Flat;
+            botonBuscarIp.Image = (Image)resources.GetObject("botonBuscarIp.Image");
+            botonBuscarIp.Location = new Point(481, 103);
+            botonBuscarIp.Name = "botonBuscarIp";
+            botonBuscarIp.Size = new Size(35, 23);
+            botonBuscarIp.TabIndex = 71;
+            botonBuscarIp.UseVisualStyleBackColor = true;
+            botonBuscarIp.Click += botonBuscarIp_Click;
+            // 
             // WFRgistrarDispositivo
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonFace;
             ClientSize = new Size(636, 364);
+            Controls.Add(botonBuscarIp);
             Controls.Add(BotonVer3);
             Controls.Add(BotonVer2);
             Controls.Add(BotonVer1);
@@ -311,5 +330,6 @@
         private Button BotonVer1;
         private Button BotonVer2;
         private Button BotonVer3;
+        private Button botonBuscarIp;
     }
 }

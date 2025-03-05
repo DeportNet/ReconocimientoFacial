@@ -31,19 +31,15 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WFConfiguracion));
             tituloConfig = new Label();
             label6 = new Label();
-            tokenIdentificadorLabel = new Label();
             personalizacionTituloLabel = new Label();
             opcionesTituloLabel = new Label();
             propertyGrid1 = new PropertyGrid();
             guardarCambiosButton = new Button();
-            TextBoxIdSucursal = new TextBox();
             ComboBoxAperturaMolinete = new ComboBox();
             BotonOcultarConfig = new Button();
             PanelConfigAdminsitrador = new Panel();
-            button3 = new Button();
-            button2 = new Button();
-            textBoxTokenSucursal = new TextBox();
-            tokenSucursal = new Label();
+            botonEditarCredenciales = new Button();
+            label2 = new Label();
             BotonAbrirFileDialog = new Button();
             TextBoxRutaExe = new TextBox();
             label1 = new Label();
@@ -73,16 +69,6 @@
             label6.Size = new Size(139, 21);
             label6.TabIndex = 9;
             label6.Text = "Apertura molinete:";
-            // 
-            // tokenIdentificadorLabel
-            // 
-            tokenIdentificadorLabel.AutoSize = true;
-            tokenIdentificadorLabel.Font = new Font("Segoe UI", 12F);
-            tokenIdentificadorLabel.Location = new Point(21, 137);
-            tokenIdentificadorLabel.Name = "tokenIdentificadorLabel";
-            tokenIdentificadorLabel.Size = new Size(91, 21);
-            tokenIdentificadorLabel.TabIndex = 10;
-            tokenIdentificadorLabel.Text = "Sucursal ID:";
             // 
             // personalizacionTituloLabel
             // 
@@ -131,13 +117,6 @@
             guardarCambiosButton.UseVisualStyleBackColor = false;
             guardarCambiosButton.Click += GuardarCambiosButton_Click;
             // 
-            // TextBoxIdSucursal
-            // 
-            TextBoxIdSucursal.Location = new Point(118, 137);
-            TextBoxIdSucursal.Name = "TextBoxIdSucursal";
-            TextBoxIdSucursal.Size = new Size(174, 23);
-            TextBoxIdSucursal.TabIndex = 17;
-            // 
             // ComboBoxAperturaMolinete
             // 
             ComboBoxAperturaMolinete.FormattingEnabled = true;
@@ -153,7 +132,7 @@
             BotonOcultarConfig.Cursor = Cursors.Hand;
             BotonOcultarConfig.FlatAppearance.BorderSize = 0;
             BotonOcultarConfig.FlatStyle = FlatStyle.Flat;
-            BotonOcultarConfig.Location = new Point(171, 225);
+            BotonOcultarConfig.Location = new Point(21, 304);
             BotonOcultarConfig.Name = "BotonOcultarConfig";
             BotonOcultarConfig.Size = new Size(121, 23);
             BotonOcultarConfig.TabIndex = 19;
@@ -164,66 +143,49 @@
             // PanelConfigAdminsitrador
             // 
             PanelConfigAdminsitrador.BackColor = Color.IndianRed;
-            PanelConfigAdminsitrador.Controls.Add(button3);
-            PanelConfigAdminsitrador.Controls.Add(button2);
-            PanelConfigAdminsitrador.Controls.Add(textBoxTokenSucursal);
-            PanelConfigAdminsitrador.Controls.Add(tokenSucursal);
+            PanelConfigAdminsitrador.Controls.Add(botonEditarCredenciales);
+            PanelConfigAdminsitrador.Controls.Add(label2);
             PanelConfigAdminsitrador.Controls.Add(BotonAbrirFileDialog);
             PanelConfigAdminsitrador.Controls.Add(TextBoxRutaExe);
             PanelConfigAdminsitrador.Controls.Add(label1);
             PanelConfigAdminsitrador.Controls.Add(BotonOcultarConfig);
             PanelConfigAdminsitrador.Controls.Add(ComboBoxAperturaMolinete);
-            PanelConfigAdminsitrador.Controls.Add(TextBoxIdSucursal);
             PanelConfigAdminsitrador.Controls.Add(opcionesTituloLabel);
-            PanelConfigAdminsitrador.Controls.Add(tokenIdentificadorLabel);
             PanelConfigAdminsitrador.Controls.Add(label6);
             PanelConfigAdminsitrador.Location = new Point(780, 269);
             PanelConfigAdminsitrador.Name = "PanelConfigAdminsitrador";
-            PanelConfigAdminsitrador.Size = new Size(377, 275);
+            PanelConfigAdminsitrador.Size = new Size(377, 345);
             PanelConfigAdminsitrador.TabIndex = 20;
             PanelConfigAdminsitrador.Visible = false;
             // 
-            // button3
+            // botonEditarCredenciales
             // 
-            button3.Cursor = Cursors.Hand;
-            button3.Image = Properties.Resources.eye;
-            button3.Location = new Point(298, 178);
-            button3.Name = "button3";
-            button3.Size = new Size(35, 22);
-            button3.TabIndex = 26;
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
+            botonEditarCredenciales.BackColor = Color.Gainsboro;
+            botonEditarCredenciales.Cursor = Cursors.Hand;
+            botonEditarCredenciales.FlatAppearance.BorderSize = 0;
+            botonEditarCredenciales.FlatStyle = FlatStyle.Flat;
+            botonEditarCredenciales.Location = new Point(165, 133);
+            botonEditarCredenciales.Margin = new Padding(0);
+            botonEditarCredenciales.Name = "botonEditarCredenciales";
+            botonEditarCredenciales.Size = new Size(75, 23);
+            botonEditarCredenciales.TabIndex = 29;
+            botonEditarCredenciales.Text = "Editar";
+            botonEditarCredenciales.UseVisualStyleBackColor = false;
+            botonEditarCredenciales.Click += botonEditarCredenciales_Click;
             // 
-            // button2
+            // label2
             // 
-            button2.Cursor = Cursors.Hand;
-            button2.Image = Properties.Resources.eye;
-            button2.Location = new Point(298, 138);
-            button2.Name = "button2";
-            button2.Size = new Size(35, 22);
-            button2.TabIndex = 25;
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
-            // 
-            // textBoxTokenSucursal
-            // 
-            textBoxTokenSucursal.Location = new Point(143, 175);
-            textBoxTokenSucursal.Name = "textBoxTokenSucursal";
-            textBoxTokenSucursal.Size = new Size(149, 23);
-            textBoxTokenSucursal.TabIndex = 24;
-            // 
-            // tokenSucursal
-            // 
-            tokenSucursal.AutoSize = true;
-            tokenSucursal.Font = new Font("Segoe UI", 12F);
-            tokenSucursal.Location = new Point(21, 177);
-            tokenSucursal.Name = "tokenSucursal";
-            tokenSucursal.Size = new Size(116, 21);
-            tokenSucursal.TabIndex = 23;
-            tokenSucursal.Text = "Token Sucursal:";
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 12F);
+            label2.Location = new Point(21, 133);
+            label2.Name = "label2";
+            label2.Size = new Size(142, 21);
+            label2.TabIndex = 28;
+            label2.Text = "Editar credenciales:";
             // 
             // BotonAbrirFileDialog
             // 
+            BotonAbrirFileDialog.BackColor = Color.Gainsboro;
             BotonAbrirFileDialog.Cursor = Cursors.Hand;
             BotonAbrirFileDialog.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             BotonAbrirFileDialog.Location = new Point(263, 90);
@@ -232,7 +194,7 @@
             BotonAbrirFileDialog.TabIndex = 22;
             BotonAbrirFileDialog.Text = "•••";
             BotonAbrirFileDialog.TextAlign = ContentAlignment.TopCenter;
-            BotonAbrirFileDialog.UseVisualStyleBackColor = true;
+            BotonAbrirFileDialog.UseVisualStyleBackColor = false;
             BotonAbrirFileDialog.Click += button1_Click;
             // 
             // TextBoxRutaExe
@@ -328,13 +290,11 @@
 
         private Label tituloConfig;
         private Label label6;
-        private Label tokenIdentificadorLabel;
         private Label alertaPorcentajeLabel;
         private Label personalizacionTituloLabel;
         private Label opcionesTituloLabel;
         private PropertyGrid propertyGrid1;
         private Button guardarCambiosButton;
-        private TextBox TextBoxIdSucursal;
         private ComboBox ComboBoxAperturaMolinete;
         private Button BotonOcultarConfig;
         private Panel PanelConfigAdminsitrador;
@@ -344,10 +304,8 @@
         private Label label1;
         private TextBox TextBoxRutaExe;
         private Button BotonAbrirFileDialog;
-        private TextBox textBoxTokenSucursal;
-        private Label tokenSucursal;
-        private Button button3;
-        private Button button2;
         private Button button1;
+        private Label label2;
+        private Button botonEditarCredenciales;
     }
 }

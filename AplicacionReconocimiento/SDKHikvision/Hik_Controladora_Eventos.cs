@@ -99,7 +99,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             DateTime tiempoActual = DateTime.Now.AddSeconds(-10);
 
-            //Console.WriteLine("tiempo Actual "+ tiempoActual);
+            //Console.WriteLine("tiempo Actual " + tiempoActual);
             //Console.WriteLine("Tiempo evento "+ infoEvento.Time);
 
 
@@ -143,6 +143,8 @@ namespace DeportNetReconocimiento.SDKHikvision
         //todo verificar si es necesario el nroReader realmente
         public static async void ObtenerDatosClienteDeportNet(string numeroTarjeta)
         {
+
+           
 
             if (!libre)
             {

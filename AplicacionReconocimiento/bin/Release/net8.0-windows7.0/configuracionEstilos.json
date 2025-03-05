@@ -40,6 +40,6 @@
   "MaximizarPregunta": true,
   "EstadoMinimizar": false,
   "SegundosMinimizar": 10,
-  "MetodoApertura": ".exe",
+  "MetodoApertura": "Ninguno",
   "RutaMetodoApertura": ""
 }
