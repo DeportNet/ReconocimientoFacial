@@ -123,5 +123,30 @@ namespace DeportnetOffline
         {
 
         }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel1_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel1_Paint_2(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void botonSgtPaginacion_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void botonSgtPaginacion_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

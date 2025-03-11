@@ -10,17 +10,11 @@ using System.Windows.Forms;
 
 namespace DeportnetOffline
 {
-    public partial class VistaAccesos : UserControl
+    public partial class VistaServicios : UserControl
     {
-        public VistaAccesos()
+        public VistaServicios()
         {
             InitializeComponent();
-            int paginaActual = 1;
-            int filasPorPagina = 5;
-            int registros = 10;
-            labelCantPaginas.Text = $"Página {paginaActual} de 50";
         }
-
-
     }
 }
