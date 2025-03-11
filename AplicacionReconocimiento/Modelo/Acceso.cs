@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Modelo
 {
-    internal class Acceso
+    public class Acceso
     {
     }
 }
