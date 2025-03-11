@@ -1,10 +1,6 @@
 using DeportNetReconocimiento.Api;
 using DeportNetReconocimiento.GUI;
-using DeportNetReconocimiento.SDK;
-using DeportNetReconocimiento.SDKHikvision;
-using DeportNetReconocimiento.Utils;
-using System.Diagnostics;
-using static DeportNetReconocimiento.SDK.Hik_SDK;
+
 
 namespace DeportNetReconocimiento
 {
@@ -23,9 +19,12 @@ namespace DeportNetReconocimiento
             //esto no me acuerdo que era
             //ApplicationConfiguration.Initialize();
 
+            
 
             //iniciazamos la ventana principal de acceso
             Application.Run(WFPrincipal.ObtenerInstancia);
+
+           
 
             // Detener el servidor cuando la aplicación cierre
             AppDomain.CurrentDomain.ProcessExit += (s, e) => apiServer?.Stop();

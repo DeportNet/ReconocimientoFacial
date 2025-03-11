@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace DeportnetOffline
 {
-    public partial class VisataCobros : UserControl
+    public partial class VistaCobros : UserControl
     {
-        public VisataCobros()
+        public VistaCobros()
         {
             InitializeComponent();
         }

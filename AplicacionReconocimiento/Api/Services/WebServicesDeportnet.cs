@@ -21,11 +21,8 @@ namespace DeportNetReconocimiento.Api.Services
 
         public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal) 
         {
-            object data = new { };
 
-          
-            
-            data = new { memberId = nroTarjeta, activeBranchId = idSucursal };
+            object data = new { memberId = nroTarjeta, activeBranchId = idSucursal };
 
           
             return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
@@ -147,7 +144,7 @@ namespace DeportNetReconocimiento.Api.Services
             return resultado;
         }
 
-
+        //Errores específicos de Deportnet
         private static Hik_Resultado CapturarErroresDeportnet(string dataRecibida)
         {
             //200 = Proceso realizado correctamente

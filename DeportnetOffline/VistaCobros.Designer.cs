@@ -1,6 +1,6 @@
 ﻿namespace DeportnetOffline
 {
-    partial class VisataCobros
+    partial class VistaCobros
     {
         /// <summary> 
         /// Variable del diseñador necesaria.

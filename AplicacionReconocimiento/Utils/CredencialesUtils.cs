@@ -46,13 +46,15 @@ namespace DeportNetReconocimiento.Utils
 
         public static string[] LeerCredenciales()
         {
+            //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
+
             var listaDatos = new System.Collections.Generic.List<string>();
 
             WFRgistrarDispositivo wFRgistrarDispositivo = WFRgistrarDispositivo.ObtenerInstancia;
 
 
             //si el archivo no existe, se abre la ventana para registrar el dispositivo
-            if (!CredencialesUtils.ExisteArchivoCredenciales())
+            if (!ExisteArchivoCredenciales())
             {
 
                 //si no esta levantado el formulario, se levanta para que haya solo uno

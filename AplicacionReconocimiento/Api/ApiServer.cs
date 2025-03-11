@@ -1,12 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 using DeportNetReconocimiento.Api.Services.Interfaces;
 using DeportNetReconocimiento.Api.Services;
 
@@ -91,5 +86,32 @@ namespace DeportNetReconocimiento.Api
             host?.StopAsync().Wait();
             Console.WriteLine("Servidor API detenido.");
         }
+
+
+        public void ObtenerTablasDelDia()
+        {
+            //verificar si ya se hizo la peticion
+
+            //si no se obtuvieron las tablas del dia hago la peticion
+
+            //guardo las tablas en la base de datos
+
+            //tambien verifico si quedo alguna tabla sin sincronizar
+        }
+
+        public void SincronizarTablas()
+        {
+            //verificar si tengo conexion
+
+            //verificar si tengo tablas que sincronizar
+
+            //hago la peticion
+
+            //verifico si se sincronizaron las tablas enviadas haciendo otra peticion a dx
+
+            //si salio todo bien, elimino las tablas locales
+        }
+
+
     }
 }

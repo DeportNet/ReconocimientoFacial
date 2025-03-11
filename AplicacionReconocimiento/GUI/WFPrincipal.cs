@@ -5,13 +5,8 @@ using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
-using System.Timers;
-using System.Reflection;
-using System.Reflection.Emit;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using System.Runtime.CompilerServices;
 
 
 namespace DeportNetReconocimiento.GUI
@@ -25,7 +20,7 @@ namespace DeportNetReconocimiento.GUI
         private ConfiguracionEstilos configuracionEstilos;
         private bool ignorarCierre = false;
         private bool conexionInternet = true;
-        private static ReproductorSonidos reproductorSonidos;
+        private static ReproductorSonidos? reproductorSonidos;
         //private string[] _credenciales;
         private bool ocultarPrincipal = false;
 
@@ -34,8 +29,6 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
             loading = new Loading();
             Hik_Resultado resultadoInicio = InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-
-            
 
             //estilos se leen de un archivo
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
@@ -54,21 +47,7 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-
-
         //propiedades
-
-        public ReproductorSonidos ReproductorSonidos
-        {
-            get
-            {
-                if (reproductorSonidos == null)
-                {
-                    reproductorSonidos = new ReproductorSonidos();
-                }
-                return reproductorSonidos;
-            }
-        }
 
         public bool ConexionInternet
         {
@@ -96,20 +75,6 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
-        public Hik_Controladora_General? Instancia_Controladora_General
-        {
-            get
-            {
-                if (instancia == null)
-                {
-                    hik_Controladora_General = Hik_Controladora_General.InstanciaControladoraGeneral;
-                }
-                return hik_Controladora_General;
-            }
-            set { hik_Controladora_General = value; }
-        }
-
-        
 
         public Hik_Resultado InstanciarPrograma()
         {
@@ -165,7 +130,7 @@ namespace DeportNetReconocimiento.GUI
 
                 this.Visible = true;
                 ocultarPrincipal = false;
-                
+
 
                 if (!resultadoLogin.Exito)
                 {
@@ -181,7 +146,7 @@ namespace DeportNetReconocimiento.GUI
 
                 }
 
-                
+
             }
             else
             {
@@ -276,64 +241,73 @@ namespace DeportNetReconocimiento.GUI
 
             Console.WriteLine("Verificamos el estado de la conexion con el dispositivo. Estado: " + estadoConexionDispositivo);
 
-
-
-            //si perdemos la conexion con el dispositivo
-            if (!estadoConexionDispositivo)
+            //si no perdemos la conexion con el dispositivo
+            if (estadoConexionDispositivo)
             {
-                //intentamos volver a conectarnos
-                resultadoInstanciar = InstanciarPrograma();
-                Console.WriteLine("No hay conexion, intentamos reinstanciar programa. nro de intentos: " + intentosConexionADispositivo);
-
-                //si el resultado no tuvo exito 
-                if (!resultadoInstanciar.Exito)
-                {
-                    intentosConexionADispositivo++;
-                    //despues de n veces seguidas
-                    if (intentosConexionADispositivo >= 2)
-                    {
-                        Console.WriteLine("Llegamos a los 2 intentos, dejamos de intentar conectarnos");
-                        timerConexion.Stop();
-                        MessageBox.Show("No se pudo conectar con el dispositivo, revise si el dispositivo esta conectado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                else
-                {
-                    //si hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado
-                    Console.WriteLine("Hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado");
-                    intentosConexionADispositivo = 0;
-
-                    Hik_Controladora_Eventos.InstanciaControladoraEventos.ReinstanciarMsgCallback();
-
-                    if (!timerConexion.Enabled)
-                    {
-                        timerConexion.Start();
-                    }
-                }
-
+                return;
             }
+
+           
+            //intentamos volver a conectarnos
+            resultadoInstanciar = InstanciarPrograma();
+            Console.WriteLine("No hay conexion, intentamos reinstanciar programa. nro de intentos: " + intentosConexionADispositivo);
+
+            //si el resultado no tuvo exito 
+            if (!resultadoInstanciar.Exito)
+            {
+                intentosConexionADispositivo++;
+                //despues de n veces seguidas
+                if (intentosConexionADispositivo >= 2)
+                {
+                    Console.WriteLine("Llegamos a los 2 intentos, dejamos de intentar conectarnos");
+                    timerConexion.Stop();
+                    MessageBox.Show("No se pudo conectar con el dispositivo, revise si el dispositivo esta conectado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                //si hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado
+                Console.WriteLine("Hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado");
+                intentosConexionADispositivo = 0;
+
+                Hik_Controladora_Eventos.InstanciaControladoraEventos.ReinstanciarMsgCallback();
+
+                if (!timerConexion.Enabled)
+                {
+                    timerConexion.Start();
+                }
+            }
+
+            
         }
 
-        public void VerificarConexionInternet()
+        public async void VerificarConexionInternet()
         {
-            //verificamos y asignamos la conexion a internet
-            ConexionInternet = Hik_Controladora_General.ComprobarConexionInternet();
+            int cantMaxIntentos = 2;
+
+            ConexionInternet = await VerificarConexionInternetUtils.InstanciaVerificarConexionInternet.ComprobarConexionInternetConDeportnet();
+
+            int nroIntentos = VerificarConexionInternetUtils.InstanciaVerificarConexionInternet.IntentosVelocidadInternet;
+
+            //si tenemos conexion a internet y el panel de conexion esta visible, lo ocultamos
+            if (ConexionInternet && PanelSinConexion.Visible == true)
+            {
+                PanelSinConexion.Visible = false;
+                return;
+            }
+
 
             //si no hay internet, levantamos un panel de offline
-            if (!ConexionInternet)
+            if (!ConexionInternet || nroIntentos >= cantMaxIntentos)
             {
 
                 if (PanelSinConexion.Visible == false)
                 {
                     PanelSinConexion.Visible = true;
-
                 }
 
             }
-            else if (PanelSinConexion.Visible == true)
-            {
-                PanelSinConexion.Visible = false;
-            }
+           
         }
 
         public void VerificarAlmacenamiento()
@@ -565,7 +539,7 @@ namespace DeportNetReconocimiento.GUI
             }
             Console.WriteLine("Reproducimos sonido");
 
-            ReproductorSonidos.ReproducirSonido(sonido);
+            ReproductorSonidos.InstanciaReproductorSonidos.ReproducirSonido(sonido);
 
         }
 
@@ -731,6 +705,9 @@ namespace DeportNetReconocimiento.GUI
             wFConfiguracion.ShowDialog();
         }
 
-        
+        private void imagenLogo_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -118,7 +118,8 @@ namespace DeportNetReconocimiento.Api.Services
         }
 
         private static int tiempoRetrasoLuegoDeUnAlta;
-        public static bool estaEsperandoLuegoDeUnAlta;
+
+        private static bool estaEsperandoLuegoDeUnAlta;
 
         public void IniciarTiempoEspera()
         {
@@ -274,7 +275,9 @@ namespace DeportNetReconocimiento.Api.Services
             _ = WebServicesDeportnet.AltaClienteDeportnet(respuestaAlta.ToJson());
         }
 
-
-
+        public string BajaMasivaFacialCliente(BajaFacialClienteRequest clienteRequest)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

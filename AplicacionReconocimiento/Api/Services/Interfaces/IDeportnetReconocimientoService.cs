@@ -12,5 +12,6 @@ namespace DeportNetReconocimiento.Api.Services.Interfaces
 
         public string BajaFacialCliente(BajaFacialClienteRequest clienteRequest);
 
+        public string BajaMasivaFacialCliente(BajaFacialClienteRequest clienteRequest);
     }
 }
