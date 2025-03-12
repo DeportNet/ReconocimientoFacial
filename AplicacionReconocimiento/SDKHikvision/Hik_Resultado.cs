@@ -81,8 +81,8 @@ namespace DeportNetReconocimiento.SDK
 
         public static bool EscribirLog()
         {
-            
-           return Hik_SDK.NET_DVR_SetLogToFile(3, "..\\LogsAplicacion", false);
+            //Log level: 0-disable log (default), 1-output error log only, 2-output error and debug log, 3-output all logs (i.e., error, debug, and information).
+            return Hik_SDK.NET_DVR_SetLogToFile(3, @"logsHikvision", false);
         }
     }
 }

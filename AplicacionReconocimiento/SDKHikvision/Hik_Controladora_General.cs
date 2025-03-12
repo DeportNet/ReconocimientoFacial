@@ -128,6 +128,9 @@ namespace DeportNetReconocimiento.SDK
             struLoginInfo.sPassword = password;
             ushort.TryParse(port, out struLoginInfo.wPort);
 
+            //struLoginInfo.bUseAsynLogin = false;
+            
+
 
             //utilizamos metodo de iniciar sesion
             int auxUserID = -1;
@@ -156,7 +159,7 @@ namespace DeportNetReconocimiento.SDK
             uint nroError = Hik_SDK.NET_DVR_GetLastError();
             string mensajeDeSdk = "";
 
-
+            Console.WriteLine("(BORRAR)Nro de error de login: " + nroError);
             switch (nroError)
             {
                 case Hik_SDK.NET_DVR_PASSWORD_ERROR:
@@ -316,9 +319,9 @@ namespace DeportNetReconocimiento.SDK
             else
             {
                 //leer nodos <FaceParam> <Card> <FingerPrint> del resultadoXML
-                SoportaFacial = VarificarCapacidad(resultadoXML, "//FaceParam");
-                SoportaHuella = VarificarCapacidad(resultadoXML, "//FingerPrint");
-                SoportaTarjeta = VarificarCapacidad(resultadoXML, "//Card");
+                SoportaFacial = VerificarCapacidad(resultadoXML, "//FaceParam");
+                SoportaHuella = VerificarCapacidad(resultadoXML, "//FingerPrint");
+                SoportaTarjeta = VerificarCapacidad(resultadoXML, "//Card");
 
                 // Dar valor a resultado
                 resultado.ActualizarResultado(true, $"Soporta reconocimiento facial: {SoportaFacial} \nSoporta huella digital: {SoportaHuella} \nSoporta tarjeta: {SoportaTarjeta}", Hik_SDK.NET_DVR_GetLastError().ToString());
@@ -356,7 +359,7 @@ namespace DeportNetReconocimiento.SDK
         }
         
 
-        private bool VarificarCapacidad(XmlDocument resultadoXML, string capacidad)
+        private bool VerificarCapacidad(XmlDocument resultadoXML, string capacidad)
         {
             bool soporta = false;
             XmlNode? nodoBuscado = resultadoXML.SelectSingleNode(capacidad);
@@ -381,6 +384,7 @@ namespace DeportNetReconocimiento.SDK
 
             if (!resultado.Exito)
             {
+                Console.WriteLine("(BORRAR)No se pudo inicializar");
                 //si no se pudo inicializar
                 return resultado;
             }
