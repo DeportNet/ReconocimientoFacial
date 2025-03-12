@@ -80,6 +80,7 @@
             button1.TabIndex = 4;
             button1.Text = "Ver alta de legajos";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // botonCobros
             // 

@@ -15,6 +15,10 @@ namespace DeportnetOffline
         public VisataCobros()
         {
             InitializeComponent();
+            int paginaActual = 1;
+            int filasPorPagina = 5;
+            int registros = 10;
+            labelCantPaginas.Text = $"Página {paginaActual} de 50";
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -33,6 +37,11 @@ namespace DeportnetOffline
         }
 
         private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }

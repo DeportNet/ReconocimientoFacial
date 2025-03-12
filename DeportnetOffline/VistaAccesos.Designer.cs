@@ -88,13 +88,13 @@
             // 
             // panel2
             // 
-            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel2.AutoSize = true;
             panel2.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             panel2.Controls.Add(labelCantPaginas);
             panel2.Controls.Add(botonAntPaginacion);
             panel2.Controls.Add(botonSgtPaginacion);
             panel2.Controls.Add(dataGridView1);
+            panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(3, 123);
             panel2.Name = "panel2";
             panel2.Size = new Size(1094, 596);
@@ -104,7 +104,7 @@
             // 
             labelCantPaginas.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             labelCantPaginas.AutoSize = true;
-            labelCantPaginas.Location = new Point(913, 506);
+            labelCantPaginas.Location = new Point(828, 510);
             labelCantPaginas.Name = "labelCantPaginas";
             labelCantPaginas.Size = new Size(37, 15);
             labelCantPaginas.TabIndex = 6;
@@ -113,7 +113,7 @@
             // botonAntPaginacion
             // 
             botonAntPaginacion.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            botonAntPaginacion.Location = new Point(871, 502);
+            botonAntPaginacion.Location = new Point(786, 506);
             botonAntPaginacion.Name = "botonAntPaginacion";
             botonAntPaginacion.Size = new Size(36, 23);
             botonAntPaginacion.TabIndex = 5;
@@ -123,7 +123,7 @@
             // botonSgtPaginacion
             // 
             botonSgtPaginacion.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            botonSgtPaginacion.Location = new Point(1005, 502);
+            botonSgtPaginacion.Location = new Point(920, 506);
             botonSgtPaginacion.Name = "botonSgtPaginacion";
             botonSgtPaginacion.Size = new Size(38, 23);
             botonSgtPaginacion.TabIndex = 4;
@@ -139,10 +139,10 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ColumnaSocio, columnaAcceso, columnaFechaHoraAcceso, columnaSincronizado, columnaFechaHoraSincro });
-            dataGridView1.Location = new Point(47, 3);
+            dataGridView1.Location = new Point(137, 3);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
-            dataGridView1.Size = new Size(996, 493);
+            dataGridView1.Size = new Size(832, 493);
             dataGridView1.TabIndex = 0;
             // 
             // ColumnaSocio
@@ -176,7 +176,7 @@
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             Controls.Add(tableLayoutPanel1);
             Name = "VistaAccesos";
-            Size = new Size(1100, 722);
+            Size = new Size(1100, 700);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             panel1.ResumeLayout(false);
