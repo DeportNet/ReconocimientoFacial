@@ -51,17 +51,18 @@
             // 
             tableLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             tableLayoutPanel1.AutoSize = true;
-            tableLayoutPanel1.BackColor = SystemColors.MenuHighlight;
+            tableLayoutPanel1.BackColor = Color.WhiteSmoke;
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(panel1, 0, 0);
             tableLayoutPanel1.Controls.Add(panel2, 0, 1);
             tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Margin = new Padding(0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 120F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.Size = new Size(1100, 722);
+            tableLayoutPanel1.Size = new Size(1100, 700);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // panel1
@@ -77,9 +78,11 @@
             // 
             // label1
             // 
+            label1.BackColor = Color.WhiteSmoke;
             label1.Dock = DockStyle.Top;
             label1.Font = new Font("Segoe UI Semibold", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.Location = new Point(0, 0);
+            label1.Margin = new Padding(0);
             label1.Name = "label1";
             label1.Size = new Size(1100, 120);
             label1.TabIndex = 0;
@@ -90,21 +93,23 @@
             // 
             panel2.AutoSize = true;
             panel2.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            panel2.BackColor = Color.WhiteSmoke;
             panel2.Controls.Add(labelCantPaginas);
             panel2.Controls.Add(botonAntPaginacion);
             panel2.Controls.Add(botonSgtPaginacion);
             panel2.Controls.Add(dataGridView1);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(3, 123);
+            panel2.Location = new Point(0, 120);
+            panel2.Margin = new Padding(0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1094, 596);
+            panel2.Size = new Size(1100, 580);
             panel2.TabIndex = 2;
             // 
             // labelCantPaginas
             // 
             labelCantPaginas.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             labelCantPaginas.AutoSize = true;
-            labelCantPaginas.Location = new Point(828, 510);
+            labelCantPaginas.Location = new Point(834, 494);
             labelCantPaginas.Name = "labelCantPaginas";
             labelCantPaginas.Size = new Size(37, 15);
             labelCantPaginas.TabIndex = 6;
@@ -113,7 +118,7 @@
             // botonAntPaginacion
             // 
             botonAntPaginacion.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            botonAntPaginacion.Location = new Point(786, 506);
+            botonAntPaginacion.Location = new Point(792, 490);
             botonAntPaginacion.Name = "botonAntPaginacion";
             botonAntPaginacion.Size = new Size(36, 23);
             botonAntPaginacion.TabIndex = 5;
@@ -123,7 +128,7 @@
             // botonSgtPaginacion
             // 
             botonSgtPaginacion.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            botonSgtPaginacion.Location = new Point(920, 506);
+            botonSgtPaginacion.Location = new Point(926, 490);
             botonSgtPaginacion.Name = "botonSgtPaginacion";
             botonSgtPaginacion.Size = new Size(38, 23);
             botonSgtPaginacion.TabIndex = 4;
@@ -140,9 +145,10 @@
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ColumnaSocio, columnaAcceso, columnaFechaHoraAcceso, columnaSincronizado, columnaFechaHoraSincro });
             dataGridView1.Location = new Point(137, 3);
+            dataGridView1.Margin = new Padding(0);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
-            dataGridView1.Size = new Size(832, 493);
+            dataGridView1.Size = new Size(838, 477);
             dataGridView1.TabIndex = 0;
             // 
             // ColumnaSocio

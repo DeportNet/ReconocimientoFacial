@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            flowLayoutPanel1 = new FlowLayoutPanel();
             tableLayoutPanel1 = new TableLayoutPanel();
             panel1 = new Panel();
             label1 = new Label();
@@ -49,15 +48,6 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
-            // flowLayoutPanel1
-            // 
-            flowLayoutPanel1.AutoSize = true;
-            flowLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            flowLayoutPanel1.Location = new Point(-28, 110);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(0, 0);
-            flowLayoutPanel1.TabIndex = 0;
-            // 
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.ColumnCount = 1;
@@ -66,6 +56,7 @@
             tableLayoutPanel1.Controls.Add(panel2, 0, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Margin = new Padding(0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 120F));
@@ -77,9 +68,10 @@
             // 
             panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(3, 3);
+            panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1100, 114);
+            panel1.Size = new Size(1106, 120);
             panel1.TabIndex = 0;
             // 
             // label1
@@ -87,8 +79,9 @@
             label1.Dock = DockStyle.Fill;
             label1.Font = new Font("Segoe UI Semibold", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.Location = new Point(0, 0);
+            label1.Margin = new Padding(0);
             label1.Name = "label1";
-            label1.Size = new Size(1100, 114);
+            label1.Size = new Size(1106, 120);
             label1.TabIndex = 0;
             label1.Text = "Cobros offline";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -101,16 +94,17 @@
             panel2.Controls.Add(botonSgtPaginacion);
             panel2.Controls.Add(dataGridView1);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(3, 123);
+            panel2.Location = new Point(0, 120);
+            panel2.Margin = new Padding(0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1100, 580);
+            panel2.Size = new Size(1106, 586);
             panel2.TabIndex = 1;
             // 
             // labelCantPaginas
             // 
             labelCantPaginas.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             labelCantPaginas.AutoSize = true;
-            labelCantPaginas.Location = new Point(787, 518);
+            labelCantPaginas.Location = new Point(793, 524);
             labelCantPaginas.Name = "labelCantPaginas";
             labelCantPaginas.Size = new Size(37, 15);
             labelCantPaginas.TabIndex = 9;
@@ -119,7 +113,7 @@
             // botonAntPaginacion
             // 
             botonAntPaginacion.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            botonAntPaginacion.Location = new Point(745, 514);
+            botonAntPaginacion.Location = new Point(751, 520);
             botonAntPaginacion.Name = "botonAntPaginacion";
             botonAntPaginacion.Size = new Size(36, 23);
             botonAntPaginacion.TabIndex = 8;
@@ -129,7 +123,7 @@
             // botonSgtPaginacion
             // 
             botonSgtPaginacion.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            botonSgtPaginacion.Location = new Point(879, 514);
+            botonSgtPaginacion.Location = new Point(885, 520);
             botonSgtPaginacion.Name = "botonSgtPaginacion";
             botonSgtPaginacion.Size = new Size(38, 23);
             botonSgtPaginacion.TabIndex = 7;
@@ -148,9 +142,10 @@
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { columnaSocio, columnaServicioArticulo, columnaMonto, columnaFechaHora, columanSincronizado, columnaFechaHoraSincro });
             dataGridView1.Location = new Point(154, 3);
+            dataGridView1.Margin = new Padding(0);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
-            dataGridView1.Size = new Size(825, 499);
+            dataGridView1.Size = new Size(831, 505);
             dataGridView1.TabIndex = 0;
             // 
             // columnaSocio
@@ -195,7 +190,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             Controls.Add(tableLayoutPanel1);
-            Controls.Add(flowLayoutPanel1);
+            Margin = new Padding(0);
             Name = "VisataCobros";
             Size = new Size(1106, 706);
             tableLayoutPanel1.ResumeLayout(false);
@@ -204,12 +199,10 @@
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private FlowLayoutPanel flowLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel1;
         private Panel panel1;
         private Label label1;
