@@ -11,16 +11,15 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("DeportNetReconocimiento")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("DeportnetOffline")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
-[assembly: System.Reflection.AssemblyCopyrightAttribute("Deportnet")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e62c263c0f54c0828f2bf395af0e015282dde302")]
-[assembly: System.Reflection.AssemblyProductAttribute("DeportNetReconocimiento")]
-[assembly: System.Reflection.AssemblyTitleAttribute("DeportNetReconocimiento")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fb9e1f6477403ae4bd8e7915493bcaefd6401162")]
+[assembly: System.Reflection.AssemblyProductAttribute("DeportnetOffline")]
+[assembly: System.Reflection.AssemblyTitleAttribute("DeportnetOffline")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
-[assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows10.0.26100.0")]
-[assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows8.0")]
+[assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows7.0")]
+[assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows7.0")]
 
 // Generado por la clase WriteCodeFragment de MSBuild.
 
