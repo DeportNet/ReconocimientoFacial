@@ -119,7 +119,7 @@ namespace DeportNetReconocimiento.Api.Services
 
         private static int tiempoRetrasoLuegoDeUnAlta;
 
-        private static bool estaEsperandoLuegoDeUnAlta;
+        public static bool estaEsperandoLuegoDeUnAlta;
 
         public void IniciarTiempoEspera()
         {

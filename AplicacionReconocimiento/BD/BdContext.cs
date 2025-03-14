@@ -28,7 +28,7 @@ namespace DeportNetReconocimiento.BD
             modelBuilder.Entity<Socio>().ToTable("branch_member");
             modelBuilder.Entity<Articulo>().ToTable("articulos");
             modelBuilder.Entity<Acceso>().ToTable("accesos");
-            modelBuilder.Entity<Configuracion>().ToTable("configuracion");
+           // modelBuilder.Entity<Configuracion>().ToTable("configuracion");
         }
     }
 }
