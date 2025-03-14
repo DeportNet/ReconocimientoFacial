@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace DeportnetOffline
 {
-    public partial class VistaAccesos : UserControl
+    public partial class vistaAltaLegajos : UserControl
     {
-        public VistaAccesos()
+        public vistaAltaLegajos()
         {
             InitializeComponent();
             int paginaActual = 1;
@@ -20,7 +20,5 @@ namespace DeportnetOffline
             int registros = 10;
             labelCantPaginas.Text = $"Página {paginaActual} de 50";
         }
-
-
     }
 }

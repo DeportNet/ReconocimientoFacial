@@ -36,7 +36,20 @@ namespace DeportnetOffline
 
         }
 
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
 
+        }
 
+        private void vistaSocios1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            vistaAltaLegajos vistaAltaLegajos = new vistaAltaLegajos();
+            cambiarUserControl(vistaAltaLegajos);
+        }
     }
 }

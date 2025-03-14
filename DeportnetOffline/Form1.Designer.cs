@@ -28,34 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             tableLayoutPanel1 = new TableLayoutPanel();
             panel1 = new Panel();
+            button1 = new Button();
             botonCobros = new Button();
             botonAccesos = new Button();
             botonSocios = new Button();
-            pictureBox1 = new PictureBox();
             panelContenido = new Panel();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
-            tableLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             tableLayoutPanel1.AutoSize = true;
             tableLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 82F));
-            tableLayoutPanel1.Controls.Add(panel1, 0, 0);
-            tableLayoutPanel1.Controls.Add(panelContenido, 1, 0);
-            tableLayoutPanel1.Location = new Point(2, 1);
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Controls.Add(panel1, 0, 1);
+            tableLayoutPanel1.Controls.Add(panelContenido, 0, 0);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 1;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(1344, 728);
+            tableLayoutPanel1.RowCount = 2;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 95F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
+            tableLayoutPanel1.Size = new Size(1350, 729);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // panel1
@@ -63,70 +61,70 @@
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             panel1.BackColor = Color.Red;
+            panel1.Controls.Add(button1);
             panel1.Controls.Add(botonCobros);
             panel1.Controls.Add(botonAccesos);
             panel1.Controls.Add(botonSocios);
-            panel1.Controls.Add(pictureBox1);
-            panel1.Location = new Point(3, 3);
+            panel1.Location = new Point(3, 695);
             panel1.Name = "panel1";
-            panel1.Size = new Size(235, 722);
+            panel1.Size = new Size(1344, 31);
             panel1.TabIndex = 0;
+            // 
+            // button1
+            // 
+            button1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            button1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            button1.Location = new Point(995, 3);
+            button1.Name = "button1";
+            button1.Size = new Size(300, 25);
+            button1.TabIndex = 4;
+            button1.Text = "Ver alta de legajos";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // botonCobros
             // 
-            botonCobros.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            botonCobros.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             botonCobros.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            botonCobros.Location = new Point(-3, 298);
+            botonCobros.Location = new Point(678, 3);
             botonCobros.Name = "botonCobros";
-            botonCobros.Size = new Size(238, 60);
+            botonCobros.Size = new Size(300, 25);
             botonCobros.TabIndex = 3;
-            botonCobros.Text = "Cobros";
+            botonCobros.Text = "Ver cobros offline";
             botonCobros.UseVisualStyleBackColor = true;
             botonCobros.Click += botonCobros_Click;
             // 
             // botonAccesos
             // 
-            botonAccesos.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            botonAccesos.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            botonAccesos.Location = new Point(0, 232);
+            botonAccesos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            botonAccesos.Location = new Point(358, 3);
             botonAccesos.Name = "botonAccesos";
-            botonAccesos.Size = new Size(232, 60);
+            botonAccesos.Size = new Size(300, 25);
             botonAccesos.TabIndex = 2;
-            botonAccesos.Text = "Accesos";
+            botonAccesos.Text = "Ver accesos offline";
             botonAccesos.UseVisualStyleBackColor = true;
             botonAccesos.Click += botonAccesos_Click;
             // 
             // botonSocios
             // 
-            botonSocios.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            botonSocios.Location = new Point(0, 168);
+            botonSocios.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            botonSocios.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            botonSocios.Location = new Point(38, 3);
             botonSocios.Name = "botonSocios";
-            botonSocios.Size = new Size(235, 60);
+            botonSocios.Size = new Size(300, 25);
             botonSocios.TabIndex = 1;
-            botonSocios.Text = "Socios";
+            botonSocios.Text = "Busqueda de legajos";
             botonSocios.UseVisualStyleBackColor = true;
             botonSocios.Click += botonSocios_Click;
             // 
-            // pictureBox1
-            // 
-            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            pictureBox1.BackColor = Color.Transparent;
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(0, 3);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(232, 104);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
-            // 
             // panelContenido
             // 
-            panelContenido.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panelContenido.AutoSize = true;
             panelContenido.BackColor = Color.Blue;
-            panelContenido.Location = new Point(244, 3);
+            panelContenido.Dock = DockStyle.Fill;
+            panelContenido.Location = new Point(3, 3);
             panelContenido.Name = "panelContenido";
-            panelContenido.Size = new Size(1097, 722);
+            panelContenido.Size = new Size(1344, 686);
             panelContenido.TabIndex = 1;
             // 
             // Form1
@@ -140,7 +138,6 @@
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -148,11 +145,11 @@
         #endregion
 
         private TableLayoutPanel tableLayoutPanel1;
-        private Panel panel1;
-        private Button botonSocios;
-        private PictureBox pictureBox1;
         private Panel panelContenido;
+        private Panel panel1;
         private Button botonCobros;
         private Button botonAccesos;
+        private Button botonSocios;
+        private Button button1;
     }
 }
