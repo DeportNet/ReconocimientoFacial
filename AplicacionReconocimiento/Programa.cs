@@ -17,8 +17,7 @@ namespace DeportNetReconocimiento
         static void Main(string[] args)
         {
             /*Base de Datos*/
-            BdClientes bdClientes = new BdClientes();
-            
+                      
             /*API*/
             apiServer = new ApiServer();
             apiServer.Start();

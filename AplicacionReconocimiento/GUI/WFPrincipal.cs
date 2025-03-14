@@ -151,42 +151,49 @@ namespace DeportNetReconocimiento.GUI
         private Loading loading;
         private async void ManejarErrorDispositivo(Hik_Resultado resultadoError)
         {
-            if (resultadoError.Codigo == "7")
+
+            switch (resultadoError.Codigo)
             {
-                //Logica mostrar loading y buscar ip
-                string[] credenciales = CredencialesUtils.LeerCredenciales();
+                case "7":
+                    
+                    //Logica mostrar loading y buscar ip
+                    string[] credenciales = CredencialesUtils.LeerCredenciales();
 
-                ocultarPrincipal = true; // Ocultamos la vista pri para que no se pueda hacer nada mientras se busca la ip del dispositivo
-                loading.Show();
+                    ocultarPrincipal = true; // Ocultamos la vista pri para que no se pueda hacer nada mientras se busca la ip del dispositivo
+                    loading.Show();
+                   
+                    Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales[1], credenciales[2], credenciales[3]));
 
-                Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales));
+                    loading.Close();
 
-                loading.Close();
+                    this.Visible = true;
+                    ocultarPrincipal = false;
 
-                this.Visible = true;
-                ocultarPrincipal = false;
-                
 
-                if (!resultadoLogin.Exito)
-                {
-                    //va a mostrar no se encontro la ip
-                    resultadoLogin.MessageBoxResultado("Error al incializar el dispositivo Hikvision");
-                    return;
-                }
-                else
-                {
+                    if (!resultadoLogin.Exito)
+                    {
+                        //va a mostrar no se encontro la ip
+                        resultadoLogin.MessageBoxResultado("Error al incializar el dispositivo Hikvision");
+                        return;
+                    }
+                    
                     credenciales[0] = resultadoLogin.Mensaje;
                     CredencialesUtils.EscribirArchivoCredenciales(credenciales);
                     MessageBox.Show("Se busco la direccion del dispositivo y se configuro con la correspondiente", "Aviso busqueda de Ip dispositivo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                }
+                    
 
-                
+
+                   
+                    break;
+                default:
+                    resultadoError.MessageBoxResultado("Error al inicializar el programa");
+                    break;
             }
-            else
-            {
-                resultadoError.MessageBoxResultado("Error al inicializar el programa");
-            }
+
+
+
+         
         }
 
 
@@ -373,6 +380,7 @@ namespace DeportNetReconocimiento.GUI
         public async void ActualizarDatos(ValidarAccesoResponse json)
         {
             CancellationTokenSource tokenDeCancelacion = CancelarTokenYGenerarNuevoHilos(tokenCancelarTiempoMuestraDeDatos);
+            int nroLector = 1;
 
             try
             {
@@ -384,7 +392,7 @@ namespace DeportNetReconocimiento.GUI
 
                 LimpiarInterfaz();
 
-                pictureBox1.Image = ObtenerFotoCliente(1, json.IdCliente);
+                pictureBox1.Image = ObtenerFotoCliente(nroLector, json.IdCliente);
 
                 EvaluarMensajeAcceso(json);
 
@@ -414,6 +422,10 @@ namespace DeportNetReconocimiento.GUI
 
             switch (json.Estado)
             {
+                case "U":
+                    titulo = "Usuario no registrado en Deportnet";
+                    mensaje = ConvertidorTextoUtils.LimpiarTextoHtml(json.MensajeAcceso);
+                    break;
                 case "Q":
 
 
@@ -492,19 +504,22 @@ namespace DeportNetReconocimiento.GUI
 
         Image ObtenerFotoCliente(int nroLector, string idCliente)
         {
-            Image imagen = null;
+            Image imagen = Resources.avatarPredeterminado;
             //Se obtiene la foto del cliente
             Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(nroLector, idCliente);
 
+
             if (resultado.Exito)
             {
-                string ruta = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
-                imagen = Image.FromFile(ruta);
-            }
-            else
-            {
-
-                imagen = Resources.avatarPredeterminado;
+                try
+                {
+                    string ruta = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
+                    imagen = Image.FromFile(ruta);
+                }
+                catch (Exception ex) {
+                    Console.WriteLine("No se pudo obtener foto cliente");
+                    imagen = Resources.avatarPredeterminado;
+                }
             }
 
 

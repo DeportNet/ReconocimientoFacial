@@ -100,8 +100,8 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             DateTime tiempoActual = DateTime.Now.AddSeconds(-10);
 
-            //Console.WriteLine("tiempo Actual " + tiempoActual);
-            //Console.WriteLine("Tiempo evento "+ infoEvento.Time);
+            Console.WriteLine("tiempo Actual " + tiempoActual);
+            Console.WriteLine("Tiempo evento "+ infoEvento.Time);
 
 
             //si el evento es exitoso y el tiempo del evento es mayorIgual a la hora actual
@@ -194,14 +194,18 @@ namespace DeportNetReconocimiento.SDKHikvision
 
                 if (branchAccess[1].ToString() == "U")
                 {
-                    MessageBox.Show(branchAccess[0].ToString(),
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                    );
-                    //todo validar si es necesario hacer return o agregamos una condicion mas en el switch
+                    
+                    //MessageBox.Show(branchAccess[0].ToString(),
+                    //"Error",
+                    //MessageBoxButtons.OK,
+                    //MessageBoxIcon.Error
+                    //);
                     //verificar si existe en el dispositivo eliminarlo
-                    return;
+
+                    jsonDeportnet.MensajeCrudo = branchAccess[0].ToString();
+                    jsonDeportnet.Estado = "U";
+
+                    //return;
                 }
 
 
