@@ -23,7 +23,7 @@ namespace DeportnetOffline
 
         private void botonCobros_Click(object sender, EventArgs e)
         {
-            VisataCobros vistaCobros = new VisataCobros();
+            VistaCobros vistaCobros = new VistaCobros();
             cambiarUserControl(vistaCobros);
         }
 

@@ -12,12 +12,20 @@ namespace DeportNetReconocimiento.Api.Dtos.Request
 
         private int idCliente;
         private int idSucursal;
-        
+        private string[] arregloIdClientes;
 
-        public BajaFacialClienteRequest(int idCliente, int idGimnasio)
+        public BajaFacialClienteRequest(int idCliente, int idSucursal)
         {
             this.idCliente = idCliente;
-            this.idSucursal = idGimnasio;
+            this.idSucursal = idSucursal;
+            arregloIdClientes = [];
+        }
+
+        public BajaFacialClienteRequest(string[] arregloIdClientes, int idSucursal)
+        {
+            this.arregloIdClientes = arregloIdClientes;
+            this.idSucursal = idSucursal;
+            idCliente = -1;
         }
 
         public BajaFacialClienteRequest() { }

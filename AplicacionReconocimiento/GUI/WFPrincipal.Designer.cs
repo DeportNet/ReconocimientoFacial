@@ -44,6 +44,7 @@ namespace DeportNetReconocimiento.GUI
             Cerrar = new ToolStripMenuItem();
             botonPersonalizar = new Button();
             PanelSinConexion = new Panel();
+            botonDeportnetOffline = new Button();
             textoSinCoenxion = new Label();
             PanelAlmacenamiento = new Panel();
             TextoAlmacenamiento = new Label();
@@ -70,6 +71,7 @@ namespace DeportNetReconocimiento.GUI
             imagenLogo.SizeMode = PictureBoxSizeMode.Zoom;
             imagenLogo.TabIndex = 1;
             imagenLogo.TabStop = false;
+            imagenLogo.Click += imagenLogo_Click;
             // 
             // pictureBox1
             // 
@@ -160,13 +162,29 @@ namespace DeportNetReconocimiento.GUI
             // PanelSinConexion
             // 
             PanelSinConexion.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            PanelSinConexion.BackColor = Color.Black;
+            PanelSinConexion.BackColor = Color.Transparent;
+            PanelSinConexion.Controls.Add(botonDeportnetOffline);
             PanelSinConexion.Controls.Add(textoSinCoenxion);
-            PanelSinConexion.Location = new Point(1527, 961);
+            PanelSinConexion.Location = new Point(1379, 961);
             PanelSinConexion.Name = "PanelSinConexion";
-            PanelSinConexion.Size = new Size(275, 36);
+            PanelSinConexion.Size = new Size(402, 36);
             PanelSinConexion.TabIndex = 29;
             PanelSinConexion.Visible = false;
+            // 
+            // botonDeportnetOffline
+            // 
+            botonDeportnetOffline.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            botonDeportnetOffline.BackColor = Color.WhiteSmoke;
+            botonDeportnetOffline.Cursor = Cursors.Hand;
+            botonDeportnetOffline.FlatAppearance.BorderSize = 0;
+            botonDeportnetOffline.FlatStyle = FlatStyle.Flat;
+            botonDeportnetOffline.ForeColor = Color.Black;
+            botonDeportnetOffline.Location = new Point(315, 10);
+            botonDeportnetOffline.Name = "botonDeportnetOffline";
+            botonDeportnetOffline.Size = new Size(84, 23);
+            botonDeportnetOffline.TabIndex = 34;
+            botonDeportnetOffline.Text = "Modo offline";
+            botonDeportnetOffline.UseVisualStyleBackColor = false;
             // 
             // textoSinCoenxion
             // 
@@ -176,9 +194,9 @@ namespace DeportNetReconocimiento.GUI
             textoSinCoenxion.ForeColor = Color.Red;
             textoSinCoenxion.Location = new Point(0, 5);
             textoSinCoenxion.Name = "textoSinCoenxion";
-            textoSinCoenxion.Size = new Size(275, 31);
+            textoSinCoenxion.Size = new Size(312, 31);
             textoSinCoenxion.TabIndex = 0;
-            textoSinCoenxion.Text = "No hay conexión a internet";
+            textoSinCoenxion.Text = "Conexión a internet inestable";
             textoSinCoenxion.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // PanelAlmacenamiento
@@ -186,7 +204,7 @@ namespace DeportNetReconocimiento.GUI
             PanelAlmacenamiento.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             PanelAlmacenamiento.BackColor = Color.Black;
             PanelAlmacenamiento.Controls.Add(TextoAlmacenamiento);
-            PanelAlmacenamiento.Location = new Point(1083, 966);
+            PanelAlmacenamiento.Location = new Point(940, 964);
             PanelAlmacenamiento.Name = "PanelAlmacenamiento";
             PanelAlmacenamiento.Size = new Size(438, 35);
             PanelAlmacenamiento.TabIndex = 30;
@@ -289,5 +307,6 @@ namespace DeportNetReconocimiento.GUI
         private TableLayoutPanel tableLayoutPanel1;
         private Label textoInformacionCliente;
         private System.Windows.Forms.Timer timerMinimizar;
+        private Button botonDeportnetOffline;
     }
 }

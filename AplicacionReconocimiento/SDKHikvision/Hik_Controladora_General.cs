@@ -314,9 +314,9 @@ namespace DeportNetReconocimiento.SDK
             else
             {
                 //leer nodos <FaceParam> <Card> <FingerPrint> del resultadoXML
-                SoportaFacial = VarificarCapacidad(resultadoXML, "//FaceParam");
-                SoportaHuella = VarificarCapacidad(resultadoXML, "//FingerPrint");
-                SoportaTarjeta = VarificarCapacidad(resultadoXML, "//Card");
+                SoportaFacial = VerificarCapacidad(resultadoXML, "//FaceParam");
+                SoportaHuella = VerificarCapacidad(resultadoXML, "//FingerPrint");
+                SoportaTarjeta = VerificarCapacidad(resultadoXML, "//Card");
 
                 // Dar valor a resultado
                 resultado.ActualizarResultado(true, $"Soporta reconocimiento facial: {SoportaFacial} \nSoporta huella digital: {SoportaHuella} \nSoporta tarjeta: {SoportaTarjeta}", Hik_SDK.NET_DVR_GetLastError().ToString());
@@ -354,7 +354,7 @@ namespace DeportNetReconocimiento.SDK
         }
         
 
-        private bool VarificarCapacidad(XmlDocument resultadoXML, string capacidad)
+        private bool VerificarCapacidad(XmlDocument resultadoXML, string capacidad)
         {
             bool soporta = false;
             XmlNode? nodoBuscado = resultadoXML.SelectSingleNode(capacidad);
@@ -413,41 +413,7 @@ namespace DeportNetReconocimiento.SDK
         }
 
 
-        //Verificar conexión a internet o en general
-        public static bool ComprobarConexionInternet()
-        {
-            //ponemos flag en false como predeterminado
-            bool flag = false;
-
-            Ping pingSender = new Ping();
-            string direccion = "8.8.8.8"; // IP de Google
-
-            try
-            {
-                //respuesta que nos da el enviador de ping
-                PingReply reply = pingSender.Send(direccion);
-
-                if (reply.Status == IPStatus.Success)
-                {
-                    flag = true;
-                    Console.WriteLine("Tenemos conexion a internet; Tiempo: " + reply.RoundtripTime + " ms");
-                    //Console.WriteLine("Dirección: " + reply.Address.ToString());
-                    
-                }
-                else
-                {
-
-                    Console.WriteLine("No se pudo conectar: " + reply.Status);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: " + e.Message);
-            }
-
-            return flag;
-        }
-
+        
 
         public Hik_Resultado AltaCliente(string idCliente, string nombre)
         {
@@ -583,22 +549,22 @@ namespace DeportNetReconocimiento.SDK
 
         }
 
-        //public Hik_Resultado BajaMasivaClientes(string[] ids)
-        //{
-        //    Hik_Resultado resultado = new Hik_Resultado();
+        public Hik_Resultado BajaMasivaClientes(string[] ids)
+        {
+            Hik_Resultado resultado = new Hik_Resultado();
 
-        //    foreach (string id in ids)
-        //    {
-        //        resultado = BajaCliente(id);
-        //    }
+            foreach (string id in ids)
+            {
+                resultado = BajaCliente(id);
+            }
 
-        //    return resultado;
-        //}
+            return resultado;
+        }
 
 
-        
 
-        
-        
+
+
+
     }
 }

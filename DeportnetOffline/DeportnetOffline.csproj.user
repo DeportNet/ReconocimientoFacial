@@ -16,7 +16,7 @@
     <Compile Update="VistaAccesos.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="VisataCobros.cs">
+    <Compile Update="VistaCobros.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="VistaServicios.cs">
