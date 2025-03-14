@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Tv2B8Elh3nU=",
+  "dgSpecHash": "yjsZtuz/ztg=",
   "success": true,
   "projectFilePath": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
   "expectedPackageFiles": [
@@ -22,7 +22,8 @@
     "C:\\Users\\fabri\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\7.2.0\\swashbuckle.aspnetcore.swaggerui.7.2.0.nupkg.sha512",
     "C:\\Users\\fabri\\.nuget\\packages\\system.data.sqlite.core\\1.0.119\\system.data.sqlite.core.1.0.119.nupkg.sha512",
     "C:\\Users\\fabri\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
-    "C:\\Users\\fabri\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512"
+    "C:\\Users\\fabri\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
+    "C:\\Users\\fabri\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.26100.53\\microsoft.windows.sdk.net.ref.10.0.26100.53.nupkg.sha512"
   ],
   "logs": []
 }

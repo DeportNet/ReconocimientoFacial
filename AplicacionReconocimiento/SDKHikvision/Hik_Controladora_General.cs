@@ -384,7 +384,6 @@ namespace DeportNetReconocimiento.SDK
 
             if (!resultado.Exito)
             {
-                Console.WriteLine("(BORRAR)No se pudo inicializar");
                 //si no se pudo inicializar
                 return resultado;
             }
@@ -464,7 +463,6 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(idCliente));
             if (resultado.Exito)
             {
-               // MessageBox.Show("Error de obtener la tarjeta");
                 resultado.Mensaje = "Error de obtener la tarjeta";
                 return resultado;
             }
@@ -477,7 +475,6 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
             if (!resultado.Exito)
             {
-                //MessageBox.Show("Error de obtener la cara");
                 resultado.Mensaje = "Error de obtener la cara";
                 return resultado;
             }
@@ -486,7 +483,6 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(int.Parse(idCliente), nombre);
             if (!resultado.Exito)
             {
-                //MessageBox.Show("Error de crear una tarjeta");
                 resultado.Mensaje = "Error de crear una tarjeta";
                 return resultado;
             }
@@ -495,7 +491,6 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, idCliente);
             if (!resultado.Exito)
             {
-                //MessageBox.Show("Error de establecer una cara");
                 resultado.Mensaje = "Error de establecer una cara";
                 return resultado;
             }

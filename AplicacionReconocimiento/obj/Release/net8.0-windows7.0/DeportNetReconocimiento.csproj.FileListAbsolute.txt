@@ -75,3 +75,4 @@ G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\obj\Release\
 G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\obj\Release\net8.0-windows7.0\DeportNetReconocimiento.pdb
 G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\obj\Release\net8.0-windows7.0\DeportNetReconocimiento.genruntimeconfig.cache
 G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\obj\Release\net8.0-windows7.0\ref\DeportNetReconocimiento.dll
+G:\Fabri\Deportnet\DeportnetReconocimiento\AplicacionReconocimiento\obj\Release\net8.0-windows7.0\DeportNetReconocimiento.GUI.Loading.resources

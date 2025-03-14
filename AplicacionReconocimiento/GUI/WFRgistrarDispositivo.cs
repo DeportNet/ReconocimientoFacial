@@ -65,7 +65,7 @@ namespace DeportNetReconocimiento
         {
             bool flag = false;
 
-
+            //si queremos buscar el disp, podemos obviar estas validaciones
             if (!buscarDisp)
             {
                 if (string.IsNullOrEmpty(textBoxDeviceAddress.Text) ||
@@ -76,6 +76,26 @@ namespace DeportNetReconocimiento
                     MessageBox.Show("Ip del dispositivo invalida");
                     return flag;
                 }
+
+                bool parseSucursalId = int.TryParse(textBoxSucursalID.Text, out int parseSucursalIdOut);
+
+                if (!parseSucursalId)
+                {
+                    MessageBox.Show("El ID de la sucursal debe ser numerico");
+                    return flag;
+                }
+                if (textBoxSucursalID.Text.Length > 12 || parseSucursalIdOut <= 0)
+                {
+                    MessageBox.Show("El ID de la sucursal no puede ser mayor a 12 caracteres ni negativo");
+                    return flag;
+                }
+
+                if (textBoxTokenSucursal.Text.Length < 1)
+                {
+                    MessageBox.Show("El token de la sucursal es obligatorio");
+                    return flag;
+                }
+
             }
 
 
@@ -107,40 +127,30 @@ namespace DeportNetReconocimiento
                 return flag;
             }
 
-            bool parseSucursalId = int.TryParse(textBoxSucursalID.Text, out int parseSucursalIdOut);
-
-            if (!parseSucursalId)
-            {
-                MessageBox.Show("El ID de la sucursal debe ser numerico");
-                return flag;
-            }
-            if (textBoxSucursalID.Text.Length > 12 || parseSucursalIdOut <= 0)
-            {
-                MessageBox.Show("El ID de la sucursal no puede ser mayor a 12 caracteres ni negativo");
-                return flag;
-            }
-
-            if (textBoxTokenSucursal.Text.Length < 1)
-            {
-                MessageBox.Show("El token de la sucursal es obligatorio");
-                return flag;
-            }
-
             //si pasa todos los filtros 
             flag = true;
 
             return flag;
         }
 
+        private bool seClickeoBotonLogin = false;
+
         private async void BtnAdd_Click(object sender, EventArgs e)
         {
 
-            if (!ValidarInputs() || loading.Visible)
+            if (!ValidarInputs() || loading.Visible || seClickeoBotonLogin)
             {
                 return;
             }
+            seClickeoBotonLogin = true;
 
-            
+            Hik_Resultado resultadoLogin = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(textBoxUserName.Text, textBoxPassword.Text, textBoxPort.Text, textBoxDeviceAddress.Text);
+
+            if (!resultadoLogin.Exito)
+            {
+                resultadoLogin.MessageBoxResultado("Error al incializar el dispositivo Hikvision");
+                return;
+            }
 
             Hik_Resultado conexionDx = await WebServicesDeportnet.TestearConexionDeportnet(textBoxTokenSucursal.Text, textBoxSucursalID.Text);
 
@@ -151,25 +161,15 @@ namespace DeportNetReconocimiento
                 return;
             }
 
-
-
-
-            Hik_Resultado resultadoLogin = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(textBoxUserName.Text, textBoxPassword.Text, textBoxPort.Text, textBoxDeviceAddress.Text);
-
-
-            if (!resultadoLogin.Exito)
-            {
-                resultadoLogin.MessageBoxResultado("Error al incializar el dispositivo Hikvision");
-                return;
-            }
-
-
             //creamos un arreglo de strings con los datos que recibimos del input
             //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
             CredencialesUtils.EscribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text, textBoxSucursalID.Text, textBoxTokenSucursal.Text]);
 
             ignorarCerrarPrograma = true;
+            seClickeoBotonLogin = false;
             this.Close();
+
+
             //WFPrincipal.ObtenerInstancia.Show();
             //LevantarWFPrincipal();
             //Environment.Exit(0); 
@@ -255,14 +255,14 @@ namespace DeportNetReconocimiento
 
         private async void botonBuscarIp_Click(object sender, EventArgs e)
         {
-            bool validarDisp = true;
-            if (!ValidarInputs(validarDisp) || loading.Visible)
+            bool buscarDisp = true;
+            if (!ValidarInputs(buscarDisp) || loading.Visible)
             {
                 return;
             }
             loading.Show();
             
-            Hik_Resultado resultadoLogin = await Task.Run(()=> BuscadorIpDispositivo.ObtenerIpDispositivo([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text, textBoxSucursalID.Text, textBoxTokenSucursal.Text]));
+            Hik_Resultado resultadoLogin = await Task.Run(()=> BuscadorIpDispositivo.ObtenerIpDispositivo(textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text));
             
             loading.Hide();
 

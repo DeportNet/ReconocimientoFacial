@@ -421,7 +421,7 @@ namespace DeportNetReconocimiento.Utils
 
             // Guardar fotos socio
             AlmacenarFotoSocio = false;
-
+            RutaCarpeta = Directory.GetCurrentDirectory();
         }
 
 
