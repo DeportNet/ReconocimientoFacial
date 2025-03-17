@@ -30,13 +30,15 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             panel1 = new Panel();
-            button1 = new Button();
+            botonAltaLegajos = new Button();
             botonCobros = new Button();
             botonAccesos = new Button();
             botonSocios = new Button();
             panelContenido = new Panel();
+            tableLayoutPanel2 = new TableLayoutPanel();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -62,35 +64,32 @@
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             panel1.BackColor = Color.Gainsboro;
-            panel1.Controls.Add(button1);
-            panel1.Controls.Add(botonCobros);
-            panel1.Controls.Add(botonAccesos);
-            panel1.Controls.Add(botonSocios);
+            panel1.Controls.Add(tableLayoutPanel2);
             panel1.Location = new Point(0, 692);
             panel1.Margin = new Padding(0);
             panel1.Name = "panel1";
             panel1.Size = new Size(1350, 37);
             panel1.TabIndex = 0;
             // 
-            // button1
+            // botonAltaLegajos
             // 
-            button1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            button1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            button1.Location = new Point(1001, 3);
-            button1.Name = "button1";
-            button1.Size = new Size(300, 31);
-            button1.TabIndex = 4;
-            button1.Text = "Ver alta de legajos";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            botonAltaLegajos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            botonAltaLegajos.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            botonAltaLegajos.Location = new Point(1014, 3);
+            botonAltaLegajos.Name = "botonAltaLegajos";
+            botonAltaLegajos.Size = new Size(333, 31);
+            botonAltaLegajos.TabIndex = 4;
+            botonAltaLegajos.Text = "Ver alta de legajos";
+            botonAltaLegajos.UseVisualStyleBackColor = true;
+            botonAltaLegajos.Click += button1_Click;
             // 
             // botonCobros
             // 
-            botonCobros.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            botonCobros.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             botonCobros.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            botonCobros.Location = new Point(684, 3);
+            botonCobros.Location = new Point(677, 3);
             botonCobros.Name = "botonCobros";
-            botonCobros.Size = new Size(300, 31);
+            botonCobros.Size = new Size(331, 31);
             botonCobros.TabIndex = 3;
             botonCobros.Text = "Ver cobros offline";
             botonCobros.UseVisualStyleBackColor = true;
@@ -98,10 +97,10 @@
             // 
             // botonAccesos
             // 
-            botonAccesos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            botonAccesos.Location = new Point(358, 3);
+            botonAccesos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            botonAccesos.Location = new Point(340, 3);
             botonAccesos.Name = "botonAccesos";
-            botonAccesos.Size = new Size(300, 31);
+            botonAccesos.Size = new Size(331, 31);
             botonAccesos.TabIndex = 2;
             botonAccesos.Text = "Ver accesos offline";
             botonAccesos.UseVisualStyleBackColor = true;
@@ -109,11 +108,11 @@
             // 
             // botonSocios
             // 
-            botonSocios.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            botonSocios.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             botonSocios.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            botonSocios.Location = new Point(38, 3);
+            botonSocios.Location = new Point(3, 3);
             botonSocios.Name = "botonSocios";
-            botonSocios.Size = new Size(300, 31);
+            botonSocios.Size = new Size(331, 31);
             botonSocios.TabIndex = 1;
             botonSocios.Text = "Busqueda de legajos";
             botonSocios.UseVisualStyleBackColor = true;
@@ -130,6 +129,26 @@
             panelContenido.Size = new Size(1350, 692);
             panelContenido.TabIndex = 1;
             // 
+            // tableLayoutPanel2
+            // 
+            tableLayoutPanel2.ColumnCount = 4;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel2.Controls.Add(botonAltaLegajos, 3, 0);
+            tableLayoutPanel2.Controls.Add(botonCobros, 2, 0);
+            tableLayoutPanel2.Controls.Add(botonAccesos, 1, 0);
+            tableLayoutPanel2.Controls.Add(botonSocios, 0, 0);
+            tableLayoutPanel2.Dock = DockStyle.Fill;
+            tableLayoutPanel2.Location = new Point(0, 0);
+            tableLayoutPanel2.Margin = new Padding(0);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 1;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.Size = new Size(1350, 37);
+            tableLayoutPanel2.TabIndex = 0;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -141,6 +160,7 @@
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             panel1.ResumeLayout(false);
+            tableLayoutPanel2.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -153,6 +173,7 @@
         private Button botonCobros;
         private Button botonAccesos;
         private Button botonSocios;
-        private Button button1;
+        private Button botonAltaLegajos;
+        private TableLayoutPanel tableLayoutPanel2;
     }
 }

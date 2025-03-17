@@ -4,25 +4,28 @@
     <Compile Update="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="modalCobros.cs">
+    <Compile Update="GUI\Modales\modalNuevoLegajo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="modalVentas.cs">
+    <Compile Update="GUI\Modales\modalCobros.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="vistaAltaLegajos.cs">
+    <Compile Update="GUI\Modales\modalVentas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Vistas\vistaAltaLegajos.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="VistaAccesos.cs">
+    <Compile Update="GUI\Vistas\VistaAccesos.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="VistaCobros.cs">
+    <Compile Update="GUI\Vistas\VistaCobros.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="VistaServicios.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="VistaSocios.cs">
+    <Compile Update="GUI\Vistas\VistaSocios.cs">
       <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeportnetOffline.GUI.Modales;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,6 +21,7 @@ namespace DeportnetOffline
             InitializeComponent();
             labelCantPaginas.Text = $"Página {paginaActual} de 50";
 
+            dataGridView1.Rows.Add("Facundo Procelli", 22316276, 4601238, "facundoprocelli@gmail.com", 45, "m", "Normal", "Activo", "nashe", "burger");
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -148,5 +150,54 @@ namespace DeportnetOffline
         {
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            modalNuevoLegajo modal = new modalNuevoLegajo();
+            modal.Show();
+        }
+
+        private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaVenta")
+                {
+                    MessageBox.Show($"Vender usuario: {dataGridView1.Rows[e.RowIndex].Cells[1].Value}");
+                } else if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaCobro")
+                {
+                    MessageBox.Show($"Cobrar usuario: {dataGridView1.Rows[e.RowIndex].Cells[1].Value}");
+                }
+            }
+        }
+
+        private void DataGridView1_Paint(object sender, PaintEventArgs e)
+        {
+
+            // Obtener posiciones de las columnas
+            Rectangle rectEditar = dataGridView1.GetCellDisplayRectangle(8, -1, true);
+            Rectangle rectEliminar = dataGridView1.GetCellDisplayRectangle(9, -1, true);
+
+            // Fusionar ambos rectángulos en un solo encabezado
+            int anchoTotal = rectEditar.Width + rectEliminar.Width - 1;
+            Rectangle newHeaderRect = new Rectangle(rectEditar.X, rectEditar.Y, anchoTotal, rectEditar.Height - 1);
+
+            // Dibujar fondo del encabezado combinado
+            e.Graphics.FillRectangle(new SolidBrush(dataGridView1.ColumnHeadersDefaultCellStyle.BackColor), newHeaderRect);
+
+            // Dibujar borde
+            e.Graphics.DrawRectangle(Pens.Black, newHeaderRect);
+
+            // Dibujar texto centrado
+            StringFormat format = new StringFormat();
+            format.Alignment = StringAlignment.Center;
+            format.LineAlignment = StringAlignment.Center;
+
+            e.Graphics.DrawString("Acciones", dataGridView1.ColumnHeadersDefaultCellStyle.Font, Brushes.Black, newHeaderRect, format);
+        
+
+    }
+
+
     }
 }
