@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -11,6 +11,8 @@
     <ApplicationIcon>Recursos\icono_deportnet.ico</ApplicationIcon>
     <AssemblyName>DeportNetReconocimiento</AssemblyName>
     <RootNamespace>DeportNetReconocimiento</RootNamespace>
+    <SupportedOSPlatformVersion>8.0</SupportedOSPlatformVersion>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
@@ -54,6 +56,123 @@
 
    <ItemGroup>
      <Content Include="Recursos\icono_deportnet.ico" />
+   </ItemGroup>
+
+   <ItemGroup>
+     <Content Update="HCNetSDK\-¨Ëð+Ô+-+¦+¢¦¦Á¢©+-+-+¤-.txt">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\AudioRender.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\EagleEyeRender.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\GdiPlus.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\GdiPlus.lib">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCCore.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCCore.lib">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDK.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDK.lib">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDKCom\AnalyzeData.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDKCom\AudioIntercom.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDKCom\HCAlarm.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDKCom\HCAlarm.lib">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDKCom\HCCoreDevCfg.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDKCom\HCDisplay.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDKCom\HCGeneralCfgMgr.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDKCom\HCGeneralCfgMgr.lib">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDKCom\HCIndustry.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDKCom\HCPlayBack.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDKCom\HCPreview.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDKCom\HCPreview.lib">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDKCom\HCVoiceTalk.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDKCom\libiconv2.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDKCom\OpenAL32.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDKCom\StreamTransClient.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HCNetSDKCom\SystemTransform.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\hlog.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\hpr.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\HXVA.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\libeay32.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\libmmd.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\MP_Render.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\NPQos.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\PlayCtrl.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\PlayCtrl.lib">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\ssleay32.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\SuperRender.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
+     <Content Update="HCNetSDK\YUVProcess.dll">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
    </ItemGroup>
 
    <ItemGroup>

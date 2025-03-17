@@ -7,7 +7,7 @@ namespace DeportNetReconocimiento.Utils
 {
     public class BuscadorIpDispositivo
     {
-        public static async Task<Hik_Resultado> ObtenerIpDispositivo(string[] credenciales)
+        public static async Task<Hik_Resultado> ObtenerIpDispositivo(string port,string username, string password)
         {
             
 
@@ -23,7 +23,7 @@ namespace DeportNetReconocimiento.Utils
                 {
                     Console.WriteLine("Probando con ip: " + ip);
 
-                    resultadoLogin = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(credenciales[2], credenciales[3], credenciales[1],ip);
+                    resultadoLogin = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(username, password, port, ip);
 
                     if (resultadoLogin.Exito)
                     {

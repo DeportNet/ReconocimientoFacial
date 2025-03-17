@@ -126,6 +126,9 @@ namespace DeportNetReconocimiento.SDK
             struLoginInfo.sPassword = password;
             ushort.TryParse(port, out struLoginInfo.wPort);
 
+            //struLoginInfo.bUseAsynLogin = false;
+            
+
 
             //utilizamos metodo de iniciar sesion
             int auxUserID = -1;
@@ -154,7 +157,7 @@ namespace DeportNetReconocimiento.SDK
             uint nroError = Hik_SDK.NET_DVR_GetLastError();
             string mensajeDeSdk = "";
 
-
+            Console.WriteLine("(BORRAR)Nro de error de login: " + nroError);
             switch (nroError)
             {
                 case Hik_SDK.NET_DVR_PASSWORD_ERROR:
@@ -424,7 +427,6 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(idCliente));
             if (resultado.Exito)
             {
-               // MessageBox.Show("Error de obtener la tarjeta");
                 resultado.Mensaje = "Error de obtener la tarjeta";
                 return resultado;
             }
@@ -437,7 +439,6 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
             if (!resultado.Exito)
             {
-                //MessageBox.Show("Error de obtener la cara");
                 resultado.Mensaje = "Error de obtener la cara";
                 return resultado;
             }
@@ -446,7 +447,6 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(int.Parse(idCliente), nombre);
             if (!resultado.Exito)
             {
-                //MessageBox.Show("Error de crear una tarjeta");
                 resultado.Mensaje = "Error de crear una tarjeta";
                 return resultado;
             }
@@ -455,7 +455,6 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, idCliente);
             if (!resultado.Exito)
             {
-                //MessageBox.Show("Error de establecer una cara");
                 resultado.Mensaje = "Error de establecer una cara";
                 return resultado;
             }
