@@ -203,7 +203,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             byte mesActual = (byte)DateTime.Now.Month;
             byte diaActual = (byte)DateTime.Now.Day;
             byte horaActual = (byte)DateTime.Now.Hour;
-            ushort anioSiguiente = (ushort)(DateTime.Now.Year + 1);
+            ushort anioSiguiente = (ushort)(DateTime.Now.Year + 5);
 
 
             //asignamos que exista una fecha de inicio y vencimiento

@@ -11,7 +11,8 @@ namespace DeportNetReconocimiento
         [STAThread]
         static void Main(string[] args)
         {
-            
+            /*Base de Datos*/
+
             /*API*/
             apiServer = new ApiServer();
             apiServer.Start();
@@ -19,13 +20,11 @@ namespace DeportNetReconocimiento
             //esto no me acuerdo que era
             //ApplicationConfiguration.Initialize();
 
-            
 
             //iniciazamos la ventana principal de acceso
             Application.Run(WFPrincipal.ObtenerInstancia);
 
            
-
             // Detener el servidor cuando la aplicación cierre
             AppDomain.CurrentDomain.ProcessExit += (s, e) => apiServer?.Stop();
 
