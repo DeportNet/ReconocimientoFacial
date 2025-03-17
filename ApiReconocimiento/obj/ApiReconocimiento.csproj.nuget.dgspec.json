@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj": {}
+    "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\ApiReconocimiento\\ApiReconocimiento.csproj": {}
   },
   "projects": {
-    "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj": {
+    "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\ApiReconocimiento\\ApiReconocimiento.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
-        "projectName": "DeportNetReconocimiento",
-        "projectPath": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
+        "projectUniqueName": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\ApiReconocimiento\\ApiReconocimiento.csproj",
+        "projectName": "ApiReconocimiento",
+        "projectPath": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\ApiReconocimiento\\ApiReconocimiento.csproj",
         "packagesPath": "C:\\Users\\fabri\\.nuget\\packages\\",
-        "outputPath": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\obj\\",
+        "outputPath": "G:\\Fabri\\Deportnet\\DeportnetReconocimiento\\ApiReconocimiento\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "G:\\Programs\\Visual Studio Community\\SharedComponents IDE\\NuGetPackages"
@@ -22,7 +22,7 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net8.0-windows10.0.26100.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -30,8 +30,8 @@
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net8.0-windows10.0.26100": {
-            "targetAlias": "net8.0-windows10.0.26100.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -47,30 +47,12 @@
         }
       },
       "frameworks": {
-        "net8.0-windows10.0.26100": {
-          "targetAlias": "net8.0-windows10.0.26100.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[9.0.2, )"
-            },
-            "Microsoft.EntityFrameworkCore.Tools": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[9.0.2, )"
-            },
-            "NAudio": {
-              "target": "Package",
-              "version": "[2.2.1, )"
-            },
-            "Npgsql.EntityFrameworkCore.PostgreSQL": {
-              "target": "Package",
-              "version": "[9.0.4, )"
-            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[7.3.1, )"
+              "version": "[6.6.2, )"
             }
           },
           "imports": [
@@ -84,24 +66,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.Windows.SDK.NET.Ref",
-              "version": "[10.0.26100.53, 10.0.26100.53]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
             },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
-            },
-            "Microsoft.Windows.SDK.NET.Ref": {
-              "privateAssets": "all"
-            },
-            "Microsoft.WindowsDesktop.App.WindowsForms": {
-              "privateAssets": "none"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
