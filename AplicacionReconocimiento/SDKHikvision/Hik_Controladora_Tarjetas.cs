@@ -72,7 +72,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             Hik_SDK.NET_DVR_CARD_COND tarjetaCond = new Hik_SDK.NET_DVR_CARD_COND();
             IntPtr ptrTarjetaCond = IntPtr.Zero;
 
-            InicializarEstructuraTarjetaCond(ref tarjetaCond, ref ptrTarjetaCond);
+            InicializarEstructuraTarjetaCond(ref tarjetaCond, ref ptrTarjetaCond,(uint) nuevoNumeroTarjeta);
 
             SetCardCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_SET_CARD, ptrTarjetaCond, (int)tarjetaCond.dwSize, null, IntPtr.Zero);
 
@@ -122,11 +122,11 @@ namespace DeportNetReconocimiento.SDKHikvision
             Marshal.FreeHGlobal(ptrTarjetaRecord);
             return resultado;
         }
-        public void InicializarEstructuraTarjetaCond(ref Hik_SDK.NET_DVR_CARD_COND tarjetaCond, ref IntPtr ptrTarjetaCond)
+        public void InicializarEstructuraTarjetaCond(ref Hik_SDK.NET_DVR_CARD_COND tarjetaCond, ref IntPtr ptrTarjetaCond, uint nuevoNumeroDeTarjeta)
         {
             tarjetaCond.Init();
             tarjetaCond.dwSize = (uint)Marshal.SizeOf(tarjetaCond);
-            tarjetaCond.dwCardNum = 1;
+            tarjetaCond.dwCardNum = nuevoNumeroDeTarjeta;
             ptrTarjetaCond = Marshal.AllocHGlobal((int)tarjetaCond.dwSize);
             Marshal.StructureToPtr(tarjetaCond, ptrTarjetaCond, false);
         }
@@ -141,6 +141,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         {
             tarjetaRecord.Init();
             tarjetaRecord.dwSize = (uint)Marshal.SizeOf(tarjetaRecord);
+            //1-normal card (default); 2-disabled card;
             tarjetaRecord.byCardType = 1;
 
             byte[] byTempCardNo = new byte[Hik_SDK.ACS_CARD_NO_LEN];
@@ -169,7 +170,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             //asignamos la fecha de inicio y vencimiento de la tarjeta
             AsignarFechaDeInicioYVencimientoTarjeta(ref tarjetaRecord);
 
-            //asignamos los permisos de la tarjeta (1 = default osea todos)
+            //asignamos los permisos de la tarjeta (1 = default osea todos, 0= ninguno)
             tarjetaRecord.byDoorRight[0] = 1;
 
             //asignamos la estructura record a un puntero
@@ -318,7 +319,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             Hik_SDK.NET_DVR_CARD_COND tarjetaCond = new Hik_SDK.NET_DVR_CARD_COND();
             IntPtr ptrTarjetaCond = IntPtr.Zero;
 
-            InicializarEstructuraTarjetaCond(ref tarjetaCond, ref ptrTarjetaCond);
+            InicializarEstructuraTarjetaCond(ref tarjetaCond, ref ptrTarjetaCond, (uint) nroTarjetaABuscar);
 
 
             Hik_SDK.NET_DVR_CARD_RECORD tarjetaRecord = new Hik_SDK.NET_DVR_CARD_RECORD();
@@ -436,7 +437,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             Hik_SDK.NET_DVR_CARD_COND tarjetaCond = new Hik_SDK.NET_DVR_CARD_COND();
             IntPtr ptrTarjetaCond = IntPtr.Zero;
 
-            InicializarEstructuraTarjetaCond(ref tarjetaCond, ref ptrTarjetaCond);
+            InicializarEstructuraTarjetaCond(ref tarjetaCond, ref ptrTarjetaCond, (uint)idTarjeta);
 
 
             //tarjeta send data
