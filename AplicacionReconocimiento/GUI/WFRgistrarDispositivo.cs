@@ -144,9 +144,10 @@ namespace DeportNetReconocimiento
             }
             seClickeoBotonLogin = true;
 
+            
             Hik_Resultado resultadoLogin = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(textBoxUserName.Text, textBoxPassword.Text, textBoxPort.Text, textBoxDeviceAddress.Text);
 
-            if (!resultadoLogin.Exito)
+           if (!resultadoLogin.Exito)
             {
                 resultadoLogin.MessageBoxResultado("Error al incializar el dispositivo Hikvision");
                 return;
@@ -164,16 +165,13 @@ namespace DeportNetReconocimiento
             //creamos un arreglo de strings con los datos que recibimos del input
             //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
             CredencialesUtils.EscribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text, textBoxSucursalID.Text, textBoxTokenSucursal.Text]);
+            
+            //Creador de credenciales manual
+            //CredencialesUtils.EscribirArchivoCredenciales(["192.168.0.203", "8000", "admin", "facu", "321", "laskjdhf"]);
 
             ignorarCerrarPrograma = true;
             seClickeoBotonLogin = false;
-            this.Close();
-
-
-            //WFPrincipal.ObtenerInstancia.Show();
-            //LevantarWFPrincipal();
-            //Environment.Exit(0); 
-
+            this.Close(); 
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)

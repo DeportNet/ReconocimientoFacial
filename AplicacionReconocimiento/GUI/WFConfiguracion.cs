@@ -19,7 +19,7 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
             this.configuracion = configuracionEstilos;
             this.principal = principal;
-
+            comboBoxPermisoTarjeta.SelectedIndex = 0;
             _credenciales = CredencialesUtils.LeerCredenciales();
 
 
@@ -86,7 +86,7 @@ namespace DeportNetReconocimiento.GUI
         private void RefrescarPropertyGrid()
         {
             // Recargar el objeto desde el JSON
-            configuracion = ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos");
+            configuracion = ConfiguracionEstilos.LeerJsonConfiguracion();
 
             // Actualizar el PropertyGrid
             propertyGrid1.SelectedObject = null; // Limpia la referencia
@@ -382,8 +382,13 @@ namespace DeportNetReconocimiento.GUI
         private void botonEditarCredenciales_Click(object sender, EventArgs e)
         {
             WFRgistrarDispositivo dialogo = WFRgistrarDispositivo.ObtenerInstancia;
-            
+
             dialogo.ShowDialog();
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
 
         }
     }
