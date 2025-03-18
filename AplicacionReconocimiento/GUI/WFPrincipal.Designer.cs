@@ -51,6 +51,10 @@ namespace DeportNetReconocimiento.GUI
             tableLayoutPanel1 = new TableLayoutPanel();
             textoInformacionCliente = new Label();
             timerMinimizar = new System.Windows.Forms.Timer(components);
+            botonAbrir = new Button();
+            button1 = new Button();
+            button2 = new Button();
+            button3 = new Button();
             ((System.ComponentModel.ISupportInitialize)imagenLogo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuNotifyIcon.SuspendLayout();
@@ -235,12 +239,56 @@ namespace DeportNetReconocimiento.GUI
             textoInformacionCliente.Size = new Size(1276, 723);
             textoInformacionCliente.TabIndex = 12;
             // 
+            // botonAbrir
+            // 
+            botonAbrir.Location = new Point(856, 976);
+            botonAbrir.Name = "botonAbrir";
+            botonAbrir.Size = new Size(175, 23);
+            botonAbrir.TabIndex = 34;
+            botonAbrir.Text = "Abrir ";
+            botonAbrir.UseVisualStyleBackColor = true;
+            botonAbrir.Click += botonAbrir_Click;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(677, 977);
+            button1.Name = "button1";
+            button1.Size = new Size(147, 23);
+            button1.TabIndex = 35;
+            button1.Text = "Mantener abierto";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(553, 974);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 36;
+            button2.Text = "Cerrar";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(399, 977);
+            button3.Name = "button3";
+            button3.Size = new Size(116, 23);
+            button3.TabIndex = 37;
+            button3.Text = "Mantener cerrado";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // WFPrincipal
             // 
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.Silver;
             ClientSize = new Size(1904, 1001);
+            Controls.Add(button3);
+            Controls.Add(button2);
+            Controls.Add(button1);
+            Controls.Add(botonAbrir);
             Controls.Add(botonPersonalizar);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(PanelAlmacenamiento);
@@ -289,5 +337,9 @@ namespace DeportNetReconocimiento.GUI
         private TableLayoutPanel tableLayoutPanel1;
         private Label textoInformacionCliente;
         private System.Windows.Forms.Timer timerMinimizar;
+        private Button botonAbrir;
+        private Button button1;
+        private Button button2;
+        private Button button3;
     }
 }

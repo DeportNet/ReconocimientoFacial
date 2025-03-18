@@ -37,7 +37,7 @@ namespace DeportNetReconocimiento.GUI
             loading = new Loading();
             Hik_Resultado resultadoInicio = InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
 
-            
+
 
             //estilos se leen de un archivo
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion());
@@ -111,7 +111,7 @@ namespace DeportNetReconocimiento.GUI
             set { hik_Controladora_General = value; }
         }
 
-        
+
 
         public Hik_Resultado InstanciarPrograma()
         {
@@ -120,7 +120,7 @@ namespace DeportNetReconocimiento.GUI
 
             //ip , puerto, usuario, contraseña en ese orden
 
-            
+
             if (!CredencialesUtils.ExisteArchivoCredenciales())
             {
                 WFRgistrarDispositivo wFRgistrarDispositivo = WFRgistrarDispositivo.ObtenerInstancia;
@@ -158,13 +158,13 @@ namespace DeportNetReconocimiento.GUI
             switch (resultadoError.Codigo)
             {
                 case "7":
-                    
+
                     //Logica mostrar loading y buscar ip
                     string[] credenciales = CredencialesUtils.LeerCredenciales();
 
                     ocultarPrincipal = true; // Ocultamos la vista pri para que no se pueda hacer nada mientras se busca la ip del dispositivo
                     loading.Show();
-                   
+
                     Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales[1], credenciales[2], credenciales[3]));
 
                     loading.Close();
@@ -179,7 +179,7 @@ namespace DeportNetReconocimiento.GUI
                         resultadoLogin.MessageBoxResultado("Error al incializar el dispositivo Hikvision");
                         return;
                     }
-                    
+
                     credenciales[0] = resultadoLogin.Mensaje;
                     CredencialesUtils.EscribirArchivoCredenciales(credenciales);
                     MessageBox.Show("Se busco la direccion del dispositivo y se configuro con la correspondiente", "Aviso busqueda de Ip dispositivo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -193,7 +193,7 @@ namespace DeportNetReconocimiento.GUI
 
 
 
-         
+
         }
 
 
@@ -452,10 +452,10 @@ namespace DeportNetReconocimiento.GUI
                         Console.WriteLine("Ejecuto el exe");
                         Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.RutaMetodoApertura);
                     }
-                    else if(ConfiguracionEstilos.MetodoApertura == "Hikvision")
+                    else if (ConfiguracionEstilos.MetodoApertura == "Hikvision")
                     {
                         Console.WriteLine("Abro con Hikvision");
-                        resultado =  Hik_Controladora_Puertas.OperadorPuerta(1);
+                        resultado = Hik_Controladora_Puertas.OperadorPuerta(1);
                         Console.WriteLine("Resultado de apertura con Hikvision: \n " + resultado);
                     }
 
@@ -522,7 +522,8 @@ namespace DeportNetReconocimiento.GUI
                     string ruta = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
                     imagen = Image.FromFile(ruta);
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     Console.WriteLine("No se pudo obtener foto cliente");
                     imagen = Resources.avatarPredeterminado;
                 }
@@ -752,6 +753,34 @@ namespace DeportNetReconocimiento.GUI
             wFConfiguracion.ShowDialog();
         }
 
-        
+        private void botonAbrir_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Apretaste el boton de abrir");
+            
+            Hik_Resultado rews =  Hik_Controladora_Puertas.OperadorPuerta(1);
+            rews.EscribirResultado("Abrir");
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Apretaste el boton de mantener abierto");
+            Hik_Resultado rews = Hik_Controladora_Puertas.OperadorPuerta(2);
+            rews.EscribirResultado("Mantener Abierto");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Apretaste el boton de cerrar");
+            Hik_Resultado rews = Hik_Controladora_Puertas.OperadorPuerta(0);
+            rews.EscribirResultado("Cerrar");
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Apretaste el boton de mantener cerrador");
+            Hik_Resultado rews = Hik_Controladora_Puertas.OperadorPuerta(3);
+            rews.EscribirResultado("Mantener cerrado");
+        }
     }
 }
