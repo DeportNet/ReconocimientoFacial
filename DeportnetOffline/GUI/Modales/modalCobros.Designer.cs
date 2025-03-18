@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            labelNombreApelldioCliente = new Label();
             comboBox1 = new ComboBox();
             label1 = new Label();
             panel2 = new Panel();
@@ -42,7 +43,6 @@
             labelPrecio = new Label();
             label3 = new Label();
             label2 = new Label();
-            labelNombreApelldioCliente = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -61,11 +61,21 @@
             panel1.Size = new Size(800, 450);
             panel1.TabIndex = 0;
             // 
+            // labelNombreApelldioCliente
+            // 
+            labelNombreApelldioCliente.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold);
+            labelNombreApelldioCliente.Location = new Point(151, 54);
+            labelNombreApelldioCliente.Name = "labelNombreApelldioCliente";
+            labelNombreApelldioCliente.Size = new Size(488, 34);
+            labelNombreApelldioCliente.TabIndex = 3;
+            labelNombreApelldioCliente.Text = "Nombre y apellido del cliente";
+            labelNombreApelldioCliente.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // comboBox1
             // 
             comboBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(266, 101);
+            comboBox1.Location = new Point(268, 112);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(229, 29);
             comboBox1.TabIndex = 2;
@@ -198,16 +208,6 @@
             label2.Size = new Size(171, 30);
             label2.TabIndex = 0;
             label2.Text = "Detalle del cobro";
-            // 
-            // labelNombreApelldioCliente
-            // 
-            labelNombreApelldioCliente.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold);
-            labelNombreApelldioCliente.Location = new Point(151, 54);
-            labelNombreApelldioCliente.Name = "labelNombreApelldioCliente";
-            labelNombreApelldioCliente.Size = new Size(488, 34);
-            labelNombreApelldioCliente.TabIndex = 3;
-            labelNombreApelldioCliente.Text = "Nombre y apellido del cliente";
-            labelNombreApelldioCliente.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // modalCobro
             // 

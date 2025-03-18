@@ -6,7 +6,7 @@ namespace DeportnetOffline
         public Form1()
         {
             InitializeComponent();
-
+            botonSocios_Click(this, EventArgs.Empty);
         }
 
         private void botonSocios_Click(object sender, EventArgs e)
@@ -51,5 +51,7 @@ namespace DeportnetOffline
             vistaAltaLegajos vistaAltaLegajos = new vistaAltaLegajos();
             cambiarUserControl(vistaAltaLegajos);
         }
+
+
     }
 }
