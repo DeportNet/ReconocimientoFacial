@@ -1,4 +1,5 @@
-﻿using DeportNetReconocimiento.Modelo;
+﻿using DeportNetReconocimiento.BD.Entidades;
+using DeportNetReconocimiento.Modelo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -20,15 +21,17 @@ namespace DeportNetReconocimiento.BD
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(configuration.GetConnectionString("ConexionDbLocalDeportnet"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Socio>().ToTable("branch_member");
+            modelBuilder.Entity<Socio>().ToTable("socios");
             modelBuilder.Entity<Articulo>().ToTable("articulos");
+            modelBuilder.Entity<Membresia>().ToTable("membresias");
             modelBuilder.Entity<Acceso>().ToTable("accesos");
-           // modelBuilder.Entity<Configuracion>().ToTable("configuracion");
+            modelBuilder.Entity<AccesoSocio>().ToTable("accesos_socios");
+            modelBuilder.Entity<ConfiguracionGeneral>().ToTable("configuracion_general");
+            modelBuilder.Entity<ConfiguracionDeAcceso>().ToTable("configuracion_de_acceso");
         }
     }
 }
