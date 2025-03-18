@@ -363,6 +363,9 @@ namespace DeportNetReconocimiento.Utils
         [Browsable(false)]
         public string RutaMetodoApertura { get; set; }
 
+        [Browsable(false)]
+        public byte PermisosDeTarjeta { get; set; }
+
         // Constructor predeterminado
         public ConfiguracionEstilos()
         {
@@ -411,6 +414,7 @@ namespace DeportNetReconocimiento.Utils
             // Configuraciones apertura
             MetodoApertura = ".exe";
             RutaMetodoApertura = "";
+            PermisosDeTarjeta = 0;
 
             // Maximizar y Minimizar 
             MaximizarAccesoConcedido = true;
@@ -442,21 +446,6 @@ namespace DeportNetReconocimiento.Utils
                 string json = JsonSerializer.Serialize(configuracion, options);
                 File.WriteAllText(rutaJson, json);
 
-                //// Validar el archivo temporal
-                //ConfiguracionEstilos configuracionValidada = LeerJsonConfiguracion(tempRutaJson);
-                //if (configuracionValidada != null)
-                //{
-                //    // Reemplazar el archivo original con el temporal
-                //    File.Replace(tempRutaJson, rutaJson, null);
-                //    Console.WriteLine("Configuración guardada correctamente.");
-                //}
-                //else
-                //{
-                //    // Eliminar el archivo temporal si la validación falla
-                //    File.Delete(tempRutaJson);
-                //    Console.WriteLine("Error en la validación de la configuración.");
-                //}
-
                 ConfiguracionManager.ActualizarConfiguracionDesdeJson("configuracionEstilos");
 
                 //Console.WriteLine("Configuración guardada correctamente.");
@@ -467,13 +456,13 @@ namespace DeportNetReconocimiento.Utils
             }
         }
 
-        public static ConfiguracionEstilos LeerJsonConfiguracion(string rutaJson)
+        public static ConfiguracionEstilos LeerJsonConfiguracion()
         {
-            //"configuracionEstilos.json"
+            string ruta = "configuracionEstilos.json";
 
             ConfiguracionEstilos configuracionEstilos = new ConfiguracionEstilos();
 
-            if (File.Exists($"{rutaJson}.json"))
+            if (File.Exists(ruta))
             {
                 try
                 {
@@ -488,7 +477,7 @@ namespace DeportNetReconocimiento.Utils
                     };
 
                     // Leer el contenido del archivo
-                    string jsonContent = File.ReadAllText($"{rutaJson}.json");
+                    string jsonContent = File.ReadAllText(ruta);
 
                     // Deserializar el contenido
                     configuracionEstilos = JsonSerializer.Deserialize<ConfiguracionEstilos>(jsonContent, options);
@@ -749,7 +738,7 @@ namespace DeportNetReconocimiento.Utils
         public static void ActualizarConfiguracionDesdeJson(string jsonPath)
         {
             // Lógica para cargar y aplicar cambios al JSON
-            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos");
+            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion();
 
             // Notificar a los suscriptores que la configuración ha cambiado
             OnConfiguracionActualizada?.Invoke();
