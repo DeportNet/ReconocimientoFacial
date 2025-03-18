@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DeportNetReconocimiento.Api.Services.Interfaces;
 using DeportNetReconocimiento.Api.Services;
+using DeportNetReconocimiento.BD;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace DeportNetReconocimiento.Api
@@ -21,10 +23,15 @@ namespace DeportNetReconocimiento.Api
             host = Host.CreateDefaultBuilder()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    var connectionString = "Server=localhost;Port=5432;Database=deportnet;User Id=postgres;Password=12345678;";
                     webBuilder.ConfigureServices(services =>
                     {
                         services.AddControllers(); // Agregar soporte para controladores
 
+                        services.AddDbContext<BdContext>(options =>
+
+                            options.UseNpgsql(connectionString)
+                        );
 
                         services.AddScoped<IDeportnetReconocimientoService,ReconocimientoService>();
 
