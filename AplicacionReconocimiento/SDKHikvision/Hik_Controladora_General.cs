@@ -377,7 +377,7 @@ namespace DeportNetReconocimiento.SDK
         //INICIALIZAMOS TODO
         public Hik_Resultado InicializarPrograma(string user, string password, string port, string ip)
         {
-            ConfiguracionEstilos configuracion= ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos");
+            ConfiguracionEstilos configuracion= ConfiguracionEstilos.LeerJsonConfiguracion();
             Hik_Resultado resultado = new Hik_Resultado();
 
             resultado = InicializarNet_DVR();
@@ -457,7 +457,7 @@ namespace DeportNetReconocimiento.SDK
         public Hik_Resultado AltaCliente(string idCliente, string nombre)
         {
             Hik_Resultado resultado = new Hik_Resultado();
-            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos");
+            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion();
 
             //Busco si la tarjeta existe
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(idCliente));
@@ -497,6 +497,7 @@ namespace DeportNetReconocimiento.SDK
 
             ConservarImagenSocio(configuracion, nombre, idCliente);
             configuracion.SumarRegistroCara();
+
 
             return resultado;
         }
@@ -551,7 +552,7 @@ namespace DeportNetReconocimiento.SDK
 
         public Hik_Resultado BajaCliente(string id)
         {
-            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos");
+            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion();
             Hik_Resultado resultado = new Hik_Resultado();
 
             //Buscar tarjeta

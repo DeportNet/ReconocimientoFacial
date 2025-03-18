@@ -28,6 +28,8 @@ namespace DeportNetReconocimiento.GUI
         private static ReproductorSonidos reproductorSonidos;
         //private string[] _credenciales;
         private bool ocultarPrincipal = false;
+        private static int intentosConexionADispositivo = 0;
+
 
         private WFPrincipal()
         {
@@ -38,7 +40,7 @@ namespace DeportNetReconocimiento.GUI
             
 
             //estilos se leen de un archivo
-            AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
+            AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion());
 
             ReproducirSonido(ConfiguracionEstilos.SonidoBienvenida);
 
@@ -118,6 +120,7 @@ namespace DeportNetReconocimiento.GUI
 
             //ip , puerto, usuario, contraseña en ese orden
 
+            
             if (!CredencialesUtils.ExisteArchivoCredenciales())
             {
                 WFRgistrarDispositivo wFRgistrarDispositivo = WFRgistrarDispositivo.ObtenerInstancia;
@@ -181,10 +184,7 @@ namespace DeportNetReconocimiento.GUI
                     CredencialesUtils.EscribirArchivoCredenciales(credenciales);
                     MessageBox.Show("Se busco la direccion del dispositivo y se configuro con la correspondiente", "Aviso busqueda de Ip dispositivo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    
 
-
-                   
                     break;
                 default:
                     resultadoError.MessageBoxResultado("Error al inicializar el programa");
@@ -264,7 +264,6 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-        private static int intentosConexionADispositivo = 0;
 
         //Funcion que se ejecuta en cada TICK del timer
         public async void VerificarEstadoDispositivoAsync(object sender, EventArgs e)
@@ -414,6 +413,7 @@ namespace DeportNetReconocimiento.GUI
         {
             string titulo = "";
             string mensaje = "";
+            Hik_Resultado resultado;
 
 
             //Console.WriteLine("Estado json:" + json.Estado);
@@ -451,6 +451,12 @@ namespace DeportNetReconocimiento.GUI
                     {
                         Console.WriteLine("Ejecuto el exe");
                         Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.RutaMetodoApertura);
+                    }
+                    else if(ConfiguracionEstilos.MetodoApertura == "Hikvision")
+                    {
+                        Console.WriteLine("Abro con Hikvision");
+                        resultado =  Hik_Controladora_Puertas.OperadorPuerta(1);
+                        Console.WriteLine("Resultado de apertura con Hikvision: \n " + resultado);
                     }
 
                     titulo = "Bienvenido/a " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Nombre) + " " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Apellido);
