@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.BD.Entidades
 {
-    internal class ConfiguracionGeneral
+    public class ConfiguracionGeneral
     {
+        //cant maxima lotes
+
+        //quizas contrasenia de bd
+
+        //fecha de sincronizacion
     }
 }

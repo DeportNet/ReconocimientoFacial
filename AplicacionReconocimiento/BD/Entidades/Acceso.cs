@@ -16,16 +16,18 @@ namespace DeportNetReconocimiento.Modelo
         private int Id { get; set; }
         private int ActiveBranchId { get; set; }
         private int ProcessId { get; set; }
-        private List<AccesoMiembro> MemberAccess{get; set;}
+
+        //Tabla pivot ?
+        private List<AccesoSocio> MemberAccess{get; set;}
 
         public Acceso(int activeBranchId, int processId)
         {
             ActiveBranchId = activeBranchId;
             ProcessId = processId;
-            MemberAccess = new List<AccesoMiembro>();
+            MemberAccess = new List<AccesoSocio>();
         }
 
-        public Acceso(int activeBranchId, int processId, List<AccesoMiembro> memberAccess)
+        public Acceso(int activeBranchId, int processId, List<AccesoSocio> memberAccess)
         {
             ActiveBranchId = activeBranchId;
             ProcessId = processId;

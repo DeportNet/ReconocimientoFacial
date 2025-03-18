@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.BD.Entidades
 {
-    internal class AccesoMiembro
+    public class AccesoSocio
     {
+        /*
+         * 
+          "memberId": "16832",
+                "accessDate": "2025-02-25 09:00:00.0",
+                "isSuccessful": "T"
+*/
     }
 }

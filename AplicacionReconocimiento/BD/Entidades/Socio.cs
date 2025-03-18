@@ -16,7 +16,7 @@ namespace DeportNetReconocimiento.BD.Entidades
         [Column("id")]
         public int Id { get; set; }
 
-        [Column("idDx")]
+        [Column("id_dx")]
         [DisallowNull]
         [Required]
         public int IdDx { get; set; }
@@ -28,24 +28,24 @@ namespace DeportNetReconocimiento.BD.Entidades
         [Required]
         public required string Email { get; set; }
 
-        [Column("firstName")]
+        [Column("first_name")]
         [StringLength(100)]
         [DisallowNull]
         [Required]
         public required string FirstName { get; set; }
 
         [Required]
-        [Column("lastName")]
+        [Column("last_name")]
         [StringLength(100)]
         [DisallowNull]
         public required string LastName { get; set; }
 
-        [Column("idNumber")]
+        [Column("id_number")]
         [StringLength(50)]
         [AllowNull]
         public string? IdNumber { get; set; }
 
-        [Column("birthDate")]
+        [Column("birth_date")]
         [AllowNull]
         public DateTime? BirthDate { get; set; }
 
@@ -54,12 +54,12 @@ namespace DeportNetReconocimiento.BD.Entidades
         [AllowNull]
         public string? Cellphone { get; set; }
 
-        [Column("isActive")]
+        [Column("is_active")]
         [StringLength(1)]
         [AllowNull]
         public string? IsActive { get; set; } // '1' = Activo, '0' = Inactivo
 
-        [Column("cardNumber")]
+        [Column("card_number")]
         [StringLength(100)]
         [AllowNull]
         public string? CardNumber { get; set; }
@@ -69,12 +69,12 @@ namespace DeportNetReconocimiento.BD.Entidades
         [AllowNull]
         public string? Address { get; set; }
 
-        [Column("addressWithFloor")]
+        [Column("address_with_floor")]
         [StringLength(100)]
         [AllowNull]
         public string? AddressWithFloor { get; set; }
 
-        [Column("imageUrl")]
+        [Column("image_url")]
         [StringLength(250)]
         [AllowNull]
         public string? ImageUrl { get; set; }
@@ -84,30 +84,28 @@ namespace DeportNetReconocimiento.BD.Entidades
         [AllowNull]
         public string? Gender { get; set; } // 'f' = Femenino, 'm' = Masculino
 
-        [Column("isValid")]
+        [Column("is_valid")]
         [StringLength(1)]
         [AllowNull]
         public string? IsValid { get; set; } // Validación previa
 
-
-        public Socio(int idDx, string email, string nombre, string apellido, string? numeroDocumento, DateTime? fechaNacimiento, string? celular, string? activo, string? tarjetaIngreso, string? domicilio, string? domicilioConPiso, string? imagenUrl, string? sexo, string? vigente)
+        public Socio(int idDx, string email, string firstName, string lastName, string? idNumber, DateTime? birthDate, string? cellphone, string? isActive, string? cardNumber, string? address, string? addressWithFloor, string? imageUrl, string? gender, string isValid)
         {
             IdDx = idDx;
             Email = email;
-            Nombre = nombre;
-            Apellido = apellido;
-            NumeroDocumento = numeroDocumento;
-            FechaNacimiento = fechaNacimiento;
-            Celular = celular;
-            IsActive = activo;
-            CardNumber = tarjetaIngreso;
-            Address = domicilio;
-            AddressWithFloor = domicilioConPiso;
-            ImageUrl = imagenUrl;
-            Gender = sexo;
-            IsValid = vigente;
+            FirstName = firstName;
+            LastName = lastName;
+            IdNumber = idNumber;
+            BirthDate = birthDate;
+            Cellphone = cellphone;
+            IsActive = isActive;
+            CardNumber = cardNumber;
+            Address = address;
+            AddressWithFloor = addressWithFloor;
+            ImageUrl = imageUrl;
+            Gender = gender;
+            IsValid = isValid;
         }
-
 
 
     }

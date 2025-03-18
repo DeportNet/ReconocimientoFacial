@@ -14,6 +14,8 @@ namespace DeportNetReconocimiento.BD.Entidades
         [Key]
         [Column("id")]
         public int Id { get; }
+
+        [Column("id_dx")]
         public int IdDx { get; set; }
         public string Name { get; set; }
         public double Amount { get; set; }
@@ -21,14 +23,14 @@ namespace DeportNetReconocimiento.BD.Entidades
         public string Period { get; set; }
         public string Days { get; set; }
 
-        public Membresia(int idDx, string nombre, double precio, string esUnArticulo, string periodo, string dias)
+        public Membresia(int idDx, string name, double amount, string isSaleItem, string period, string days)
         {
             IdDx = idDx;
-            Name = nombre;
-            Amount = precio;
-            IsSaleItem = esUnArticulo;
-            Period = periodo;
-            Days = dias;
+            Name = name;
+            Amount = amount;
+            IsSaleItem = isSaleItem;
+            Period = period;
+            Days = days;
         }
 
     }
