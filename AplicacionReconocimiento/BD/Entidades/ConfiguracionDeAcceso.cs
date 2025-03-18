@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,13 @@ namespace DeportNetReconocimiento.Modelo
     [Table("configuracion_de_acceso")]
     public class ConfiguracionDeAcceso
     {
-        private int CardLength { get; set; }
-        private string StartCharacter { get; set; }
-        private string EndCharacter { get; set; }
-        private string SecondStartCharacter { get; set; }
+        [Column("id")]
+        [Key]
+        public int Id { get; }
+        public int CardLength { get; set; }
+        public string StartCharacter { get; set; }
+        public string EndCharacter { get; set; }
+        public string SecondStartCharacter { get; set; }
 
         public ConfiguracionDeAcceso(int cardLength, string startCharacter, string endCharacter, string secondStartCharacter)
         {

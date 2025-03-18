@@ -30,7 +30,7 @@ namespace DeportNetReconocimiento.Api
 
                         services.AddDbContext<BdContext>(options =>
 
-                            options.UseNpgsql(connectionString)
+                            
                         );
 
                         services.AddScoped<IDeportnetReconocimientoService,ReconocimientoService>();

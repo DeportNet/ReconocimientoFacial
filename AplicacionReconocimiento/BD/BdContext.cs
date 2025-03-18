@@ -1,5 +1,6 @@
 ﻿using DeportNetReconocimiento.BD.Entidades;
 using DeportNetReconocimiento.Modelo;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -12,16 +13,69 @@ namespace DeportNetReconocimiento.BD
 {
     public class BdContext : DbContext
     {
-        protected readonly IConfiguration configuration;
+        public DbSet<Socio> Socios { get; set; }
+        public DbSet<Articulo> Articulos { get; set; }
+        public DbSet<Membresia> Membresias { get; set; }
+        public DbSet<Acceso> Accesos { get; set; }
+        public DbSet<AccesoSocio> AccesosSocios { get; set; }
+        public DbSet<ConfiguracionGeneral> ConfiguracionGeneral { get; set; }
+        public DbSet<ConfiguracionDeAcceso> ConfiguracionDeAcceso { get; set; }
 
-        public BdContext(IConfiguration configuration)
+
+        public BdContext()
         {
-            this.configuration = configuration;
+            
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            if (!optionsBuilder.IsConfigured)
+            {
+                CrearYOcultarCarpetaDb();
+
+                string rutaDb = CrearYOcultarArchivoDb();
+
+                //Configurar SQLite
+                optionsBuilder.UseSqlite($"Data Source={rutaDb}");
+            }
+
+            Console.WriteLine("Bd creada y ocultada correctamente");
         }
+
+        private void CrearYOcultarCarpetaDb()
+        {
+            // Definir la ubicación de la base de datos en ProgramData
+            string rutaCarpeta = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "DeportnetReconocimiento");
+
+            // Crear la carpeta si no existe
+            if (!Directory.Exists(rutaCarpeta))
+            {
+                Directory.CreateDirectory(rutaCarpeta);
+            }
+
+            // Ocultar la carpeta
+            DirectoryInfo directoryInfo = new DirectoryInfo(rutaCarpeta);
+            directoryInfo.Attributes |= FileAttributes.Hidden; // Es equivalente a: directoryInfo.Attributes = directoryInfo.Attributes | FileAttributes.Hidden;
+
+        }
+
+        private string CrearYOcultarArchivoDb()
+        {
+            string rutaDb = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "DeportnetReconocimiento", "dbDx.data");
+
+            // Crear el archivo de la base de datos si no existe
+            if (!File.Exists(rutaDb))
+            {
+                File.Create(rutaDb).Close(); // Crea el archivo vacío y lo cierra
+            }
+
+            // Ocultar el archivo dbDx.data
+            FileInfo fileInfo = new FileInfo(rutaDb);
+            fileInfo.Attributes |= FileAttributes.Hidden;
+
+            return rutaDb;
+        }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

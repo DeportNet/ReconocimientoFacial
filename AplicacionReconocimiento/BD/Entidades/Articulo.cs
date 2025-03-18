@@ -12,13 +12,13 @@ namespace DeportNetReconocimiento.Modelo
     {
         [Key]
         [Column("id")]
-        private int id { get; set; }
+        public int id { get;  }
 
         [Column("id_dx")]
-        private int IdDx { get; set; }
-        private string Name { get; set; }
-        private double Amount { get; set; }
-        private string IsSaleItem { get; set; } // 'T' = Articulo, 'F' = Servicio
+        public int IdDx { get;  }
+        public string Name { get;  }
+        public double Amount { get; }
+        public string IsSaleItem { get; } // 'T' = Articulo, 'F' = Servicio
 
         public Articulo(int idDx, string nombre, double precio, string esUnArticulo)
         {

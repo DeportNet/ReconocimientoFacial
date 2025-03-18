@@ -13,19 +13,19 @@ namespace DeportNetReconocimiento.Modelo
     {
         [Key]
         [Column("id")]
-        private int Id { get; set; }
-        private int ActiveBranchId { get; set; }
-        private int ProcessId { get; set; }
+        public int Id { get;  }
+        public int ActiveBranchId { get; set; }
+        public int ProcessId { get; set;  }
 
         //Tabla pivot ?
-        private List<AccesoSocio> MemberAccess{get; set;}
+        public List<AccesoSocio> MemberAccess{get; set;}
 
-        public Acceso(int activeBranchId, int processId)
-        {
-            ActiveBranchId = activeBranchId;
-            ProcessId = processId;
-            MemberAccess = new List<AccesoSocio>();
-        }
+        //public Acceso(int activeBranchId, int processId)
+        //{
+        //    ActiveBranchId = activeBranchId;
+        //    ProcessId = processId;
+        //    MemberAccess = new List<AccesoSocio>();
+        //}
 
         public Acceso(int activeBranchId, int processId, List<AccesoSocio> memberAccess)
         {
