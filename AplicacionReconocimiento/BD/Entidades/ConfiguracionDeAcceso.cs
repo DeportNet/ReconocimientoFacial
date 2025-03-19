@@ -13,11 +13,13 @@ namespace DeportNetReconocimiento.Modelo
     {
         [Column("id")]
         [Key]
-        public int Id { get; }
+        public int Id { get; set; }
         public int CardLength { get; set; }
         public string StartCharacter { get; set; }
         public string EndCharacter { get; set; }
         public string SecondStartCharacter { get; set; }
+
+        public ConfiguracionDeAcceso() { } 
 
         public ConfiguracionDeAcceso(int cardLength, string startCharacter, string endCharacter, string secondStartCharacter)
         {

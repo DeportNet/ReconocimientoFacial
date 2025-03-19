@@ -9,24 +9,25 @@ using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Modelo
 {
+    
     public class Acceso
     {
         [Key]
         [Column("id")]
-        public int Id { get;  }
+        public int Id { get; set; }
         public int ActiveBranchId { get; set; }
         public int ProcessId { get; set;  }
 
-        //Tabla pivot ?
-        public List<AccesoSocio> MemberAccess{get; set;}
+        public List<AccesoSocio>? MemberAccess{get; set;}
+        
+        public Acceso() { }
 
-        //public Acceso(int activeBranchId, int processId)
-        //{
-        //    ActiveBranchId = activeBranchId;
-        //    ProcessId = processId;
-        //    MemberAccess = new List<AccesoSocio>();
-        //}
-
+        public Acceso(int activeBranchId, int processId)
+        {
+            ActiveBranchId = activeBranchId;
+            ProcessId = processId;
+            MemberAccess = new List<AccesoSocio>();
+        }
         public Acceso(int activeBranchId, int processId, List<AccesoSocio> memberAccess)
         {
             ActiveBranchId = activeBranchId;

@@ -89,6 +89,7 @@ namespace DeportNetReconocimiento.BD.Entidades
         [AllowNull]
         public string? IsValid { get; set; } // Validación previa
 
+        public Socio() { }
         public Socio(int idDx, string email, string firstName, string lastName, string? idNumber, DateTime? birthDate, string? cellphone, string? isActive, string? cardNumber, string? address, string? addressWithFloor, string? imageUrl, string? gender, string isValid)
         {
             IdDx = idDx;

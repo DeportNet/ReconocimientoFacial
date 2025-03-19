@@ -6,6 +6,12 @@ using DeportNetReconocimiento.Api.Services.Interfaces;
 using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.BD;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using System;
+using static System.Windows.Forms.Design.AxImporter;
+using System.IO;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Microsoft.Data.Sqlite;
 
 
 namespace DeportNetReconocimiento.Api
@@ -23,15 +29,30 @@ namespace DeportNetReconocimiento.Api
             host = Host.CreateDefaultBuilder()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    var connectionString = "Server=localhost;Port=5432;Database=deportnet;User Id=postgres;Password=12345678;";
+
                     webBuilder.ConfigureServices(services =>
                     {
                         services.AddControllers(); // Agregar soporte para controladores
 
                         services.AddDbContext<BdContext>(options =>
+                        {
+                            BdContext.InicializarBd();
+                            string dbRuta = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "DeportnetReconocimiento", "dbDx.dt");
+                            var connection = new SqliteConnection($"Data Source={dbRuta}");
+                            connection.Open();
 
-                            
-                        );
+                            using (var command = connection.CreateCommand())
+                            {
+                                command.CommandText = "PRAGMA key = '!MiClaveSegura123!';"; // Configurar contraseña
+                                command.ExecuteNonQuery();
+                            }
+
+                            connection.Close();
+
+                            //Configurar SQLite
+                            options.UseSqlite(connection);
+
+                        });
 
                         services.AddScoped<IDeportnetReconocimientoService,ReconocimientoService>();
 
