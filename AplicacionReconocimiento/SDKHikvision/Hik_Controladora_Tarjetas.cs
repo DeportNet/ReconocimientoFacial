@@ -9,7 +9,7 @@ namespace DeportNetReconocimiento.SDKHikvision
     {
 
         public static Hik_Controladora_Tarjetas? instancia;
-        private ConfiguracionEstilos configuracionEstilos;
+        
 
 
 
@@ -26,7 +26,6 @@ namespace DeportNetReconocimiento.SDKHikvision
             getCardCfgHandle = -1;
             setCardCfgHandle = -1;
             delCardCfgHandle = -1;
-            configuracionEstilos = ConfiguracionEstilos.LeerJsonConfiguracion();
         }
         public static Hik_Controladora_Tarjetas ObtenerInstancia
         {
@@ -141,6 +140,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         }
         public void InicializarEstructuraTarjetaRecord(ref Hik_SDK.NET_DVR_CARD_RECORD tarjetaRecord, ref IntPtr ptrTarjetaRecord, int nuevoNumeroDeTarjeta, string nuevoNombreRelacionadoTarjeta)
         {
+            ConfiguracionEstilos configuracionEstilos = ConfiguracionEstilos.LeerJsonConfiguracion();
             tarjetaRecord.Init();
             tarjetaRecord.dwSize = (uint)Marshal.SizeOf(tarjetaRecord);
             //1-normal card (default); 2-disabled card;
