@@ -119,13 +119,14 @@ namespace DeportNetReconocimiento.GUI
             Hik_Resultado resultado = new Hik_Resultado();
 
             //ip , puerto, usuario, contraseña en ese orden
-
-
+            
+            
             if (!CredencialesUtils.ExisteArchivoCredenciales())
             {
                 WFRgistrarDispositivo wFRgistrarDispositivo = WFRgistrarDispositivo.ObtenerInstancia;
                 if (!wFRgistrarDispositivo.Visible)
                 {
+                    wFRgistrarDispositivo.tipoApertura = 0;
                     wFRgistrarDispositivo.ShowDialog();
                 }
 
@@ -147,6 +148,7 @@ namespace DeportNetReconocimiento.GUI
             {
                 ManejarErrorDispositivo(resultado);
             }
+            
 
             return resultado;
         }
@@ -177,6 +179,15 @@ namespace DeportNetReconocimiento.GUI
                     {
                         //va a mostrar no se encontro la ip
                         resultadoLogin.MessageBoxResultado("Error al incializar el dispositivo Hikvision");
+
+
+                        WFRgistrarDispositivo wFRgistrarDispositivo = WFRgistrarDispositivo.ObtenerInstancia;
+                        wFRgistrarDispositivo.tipoApertura = 1;
+                        if (!wFRgistrarDispositivo.Visible)
+                        {
+                            wFRgistrarDispositivo.ShowDialog();
+                        }
+
                         return;
                     }
 

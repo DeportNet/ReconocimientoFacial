@@ -61,7 +61,7 @@ namespace DeportNetReconocimiento.Utils
                 //si no esta levantado el formulario, se levanta para que haya solo uno
                 if (!wFRgistrarDispositivo.Visible)
                 {
-
+                    wFRgistrarDispositivo.tipoApertura = 0;
                     wFRgistrarDispositivo.ShowDialog();
                 }
 

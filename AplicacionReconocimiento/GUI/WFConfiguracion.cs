@@ -19,8 +19,8 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
             this.configuracion = configuracionEstilos;
             this.principal = principal;
-            comboBoxPermisoTarjeta.SelectedIndex = 0;
             _credenciales = CredencialesUtils.LeerCredenciales();
+
 
 
             // Asignar el objeto de configuración al PropertyGrid (para que se vea lo que se puede configurar)
@@ -382,7 +382,7 @@ namespace DeportNetReconocimiento.GUI
         private void botonEditarCredenciales_Click(object sender, EventArgs e)
         {
             WFRgistrarDispositivo dialogo = WFRgistrarDispositivo.ObtenerInstancia;
-
+            dialogo.tipoApertura = 2;
             dialogo.ShowDialog();
 
         }
