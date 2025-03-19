@@ -752,35 +752,5 @@ namespace DeportNetReconocimiento.GUI
 
             wFConfiguracion.ShowDialog();
         }
-
-        private void botonAbrir_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine("Apretaste el boton de abrir");
-            
-            Hik_Resultado rews =  Hik_Controladora_Puertas.OperadorPuerta(1);
-            rews.EscribirResultado("Abrir");
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine("Apretaste el boton de mantener abierto");
-            Hik_Resultado rews = Hik_Controladora_Puertas.OperadorPuerta(2);
-            rews.EscribirResultado("Mantener Abierto");
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine("Apretaste el boton de cerrar");
-            Hik_Resultado rews = Hik_Controladora_Puertas.OperadorPuerta(0);
-            rews.EscribirResultado("Cerrar");
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine("Apretaste el boton de mantener cerrador");
-            Hik_Resultado rews = Hik_Controladora_Puertas.OperadorPuerta(3);
-            rews.EscribirResultado("Mantener cerrado");
-        }
     }
 }
