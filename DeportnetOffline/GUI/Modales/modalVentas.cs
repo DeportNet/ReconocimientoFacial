@@ -7,19 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DeportnetOffline
 {
-    public partial class modalVentas : Form
+    public partial class ModalVentas : Form
     {
-        public modalVentas()
+        public ModalVentas(string nombreApellidoSocio)
         {
             InitializeComponent();
+            labelNombreApelldioCliente.Text = nombreApellidoSocio;
+            comboBox1.SelectedIndex = 0;
         }
 
-        private void labelNombreApelldioCliente_Click(object sender, EventArgs e)
-        {
 
-        }
+
+
     }
 }

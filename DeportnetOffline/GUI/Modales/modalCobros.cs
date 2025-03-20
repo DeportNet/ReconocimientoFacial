@@ -10,36 +10,15 @@ using System.Windows.Forms;
 
 namespace DeportnetOffline
 {
-    public partial class modalCobro : Form
+    public partial class ModalCobro : Form
     {
-        public modalCobro()
+        public ModalCobro(string nombreApellidoSocio)
         {
             InitializeComponent();
+            labelNombreApelldioCliente.Text = nombreApellidoSocio;
+            comboBox1.SelectedIndex = 0;
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void labelCaracteristicasCobro_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void labelCantidad_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

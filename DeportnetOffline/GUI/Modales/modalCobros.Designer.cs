@@ -1,6 +1,6 @@
 ﻿namespace DeportnetOffline
 {
-    partial class modalCobro
+    partial class ModalCobro
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModalCobro));
             panel1 = new Panel();
             labelNombreApelldioCliente = new Label();
             comboBox1 = new ComboBox();
@@ -73,13 +74,14 @@
             // 
             // comboBox1
             // 
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(268, 112);
+            comboBox1.Items.AddRange(new object[] { "Seleccione un servicio" });
+            comboBox1.Location = new Point(246, 112);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(229, 29);
+            comboBox1.Size = new Size(281, 29);
             comboBox1.TabIndex = 2;
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -125,7 +127,6 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(626, 67);
             panel3.TabIndex = 8;
-            panel3.Paint += panel3_Paint;
             // 
             // label4
             // 
@@ -156,7 +157,6 @@
             labelCaracteristicasCobro.Size = new Size(575, 21);
             labelCaracteristicasCobro.TabIndex = 3;
             labelCaracteristicasCobro.Text = "Cantidad    |             Descripción              |                 Vigencia                 |     Importe";
-            labelCaracteristicasCobro.Click += labelCaracteristicasCobro_Click;
             // 
             // labelDescripcion
             // 
@@ -177,7 +177,6 @@
             labelCantidad.TabIndex = 4;
             labelCantidad.Text = "cantidad";
             labelCantidad.TextAlign = ContentAlignment.MiddleCenter;
-            labelCantidad.Click += labelCantidad_Click;
             // 
             // labelPrecio
             // 
@@ -209,13 +208,16 @@
             label2.TabIndex = 0;
             label2.Text = "Detalle del cobro";
             // 
-            // modalCobro
+            // ModalCobro
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(panel1);
-            Name = "modalCobro";
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "ModalCobro";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Cobro servicios";
             panel1.ResumeLayout(false);

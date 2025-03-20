@@ -1,6 +1,6 @@
 ﻿namespace DeportnetOffline.GUI.Modales
 {
-    partial class modalNuevoLegajo
+    partial class ModalNuevoLegajo
     {
         /// <summary>
         /// Required designer variable.
@@ -28,28 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModalNuevoLegajo));
             panel1 = new Panel();
-            label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            label6 = new Label();
-            label7 = new Label();
-            label8 = new Label();
-            label9 = new Label();
-            label10 = new Label();
-            comboBoxGenero = new ComboBox();
-            dateTimePickerFechaNacimiento = new DateTimePicker();
-            textBoxNroTarjeta = new TextBox();
-            textBoxDireccionConPiso = new TextBox();
-            textBoxDireccion = new TextBox();
-            textBoxTelefono = new TextBox();
-            textBoxEmail = new TextBox();
-            textBoxApellido = new TextBox();
-            textBoxNombre = new TextBox();
             buttonGuardarLegajo = new Button();
-            panel2 = new Panel();
             label5 = new Label();
+            panel2 = new Panel();
+            textBoxEmail = new TextBox();
+            textBoxNombre = new TextBox();
+            textBoxTelefono = new TextBox();
+            label4 = new Label();
+            comboBoxGenero = new ComboBox();
+            label3 = new Label();
+            textBoxDireccion = new TextBox();
+            textBoxApellido = new TextBox();
+            textBoxPiso = new TextBox();
+            label7 = new Label();
+            label10 = new Label();
+            label6 = new Label();
+            textBoxNroTarjeta = new TextBox();
+            dateTimePickerFechaNacimiento = new DateTimePicker();
+            label1 = new Label();
+            label9 = new Label();
+            label2 = new Label();
+            label8 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -65,176 +66,6 @@
             panel1.Size = new Size(652, 745);
             panel1.TabIndex = 0;
             // 
-            // label1
-            // 
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(92, 18);
-            label1.Name = "label1";
-            label1.Size = new Size(100, 23);
-            label1.TabIndex = 0;
-            label1.Text = "Nombre";
-            label1.Click += label1_Click;
-            // 
-            // label2
-            // 
-            label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(92, 85);
-            label2.Name = "label2";
-            label2.Size = new Size(100, 23);
-            label2.TabIndex = 1;
-            label2.Text = "Apellido";
-            label2.Click += label2_Click;
-            // 
-            // label3
-            // 
-            label3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(92, 143);
-            label3.Name = "label3";
-            label3.Size = new Size(100, 23);
-            label3.TabIndex = 2;
-            label3.Text = "Email";
-            // 
-            // label4
-            // 
-            label4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(92, 201);
-            label4.Name = "label4";
-            label4.Size = new Size(100, 23);
-            label4.TabIndex = 3;
-            label4.Text = "Telefono";
-            // 
-            // label6
-            // 
-            label6.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.Location = new Point(92, 259);
-            label6.Name = "label6";
-            label6.Size = new Size(100, 23);
-            label6.TabIndex = 5;
-            label6.Text = "Dirección";
-            label6.Click += label6_Click;
-            // 
-            // label7
-            // 
-            label7.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label7.Location = new Point(92, 433);
-            label7.Name = "label7";
-            label7.Size = new Size(153, 23);
-            label7.TabIndex = 6;
-            label7.Text = "Piso / Departamento";
-            // 
-            // label8
-            // 
-            label8.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label8.Location = new Point(92, 375);
-            label8.Name = "label8";
-            label8.Size = new Size(153, 23);
-            label8.TabIndex = 7;
-            label8.Text = "Fecha de nacimiento";
-            // 
-            // label9
-            // 
-            label9.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label9.Location = new Point(92, 317);
-            label9.Name = "label9";
-            label9.Size = new Size(141, 23);
-            label9.TabIndex = 8;
-            label9.Text = "Numero de tarjeta";
-            // 
-            // label10
-            // 
-            label10.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label10.Location = new Point(92, 491);
-            label10.Name = "label10";
-            label10.Size = new Size(100, 23);
-            label10.TabIndex = 9;
-            label10.Text = "Genero";
-            label10.Click += label10_Click;
-            // 
-            // comboBoxGenero
-            // 
-            comboBoxGenero.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBoxGenero.FormattingEnabled = true;
-            comboBoxGenero.Items.AddRange(new object[] { "", "m", "f" });
-            comboBoxGenero.Location = new Point(92, 517);
-            comboBoxGenero.Name = "comboBoxGenero";
-            comboBoxGenero.Size = new Size(100, 29);
-            comboBoxGenero.TabIndex = 10;
-            comboBoxGenero.Text = "m";
-            // 
-            // dateTimePickerFechaNacimiento
-            // 
-            dateTimePickerFechaNacimiento.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dateTimePickerFechaNacimiento.Format = DateTimePickerFormat.Short;
-            dateTimePickerFechaNacimiento.Location = new Point(92, 401);
-            dateTimePickerFechaNacimiento.Name = "dateTimePickerFechaNacimiento";
-            dateTimePickerFechaNacimiento.Size = new Size(141, 29);
-            dateTimePickerFechaNacimiento.TabIndex = 11;
-            // 
-            // textBoxNroTarjeta
-            // 
-            textBoxNroTarjeta.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxNroTarjeta.Location = new Point(92, 343);
-            textBoxNroTarjeta.Name = "textBoxNroTarjeta";
-            textBoxNroTarjeta.Size = new Size(141, 29);
-            textBoxNroTarjeta.TabIndex = 12;
-            textBoxNroTarjeta.Text = "46012735";
-            textBoxNroTarjeta.TextChanged += textBoxNroTarjeta_TextChanged;
-            // 
-            // textBoxDireccionConPiso
-            // 
-            textBoxDireccionConPiso.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxDireccionConPiso.Location = new Point(92, 459);
-            textBoxDireccionConPiso.Name = "textBoxDireccionConPiso";
-            textBoxDireccionConPiso.Size = new Size(100, 29);
-            textBoxDireccionConPiso.TabIndex = 13;
-            textBoxDireccionConPiso.Text = "3C";
-            // 
-            // textBoxDireccion
-            // 
-            textBoxDireccion.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxDireccion.Location = new Point(92, 285);
-            textBoxDireccion.Name = "textBoxDireccion";
-            textBoxDireccion.Size = new Size(250, 29);
-            textBoxDireccion.TabIndex = 14;
-            textBoxDireccion.Text = "Jose ingenieros 1254";
-            // 
-            // textBoxTelefono
-            // 
-            textBoxTelefono.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxTelefono.Location = new Point(92, 227);
-            textBoxTelefono.Name = "textBoxTelefono";
-            textBoxTelefono.Size = new Size(250, 29);
-            textBoxTelefono.TabIndex = 15;
-            textBoxTelefono.Text = "+542235929828";
-            // 
-            // textBoxEmail
-            // 
-            textBoxEmail.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxEmail.Location = new Point(92, 169);
-            textBoxEmail.Name = "textBoxEmail";
-            textBoxEmail.Size = new Size(250, 29);
-            textBoxEmail.TabIndex = 16;
-            textBoxEmail.Text = "facundoprocelli@gmail.com";
-            // 
-            // textBoxApellido
-            // 
-            textBoxApellido.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxApellido.Location = new Point(92, 111);
-            textBoxApellido.Name = "textBoxApellido";
-            textBoxApellido.Size = new Size(250, 29);
-            textBoxApellido.TabIndex = 17;
-            textBoxApellido.Text = "Procelli Santalla";
-            // 
-            // textBoxNombre
-            // 
-            textBoxNombre.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxNombre.Location = new Point(92, 44);
-            textBoxNombre.Name = "textBoxNombre";
-            textBoxNombre.Size = new Size(250, 29);
-            textBoxNombre.TabIndex = 18;
-            textBoxNombre.Text = "Facundo José";
-            textBoxNombre.TextChanged += textBox7_TextChanged;
-            // 
             // buttonGuardarLegajo
             // 
             buttonGuardarLegajo.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -244,7 +75,16 @@
             buttonGuardarLegajo.TabIndex = 19;
             buttonGuardarLegajo.Text = "Guardar nuevo legajo";
             buttonGuardarLegajo.UseVisualStyleBackColor = true;
-            buttonGuardarLegajo.Click += buttonGuardarLegajo_Click;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.Location = new Point(177, 25);
+            label5.Name = "label5";
+            label5.Size = new Size(294, 45);
+            label5.TabIndex = 21;
+            label5.Text = "Crear nuevo legajo";
             // 
             // panel2
             // 
@@ -257,7 +97,7 @@
             panel2.Controls.Add(label3);
             panel2.Controls.Add(textBoxDireccion);
             panel2.Controls.Add(textBoxApellido);
-            panel2.Controls.Add(textBoxDireccionConPiso);
+            panel2.Controls.Add(textBoxPiso);
             panel2.Controls.Add(label7);
             panel2.Controls.Add(label10);
             panel2.Controls.Add(label6);
@@ -271,26 +111,205 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(416, 576);
             panel2.TabIndex = 20;
-            panel2.Paint += panel2_Paint;
             // 
-            // label5
+            // textBoxEmail
             // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(177, 25);
-            label5.Name = "label5";
-            label5.Size = new Size(294, 45);
-            label5.TabIndex = 21;
-            label5.Text = "Crear nuevo legajo";
+            textBoxEmail.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxEmail.Location = new Point(92, 289);
+            textBoxEmail.MaxLength = 100;
+            textBoxEmail.Name = "textBoxEmail";
+            textBoxEmail.Size = new Size(250, 29);
+            textBoxEmail.TabIndex = 16;
+            textBoxEmail.Enter += textBoxEmail_Enter;
+            textBoxEmail.Leave += textBoxEmail_Leave;
+            textBoxEmail.Validating += textBoxEmail_Validating;
             // 
-            // modalNuevoLegajo
+            // textBoxNombre
+            // 
+            textBoxNombre.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxNombre.Location = new Point(92, 44);
+            textBoxNombre.MaxLength = 100;
+            textBoxNombre.Name = "textBoxNombre";
+            textBoxNombre.Size = new Size(250, 29);
+            textBoxNombre.TabIndex = 18;
+            textBoxNombre.Enter += textBoxNombre_Enter;
+            textBoxNombre.Leave += textBoxNombre_Leave;
+            textBoxNombre.Validating += textBoxNombre_Validating;
+            // 
+            // textBoxTelefono
+            // 
+            textBoxTelefono.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxTelefono.Location = new Point(92, 343);
+            textBoxTelefono.MaxLength = 50;
+            textBoxTelefono.Name = "textBoxTelefono";
+            textBoxTelefono.Size = new Size(250, 29);
+            textBoxTelefono.TabIndex = 15;
+            textBoxTelefono.Enter += textBoxTelefono_Enter;
+            textBoxTelefono.Leave += textBoxTelefono_Leave;
+            textBoxTelefono.Validating += textBoxTelefono_Validating;
+            // 
+            // label4
+            // 
+            label4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Location = new Point(92, 317);
+            label4.Name = "label4";
+            label4.Size = new Size(100, 23);
+            label4.TabIndex = 3;
+            label4.Text = "Telefono";
+            // 
+            // comboBoxGenero
+            // 
+            comboBoxGenero.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBoxGenero.FormattingEnabled = true;
+            comboBoxGenero.Items.AddRange(new object[] { "m", "f" });
+            comboBoxGenero.Location = new Point(92, 171);
+            comboBoxGenero.Name = "comboBoxGenero";
+            comboBoxGenero.Size = new Size(100, 29);
+            comboBoxGenero.TabIndex = 10;
+            // 
+            // label3
+            // 
+            label3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Location = new Point(92, 263);
+            label3.Name = "label3";
+            label3.Size = new Size(100, 23);
+            label3.TabIndex = 2;
+            label3.Text = "Email";
+            // 
+            // textBoxDireccion
+            // 
+            textBoxDireccion.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxDireccion.Location = new Point(92, 401);
+            textBoxDireccion.MaxLength = 100;
+            textBoxDireccion.Name = "textBoxDireccion";
+            textBoxDireccion.Size = new Size(250, 29);
+            textBoxDireccion.TabIndex = 14;
+            textBoxDireccion.Enter += textBoxDireccion_Enter;
+            textBoxDireccion.Leave += textBoxDireccion_Leave;
+            textBoxDireccion.Validating += textBoxDireccion_Validating;
+            // 
+            // textBoxApellido
+            // 
+            textBoxApellido.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxApellido.Location = new Point(92, 111);
+            textBoxApellido.MaxLength = 100;
+            textBoxApellido.Name = "textBoxApellido";
+            textBoxApellido.Size = new Size(250, 29);
+            textBoxApellido.TabIndex = 17;
+            textBoxApellido.Enter += textBoxApellido_Enter;
+            textBoxApellido.Leave += textBoxApellido_Leave;
+            textBoxApellido.Validating += textBoxApellido_Validating;
+            // 
+            // textBoxPiso
+            // 
+            textBoxPiso.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxPiso.Location = new Point(92, 459);
+            textBoxPiso.MaxLength = 5;
+            textBoxPiso.Name = "textBoxPiso";
+            textBoxPiso.Size = new Size(100, 29);
+            textBoxPiso.TabIndex = 13;
+            textBoxPiso.Enter += textBoxDireccionConPiso_Enter;
+            textBoxPiso.Leave += textBoxDireccionConPiso_Leave;
+            textBoxPiso.Validating += textBoxPiso_Validating;
+            // 
+            // label7
+            // 
+            label7.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label7.Location = new Point(92, 433);
+            label7.Name = "label7";
+            label7.Size = new Size(153, 23);
+            label7.TabIndex = 6;
+            label7.Text = "Piso / Departamento";
+            // 
+            // label10
+            // 
+            label10.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label10.Location = new Point(92, 145);
+            label10.Name = "label10";
+            label10.Size = new Size(100, 23);
+            label10.TabIndex = 9;
+            label10.Text = "Genero";
+            // 
+            // label6
+            // 
+            label6.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label6.Location = new Point(92, 375);
+            label6.Name = "label6";
+            label6.Size = new Size(100, 23);
+            label6.TabIndex = 5;
+            label6.Text = "Dirección";
+            // 
+            // textBoxNroTarjeta
+            // 
+            textBoxNroTarjeta.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxNroTarjeta.Location = new Point(92, 517);
+            textBoxNroTarjeta.MaxLength = 11;
+            textBoxNroTarjeta.Name = "textBoxNroTarjeta";
+            textBoxNroTarjeta.Size = new Size(141, 29);
+            textBoxNroTarjeta.TabIndex = 12;
+            textBoxNroTarjeta.Enter += textBoxNroTarjeta_Enter;
+            textBoxNroTarjeta.Leave += textBoxNroTarjeta_Leave;
+            textBoxNroTarjeta.Validating += textBoxNroTarjeta_Validating;
+            // 
+            // dateTimePickerFechaNacimiento
+            // 
+            dateTimePickerFechaNacimiento.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dateTimePickerFechaNacimiento.Format = DateTimePickerFormat.Short;
+            dateTimePickerFechaNacimiento.Location = new Point(92, 227);
+            dateTimePickerFechaNacimiento.MaxDate = new DateTime(2209, 12, 31, 0, 0, 0, 0);
+            dateTimePickerFechaNacimiento.MinDate = new DateTime(1900, 12, 31, 0, 0, 0, 0);
+            dateTimePickerFechaNacimiento.Name = "dateTimePickerFechaNacimiento";
+            dateTimePickerFechaNacimiento.Size = new Size(141, 29);
+            dateTimePickerFechaNacimiento.TabIndex = 11;
+            dateTimePickerFechaNacimiento.Validating += dateTimePickerFechaNacimiento_Validating;
+            // 
+            // label1
+            // 
+            label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(92, 18);
+            label1.Name = "label1";
+            label1.Size = new Size(100, 23);
+            label1.TabIndex = 0;
+            label1.Text = "Nombre";
+            // 
+            // label9
+            // 
+            label9.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label9.Location = new Point(92, 491);
+            label9.Name = "label9";
+            label9.Size = new Size(141, 23);
+            label9.TabIndex = 8;
+            label9.Text = "Numero de tarjeta";
+            // 
+            // label2
+            // 
+            label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.Location = new Point(92, 85);
+            label2.Name = "label2";
+            label2.Size = new Size(100, 23);
+            label2.TabIndex = 1;
+            label2.Text = "Apellido";
+            // 
+            // label8
+            // 
+            label8.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label8.Location = new Point(92, 201);
+            label8.Name = "label8";
+            label8.Size = new Size(153, 23);
+            label8.TabIndex = 7;
+            label8.Text = "Fecha de nacimiento";
+            // 
+            // ModalNuevoLegajo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(652, 745);
             Controls.Add(panel1);
-            Name = "modalNuevoLegajo";
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Name = "ModalNuevoLegajo";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Nuevo Legajo";
+            Load += modalNuevoLegajo_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
@@ -315,7 +334,7 @@
         private TextBox textBoxEmail;
         private TextBox textBoxTelefono;
         private TextBox textBoxDireccion;
-        private TextBox textBoxDireccionConPiso;
+        private TextBox textBoxPiso;
         private TextBox textBoxNroTarjeta;
         private DateTimePicker dateTimePickerFechaNacimiento;
         private ComboBox comboBoxGenero;

@@ -22,32 +22,19 @@ namespace DeportnetOffline
             labelCantPaginas.Text = $"Página {paginaActual} de 50";
 
             dataGridView1.Rows.Add("Facundo Procelli", 22316276, 4601238, "facundoprocelli@gmail.com", 45, "m", "Normal", "Activo", "nashe", "burger");
-        }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void VistaSocios_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
-        {
+            textBox1_Leave(this, EventArgs.Empty);
+            textBox2_Leave(this, EventArgs.Empty);
+            textBox3_Leave(this, EventArgs.Empty);
+            ComboBox1_Leave(this, EventArgs.Empty);
+            comboBox1.SelectedIndex = 0;
+            comboBox2.SelectedIndex = 0;
+            
 
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
 
-        }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void textBox3_Enter(object sender, EventArgs e)
         {
@@ -87,7 +74,7 @@ namespace DeportnetOffline
 
         private void textBox1_Enter(object sender, EventArgs e)
         {
-            if (textBox1.Text == "Nro tarjeta o DNI")
+            if (textBox1.Text == "Nro. tarjeta o DNI")
             {
                 textBox1.Text = "";
                 textBox1.ForeColor = Color.Black; // Color del texto cuando el usuario escribe
@@ -98,7 +85,7 @@ namespace DeportnetOffline
         {
             if (string.IsNullOrWhiteSpace(textBox1.Text))
             {
-                textBox1.Text = "Nro Tarjeta o DNI";
+                textBox1.Text = "Nro. tarjeta o DNI";
                 textBox1.ForeColor = Color.Gray; // Color del placeholder
             }
         }
@@ -121,39 +108,11 @@ namespace DeportnetOffline
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
 
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel1_Paint_1(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel1_Paint_2(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void botonSgtPaginacion_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void botonSgtPaginacion_Click_1(object sender, EventArgs e)
-        {
-
-        }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            modalNuevoLegajo modal = new modalNuevoLegajo();
+            ModalNuevoLegajo modal = new ModalNuevoLegajo();
             modal.Show();
         }
 
@@ -161,13 +120,21 @@ namespace DeportnetOffline
         {
             if (e.RowIndex >= 0)
             {
+
+                string nombreApellidoSocio = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
+
                 if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaVenta")
                 {
-                    MessageBox.Show($"Vender usuario: {dataGridView1.Rows[e.RowIndex].Cells[1].Value}");
-                } else if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaCobro")
-                {
-                    MessageBox.Show($"Cobrar usuario: {dataGridView1.Rows[e.RowIndex].Cells[1].Value}");
+                    ModalVentas modal = new ModalVentas(nombreApellidoSocio);
+                    modal.Show();
                 }
+                else if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaCobro")
+                {
+                    ModalCobro modal = new ModalCobro(nombreApellidoSocio);
+                    modal.Show();
+                }
+                //                    MessageBox.Show($"Vender usuario: {dataGridView1.Rows[e.RowIndex].Cells[1].Value}");
+
             }
         }
 
@@ -183,7 +150,7 @@ namespace DeportnetOffline
             Rectangle newHeaderRect = new Rectangle(rectEditar.X, rectEditar.Y, anchoTotal, rectEditar.Height - 1);
 
             // Dibujar fondo del encabezado combinado
-            e.Graphics.FillRectangle(new SolidBrush(dataGridView1.ColumnHeadersDefaultCellStyle.BackColor), newHeaderRect);
+            e.Graphics.FillRectangle(new SolidBrush(Color.White), newHeaderRect);
 
             // Dibujar borde
             e.Graphics.DrawRectangle(Pens.Black, newHeaderRect);
@@ -194,10 +161,18 @@ namespace DeportnetOffline
             format.LineAlignment = StringAlignment.Center;
 
             e.Graphics.DrawString("Acciones", dataGridView1.ColumnHeadersDefaultCellStyle.Font, Brushes.Black, newHeaderRect, format);
-        
-
-    }
 
 
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
