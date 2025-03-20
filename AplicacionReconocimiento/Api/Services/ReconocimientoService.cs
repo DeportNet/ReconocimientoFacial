@@ -123,7 +123,7 @@ namespace DeportNetReconocimiento.Api.Services
 
         public void IniciarTiempoEspera()
         {
-            tiempoRetrasoLuegoDeUnAlta = ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos").TiempoDeRetrasoAltaCliente;
+            tiempoRetrasoLuegoDeUnAlta = ConfiguracionEstilos.LeerJsonConfiguracion().TiempoDeRetrasoAltaCliente;
 
             estaEsperandoLuegoDeUnAlta = true;
             Thread.Sleep(tiempoRetrasoLuegoDeUnAlta * 1000);

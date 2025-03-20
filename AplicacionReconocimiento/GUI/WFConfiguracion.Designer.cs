@@ -69,6 +69,7 @@
             label6.Size = new Size(139, 21);
             label6.TabIndex = 9;
             label6.Text = "Apertura molinete:";
+            label6.Visible = false;
             // 
             // personalizacionTituloLabel
             // 
@@ -125,6 +126,7 @@
             ComboBoxAperturaMolinete.Name = "ComboBoxAperturaMolinete";
             ComboBoxAperturaMolinete.Size = new Size(121, 23);
             ComboBoxAperturaMolinete.TabIndex = 18;
+            ComboBoxAperturaMolinete.Visible = false;
             // 
             // BotonOcultarConfig
             // 
@@ -164,7 +166,7 @@
             botonEditarCredenciales.Cursor = Cursors.Hand;
             botonEditarCredenciales.FlatAppearance.BorderSize = 0;
             botonEditarCredenciales.FlatStyle = FlatStyle.Flat;
-            botonEditarCredenciales.Location = new Point(165, 133);
+            botonEditarCredenciales.Location = new Point(171, 127);
             botonEditarCredenciales.Margin = new Padding(0);
             botonEditarCredenciales.Name = "botonEditarCredenciales";
             botonEditarCredenciales.Size = new Size(75, 23);
@@ -177,11 +179,12 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F);
-            label2.Location = new Point(21, 133);
+            label2.Location = new Point(27, 127);
             label2.Name = "label2";
             label2.Size = new Size(142, 21);
             label2.TabIndex = 28;
             label2.Text = "Editar credenciales:";
+            label2.Click += label2_Click;
             // 
             // BotonAbrirFileDialog
             // 
@@ -275,6 +278,10 @@
             Controls.Add(tituloConfig);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
+            MaximumSize = new Size(1193, 730);
+            MinimizeBox = false;
+            MinimumSize = new Size(1193, 730);
             Name = "WFConfiguracion";
             Text = "Configuracion Dispositivo";
             FormClosing += WFConfiguracion_FormClosing;

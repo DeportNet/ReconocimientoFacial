@@ -9,11 +9,11 @@ namespace DeportNetReconocimiento.Utils
     public class CredencialesUtils
     {
 
+        private static string rutaArchivo = "credenciales.bin";
+
         public static void EscribirArchivoCredenciales(string[] arregloDeDatos)
         {
             //guardamos los datos en un archivo binario
-            string rutaArchivo = "credenciales.bin";
-
             using (BinaryWriter writer = new BinaryWriter(File.Open(rutaArchivo, FileMode.Create)))
             {
                 foreach (string dato in arregloDeDatos)
@@ -26,7 +26,7 @@ namespace DeportNetReconocimiento.Utils
         public static bool ExisteArchivoCredenciales()
         {
             bool flag = false;
-            if (File.Exists("credenciales.bin"))
+            if (File.Exists(rutaArchivo))
             {
                 flag = true;
             }
@@ -36,7 +36,7 @@ namespace DeportNetReconocimiento.Utils
         public static bool ExisteArchivoCredencialesYRegistrarDispositivo()
         {
             bool flag = false;
-            if (File.Exists("credenciales.bin"))
+            if (File.Exists(rutaArchivo))
             {
                 flag = true;
             }
@@ -60,14 +60,13 @@ namespace DeportNetReconocimiento.Utils
                 //si no esta levantado el formulario, se levanta para que haya solo uno
                 if (!wFRgistrarDispositivo.Visible)
                 {
-
+                    wFRgistrarDispositivo.tipoApertura = 0;
                     wFRgistrarDispositivo.ShowDialog();
                 }
 
             }
             else
             {
-                string rutaArchivo = "credenciales.bin";
 
                 // Leer desde un archivo binario
                 using (BinaryReader reader = new BinaryReader(File.Open(rutaArchivo, FileMode.Open)))

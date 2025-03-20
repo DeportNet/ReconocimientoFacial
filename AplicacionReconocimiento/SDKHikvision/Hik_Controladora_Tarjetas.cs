@@ -1,4 +1,5 @@
 ﻿using DeportNetReconocimiento.SDK;
+using DeportNetReconocimiento.Utils;
 using System.Runtime.InteropServices;
 
 
@@ -8,7 +9,7 @@ namespace DeportNetReconocimiento.SDKHikvision
     {
 
         public static Hik_Controladora_Tarjetas? instancia;
-
+        
 
 
 
@@ -139,6 +140,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         }
         public void InicializarEstructuraTarjetaRecord(ref Hik_SDK.NET_DVR_CARD_RECORD tarjetaRecord, ref IntPtr ptrTarjetaRecord, int nuevoNumeroDeTarjeta, string nuevoNombreRelacionadoTarjeta)
         {
+            ConfiguracionEstilos configuracionEstilos = ConfiguracionEstilos.LeerJsonConfiguracion();
             tarjetaRecord.Init();
             tarjetaRecord.dwSize = (uint)Marshal.SizeOf(tarjetaRecord);
             //1-normal card (default); 2-disabled card;
@@ -171,7 +173,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             AsignarFechaDeInicioYVencimientoTarjeta(ref tarjetaRecord);
 
             //asignamos los permisos de la tarjeta (1 = default osea todos, 0= ninguno)
-            tarjetaRecord.byDoorRight[0] = 1;
+            tarjetaRecord.byDoorRight[0] = configuracionEstilos.PermisosDeTarjeta;     
 
             //asignamos la estructura record a un puntero
             ptrTarjetaRecord = Marshal.AllocHGlobal((int)tarjetaRecord.dwSize);

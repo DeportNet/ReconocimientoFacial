@@ -23,6 +23,8 @@ namespace DeportNetReconocimiento.GUI
         private static ReproductorSonidos? reproductorSonidos;
         //private string[] _credenciales;
         private bool ocultarPrincipal = false;
+        private static int intentosConexionADispositivo = 0;
+
 
         private WFPrincipal()
         {
@@ -31,7 +33,7 @@ namespace DeportNetReconocimiento.GUI
             Hik_Resultado resultadoInicio = InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
 
             //estilos se leen de un archivo
-            AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion("configuracionEstilos"));
+            AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion());
 
             ReproducirSonido(ConfiguracionEstilos.SonidoBienvenida);
 
@@ -75,19 +77,20 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
-
         public Hik_Resultado InstanciarPrograma()
         {
 
             Hik_Resultado resultado = new Hik_Resultado();
 
             //ip , puerto, usuario, contraseña en ese orden
-
+            
+            
             if (!CredencialesUtils.ExisteArchivoCredenciales())
             {
                 WFRgistrarDispositivo wFRgistrarDispositivo = WFRgistrarDispositivo.ObtenerInstancia;
                 if (!wFRgistrarDispositivo.Visible)
                 {
+                    wFRgistrarDispositivo.tipoApertura = 0;
                     wFRgistrarDispositivo.ShowDialog();
                 }
 
@@ -109,6 +112,7 @@ namespace DeportNetReconocimiento.GUI
             {
                 ManejarErrorDispositivo(resultado);
             }
+            
 
             return resultado;
         }
@@ -120,13 +124,13 @@ namespace DeportNetReconocimiento.GUI
             switch (resultadoError.Codigo)
             {
                 case "7":
-                    
+
                     //Logica mostrar loading y buscar ip
                     string[] credenciales = CredencialesUtils.LeerCredenciales();
 
                     ocultarPrincipal = true; // Ocultamos la vista pri para que no se pueda hacer nada mientras se busca la ip del dispositivo
                     loading.Show();
-                   
+
                     Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales[1], credenciales[2], credenciales[3]));
 
                     loading.Close();
@@ -139,12 +143,22 @@ namespace DeportNetReconocimiento.GUI
                     {
                         //va a mostrar no se encontro la ip
                         resultadoLogin.MessageBoxResultado("Error al incializar el dispositivo Hikvision");
+
+
+                        WFRgistrarDispositivo wFRgistrarDispositivo = WFRgistrarDispositivo.ObtenerInstancia;
+                        wFRgistrarDispositivo.tipoApertura = 1;
+                        if (!wFRgistrarDispositivo.Visible)
+                        {
+                            wFRgistrarDispositivo.ShowDialog();
+                        }
+
                         return;
                     }
-                    
+
                     credenciales[0] = resultadoLogin.Mensaje;
                     CredencialesUtils.EscribirArchivoCredenciales(credenciales);
                     MessageBox.Show("Se busco la direccion del dispositivo y se configuro con la correspondiente", "Aviso busqueda de Ip dispositivo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
 
                     break;
                 default:
@@ -155,7 +169,7 @@ namespace DeportNetReconocimiento.GUI
 
 
 
-         
+
         }
 
 
@@ -226,7 +240,6 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-        private static int intentosConexionADispositivo = 0;
 
         //Funcion que se ejecuta en cada TICK del timer
         public async void VerificarEstadoDispositivoAsync(object sender, EventArgs e)
@@ -385,6 +398,7 @@ namespace DeportNetReconocimiento.GUI
         {
             string titulo = "";
             string mensaje = "";
+            Hik_Resultado resultado;
 
 
             //Console.WriteLine("Estado json:" + json.Estado);
@@ -422,6 +436,12 @@ namespace DeportNetReconocimiento.GUI
                     {
                         Console.WriteLine("Ejecuto el exe");
                         Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.RutaMetodoApertura);
+                    }
+                    else if (ConfiguracionEstilos.MetodoApertura == "Hikvision")
+                    {
+                        Console.WriteLine("Abro con Hikvision");
+                        resultado = Hik_Controladora_Puertas.OperadorPuerta(1);
+                        Console.WriteLine("Resultado de apertura con Hikvision: \n " + resultado);
                     }
 
                     titulo = "Bienvenido/a " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Nombre) + " " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Apellido);
@@ -487,7 +507,8 @@ namespace DeportNetReconocimiento.GUI
                     string ruta = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
                     imagen = Image.FromFile(ruta);
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     Console.WriteLine("No se pudo obtener foto cliente");
                     imagen = Resources.avatarPredeterminado;
                 }
@@ -717,9 +738,5 @@ namespace DeportNetReconocimiento.GUI
             wFConfiguracion.ShowDialog();
         }
 
-        private void imagenLogo_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

@@ -71,7 +71,6 @@ namespace DeportNetReconocimiento.GUI
             imagenLogo.SizeMode = PictureBoxSizeMode.Zoom;
             imagenLogo.TabIndex = 1;
             imagenLogo.TabStop = false;
-            imagenLogo.Click += imagenLogo_Click;
             // 
             // pictureBox1
             // 
@@ -81,7 +80,7 @@ namespace DeportNetReconocimiento.GUI
             pictureBox1.Margin = new Padding(0);
             pictureBox1.MinimumSize = new Size(420, 450);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(628, 723);
+            pictureBox1.Size = new Size(628, 763);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 11;
             pictureBox1.TabStop = false;
@@ -151,7 +150,7 @@ namespace DeportNetReconocimiento.GUI
             botonPersonalizar.FlatAppearance.BorderSize = 0;
             botonPersonalizar.FlatStyle = FlatStyle.Flat;
             botonPersonalizar.ForeColor = Color.Black;
-            botonPersonalizar.Location = new Point(1808, 971);
+            botonPersonalizar.Location = new Point(1808, 1011);
             botonPersonalizar.Name = "botonPersonalizar";
             botonPersonalizar.Size = new Size(84, 23);
             botonPersonalizar.TabIndex = 28;
@@ -165,7 +164,9 @@ namespace DeportNetReconocimiento.GUI
             PanelSinConexion.BackColor = Color.Transparent;
             PanelSinConexion.Controls.Add(botonDeportnetOffline);
             PanelSinConexion.Controls.Add(textoSinCoenxion);
-            PanelSinConexion.Location = new Point(1379, 961);
+
+            PanelSinConexion.Location = new Point(1527, 1001);
+
             PanelSinConexion.Name = "PanelSinConexion";
             PanelSinConexion.Size = new Size(402, 36);
             PanelSinConexion.TabIndex = 29;
@@ -204,7 +205,7 @@ namespace DeportNetReconocimiento.GUI
             PanelAlmacenamiento.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             PanelAlmacenamiento.BackColor = Color.Black;
             PanelAlmacenamiento.Controls.Add(TextoAlmacenamiento);
-            PanelAlmacenamiento.Location = new Point(940, 964);
+            PanelAlmacenamiento.Location = new Point(1083, 1006);
             PanelAlmacenamiento.Name = "PanelAlmacenamiento";
             PanelAlmacenamiento.Size = new Size(438, 35);
             PanelAlmacenamiento.TabIndex = 30;
@@ -241,7 +242,7 @@ namespace DeportNetReconocimiento.GUI
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new Size(1904, 723);
+            tableLayoutPanel1.Size = new Size(1904, 763);
             tableLayoutPanel1.TabIndex = 33;
             // 
             // textoInformacionCliente
@@ -250,7 +251,7 @@ namespace DeportNetReconocimiento.GUI
             textoInformacionCliente.Location = new Point(628, 0);
             textoInformacionCliente.Margin = new Padding(0);
             textoInformacionCliente.Name = "textoInformacionCliente";
-            textoInformacionCliente.Size = new Size(1276, 723);
+            textoInformacionCliente.Size = new Size(1276, 763);
             textoInformacionCliente.TabIndex = 12;
             // 
             // WFPrincipal
@@ -258,7 +259,7 @@ namespace DeportNetReconocimiento.GUI
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.Silver;
-            ClientSize = new Size(1904, 1001);
+            ClientSize = new Size(1904, 1041);
             Controls.Add(botonPersonalizar);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(PanelAlmacenamiento);
@@ -267,7 +268,6 @@ namespace DeportNetReconocimiento.GUI
             Controls.Add(imagenLogo);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
-            MaximumSize = new Size(1920, 1040);
             MinimumSize = new Size(1364, 766);
             Name = "WFPrincipal";
             ShowInTaskbar = false;

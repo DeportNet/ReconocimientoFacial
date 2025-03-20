@@ -15,10 +15,46 @@ namespace DeportNetReconocimiento
         private string[] credencialesLeidas;
         private bool inputsValidos = false;
         private Loading loading;
+        //Tipo de apertura 0 = normal, 1 = Credenciales bloqueadas, 2= Modificar credenciales ;
+        public int tipoApertura { get; set; } = 0;
         private WFRgistrarDispositivo()
         {
             InitializeComponent();
             this.loading = new Loading();
+        }
+
+        private void VerificarTipoDeApertura()
+        {
+            switch (instancia.tipoApertura)
+            {
+                case 0:
+                    textBoxPort.Enabled = true;
+                    textBoxPassword.Enabled = true;
+                    textBoxSucursalID.Enabled = true;
+                    textBoxTokenSucursal.Enabled = true;
+                    textBoxUserName.Enabled = true;
+                    btnAdd.Text = "Login";
+                    label1.Text = "Registrar Dispositivo";
+                    break;
+                case 1:
+                    textBoxPort.Enabled = false;
+                    textBoxPassword.Enabled = false;
+                    textBoxSucursalID.Enabled = false;
+                    textBoxTokenSucursal.Enabled = false;
+                    textBoxUserName.Enabled = false;
+                    btnAdd.Text = "Guardar";
+                break;
+                case 2:
+                    textBoxPort.Enabled = true;
+                    textBoxPassword.Enabled = true;
+                    textBoxSucursalID.Enabled = true;
+                    textBoxTokenSucursal.Enabled = true;
+                    textBoxUserName.Enabled = true;
+                    btnAdd.Text = "Guardar";
+                    label1.Text = "Actualizar credenciales";
+                    
+                break;
+            }
         }
 
 
@@ -43,6 +79,8 @@ namespace DeportNetReconocimiento
             if (CredencialesUtils.ExisteArchivoCredenciales())
             {
                 AgregarValoresAInputs(CredencialesUtils.LeerCredenciales());
+                VerificarTipoDeApertura();
+
                 ignorarCerrarPrograma = true;
             }
         }
@@ -134,6 +172,7 @@ namespace DeportNetReconocimiento
         }
 
         private bool seClickeoBotonLogin = false;
+        private bool guardarCambios = false;
 
         private async void BtnAdd_Click(object sender, EventArgs e)
         {
@@ -144,9 +183,10 @@ namespace DeportNetReconocimiento
             }
             seClickeoBotonLogin = true;
 
+            
             Hik_Resultado resultadoLogin = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(textBoxUserName.Text, textBoxPassword.Text, textBoxPort.Text, textBoxDeviceAddress.Text);
 
-            if (!resultadoLogin.Exito)
+           if (!resultadoLogin.Exito)
             {
                 resultadoLogin.MessageBoxResultado("Error al incializar el dispositivo Hikvision");
                 return;
@@ -163,22 +203,20 @@ namespace DeportNetReconocimiento
 
             //creamos un arreglo de strings con los datos que recibimos del input
             //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
-            CredencialesUtils.EscribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text, textBoxSucursalID.Text, textBoxTokenSucursal.Text]);
+            //CredencialesUtils.EscribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text, textBoxSucursalID.Text, textBoxTokenSucursal.Text]);
+            
+            //Creador de credenciales manual
+            CredencialesUtils.EscribirArchivoCredenciales(["192.168.0.203", "8000", "admin", "facu", "321", "laskjdhf"]);
 
             ignorarCerrarPrograma = true;
             seClickeoBotonLogin = false;
-            this.Close();
-
-
-            //WFPrincipal.ObtenerInstancia.Show();
-            //LevantarWFPrincipal();
-            //Environment.Exit(0); 
-
+            guardarCambios = true;
+            this.Close(); 
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Close();             
         }
 
 
@@ -204,6 +242,16 @@ namespace DeportNetReconocimiento
                     e.Cancel = true;
                 }
             }
+
+            if(instancia.tipoApertura == 2)
+            {
+                Console.WriteLine("cambios de este tipo de apertura");
+                if (guardarCambios)
+                {
+                    MessageBox.Show("Credenciales actualizadas con exito, por favor vuelva a iniciar el gestor de acceso", "Credenciales actualizadas", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            Console.WriteLine("Pase todos los cosas de cerrar formulario");
         }
 
 
