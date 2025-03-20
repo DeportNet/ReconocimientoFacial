@@ -22,9 +22,6 @@
     <Compile Update="GUI\Vistas\VistaCobros.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="VistaServicios.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Update="GUI\Vistas\VistaSocios.cs">
       <SubType>UserControl</SubType>
     </Compile>

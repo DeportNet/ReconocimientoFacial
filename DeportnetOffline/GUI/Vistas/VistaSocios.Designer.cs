@@ -30,6 +30,16 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             dataGridView1 = new DataGridView();
+            columnaNombreYApellido = new DataGridViewTextBoxColumn();
+            ColumnaNroTarjeta = new DataGridViewTextBoxColumn();
+            ColumnaDni = new DataGridViewTextBoxColumn();
+            ColumnaEmail = new DataGridViewTextBoxColumn();
+            ColumnaEdad = new DataGridViewTextBoxColumn();
+            ColumnaSexo = new DataGridViewTextBoxColumn();
+            ColumnaCategoria = new DataGridViewTextBoxColumn();
+            ColumnaEstado = new DataGridViewTextBoxColumn();
+            ColumnaCobro = new DataGridViewButtonColumn();
+            ColumnaVenta = new DataGridViewButtonColumn();
             label1 = new Label();
             button1 = new Button();
             textBox3 = new TextBox();
@@ -45,16 +55,6 @@
             labelCantPaginas = new Label();
             botonAntPaginacion = new Button();
             botonSgtPaginacion = new Button();
-            columnaNombreYApellido = new DataGridViewTextBoxColumn();
-            ColumnaNroTarjeta = new DataGridViewTextBoxColumn();
-            ColumnaDni = new DataGridViewTextBoxColumn();
-            ColumnaEmail = new DataGridViewTextBoxColumn();
-            ColumnaEdad = new DataGridViewTextBoxColumn();
-            ColumnaSexo = new DataGridViewTextBoxColumn();
-            ColumnaCategoria = new DataGridViewTextBoxColumn();
-            ColumnaEstado = new DataGridViewTextBoxColumn();
-            ColumnaCobro = new DataGridViewButtonColumn();
-            ColumnaVenta = new DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
@@ -87,8 +87,106 @@
             dataGridView1.Size = new Size(1131, 504);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += DataGridView1_CellClick;
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.Paint += DataGridView1_Paint;
+            // 
+            // columnaNombreYApellido
+            // 
+            columnaNombreYApellido.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            columnaNombreYApellido.FillWeight = 69.0842F;
+            columnaNombreYApellido.HeaderText = "Nombre y Apellido";
+            columnaNombreYApellido.Name = "columnaNombreYApellido";
+            columnaNombreYApellido.ReadOnly = true;
+            columnaNombreYApellido.Resizable = DataGridViewTriState.False;
+            // 
+            // ColumnaNroTarjeta
+            // 
+            ColumnaNroTarjeta.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            ColumnaNroTarjeta.FillWeight = 69.0842F;
+            ColumnaNroTarjeta.HeaderText = "Nro. Tarjeta";
+            ColumnaNroTarjeta.Name = "ColumnaNroTarjeta";
+            ColumnaNroTarjeta.ReadOnly = true;
+            ColumnaNroTarjeta.Resizable = DataGridViewTriState.False;
+            // 
+            // ColumnaDni
+            // 
+            ColumnaDni.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            ColumnaDni.FillWeight = 69.0842F;
+            ColumnaDni.HeaderText = "DNI";
+            ColumnaDni.Name = "ColumnaDni";
+            ColumnaDni.ReadOnly = true;
+            ColumnaDni.Resizable = DataGridViewTriState.False;
+            // 
+            // ColumnaEmail
+            // 
+            ColumnaEmail.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            ColumnaEmail.FillWeight = 69.0842F;
+            ColumnaEmail.HeaderText = "Email";
+            ColumnaEmail.Name = "ColumnaEmail";
+            ColumnaEmail.ReadOnly = true;
+            ColumnaEmail.Resizable = DataGridViewTriState.False;
+            // 
+            // ColumnaEdad
+            // 
+            ColumnaEdad.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            ColumnaEdad.FillWeight = 187.9842F;
+            ColumnaEdad.HeaderText = "Edad";
+            ColumnaEdad.Name = "ColumnaEdad";
+            ColumnaEdad.ReadOnly = true;
+            ColumnaEdad.Resizable = DataGridViewTriState.False;
+            ColumnaEdad.Width = 80;
+            // 
+            // ColumnaSexo
+            // 
+            ColumnaSexo.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            ColumnaSexo.FillWeight = 228.426422F;
+            ColumnaSexo.HeaderText = "Sexo";
+            ColumnaSexo.Name = "ColumnaSexo";
+            ColumnaSexo.ReadOnly = true;
+            ColumnaSexo.Resizable = DataGridViewTriState.False;
+            ColumnaSexo.Width = 80;
+            // 
+            // ColumnaCategoria
+            // 
+            ColumnaCategoria.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            ColumnaCategoria.FillWeight = 69.0842F;
+            ColumnaCategoria.HeaderText = "Categoria";
+            ColumnaCategoria.Name = "ColumnaCategoria";
+            ColumnaCategoria.ReadOnly = true;
+            ColumnaCategoria.Resizable = DataGridViewTriState.False;
+            ColumnaCategoria.Width = 110;
+            // 
+            // ColumnaEstado
+            // 
+            ColumnaEstado.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            ColumnaEstado.FillWeight = 69.0842F;
+            ColumnaEstado.HeaderText = "Estado";
+            ColumnaEstado.Name = "ColumnaEstado";
+            ColumnaEstado.ReadOnly = true;
+            ColumnaEstado.Resizable = DataGridViewTriState.False;
+            ColumnaEstado.Width = 148;
+            // 
+            // ColumnaCobro
+            // 
+            ColumnaCobro.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            ColumnaCobro.FillWeight = 69.0842F;
+            ColumnaCobro.HeaderText = "Cobrar";
+            ColumnaCobro.Name = "ColumnaCobro";
+            ColumnaCobro.ReadOnly = true;
+            ColumnaCobro.Resizable = DataGridViewTriState.False;
+            ColumnaCobro.Text = "Cobrar";
+            ColumnaCobro.UseColumnTextForButtonValue = true;
+            ColumnaCobro.Width = 60;
+            // 
+            // ColumnaVenta
+            // 
+            ColumnaVenta.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            ColumnaVenta.HeaderText = "Vender";
+            ColumnaVenta.Name = "ColumnaVenta";
+            ColumnaVenta.ReadOnly = true;
+            ColumnaVenta.Resizable = DataGridViewTriState.False;
+            ColumnaVenta.Text = "Vender";
+            ColumnaVenta.UseColumnTextForButtonValue = true;
+            ColumnaVenta.Width = 60;
             // 
             // label1
             // 
@@ -108,12 +206,12 @@
             button1.TabIndex = 5;
             button1.Text = "Buscar";
             button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
             // 
             // textBox3
             // 
             textBox3.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBox3.Location = new Point(11, 89);
+            textBox3.MaxLength = 100;
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(278, 25);
             textBox3.TabIndex = 4;
@@ -125,6 +223,7 @@
             // 
             textBox2.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBox2.Location = new Point(308, 88);
+            textBox2.MaxLength = 100;
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(258, 25);
             textBox2.TabIndex = 3;
@@ -136,11 +235,11 @@
             // 
             textBox1.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBox1.Location = new Point(420, 53);
+            textBox1.MaxLength = 11;
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(146, 25);
             textBox1.TabIndex = 2;
             textBox1.Text = "Nro tarjeta o DNI";
-            textBox1.TextChanged += textBox1_TextChanged;
             textBox1.Enter += textBox1_Enter;
             textBox1.Leave += textBox1_Leave;
             // 
@@ -183,7 +282,6 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
             tableLayoutPanel1.Size = new Size(1160, 706);
             tableLayoutPanel1.TabIndex = 1;
-            tableLayoutPanel1.Paint += tableLayoutPanel1_Paint_2;
             // 
             // panel1
             // 
@@ -270,110 +368,6 @@
             botonSgtPaginacion.TabIndex = 1;
             botonSgtPaginacion.Text = "-->";
             botonSgtPaginacion.UseVisualStyleBackColor = true;
-            botonSgtPaginacion.Click += botonSgtPaginacion_Click_1;
-            // 
-            // columnaNombreYApellido
-            // 
-            columnaNombreYApellido.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            columnaNombreYApellido.FillWeight = 69.0842F;
-            columnaNombreYApellido.HeaderText = "Nombre y Apellido";
-            columnaNombreYApellido.Name = "columnaNombreYApellido";
-            columnaNombreYApellido.ReadOnly = true;
-            columnaNombreYApellido.Resizable = DataGridViewTriState.False;
-            columnaNombreYApellido.Width = 148;
-            // 
-            // ColumnaNroTarjeta
-            // 
-            ColumnaNroTarjeta.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ColumnaNroTarjeta.FillWeight = 69.0842F;
-            ColumnaNroTarjeta.HeaderText = "Nro. Tarjeta";
-            ColumnaNroTarjeta.Name = "ColumnaNroTarjeta";
-            ColumnaNroTarjeta.ReadOnly = true;
-            ColumnaNroTarjeta.Resizable = DataGridViewTriState.False;
-            ColumnaNroTarjeta.Width = 147;
-            // 
-            // ColumnaDni
-            // 
-            ColumnaDni.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ColumnaDni.FillWeight = 69.0842F;
-            ColumnaDni.HeaderText = "DNI";
-            ColumnaDni.Name = "ColumnaDni";
-            ColumnaDni.ReadOnly = true;
-            ColumnaDni.Resizable = DataGridViewTriState.False;
-            ColumnaDni.Width = 148;
-            // 
-            // ColumnaEmail
-            // 
-            ColumnaEmail.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ColumnaEmail.FillWeight = 69.0842F;
-            ColumnaEmail.HeaderText = "Email";
-            ColumnaEmail.Name = "ColumnaEmail";
-            ColumnaEmail.ReadOnly = true;
-            ColumnaEmail.Resizable = DataGridViewTriState.False;
-            ColumnaEmail.Width = 147;
-            // 
-            // ColumnaEdad
-            // 
-            ColumnaEdad.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            ColumnaEdad.FillWeight = 187.9842F;
-            ColumnaEdad.HeaderText = "Edad";
-            ColumnaEdad.Name = "ColumnaEdad";
-            ColumnaEdad.ReadOnly = true;
-            ColumnaEdad.Resizable = DataGridViewTriState.False;
-            ColumnaEdad.Width = 80;
-            // 
-            // ColumnaSexo
-            // 
-            ColumnaSexo.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            ColumnaSexo.FillWeight = 228.426422F;
-            ColumnaSexo.HeaderText = "Sexo";
-            ColumnaSexo.Name = "ColumnaSexo";
-            ColumnaSexo.ReadOnly = true;
-            ColumnaSexo.Resizable = DataGridViewTriState.False;
-            ColumnaSexo.Width = 80;
-            // 
-            // ColumnaCategoria
-            // 
-            ColumnaCategoria.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            ColumnaCategoria.FillWeight = 69.0842F;
-            ColumnaCategoria.HeaderText = "Categoria";
-            ColumnaCategoria.Name = "ColumnaCategoria";
-            ColumnaCategoria.ReadOnly = true;
-            ColumnaCategoria.Resizable = DataGridViewTriState.False;
-            ColumnaCategoria.Width = 110;
-            // 
-            // ColumnaEstado
-            // 
-            ColumnaEstado.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            ColumnaEstado.FillWeight = 69.0842F;
-            ColumnaEstado.HeaderText = "Estado";
-            ColumnaEstado.Name = "ColumnaEstado";
-            ColumnaEstado.ReadOnly = true;
-            ColumnaEstado.Resizable = DataGridViewTriState.False;
-            ColumnaEstado.Width = 148;
-            // 
-            // ColumnaCobro
-            // 
-            ColumnaCobro.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            ColumnaCobro.FillWeight = 69.0842F;
-            ColumnaCobro.HeaderText = "Cobrar";
-            ColumnaCobro.Name = "ColumnaCobro";
-            ColumnaCobro.ReadOnly = true;
-            ColumnaCobro.Resizable = DataGridViewTriState.False;
-            ColumnaCobro.Text = "Cobrar";
-            ColumnaCobro.UseColumnTextForButtonValue = true;
-            ColumnaCobro.Width = 60;
-            // 
-            // ColumnaVenta
-            // 
-            ColumnaVenta.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            ColumnaVenta.HeaderText = "Vender";
-            ColumnaVenta.Name = "ColumnaVenta";
-            ColumnaVenta.ReadOnly = true;
-            ColumnaVenta.Resizable = DataGridViewTriState.False;
-            ColumnaVenta.Text = "Vender";
-            ColumnaVenta.UseColumnTextForButtonValue = true;
-            ColumnaVenta.Width = 60;
             // 
             // VistaSocios
             // 
@@ -384,7 +378,6 @@
             Controls.Add(tableLayoutPanel1);
             Name = "VistaSocios";
             Size = new Size(1160, 706);
-            Load += VistaSocios_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();

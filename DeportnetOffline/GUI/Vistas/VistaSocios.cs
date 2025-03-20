@@ -24,30 +24,8 @@ namespace DeportnetOffline
             dataGridView1.Rows.Add("Facundo Procelli", 22316276, 4601238, "facundoprocelli@gmail.com", 45, "m", "Normal", "Activo", "nashe", "burger");
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
 
-        }
 
-        private void VistaSocios_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void textBox3_Enter(object sender, EventArgs e)
         {
@@ -121,35 +99,7 @@ namespace DeportnetOffline
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
 
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel1_Paint_1(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel1_Paint_2(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void botonSgtPaginacion_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void botonSgtPaginacion_Click_1(object sender, EventArgs e)
-        {
-
-        }
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -164,7 +114,8 @@ namespace DeportnetOffline
                 if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaVenta")
                 {
                     MessageBox.Show($"Vender usuario: {dataGridView1.Rows[e.RowIndex].Cells[1].Value}");
-                } else if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaCobro")
+                }
+                else if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaCobro")
                 {
                     MessageBox.Show($"Cobrar usuario: {dataGridView1.Rows[e.RowIndex].Cells[1].Value}");
                 }
@@ -194,10 +145,10 @@ namespace DeportnetOffline
             format.LineAlignment = StringAlignment.Center;
 
             e.Graphics.DrawString("Acciones", dataGridView1.ColumnHeadersDefaultCellStyle.Font, Brushes.Black, newHeaderRect, format);
-        
-
-    }
 
 
+        }
+
+       
     }
 }
