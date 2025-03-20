@@ -28,14 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             tableLayoutPanel1 = new TableLayoutPanel();
             panel1 = new Panel();
+            tableLayoutPanel2 = new TableLayoutPanel();
             botonAltaLegajos = new Button();
             botonCobros = new Button();
             botonAccesos = new Button();
             botonSocios = new Button();
             panelContenido = new Panel();
-            tableLayoutPanel2 = new TableLayoutPanel();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
@@ -71,64 +72,6 @@
             panel1.Size = new Size(1350, 37);
             panel1.TabIndex = 0;
             // 
-            // botonAltaLegajos
-            // 
-            botonAltaLegajos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            botonAltaLegajos.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            botonAltaLegajos.Location = new Point(1014, 3);
-            botonAltaLegajos.Name = "botonAltaLegajos";
-            botonAltaLegajos.Size = new Size(333, 31);
-            botonAltaLegajos.TabIndex = 4;
-            botonAltaLegajos.Text = "Ver alta de legajos";
-            botonAltaLegajos.UseVisualStyleBackColor = true;
-            botonAltaLegajos.Click += button1_Click;
-            // 
-            // botonCobros
-            // 
-            botonCobros.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            botonCobros.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            botonCobros.Location = new Point(677, 3);
-            botonCobros.Name = "botonCobros";
-            botonCobros.Size = new Size(331, 31);
-            botonCobros.TabIndex = 3;
-            botonCobros.Text = "Ver cobros offline";
-            botonCobros.UseVisualStyleBackColor = true;
-            botonCobros.Click += botonCobros_Click;
-            // 
-            // botonAccesos
-            // 
-            botonAccesos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            botonAccesos.Location = new Point(340, 3);
-            botonAccesos.Name = "botonAccesos";
-            botonAccesos.Size = new Size(331, 31);
-            botonAccesos.TabIndex = 2;
-            botonAccesos.Text = "Ver accesos offline";
-            botonAccesos.UseVisualStyleBackColor = true;
-            botonAccesos.Click += botonAccesos_Click;
-            // 
-            // botonSocios
-            // 
-            botonSocios.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            botonSocios.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            botonSocios.Location = new Point(3, 3);
-            botonSocios.Name = "botonSocios";
-            botonSocios.Size = new Size(331, 31);
-            botonSocios.TabIndex = 1;
-            botonSocios.Text = "Busqueda de legajos";
-            botonSocios.UseVisualStyleBackColor = true;
-            botonSocios.Click += botonSocios_Click;
-            // 
-            // panelContenido
-            // 
-            panelContenido.AutoSize = true;
-            panelContenido.BackColor = Color.WhiteSmoke;
-            panelContenido.Dock = DockStyle.Fill;
-            panelContenido.Location = new Point(0, 0);
-            panelContenido.Margin = new Padding(0);
-            panelContenido.Name = "panelContenido";
-            panelContenido.Size = new Size(1350, 692);
-            panelContenido.TabIndex = 1;
-            // 
             // tableLayoutPanel2
             // 
             tableLayoutPanel2.ColumnCount = 4;
@@ -149,14 +92,81 @@
             tableLayoutPanel2.Size = new Size(1350, 37);
             tableLayoutPanel2.TabIndex = 0;
             // 
+            // botonAltaLegajos
+            // 
+            botonAltaLegajos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            botonAltaLegajos.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            botonAltaLegajos.BackColor = SystemColors.ButtonFace;
+            botonAltaLegajos.Location = new Point(1011, 0);
+            botonAltaLegajos.Margin = new Padding(0);
+            botonAltaLegajos.Name = "botonAltaLegajos";
+            botonAltaLegajos.Size = new Size(339, 37);
+            botonAltaLegajos.TabIndex = 4;
+            botonAltaLegajos.Text = "Ver alta de legajos";
+            botonAltaLegajos.UseVisualStyleBackColor = false;
+            botonAltaLegajos.Click += botonAltaLegajos_Click;
+            // 
+            // botonCobros
+            // 
+            botonCobros.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            botonCobros.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            botonCobros.BackColor = SystemColors.ButtonFace;
+            botonCobros.Location = new Point(674, 0);
+            botonCobros.Margin = new Padding(0);
+            botonCobros.Name = "botonCobros";
+            botonCobros.Size = new Size(337, 37);
+            botonCobros.TabIndex = 3;
+            botonCobros.Text = "Ver cobros offline";
+            botonCobros.UseVisualStyleBackColor = false;
+            botonCobros.Click += botonCobros_Click;
+            // 
+            // botonAccesos
+            // 
+            botonAccesos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            botonAccesos.BackColor = SystemColors.ButtonFace;
+            botonAccesos.Location = new Point(337, 0);
+            botonAccesos.Margin = new Padding(0);
+            botonAccesos.Name = "botonAccesos";
+            botonAccesos.Size = new Size(337, 37);
+            botonAccesos.TabIndex = 2;
+            botonAccesos.Text = "Ver accesos offline";
+            botonAccesos.UseVisualStyleBackColor = false;
+            botonAccesos.Click += botonAccesos_Click;
+            // 
+            // botonSocios
+            // 
+            botonSocios.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            botonSocios.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            botonSocios.BackColor = SystemColors.ButtonFace;
+            botonSocios.Location = new Point(0, 0);
+            botonSocios.Margin = new Padding(0);
+            botonSocios.Name = "botonSocios";
+            botonSocios.Size = new Size(337, 37);
+            botonSocios.TabIndex = 1;
+            botonSocios.Text = "Busqueda de legajos";
+            botonSocios.UseVisualStyleBackColor = false;
+            botonSocios.Click += botonSocios_Click;
+            // 
+            // panelContenido
+            // 
+            panelContenido.AutoSize = true;
+            panelContenido.BackColor = Color.WhiteSmoke;
+            panelContenido.Dock = DockStyle.Fill;
+            panelContenido.Location = new Point(0, 0);
+            panelContenido.Margin = new Padding(0);
+            panelContenido.Name = "panelContenido";
+            panelContenido.Size = new Size(1350, 692);
+            panelContenido.TabIndex = 1;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1350, 729);
             Controls.Add(tableLayoutPanel1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
-            Text = "Form1";
+            Text = "Modo Offline";
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             panel1.ResumeLayout(false);

@@ -1,6 +1,6 @@
 ﻿namespace DeportnetOffline
 {
-    partial class modalVentas
+    partial class ModalVentas
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModalVentas));
             panel1 = new Panel();
+            labelNombreApelldioCliente = new Label();
+            label5 = new Label();
             comboBox1 = new ComboBox();
             panel2 = new Panel();
             buttonCobrar = new Button();
@@ -40,8 +43,6 @@
             labelPrecio = new Label();
             label3 = new Label();
             label2 = new Label();
-            labelNombreApelldioCliente = new Label();
-            label5 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -60,13 +61,35 @@
             panel1.Size = new Size(800, 450);
             panel1.TabIndex = 1;
             // 
+            // labelNombreApelldioCliente
+            // 
+            labelNombreApelldioCliente.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold);
+            labelNombreApelldioCliente.Location = new Point(147, 54);
+            labelNombreApelldioCliente.Name = "labelNombreApelldioCliente";
+            labelNombreApelldioCliente.Size = new Size(488, 34);
+            labelNombreApelldioCliente.TabIndex = 5;
+            labelNombreApelldioCliente.Text = "Nombre y apellido del cliente";
+            labelNombreApelldioCliente.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.Location = new Point(236, 9);
+            label5.Name = "label5";
+            label5.Size = new Size(309, 45);
+            label5.TabIndex = 4;
+            label5.Text = "Vender producto a: ";
+            // 
             // comboBox1
             // 
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(268, 110);
+            comboBox1.Items.AddRange(new object[] { "Seleccione un producto" });
+            comboBox1.Location = new Point(236, 110);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(229, 29);
+            comboBox1.Size = new Size(309, 29);
             comboBox1.TabIndex = 2;
             // 
             // panel2
@@ -173,34 +196,17 @@
             label2.TabIndex = 0;
             label2.Text = "Detalle de la venta";
             // 
-            // labelNombreApelldioCliente
-            // 
-            labelNombreApelldioCliente.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold);
-            labelNombreApelldioCliente.Location = new Point(147, 54);
-            labelNombreApelldioCliente.Name = "labelNombreApelldioCliente";
-            labelNombreApelldioCliente.Size = new Size(488, 34);
-            labelNombreApelldioCliente.TabIndex = 5;
-            labelNombreApelldioCliente.Text = "Nombre y apellido del cliente";
-            labelNombreApelldioCliente.TextAlign = ContentAlignment.MiddleCenter;
-            labelNombreApelldioCliente.Click += labelNombreApelldioCliente_Click;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(236, 9);
-            label5.Name = "label5";
-            label5.Size = new Size(309, 45);
-            label5.TabIndex = 4;
-            label5.Text = "Vender producto a: ";
-            // 
-            // modalVentas
+            // ModalVentas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(panel1);
-            Name = "modalVentas";
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "ModalVentas";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "modalVentas";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

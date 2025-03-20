@@ -1,6 +1,6 @@
 ﻿namespace DeportnetOffline.GUI.Modales
 {
-    partial class modalNuevoLegajo
+    partial class ModalNuevoLegajo
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModalNuevoLegajo));
             panel1 = new Panel();
             buttonGuardarLegajo = new Button();
             label5 = new Label();
@@ -298,13 +299,15 @@
             label8.TabIndex = 7;
             label8.Text = "Fecha de nacimiento";
             // 
-            // modalNuevoLegajo
+            // ModalNuevoLegajo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(652, 745);
             Controls.Add(panel1);
-            Name = "modalNuevoLegajo";
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Name = "ModalNuevoLegajo";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Nuevo Legajo";
             Load += modalNuevoLegajo_Load;
             panel1.ResumeLayout(false);

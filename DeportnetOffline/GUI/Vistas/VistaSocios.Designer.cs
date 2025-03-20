@@ -46,11 +46,11 @@
             textBox2 = new TextBox();
             textBox1 = new TextBox();
             comboBox2 = new ComboBox();
-            comboBox1 = new ComboBox();
             tableLayoutPanel1 = new TableLayoutPanel();
             panel1 = new Panel();
             panel3 = new Panel();
             button2 = new Button();
+            comboBox1 = new ComboBox();
             panel2 = new Panel();
             labelCantPaginas = new Label();
             botonAntPaginacion = new Button();
@@ -215,7 +215,6 @@
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(278, 25);
             textBox3.TabIndex = 4;
-            textBox3.Text = "Apellido y Nombre";
             textBox3.Enter += textBox3_Enter;
             textBox3.Leave += textBox3_Leave;
             // 
@@ -227,7 +226,6 @@
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(258, 25);
             textBox2.TabIndex = 3;
-            textBox2.Text = "Email";
             textBox2.Enter += textBox2_Enter;
             textBox2.Leave += textBox2_Leave;
             // 
@@ -239,12 +237,14 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(146, 25);
             textBox1.TabIndex = 2;
-            textBox1.Text = "Nro tarjeta o DNI";
+            textBox1.TextChanged += textBox1_TextChanged;
             textBox1.Enter += textBox1_Enter;
             textBox1.Leave += textBox1_Leave;
             // 
             // comboBox2
             // 
+            comboBox2.BackColor = SystemColors.Window;
+            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox2.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBox2.FormattingEnabled = true;
             comboBox2.Items.AddRange(new object[] { "Actívos e inactivos", "Solo activos", "Solo inactivos" });
@@ -253,17 +253,6 @@
             comboBox2.Size = new Size(131, 25);
             comboBox2.Sorted = true;
             comboBox2.TabIndex = 1;
-            // 
-            // comboBox1
-            // 
-            comboBox1.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(11, 53);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(200, 25);
-            comboBox1.TabIndex = 3;
-            comboBox1.Enter += ComboBox1_Enter;
-            comboBox1.Leave += ComboBox1_Leave;
             // 
             // tableLayoutPanel1
             // 
@@ -287,7 +276,7 @@
             // 
             panel1.AutoSize = true;
             panel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            panel1.BackColor = Color.WhiteSmoke;
+            panel1.BackColor = SystemColors.Window;
             panel1.Controls.Add(panel3);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
@@ -298,7 +287,7 @@
             // 
             // panel3
             // 
-            panel3.BackColor = Color.Gainsboro;
+            panel3.BackColor = Color.WhiteSmoke;
             panel3.Controls.Add(button2);
             panel3.Controls.Add(label1);
             panel3.Controls.Add(button1);
@@ -310,7 +299,7 @@
             panel3.Location = new Point(17, 11);
             panel3.Margin = new Padding(0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(957, 130);
+            panel3.Size = new Size(1027, 130);
             panel3.TabIndex = 8;
             // 
             // button2
@@ -323,12 +312,26 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // comboBox1
+            // 
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox1.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "Categoría de socio " });
+            comboBox1.Location = new Point(11, 53);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(200, 25);
+            comboBox1.TabIndex = 3;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            comboBox1.Enter += ComboBox1_Enter;
+            comboBox1.Leave += ComboBox1_Leave;
+            // 
             // panel2
             // 
             panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel2.AutoSize = true;
             panel2.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            panel2.BackColor = Color.WhiteSmoke;
+            panel2.BackColor = SystemColors.Window;
             panel2.Controls.Add(labelCantPaginas);
             panel2.Controls.Add(dataGridView1);
             panel2.Controls.Add(botonAntPaginacion);
@@ -394,7 +397,6 @@
 
         private DataGridView dataGridView1;
         private ComboBox comboBox2;
-        internal ComboBox comboBox1;
         private TextBox textBox3;
         private TextBox textBox2;
         private TextBox textBox1;
@@ -418,5 +420,6 @@
         private DataGridViewTextBoxColumn ColumnaEstado;
         private DataGridViewButtonColumn ColumnaCobro;
         private DataGridViewButtonColumn ColumnaVenta;
+        internal ComboBox comboBox1;
     }
 }
