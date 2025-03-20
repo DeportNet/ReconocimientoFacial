@@ -6,16 +6,6 @@ using DeportNetReconocimiento.Api.Services.Interfaces;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Api.Services
 {
@@ -32,10 +22,10 @@ namespace DeportNetReconocimiento.Api.Services
             enUso = false;
             hik_Controladora = Hik_Controladora_General.InstanciaControladoraGeneral;
             
-            LeerCredencialesReconocimientoService();
+            LeerIdSucursal();
         }
 
-        private void LeerCredencialesReconocimientoService()
+        private void LeerIdSucursal()
         {
             string[] credenciales = CredencialesUtils.LeerCredenciales();
 

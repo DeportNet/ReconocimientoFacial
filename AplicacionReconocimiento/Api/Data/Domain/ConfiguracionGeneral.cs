@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeportNetReconocimiento.BD.Entidades
+namespace DeportNetReconocimiento.Api.Data.Domain
 {
     public class ConfiguracionGeneral
     {

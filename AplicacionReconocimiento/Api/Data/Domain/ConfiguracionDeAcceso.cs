@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeportNetReconocimiento.Modelo
+namespace DeportNetReconocimiento.Api.Data.Domain
 {
     [Table("configuracion_de_acceso")]
     public class ConfiguracionDeAcceso
@@ -19,7 +19,7 @@ namespace DeportNetReconocimiento.Modelo
         public string EndCharacter { get; set; }
         public string SecondStartCharacter { get; set; }
 
-        public ConfiguracionDeAcceso() { } 
+        public ConfiguracionDeAcceso() { }
 
         public ConfiguracionDeAcceso(int cardLength, string startCharacter, string endCharacter, string secondStartCharacter)
         {

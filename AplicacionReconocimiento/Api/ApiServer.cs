@@ -37,8 +37,9 @@ namespace DeportNetReconocimiento.Api
                         services.AddDbContext<BdContext>(options =>
                         {
                             BdContext.InicializarBd();
-                            string dbRuta = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "DeportnetReconocimiento", "dbDx.dt");
-                            var connection = new SqliteConnection($"Data Source={dbRuta}");
+                            
+                            string rutaDb = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "DeportnetReconocimiento", "dbDx.dt");
+                            var connection = new SqliteConnection($"Data Source={rutaDb}");
                             connection.Open();
 
                             using (var command = connection.CreateCommand())
@@ -59,22 +60,14 @@ namespace DeportNetReconocimiento.Api
                         // Configurar CORS
                         services.AddCors(options =>
                         {
-                            options.AddPolicy("AllowAll", builder =>
+                            options.AddPolicy("AllowSpecificOrigins", builder =>
                             {
                                 builder
-                                    .AllowAnyOrigin()    // Permitir cualquier origen
-                                    .AllowAnyMethod()    // Permitir cualquier método (GET, POST, etc.)
-                                    .AllowAnyHeader();   // Permitir cualquier cabecera
+                                .WithOrigins("http://localhost:5000", "https://testing.deportnet.com", "https://deportnet.com")
+                                .AllowAnyMethod()    // Permitir cualquier método (GET, POST, etc.)
+                                .AllowAnyHeader();   // Permitir cualquier cabecera
                             });
 
-                            //origenes especificos
-
-                            //options.AddPolicy("AllowSpecificOrigins", builder =>
-                            //{
-                            //    builder.WithOrigins("http://localhost:5000", "https://mi-dominio.com")
-                            //           .AllowAnyMethod()
-                            //           .AllowAnyHeader();
-                            //});
                         });
 
                         services.AddEndpointsApiExplorer();
@@ -89,7 +82,8 @@ namespace DeportNetReconocimiento.Api
                         // Middleware global para manejar excepciones
                         app.UseMiddleware<GlobalExceptionHandler.GlobalExceptionHandler>();
 
-                        app.UseCors("AllowAll");//AllowSpecificOrigins
+                        //configurar CORS peticiones de origen especifico
+                        app.UseCors("AllowSpecificOrigins");
 
                         app.UseRouting();
                         app.UseEndpoints(endpoints =>

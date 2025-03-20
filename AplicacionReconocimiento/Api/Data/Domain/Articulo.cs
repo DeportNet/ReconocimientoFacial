@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeportNetReconocimiento.Modelo
+namespace DeportNetReconocimiento.Api.Data.Domain
 {
     public class Articulo
     {
@@ -17,10 +17,10 @@ namespace DeportNetReconocimiento.Modelo
         [Column("id_dx")]
         public int IdDx { get; set; }
         public string Name { get; set; }
-        public double Amount { get; set; }
+        public string Amount { get; set; }
         public string IsSaleItem { get; set; } // 'T' = Articulo, 'F' = Servicio
 
-        public Articulo(int idDx, string nombre, double precio, string esUnArticulo)
+        public Articulo(int idDx, string nombre, string precio, string esUnArticulo)
         {
             IdDx = idDx;
             Name = nombre;
@@ -29,5 +29,14 @@ namespace DeportNetReconocimiento.Modelo
         }
 
         public Articulo() { }
+
+        public static bool EsIgual(Articulo local, Articulo remoto)
+        {
+            return local.IdDx == remoto.IdDx &&
+                   local.Name == remoto.Name &&
+                   local.Amount == remoto.Amount &&
+                   local.IsSaleItem == remoto.IsSaleItem;
+        }
+
     }
 }

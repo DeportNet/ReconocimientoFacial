@@ -7,3 +7,4 @@ AplicacionReconocimiento/.vs/ProjectEvaluation/deportnetreconocimiento.projects.
 /AplicacionReconocimiento/bin
 /AplicacionReconocimiento/obj
 /DeportnetOffline/obj
+*.resx

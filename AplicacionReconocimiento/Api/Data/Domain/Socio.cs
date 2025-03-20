@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DeportNetReconocimiento.BD.Entidades
+namespace DeportNetReconocimiento.Api.Data.Domain
 {
     [Table("socios")]
     public class Socio
@@ -89,7 +89,7 @@ namespace DeportNetReconocimiento.BD.Entidades
         public string? IsValid { get; set; } // Validación previa
 
         public Socio() { }
-        public Socio(int idDx, string email, string firstName, string lastName, string? idNumber, DateTime? birthDate, string? cellphone, string? isActive, string? cardNumber, string? address, string? addressWithFloor, string? imageUrl, string? gender, string isValid)
+        public Socio(int idDx, string email, string firstName, string lastName, string? idNumber, DateTime? birthDate, string? cellphone, string? isActive, string? cardNumber, string? address, string? addressFloor, string? imageUrl, string? gender, string? isValid)
         {
             IdDx = idDx;
             Email = email;
@@ -101,12 +101,27 @@ namespace DeportNetReconocimiento.BD.Entidades
             IsActive = isActive;
             CardNumber = cardNumber;
             Address = address;
-            AddressFloor = addressWithFloor;
+            AddressFloor = addressFloor;
             ImageUrl = imageUrl;
             Gender = gender;
             IsValid = isValid;
         }
 
-
+        public static bool EsIgual(Socio local, Socio remoto)
+        {
+            return local.Email == remoto.Email &&
+                   local.FirstName == remoto.FirstName &&
+                   local.LastName == remoto.LastName &&
+                   local.IdNumber == remoto.IdNumber &&
+                   local.BirthDate == remoto.BirthDate &&
+                   local.Cellphone == remoto.Cellphone &&
+                   local.IsActive == remoto.IsActive &&
+                   local.CardNumber == remoto.CardNumber &&
+                   local.Address == remoto.Address &&
+                   local.AddressFloor == remoto.AddressFloor &&
+                   local.ImageUrl == remoto.ImageUrl &&
+                   local.Gender == remoto.Gender &&
+                   local.IsValid == remoto.IsValid;
+        }
     }
 }

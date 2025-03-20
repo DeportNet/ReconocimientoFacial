@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeportNetReconocimiento.BD.Entidades
+namespace DeportNetReconocimiento.Api.Data.Domain
 {
     [Table("membresias")]
     public class Membresia
