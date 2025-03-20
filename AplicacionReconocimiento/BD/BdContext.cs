@@ -1,5 +1,4 @@
-﻿using DeportNetReconocimiento.BD.Entidades;
-using DeportNetReconocimiento.Modelo;
+﻿using DeportNetReconocimiento.Api.Data.Domain;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

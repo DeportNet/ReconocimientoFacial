@@ -1,4 +1,5 @@
-﻿using DeportNetReconocimiento.Api.Dtos.Request;
+﻿
+using DeportNetReconocimiento.Api.Data.Dtos.Request;
 using DeportNetReconocimiento.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

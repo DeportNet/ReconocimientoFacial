@@ -7,13 +7,13 @@ namespace DeportNetReconocimiento.Modelo
 
         private int major_type;
         private int minor_type;
-        private string major_type_description;
-        private string minor_type_description;
-        private string user;
-        private string remote_ip_address;
-        private string device_ip_address;
-        private string card_number;
-        private string card_type;
+        private string? major_type_description;
+        private string? minor_type_description;
+        private string? user;
+        private string? remote_ip_address;
+        private string? device_ip_address;
+        private string? card_number;
+        private string? card_type;
         private int card_reader_number;
         private int door_number;
         private int multiple_card_authentication_serial_number;
@@ -22,18 +22,18 @@ namespace DeportNetReconocimiento.Modelo
         private int event_trigger_number;
         private int rs485_channel_number;
         private int multi_recombinant_authentication_id;
-        private string card_reader_kind;
+        private string? card_reader_kind;
         private int access_channel;
         private int employee_number;
-        private string device_number;
+        private string? device_number;
         private int local_controller_id;
-        private string internet_access;
-        private string type;
-        private string swipe_card_type;
-        private string mac_address;
+        private string? internet_access;
+        private string? type;
+        private string? swipe_card_type;
+        private string? mac_address;
         private DateTime time;
         private bool success = false;
-        private string exception;
+        private string? exception;
 
         public int Major_Type
         {
@@ -47,43 +47,43 @@ namespace DeportNetReconocimiento.Modelo
             set { minor_type = value; }
         }
 
-        public string Minor_Type_Description
+        public string? Minor_Type_Description
         {
             get { return minor_type_description; }
             set { minor_type_description = value; }
         }
 
-        public string Major_Type_Description
+        public string? Major_Type_Description
         {
             get { return major_type_description; }
             set { major_type_description = value; }
         }
 
-        public string User
+        public string? User
         {
             get { return user; }
             set { user = value; }
         }
 
-        public string Remote_IP_Address
+        public string? Remote_IP_Address
         {
             get { return remote_ip_address; }
             set { remote_ip_address = value; }
         }
 
-        public string Device_IP_Address
+        public string? Device_IP_Address
         {
             get { return device_ip_address; }
             set { device_ip_address = value; }
         }
 
-        public string Card_Number
+        public string? Card_Number
         {
             get { return card_number; }
             set { card_number = value; }
         }
 
-        public string Card_Type
+        public string? Card_Type
         {
             get { return card_type; }
             set { card_type = value; }
@@ -137,7 +137,7 @@ namespace DeportNetReconocimiento.Modelo
             set { multi_recombinant_authentication_id = value; }
         }
 
-        public string Card_Reader_Kind
+        public string? Card_Reader_Kind
         {
             get { return card_reader_kind; }
             set { card_reader_kind = value; }
@@ -156,7 +156,7 @@ namespace DeportNetReconocimiento.Modelo
             set { employee_number = value; }
         }
 
-        public string Device_Number
+        public string? Device_Number
         {
             get { return device_number; }
             set { device_number = value; }
@@ -168,26 +168,26 @@ namespace DeportNetReconocimiento.Modelo
             set { local_controller_id = value; }
         }
 
-        public string Internet_Access
+        public string? Internet_Access
         {
             get { return internet_access; }
             set { internet_access = value; }
         }
 
-        public string Type
+        public string? Type
         {
             get { return type; }
             set { type = value; }
         }
 
 
-        public string Swipe_Card_Type
+        public string? Swipe_Card_Type
         {
             get { return swipe_card_type; }
             set { swipe_card_type = value; }
         }
 
-        public string Mac_Address
+        public string? Mac_Address
         {
             get { return mac_address; }
             set { mac_address = value; }
@@ -206,7 +206,7 @@ namespace DeportNetReconocimiento.Modelo
             set { success = value; }
         }
 
-        public string Exception
+        public string? Exception
         {
             get { return exception; }
             set { exception = value; }

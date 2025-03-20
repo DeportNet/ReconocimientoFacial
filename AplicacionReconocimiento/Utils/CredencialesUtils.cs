@@ -43,6 +43,18 @@ namespace DeportNetReconocimiento.Utils
             return flag;
         }
 
+        public static string? LeerIdSucursal()
+        {
+            string[] credenciales = LeerCredenciales();
+            
+            if (credenciales.Length == 0)
+            {
+                return null;
+            }
+
+            return credenciales[4];
+
+        }
 
         public static string[] LeerCredenciales()
         {

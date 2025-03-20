@@ -18,13 +18,13 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [Column("id_dx")]
         public int IdDx { get; set; }
         public string Name { get; set; }
-        public double Amount { get; set; }
+        public string Amount { get; set; }
         public string IsSaleItem { get; set; } // 'T' = Articulo, 'F' = Servicio 
         public string Period { get; set; }
         public string Days { get; set; }
 
         public Membresia() { }
-        public Membresia(int idDx, string name, double amount, string isSaleItem, string period, string days)
+        public Membresia(int idDx, string name, string amount, string isSaleItem, string period, string days)
         {
             IdDx = idDx;
             Name = name;
@@ -34,5 +34,17 @@ namespace DeportNetReconocimiento.Api.Data.Domain
             Days = days;
         }
 
+        public static bool EsIgual(Membresia local, Membresia remota)
+        {
+            return 
+                local.IdDx == remota.IdDx &&
+            local.Name == remota.Name &&
+            local.Amount == remota.Amount &&
+            local.IsSaleItem == remota.IsSaleItem &&
+            local.Period == remota.Period &&
+            local.Days == remota.Days;
+
+
+        }
     }
 }

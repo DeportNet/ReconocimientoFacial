@@ -6,8 +6,8 @@ namespace DeportNetReconocimiento.Utils
 {
     public class ReproductorSonidos
     {
-        private static IWavePlayer wavePlayer;
-        private AudioFileReader audioFile;
+        private static IWavePlayer? wavePlayer;
+        private AudioFileReader? audioFile;
         private static ReproductorSonidos? instanciaReproductorSonidos;
         
         private ReproductorSonidos()

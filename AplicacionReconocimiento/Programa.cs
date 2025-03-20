@@ -11,14 +11,12 @@ namespace DeportNetReconocimiento
         [STAThread]
         static void Main(string[] args)
         {
-            /*Base de Datos*/
+            
 
             /*API*/
-            apiServer = new ApiServer();
-            apiServer.Start();
+            InicializarApi();
 
-            //esto no me acuerdo que era
-            //ApplicationConfiguration.Initialize();
+            /*Cargar BD*/
 
 
             //iniciazamos la ventana principal de acceso
@@ -29,7 +27,13 @@ namespace DeportNetReconocimiento
             AppDomain.CurrentDomain.ProcessExit += (s, e) => apiServer?.Stop();
 
         }
-            //Nuestro: "admin", "Facundo2024*", "8000", "192.168.0.207"
-            //Level : "admin", "020921Levelgym", "8000", "192.168.0.214"
+
+        private static void InicializarApi()
+        {
+            //Instanciamos y arrancamos el servidor
+            apiServer = new ApiServer();
+            apiServer.Start();
+
+        }
     }
 }

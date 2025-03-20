@@ -1,5 +1,5 @@
-﻿using DeportNetReconocimiento.Api.Dtos.Request;
-using DeportNetReconocimiento.Api.Dtos.Response;
+﻿using DeportNetReconocimiento.Api.Data.Dtos.Request;
+using DeportNetReconocimiento.Api.Data.Dtos.Response;
 using DeportNetReconocimiento.Api.GlobalExceptionHandler;
 using DeportNetReconocimiento.Api.GlobalExceptionHandler.Exceptions;
 using DeportNetReconocimiento.Api.Services.Interfaces;
@@ -21,32 +21,12 @@ namespace DeportNetReconocimiento.Api.Services
         {
             enUso = false;
             hik_Controladora = Hik_Controladora_General.InstanciaControladoraGeneral;
-            
-            LeerIdSucursal();
-        }
 
-        private void LeerIdSucursal()
-        {
-            string[] credenciales = CredencialesUtils.LeerCredenciales();
-
-            if(credenciales.Length == 0)
-            {
-                idSucursal = null;
-                return;
-            }
-           
-            try
-            {
-                idSucursal = int.Parse(credenciales[4]);
-
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine("LeerCredencialesReconocimientoService Excp: " + e.ToString());
-                idSucursal = null;
-            }
+            int.TryParse(CredencialesUtils.LeerIdSucursal(), out int idSucursal);
 
         }
+
+        
 
 
         public string AltaFacialCliente(AltaFacialClienteRequest clienteRequest) 

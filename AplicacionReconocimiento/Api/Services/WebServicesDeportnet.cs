@@ -15,6 +15,7 @@ namespace DeportNetReconocimiento.Api.Services
         const string urlBajaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessDeleteResult";
         const string urlAltaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessLectureResult";
         const string urlClientesTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetMembers";
+        const string urlConceptsTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConcepts";
 
         const string urlEntradaCliente = "https://deportnet.com/facialAccess/facialAccessCheckUserEnter";
         const string urlBajaCliente = "https://deportnet.com/facialAccess/facialAccessDeleteResult";
@@ -51,6 +52,11 @@ namespace DeportNetReconocimiento.Api.Services
         public static async Task<string> ObtenerClientesOffline(string idSucursal)
         {
             return await FetchInformacion(idSucursal, urlClientesTest, HttpMethod.Get);
+        }
+
+        public static async Task<string> ObtenerConceptsOffline(string idSucursal)
+        {
+            return await FetchInformacion(idSucursal, urlConceptsTest, HttpMethod.Get);
         }
 
         public static async Task<string> AltaFacialClienteDeportnet(string json)

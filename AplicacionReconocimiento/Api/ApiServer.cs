@@ -12,6 +12,8 @@ using static System.Windows.Forms.Design.AxImporter;
 using System.IO;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using Microsoft.Data.Sqlite;
+using DeportNetReconocimiento.Api.Data.Mapper.Interfaces;
+using DeportNetReconocimiento.Api.Data.Mapper;
 
 
 namespace DeportNetReconocimiento.Api
@@ -54,8 +56,10 @@ namespace DeportNetReconocimiento.Api
                             options.UseSqlite(connection);
 
                         });
-
                         services.AddScoped<IDeportnetReconocimientoService,ReconocimientoService>();
+                        services.AddScoped<ISocioMapper, SocioMapper>();
+                        services.AddScoped<IFuncionesSincronizacionService, SincronizacionService>();
+                        
 
                         // Configurar CORS
                         services.AddCors(options =>

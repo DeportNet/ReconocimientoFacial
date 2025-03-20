@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeportNetReconocimiento.Api.Dtos.Request
+namespace DeportNetReconocimiento.Api.Data.Dtos.Request
 {
     public class AltaFacialClienteRequest
     {
@@ -16,11 +16,9 @@ namespace DeportNetReconocimiento.Api.Dtos.Request
         public AltaFacialClienteRequest(int idCliente, int idGimnasio, string nombreCliente)
         {
             this.idCliente = idCliente;
-            this.idSucursal = idGimnasio;
+            idSucursal = idGimnasio;
             this.nombreCliente = nombreCliente;
         }
-
-        public AltaFacialClienteRequest() { }
 
         // Propiedades con getter y setter
         public int IdCliente
@@ -42,7 +40,7 @@ namespace DeportNetReconocimiento.Api.Dtos.Request
 
         public override string ToString()
         {
-            return  "IdCliente: " + idCliente + ", IdGimnasio: " + idSucursal + ", NombreCliente: " + nombreCliente;
+            return "IdCliente: " + idCliente + ", IdGimnasio: " + idSucursal + ", NombreCliente: " + nombreCliente;
         }
 
     }

@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace DeportNetReconocimiento.Api.Dtos.Response
+namespace DeportNetReconocimiento.Api.Data.Dtos.Response
 {
     public class RespuestaAltaBajaCliente
     {

@@ -1,4 +1,4 @@
-﻿namespace DeportNetReconocimiento.Api.Dtos.Response
+﻿namespace DeportNetReconocimiento.Api.Data.Dtos.Response
 {
     public class ValidarAccesoResponse
     {
@@ -27,7 +27,7 @@
             string mostrarcumpleanios,
             string idSucursal)
         {
-            this.idCliente = id;
+            idCliente = id;
             this.nombre = nombre;
             this.apellido = apellido;
             this.nombreCompleto = nombreCompleto;

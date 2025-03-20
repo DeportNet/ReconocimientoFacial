@@ -1,4 +1,4 @@
-using DeportNetReconocimiento.Api.Dtos.Response;
+using DeportNetReconocimiento.Api.Data.Dtos.Response;
 using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.Properties;
@@ -518,7 +518,7 @@ namespace DeportNetReconocimiento.GUI
             return imagen;
         }
 
-        Image CapturarFotoCliente()
+        Image? CapturarFotoCliente()
         {
             Image imagen = null;
 

@@ -1,7 +1,4 @@
-﻿using DeportNetReconocimiento.Api.Dtos.Request;
-using DeportNetReconocimiento.Api.Dtos.Response;
-using DeportNetReconocimiento.Api.GlobalExceptionHandler;
-
+﻿using DeportNetReconocimiento.Api.Data.Dtos.Request;
 
 namespace DeportNetReconocimiento.Api.Services.Interfaces
 {
