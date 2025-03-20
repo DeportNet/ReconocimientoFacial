@@ -19,7 +19,7 @@ namespace DeportNetReconocimiento.BD.Entidades
         [Column("id_dx")]
         [DisallowNull]
         [Required]
-        public int IdDx { get; set; }
+        public required int IdDx { get; set; }
 
         [Column("email")]
         [StringLength(100)]
@@ -69,13 +69,12 @@ namespace DeportNetReconocimiento.BD.Entidades
         [AllowNull]
         public string? Address { get; set; }
 
-        [Column("address_with_floor")]
+        [Column("address_floor")]
         [StringLength(100)]
         [AllowNull]
-        public string? AddressWithFloor { get; set; }
+        public string? AddressFloor { get; set; }
 
         [Column("image_url")]
-        [StringLength(250)]
         [AllowNull]
         public string? ImageUrl { get; set; }
 
@@ -102,7 +101,7 @@ namespace DeportNetReconocimiento.BD.Entidades
             IsActive = isActive;
             CardNumber = cardNumber;
             Address = address;
-            AddressWithFloor = addressWithFloor;
+            AddressFloor = addressWithFloor;
             ImageUrl = imageUrl;
             Gender = gender;
             IsValid = isValid;

@@ -161,7 +161,7 @@ namespace DeportNetReconocimiento.Api.Services
 
                 
 
-                string mensaje = await WebServicesDeportnet.AltaClienteDeportnet(respuestaAlta.ToJson());
+                string mensaje = await WebServicesDeportnet.AltaFacialClienteDeportnet(respuestaAlta.ToJson());
 
                 
                 Console.WriteLine("Se ha dado de alta el cliente facial con id: " + altaFacialClienteRequest.IdCliente + " y nombre: " + altaFacialClienteRequest.NombreCliente);
@@ -261,7 +261,7 @@ namespace DeportNetReconocimiento.Api.Services
                     clienteRequest.IdCliente.ToString(),
                     "Alta facial cliente exitosa", 
                     "T");
-                string mensaje = await WebServicesDeportnet.BajaClienteDeportnet(respuestaAlta.ToJson());
+                string mensaje = await WebServicesDeportnet.BajaFacialClienteDeportnet(respuestaAlta.ToJson());
                 
                 Console.WriteLine("Se ha dado de baja el cliente facial con id: " + clienteRequest.IdCliente);
             }
@@ -272,7 +272,7 @@ namespace DeportNetReconocimiento.Api.Services
         {
             //RespuestaAltaBajaCliente respuestaAlta = new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(), clienteRequest.IdCliente.ToString(), mensaje, "F");
 
-            _ = WebServicesDeportnet.AltaClienteDeportnet(respuestaAlta.ToJson());
+            _ = WebServicesDeportnet.AltaFacialClienteDeportnet(respuestaAlta.ToJson());
         }
 
         public string BajaMasivaFacialCliente(BajaFacialClienteRequest clienteRequest)

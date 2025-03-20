@@ -1,5 +1,6 @@
 ﻿using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
+using System.Net;
 using System.Text;
 using System.Text.Json;
 
@@ -13,7 +14,7 @@ namespace DeportNetReconocimiento.Api.Services
         const string urlEntradaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessCheckUserEnter";
         const string urlBajaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessDeleteResult";
         const string urlAltaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessLectureResult";
-
+        const string urlClientesTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetMembers";
 
         const string urlEntradaCliente = "https://deportnet.com/facialAccess/facialAccessCheckUserEnter";
         const string urlBajaCliente = "https://deportnet.com/facialAccess/facialAccessDeleteResult";
@@ -28,7 +29,6 @@ namespace DeportNetReconocimiento.Api.Services
             return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
         }
 
-        
         public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal, string rtaManual)
         {
             
@@ -48,12 +48,17 @@ namespace DeportNetReconocimiento.Api.Services
         }
 
 
-        public static async Task<string> AltaClienteDeportnet(string json)
+        public static async Task<string> ObtenerClientesOffline(string idSucursal)
+        {
+            return await FetchInformacion(idSucursal, urlClientesTest, HttpMethod.Get);
+        }
+
+        public static async Task<string> AltaFacialClienteDeportnet(string json)
         {
             return await FetchInformacion(json, urlAltaCliente, HttpMethod.Post);
         }
 
-        public static async Task<string> BajaClienteDeportnet(string json)
+        public static async Task<string> BajaFacialClienteDeportnet(string json)
         {
             return await FetchInformacion(json, urlBajaCliente, HttpMethod.Post);
         }
@@ -233,7 +238,7 @@ namespace DeportNetReconocimiento.Api.Services
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             //respuesta fetch, la inicializamos con error
-            HttpResponseMessage response = new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError);
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
 
             try
             {
@@ -251,6 +256,8 @@ namespace DeportNetReconocimiento.Api.Services
                         break;
                     case "PUT":
                         response = await client.PutAsync(url, content);
+                        break;
+                    default:
                         break;
                 }
 

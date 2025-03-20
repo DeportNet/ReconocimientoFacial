@@ -72,6 +72,10 @@
               "target": "Package",
               "version": "[3.13.0, )"
             },
+            "SQLitePCLRaw.bundle_e_sqlcipher": {
+              "target": "Package",
+              "version": "[2.1.11, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[8.0.0, )"
