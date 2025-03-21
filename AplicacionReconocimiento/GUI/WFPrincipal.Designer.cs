@@ -228,6 +228,7 @@ namespace DeportNetReconocimiento.GUI
             // 
             // textoInformacionCliente
             // 
+            textoInformacionCliente.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             textoInformacionCliente.FlatStyle = FlatStyle.Flat;
             textoInformacionCliente.Location = new Point(628, 0);
             textoInformacionCliente.Margin = new Padding(0);

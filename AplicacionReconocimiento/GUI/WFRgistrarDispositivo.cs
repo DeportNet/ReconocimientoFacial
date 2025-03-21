@@ -33,8 +33,11 @@ namespace DeportNetReconocimiento
                     textBoxSucursalID.Enabled = true;
                     textBoxTokenSucursal.Enabled = true;
                     textBoxUserName.Enabled = true;
+                    instancia.ControlBox = true;
+                    instancia.MinimizeBox = true;
                     btnAdd.Text = "Login";
                     label1.Text = "Registrar Dispositivo";
+
                     break;
                 case 1:
                     textBoxPort.Enabled = false;
@@ -42,14 +45,18 @@ namespace DeportNetReconocimiento
                     textBoxSucursalID.Enabled = false;
                     textBoxTokenSucursal.Enabled = false;
                     textBoxUserName.Enabled = false;
+                    instancia.ControlBox = false;
+                    instancia.MinimizeBox = false;
                     btnAdd.Text = "Guardar";
-                break;
+                    break;
                 case 2:
                     textBoxPort.Enabled = true;
                     textBoxPassword.Enabled = true;
                     textBoxSucursalID.Enabled = true;
                     textBoxTokenSucursal.Enabled = true;
                     textBoxUserName.Enabled = true;
+                    instancia.ControlBox = true;
+                    instancia.MinimizeBox = true;
                     btnAdd.Text = "Guardar";
                     label1.Text = "Actualizar credenciales";
                     
