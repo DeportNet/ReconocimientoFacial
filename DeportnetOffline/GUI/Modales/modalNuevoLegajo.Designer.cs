@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModalNuevoLegajo));
             panel1 = new Panel();
             buttonGuardarLegajo = new Button();
             label5 = new Label();
@@ -75,6 +74,7 @@
             buttonGuardarLegajo.TabIndex = 19;
             buttonGuardarLegajo.Text = "Guardar nuevo legajo";
             buttonGuardarLegajo.UseVisualStyleBackColor = true;
+            buttonGuardarLegajo.Click += buttonGuardarLegajo_Click;
             // 
             // label5
             // 
@@ -88,7 +88,7 @@
             // 
             // panel2
             // 
-            panel2.BackColor = Color.LightGray;
+            panel2.BackColor = SystemColors.ControlLight;
             panel2.Controls.Add(textBoxEmail);
             panel2.Controls.Add(textBoxNombre);
             panel2.Controls.Add(textBoxTelefono);
@@ -305,7 +305,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(652, 745);
             Controls.Add(panel1);
-            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "ModalNuevoLegajo";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Nuevo Legajo";
