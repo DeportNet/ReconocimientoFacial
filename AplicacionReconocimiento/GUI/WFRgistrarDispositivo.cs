@@ -37,7 +37,6 @@ namespace DeportNetReconocimiento
                     instancia.MinimizeBox = true;
                     btnAdd.Text = "Login";
                     label1.Text = "Registrar Dispositivo";
-
                     break;
                 case 1:
                     textBoxPort.Enabled = false;
@@ -59,8 +58,7 @@ namespace DeportNetReconocimiento
                     instancia.MinimizeBox = true;
                     btnAdd.Text = "Guardar";
                     label1.Text = "Actualizar credenciales";
-                    
-                break;
+                    break;
             }
         }
 
@@ -230,8 +228,10 @@ namespace DeportNetReconocimiento
 
         private void CerrarFormulario(object sender, FormClosingEventArgs e)
         {
-            if (!ignorarCerrarPrograma)
+            
+            if (!ignorarCerrarPrograma || instancia.tipoApertura == 1)
             {
+                Console.WriteLine("Entro a cerrar programa, tipo de apertura " + instancia.tipoApertura);
 
                 var result = MessageBox.Show("¿Estás seguro de que quieres cerrar la aplicación?",
                                              "Confirmación",
@@ -252,13 +252,11 @@ namespace DeportNetReconocimiento
 
             if(instancia.tipoApertura == 2)
             {
-                Console.WriteLine("cambios de este tipo de apertura");
                 if (guardarCambios)
                 {
                     MessageBox.Show("Credenciales actualizadas con exito, por favor vuelva a iniciar el gestor de acceso", "Credenciales actualizadas", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            Console.WriteLine("Pase todos los cosas de cerrar formulario");
         }
 
 
