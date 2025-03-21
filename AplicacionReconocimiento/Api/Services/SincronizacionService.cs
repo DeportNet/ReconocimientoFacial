@@ -24,9 +24,13 @@ namespace DeportNetReconocimiento.Api.Services
             idSucursal = CredencialesUtils.LeerIdSucursal();
         }
 
+        /*VALIDAR SI SE SINCRONIZO HOY*/
+
         public void SeSincronizoHoy() { 
 
         }
+
+        /*SOCIOS*/
 
         public async void SincronizarSocios()
         {
@@ -127,6 +131,8 @@ namespace DeportNetReconocimiento.Api.Services
 
         }
 
+        /*CONCEPTS*/
+
         public async void SincronizarConcepts()
         {
             //1. Obtener de Dx los conceptos, tanto como membresias y articulos
@@ -147,9 +153,8 @@ namespace DeportNetReconocimiento.Api.Services
             //4. Logica con la base de datos Articulo
             InsertarArticulosEnTabla(articulos);
 
-
+            //5. Registrar la fecha de sincronizacion en la tabla concepts
         }
-
         private async Task<ListadoDeConceptsDx> ObtenerConceptsDelWebserviceAsync()
         {
             ListadoDeConceptsDx listadoDeConceptsDx = new ListadoDeConceptsDx();
@@ -175,7 +180,6 @@ namespace DeportNetReconocimiento.Api.Services
 
             return listadoDeConceptsDx;
         }
-
         private (List<Membresia> Membresias, List<Articulo> Articulos) ObtenerListadoDeMembresiasYArticulos(ListadoDeConceptsDx listadoDeConceptsDx)
         {
             List<Membresia> membresias = new List<Membresia>();
@@ -223,7 +227,6 @@ namespace DeportNetReconocimiento.Api.Services
             });
             return (membresias, articulos);
         }
-
         private async void InsertarArticulosEnTabla(List<Articulo> listadoArticulosDx)
         {
             using var transaction = await _contextBd.Database.BeginTransactionAsync(); // Iniciar transacción
@@ -245,7 +248,6 @@ namespace DeportNetReconocimiento.Api.Services
                 Console.WriteLine($"Error al insertar articulos: {ex.Message}");
             }
         }
-
         private async void VerificarCambiosEnTablaArticulos(List<Articulo> listadoArticulosDx)
         {
             List<Articulo> listadoArticulosLocal = await _contextBd.Articulos.ToListAsync();
@@ -280,8 +282,6 @@ namespace DeportNetReconocimiento.Api.Services
                 }
             }
         }
-
-
         private async void InsertarMembresiasEnTabla(List<Membresia> listadoMembresias)
         {
             using var transaction = await _contextBd.Database.BeginTransactionAsync(); // Iniciar transacción
@@ -303,7 +303,6 @@ namespace DeportNetReconocimiento.Api.Services
                 Console.WriteLine($"Error al insertar membresias: {ex.Message}");
             }
         }
-
         private async void VerificarCambiosEnTablaMembresias(List<Membresia> listadoMembresiasDx)
         {
             List<Membresia> listadoMembresiasLocal = await _contextBd.Membresias.ToListAsync();
@@ -340,5 +339,14 @@ namespace DeportNetReconocimiento.Api.Services
             }
         }
 
+        /*ACCESOS*/
+
+
+
+        /*EMPLEADOS*/
+
+        /*CONFIGURACIONES LOCAL*/
+
+        /*CONFIGURACIONES DX*/
     }
 }
