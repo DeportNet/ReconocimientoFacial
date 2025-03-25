@@ -8,15 +8,17 @@ using DeportNetReconocimiento.Utils;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Runtime.Intrinsics.X86;
+using System.Xml.Serialization;
 using Windows.UI;
 
 namespace DeportNetReconocimiento.Api.Services
 {
     public class SincronizacionService : IFuncionesSincronizacionService
-    {
+{
         private readonly BdContext _contextBd;
         private string? idSucursal;
         private readonly ISocioMapper _socioMapper;
+        private AccesoMapper _accesoMapper = new AccesoMapper();
         public SincronizacionService(BdContext contextBd, ISocioMapper socioMapper)
         {
             _contextBd = contextBd;
@@ -342,6 +344,83 @@ namespace DeportNetReconocimiento.Api.Services
         }
 
         /*ACCESOS*/
+
+        public async void SincronizarAcceso()
+        {
+            //0 Verificar la ultima fecha de sincornización
+            //1 Logica para agarrar los accesos e ir subiendolos
+            
+        }
+        
+        private async Task InsertarAccesoSocioEnTabla(AccesoSocio accesoSocio)
+        {
+            if(accesoSocio == null)
+            {
+                Console.WriteLine($"El acceso {accesoSocio.Id} es null");
+                return;
+            }
+
+            try
+            {
+                //Agrego el acceso socio a la tabla
+                await _contextBd.AddAsync(accesoSocio);
+                //Guardo los cambios en la tabla
+                await _contextBd.SaveChangesAsync();
+            }
+            catch(Exception ex) 
+            {
+                Console.WriteLine($"Error al insertar el acceso {accesoSocio.Id} en la base de datos: {ex.Message}");
+            }
+        }
+
+
+        public async Task EnviarLoteDeAccesos()
+        {
+            try
+            {
+
+                Acceso loteAcceso = await CrearLoteAcceso();
+
+                //Guardar lote en la BD
+                await _contextBd.Accesos.AddAsync(loteAcceso);
+                
+                //Completar datos del lote 
+                Acceso ultimoLote = await _contextBd.Accesos.OrderByDescending(a => a.Id).FirstOrDefaultAsync();
+                ultimoLote.ProcessId = ultimoLote.Id;
+                await _contextBd.Accesos.AddAsync(ultimoLote);
+
+                /*
+                                 
+                    "activeBranchId": "1",
+                    "processId": "2",
+                    "memberAccess": [
+                    {
+	                    "id": "1",
+                        "memberId": "16832",
+                        "accessDate": "2025-02-25 09:00:00.0",
+                        "isSuccessful": "T"
+                    },
+*/
+
+
+                //Llamado al post de enviar lote 
+              string mensaje = await  WebServicesDeportnet.EnviarLoteDeAccesos(_accesoMapper.MapearAccesoAAccesoDto(ultimoLote).ToString());
+
+            }
+            catch(Exception ex)
+            {
+
+            }
+        }
+
+        public async Task<Acceso> CrearLoteAcceso()
+        {
+            int limiteLote = 20;
+            List<AccesoSocio> accesoSocios = await _contextBd.AccesosSocios.Take(limiteLote).ToListAsync();
+            return new Acceso(int.Parse(CredencialesUtils.LeerCredenciales()[4]), accesoSocios);
+        }
+
+
 
 
 

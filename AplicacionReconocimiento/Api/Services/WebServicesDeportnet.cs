@@ -19,6 +19,8 @@ namespace DeportNetReconocimiento.Api.Services
         const string urlEmpleadosTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetEmployees";
 
 
+        const string urlEnviarAccesosTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConcepts";
+
         const string urlEntradaCliente = "https://deportnet.com/facialAccess/facialAccessCheckUserEnter";
         const string urlBajaCliente = "https://deportnet.com/facialAccess/facialAccessDeleteResult";
         const string urlAltaCliente = "https://deportnet.com/facialAccess/facialAccessLectureResult";
@@ -70,6 +72,11 @@ namespace DeportNetReconocimiento.Api.Services
         public static async Task<string> ObtenerConceptsOffline(string idSucursal)
         {
             return await FetchInformacion(idSucursal, urlConceptsTest, HttpMethod.Get);
+        }
+
+        public static async Task<string> EnviarLoteDeAccesos(string json)
+        {
+            return await FetchInformacion(json, urlEnviarAccesosTest, HttpMethod.Post);
         }
 
         public static async Task<string> AltaFacialClienteDeportnet(string json)

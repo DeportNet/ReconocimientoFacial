@@ -15,7 +15,7 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [Column("id")]
         public int Id { get; set; }
         public int ActiveBranchId { get; set; }
-        public int ProcessId { get; set; }
+        public int? ProcessId { get; set; }
 
         public List<AccesoSocio>? MemberAccess { get; set; }
 
@@ -31,6 +31,13 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         {
             ActiveBranchId = activeBranchId;
             ProcessId = processId;
+            MemberAccess = memberAccess;
+        }
+
+        public Acceso(int activeBranchId, List<AccesoSocio> memberAccess)
+        {
+            ActiveBranchId = activeBranchId;
+            ProcessId = null;
             MemberAccess = memberAccess;
         }
 
