@@ -1,4 +1,9 @@
-﻿using System.ComponentModel;
+﻿using DeportNetReconocimiento.Api.Data.Domain;
+using DeportNetReconocimiento.Api.Data.Repository;
+using DeportNetReconocimiento.Api.Services;
+using DeportNetReconocimiento.BD;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 
 
@@ -9,6 +14,7 @@ namespace DeportnetOffline.GUI.Modales
         public ModalNuevoLegajo()
         {
             InitializeComponent();
+
         }
 
 
@@ -322,6 +328,30 @@ namespace DeportnetOffline.GUI.Modales
             string patron = @"^[a-zA-Z0-9\s]+$";
             return Regex.IsMatch(texto, patron);
 
+        }
+
+        
+        private async void buttonGuardarLegajo_Click(object sender, EventArgs e)
+        {
+            BdContext context = new BdContext(new DbContextOptions<BdContext>());
+
+            var socioRepository = new SocioRepository(context);
+            Socio socio = new Socio
+            {
+                FirstName = textBoxNombre.Text,
+                LastName = textBoxApellido.Text,
+                Gender = comboBoxGenero.SelectedItem.ToString(),
+                BirthDate = dateTimePickerFechaNacimiento.Value,
+                Email = textBoxEmail.Text,
+                Cellphone = textBoxTelefono.Text,
+                Address = textBoxDireccion.Text,
+                AddressFloor = textBoxPiso.Text,
+                CardNumber = textBoxNroTarjeta.Text
+            };
+
+           bool resultado = await socioRepository.InsertarUnSocioEnTabla( socio );
+
+           Console.WriteLine(resultado ? $"El socio  {socio.FirstName + ' ' + socio.LastName} se insertó correctamente en la base de datos" : $"Error al insertar al socio {socio.FirstName + ' ' + socio.LastName} en la base de datos");
         }
     }
 }

@@ -28,6 +28,7 @@ namespace DeportNetReconocimiento.Api.Services
 
         public void SeSincronizoHoy() { 
 
+
         }
 
         /*SOCIOS*/
@@ -41,46 +42,47 @@ namespace DeportNetReconocimiento.Api.Services
             List<Socio> listadoDeSociosDx = await ObtenerSociosDelWebserviceAsync();
 
 
-            if(listadoDeSociosDx.Count == 0)
+            if (listadoDeSociosDx.Count == 0)
             {
                 return;
             }
 
             //2. Logica con la base de datos
             InsertarSociosEnTabla(listadoDeSociosDx);
-            
+
             //3. Registrar la fecha de sincronizacion en la tabla socios
-            
+
 
 
         }
         private async Task<List<Socio>> ObtenerSociosDelWebserviceAsync()
         {
-            
+
             List<Socio> listadoDeSocios = new List<Socio>();
             if (idSucursal == null)
             {
                 return listadoDeSocios;
             }
-           
+
             string json = await WebServicesDeportnet.ObtenerClientesOffline(idSucursal);
             ListadoClientesDx apiResponse = JsonConvert.DeserializeObject<ListadoClientesDx>(json);
 
-            if(apiResponse == null)
+            if (apiResponse == null)
             {
                 Console.WriteLine("Error al obtener listado de clientes, la respuesta vino null");
                 return listadoDeSocios;
             }
 
-            if(apiResponse.Result == "F")
+            if (apiResponse.Result == "F")
             {
-                Console.WriteLine("Error al obtener listado de clientes: "+apiResponse.ErrorMessage); 
+                Console.WriteLine("Error al obtener listado de clientes: " + apiResponse.ErrorMessage);
                 return listadoDeSocios;
             }
 
             return _socioMapper.MapearListaDtoASocio(apiResponse.Members);
 
         }
+
         private async void InsertarSociosEnTabla(List<Socio> listadoSociosDx)
         {
             using var transaction = await _contextBd.Database.BeginTransactionAsync(); // Iniciar transacción
