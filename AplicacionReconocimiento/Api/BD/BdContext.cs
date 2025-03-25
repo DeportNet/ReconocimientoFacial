@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeportNetReconocimiento.BD
+namespace DeportNetReconocimiento.Api.BD
 {
     public class BdContext : DbContext
     {
@@ -27,7 +27,7 @@ namespace DeportNetReconocimiento.BD
         {
         }
 
-     
+
 
         public static void InicializarBd()
         {
@@ -38,7 +38,7 @@ namespace DeportNetReconocimiento.BD
             // Si la carpeta y la base de datos ya existen, no hacer nada
             if (Directory.Exists(rutaCarpeta) && File.Exists(rutaDb))
             {
-                return; 
+                return;
             }
 
             // Si la carpeta no existe, la crea
@@ -52,7 +52,7 @@ namespace DeportNetReconocimiento.BD
 
         private static void CrearYOcultarCarpetaDb(string rutaCarpeta)
         {
-            
+
 
             // Crear la carpeta si no existe
             if (!Directory.Exists(rutaCarpeta))
@@ -74,9 +74,9 @@ namespace DeportNetReconocimiento.BD
             {
                 File.Create(rutaDb).Close(); // Crea el archivo vacío y lo cierra
 
-            // Ocultar el archivo dbDx.data
-            FileInfo fileInfo = new FileInfo(rutaDb);
-            fileInfo.Attributes |= FileAttributes.Hidden;
+                // Ocultar el archivo dbDx.data
+                FileInfo fileInfo = new FileInfo(rutaDb);
+                fileInfo.Attributes |= FileAttributes.Hidden;
             }
 
         }

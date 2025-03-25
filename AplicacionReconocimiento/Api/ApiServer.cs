@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DeportNetReconocimiento.Api.Services.Interfaces;
 using DeportNetReconocimiento.Api.Services;
-using DeportNetReconocimiento.BD;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
@@ -14,6 +13,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using Microsoft.Data.Sqlite;
 using DeportNetReconocimiento.Api.Data.Mapper.Interfaces;
 using DeportNetReconocimiento.Api.Data.Mapper;
+using DeportNetReconocimiento.Api.BD;
 
 
 namespace DeportNetReconocimiento.Api
@@ -112,7 +112,6 @@ namespace DeportNetReconocimiento.Api
             host?.StopAsync().Wait();
             Console.WriteLine("Servidor API detenido.");
         }
-
 
         public void ObtenerTablasDelDia()
         {

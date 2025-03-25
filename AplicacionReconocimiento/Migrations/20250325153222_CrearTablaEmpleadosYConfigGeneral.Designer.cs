@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeportNetReconocimiento.Migrations
 {
     [DbContext(typeof(BdContext))]
-    [Migration("20250320133250_ModificarCamposEnSocio")]
-    partial class ModificarCamposEnSocio
+    [Migration("20250325153222_CrearTablaEmpleadosYConfigGeneral")]
+    partial class CrearTablaEmpleadosYConfigGeneral
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,25 @@ namespace DeportNetReconocimiento.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
 
-            modelBuilder.Entity("DeportNetReconocimiento.BD.Entidades.AccesoSocio", b =>
+            modelBuilder.Entity("DeportNetReconocimiento.Api.Data.Domain.Acceso", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
+
+                    b.Property<int>("ActiveBranchId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ProcessId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Accesos");
+                });
+
+            modelBuilder.Entity("DeportNetReconocimiento.Api.Data.Domain.AccesoSocio", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT")
@@ -48,15 +66,71 @@ namespace DeportNetReconocimiento.Migrations
                     b.ToTable("accesos_socios", (string)null);
                 });
 
-            modelBuilder.Entity("DeportNetReconocimiento.BD.Entidades.Membresia", b =>
+            modelBuilder.Entity("DeportNetReconocimiento.Api.Data.Domain.Articulo", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Amount")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("IdDx")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id_dx");
+
+                    b.Property<string>("IsSaleItem")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("id");
+
+                    b.ToTable("articulos", (string)null);
+                });
+
+            modelBuilder.Entity("DeportNetReconocimiento.Api.Data.Domain.ConfiguracionDeAcceso", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasColumnName("id");
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("REAL");
+                    b.Property<int>("CardLength")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EndCharacter")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SecondStartCharacter")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("StartCharacter")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("configuracion_de_acceso", (string)null);
+                });
+
+            modelBuilder.Entity("DeportNetReconocimiento.Api.Data.Domain.Membresia", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Amount")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Days")
                         .IsRequired()
@@ -83,7 +157,7 @@ namespace DeportNetReconocimiento.Migrations
                     b.ToTable("membresias", (string)null);
                 });
 
-            modelBuilder.Entity("DeportNetReconocimiento.BD.Entidades.Socio", b =>
+            modelBuilder.Entity("DeportNetReconocimiento.Api.Data.Domain.Socio", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -131,7 +205,7 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("gender");
 
-                    b.Property<int>("IdDx")
+                    b.Property<int?>("IdDx")
                         .HasColumnType("INTEGER")
                         .HasColumnName("id_dx");
 
@@ -165,88 +239,16 @@ namespace DeportNetReconocimiento.Migrations
                     b.ToTable("socios", (string)null);
                 });
 
-            modelBuilder.Entity("DeportNetReconocimiento.Modelo.Acceso", b =>
+            modelBuilder.Entity("DeportNetReconocimiento.Api.Data.Domain.AccesoSocio", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("id");
-
-                    b.Property<int>("ActiveBranchId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ProcessId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Accesos");
-                });
-
-            modelBuilder.Entity("DeportNetReconocimiento.Modelo.Articulo", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("id");
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("REAL");
-
-                    b.Property<int>("IdDx")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("id_dx");
-
-                    b.Property<string>("IsSaleItem")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("id");
-
-                    b.ToTable("articulos", (string)null);
-                });
-
-            modelBuilder.Entity("DeportNetReconocimiento.Modelo.ConfiguracionDeAcceso", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("id");
-
-                    b.Property<int>("CardLength")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("EndCharacter")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("SecondStartCharacter")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("StartCharacter")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("configuracion_de_acceso", (string)null);
-                });
-
-            modelBuilder.Entity("DeportNetReconocimiento.BD.Entidades.AccesoSocio", b =>
-                {
-                    b.HasOne("DeportNetReconocimiento.Modelo.Acceso", "Acceso")
+                    b.HasOne("DeportNetReconocimiento.Api.Data.Domain.Acceso", "Acceso")
                         .WithMany("MemberAccess")
                         .HasForeignKey("AccesoId");
 
                     b.Navigation("Acceso");
                 });
 
-            modelBuilder.Entity("DeportNetReconocimiento.Modelo.Acceso", b =>
+            modelBuilder.Entity("DeportNetReconocimiento.Api.Data.Domain.Acceso", b =>
                 {
                     b.Navigation("MemberAccess");
                 });

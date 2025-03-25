@@ -1,5 +1,5 @@
-﻿using DeportNetReconocimiento.Api.Data.Domain;
-using DeportNetReconocimiento.BD;
+﻿using DeportNetReconocimiento.Api.BD;
+using DeportNetReconocimiento.Api.Data.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

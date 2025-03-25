@@ -1,9 +1,9 @@
-﻿using DeportNetReconocimiento.Api.Data.Domain;
+﻿using DeportNetReconocimiento.Api.BD;
+using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Dtos.Dx;
 using DeportNetReconocimiento.Api.Data.Mapper;
 using DeportNetReconocimiento.Api.Data.Mapper.Interfaces;
 using DeportNetReconocimiento.Api.Services.Interfaces;
-using DeportNetReconocimiento.BD;
 using DeportNetReconocimiento.Utils;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;

@@ -16,6 +16,8 @@ namespace DeportNetReconocimiento.Api.Services
         const string urlAltaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessLectureResult";
         const string urlClientesTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetMembers";
         const string urlConceptsTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConcepts";
+        const string urlEmpleadosTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetEmployees";
+
 
         const string urlEntradaCliente = "https://deportnet.com/facialAccess/facialAccessCheckUserEnter";
         const string urlBajaCliente = "https://deportnet.com/facialAccess/facialAccessDeleteResult";
@@ -30,7 +32,8 @@ namespace DeportNetReconocimiento.Api.Services
             return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
         }
 
-        public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal, string rtaManual)
+        
+        public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal, string rtaManual, string idEmpleado = null)
         {
             
                 /*
@@ -42,12 +45,22 @@ namespace DeportNetReconocimiento.Api.Services
                 }
                 */
             
-            object data = new { memberId = nroTarjeta, activeBranchId = idSucursal, manualAllowedAccess = nroTarjeta, isSuccessful = rtaManual};
+            object data = new {
+                memberId = nroTarjeta,
+                activeBranchId = idSucursal,
+                manualAllowedAccess = nroTarjeta,
+                isSuccessful = rtaManual,
+                //numero de empleado
+            };
             
             
             return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
         }
 
+        public static async Task<string> ObtenerEmpleadosSucursal(string idSucursal)
+        {
+            return await FetchInformacion(idSucursal, urlEmpleadosTest, HttpMethod.Get);
+        }
 
         public static async Task<string> ObtenerClientesOffline(string idSucursal)
         {

@@ -1,7 +1,7 @@
-﻿using DeportNetReconocimiento.Api.Data.Domain;
+﻿using DeportNetReconocimiento.Api.BD;
+using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Repository;
 using DeportNetReconocimiento.Api.Services;
-using DeportNetReconocimiento.BD;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
