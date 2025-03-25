@@ -1,5 +1,6 @@
 using DeportNetReconocimiento.Api;
 using DeportNetReconocimiento.GUI;
+using System.Diagnostics;
 
 
 namespace DeportNetReconocimiento
@@ -11,7 +12,17 @@ namespace DeportNetReconocimiento
         [STAThread]
         static void Main(string[] args)
         {
-            
+
+
+            string nombreDeProceso = Process.GetCurrentProcess().ProcessName;
+            int cantidadDeInstancias = Process.GetProcessesByName(nombreDeProceso).Length;
+
+            if(cantidadDeInstancias >= 1)
+            {
+                MessageBox.Show("El programa ya está corriendo","Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
 
             /*API*/
             InicializarApi();
