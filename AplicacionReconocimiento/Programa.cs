@@ -39,7 +39,7 @@ namespace DeportNetReconocimiento
             string nombreDeProceso = Process.GetCurrentProcess().ProcessName;
             int cantidadDeInstancias = Process.GetProcessesByName(nombreDeProceso).Length;
 
-            if (cantidadDeInstancias >= 1)
+            if (cantidadDeInstancias > 1)
             {
                 return true;
             }

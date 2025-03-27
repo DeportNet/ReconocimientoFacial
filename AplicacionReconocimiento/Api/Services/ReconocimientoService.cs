@@ -22,7 +22,7 @@ namespace DeportNetReconocimiento.Api.Services
             enUso = false;
             hik_Controladora = Hik_Controladora_General.InstanciaControladoraGeneral;
 
-            int.TryParse(CredencialesUtils.LeerIdSucursal(), out int idSucursal);
+            int.TryParse(CredencialesUtils.LeerCredencialEspecifica(4), out int idSucursal);
 
         }
 

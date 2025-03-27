@@ -43,7 +43,7 @@ namespace DeportNetReconocimiento.Utils
             return flag;
         }
 
-        public static string? LeerIdSucursal()
+        public static string? LeerCredencialEspecifica(int unaCredencial)
         {
             string[] credenciales = LeerCredenciales();
             
@@ -51,9 +51,31 @@ namespace DeportNetReconocimiento.Utils
             {
                 return null;
             }
-
-            return credenciales[4];
-
+            
+            switch (unaCredencial)
+            {
+                case 0:
+                    //ip
+                    return credenciales[0];
+                case 1:
+                    //puerto
+                    return credenciales[1];
+                case 2:
+                    //usuario
+                    return credenciales[2];
+                case 3:
+                    //contraseña
+                    return credenciales[3];
+                case 4:
+                    //sucursalId
+                    return credenciales[4];
+                case 5:
+                    //tokenSucursal
+                    return credenciales[5];
+                default:
+                    return null;
+            }
+            
         }
 
         public static string[] LeerCredenciales()

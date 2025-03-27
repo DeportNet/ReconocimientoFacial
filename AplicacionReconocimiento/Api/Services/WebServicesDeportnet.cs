@@ -11,7 +11,7 @@ namespace DeportNetReconocimiento.Api.Services
 {
     public class WebServicesDeportnet
     {
-
+        /*Testing*/
         const string urlEntradaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessCheckUserEnter";
         const string urlBajaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessDeleteResult";
         const string urlAltaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessLectureResult";
@@ -20,7 +20,7 @@ namespace DeportNetReconocimiento.Api.Services
         const string urlEmpleadosTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetUsers";
         const string urlEnviarAccesosTest = "https://testing.deportnet.com/offlineAccess/offlineSetAccess";
 
-
+        /*Produccion*/
         const string urlEntradaCliente = "https://deportnet.com/facialAccess/facialAccessCheckUserEnter";
         const string urlBajaCliente = "https://deportnet.com/facialAccess/facialAccessDeleteResult";
         const string urlAltaCliente = "https://deportnet.com/facialAccess/facialAccessLectureResult";
@@ -44,31 +44,6 @@ namespace DeportNetReconocimiento.Api.Services
 
             return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
         }
-
-        
-        //public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal, string rtaManual = null, string idEmpleado = null)
-        //{
-            
-        //        /*
-        //        { 
-	       //         "activeBranchId": "1",
-	       //         "memberId": "17393",
-	       //         "manualAllowedAccess": "17393", (opcional)
-	       //         "isSuccessful": "T" ( T o F)
-        //        }
-        //        */
-            
-        //    object data = new {
-        //        memberId = nroTarjeta,
-        //        activeBranchId = idSucursal,
-        //        manualAllowedAccess = nroTarjeta,
-        //        isSuccessful = rtaManual,
-        //        companyMemberId = idEmpleado
-        //    };
-            
-            
-        //    return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
-        //}
 
         public static async Task<string> ObtenerEmpleadosSucursalOffline(string idSucursal)
         {

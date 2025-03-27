@@ -26,7 +26,7 @@ namespace DeportNetReconocimiento.Api.Services
             _contextBd = contextBd;
             _socioMapper = socioMapper;
             _accesoMapper = accesoMapper;
-            idSucursal = CredencialesUtils.LeerIdSucursal();
+            idSucursal = CredencialesUtils.LeerCredencialEspecifica(4);
         }
 
         /*VALIDAR SI SE SINCRONIZO HOY*/

@@ -1,4 +1,5 @@
-﻿using DeportNetReconocimiento.Utils;
+﻿using DeportNetReconocimiento.Api.BD;
+using DeportNetReconocimiento.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,11 +14,13 @@ namespace DeportNetReconocimiento.GUI
 {
     public partial class WFSeleccionarUsuario : Form
     {
-        public WFSeleccionarUsuario()
+        private readonly BdContext _contextBd;
+
+        public WFSeleccionarUsuario(BdContext bdContext)
         {
             InitializeComponent();
-            CredencialesUtils.LeerCredenciales();
-            
+            _contextBd = bdContext;
+
         }
 
 
