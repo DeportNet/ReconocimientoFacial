@@ -15,11 +15,11 @@ namespace DeportNetReconocimiento.Api.Data.Mapper
         {
             return new Empleado
             {
-                CompanyMemberId = empleadoDtoDx.CompanyMemberId,
+                CompanyMemberId = int.Parse(empleadoDtoDx.CompanyMemberId),
                 FirstName = empleadoDtoDx.FirstName,
                 LastName = empleadoDtoDx.LastName,
                 Password = empleadoDtoDx.Password,
-                IsActive = empleadoDtoDx.IsActive
+                IsActive = empleadoDtoDx.IsActive[0]
             };
         }
 
