@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Api.Data.Domain
 {
@@ -18,7 +13,6 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         public string MemberId { get; set; }
         public string AccessDate { get; set; }
         public string IsSuccessful { get; set; }
-
         public int? AccesoId { get; set; }
         public virtual Acceso? Acceso { get; set; }
 

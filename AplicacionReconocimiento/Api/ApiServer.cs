@@ -56,8 +56,11 @@ namespace DeportNetReconocimiento.Api
                             options.UseSqlite(connection);
 
                         });
-                        services.AddScoped<IDeportnetReconocimientoService,ReconocimientoService>();
                         services.AddScoped<ISocioMapper, SocioMapper>();
+                        services.AddScoped<IAccesoMapper, AccesoMapper>();
+                        services.AddScoped<IAccesoSocioMapper, AccesoSocioMapper>();
+
+                        services.AddScoped<IDeportnetReconocimientoService,ReconocimientoService>();
                         services.AddScoped<IFuncionesSincronizacionService, SincronizacionService>();
                         
 

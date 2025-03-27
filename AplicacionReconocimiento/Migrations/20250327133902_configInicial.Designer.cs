@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeportNetReconocimiento.Migrations
 {
     [DbContext(typeof(BdContext))]
-    [Migration("20250325153222_CrearTablaEmpleadosYConfigGeneral")]
-    partial class CrearTablaEmpleadosYConfigGeneral
+    [Migration("20250327133902_configInicial")]
+    partial class configInicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,12 +30,12 @@ namespace DeportNetReconocimiento.Migrations
                     b.Property<int>("ActiveBranchId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ProcessId")
+                    b.Property<int?>("ProcessId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Accesos");
+                    b.ToTable("accesos", (string)null);
                 });
 
             modelBuilder.Entity("DeportNetReconocimiento.Api.Data.Domain.AccesoSocio", b =>
@@ -119,6 +119,66 @@ namespace DeportNetReconocimiento.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("configuracion_de_acceso", (string)null);
+                });
+
+            modelBuilder.Entity("DeportNetReconocimiento.Api.Data.Domain.ConfiguracionGeneral", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime?>("AnteriorFechaSincronizacion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("CantMaxLotes")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ContraseniaBd")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NombreSucursal")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("UltimaFechaSincronizacion")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("configuracion_general", (string)null);
+                });
+
+            modelBuilder.Entity("DeportNetReconocimiento.Api.Data.Domain.Empleado", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
+
+                    b.Property<int>("CompanyMemberId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("isActive")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("empleados", (string)null);
                 });
 
             modelBuilder.Entity("DeportNetReconocimiento.Api.Data.Domain.Membresia", b =>

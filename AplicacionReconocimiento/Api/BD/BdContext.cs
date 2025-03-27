@@ -21,12 +21,11 @@ namespace DeportNetReconocimiento.Api.BD
         public DbSet<ConfiguracionGeneral> ConfiguracionGeneral { get; set; }
         public DbSet<ConfiguracionDeAcceso> ConfiguracionDeAcceso { get; set; }
         public DbSet<Empleado> Empleados { get; set; }
-
+        //public DbSet<Credenciales> Credenciales { get; set; }
 
         public BdContext(DbContextOptions<BdContext> options) : base(options)
         {
         }
-
 
 
         public static void InicializarBd()
@@ -87,17 +86,20 @@ namespace DeportNetReconocimiento.Api.BD
             modelBuilder.Entity<Socio>().ToTable("socios");
             modelBuilder.Entity<Articulo>().ToTable("articulos");
             modelBuilder.Entity<Membresia>().ToTable("membresias");
+            modelBuilder.Entity<Empleado>().ToTable("empleados");
+            //modelBuilder.Entity<Credenciales>().ToTable("credenciales");
+            modelBuilder.Entity<ConfiguracionGeneral>().ToTable("configuracion_general");
+            modelBuilder.Entity<ConfiguracionDeAcceso>().ToTable("configuracion_de_acceso");
 
             // Relación 1:N (Acceso tiene muchos AccesoSocio)
             modelBuilder.Entity<Acceso>()
+                .ToTable("accesos")
                 .HasMany(unAcceso => unAcceso.MemberAccess) // Un Acceso tiene muchos AccesoSocio
                 .WithOne(accsoc => accsoc.Acceso) // Un AccesoSocio pertenece a un Acceso
                 .HasForeignKey(accsoc => accsoc.AccesoId) // Clave foránea en AccesoSocio
                 .IsRequired(false); // Permitir que AccesoId sea NULL inicialmente
-
+                
             modelBuilder.Entity<AccesoSocio>().ToTable("accesos_socios");
-            //modelBuilder.Entity<ConfiguracionGeneral>().ToTable("configuracion_general");
-            modelBuilder.Entity<ConfiguracionDeAcceso>().ToTable("configuracion_de_acceso");
         }
     }
 }

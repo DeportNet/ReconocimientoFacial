@@ -6,23 +6,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DeportNetReconocimiento.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicial : Migration
+    public partial class configInicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Accesos",
+                name: "accesos",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     ActiveBranchId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ProcessId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ProcessId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Accesos", x => x.id);
+                    table.PrimaryKey("PK_accesos", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -33,7 +33,7 @@ namespace DeportNetReconocimiento.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     id_dx = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Amount = table.Column<double>(type: "REAL", nullable: false),
+                    Amount = table.Column<string>(type: "TEXT", nullable: false),
                     IsSaleItem = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -58,6 +58,40 @@ namespace DeportNetReconocimiento.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "configuracion_general",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CantMaxLotes = table.Column<int>(type: "INTEGER", nullable: false),
+                    ContraseniaBd = table.Column<string>(type: "TEXT", nullable: false),
+                    NombreSucursal = table.Column<string>(type: "TEXT", nullable: false),
+                    UltimaFechaSincronizacion = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    AnteriorFechaSincronizacion = table.Column<DateTime>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_configuracion_general", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "empleados",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CompanyMemberId = table.Column<int>(type: "INTEGER", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
+                    LastName = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false),
+                    isActive = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_empleados", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "membresias",
                 columns: table => new
                 {
@@ -65,7 +99,7 @@ namespace DeportNetReconocimiento.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     id_dx = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Amount = table.Column<double>(type: "REAL", nullable: false),
+                    Amount = table.Column<string>(type: "TEXT", nullable: false),
                     IsSaleItem = table.Column<string>(type: "TEXT", nullable: false),
                     Period = table.Column<string>(type: "TEXT", nullable: false),
                     Days = table.Column<string>(type: "TEXT", nullable: false)
@@ -81,7 +115,7 @@ namespace DeportNetReconocimiento.Migrations
                 {
                     id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    id_dx = table.Column<int>(type: "INTEGER", nullable: false),
+                    id_dx = table.Column<int>(type: "INTEGER", nullable: true),
                     email = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     first_name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     last_name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
@@ -91,8 +125,8 @@ namespace DeportNetReconocimiento.Migrations
                     is_active = table.Column<string>(type: "TEXT", maxLength: 1, nullable: true),
                     card_number = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     address = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    address_with_floor = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    image_url = table.Column<string>(type: "TEXT", maxLength: 250, nullable: true),
+                    address_floor = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    image_url = table.Column<string>(type: "TEXT", nullable: true),
                     gender = table.Column<string>(type: "TEXT", maxLength: 1, nullable: true),
                     is_valid = table.Column<string>(type: "TEXT", maxLength: 1, nullable: true)
                 },
@@ -115,9 +149,9 @@ namespace DeportNetReconocimiento.Migrations
                 {
                     table.PrimaryKey("PK_accesos_socios", x => x.id);
                     table.ForeignKey(
-                        name: "FK_accesos_socios_Accesos_AccesoId",
+                        name: "FK_accesos_socios_accesos_AccesoId",
                         column: x => x.AccesoId,
-                        principalTable: "Accesos",
+                        principalTable: "accesos",
                         principalColumn: "id");
                 });
 
@@ -140,13 +174,19 @@ namespace DeportNetReconocimiento.Migrations
                 name: "configuracion_de_acceso");
 
             migrationBuilder.DropTable(
+                name: "configuracion_general");
+
+            migrationBuilder.DropTable(
+                name: "empleados");
+
+            migrationBuilder.DropTable(
                 name: "membresias");
 
             migrationBuilder.DropTable(
                 name: "socios");
 
             migrationBuilder.DropTable(
-                name: "Accesos");
+                name: "accesos");
         }
     }
 }
