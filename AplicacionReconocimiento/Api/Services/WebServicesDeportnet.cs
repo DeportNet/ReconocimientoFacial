@@ -1,5 +1,6 @@
 ﻿using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
+using System.Dynamic;
 using System.Net;
 using System.Text;
 using System.Text.Json;
@@ -16,7 +17,7 @@ namespace DeportNetReconocimiento.Api.Services
         const string urlAltaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessLectureResult";
         const string urlClientesTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetMembers";
         const string urlConceptsTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConcepts";
-        const string urlEmpleadosTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetEmployees";
+        const string urlEmpleadosTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetUsers";
 
 
         const string urlEnviarAccesosTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConcepts";
@@ -25,41 +26,52 @@ namespace DeportNetReconocimiento.Api.Services
         const string urlBajaCliente = "https://deportnet.com/facialAccess/facialAccessDeleteResult";
         const string urlAltaCliente = "https://deportnet.com/facialAccess/facialAccessLectureResult";
 
-        public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal) 
+        public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal, string rtaManual = null, string idEmpleado = null)
         {
+            dynamic data = new ExpandoObject();
+            data.memberId = nroTarjeta;
+            data.activeBranchId = idSucursal;
 
-            object data = new { memberId = nroTarjeta, activeBranchId = idSucursal };
+            if (rtaManual != null)
+            {
+                data.manualResponse = rtaManual;
+            }
 
-          
+            if (idEmpleado != null)
+            {
+                data.companyMemberId = idEmpleado;
+            }
+
+
             return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
         }
 
         
-        public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal, string rtaManual, string idEmpleado = null)
-        {
+        //public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal, string rtaManual = null, string idEmpleado = null)
+        //{
             
-                /*
-                { 
-	                "activeBranchId": "1",
-	                "memberId": "17393",
-	                "manualAllowedAccess": "17393", (opcional)
-	                "isSuccessful": "T" ( T o F)
-                }
-                */
+        //        /*
+        //        { 
+	       //         "activeBranchId": "1",
+	       //         "memberId": "17393",
+	       //         "manualAllowedAccess": "17393", (opcional)
+	       //         "isSuccessful": "T" ( T o F)
+        //        }
+        //        */
             
-            object data = new {
-                memberId = nroTarjeta,
-                activeBranchId = idSucursal,
-                manualAllowedAccess = nroTarjeta,
-                isSuccessful = rtaManual,
-                //numero de empleado
-            };
+        //    object data = new {
+        //        memberId = nroTarjeta,
+        //        activeBranchId = idSucursal,
+        //        manualAllowedAccess = nroTarjeta,
+        //        isSuccessful = rtaManual,
+        //        companyMemberId = idEmpleado
+        //    };
             
             
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
-        }
+        //    return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
+        //}
 
-        public static async Task<string> ObtenerEmpleadosSucursal(string idSucursal)
+        public static async Task<string> ObtenerEmpleadosSucursalOffline(string idSucursal)
         {
             return await FetchInformacion(idSucursal, urlEmpleadosTest, HttpMethod.Get);
         }

@@ -18,9 +18,9 @@ namespace DeportNetReconocimiento.Api.BD
         public DbSet<Membresia> Membresias { get; set; }
         public DbSet<Acceso> Accesos { get; set; }
         public DbSet<AccesoSocio> AccesosSocios { get; set; }
-        //public DbSet<ConfiguracionGeneral> ConfiguracionGeneral { get; set; }
+        public DbSet<ConfiguracionGeneral> ConfiguracionGeneral { get; set; }
         public DbSet<ConfiguracionDeAcceso> ConfiguracionDeAcceso { get; set; }
-
+        public DbSet<Empleado> Empleados { get; set; }
 
 
         public BdContext(DbContextOptions<BdContext> options) : base(options)

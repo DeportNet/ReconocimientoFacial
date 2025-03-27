@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Api.Data.Domain
 {
+    [Table("accesos_socios")]
     public class AccesoSocio
     {
         [Key]
