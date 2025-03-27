@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Api.Data.Mapper.Interfaces
 {
-    public interface ISocioMapper
+    public interface IEmpleadoMapper
     {
-        Socio SocioDtoDxToSocio(SocioDtoDx socioDto);
-        List<Socio> ListaSocioDtoDxToListaSocio(List<SocioDtoDx> sociosDto);
+        public Empleado EmpleadoDtoDxToEmpleado(EmpleadoDtoDx empleadoDtoDx);
+        public List<Empleado> ListaEmpleadoDtoDxToListaEmpleado(List<EmpleadoDtoDx> listaEmpleado);
 
 
     }

@@ -1,4 +1,5 @@
 using DeportNetReconocimiento.Api;
+using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.GUI;
 using System.Diagnostics;
 
@@ -23,7 +24,8 @@ namespace DeportNetReconocimiento
             InicializarApi();
 
             /*Cargar BD*/
-
+           
+            
 
             //iniciazamos la ventana principal de acceso
             Application.Run(WFPrincipal.ObtenerInstancia);
@@ -52,7 +54,6 @@ namespace DeportNetReconocimiento
             //Instanciamos y arrancamos el servidor
             apiServer = new ApiServer();
             apiServer.Start();
-
         }
     }
 }

@@ -14,15 +14,23 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [Key]
         [Column("id")]
         public int Id { get; set; }
-        
-        public int CompanyMemberId { get; set; }
+        public string CompanyMemberId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Password { get; set; }
-        public string isActive { get; set; }
+        public string IsActive { get; set; }
 
 
         public Empleado() { }
+
+        public static bool EsIgual(Empleado local, Empleado remoto)
+        {
+            return local.CompanyMemberId == remoto.CompanyMemberId &&
+                   local.FirstName == remoto.FirstName &&
+                   local.LastName == remoto.LastName &&
+                   local.Password == remoto.Password &&
+                   local.IsActive == remoto.IsActive;
+        }
 
     }
 }

@@ -10,7 +10,7 @@ namespace DeportNetReconocimiento.Api.Data.Mapper.Interfaces
 {
     public interface IAccesoMapper
     {
-        AccesoDtoDx MapearAccesoAAccesoDto(Acceso acceso);
+        AccesoDtoDx AccesoToAccesoDtoDx(Acceso acceso);
        // List<AccesoDtoDx> MapearListaDtoASocio(List<Acceso> accesos);
     }
 }

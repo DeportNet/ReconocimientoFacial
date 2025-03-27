@@ -25,6 +25,14 @@ namespace DeportNetReconocimiento.Api
         {
         }
 
+        public void CargarBd()
+        {
+            Console.WriteLine("Cargando la bd.......");
+
+
+        }
+
+
         public void Start()
         {
             // Crear y configurar el servidor HTTP
@@ -59,9 +67,10 @@ namespace DeportNetReconocimiento.Api
                         services.AddScoped<ISocioMapper, SocioMapper>();
                         services.AddScoped<IAccesoMapper, AccesoMapper>();
                         services.AddScoped<IAccesoSocioMapper, AccesoSocioMapper>();
+                        services.AddScoped<IEmpleadoMapper, EmpleadoMapper>();
 
-                        services.AddScoped<IDeportnetReconocimientoService,ReconocimientoService>();
                         services.AddScoped<IFuncionesSincronizacionService, SincronizacionService>();
+                        services.AddScoped<IDeportnetReconocimientoService, ReconocimientoService>();
                         
 
                         // Configurar CORS

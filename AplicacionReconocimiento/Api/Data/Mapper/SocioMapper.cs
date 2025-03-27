@@ -11,7 +11,7 @@ namespace DeportNetReconocimiento.Api.Data.Mapper
 {
     public class SocioMapper : ISocioMapper
     {
-        public Socio MapearDtoASocio(SocioDtoDx socioDto)
+        public Socio SocioDtoDxToSocio(SocioDtoDx socioDto)
         {
             return new Socio
             {
@@ -29,9 +29,9 @@ namespace DeportNetReconocimiento.Api.Data.Mapper
             };
         }
 
-        public List<Socio> MapearListaDtoASocio(List<SocioDtoDx> sociosDto)
+        public List<Socio> ListaSocioDtoDxToListaSocio(List<SocioDtoDx> sociosDto)
         {
-            return sociosDto.Select(MapearDtoASocio).ToList();
+            return sociosDto.Select(SocioDtoDxToSocio).ToList();
         }
     }
 }

@@ -37,7 +37,7 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         public static bool EsIgual(Membresia local, Membresia remota)
         {
             return 
-                local.IdDx == remota.IdDx &&
+            local.IdDx == remota.IdDx &&
             local.Name == remota.Name &&
             local.Amount == remota.Amount &&
             local.IsSaleItem == remota.IsSaleItem &&

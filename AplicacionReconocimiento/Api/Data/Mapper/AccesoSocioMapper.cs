@@ -12,7 +12,7 @@ namespace DeportNetReconocimiento.Api.Data.Mapper
     public class AccesoSocioMapper : IAccesoSocioMapper
     {
 
-        public  AccesoSocioDtoDx MapearAccesoSocioAAccesoSocioDto(AccesoSocio acceso)
+        public  AccesoSocioDtoDx AccesoSocioToAccesoSocioDtoDx(AccesoSocio acceso)
         {
             AccesoSocioDtoDx accesoSocioDtoDx = new AccesoSocioDtoDx();
             accesoSocioDtoDx.Id = acceso.Id;
@@ -23,9 +23,9 @@ namespace DeportNetReconocimiento.Api.Data.Mapper
             return accesoSocioDtoDx;
 
         }
-        public List<AccesoSocioDtoDx> MapearListaAccesoSocioAAccesoSocioDto(List<AccesoSocio> accesos)
+        public List<AccesoSocioDtoDx> ListaAccesoSocioToAccesoSocioDtoDx(List<AccesoSocio> accesos)
         {
-            return accesos.Select(MapearAccesoSocioAAccesoSocioDto).ToList();
+            return accesos.Select(AccesoSocioToAccesoSocioDtoDx).ToList();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace DeportNetReconocimiento.Api.Data.Mapper.Interfaces
     internal interface IAccesoSocioMapper
     {
 
-        AccesoSocioDtoDx MapearAccesoSocioAAccesoSocioDto(AccesoSocio acceso);
-        List<AccesoSocioDtoDx> MapearListaAccesoSocioAAccesoSocioDto(List<AccesoSocio> accesos);
+        AccesoSocioDtoDx AccesoSocioToAccesoSocioDtoDx(AccesoSocio acceso);
+        List<AccesoSocioDtoDx> ListaAccesoSocioToAccesoSocioDtoDx(List<AccesoSocio> accesos);
     }
 }

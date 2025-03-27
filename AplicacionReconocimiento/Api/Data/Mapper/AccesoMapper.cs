@@ -13,12 +13,12 @@ namespace DeportNetReconocimiento.Api.Data.Mapper
     {
 
         AccesoSocioMapper _accesoSocioMapeper = new AccesoSocioMapper();
-        public AccesoDtoDx MapearAccesoAAccesoDto(Acceso acceso)
+        public AccesoDtoDx AccesoToAccesoDtoDx(Acceso acceso)
         {
             AccesoDtoDx accesoDtoDx = new AccesoDtoDx();
             accesoDtoDx.ActiveBranchId = acceso.ActiveBranchId;
             accesoDtoDx.ProcessId = acceso.ProcessId;
-            accesoDtoDx.MemberAccess = _accesoSocioMapeper.MapearListaAccesoSocioAAccesoSocioDto(acceso.MemberAccess);
+            accesoDtoDx.MemberAccess = _accesoSocioMapeper.ListaAccesoSocioToAccesoSocioDtoDx(acceso.MemberAccess);
 
             return accesoDtoDx;
         }

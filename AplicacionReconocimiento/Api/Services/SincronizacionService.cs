@@ -20,14 +20,32 @@ namespace DeportNetReconocimiento.Api.Services
         private string? idSucursal;
         private readonly ISocioMapper _socioMapper;
         private readonly IAccesoMapper _accesoMapper;
+        private readonly IEmpleadoMapper _empleadoMapper;
 
-        public SincronizacionService(BdContext contextBd, ISocioMapper socioMapper, IAccesoMapper accesoMapper)
+        public SincronizacionService(BdContext contextBd, ISocioMapper socioMapper, IAccesoMapper accesoMapper, IEmpleadoMapper empleadoMapper)
         {
             _contextBd = contextBd;
             _socioMapper = socioMapper;
             _accesoMapper = accesoMapper;
+            _empleadoMapper = empleadoMapper;
             idSucursal = CredencialesUtils.LeerCredencialEspecifica(4);
         }
+
+        /*TRAERSE TABLAS DE DX*/
+        
+        public async Task SincronizarTodasLasTablasDx()
+        {
+            //1. Obtener de Dx los empleados
+            Console.WriteLine("En realidad solo sincro empleados");
+            await SincronizarEmpleados();
+            
+
+
+            //1. Obtener de Dx los clientes
+            //2. Obtener de Dx los concepts
+            //3. Obtener de Dx los accesos
+        }
+
 
         /*VALIDAR SI SE SINCRONIZO HOY*/
 
@@ -55,9 +73,33 @@ namespace DeportNetReconocimiento.Api.Services
             return flag;
         }
 
+        public void ActualizarFechaSincronizacion()
+        {
+            ConfiguracionGeneral? config = _contextBd.ConfiguracionGeneral.FirstOrDefault(); 
+
+            if (config == null)
+            {
+                return;
+            }
+
+            try
+            {
+
+                config.AnteriorFechaSincronizacion = config.UltimaFechaSincronizacion;
+                config.UltimaFechaSincronizacion = DateTime.Now;
+                _contextBd.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al actualizar fecha de sincronizacion: " + ex.Message);
+            }
+
+        }
+
+
         /*SOCIOS*/
 
-        public async void SincronizarSocios()
+        public async Task SincronizarSocios()
         {
             //0. Verificar la ultima fecha de sincro
 
@@ -72,9 +114,7 @@ namespace DeportNetReconocimiento.Api.Services
             }
 
             //2. Logica con la base de datos
-            InsertarSociosEnTabla(listadoDeSociosDx);
-
-            //3. Registrar la fecha de sincronizacion en la tabla socios
+            await InsertarSociosEnTabla(listadoDeSociosDx);
 
 
 
@@ -103,16 +143,15 @@ namespace DeportNetReconocimiento.Api.Services
                 return listadoDeSocios;
             }
 
-            return _socioMapper.MapearListaDtoASocio(apiResponse.Members);
+            return _socioMapper.ListaSocioDtoDxToListaSocio(apiResponse.Members);
 
         }
-
-        private async void InsertarSociosEnTabla(List<Socio> listadoSociosDx)
+        private async Task InsertarSociosEnTabla(List<Socio> listadoSociosDx)
         {
             using var transaction = await _contextBd.Database.BeginTransactionAsync(); // Iniciar transacción
             try
             {
-                VerificarCambiosEnTablaSocios(listadoSociosDx);
+                await VerificarCambiosEnTablaSocios(listadoSociosDx);
 
                 await _contextBd.SaveChangesAsync();
 
@@ -126,7 +165,7 @@ namespace DeportNetReconocimiento.Api.Services
                 Console.WriteLine($"Error al insertar socios: {ex.Message}");
             }
         }
-        private async void VerificarCambiosEnTablaSocios(List<Socio> listadoSociosDx)
+        private async Task VerificarCambiosEnTablaSocios(List<Socio> listadoSociosDx)
         {
             List<Socio> listadoSociosLocal = await _contextBd.Socios.ToListAsync();
 
@@ -155,8 +194,7 @@ namespace DeportNetReconocimiento.Api.Services
         }
 
         /*CONCEPTS*/
-
-        public async void SincronizarConcepts()
+        public async Task SincronizarConcepts()
         {
             //1. Obtener de Dx los conceptos, tanto como membresias y articulos
             ListadoDeConceptsDx listadoDeConceptsDx = await ObtenerConceptsDelWebserviceAsync();
@@ -171,10 +209,10 @@ namespace DeportNetReconocimiento.Api.Services
             var (membresias, articulos) = ObtenerListadoDeMembresiasYArticulos(listadoDeConceptsDx);
 
             //3. Logica con la base de datos Membresia
-            InsertarMembresiasEnTabla(membresias);
+            await InsertarMembresiasEnTabla(membresias);
 
             //4. Logica con la base de datos Articulo
-            InsertarArticulosEnTabla(articulos);
+            await InsertarArticulosEnTabla(articulos);
 
             //5. Registrar la fecha de sincronizacion en la tabla concepts
         }
@@ -250,12 +288,12 @@ namespace DeportNetReconocimiento.Api.Services
             });
             return (membresias, articulos);
         }
-        private async void InsertarArticulosEnTabla(List<Articulo> listadoArticulosDx)
+        private async Task InsertarArticulosEnTabla(List<Articulo> listadoArticulosDx)
         {
             using var transaction = await _contextBd.Database.BeginTransactionAsync(); // Iniciar transacción
             try
             {
-                VerificarCambiosEnTablaArticulos(listadoArticulosDx);
+                await VerificarCambiosEnTablaArticulos(listadoArticulosDx);
 
                 //Guardamos los cambios
                 await _contextBd.SaveChangesAsync();
@@ -271,7 +309,7 @@ namespace DeportNetReconocimiento.Api.Services
                 Console.WriteLine($"Error al insertar articulos: {ex.Message}");
             }
         }
-        private async void VerificarCambiosEnTablaArticulos(List<Articulo> listadoArticulosDx)
+        private async Task VerificarCambiosEnTablaArticulos(List<Articulo> listadoArticulosDx)
         {
             List<Articulo> listadoArticulosLocal = await _contextBd.Articulos.ToListAsync();
 
@@ -305,12 +343,12 @@ namespace DeportNetReconocimiento.Api.Services
                 }
             }
         }
-        private async void InsertarMembresiasEnTabla(List<Membresia> listadoMembresias)
+        private async Task InsertarMembresiasEnTabla(List<Membresia> listadoMembresias)
         {
             using var transaction = await _contextBd.Database.BeginTransactionAsync(); // Iniciar transacción
             try
             {
-                VerificarCambiosEnTablaMembresias(listadoMembresias);
+                await VerificarCambiosEnTablaMembresias(listadoMembresias);
 
                 //Guardamos los cambios
                 await _contextBd.SaveChangesAsync();
@@ -326,7 +364,7 @@ namespace DeportNetReconocimiento.Api.Services
                 Console.WriteLine($"Error al insertar membresias: {ex.Message}");
             }
         }
-        private async void VerificarCambiosEnTablaMembresias(List<Membresia> listadoMembresiasDx)
+        private async Task VerificarCambiosEnTablaMembresias(List<Membresia> listadoMembresiasDx)
         {
             List<Membresia> listadoMembresiasLocal = await _contextBd.Membresias.ToListAsync();
 
@@ -370,7 +408,6 @@ namespace DeportNetReconocimiento.Api.Services
             //1 Logica para agarrar los accesos e ir subiendolos
             
         }
-        
         private async Task InsertarAccesoSocioEnTabla(AccesoSocio accesoSocio)
         {
             if(accesoSocio == null)
@@ -391,8 +428,6 @@ namespace DeportNetReconocimiento.Api.Services
                 Console.WriteLine($"Error al insertar el acceso {accesoSocio.Id} en la base de datos: {ex.Message}");
             }
         }
-
-
         public async Task EnviarLoteDeAccesos()
         {
             try
@@ -408,7 +443,7 @@ namespace DeportNetReconocimiento.Api.Services
                 await _contextBd.Accesos.AddAsync(ultimoLote);
 
                 //Llamado al post de enviar lote 
-                string json = await  WebServicesDeportnet.EnviarLoteDeAccesos(_accesoMapper.MapearAccesoAAccesoDto(ultimoLote).ToString());
+                string json = await  WebServicesDeportnet.EnviarLoteDeAccesos(_accesoMapper.AccesoToAccesoDtoDx(ultimoLote).ToString());
 
                 RespuestaSincronizacionLoteAccesosDx respuestaSincronizacion = System.Text.Json.JsonSerializer.Deserialize<RespuestaSincronizacionLoteAccesosDx>(json);
 
@@ -421,7 +456,6 @@ namespace DeportNetReconocimiento.Api.Services
                 Console.Write($"Error al sincronizar el lote de accesos {ex.Message}");
             }
         }
-
         public async Task<Acceso> CrearLoteAcceso()
         {
             int limiteLote = 20;
@@ -431,10 +465,11 @@ namespace DeportNetReconocimiento.Api.Services
 
         /*EMPLEADOS*/
 
-        public async void SincronizarEmpleados()
+        public async Task SincronizarEmpleados()
         {
             //1. Obtener de Dx los empleados
             ListadoEmpleadosDx? listadoDeEmpleadosDx = await ObtenerEmpleadosDelWebserviceAsync();
+            Console.WriteLine("Obtenemos empleados de dx");
 
             if(listadoDeEmpleadosDx == null)
             {
@@ -442,11 +477,17 @@ namespace DeportNetReconocimiento.Api.Services
             }
 
             //2. Obtener el nombre de la sucursal
-            GuardarNombreSucursal(listadoDeEmpleadosDx.BranchName);
-            //3. Obtener listado de empleados
+            await GuardarNombreSucursal(listadoDeEmpleadosDx.BranchName);
+            Console.WriteLine("Guardamos nombre sucursal");
 
+            //3. Mappear el listado de empleados
+            List<Empleado> empleados = _empleadoMapper.ListaEmpleadoDtoDxToListaEmpleado(listadoDeEmpleadosDx.Users);
+            Console.WriteLine("Mappeamos listado empleados dx");
+            //4. Obtener listado de empleados
+
+            await InsertarEmpleadosEnTabla(empleados);
+            Console.WriteLine("Insertamos empleados en tabla local");
         }
-
         private async Task<ListadoEmpleadosDx> ObtenerEmpleadosDelWebserviceAsync()
         {
 
@@ -474,25 +515,89 @@ namespace DeportNetReconocimiento.Api.Services
             return apiResponse;
 
         }
-
-        public async void GuardarNombreSucursal(string nombreSucursal)
+        private async Task GuardarNombreSucursal(string nombreSucursal)
         {
             ConfiguracionGeneral? config = _contextBd.ConfiguracionGeneral.FirstOrDefault(); // o por ID si lo tenés
 
-            if (config != null)
+            if (config == null)
+            {
+                return;
+            }
+
+            try
             {
                 config.NombreSucursal = nombreSucursal;
                 _contextBd.SaveChanges();
+                
+            }catch(Exception ex)
+            {
+                Console.WriteLine("Error al guardar el nombre de la sucursal: "+ ex.Message);
             }
 
-
-
-
         }
+
+        private async Task InsertarEmpleadosEnTabla(List<Empleado> listadoEmpleados)
+        {
+            using var transaction = await _contextBd.Database.BeginTransactionAsync(); // Iniciar transacción
+            try
+            {
+                await VerificarCambiosEnTablaEmpleados(listadoEmpleados);
+
+                //Guardamos los cambios
+                await _contextBd.SaveChangesAsync();
+
+                //Commiteamos la transaccion
+                await transaction.CommitAsync();// Confirmamos transaccion
+
+                Console.WriteLine($"Se insertaron {listadoEmpleados.Count} empleados en la base de datos.");
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync(); // En caso de error, deshacer cambios
+                Console.WriteLine($"Error al insertar empleados: {ex.Message}");
+            }
+        }
+
+        private async Task VerificarCambiosEnTablaEmpleados(List<Empleado> listadoEmpleadosRemoto)
+        {
+            List<Empleado> listadoEmpleadosLocal = await _contextBd.Empleados.ToListAsync();
+
+            // 2️. Determinar cambios
+            var empleadosNuevos = listadoEmpleadosRemoto
+                .Where(eDx => !listadoEmpleadosLocal.Any(eLoc => eLoc.CompanyMemberId == eDx.CompanyMemberId))
+                .ToList();
+
+            var empleadosActualizados = listadoEmpleadosRemoto
+                .Where(eDx => listadoEmpleadosLocal.Any(eLoc => eLoc.CompanyMemberId == eDx.CompanyMemberId && !Empleado.EsIgual(eLoc, eDx)))
+                .ToList();
+
+            var empleadosEliminados = listadoEmpleadosLocal
+                .Where(eLoc => !listadoEmpleadosRemoto.Any(eDx => eDx.CompanyMemberId == eLoc.CompanyMemberId))
+                .ToList();
+
+            // 3️. Aplicar cambios en la BD
+            if (empleadosEliminados.Count > 0)
+            {
+                _contextBd.Empleados.RemoveRange(empleadosEliminados);
+            }
+            if (empleadosNuevos.Count > 0)
+            {
+                await _contextBd.Empleados.AddRangeAsync(empleadosNuevos);
+            }
+            if (empleadosActualizados.Count > 0)
+            {
+                foreach (var unEActualizado in empleadosActualizados)
+                {
+                    var membresiaLocal = listadoEmpleadosLocal.First(eLoc => eLoc.CompanyMemberId == unEActualizado.CompanyMemberId);
+                    _contextBd.Entry(membresiaLocal).CurrentValues.SetValues(unEActualizado);
+                }
+            }
+        }
+
+        /*CONFIGURACIONES ACCESO*/
 
 
         /*CONFIGURACIONES LOCAL*/
 
-        /*CONFIGURACIONES DX*/
     }
 }
