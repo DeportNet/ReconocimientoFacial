@@ -18,9 +18,8 @@ namespace DeportNetReconocimiento.Api.Services
         const string urlClientesTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetMembers";
         const string urlConceptsTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConcepts";
         const string urlEmpleadosTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetUsers";
+        const string urlEnviarAccesosTest = "https://testing.deportnet.com/offlineAccess/offlineSetAccess";
 
-
-        const string urlEnviarAccesosTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConcepts";
 
         const string urlEntradaCliente = "https://deportnet.com/facialAccess/facialAccessCheckUserEnter";
         const string urlBajaCliente = "https://deportnet.com/facialAccess/facialAccessDeleteResult";

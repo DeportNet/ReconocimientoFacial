@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System.Runtime.Intrinsics.X86;
 using System.Xml.Serialization;
 using Windows.UI;
+using System.Text.Json;
 
 namespace DeportNetReconocimiento.Api.Services
 {
@@ -151,9 +152,6 @@ namespace DeportNetReconocimiento.Api.Services
                     _contextBd.Entry(socioLocal).CurrentValues.SetValues(socio);
                 }
             }
-
-
-
         }
 
         /*CONCEPTS*/
@@ -399,7 +397,6 @@ namespace DeportNetReconocimiento.Api.Services
         {
             try
             {
-
                 Acceso loteAcceso = await CrearLoteAcceso();
 
                 //Guardar lote en la BD
@@ -410,27 +407,18 @@ namespace DeportNetReconocimiento.Api.Services
                 ultimoLote.ProcessId = ultimoLote.Id;
                 await _contextBd.Accesos.AddAsync(ultimoLote);
 
-                /*
-                                 
-                    "activeBranchId": "1",
-                    "processId": "2",
-                    "memberAccess": [
-                    {
-	                    "id": "1",
-                        "memberId": "16832",
-                        "accessDate": "2025-02-25 09:00:00.0",
-                        "isSuccessful": "T"
-                    },
-*/
-
-
                 //Llamado al post de enviar lote 
-              string mensaje = await  WebServicesDeportnet.EnviarLoteDeAccesos(_accesoMapper.MapearAccesoAAccesoDto(ultimoLote).ToString());
+                string json = await  WebServicesDeportnet.EnviarLoteDeAccesos(_accesoMapper.MapearAccesoAAccesoDto(ultimoLote).ToString());
 
+                RespuestaSincronizacionLoteAccesosDx respuestaSincronizacion = System.Text.Json.JsonSerializer.Deserialize<RespuestaSincronizacionLoteAccesosDx>(json);
+
+                Console.WriteLine($"Respuesta de sincronización de lote {ultimoLote.ProcessId} es {respuestaSincronizacion.ProcessResult}. " +
+                    $"\nMensaje de error: {respuestaSincronizacion.ErrorMessage}" +
+                    $"\nCampos con error: {respuestaSincronizacion.ErrorItems.ToList()}");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-
+                Console.Write($"Error al sincronizar el lote de accesos {ex.Message}");
             }
         }
 
