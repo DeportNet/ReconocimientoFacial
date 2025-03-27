@@ -16,9 +16,10 @@ namespace DeportNetReconocimiento.Api.Data.Mapper
         {
             AccesoSocioDtoDx accesoSocioDtoDx = new AccesoSocioDtoDx();
             accesoSocioDtoDx.Id = acceso.Id;
-            accesoSocioDtoDx.MemberId = acceso.MemberId;
-            accesoSocioDtoDx.AccessDate = acceso.AccessDate;
-            accesoSocioDtoDx.IsSuccessful = acceso.IsSuccessful;
+            accesoSocioDtoDx.CompanyMemberId = acceso.CompanyMemberId.ToString();
+            accesoSocioDtoDx.MemberId = acceso.MemberId.ToString();
+            accesoSocioDtoDx.AccessDate = acceso.AccessDate.ToString();
+            accesoSocioDtoDx.IsSuccessful = acceso.IsSuccessful.ToString();
 
             return accesoSocioDtoDx;
 

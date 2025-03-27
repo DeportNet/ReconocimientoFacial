@@ -3,6 +3,7 @@ using System;
 using DeportNetReconocimiento.Api.BD;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeportNetReconocimiento.Migrations
 {
     [DbContext(typeof(BdContext))]
-    partial class BdContextModelSnapshot : ModelSnapshot
+    [Migration("20250327140438_AddCompanyMemberId")]
+    partial class AddCompanyMemberId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
@@ -25,12 +28,10 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnName("id");
 
                     b.Property<int>("ActiveBranchId")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("active_branch_id");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("ProcessId")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("process_id");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -44,24 +45,23 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnName("id");
 
                     b.Property<int?>("AccesoId")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("access_id");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("AccessDate")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("access_date");
+                    b.Property<string>("AccessDate")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("CompanyMemberId")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("company_member_id");
+                    b.Property<string>("CompanyMemberId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsSuccessful")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("isSuccessful");
+                    b.Property<string>("IsSuccessful")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("MemberId")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("member_id");
+                    b.Property<string>("MemberId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -72,31 +72,28 @@ namespace DeportNetReconocimiento.Migrations
 
             modelBuilder.Entity("DeportNetReconocimiento.Api.Data.Domain.Articulo", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasColumnName("id");
 
-                    b.Property<double>("Amount")
-                        .HasMaxLength(50)
-                        .HasColumnType("REAL")
-                        .HasColumnName("amount");
+                    b.Property<string>("Amount")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("IdDx")
                         .HasColumnType("INTEGER")
                         .HasColumnName("id_dx");
 
-                    b.Property<char>("IsSaleItem")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("isSaleItem");
+                    b.Property<string>("IsSaleItem")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("name");
+                        .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.ToTable("articulos", (string)null);
                 });
@@ -108,24 +105,20 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("id");
 
-                    b.Property<int?>("CardLength")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("cardLength");
+                    b.Property<int>("CardLength")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("EndCharacter")
-                        .HasMaxLength(5)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("endCharacter");
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("SecondStartCharacter")
-                        .HasMaxLength(5)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("secondStartCharacter");
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("StartCharacter")
-                        .HasMaxLength(5)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("startCharacter");
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -140,28 +133,21 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnName("id");
 
                     b.Property<DateTime?>("AnteriorFechaSincronizacion")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("prior_last_syncro");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("CantMaxLotes")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("max_lot_quantity");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ContraseniaBd")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("password");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("NombreSucursal")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("branch_name");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("UltimaFechaSincronizacion")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("last_syncro");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -176,30 +162,23 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnName("id");
 
                     b.Property<int>("CompanyMemberId")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("company_member_id");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("first_name");
-
-                    b.Property<char>("IsActive")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("is_active");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("last_name");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("password");
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("isActive")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -213,32 +192,29 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("id");
 
-                    b.Property<double>("Amount")
-                        .HasMaxLength(50)
-                        .HasColumnType("REAL")
-                        .HasColumnName("amount");
+                    b.Property<string>("Amount")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("Days")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("days");
+                    b.Property<string>("Days")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("IdDx")
                         .HasColumnType("INTEGER")
                         .HasColumnName("id_dx");
 
-                    b.Property<char>("IsSaleItem")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("isSaleItem");
+                    b.Property<string>("IsSaleItem")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("name");
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("Period")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("period");
+                    b.Property<string>("Period")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

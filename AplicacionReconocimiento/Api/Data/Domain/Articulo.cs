@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,15 +14,26 @@ namespace DeportNetReconocimiento.Api.Data.Domain
     {
         [Key]
         [Column("id")]
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [Column("id_dx")]
         public int IdDx { get; set; }
-        public string Name { get; set; }
-        public string Amount { get; set; }
-        public string IsSaleItem { get; set; } // 'T' = Articulo, 'F' = Servicio
 
-        public Articulo(int idDx, string nombre, string precio, string esUnArticulo)
+        [Column("name")]
+        [StringLength(100)]
+        [DisallowNull]
+        public string Name { get; set; }
+
+        [Column("amount")]
+        [StringLength(50)]
+        [DisallowNull]
+        public double Amount { get; set; }
+
+        [Column("isSaleItem")]
+        [DisallowNull]
+        public char IsSaleItem { get; set; } // 'T' = Articulo, 'F' = Servicio
+
+        public Articulo(int idDx, string nombre, double precio, char esUnArticulo)
         {
             IdDx = idDx;
             Name = nombre;

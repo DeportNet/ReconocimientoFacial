@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,10 +15,26 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [Column("id")]
         [Key]
         public int Id { get; set; }
-        public int CardLength { get; set; }
-        public string StartCharacter { get; set; }
-        public string EndCharacter { get; set; }
-        public string SecondStartCharacter { get; set; }
+
+        [Column("cardLength")]
+        [AllowNull]
+        public int? CardLength { get; set; }
+
+        [Column("startCharacter")]
+        [StringLength(5)]
+        [AllowNull]
+
+        public string? StartCharacter { get; set; }
+
+        [Column("endCharacter")]
+        [StringLength(5)]
+        [AllowNull]
+        public string? EndCharacter { get; set; }
+
+        [Column("secondStartCharacter")]
+        [StringLength(5)]
+        [AllowNull]
+        public string? SecondStartCharacter { get; set; }
 
         public ConfiguracionDeAcceso() { }
 

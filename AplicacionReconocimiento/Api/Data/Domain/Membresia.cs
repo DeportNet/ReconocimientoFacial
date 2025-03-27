@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DeportNetReconocimiento.Api.Data.Domain
 {
@@ -17,14 +18,29 @@ namespace DeportNetReconocimiento.Api.Data.Domain
 
         [Column("id_dx")]
         public int IdDx { get; set; }
+
+        [Column("name")]
+        [StringLength(100)]
+        [DisallowNull]
         public string Name { get; set; }
-        public string Amount { get; set; }
-        public string IsSaleItem { get; set; } // 'T' = Articulo, 'F' = Servicio 
-        public string Period { get; set; }
-        public string Days { get; set; }
+
+        [Column("amount")]
+        [StringLength(50)]
+        [DisallowNull]
+        public double Amount { get; set; }
+        [Column("isSaleItem")]
+        [DisallowNull]
+        public char IsSaleItem { get; set; } // 'T' = Articulo, 'F' = Servicio 
+        [Column("period")]
+        [AllowNull]
+        public int Period { get; set; }
+
+        [Column("days")]
+        [AllowNull]
+        public int Days { get; set; }
 
         public Membresia() { }
-        public Membresia(int idDx, string name, string amount, string isSaleItem, string period, string days)
+        public Membresia(int idDx, string name, double amount, char isSaleItem, int period, int days)
         {
             IdDx = idDx;
             Name = name;

@@ -265,10 +265,10 @@ namespace DeportNetReconocimiento.Api.Services
                         {
                             IdDx = c.Id,
                             Name = c.Name,
-                            Amount = c.Amount,
-                            IsSaleItem = c.IsSaleItem,
-                            Period = c.Period,
-                            Days = c.Days,
+                            Amount = double.Parse(c.Amount),
+                            IsSaleItem = c.IsSaleItem[0],
+                            Period = int.Parse(c.Period),
+                            Days = int.Parse(c.Days),
                         });
                         break;
                     case "T":
@@ -276,8 +276,8 @@ namespace DeportNetReconocimiento.Api.Services
                         {
                             IdDx = c.Id,
                             Name = c.Name,
-                            Amount = c.Amount,
-                            IsSaleItem = c.IsSaleItem,
+                            Amount = double.Parse(c.Amount),
+                            IsSaleItem = c.IsSaleItem[0],
                         });
 
                         break;

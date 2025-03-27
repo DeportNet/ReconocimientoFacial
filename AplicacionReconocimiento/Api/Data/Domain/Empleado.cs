@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,11 +15,30 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [Key]
         [Column("id")]
         public int Id { get; set; }
-        public string CompanyMemberId { get; set; }
+
+
+        [Column("company_member_id")]
+        [DisallowNull]
+        public int CompanyMemberId { get; set; }
+
+        [Column("first_name")]
+        [StringLength(100)]
+        [DisallowNull]
         public string FirstName { get; set; }
+
+        [Column("last_name")]
+        [StringLength(100)]
+        [DisallowNull]
         public string LastName { get; set; }
+
+        [Column("password")]
+        [StringLength(64)]
+        [DisallowNull]
         public string Password { get; set; }
-        public string IsActive { get; set; }
+        
+        [Column("is_active")]
+        [DisallowNull]
+        public char IsActive { get; set; }
 
 
         public Empleado() { }

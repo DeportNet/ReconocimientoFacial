@@ -12,7 +12,5 @@ namespace DeportNetReconocimiento.Api.Data.Mapper.Interfaces
     {
         Socio SocioDtoDxToSocio(SocioDtoDx socioDto);
         List<Socio> ListaSocioDtoDxToListaSocio(List<SocioDtoDx> sociosDto);
-
-
     }
 }
