@@ -28,7 +28,7 @@ namespace DeportNetReconocimiento.Api.Services
             _socioMapper = socioMapper;
             _accesoMapper = accesoMapper;
             _empleadoMapper = empleadoMapper;
-            idSucursal = "23";//CredencialesUtils.LeerCredencialEspecifica(4);
+            idSucursal = CredencialesUtils.LeerCredencialEspecifica(4);
 
         }
 

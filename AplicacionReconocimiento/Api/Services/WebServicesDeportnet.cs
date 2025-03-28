@@ -255,7 +255,7 @@ namespace DeportNetReconocimiento.Api.Services
 
             using HttpClient client = new HttpClient();
 
-            string token = "H7gVA3r89jvaMuDd";//CredencialesUtils.LeerCredencialEspecifica(5);
+            string token = CredencialesUtils.LeerCredencialEspecifica(5);
 
             if (token == null)
             {
