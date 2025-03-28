@@ -27,5 +27,14 @@ namespace DeportNetReconocimiento.Api.Data.Dtos.Dx
             BranchName = branchName;
         }
 
+        public override string ToString()
+        {
+            return "Users: " + Users + 
+                ", Result: " + Result + 
+                ", ErrorMessage: " + ErrorMessage + 
+                ", CountUsers: " + CountUsers + 
+                ", BranchName: " + BranchName;
+        }
+
     }
 }

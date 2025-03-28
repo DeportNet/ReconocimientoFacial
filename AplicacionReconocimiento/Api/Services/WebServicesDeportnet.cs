@@ -4,6 +4,7 @@ using System.Dynamic;
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 
@@ -47,17 +48,30 @@ namespace DeportNetReconocimiento.Api.Services
 
         public static async Task<string> ObtenerEmpleadosSucursalOffline(string idSucursal)
         {
-            return await FetchInformacion(idSucursal, urlEmpleadosTest, HttpMethod.Get);
+            object data = new
+            {
+                activeBranchId = idSucursal
+            };
+          
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlEmpleadosTest, HttpMethod.Post);
         }
 
         public static async Task<string> ObtenerClientesOffline(string idSucursal)
         {
-            return await FetchInformacion(idSucursal, urlClientesTest, HttpMethod.Get);
+            object data = new
+            {
+                activeBranchId = idSucursal
+            };
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlClientesTest, HttpMethod.Post);
         }
 
         public static async Task<string> ObtenerConceptsOffline(string idSucursal)
         {
-            return await FetchInformacion(idSucursal, urlConceptsTest, HttpMethod.Get);
+            object data = new
+            {
+                activeBranchId = idSucursal
+            };
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlConceptsTest, HttpMethod.Post);
         }
 
         public static async Task<string> EnviarLoteDeAccesos(string json)
@@ -241,7 +255,13 @@ namespace DeportNetReconocimiento.Api.Services
 
             using HttpClient client = new HttpClient();
 
-            string token= CredencialesUtils.LeerCredenciales()[5];
+            string token = "H7gVA3r89jvaMuDd";//CredencialesUtils.LeerCredencialEspecifica(5);
+
+            if (token == null)
+            {
+                Console.WriteLine("ERROR: No se encontró el token de la sucursal");
+                return "ERROR: No se encontró el token de la sucursal";
+            }
 
             // Configurar el header HTTP_X_SIGNATURE
             client.DefaultRequestHeaders.Add("X-Signature", token);

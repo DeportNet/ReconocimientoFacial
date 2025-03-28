@@ -28,22 +28,32 @@ namespace DeportNetReconocimiento.Api.Services
             _socioMapper = socioMapper;
             _accesoMapper = accesoMapper;
             _empleadoMapper = empleadoMapper;
-            idSucursal = CredencialesUtils.LeerCredencialEspecifica(4);
+            idSucursal = "23";//CredencialesUtils.LeerCredencialEspecifica(4);
+
         }
 
         /*TRAERSE TABLAS DE DX*/
-        
+
         public async Task SincronizarTodasLasTablasDx()
         {
-            //1. Obtener de Dx los empleados
-            Console.WriteLine("En realidad solo sincro empleados");
-            await SincronizarEmpleados();
             
 
+            if (SeSincronizoHoy())
+            {
+                Console.WriteLine("Ya se sincronizo hoy todas las tablas de dx");
+                return;
+            }
 
-            //1. Obtener de Dx los clientes
+            //1. Obtener de Dx los empleados
+            await SincronizarEmpleados();
+            
             //2. Obtener de Dx los concepts
-            //3. Obtener de Dx los accesos
+            await SincronizarConcepts();
+
+            //3. Obtener de Dx los clientes
+            await SincronizarSocios();
+
+            ActualizarFechaSincronizacion();
         }
 
 
@@ -52,6 +62,7 @@ namespace DeportNetReconocimiento.Api.Services
         public bool SeSincronizoHoy() {
             bool flag = false;
             DateTime? ultimaFecha = _contextBd.ConfiguracionGeneral
+                              .OrderBy(c => c.Id == 1) 
                               .Select(c => c.UltimaFechaSincronizacion)
                               .FirstOrDefault();
 
@@ -75,10 +86,13 @@ namespace DeportNetReconocimiento.Api.Services
 
         public void ActualizarFechaSincronizacion()
         {
-            ConfiguracionGeneral? config = _contextBd.ConfiguracionGeneral.FirstOrDefault(); 
+            ConfiguracionGeneral? config = _contextBd.ConfiguracionGeneral
+                .OrderBy(c => c.Id == 1)
+                .FirstOrDefault(); 
 
             if (config == null)
             {
+                Console.WriteLine("COnfig es null");
                 return;
             }
 
@@ -88,6 +102,8 @@ namespace DeportNetReconocimiento.Api.Services
                 config.AnteriorFechaSincronizacion = config.UltimaFechaSincronizacion;
                 config.UltimaFechaSincronizacion = DateTime.Now;
                 _contextBd.SaveChanges();
+
+                Console.WriteLine("Se actualizo la ultima fecha de sincronizacion");
             }
             catch (Exception ex)
             {
@@ -108,8 +124,9 @@ namespace DeportNetReconocimiento.Api.Services
             List<Socio> listadoDeSociosDx = await ObtenerSociosDelWebserviceAsync();
 
 
-            if (listadoDeSociosDx.Count == 0)
+            if (listadoDeSociosDx.Count == 0 || listadoDeSociosDx == null)
             {
+                Console.WriteLine("El listado de socios es null o esta vacio");
                 return;
             }
 
@@ -200,8 +217,9 @@ namespace DeportNetReconocimiento.Api.Services
             ListadoDeConceptsDx listadoDeConceptsDx = await ObtenerConceptsDelWebserviceAsync();
 
 
-            if (listadoDeConceptsDx == null )
+            if (listadoDeConceptsDx == null || listadoDeConceptsDx.ConceptsCount == 0)
             {
+                Console.WriteLine("El listado de concepts es null o esta vacio");
                 return;
             }
 
@@ -471,22 +489,23 @@ namespace DeportNetReconocimiento.Api.Services
             ListadoEmpleadosDx? listadoDeEmpleadosDx = await ObtenerEmpleadosDelWebserviceAsync();
             Console.WriteLine("Obtenemos empleados de dx");
 
-            if(listadoDeEmpleadosDx == null)
+            if(listadoDeEmpleadosDx == null || listadoDeEmpleadosDx.CountUsers == "0")
             {
+                Console.WriteLine("El listado de empleados es null o esta vacio");
                 return;
             }
 
             //2. Obtener el nombre de la sucursal
             await GuardarNombreSucursal(listadoDeEmpleadosDx.BranchName);
-            Console.WriteLine("Guardamos nombre sucursal");
+            
 
             //3. Mappear el listado de empleados
             List<Empleado> empleados = _empleadoMapper.ListaEmpleadoDtoDxToListaEmpleado(listadoDeEmpleadosDx.Users);
-            Console.WriteLine("Mappeamos listado empleados dx");
-            //4. Obtener listado de empleados
+           
 
+            //4. Obtener listado de empleados
             await InsertarEmpleadosEnTabla(empleados);
-            Console.WriteLine("Insertamos empleados en tabla local");
+            
         }
         private async Task<ListadoEmpleadosDx> ObtenerEmpleadosDelWebserviceAsync()
         {
@@ -499,6 +518,7 @@ namespace DeportNetReconocimiento.Api.Services
 
             string json = await WebServicesDeportnet.ObtenerEmpleadosSucursalOffline(idSucursal);
             ListadoEmpleadosDx apiResponse = JsonConvert.DeserializeObject<ListadoEmpleadosDx>(json);
+            
 
             if (apiResponse == null)
             {

@@ -24,11 +24,15 @@ namespace DeportNetReconocimiento
             InicializarApi();
 
             /*Cargar BD*/
-           
+
+            apiServer.CargarBd();
+
+
             
 
+
             //iniciazamos la ventana principal de acceso
-            Application.Run(WFPrincipal.ObtenerInstancia);
+            //Application.Run(WFPrincipal.ObtenerInstancia);
 
            
             // Detener el servidor cuando la aplicación cierre
@@ -54,6 +58,7 @@ namespace DeportNetReconocimiento
             //Instanciamos y arrancamos el servidor
             apiServer = new ApiServer();
             apiServer.Start();
+           
         }
     }
 }

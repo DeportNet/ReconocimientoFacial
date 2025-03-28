@@ -45,10 +45,12 @@ namespace DeportNetReconocimiento.Utils
 
         public static string? LeerCredencialEspecifica(int unaCredencial)
         {
+            
             string[] credenciales = LeerCredenciales();
             
             if (credenciales.Length == 0)
             {
+                Console.WriteLine("No se encontraron credenciales");
                 return null;
             }
             
@@ -101,18 +103,24 @@ namespace DeportNetReconocimiento.Utils
             }
             else
             {
-
-                // Leer desde un archivo binario
-                using (BinaryReader reader = new BinaryReader(File.Open(rutaArchivo, FileMode.Open)))
+                try
                 {
 
-                    while (reader.BaseStream.Position != reader.BaseStream.Length) // Lee hasta el final del archivo
+                    // Leer desde un archivo binario
+                    using (BinaryReader reader = new BinaryReader(File.Open(rutaArchivo, FileMode.Open)))
                     {
-                        string unDato = reader.ReadString(); // Lee cada string
-                        listaDatos.Add(unDato);
 
-                        Console.WriteLine($"Leído: {unDato}");
+                        while (reader.BaseStream.Position != reader.BaseStream.Length) // Lee hasta el final del archivo
+                        {
+                            string unDato = reader.ReadString(); // Lee cada string
+                            listaDatos.Add(unDato);
+
+                            Console.WriteLine($"Leído: {unDato}");
+                        }
                     }
+                }catch(Exception ex)
+                {
+                    Console.WriteLine("No se pudo leer archivo credenciales: "+ ex.Message);
                 }
             }
 

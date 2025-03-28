@@ -21,6 +21,7 @@ namespace DeportNetReconocimiento.Api
     public class ApiServer
     {
         private IHost host;
+        private IFuncionesSincronizacionService _funcionesSincronizacionService;
         public ApiServer()
         {
         }
@@ -29,6 +30,14 @@ namespace DeportNetReconocimiento.Api
         {
             Console.WriteLine("Cargando la bd.......");
 
+            try
+            {
+               _funcionesSincronizacionService.SincronizarTodasLasTablasDx().Wait();
+                
+            }catch(Exception ex)
+            {
+                Console.WriteLine("Error al intentar sincronizar todo");
+            }
 
         }
 
@@ -114,7 +123,10 @@ namespace DeportNetReconocimiento.Api
 
             // Iniciar el servidor en un hilo separado
             _ = host.RunAsync();
-            
+
+            //Inyectar el SincroService
+            _funcionesSincronizacionService = host.Services.GetRequiredService<IFuncionesSincronizacionService>();
+
             Console.WriteLine("Servidor API iniciado en http://localhost:5000");
         }
 
