@@ -15,6 +15,9 @@ using DeportNetReconocimiento.Api.Data.Dtos.Dx.ConfigAcceso;
 using DeportNetReconocimiento.Api.Data.Dtos.Dx.Socios;
 using DeportNetReconocimiento.Api.Data.Dtos.Dx.Concepts;
 using DeportNetReconocimiento.Api.Data.Dtos.Dx.Empleados;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.Extensions.DependencyInjection;
+
 
 namespace DeportNetReconocimiento.Api.Services
 {
@@ -87,7 +90,7 @@ namespace DeportNetReconocimiento.Api.Services
             DateTime fechaActual = DateTime.Now;
 
             //si la fecha de sincro es igual a la fecha actual, ya se sincronizo hoy
-            if (ultimaFecha.Value.Date.DayOfYear == fechaActual.Date.DayOfYear)
+            if (ultimaFecha.Value.Date == fechaActual.Date)
             {
                 flag = true;
             }
@@ -103,7 +106,7 @@ namespace DeportNetReconocimiento.Api.Services
 
             if (config == null)
             {
-                Console.WriteLine("COnfig es null");
+                Console.WriteLine("Config es null");
                 return;
             }
 
