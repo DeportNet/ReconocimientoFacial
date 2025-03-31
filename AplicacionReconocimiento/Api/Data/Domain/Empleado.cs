@@ -43,6 +43,11 @@ namespace DeportNetReconocimiento.Api.Data.Domain
 
         public Empleado() { }
 
+        public string JuntarNombreYApellido()
+        {
+            return FirstName + " " + LastName;
+        }
+
         public static bool EsIgual(Empleado local, Empleado remoto)
         {
             return local.CompanyMemberId == remoto.CompanyMemberId &&

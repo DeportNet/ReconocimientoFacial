@@ -265,7 +265,10 @@ namespace DeportNetReconocimiento.Api.Services
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
-            using HttpClient client = new HttpClient();
+            using HttpClient client = new HttpClient
+            {
+                Timeout = TimeSpan.FromSeconds(10) // o 5, según prefieras
+            };
 
             string token = CredencialesUtils.LeerCredencialEspecifica(5);
 
