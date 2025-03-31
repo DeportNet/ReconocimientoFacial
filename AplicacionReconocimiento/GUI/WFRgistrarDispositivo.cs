@@ -206,7 +206,7 @@ namespace DeportNetReconocimiento
             //CredencialesUtils.EscribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text, textBoxSucursalID.Text, textBoxTokenSucursal.Text]);
             
             //Creador de credenciales manual
-            CredencialesUtils.EscribirArchivoCredenciales(["192.168.0.203", "8000", "admin", "facu", "321", "laskjdhf"]);
+            //CredencialesUtils.EscribirArchivoCredenciales(["192.168.0.203", "8000", "admin", "facu", "23", "H7gVA3r89jvaMuDd"]);
 
             ignorarCerrarPrograma = true;
             seClickeoBotonLogin = false;
