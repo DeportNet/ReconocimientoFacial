@@ -77,6 +77,8 @@ namespace DeportNetReconocimiento.Api
                         services.AddScoped<IAccesoMapper, AccesoMapper>();
                         services.AddScoped<IAccesoSocioMapper, AccesoSocioMapper>();
                         services.AddScoped<IEmpleadoMapper, EmpleadoMapper>();
+                        services.AddScoped<IConfigAccesoMapper, ConfigAccesoMapper>();
+
 
                         services.AddScoped<IFuncionesSincronizacionService, SincronizacionService>();
                         services.AddScoped<IDeportnetReconocimientoService, ReconocimientoService>();

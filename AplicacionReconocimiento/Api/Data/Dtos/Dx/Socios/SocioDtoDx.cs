@@ -7,14 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeportNetReconocimiento.Api.Data.Dtos.Dx
+namespace DeportNetReconocimiento.Api.Data.Dtos.Dx.Socios
 {
     public class SocioDtoDx
     {
         public int Id { get; set; }
-        public  string? Email { get; set; }
-        public  string? FirstName { get; set; }
-        public  string? LastName { get; set; }
+        public string? Email { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
         public string? IdNumber { get; set; }
         public DateTime? BirthDate { get; set; }
         public string? Cellphone { get; set; }

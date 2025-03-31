@@ -16,10 +16,12 @@ namespace DeportNetReconocimiento.Api.Services
         const string urlEntradaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessCheckUserEnter";
         const string urlBajaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessDeleteResult";
         const string urlAltaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessLectureResult";
+        //a partir de aca no estan en prod
         const string urlClientesTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetMembers";
         const string urlConceptsTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConcepts";
         const string urlEmpleadosTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetUsers";
         const string urlEnviarAccesosTest = "https://testing.deportnet.com/offlineAccess/offlineSetAccess";
+        const string urlConfiguracionAccesoTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConfiguration";
 
         /*Produccion*/
         const string urlEntradaCliente = "https://deportnet.com/facialAccess/facialAccessCheckUserEnter";
@@ -44,6 +46,16 @@ namespace DeportNetReconocimiento.Api.Services
 
 
             return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
+        }
+
+        public static async Task<string> ObtenerCofiguracionDeAccesoOffline(string idSucursal)
+        {
+            object data = new
+            {
+                activeBranchId = idSucursal
+            };
+
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlConfiguracionAccesoTest, HttpMethod.Post);
         }
 
         public static async Task<string> ObtenerEmpleadosSucursalOffline(string idSucursal)

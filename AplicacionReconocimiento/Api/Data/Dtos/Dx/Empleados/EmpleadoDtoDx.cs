@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeportNetReconocimiento.Api.Data.Dtos.Dx
+namespace DeportNetReconocimiento.Api.Data.Dtos.Dx.Empleados
 {
     public class EmpleadoDtoDx
     {

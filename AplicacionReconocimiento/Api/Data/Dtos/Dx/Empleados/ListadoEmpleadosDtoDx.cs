@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeportNetReconocimiento.Api.Data.Dtos.Dx
+namespace DeportNetReconocimiento.Api.Data.Dtos.Dx.Empleados
 {
-    public class ListadoEmpleadosDx
+    public class ListadoEmpleadosDtoDx
     {
         public List<EmpleadoDtoDx> Users { get; set; }
         public string Result { get; set; }
@@ -14,11 +14,11 @@ namespace DeportNetReconocimiento.Api.Data.Dtos.Dx
         public string CountUsers { get; set; }
         public string BranchName { get; set; }
 
-        public ListadoEmpleadosDx()
+        public ListadoEmpleadosDtoDx()
         {
-        }   
+        }
 
-        public ListadoEmpleadosDx(List<EmpleadoDtoDx> users, string result, string errorMessage, string countUsers, string branchName)
+        public ListadoEmpleadosDtoDx(List<EmpleadoDtoDx> users, string result, string errorMessage, string countUsers, string branchName)
         {
             Users = users;
             Result = result;
@@ -29,10 +29,10 @@ namespace DeportNetReconocimiento.Api.Data.Dtos.Dx
 
         public override string ToString()
         {
-            return "Users: " + Users + 
-                ", Result: " + Result + 
-                ", ErrorMessage: " + ErrorMessage + 
-                ", CountUsers: " + CountUsers + 
+            return "Users: " + Users +
+                ", Result: " + Result +
+                ", ErrorMessage: " + ErrorMessage +
+                ", CountUsers: " + CountUsers +
                 ", BranchName: " + BranchName;
         }
 

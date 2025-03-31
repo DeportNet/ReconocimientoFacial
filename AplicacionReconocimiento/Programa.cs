@@ -25,14 +25,14 @@ namespace DeportNetReconocimiento
 
             /*Cargar BD*/
 
-            apiServer.CargarBd();
+            
 
 
             
 
 
             //iniciazamos la ventana principal de acceso
-            //Application.Run(WFPrincipal.ObtenerInstancia);
+            Application.Run(WFPrincipal.ObtenerInstancia);
 
            
             // Detener el servidor cuando la aplicación cierre
@@ -45,7 +45,7 @@ namespace DeportNetReconocimiento
             string nombreDeProceso = Process.GetCurrentProcess().ProcessName;
             int cantidadDeInstancias = Process.GetProcessesByName(nombreDeProceso).Length;
 
-            if (cantidadDeInstancias > 1)
+            if (cantidadDeInstancias > 2)
             {
                 return true;
             }
@@ -58,7 +58,7 @@ namespace DeportNetReconocimiento
             //Instanciamos y arrancamos el servidor
             apiServer = new ApiServer();
             apiServer.Start();
-           
+            apiServer.CargarBd();
         }
     }
 }

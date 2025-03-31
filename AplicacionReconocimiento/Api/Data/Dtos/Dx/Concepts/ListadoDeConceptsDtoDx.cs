@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeportNetReconocimiento.Api.Data.Dtos.Dx
+namespace DeportNetReconocimiento.Api.Data.Dtos.Dx.Concepts
 {
-    public class ListadoDeConceptsDx
+    public class ListadoDeConceptsDtoDx
     {
         public List<ConceptDtoDx>? Concepts { get; set; }
         public string? Result { get; set; }
         public string? ErrorMessage { get; set; }
         public int? ConceptsCount { get; set; }
 
-        public ListadoDeConceptsDx() { }
+        public ListadoDeConceptsDtoDx() { }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
-using DeportNetReconocimiento.Api.Data.Dtos.Dx;
 using DeportNetReconocimiento.Api.Data.Mapper;
 using DeportNetReconocimiento.Api.Data.Mapper.Interfaces;
 using DeportNetReconocimiento.Api.Services.Interfaces;
@@ -11,6 +10,11 @@ using System.Runtime.Intrinsics.X86;
 using System.Xml.Serialization;
 using Windows.UI;
 using System.Text.Json;
+using DeportNetReconocimiento.Api.Data.Dtos.Dx.Acceso;
+using DeportNetReconocimiento.Api.Data.Dtos.Dx.ConfigAcceso;
+using DeportNetReconocimiento.Api.Data.Dtos.Dx.Socios;
+using DeportNetReconocimiento.Api.Data.Dtos.Dx.Concepts;
+using DeportNetReconocimiento.Api.Data.Dtos.Dx.Empleados;
 
 namespace DeportNetReconocimiento.Api.Services
 {
@@ -21,13 +25,15 @@ namespace DeportNetReconocimiento.Api.Services
         private readonly ISocioMapper _socioMapper;
         private readonly IAccesoMapper _accesoMapper;
         private readonly IEmpleadoMapper _empleadoMapper;
+        private readonly IConfigAccesoMapper _configAccesoMapper;
 
-        public SincronizacionService(BdContext contextBd, ISocioMapper socioMapper, IAccesoMapper accesoMapper, IEmpleadoMapper empleadoMapper)
+        public SincronizacionService(BdContext contextBd, ISocioMapper socioMapper, IAccesoMapper accesoMapper, IEmpleadoMapper empleadoMapper, IConfigAccesoMapper configAccesoMapper)
         {
             _contextBd = contextBd;
             _socioMapper = socioMapper;
             _accesoMapper = accesoMapper;
             _empleadoMapper = empleadoMapper;
+            _configAccesoMapper = configAccesoMapper;
             idSucursal = CredencialesUtils.LeerCredencialEspecifica(4);
 
         }
@@ -53,6 +59,11 @@ namespace DeportNetReconocimiento.Api.Services
             //3. Obtener de Dx los clientes
             await SincronizarSocios();
 
+            //4. Obtener Configuracion de Acceso
+            await SincronizarConfiguracionDeAcceso();
+
+
+            // Actualizamos la fecha de sincronizacion
             ActualizarFechaSincronizacion();
         }
 
@@ -146,7 +157,7 @@ namespace DeportNetReconocimiento.Api.Services
             }
 
             string json = await WebServicesDeportnet.ObtenerClientesOffline(idSucursal);
-            ListadoClientesDx apiResponse = JsonConvert.DeserializeObject<ListadoClientesDx>(json);
+            ListadoClientesDtoDx apiResponse = JsonConvert.DeserializeObject<ListadoClientesDtoDx>(json);
 
             if (apiResponse == null)
             {
@@ -214,7 +225,7 @@ namespace DeportNetReconocimiento.Api.Services
         public async Task SincronizarConcepts()
         {
             //1. Obtener de Dx los conceptos, tanto como membresias y articulos
-            ListadoDeConceptsDx listadoDeConceptsDx = await ObtenerConceptsDelWebserviceAsync();
+            ListadoDeConceptsDtoDx listadoDeConceptsDx = await ObtenerConceptsDelWebserviceAsync();
 
 
             if (listadoDeConceptsDx == null || listadoDeConceptsDx.ConceptsCount == 0)
@@ -234,16 +245,16 @@ namespace DeportNetReconocimiento.Api.Services
 
             //5. Registrar la fecha de sincronizacion en la tabla concepts
         }
-        private async Task<ListadoDeConceptsDx> ObtenerConceptsDelWebserviceAsync()
+        private async Task<ListadoDeConceptsDtoDx> ObtenerConceptsDelWebserviceAsync()
         {
-            ListadoDeConceptsDx listadoDeConceptsDx = new ListadoDeConceptsDx();
+            ListadoDeConceptsDtoDx listadoDeConceptsDx = new ListadoDeConceptsDtoDx();
             if (idSucursal == null)
             {
                 return listadoDeConceptsDx;
             }
 
             string json = await WebServicesDeportnet.ObtenerConceptsOffline(idSucursal);
-            listadoDeConceptsDx = JsonConvert.DeserializeObject<ListadoDeConceptsDx>(json);
+            listadoDeConceptsDx = JsonConvert.DeserializeObject<ListadoDeConceptsDtoDx>(json);
 
             if (listadoDeConceptsDx == null)
             {
@@ -259,7 +270,7 @@ namespace DeportNetReconocimiento.Api.Services
 
             return listadoDeConceptsDx;
         }
-        private (List<Membresia> Membresias, List<Articulo> Articulos) ObtenerListadoDeMembresiasYArticulos(ListadoDeConceptsDx listadoDeConceptsDx)
+        private (List<Membresia> Membresias, List<Articulo> Articulos) ObtenerListadoDeMembresiasYArticulos(ListadoDeConceptsDtoDx listadoDeConceptsDx)
         {
             List<Membresia> membresias = new List<Membresia>();
             List<Articulo> articulos = new List<Articulo>();
@@ -463,7 +474,7 @@ namespace DeportNetReconocimiento.Api.Services
                 //Llamado al post de enviar lote 
                 string json = await  WebServicesDeportnet.EnviarLoteDeAccesos(_accesoMapper.AccesoToAccesoDtoDx(ultimoLote).ToString());
 
-                RespuestaSincronizacionLoteAccesosDx respuestaSincronizacion = System.Text.Json.JsonSerializer.Deserialize<RespuestaSincronizacionLoteAccesosDx>(json);
+                RespuestaSincronizacionLoteAccesosDtoDx respuestaSincronizacion = System.Text.Json.JsonSerializer.Deserialize<RespuestaSincronizacionLoteAccesosDtoDx>(json);
 
                 Console.WriteLine($"Respuesta de sincronización de lote {ultimoLote.ProcessId} es {respuestaSincronizacion.ProcessResult}. " +
                     $"\nMensaje de error: {respuestaSincronizacion.ErrorMessage}" +
@@ -478,7 +489,7 @@ namespace DeportNetReconocimiento.Api.Services
         {
             int limiteLote = 20;
             List<AccesoSocio> accesoSocios = await _contextBd.AccesosSocios.Take(limiteLote).ToListAsync();
-            return new Acceso(int.Parse(CredencialesUtils.LeerCredenciales()[4]), accesoSocios);
+            return new Acceso(int.Parse(CredencialesUtils.LeerCredencialEspecifica(4)), accesoSocios);
         }
 
         /*EMPLEADOS*/
@@ -486,7 +497,7 @@ namespace DeportNetReconocimiento.Api.Services
         public async Task SincronizarEmpleados()
         {
             //1. Obtener de Dx los empleados
-            ListadoEmpleadosDx? listadoDeEmpleadosDx = await ObtenerEmpleadosDelWebserviceAsync();
+            ListadoEmpleadosDtoDx? listadoDeEmpleadosDx = await ObtenerEmpleadosDelWebserviceAsync();
             Console.WriteLine("Obtenemos empleados de dx");
 
             if(listadoDeEmpleadosDx == null || listadoDeEmpleadosDx.CountUsers == "0")
@@ -507,7 +518,7 @@ namespace DeportNetReconocimiento.Api.Services
             await InsertarEmpleadosEnTabla(empleados);
             
         }
-        private async Task<ListadoEmpleadosDx> ObtenerEmpleadosDelWebserviceAsync()
+        private async Task<ListadoEmpleadosDtoDx> ObtenerEmpleadosDelWebserviceAsync()
         {
 
          
@@ -517,7 +528,7 @@ namespace DeportNetReconocimiento.Api.Services
             }
 
             string json = await WebServicesDeportnet.ObtenerEmpleadosSucursalOffline(idSucursal);
-            ListadoEmpleadosDx apiResponse = JsonConvert.DeserializeObject<ListadoEmpleadosDx>(json);
+            ListadoEmpleadosDtoDx apiResponse = JsonConvert.DeserializeObject<ListadoEmpleadosDtoDx>(json);
             
 
             if (apiResponse == null)
@@ -616,6 +627,70 @@ namespace DeportNetReconocimiento.Api.Services
 
         /*CONFIGURACIONES ACCESO*/
 
+        public async Task SincronizarConfiguracionDeAcceso()
+        {
+            ConfiguracionDeAcceso? configAcceso = await ObtenerConfiguracionDeAccesoDelWebserviceAsync();
+
+            if (configAcceso == null) {
+                return;
+            }
+
+
+
+        }
+
+        private async Task<ConfiguracionDeAcceso?> ObtenerConfiguracionDeAccesoDelWebserviceAsync()
+        {
+            if(idSucursal == null)
+            {
+                return null;
+            }
+            string json = await WebServicesDeportnet.ObtenerCofiguracionDeAccesoOffline(idSucursal);
+            RespuestaConfigAcceso apiResponse = JsonConvert.DeserializeObject<RespuestaConfigAcceso>(json);
+
+            if (apiResponse == null)
+            {
+                Console.WriteLine("Error al obtener listado de clientes, la respuesta vino null");
+                return null;
+            }
+
+            if (apiResponse.Result == "F")
+            {
+                Console.WriteLine("Error al obtener listado de clientes: " + apiResponse.ErrorMessage);
+                return null;
+            }
+
+           
+
+            return _configAccesoMapper.RespuestaConfigAccesoToConfiguracionDeAcceso(apiResponse);
+
+        }
+
+        private async Task InsertarConfigAccesoTabla(ConfiguracionDeAcceso configuracionDeAcceso)
+        {
+            using var transaction = await _contextBd.Database.BeginTransactionAsync(); // Iniciar transacción
+            try
+            {
+                //1. Eliminamos datos de tabla ConfigAcceso
+                _contextBd.ConfiguracionDeAcceso.RemoveRange(_contextBd.ConfiguracionDeAcceso);
+
+
+                _contextBd.ConfiguracionDeAcceso.Add(configuracionDeAcceso);
+
+                //Guardamos los cambios
+                await _contextBd.SaveChangesAsync();
+
+                //Commiteamos la transaccion
+                await transaction.CommitAsync();// Confirmamos transaccion
+
+                Console.WriteLine($"Se elimino e inserto la configAcceso en la base de datos.");
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync(); // En caso de error, deshacer cambios
+                Console.WriteLine($"Error al insertar empleados: {ex.Message}");
+            }
+        }
 
         /*CONFIGURACIONES LOCAL*/
 

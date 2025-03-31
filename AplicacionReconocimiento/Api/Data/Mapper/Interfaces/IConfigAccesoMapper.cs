@@ -1,5 +1,5 @@
 ﻿using DeportNetReconocimiento.Api.Data.Domain;
-using DeportNetReconocimiento.Api.Data.Dtos.Dx.Acceso;
+using DeportNetReconocimiento.Api.Data.Dtos.Dx.ConfigAcceso;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Api.Data.Mapper.Interfaces
 {
-    public interface IAccesoMapper
+    public interface IConfigAccesoMapper
     {
-        AccesoDtoDx AccesoToAccesoDtoDx(Acceso acceso);
-       // List<AccesoDtoDx> MapearListaDtoASocio(List<Acceso> accesos);
+        public ConfiguracionDeAcceso RespuestaConfigAccesoToConfiguracionDeAcceso(RespuestaConfigAcceso respuestaConfigAcceso);
+
+
     }
 }

@@ -1,5 +1,5 @@
 ﻿using DeportNetReconocimiento.Api.Data.Domain;
-using DeportNetReconocimiento.Api.Data.Dtos.Dx;
+using DeportNetReconocimiento.Api.Data.Dtos.Dx.Acceso;
 using DeportNetReconocimiento.Api.Data.Mapper.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,13 +12,13 @@ namespace DeportNetReconocimiento.Api.Data.Mapper
     public class AccesoMapper : IAccesoMapper
     {
 
-        AccesoSocioMapper _accesoSocioMapeper = new AccesoSocioMapper();
+        AccesoSocioMapper _accesoSocioMaper = new AccesoSocioMapper();
         public AccesoDtoDx AccesoToAccesoDtoDx(Acceso acceso)
         {
             AccesoDtoDx accesoDtoDx = new AccesoDtoDx();
             accesoDtoDx.ActiveBranchId = acceso.ActiveBranchId;
             accesoDtoDx.ProcessId = acceso.ProcessId;
-            accesoDtoDx.MemberAccess = _accesoSocioMapeper.ListaAccesoSocioToAccesoSocioDtoDx(acceso.MemberAccess);
+            accesoDtoDx.MemberAccess = _accesoSocioMaper.ListaAccesoSocioToAccesoSocioDtoDx(acceso.MemberAccess);
 
             return accesoDtoDx;
         }
