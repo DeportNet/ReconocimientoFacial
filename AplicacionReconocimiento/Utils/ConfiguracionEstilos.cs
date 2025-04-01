@@ -255,10 +255,10 @@ namespace DeportNetReconocimiento.Utils
             get => porcentajeAlertaCapacidad;
             set
             {
-                if (value < 0 || value > 100)
+                if (value < 75 || value > 95)
                 {
                     MessageBox.Show(
-                        "El porcentaje debe estar entre el rango de 1 y 100",
+                        "El porcentaje debe estar entre el rango de 75 y 95",
                         "Error de validación",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error
@@ -409,7 +409,7 @@ namespace DeportNetReconocimiento.Utils
             // Campos de estadísticas
             CarasRegistradas = 1;
             CapacidadMaximaDispositivo = 500;
-            PorcentajeAlertaCapacidad = 70.0f;
+            PorcentajeAlertaCapacidad = 80.0f;
 
             // Configuraciones apertura
             MetodoApertura = ".exe";

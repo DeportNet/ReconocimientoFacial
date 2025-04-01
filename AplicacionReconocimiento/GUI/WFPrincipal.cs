@@ -362,15 +362,15 @@ namespace DeportNetReconocimiento.GUI
 
             float porcentajeActual = (carasActuales * 100) / capacidadMaxima;
 
-            if (porcentajeActual > porcentaje && PanelAlmacenamiento.Visible == false)
+            if (porcentajeActual > porcentaje)
             {
-
                 TextoAlmacenamiento.Text = $"- Capacidad al: {porcentajeActual}%     - Socios: {carasActuales}/{capacidadMaxima}";
-                PanelAlmacenamiento.Visible = true;
+                TextoAlmacenamiento.ForeColor = Color.Red;
             }
-            else if (porcentajeActual < porcentaje && PanelAlmacenamiento.Visible == true)
+            else if (porcentajeActual < porcentaje)
             {
-                PanelAlmacenamiento.Visible = false;
+                TextoAlmacenamiento.Text = $"- Capacidad al: {porcentajeActual}%     - Socios: {carasActuales}/{capacidadMaxima}";
+                TextoAlmacenamiento.ForeColor = Color.Green;
             }
         }
 
