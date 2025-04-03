@@ -69,16 +69,17 @@ namespace DeportNetReconocimiento.Api
                         {
                             BdContext.InicializarBd();
                             
-                            string rutaDb = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "DeportnetReconocimiento", "dbDx.dt");
+                            string rutaDb = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "DeportnetReconocimiento", "dbDx.sqlite");
                             var connection = new SqliteConnection($"Data Source={rutaDb}");
                             connection.Open();
 
+                            /*
                             using (var command = connection.CreateCommand())
                             {
                                 command.CommandText = "PRAGMA key = '!MiClaveSegura123!';"; // Configurar contraseña
                                 command.ExecuteNonQuery();
                             }
-
+                            */
                             connection.Close();
 
                             //Configurar SQLite

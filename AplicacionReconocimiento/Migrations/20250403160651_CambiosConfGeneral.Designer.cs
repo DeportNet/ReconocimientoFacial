@@ -3,6 +3,7 @@ using System;
 using DeportNetReconocimiento.Api.BD;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeportNetReconocimiento.Migrations
 {
     [DbContext(typeof(BdContext))]
-    partial class BdContextModelSnapshot : ModelSnapshot
+    [Migration("20250403160651_CambiosConfGeneral")]
+    partial class CambiosConfGeneral
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
@@ -143,11 +146,12 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("prior_last_syncro");
 
-                    b.Property<int?>("CantMaxLotes")
+                    b.Property<int>("CantMaxLotes")
                         .HasColumnType("INTEGER")
                         .HasColumnName("max_lot_quantity");
 
                     b.Property<string>("ContraseniaBd")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("TEXT")
                         .HasColumnName("password");

@@ -15,21 +15,21 @@ namespace DeportNetReconocimiento.Api.Data.Domain
 
         //cant maxima lotes
         [Column("max_lot_quantity")]
-        [DisallowNull]
+        [AllowNull]
         [DefaultValue(200)]
-        public int CantMaxLotes { get; set; }
+        public int? CantMaxLotes { get; set; }
 
         [Column("password")]
         [StringLength(50)]
-        [Required]
-        public string ContraseniaBd { get; set; }
+        [AllowNull]
+        public string? ContraseniaBd { get; set; }
         
         [Column("branch_name")]
         [StringLength(100)]
         [Required]
-        [DisallowNull]
+        [AllowNull]
         //nombre sucursal
-        public string NombreSucursal { get; set; }
+        public string? NombreSucursal { get; set; }
 
         [Column("last_syncro")]
         [AllowNull]

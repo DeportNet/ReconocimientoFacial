@@ -45,7 +45,7 @@ namespace DeportNetReconocimiento.Api.Services
 
         public async Task SincronizarTodasLasTablasDx()
         {
-            idSucursal = CredencialesUtils.LeerCredencialesBd().BranchId;//CredencialesUtils.LeerCredencialEspecifica(4);// "23";
+            idSucursal = "23"; //CredencialesUtils.LeerCredencialesBd().BranchId;//CredencialesUtils.LeerCredencialEspecifica(4);// 
 
             if (SeSincronizoHoy())
             {
@@ -57,22 +57,32 @@ namespace DeportNetReconocimiento.Api.Services
             await SincronizarEmpleados();
             
             //2. Obtener de Dx los concepts
-            //await SincronizarConcepts();
+            await SincronizarConcepts();
 
             ////3. Obtener de Dx los clientes
-            //await SincronizarSocios();
+            await SincronizarSocios();
 
             ////4. Obtener Configuracion de Acceso
-            //await SincronizarConfiguracionDeAcceso();
+            await SincronizarConfiguracionDeAcceso();
 
 
             // Actualizamos la fecha de sincronizacion
-            //ActualizarFechaSincronizacion();
+            ActualizarFechaSincronizacion();
         }
 
 
         /*VALIDAR SI SE SINCRONIZO HOY*/
         public bool SeSincronizoHoy() {
+
+            ConfiguracionGeneral? config = _contextBd.ConfiguracionGeneral
+               .OrderBy(c => c.Id == 1)
+               .FirstOrDefault();
+
+            if (config == null)
+            {
+                ConfiguracionGeneral confGeneral = new ConfiguracionGeneral();
+                _contextBd.ConfiguracionGeneral.AddAsync(confGeneral);
+            }
             bool flag = false;
             DateTime? ultimaFecha = _contextBd.ConfiguracionGeneral
                               .OrderBy(c => c.Id == 1) 
@@ -101,13 +111,16 @@ namespace DeportNetReconocimiento.Api.Services
         {
             ConfiguracionGeneral? config = _contextBd.ConfiguracionGeneral
                 .OrderBy(c => c.Id == 1)
-                .FirstOrDefault(); 
+                .FirstOrDefault();
 
+
+            
             if (config == null)
             {
                 Console.WriteLine("Config es null");
                 return;
             }
+            
 
             try
             {

@@ -31,7 +31,8 @@ namespace DeportNetReconocimiento.Utils
             
             if (bdContext == null)
             {
-                BdContext bdContext = BdContext.CrearContexto();
+                Console.WriteLine("El bd context es null");
+                bdContext = BdContext.CrearContexto();
             }
 
             Credenciales credObtenidas = new Credenciales();
@@ -77,23 +78,23 @@ namespace DeportNetReconocimiento.Utils
                 bdContext = BdContext.CrearContexto();
             }
 
-            //Credenciales credObtenidas = new Credenciales();
-            //try
-            //{
-            //    credObtenidas = bdContext.Credenciales.FirstOrDefault();
-            //}catch(Exception ex)
-            //{
-            //    Console.WriteLine("No hay credenciales viejas para sobreescribir");
-            //}
+            Credenciales credObtenidas = new Credenciales();
+            try
+            {
+                credObtenidas = bdContext.Credenciales.FirstOrDefault();
+            }catch(Exception ex)
+            {
+                Console.WriteLine("No hay credenciales viejas para sobreescribir");
+            }
 
             
 
-            //if(credObtenidas != null)
-            //{
-            //    //elimino todas las credenciales
-            //    bdContext.Credenciales.RemoveRange(bdContext.Credenciales);
-            //    bdContext.SaveChanges(); // Guardar inserción
-            //}
+            if(credObtenidas != null)
+            {
+                //elimino todas las credenciales
+                bdContext.Credenciales.RemoveRange(bdContext.Credenciales);
+                bdContext.SaveChanges(); // Guardar inserción
+            }
 
 
             bdContext.Credenciales.Add(credenciales);

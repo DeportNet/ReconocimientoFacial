@@ -33,17 +33,18 @@ namespace DeportNetReconocimiento.Api.BD
 
             string rutaDb = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-                "DeportnetReconocimiento", "dbDx.dt");
+                "DeportnetReconocimiento", "dbDx.sqlite");
 
             var connection = new SqliteConnection($"Data Source={rutaDb}");
             connection.Open();
 
+            /*
             using (var command = connection.CreateCommand())
             {
                 command.CommandText = "PRAGMA key = '!MiClaveSegura123!';"; // Tu clave
                 command.ExecuteNonQuery();
             }
-
+            */
             connection.Close();
 
             optionsBuilder.UseSqlite($"Data Source={rutaDb}");
@@ -54,7 +55,7 @@ namespace DeportNetReconocimiento.Api.BD
         {
             // Ruta de la carpeta y la base de datos
             string rutaCarpeta = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "DeportnetReconocimiento");
-            string rutaDb = Path.Combine(rutaCarpeta, "dbDx.dt");
+            string rutaDb = Path.Combine(rutaCarpeta, "dbDx.sqlite");
 
             // Si la carpeta y la base de datos ya existen, no hacer nada
             if (Directory.Exists(rutaCarpeta) && File.Exists(rutaDb))
@@ -106,7 +107,7 @@ namespace DeportNetReconocimiento.Api.BD
         {
             // Ruta de la carpeta y la base de datos
             string rutaCarpeta = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "DeportnetReconocimiento");
-            string rutaDb = Path.Combine(rutaCarpeta, "dbDx.dt");
+            string rutaDb = Path.Combine(rutaCarpeta, "dbDx.sqlite");
 
             // Si la carpeta y la base de datos ya existen, no hacer nada
             if (Directory.Exists(rutaCarpeta) && File.Exists(rutaDb))
