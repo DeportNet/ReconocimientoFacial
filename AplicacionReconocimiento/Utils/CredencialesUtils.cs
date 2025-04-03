@@ -1,15 +1,107 @@
-﻿using System;
+﻿using DeportNetReconocimiento.Api;
+using DeportNetReconocimiento.Api.BD;
+using DeportNetReconocimiento.Api.Data.Domain;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 
 namespace DeportNetReconocimiento.Utils
 {
     public class CredencialesUtils
     {
-
+        
         private static string rutaArchivo = "credenciales.bin";
+        private static BdContext? bdContext;
+
+        public static Credenciales? LeerCredencialesBd()
+        {
+            
+
+            if (!BdContext.BdInicializada())
+            {
+                Console.WriteLine("Base de datos no inicializada");
+                return null;
+            }
+
+            
+            if (bdContext == null)
+            {
+                BdContext bdContext = BdContext.CrearContexto();
+            }
+
+            Credenciales credObtenidas = new Credenciales();
+            try
+            {
+                credObtenidas = bdContext.Credenciales.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("No se encontró credenciales en CredencialesUtils");
+                return null;
+            }
+
+            if(credObtenidas == null)
+            {
+                Console.WriteLine("No se encontró credenciales en CredencialesUtils");
+                return null;
+            }
+
+            return new Credenciales
+            {
+          
+                Ip = credObtenidas.Ip,
+                Port = credObtenidas.Port,
+                Username = credObtenidas.Username,
+                Password = credObtenidas.Password,
+                BranchId = credObtenidas.BranchId,
+                BranchToken = credObtenidas.BranchToken
+            };
+        }
+
+        public static void EscribirCredencialesBd(Credenciales credenciales)
+        {
+            if (!BdContext.BdInicializada())
+            {
+                Console.WriteLine("Base de datos no inicializada");
+                return;
+            }
+
+            
+            if (bdContext == null)
+            {
+                bdContext = BdContext.CrearContexto();
+            }
+
+            //Credenciales credObtenidas = new Credenciales();
+            //try
+            //{
+            //    credObtenidas = bdContext.Credenciales.FirstOrDefault();
+            //}catch(Exception ex)
+            //{
+            //    Console.WriteLine("No hay credenciales viejas para sobreescribir");
+            //}
+
+            
+
+            //if(credObtenidas != null)
+            //{
+            //    //elimino todas las credenciales
+            //    bdContext.Credenciales.RemoveRange(bdContext.Credenciales);
+            //    bdContext.SaveChanges(); // Guardar inserción
+            //}
+
+
+            bdContext.Credenciales.Add(credenciales);
+            bdContext.SaveChanges(); // Guardar inserción
+
+            Console.WriteLine("Credenciales escritas");
+        }
+
 
         public static void EscribirArchivoCredenciales(string[] arregloDeDatos)
         {

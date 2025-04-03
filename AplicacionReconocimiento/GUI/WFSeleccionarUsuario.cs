@@ -21,10 +21,10 @@ namespace DeportNetReconocimiento.GUI
         private bool ingresoSinEmpleado;
         private List<Empleado> listadoEmpleados;
         private Empleado? empleadoSeleccionado;
-        public WFSeleccionarUsuario(BdContext bdContext)
+        public WFSeleccionarUsuario()
         {
             InitializeComponent();
-            _contextBd = bdContext;
+            _contextBd = BdContext.CrearContexto();
             nombreSucursal = ObtenerNombreSucursal();
             listadoEmpleados = ObtenerListadoDeEmpleados();
             empleadoSeleccionado = null;
@@ -72,8 +72,8 @@ namespace DeportNetReconocimiento.GUI
             }
 
 
-            comboBox1.DataSource = listadoEmpleados;
-            comboBox1.ValueMember = "Id";
+            //comboBox1.DataSource = listadoEmpleados;
+            //comboBox1.ValueMember = "Id";
             foreach (Empleado empleado in listadoEmpleados)
             {
                 comboBox1.Items.Add(empleado.JuntarNombreYApellido());
@@ -83,6 +83,8 @@ namespace DeportNetReconocimiento.GUI
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
+
 
             //es la parte de seleccione...
             if (comboBox1.SelectedIndex == 0)
@@ -99,13 +101,15 @@ namespace DeportNetReconocimiento.GUI
                 return;
             }
 
+            label2.Text = "Ingrese la contraseña de " + comboBox1.SelectedItem + ":";
+            panel1.Show();
 
-            if (comboBox1.SelectedItem is Empleado empleado)
-            {
-                Console.WriteLine($"Seleccionaste: {empleado.FirstName} {empleado.LastName}");
-                label2.Text = "Ingrese la contraseña de " + empleado.JuntarNombreYApellido() + ":";
-                panel1.Show();
-            }
+            //if (comboBox1.SelectedItem is Empleado empleado)
+            //{
+            //    Console.WriteLine($"Seleccionaste: {empleado.FirstName} {empleado.LastName}");
+            //    label2.Text = "Ingrese la contraseña de " + empleado.JuntarNombreYApellido() + ":";
+            //    panel1.Show();
+            //}
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

@@ -1,5 +1,6 @@
 ﻿using DeportNetReconocimiento.Api.Data.Domain;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -21,12 +22,33 @@ namespace DeportNetReconocimiento.Api.BD
         public DbSet<ConfiguracionGeneral> ConfiguracionGeneral { get; set; }
         public DbSet<ConfiguracionDeAcceso> ConfiguracionDeAcceso { get; set; }
         public DbSet<Empleado> Empleados { get; set; }
-        //public DbSet<Credenciales> Credenciales { get; set; }
+        public DbSet<Credenciales> Credenciales { get; set; }
 
         public BdContext(DbContextOptions<BdContext> options) : base(options)
         {
         }
+        public static BdContext CrearContexto()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<BdContext>();
 
+            string rutaDb = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+                "DeportnetReconocimiento", "dbDx.dt");
+
+            var connection = new SqliteConnection($"Data Source={rutaDb}");
+            connection.Open();
+
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "PRAGMA key = '!MiClaveSegura123!';"; // Tu clave
+                command.ExecuteNonQuery();
+            }
+
+            connection.Close();
+
+            optionsBuilder.UseSqlite($"Data Source={rutaDb}");
+            return new BdContext(optionsBuilder.Options);
+        }
 
         public static void InicializarBd()
         {
@@ -80,6 +102,19 @@ namespace DeportNetReconocimiento.Api.BD
 
         }
 
+        public static bool BdInicializada()
+        {
+            // Ruta de la carpeta y la base de datos
+            string rutaCarpeta = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "DeportnetReconocimiento");
+            string rutaDb = Path.Combine(rutaCarpeta, "dbDx.dt");
+
+            // Si la carpeta y la base de datos ya existen, no hacer nada
+            if (Directory.Exists(rutaCarpeta) && File.Exists(rutaDb))
+            {
+                return true;
+            }
+            return false;
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -87,7 +122,7 @@ namespace DeportNetReconocimiento.Api.BD
             modelBuilder.Entity<Articulo>().ToTable("articulos");
             modelBuilder.Entity<Membresia>().ToTable("membresias");
             modelBuilder.Entity<Empleado>().ToTable("empleados");
-            //modelBuilder.Entity<Credenciales>().ToTable("credenciales");
+            modelBuilder.Entity<Credenciales>().ToTable("credenciales");
             modelBuilder.Entity<ConfiguracionGeneral>().ToTable("configuracion_general");
             modelBuilder.Entity<ConfiguracionDeAcceso>().ToTable("configuracion_de_acceso");
 

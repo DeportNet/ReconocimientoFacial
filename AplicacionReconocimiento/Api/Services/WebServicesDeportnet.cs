@@ -270,9 +270,10 @@ namespace DeportNetReconocimiento.Api.Services
                 Timeout = TimeSpan.FromSeconds(10) // o 5, según prefieras
             };
 
-            string token = CredencialesUtils.LeerCredencialEspecifica(5);
-
-            if (token == null)
+            string token = CredencialesUtils.LeerCredencialesBd().BranchToken;//CredencialesUtils.LeerCredencialEspecifica(5); //"H7gVA3r89jvaMuDd";
+            
+          
+            if (string.IsNullOrWhiteSpace(token))
             {
                 Console.WriteLine("ERROR: No se encontró el token de la sucursal");
                 return "ERROR: No se encontró el token de la sucursal";
@@ -280,7 +281,7 @@ namespace DeportNetReconocimiento.Api.Services
 
             // Configurar el header HTTP_X_SIGNATURE
             client.DefaultRequestHeaders.Add("X-Signature", token);
-
+            
             //creamos el contenido
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -293,6 +294,7 @@ namespace DeportNetReconocimiento.Api.Services
                 switch (metodo.Method)
                 {
                     case "POST":
+                        
                         response = await client.PostAsync(url, content);
                         break;
                     case "DELETE":

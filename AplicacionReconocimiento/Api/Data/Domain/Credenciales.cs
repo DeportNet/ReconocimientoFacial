@@ -48,5 +48,33 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         public string? BranchToken{ get; set; }
 
 
+        public Credenciales() { }
+        public Credenciales(
+            string? ip, 
+            string? port,
+            string? username, 
+            string? password, 
+            string? branchId, 
+            string? branchToken)
+        {
+
+            Ip = ip;
+            Port = port;
+            Username = username;
+            Password = password;
+            BranchId = branchId;
+            BranchToken = branchToken;
+        }
+
+        public override string ToString()
+        {
+            return "Credenciales: " +
+                $"Ip: {Ip}, " +
+                $"Port: {Port}, " +
+                $"Username: {Username}, " +
+                $"Password: {Password}, " +
+                $"BranchId: {BranchId}, " +
+                $"BranchToken: {BranchToken}";
+        }
     }
 }

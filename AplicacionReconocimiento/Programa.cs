@@ -1,6 +1,8 @@
 using DeportNetReconocimiento.Api;
+using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.GUI;
+using DeportNetReconocimiento.Utils;
 using System.Diagnostics;
 
 
@@ -23,16 +25,18 @@ namespace DeportNetReconocimiento
             /*API*/
             InicializarApi();
 
-            /*Cargar BD*/
+            CredencialesUtils.EscribirCredencialesBd(new Credenciales("192.168.1.10", "8080", "admin", "123456", "23", "H7gVA3r89jvaMuDd"));
 
+            //Console.WriteLine(CredencialesUtils.LeerCredencialesBd().ToString());
+
+
+
+
+            /*Cargar BD*/
             apiServer.CargarBd();
 
-
-
-
-
             //iniciazamos la ventana principal de acceso
-            //Application.Run(WFPrincipal.ObtenerInstancia);
+            Application.Run(new WFSeleccionarUsuario());
 
 
             // Detener el servidor cuando la aplicación cierre

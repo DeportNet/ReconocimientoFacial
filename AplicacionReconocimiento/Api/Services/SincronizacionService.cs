@@ -37,15 +37,15 @@ namespace DeportNetReconocimiento.Api.Services
             _accesoMapper = accesoMapper;
             _empleadoMapper = empleadoMapper;
             _configAccesoMapper = configAccesoMapper;
-            idSucursal = CredencialesUtils.LeerCredencialEspecifica(4);
-
+            //idSucursal = CredencialesUtils.LeerCredencialesBd().BranchId;//CredencialesUtils.LeerCredencialEspecifica(4);// "23";
+            
         }
 
         /*TRAERSE TABLAS DE DX*/
 
         public async Task SincronizarTodasLasTablasDx()
         {
-            
+            idSucursal = CredencialesUtils.LeerCredencialesBd().BranchId;//CredencialesUtils.LeerCredencialEspecifica(4);// "23";
 
             if (SeSincronizoHoy())
             {
@@ -57,22 +57,21 @@ namespace DeportNetReconocimiento.Api.Services
             await SincronizarEmpleados();
             
             //2. Obtener de Dx los concepts
-            await SincronizarConcepts();
+            //await SincronizarConcepts();
 
-            //3. Obtener de Dx los clientes
-            await SincronizarSocios();
+            ////3. Obtener de Dx los clientes
+            //await SincronizarSocios();
 
-            //4. Obtener Configuracion de Acceso
-            await SincronizarConfiguracionDeAcceso();
+            ////4. Obtener Configuracion de Acceso
+            //await SincronizarConfiguracionDeAcceso();
 
 
             // Actualizamos la fecha de sincronizacion
-            ActualizarFechaSincronizacion();
+            //ActualizarFechaSincronizacion();
         }
 
 
         /*VALIDAR SI SE SINCRONIZO HOY*/
-
         public bool SeSincronizoHoy() {
             bool flag = false;
             DateTime? ultimaFecha = _contextBd.ConfiguracionGeneral

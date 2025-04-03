@@ -89,7 +89,7 @@
             mensajeErrorLabel.Size = new Size(123, 15);
             mensajeErrorLabel.TabIndex = 4;
             mensajeErrorLabel.Text = "Contraseña Incorrecta";
-            
+            mensajeErrorLabel.Visible = false;
             // 
             // textBox1
             // 
@@ -170,16 +170,15 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(804, 370);
-            ControlBox = false;
             Controls.Add(label4);
             Controls.Add(button1);
             Controls.Add(panel1);
             Controls.Add(comboBox1);
             Controls.Add(label1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "WFSeleccionarUsuario";
-            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Load += WFSeleccionarUsuario_Load;
             panel1.ResumeLayout(false);

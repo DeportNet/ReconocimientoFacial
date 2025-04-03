@@ -26,6 +26,18 @@ namespace DeportNetReconocimiento.Api
         {
         }
 
+        public BdContext? ObtenerBdContext()
+        {
+            BdContext? bd = host.Services.GetService<BdContext>();
+
+            if (bd == null) {
+                Console.WriteLine("Bd Null");
+            }
+
+            return bd;
+            
+        }
+
         public void CargarBd()
         {
             Console.WriteLine("Cargando la bd.......");
