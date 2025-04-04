@@ -130,7 +130,7 @@ namespace DeportNetReconocimiento.Utils
         public Color ColorMensajeAccesoConcedido { get; set; }
 
         [Category("Acceso")]
-        [DisplayName("Color de fondo del campo donde se muestra la informacion del cliente")]
+        [DisplayName("Color de fondo campo informacion cliente")]
         [Description("Selecciona el color de fondo para el campo donde se muestra la informacion del cliente.")]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorFondoInformacionCliente { get; set; }
@@ -370,7 +370,7 @@ namespace DeportNetReconocimiento.Utils
         public ConfiguracionEstilos()
         {
             // General
-            ColorFondo = Color.Silver;
+            ColorFondo = Color.DimGray;
             TiempoDeRetrasoAltaCliente = 5;
 
             // Logo 
@@ -380,31 +380,34 @@ namespace DeportNetReconocimiento.Utils
             ColorFondoLogo = Color.DimGray;
 
             // Bienvenida
-            ColorFondoMensajeBienvenida = Color.DarkGray;
+            ColorFondoMensajeBienvenida = Color.DimGray;
             ColorMensajeBienvenida = Color.Black;
-            MensajeBienvenida = "Bienvenido a DeportNet!";
-            FuenteTextoMensajeAcceso = new Font("Arial Rounded MT Bold", 36, FontStyle.Italic);
+            MensajeBienvenida = "Bienvenido a Gimnasio DeportNet!";
+            FuenteTextoMensajeAcceso = new Font("Arial Rounded MT Bold", 48, FontStyle.Regular);
 
             // Mensaje de acceso
 
-            ColorMensajeAccesoDenegado = Color.Red;
-            ColorMensajeAccesoConcedido = Color.Green;
+            ColorMensajeAccesoDenegado = Color.DarkRed;
+            ColorMensajeAccesoConcedido = Color.DarkGreen;
 
             // Campos de informacion
-            ColorTextoInformacionCliente = Color.Black;
-            ColorFondoInformacionCliente = Color.WhiteSmoke;
-            FuenteTextoInformacionCliente = new Font("Arial Rounded MT Bold", 20, FontStyle.Regular);
-            TiempoDeMuestraDeDatos = 5;
+            ColorTextoInformacionCliente = Color.White;
+            ColorFondoInformacionCliente = Color.DimGray;
+            FuenteTextoInformacionCliente = new Font("Arial Rounded MT Bold", 40, FontStyle.Regular);
+            TiempoDeMuestraDeDatos = 7;
         
             // Imagen Cliente
-            ColorFondoImagen = Color.DarkGray;
+            ColorFondoImagen = Color.DimGray;
 
 
             // Sonidos
             AccesoConcedido = new Sonido();
             AccesoDenegado = new Sonido();
             SonidoPregunta = new Sonido();
+
             SonidoBienvenida = new Sonido();
+
+
 
             // Campos de estadísticas
             CarasRegistradas = 1;

@@ -32,7 +32,7 @@ namespace DeportNetReconocimiento.GUI
         }
         private string ObtenerNombreSucursal()
         {
-            string? nombre = _contextBd.ConfiguracionGeneral.FirstOrDefault(c => c.Id == 1)?.NombreSucursal;
+            string? nombre = "pepito";// _contextBd.ConfiguracionGeneral.FirstOrDefault(c => c.Id == 1)?.NombreSucursal;
 
             if (nombre == null)
             {

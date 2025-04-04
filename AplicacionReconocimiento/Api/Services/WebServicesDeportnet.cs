@@ -1,7 +1,9 @@
-﻿using DeportNetReconocimiento.SDK;
+﻿using DeportNetReconocimiento.Api.Data.Dtos.Response;
+using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
 using System.Dynamic;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -22,6 +24,7 @@ namespace DeportNetReconocimiento.Api.Services
         const string urlEmpleadosTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetUsers";
         const string urlEnviarAccesosTest = "https://testing.deportnet.com/offlineAccess/offlineSetAccess";
         const string urlConfiguracionAccesoTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConfiguration";
+        const string urlBajaMasivaCliente = "https://testing.deportnet.com/facialAccess/massiveMembersDelete";
 
         /*Produccion*/
         const string urlEntradaCliente = "https://deportnet.com/facialAccess/facialAccessCheckUserEnter";
@@ -91,14 +94,24 @@ namespace DeportNetReconocimiento.Api.Services
             return await FetchInformacion(json, urlEnviarAccesosTest, HttpMethod.Post);
         }
 
-        public static async Task<string> AltaFacialClienteDeportnet(string json)
+        public static async Task<string> AltaFacialClienteDeportnet(RespuestaAltaBajaCliente rta)
         {
-            return await FetchInformacion(json, urlAltaCliente, HttpMethod.Post);
+            return await FetchInformacion(rta.ToJson(), urlAltaCliente, HttpMethod.Post);
         }
 
-        public static async Task<string> BajaFacialClienteDeportnet(string json)
+        public static async Task<string> BajaFacialClienteDeportnet(RespuestaAltaBajaCliente rta)
         {
-            return await FetchInformacion(json, urlBajaCliente, HttpMethod.Post);
+            return await FetchInformacion(rta.ToJson(), urlBajaCliente, HttpMethod.Post);
+        }
+
+        public static async Task<string> BajaFacialMasivaClienteDeportnet(string idSucursal)
+        {
+            object data = new
+            {
+                activeBranchId = idSucursal
+            };
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlBajaMasivaCliente, HttpMethod.Post);
+
         }
 
         public static async Task<Hik_Resultado> TestearConexionDeportnet(string tokenSucursal, string idSucursal)

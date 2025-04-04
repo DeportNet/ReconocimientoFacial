@@ -427,7 +427,7 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(idCliente));
             if (resultado.Exito)
             {
-                resultado.Mensaje = "Error de obtener la tarjeta";
+                resultado.Mensaje = "Error de obtener la tarjeta, el cliente con el nro de tarjeta: "+ idCliente+" ya existe";
                 return resultado;
             }
             
