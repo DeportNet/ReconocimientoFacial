@@ -1,3 +1,4 @@
+using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Dtos.Response;
 using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.Modelo;
@@ -85,7 +86,7 @@ namespace DeportNetReconocimiento.GUI
             //ip , puerto, usuario, contraseña en ese orden
             
             
-            if (!CredencialesUtils.ExisteArchivoCredenciales())
+            if (!CredencialesUtils.CredecialesCargadasEnBd())
             {
                 WFRgistrarDispositivo wFRgistrarDispositivo = WFRgistrarDispositivo.ObtenerInstancia;
                 if (!wFRgistrarDispositivo.Visible)
@@ -100,9 +101,9 @@ namespace DeportNetReconocimiento.GUI
                 return resultado;
             }
 
-            string[] credenciales = CredencialesUtils.LeerCredenciales();
+            Credenciales credenciales = CredencialesUtils.LeerCredencialesBd();
 
-            resultado = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(credenciales[2], credenciales[3], credenciales[1], credenciales[0]);
+            resultado = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(credenciales.Username, credenciales.Password, credenciales.Port, credenciales.Ip);
 
             if (resultado.Exito)
             {
@@ -126,12 +127,12 @@ namespace DeportNetReconocimiento.GUI
                 case "7":
 
                     //Logica mostrar loading y buscar ip
-                    string[] credenciales = CredencialesUtils.LeerCredenciales();
+                    Credenciales credenciales = CredencialesUtils.LeerCredencialesBd();
 
                     ocultarPrincipal = true; // Ocultamos la vista pri para que no se pueda hacer nada mientras se busca la ip del dispositivo
                     loading.Show();
 
-                    Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales[1], credenciales[2], credenciales[3]));
+                    Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales.Port, credenciales.Username, credenciales.Password));
 
                     loading.Close();
 
@@ -155,8 +156,8 @@ namespace DeportNetReconocimiento.GUI
                         return;
                     }
 
-                    credenciales[0] = resultadoLogin.Mensaje;
-                    CredencialesUtils.EscribirArchivoCredenciales(credenciales);
+                    credenciales.Ip = resultadoLogin.Mensaje;
+                    CredencialesUtils.EscribirCredencialesBd(credenciales);
                     MessageBox.Show("Se busco la direccion del dispositivo y se configuro con la correspondiente", "Aviso busqueda de Ip dispositivo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 

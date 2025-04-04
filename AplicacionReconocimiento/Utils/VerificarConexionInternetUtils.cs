@@ -1,4 +1,5 @@
-﻿using DeportNetReconocimiento.Api.Services;
+﻿using DeportNetReconocimiento.Api.Data.Domain;
+using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.SDK;
 using System;
 using System.Collections.Generic;
@@ -40,9 +41,9 @@ namespace DeportNetReconocimiento.Utils
         public async Task<bool> ComprobarConexionInternetConDeportnet()
         {
             Hik_Resultado resultado = new Hik_Resultado();
-            string[] credenciales = CredencialesUtils.LeerCredenciales();
+            Credenciales credenciales = CredencialesUtils.LeerCredencialesBd();
 
-            if (credenciales.Length == 0)
+            if (!CredencialesUtils.CredecialesCargadasEnBd())
             {
                 return false;
             }
@@ -52,7 +53,7 @@ namespace DeportNetReconocimiento.Utils
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            resultado = await WebServicesDeportnet.TestearConexionDeportnet(credenciales[5], credenciales[4]);
+            resultado = await WebServicesDeportnet.TestearConexionDeportnet(credenciales.BranchToken, credenciales.BranchId);
 
             stopwatch.Stop();
 
