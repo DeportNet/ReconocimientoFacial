@@ -43,6 +43,15 @@ namespace DeportNetReconocimiento.Api.Data.Domain
 
         public Empleado() { }
 
+        public Empleado(int companyMemberId, string firstName, string lastName, string password, char isActive)
+        {
+            CompanyMemberId = companyMemberId;
+            FirstName = firstName;
+            LastName = lastName;
+            Password = password;
+            IsActive = isActive;
+        }
+
         public string JuntarNombreYApellido()
         {
             return FirstName + " " + LastName;
