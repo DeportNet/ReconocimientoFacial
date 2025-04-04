@@ -1,4 +1,5 @@
-﻿using DeportNetReconocimiento.Api.Data.Dtos.Response;
+﻿using DeportNetReconocimiento.Api.Data.Domain;
+using DeportNetReconocimiento.Api.Data.Dtos.Response;
 using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.Modelo;
@@ -162,8 +163,8 @@ namespace DeportNetReconocimiento.SDKHikvision
             libre = false;
             
 
-            string[] credenciales = CredencialesUtils.LeerCredenciales();
-            string idSucursal = credenciales[4];
+            Credenciales credenciales = CredencialesUtils.LeerCredencialesBd();
+            string idSucursal = credenciales.BranchId;
             
 
             /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/

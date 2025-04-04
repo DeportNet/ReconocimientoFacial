@@ -14,13 +14,11 @@ namespace DeportNetReconocimiento.Utils
 {
     public class CredencialesUtils
     {
-        
-        private static string rutaArchivo = "credenciales.bin";
+
         private static BdContext? bdContext;
 
         public static Credenciales? LeerCredencialesBd()
         {
-            
 
             if (!BdContext.BdInicializada())
             {
@@ -28,33 +26,34 @@ namespace DeportNetReconocimiento.Utils
                 return null;
             }
 
-            
+
             if (bdContext == null)
             {
                 Console.WriteLine("El bd context es null");
                 bdContext = BdContext.CrearContexto();
             }
 
+
             Credenciales credObtenidas = new Credenciales();
-            try
+            credObtenidas = bdContext.Credenciales.FirstOrDefault();
+
+
+            if (credObtenidas == null)
             {
-                credObtenidas = bdContext.Credenciales.FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("No se encontró credenciales en CredencialesUtils");
-                return null;
+                WFRgistrarDispositivo wFRgistrarDispositivo = WFRgistrarDispositivo.ObtenerInstancia;
+
+                if (!wFRgistrarDispositivo.Visible)
+                {
+                    wFRgistrarDispositivo.tipoApertura = 0;
+                    wFRgistrarDispositivo.ShowDialog();
+                }
+                credObtenidas = WFRgistrarDispositivo.ObtenerInstancia.credenciales;
+                Console.WriteLine(credObtenidas.Ip);
             }
 
-            if(credObtenidas == null)
-            {
-                Console.WriteLine("No se encontró credenciales en CredencialesUtils");
-                return null;
-            }
 
             return new Credenciales
             {
-          
                 Ip = credObtenidas.Ip,
                 Port = credObtenidas.Port,
                 Username = credObtenidas.Username,
@@ -72,74 +71,55 @@ namespace DeportNetReconocimiento.Utils
                 return;
             }
 
-            
+
             if (bdContext == null)
             {
                 bdContext = BdContext.CrearContexto();
             }
 
             Credenciales credObtenidas = new Credenciales();
-            try
-            {
-                credObtenidas = bdContext.Credenciales.FirstOrDefault();
 
-                if (credObtenidas.Username != null)
-                {
-                    //elimino todas las credenciales
-                    bdContext.Credenciales.RemoveRange(bdContext.Credenciales);
-                    bdContext.SaveChanges(); // Guardar inserción
-                }
+            credObtenidas = bdContext.Credenciales.FirstOrDefault();
+
+            if (credObtenidas != null)
+            {
+                //elimino todas las credenciales
+                bdContext.Credenciales.RemoveRange(bdContext.Credenciales);
+                bdContext.SaveChanges(); // Guardar inserción
             }
-            catch(Exception ex)
+            else
             {
                 Console.WriteLine("No hay credenciales viejas para sobreescribir");
+
             }
+
 
             bdContext.Credenciales.Add(credenciales);
             bdContext.SaveChanges(); // Guardar inserción
-
             Console.WriteLine("Credenciales escritas");
+
         }
 
-
-        public static void EscribirArchivoCredenciales(string[] arregloDeDatos)
+        public static bool CredecialesCargadasEnBd()
         {
-            //guardamos los datos en un archivo binario
-            using (BinaryWriter writer = new BinaryWriter(File.Open(rutaArchivo, FileMode.Create)))
-            {
-                foreach (string dato in arregloDeDatos)
-                {
-                    writer.Write(dato);
-                }
-            }
-        }
 
-        public static bool ExisteArchivoCredenciales()
-        {
+            Credenciales credenciales = new Credenciales();
             bool flag = false;
-            if (File.Exists(rutaArchivo))
+            using (var cotexto = BdContext.CrearContexto())
             {
-                flag = true;
+                credenciales = cotexto.Credenciales.FirstOrDefault();
             }
-            return flag;
-        }
 
-        public static bool ExisteArchivoCredencialesYRegistrarDispositivo()
-        {
-            bool flag = false;
-            if (File.Exists(rutaArchivo))
-            {
-                flag = true;
-            }
-            return flag;
+            return credenciales != null ? true : false;
+
         }
 
         public static string? LeerCredencialEspecifica(int unaCredencial)
         {
-            
-            string[] credenciales = LeerCredenciales();
-            
-            if (credenciales.Length == 0)
+
+            Credenciales credenciales = LeerCredencialesBd();
+
+            if (!CredecialesCargadasEnBd())
             {
                 Console.WriteLine("No se encontraron credenciales");
                 return null;
@@ -151,78 +131,31 @@ namespace DeportNetReconocimiento.Utils
                 {
                     case 0:
                         //ip
-                        return credenciales[0];
+                        return credenciales.Ip;
                     case 1:
                         //puerto
-                        return credenciales[1];
+                        return credenciales.Port;
                     case 2:
                         //usuario
-                        return credenciales[2];
+                        return credenciales.Username;
                     case 3:
                         //contraseña
-                        return credenciales[3];
+                        return credenciales.Password;
                     case 4:
                         //sucursalId
-                        return credenciales[4];
+                        return credenciales.BranchId;
                     case 5:
                         //tokenSucursal
-                        return credenciales[5];
+                        return credenciales.BranchToken;
                     default:
                         return null;
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                Console.WriteLine("Posicion en el arreglo de credenciales inexistente"+ex.ToString());
+                Console.WriteLine("Posicion en el arreglo de credenciales inexistente" + ex.ToString());
             }
             return null;
         }
-
-        public static string[] LeerCredenciales()
-        {
-            //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
-
-            var listaDatos = new System.Collections.Generic.List<string>();
-
-            WFRgistrarDispositivo wFRgistrarDispositivo = WFRgistrarDispositivo.ObtenerInstancia;
-
-
-            //si el archivo no existe, se abre la ventana para registrar el dispositivo
-            if (!ExisteArchivoCredenciales())
-            {
-
-                //si no esta levantado el formulario, se levanta para que haya solo uno
-                if (!wFRgistrarDispositivo.Visible)
-                {
-                    wFRgistrarDispositivo.tipoApertura = 0;
-                    wFRgistrarDispositivo.ShowDialog();
-                }
-
-            }
-            else
-            {
-                try
-                {
-
-                    // Leer desde un archivo binario
-                    using (BinaryReader reader = new BinaryReader(File.Open(rutaArchivo, FileMode.Open)))
-                    {
-
-                        while (reader.BaseStream.Position != reader.BaseStream.Length) // Lee hasta el final del archivo
-                        {
-                            string unDato = reader.ReadString(); // Lee cada string
-                            listaDatos.Add(unDato);
-
-                            Console.WriteLine($"Leído: {unDato}");
-                        }
-                    }
-                }catch(Exception ex)
-                {
-                    Console.WriteLine("No se pudo leer archivo credenciales: "+ ex.Message);
-                }
-            }
-
-            return listaDatos.ToArray();
-        }
-
     }
 }

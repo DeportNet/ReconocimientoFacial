@@ -1,4 +1,6 @@
-﻿using DeportNetReconocimiento.Api.Services;
+﻿using DeportNetReconocimiento.Api;
+using DeportNetReconocimiento.Api.Data.Domain;
+using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
@@ -15,6 +17,9 @@ namespace DeportNetReconocimiento
         private string[] credencialesLeidas;
         private bool inputsValidos = false;
         private Loading loading;
+        public Credenciales credenciales;
+
+
         //Tipo de apertura 0 = normal, 1 = Credenciales bloqueadas, 2= Modificar credenciales ;
         public int tipoApertura { get; set; } = 0;
         private WFRgistrarDispositivo()
@@ -43,7 +48,7 @@ namespace DeportNetReconocimiento
                     textBoxTokenSucursal.Enabled = false;
                     textBoxUserName.Enabled = false;
                     btnAdd.Text = "Guardar";
-                break;
+                    break;
                 case 2:
                     textBoxPort.Enabled = true;
                     textBoxPassword.Enabled = true;
@@ -52,33 +57,28 @@ namespace DeportNetReconocimiento
                     textBoxUserName.Enabled = true;
                     btnAdd.Text = "Guardar";
                     label1.Text = "Actualizar credenciales";
-                    
-                break;
+
+                    break;
             }
         }
 
 
-        private void AgregarValoresAInputs(string[] credencialesLeidas)
+        private void AgregarValoresAInputs(Credenciales credenciales)
         {
-
-
-            if (credencialesLeidas != null && credencialesLeidas.Length >= 6)
-            {
-                //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
-                textBoxDeviceAddress.Text = credencialesLeidas[0];
-                textBoxPort.Text = credencialesLeidas[1];
-                textBoxUserName.Text = credencialesLeidas[2];
-                textBoxPassword.Text = credencialesLeidas[3];
-                textBoxSucursalID.Text = credencialesLeidas[4];
-                textBoxTokenSucursal.Text = credencialesLeidas[5];
-            }
+            //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
+            textBoxDeviceAddress.Text = credenciales.Ip;
+            textBoxPort.Text = credenciales.Port;
+            textBoxUserName.Text = credenciales.Username;
+            textBoxPassword.Text = credenciales.Password;
+            textBoxSucursalID.Text = credenciales.BranchId;
+            textBoxTokenSucursal.Text = credenciales.BranchToken;
         }
 
         private void WFRgistrarDispositivo_Load(object sender, EventArgs e)
         {
-            if (CredencialesUtils.ExisteArchivoCredenciales())
+            if (CredencialesUtils.CredecialesCargadasEnBd())
             {
-                AgregarValoresAInputs(CredencialesUtils.LeerCredenciales());
+                AgregarValoresAInputs(CredencialesUtils.LeerCredencialesBd());
                 VerificarTipoDeApertura();
 
                 ignorarCerrarPrograma = true;
@@ -99,7 +99,7 @@ namespace DeportNetReconocimiento
         }
 
 
-        private bool ValidarInputs(bool buscarDisp= false)
+        private bool ValidarInputs(bool buscarDisp = false)
         {
             bool flag = false;
 
@@ -108,7 +108,7 @@ namespace DeportNetReconocimiento
             {
                 if (string.IsNullOrEmpty(textBoxDeviceAddress.Text) ||
                     string.IsNullOrWhiteSpace(textBoxDeviceAddress.Text)
-                    || textBoxDeviceAddress.Text.Length > 128 )
+                    || textBoxDeviceAddress.Text.Length > 128)
                 {
                     //Properties.Resources.deviceAddressTips
                     MessageBox.Show("Ip del dispositivo invalida");
@@ -176,7 +176,7 @@ namespace DeportNetReconocimiento
 
         private async void BtnAdd_Click(object sender, EventArgs e)
         {
-
+            /*
             if (!ValidarInputs() || loading.Visible || seClickeoBotonLogin)
             {
                 return;
@@ -201,22 +201,46 @@ namespace DeportNetReconocimiento
                 return;
             }
 
-            //creamos un arreglo de strings con los datos que recibimos del input
+
             //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
-            //CredencialesUtils.EscribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text, textBoxSucursalID.Text, textBoxTokenSucursal.Text]);
-            
-            //Creador de credenciales manual
-            //CredencialesUtils.EscribirArchivoCredenciales(["192.168.0.203", "8000", "admin", "facu", "23", "H7gVA3r89jvaMuDd"]);
+            //Escribe las credenciales en la base de datos
+            */
+            credenciales = CargarCredencialesDeTextbox();
+
+            CredencialesUtils.EscribirCredencialesBd(credenciales);
+
 
             ignorarCerrarPrograma = true;
             seClickeoBotonLogin = false;
             guardarCambios = true;
-            this.Close(); 
+            this.Close();
+        }
+
+        private Credenciales CargarCredencialesDeTextbox()
+        {
+            //Credenciales de prueba
+            return new Credenciales(
+            "192.168.1.10",
+            "8080",
+            "admin",
+            "123456",
+            "23",
+            "H7gVA3r89jvaMuDd");
+
+            /*
+            return new Credenciales(
+            textBoxDeviceAddress.Text,
+            textBoxPort.Text,
+            textBoxUserName.Text,
+            textBoxPassword.Text,
+            textBoxSucursalID.Text,
+            textBoxTokenSucursal.Text);
+            */
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();             
+            this.Close();
         }
 
 
@@ -243,7 +267,7 @@ namespace DeportNetReconocimiento
                 }
             }
 
-            if(instancia.tipoApertura == 2)
+            if (instancia.tipoApertura == 2)
             {
                 Console.WriteLine("cambios de este tipo de apertura");
                 if (guardarCambios)
@@ -309,9 +333,9 @@ namespace DeportNetReconocimiento
                 return;
             }
             loading.Show();
-            
-            Hik_Resultado resultadoLogin = await Task.Run(()=> BuscadorIpDispositivo.ObtenerIpDispositivo(textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text));
-            
+
+            Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text));
+
             loading.Hide();
 
 
