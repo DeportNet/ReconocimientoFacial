@@ -26,7 +26,6 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         
         [Column("branch_name")]
         [StringLength(100)]
-        [Required]
         [AllowNull]
         //nombre sucursal
         public string? NombreSucursal { get; set; }
