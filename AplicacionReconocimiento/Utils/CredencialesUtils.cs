@@ -82,20 +82,18 @@ namespace DeportNetReconocimiento.Utils
             try
             {
                 credObtenidas = bdContext.Credenciales.FirstOrDefault();
-            }catch(Exception ex)
+
+                if (credObtenidas.Username != null)
+                {
+                    //elimino todas las credenciales
+                    bdContext.Credenciales.RemoveRange(bdContext.Credenciales);
+                    bdContext.SaveChanges(); // Guardar inserción
+                }
+            }
+            catch(Exception ex)
             {
                 Console.WriteLine("No hay credenciales viejas para sobreescribir");
             }
-
-            
-
-            if(credObtenidas != null)
-            {
-                //elimino todas las credenciales
-                bdContext.Credenciales.RemoveRange(bdContext.Credenciales);
-                bdContext.SaveChanges(); // Guardar inserción
-            }
-
 
             bdContext.Credenciales.Add(credenciales);
             bdContext.SaveChanges(); // Guardar inserción
