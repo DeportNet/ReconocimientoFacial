@@ -20,14 +20,14 @@ namespace DeportNetReconocimiento.GUI
         private string nombreSucursal;
         private bool ingresoSinEmpleado;
         private List<Empleado> listadoEmpleados;
-        private Empleado? empleadoSeleccionado;
+
         public WFSeleccionarUsuario()
         {
             InitializeComponent();
             _contextBd = BdContext.CrearContexto();
             nombreSucursal = ObtenerNombreSucursal();
             listadoEmpleados = ObtenerListadoDeEmpleados();
-            empleadoSeleccionado = null;
+
             ingresoSinEmpleado = false;
         }
         private string ObtenerNombreSucursal()
@@ -45,15 +45,17 @@ namespace DeportNetReconocimiento.GUI
 
         private List<Empleado> ObtenerListadoDeEmpleados()
         {
-            List<Empleado> listadoAux = new List<Empleado>() ;//_contextBd.Empleados.ToList();
-
-            listadoAux.Add(new Empleado(1,"Carlos","Perez","1234",'T'));
-            listadoAux.Add(new Empleado(1, "Carlos", "ROB", "1234", 'T'));
-            listadoAux.Add(new Empleado(1, "Carlos", "asd", "1234", 'T'));
-            listadoAux.Add(new Empleado(1, "Carlos", "rere", "1234", 'T'));
+            List<Empleado> listadoAux = new List<Empleado>();//_contextBd.Empleados.ToList();
+            //listadoAux.Add(new Empleado(0,"-- Ingresar","Empleado --","1234","T"));
+            
+            listadoAux.Add(new Empleado(1, "Pepe", "ROB", "1234", "T"));
+            listadoAux.Add(new Empleado(2, "Carlos", "ROB", "1234", "T"));
+            listadoAux.Add(new Empleado(3, "Carlos", "asd", "1234", "T"));
+            listadoAux.Add(new Empleado(4, "Carlos", "rere", "1234", "T"));
 
             if (listadoAux.Count == 0)
             {
+                listadoAux.Add(new Empleado(-1, "Empleado", "Predeterminado", "", "T"));
                 Console.WriteLine("No se encontraron empleados en WFSeleccionarUsuario");
             }
 
@@ -69,62 +71,51 @@ namespace DeportNetReconocimiento.GUI
         private void CargarCombobox()
         {
             //si no tiene empleados, se agrega un empleado predeterminado para que pueda pasar igual
-            if (listadoEmpleados.Count == 0)
-            {
-                comboBox1.Items.Add("Empleado Predeterminado");
-                return;
-            }
 
+            comboBox1.DataSource = listadoEmpleados;
+            
+            comboBox1.DisplayMember = "FullName";
 
-            //comboBox1.DataSource = listadoEmpleados;
-            //comboBox1.ValueMember = "Id";
-            foreach (Empleado empleado in listadoEmpleados)
-            {
-                comboBox1.Items.Add(empleado.JuntarNombreYApellido());
-            }
+            comboBox1.ValueMember = "Id";
+
+            
         }
 
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+            textBox1.Clear();
+            mensajeErrorLabel.Hide();
+            Empleado empleadoSeleccionado = (Empleado)comboBox1.SelectedItem;
 
-
-            //es la parte de seleccione...
-            if (comboBox1.SelectedIndex == 0)
+            if (empleadoSeleccionado == null)
             {
+                Console.WriteLine("Empleado seleccionado es null");
+                return;
+            }
+
+            if(empleadoSeleccionado.Id == -1)
+            {
+                ingresoSinEmpleado = true;
+                button1.Text = "Ingresar sin empleado";
                 panel1.Hide();
                 return;
             }
+           
+            ingresoSinEmpleado = false;
+            label2.Text = "Ingrese la contraseña de " + empleadoSeleccionado.FullName + ":";
+            
 
-            if(comboBox1.Items[0]?.ToString() == "Empleado Predeterminado")
-            {
-                button1.Text = "Ingresar default";
-                empleadoSeleccionado = new Empleado(); //para poder pasar una validacion
-                ingresoSinEmpleado = true;
-                return;
-            }
-
-            label2.Text = "Ingrese la contraseña de " + comboBox1.SelectedItem + ":";
             panel1.Show();
 
-            //if (comboBox1.SelectedItem is Empleado empleado)
-            //{
-            //    Console.WriteLine($"Seleccionaste: {empleado.FirstName} {empleado.LastName}");
-            //    label2.Text = "Ingrese la contraseña de " + empleado.JuntarNombreYApellido() + ":";
-            //    panel1.Show();
-            //}
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            
             if (mensajeErrorLabel.Visible)
             {
                 mensajeErrorLabel.Hide();
             }
-
-
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -135,16 +126,19 @@ namespace DeportNetReconocimiento.GUI
         private void IngresarSinEmpleado()
         {
             Console.WriteLine("Logica ingresar sin empleado");
-
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(empleadoSeleccionado == null)
+            Empleado empleadoSeleccionado = (Empleado)comboBox1.SelectedItem;
+
+            if (empleadoSeleccionado == null)
             {
+                Console.WriteLine("Empleado seleccionado es null");
                 return;
             }
 
+            //logica si la lista viene vacia
             if (ingresoSinEmpleado)
             {
                 IngresarSinEmpleado();
@@ -154,6 +148,7 @@ namespace DeportNetReconocimiento.GUI
             {
                 mensajeErrorLabel.Show();
                 mensajeErrorLabel.Text = "Contraseña incorrecta";
+                return;
             }
 
             //si la contrasenia es correcta abrir el formulario principal
