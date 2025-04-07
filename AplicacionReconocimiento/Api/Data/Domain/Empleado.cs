@@ -35,12 +35,14 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [StringLength(64)]
         [DisallowNull]
         public string Password { get; set; }
-        
+
         [Column("is_active")]
         [DisallowNull]
         public string IsActive { get; set; }
 
-        public string FullName { get; set; }
+        [Column("full_name")]
+        [AllowNull]
+        public string? FullName { get; set; }
 
         public Empleado() { }
 
@@ -56,6 +58,8 @@ namespace DeportNetReconocimiento.Api.Data.Domain
 
         public string JuntarNombreYApellido()
         {
+            Console.WriteLine("Entro a poner nombre compleo");
+            Console.WriteLine(FirstName + " " + LastName);
             return FirstName + " " + LastName;
         }
 

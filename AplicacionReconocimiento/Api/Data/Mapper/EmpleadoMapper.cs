@@ -19,7 +19,8 @@ namespace DeportNetReconocimiento.Api.Data.Mapper
                 FirstName = empleadoDtoDx.FirstName,
                 LastName = empleadoDtoDx.LastName,
                 Password = empleadoDtoDx.Password,
-                IsActive = empleadoDtoDx.IsActive
+                IsActive = empleadoDtoDx.IsActive,
+                FullName = empleadoDtoDx.FirstName + " " + empleadoDtoDx.LastName
             };
         }
 

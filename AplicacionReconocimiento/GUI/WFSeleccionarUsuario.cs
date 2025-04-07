@@ -45,13 +45,8 @@ namespace DeportNetReconocimiento.GUI
 
         private List<Empleado> ObtenerListadoDeEmpleados()
         {
-            List<Empleado> listadoAux = new List<Empleado>();//_contextBd.Empleados.ToList();
-            //listadoAux.Add(new Empleado(0,"-- Ingresar","Empleado --","1234","T"));
-            
-            listadoAux.Add(new Empleado(1, "Pepe", "ROB", "1234", "T"));
-            listadoAux.Add(new Empleado(2, "Carlos", "ROB", "1234", "T"));
-            listadoAux.Add(new Empleado(3, "Carlos", "asd", "1234", "T"));
-            listadoAux.Add(new Empleado(4, "Carlos", "rere", "1234", "T"));
+            List<Empleado> listadoAux = _contextBd.Empleados.ToList();
+
 
             if (listadoAux.Count == 0)
             {
@@ -155,7 +150,7 @@ namespace DeportNetReconocimiento.GUI
 
 
             this.Hide();
-            //wfPrincipal.Show();
+            //WFPrincipal.ObtenerInstancia.Show();
         }
 
     }
