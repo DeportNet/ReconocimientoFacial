@@ -56,13 +56,13 @@
             // comboBox1
             // 
             comboBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(458, 94);
+            comboBox1.Location = new Point(488, 94);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(236, 28);
             comboBox1.TabIndex = 1;
-            comboBox1.Text = "Seleccione...";
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // panel1
@@ -139,7 +139,6 @@
             button1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             button1.BackColor = Color.LimeGreen;
             button1.Cursor = Cursors.Hand;
-            button1.Enabled = false;
             button1.FlatAppearance.BorderSize = 0;
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -158,7 +157,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             label4.ForeColor = Color.FromArgb(33, 33, 33);
-            label4.Location = new Point(219, 23);
+            label4.Location = new Point(302, 27);
             label4.Name = "label4";
             label4.Size = new Size(226, 30);
             label4.TabIndex = 4;
@@ -168,6 +167,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BackColor = SystemColors.Control;
             ClientSize = new Size(804, 370);
             Controls.Add(label4);

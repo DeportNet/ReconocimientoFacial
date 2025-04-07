@@ -25,9 +25,9 @@ namespace DeportNetReconocimiento
             }
 
             /*API*/
-            InicializarApi();
+            //InicializarApi();
 
-            CredencialesUtils.EscribirCredencialesBd(new Credenciales("192.168.1.10", "8080", "admin", "123456", "23", "H7gVA3r89jvaMuDd"));
+            //CredencialesUtils.EscribirCredencialesBd(new Credenciales("192.168.1.10", "8080", "admin", "123456", "23", "H7gVA3r89jvaMuDd"));
 
 
             using (var context = BdContext.CrearContexto())
@@ -38,7 +38,7 @@ namespace DeportNetReconocimiento
 
             /*Cargar BD*/
 
-                apiServer.CargarBd();
+           apiServer.CargarBd();
             
 
 
@@ -46,7 +46,7 @@ namespace DeportNetReconocimiento
             Application.Run(new WFSeleccionarUsuario());
 
 
-            // Detener el servidor cuando la aplicación cierre
+            // Detener el servidor cuando la aplicaciï¿½n cierre
             AppDomain.CurrentDomain.ProcessExit += (s, e) => apiServer?.Stop();
 
         }

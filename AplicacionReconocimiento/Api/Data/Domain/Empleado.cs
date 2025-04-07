@@ -38,10 +38,21 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         
         [Column("is_active")]
         [DisallowNull]
-        public char IsActive { get; set; }
+        public string IsActive { get; set; }
 
+        public string FullName { get; set; }
 
         public Empleado() { }
+
+        public Empleado(int companyMemberId, string firstName, string lastName, string password, string isActive)
+        {
+            CompanyMemberId = companyMemberId;
+            FirstName = firstName;
+            LastName = lastName;
+            Password = password;
+            IsActive = isActive;
+            FullName = JuntarNombreYApellido();
+        }
 
         public string JuntarNombreYApellido()
         {
