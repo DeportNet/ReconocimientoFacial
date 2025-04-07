@@ -11,9 +11,6 @@ namespace DeportNetReconocimiento.Api.Services.Interfaces
         public Task SincronizarTodasLasTablasDx();
         public bool SeSincronizoHoy();
         public void ActualizarFechaSincronizacion();
-        public Task SincronizarSocios();
-        public Task SincronizarEmpleados();
-        public Task SincronizarConcepts();
 
     }
 }

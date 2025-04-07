@@ -93,6 +93,11 @@ namespace DeportNetReconocimiento.Api
                         services.AddScoped<IConfigAccesoMapper, ConfigAccesoMapper>();
 
 
+                        services.AddScoped<ISincronizacionSocioService, SocioService>();
+                        services.AddScoped<ISincronizacionEmpleadosService, EmpleadoService>();
+                        services.AddScoped<ISincronizacionConceptsService, ConceptService>();
+                        services.AddScoped<ISincronizacionConfiguracionDeAccesoService, ConfiguracionDeAccesoService>();
+                        services.AddScoped<ISincronizarAccesoService, AccesoService>();
                         services.AddScoped<IFuncionesSincronizacionService, SincronizacionService>();
                         services.AddScoped<IDeportnetReconocimientoService, ReconocimientoService>();
                         
@@ -151,31 +156,6 @@ namespace DeportNetReconocimiento.Api
             host?.StopAsync().Wait();
             Console.WriteLine("Servidor API detenido.");
         }
-
-        public void ObtenerTablasDelDia()
-        {
-            //verificar si ya se hizo la peticion
-
-            //si no se obtuvieron las tablas del dia hago la peticion
-
-            //guardo las tablas en la base de datos
-
-            //tambien verifico si quedo alguna tabla sin sincronizar
-        }
-
-        public void SincronizarTablas()
-        {
-            //verificar si tengo conexion
-
-            //verificar si tengo tablas que sincronizar
-
-            //hago la peticion
-
-            //verifico si se sincronizaron las tablas enviadas haciendo otra peticion a dx
-
-            //si salio todo bien, elimino las tablas locales
-        }
-
        
     }
 }
