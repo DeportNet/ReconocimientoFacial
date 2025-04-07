@@ -26,18 +26,17 @@ namespace DeportNetReconocimiento.Api.Services
 
         }
 
-        
-
-
-        public string AltaFacialCliente(AltaFacialClienteRequest clienteRequest) 
+        //Validaciones
+        public string ValidarValores(AltaFacialClienteRequest clienteRequest)
         {
-            if(idSucursal == null)
+            if (idSucursal == null)
             {
                 MensajeDeErrorAltaBajaCliente(
                                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                    clienteRequest.IdCliente.ToString(),
                                    "El idSucursal es nulo, debido a que todavia no se ingresaron las credenciales correspondientes y se esta queriendo realizar una accion desde Deportnet.",
-                                   "F")
+                                   "F"),
+                                   true
                                );
                 return "F";
             }
@@ -49,41 +48,109 @@ namespace DeportNetReconocimiento.Api.Services
                                     new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                     clienteRequest.IdCliente.ToString(),
                                     "El idUsuario del dispositivo de reconocimiento facial es -1. El dispositivo no esta conectado.",
-                                    "F")
+                                    "F"),
+                                   true
                                 );
                 return "F";
             }
 
-            
 
-            if(idSucursal != clienteRequest.IdSucursal)
+
+            if (idSucursal != clienteRequest.IdSucursal)
             {
                 MensajeDeErrorAltaBajaCliente(
                                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                    clienteRequest.IdCliente.ToString(),
                                    "El idSucursal del dispositivo no coincide con el idSucursal del cliente.",
-                                   "F")
+                                   "F"),
+                                   true
                                );
                 return "F";
             }
-            
+
             if (enUso)
             {
                 MensajeDeErrorAltaBajaCliente(
                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                    clienteRequest.IdCliente.ToString(),
                    "El dispositivo ya está en uso.",
-                   "F")
+                   "F"),
+                    true
                );
 
                 return "F";
             }
 
-            //asincronico no se espera
-            _ = AltaClienteDeportnet(clienteRequest);
-            
-           
             return "T";
+        }
+        public string ValidarValores(BajaFacialClienteRequest clienteRequest)
+        {
+            if (idSucursal == null)
+            {
+                MensajeDeErrorAltaBajaCliente(
+                                   new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
+                                   clienteRequest.IdCliente.ToString(),
+                                   "El idSucursal es nulo, debido a que todavia no se ingresaron las credenciales correspondientes y se esta queriendo realizar una accion desde Deportnet.",
+                                   "F"),
+                                   true
+                               );
+                return "F";
+            }
+
+
+            if (hik_Controladora.IdUsuario == -1)
+            {
+                MensajeDeErrorAltaBajaCliente(
+                                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
+                                    clienteRequest.IdCliente.ToString(),
+                                    "El idUsuario del dispositivo de reconocimiento facial es -1. El dispositivo no esta conectado.",
+                                    "F"),
+                                   true
+                                );
+                return "F";
+            }
+
+
+
+            if (idSucursal != clienteRequest.IdSucursal)
+            {
+                MensajeDeErrorAltaBajaCliente(
+                                   new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
+                                   clienteRequest.IdCliente.ToString(),
+                                   "El idSucursal del dispositivo no coincide con el idSucursal del cliente.",
+                                   "F"),
+                                   true
+                               );
+                return "F";
+            }
+
+            if (enUso)
+            {
+                MensajeDeErrorAltaBajaCliente(
+                   new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
+                   clienteRequest.IdCliente.ToString(),
+                   "El dispositivo ya está en uso.",
+                   "F"),
+                    true
+               );
+
+                return "F";
+            }
+
+            return "T";
+        }
+
+
+        public string AltaFacialCliente(AltaFacialClienteRequest clienteRequest) 
+        {
+            string resultado = ValidarValores(clienteRequest);
+
+            if(resultado == "T")
+            {
+                //asincronico no se espera
+                _ = AltaClienteDeportnet(clienteRequest);
+            }
+            return resultado;
 
         }
 
@@ -115,7 +182,8 @@ namespace DeportNetReconocimiento.Api.Services
                     new RespuestaAltaBajaCliente(altaFacialClienteRequest.IdSucursal.ToString(),
                     altaFacialClienteRequest.IdCliente.ToString(),
                     resAlta.Mensaje,
-                    "F")
+                    "F"),
+                    true
                 );
 
                 Console.WriteLine("Hubo un Error en alta facial: "+ resAlta.Mensaje);
@@ -141,67 +209,18 @@ namespace DeportNetReconocimiento.Api.Services
             enUso = false;
         }
 
-       
-
-      
         public string BajaFacialCliente(BajaFacialClienteRequest clienteRequest)
         {
 
-            if (idSucursal == null)
+            string resultado = ValidarValores(clienteRequest);
+
+            if(resultado == "T")
             {
-                MensajeDeErrorAltaBajaCliente(
-                                   new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
-                                   clienteRequest.IdCliente.ToString(),
-                                   "El idSucursal es nulo, debido a que todavia no se ingresaron las credenciales correspondientes y se esta queriendo realizar una accion desde Deportnet.",
-                                   "F")
-                               );
-                return "F";
+                //asincronico no se espera
+                _ = BajaClienteDeportnet(clienteRequest);
+
             }
-
-            if (hik_Controladora.IdUsuario == -1)
-            {
-                MensajeDeErrorAltaBajaCliente(
-                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
-                    clienteRequest.IdCliente.ToString(),
-                    "El idUsuario del dispositivo de reconocimiento facial es -1. El dispositivo no esta conectado.",
-                    "F")
-                );
-
-                return "F";
-            }
-
-            if (idSucursal != clienteRequest.IdSucursal)
-            {
-                MensajeDeErrorAltaBajaCliente(
-                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
-                    clienteRequest.IdCliente.ToString(),
-                    "El idSucursal del dispositivo no coincide con el idSucursal del cliente.",
-                    "F")
-                );
-
-               
-                return "F";
-            }
-
-            if (enUso)
-            {
-                MensajeDeErrorAltaBajaCliente(
-                   new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
-                   clienteRequest.IdCliente.ToString(),
-                   "El dispositivo ya está en uso.",
-                   "F")
-               );
-
-             
-                return "F";
-               
-            }
-
-            //asincronico no se espera
-            _ = BajaClienteDeportnet(clienteRequest);
-
-
-            return "T";
+            return resultado;
 
         }
 
@@ -217,7 +236,8 @@ namespace DeportNetReconocimiento.Api.Services
                     new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                     clienteRequest.IdCliente.ToString(),
                     resBaja.Mensaje,
-                    "F")
+                    "F"),
+                    false
                 );
                 Console.WriteLine("Hubo un Error en Baja facial: " + resBaja.Mensaje);
 
@@ -238,16 +258,38 @@ namespace DeportNetReconocimiento.Api.Services
             enUso = false;
         }
 
-        private void MensajeDeErrorAltaBajaCliente(RespuestaAltaBajaCliente respuestaAlta)
+        private void MensajeDeErrorAltaBajaCliente(RespuestaAltaBajaCliente rta, bool isAlta)
         {
-            //RespuestaAltaBajaCliente respuestaAlta = new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(), clienteRequest.IdCliente.ToString(), mensaje, "F");
 
-            _ = WebServicesDeportnet.AltaFacialClienteDeportnet(respuestaAlta);
+            if (isAlta)
+            {
+                _ = WebServicesDeportnet.AltaFacialClienteDeportnet(rta);
+            }
+            else
+            {
+                _ = WebServicesDeportnet.BajaFacialClienteDeportnet(rta);
+            }
+
         }
 
-        public string BajaMasivaFacialCliente(BajaFacialClienteRequest clienteRequest)
-        {
-            throw new NotImplementedException();
-        }
+        //public string BajaMasivaFacialCliente(BajaFacialClienteRequest clienteRequest)
+        //{
+        //    string[] arregloResultados = [];
+
+        //    if (enUso)
+        //    {
+        //        return "F";
+        //    }
+
+        //    for (int i=0; i < clienteRequest.ArregloIdClientes.Length; i++)
+        //    {
+        //        arregloResultados[i] = BajaFacialCliente(clienteRequest);
+        //    }
+
+
+
+
+        //    return "T";
+        //}
     }
 }

@@ -53,23 +53,21 @@ namespace DeportNetReconocimiento.Api.Controllers
             return Ok(detalle);
         }
 
-        [HttpGet("baja-masiva-facial-cliente")]
-        public IActionResult BajaMasivaFacialCliente(
-            [FromQuery] string[] arregloIdClientes,
-            [FromQuery] int idSucursal
-            )
-        {
+        //[HttpGet("baja-masiva-facial-cliente")]
+        //public IActionResult BajaMasivaFacialCliente(
+        //    [FromQuery] string[] arregloIdClientes,
+        //    [FromQuery] int idSucursal
+        //    )
+        //{
 
+        //    if (arregloIdClientes == null || idSucursal == null)
+        //    {
+        //        return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
+        //    }
 
-
-            if (arregloIdClientes == null || idSucursal == null)
-            {
-                return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
-            }
-
-            string detalle = deportnetReconocimientoService.BajaMasivaFacialCliente(new BajaFacialClienteRequest(arregloIdClientes, idSucursal));
-            return Ok(detalle);
-        }
+        //    string detalle = deportnetReconocimientoService.BajaMasivaFacialCliente(new BajaFacialClienteRequest(arregloIdClientes, idSucursal));
+        //    return Ok(detalle);
+        //}
 
     }
 }

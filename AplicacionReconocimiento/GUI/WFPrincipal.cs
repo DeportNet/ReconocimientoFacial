@@ -330,8 +330,9 @@ namespace DeportNetReconocimiento.GUI
 
         public void VerificarAlmacenamiento()
         {
-
+            
             int capacidadMaxima = configuracionEstilos.CapacidadMaximaDispositivo;
+
             int carasActuales = configuracionEstilos.CarasRegistradas;
             float porcentaje = configuracionEstilos.PorcentajeAlertaCapacidad;
 

@@ -14,6 +14,8 @@ namespace DeportNetReconocimiento.Api.Data.Dtos.Request
         private int idSucursal;
         private string[] arregloIdClientes;
 
+
+
         public BajaFacialClienteRequest(int idCliente, int idSucursal)
         {
             this.idCliente = idCliente;
@@ -41,7 +43,11 @@ namespace DeportNetReconocimiento.Api.Data.Dtos.Request
             get { return idSucursal; }
             set { idSucursal = value; }
         }
-
+        public string[] ArregloIdClientes
+        {
+            get { return arregloIdClientes; }
+            set { arregloIdClientes = value; }
+        }
 
         public override string ToString()
         {

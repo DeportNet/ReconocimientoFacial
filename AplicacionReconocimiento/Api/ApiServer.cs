@@ -44,6 +44,7 @@ namespace DeportNetReconocimiento.Api
 
             try
             {
+
                _funcionesSincronizacionService.SincronizarTodasLasTablasDx().Wait();
                 
             }catch(Exception ex)

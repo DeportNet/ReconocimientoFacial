@@ -40,15 +40,27 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [AllowNull]
         public DateTime? AnteriorFechaSincronizacion { get; set; }
 
+        [Column("max_face_quantity")]
+        [AllowNull]
+        public int? CapacidadMaximaRostros { get; set; }
+
+        [Column("current_face_quantity")]
+        [AllowNull]
+        public int? RostrosActuales { get; set; }
+
+
+
         public ConfiguracionGeneral() { }
 
-        public ConfiguracionGeneral(int cantMaxLotes, string contraseniaBd, string nombreSucursal,DateTime? ultimaFechaSincronizacion, DateTime? anteriorFechaSincronizacion)
+        public ConfiguracionGeneral(int cantMaxLotes, string contraseniaBd, string nombreSucursal,DateTime? ultimaFechaSincronizacion, DateTime? anteriorFechaSincronizacion, int? capacidadMaximaRostros, int rostrosActuales)
         {
             CantMaxLotes = cantMaxLotes;
             ContraseniaBd = contraseniaBd;
             NombreSucursal = nombreSucursal;
             UltimaFechaSincronizacion = ultimaFechaSincronizacion;
             AnteriorFechaSincronizacion = anteriorFechaSincronizacion;
+            CapacidadMaximaRostros = capacidadMaximaRostros;
+            RostrosActuales = rostrosActuales;
         }
 
     }

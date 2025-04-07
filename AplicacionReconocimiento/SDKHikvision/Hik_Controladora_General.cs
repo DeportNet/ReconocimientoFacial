@@ -1,4 +1,6 @@
-﻿using DeportNetReconocimiento.GUI;
+﻿using DeportNetReconocimiento.Api.BD;
+using DeportNetReconocimiento.Api.Data.Domain;
+using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
 using System.Net.NetworkInformation;
@@ -28,7 +30,7 @@ namespace DeportNetReconocimiento.SDK
         private static Hik_Controladora_Facial? hik_Controladora_Facial;
         private static Hik_Controladora_Tarjetas? hik_Controladora_Tarjetas;
         private static Hik_Controladora_Eventos? hik_Controladora_Eventos;
-
+      
 
         //constructores
         private Hik_Controladora_General()
@@ -38,7 +40,6 @@ namespace DeportNetReconocimiento.SDK
             this.soportaFacial = false;
             this.soportaHuella = false;
             this.soportaTarjeta = false;
-
         }
 
 
@@ -353,6 +354,11 @@ namespace DeportNetReconocimiento.SDK
                 Console.WriteLine("El xml es null");
             }
 
+            if(capacidad == -1)
+            {
+                Console.WriteLine("No se pudo obtener la capacidad maxima del dispositivo en ObtenerCapacidadCarasDispositivo");
+            }
+
             return capacidad;
         }
         
@@ -405,18 +411,22 @@ namespace DeportNetReconocimiento.SDK
                 return resultado;
             }
 
-            configuracion.ActualizarCapacidadMaxima();
+            // obtenemos la capacidad de caras de la bd
+            int? cantMax = ConfiguracionGeneralUtils.ObtenerCantMaxCarasBd();
 
-            //setteamos el callback para obtener los ids de los usuarios
+            if(cantMax != null)
+            {
+                configuracion.ActualizarCapacidadMaximaConfigEstilos((int)cantMax);
+            }
+
+
+            //inicializamos todas las controladoras
             hik_Controladora_Eventos = Hik_Controladora_Eventos.InstanciaControladoraEventos;
             hik_Controladora_Facial = Hik_Controladora_Facial.ObtenerInstancia;
             hik_Controladora_Tarjetas = Hik_Controladora_Tarjetas.ObtenerInstancia;
             
             return resultado;
         }
-
-
-        
 
         public Hik_Resultado AltaCliente(string idCliente, string nombre)
         {
@@ -460,13 +470,18 @@ namespace DeportNetReconocimiento.SDK
             }
 
             ConservarImagenSocio(configuracion, nombre, idCliente);
-            configuracion.SumarRegistroCara();
+
+            int rostrosActuales = ConfiguracionGeneralUtils.SumarRegistroCara();
+
+            configuracion.ActualizarCapacidadActualConfigEstilos(rostrosActuales);
+
+            WFPrincipal.ObtenerInstancia.VerificarAlmacenamiento();
 
 
             return resultado;
         }
         
-
+       
         private static string CambiarNombreFoto(string nombreCompletoSocio, string idSocio)
         {
             string aux = Regex.Replace(nombreCompletoSocio, "'", "");
@@ -544,7 +559,13 @@ namespace DeportNetReconocimiento.SDK
             }
 
 
-            configuracion.RestarRegistroCara();
+            int rostrosActuales = ConfiguracionGeneralUtils.RestarRegistroCara();
+
+            configuracion.ActualizarCapacidadActualConfigEstilos(rostrosActuales);
+
+            WFPrincipal.ObtenerInstancia.VerificarAlmacenamiento();
+
+
             return resultado;
 
         }

@@ -399,11 +399,12 @@ namespace DeportNetReconocimiento.Utils
             // Imagen Cliente
             ColorFondoImagen = Color.DimGray;
 
+            string rutaRecursos = Path.Combine(AppContext.BaseDirectory, "Recursos");
 
             // Sonidos
-            AccesoConcedido = new Sonido();
-            AccesoDenegado = new Sonido();
-            SonidoPregunta = new Sonido();
+            AccesoConcedido = new Sonido(Path.Combine(rutaRecursos, "sonido-concedido.mp3"));
+            AccesoDenegado = new Sonido(Path.Combine(rutaRecursos, "sonido-denegado.mp3"));
+            SonidoPregunta = new Sonido(Path.Combine(rutaRecursos, "sonido-pregunta.mp3"));
 
             SonidoBienvenida = new Sonido();
 
@@ -496,23 +497,15 @@ namespace DeportNetReconocimiento.Utils
             return configuracionEstilos;
         }
 
-        public void SumarRegistroCara()
+        public void ActualizarCapacidadActualConfigEstilos(int carasRegistradas)
         {
-            
-            CarasRegistradas += 1;
+            CarasRegistradas = carasRegistradas;
             GuardarJsonConfiguracion(this);
         }
 
-        public void RestarRegistroCara()
+        public void ActualizarCapacidadMaximaConfigEstilos(int capacidadMaxima)
         {
-            CarasRegistradas -= 1;
-            GuardarJsonConfiguracion(this);
-        }
-
-        public void ActualizarCapacidadMaxima()
-        {
-            int capacidad = Hik_Controladora_General.InstanciaControladoraGeneral.ObtenerCapacidadCarasDispositivo();
-            CapacidadMaximaDispositivo = capacidad;
+            CapacidadMaximaDispositivo = capacidadMaxima;
             GuardarJsonConfiguracion(this);
         }
 
