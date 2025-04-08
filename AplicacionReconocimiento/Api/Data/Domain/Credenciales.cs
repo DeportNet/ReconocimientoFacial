@@ -47,23 +47,27 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [AllowNull]
         public string? BranchToken{ get; set; }
 
+        [Column("current_company_member_id")]
+        public string? CurrentCompanyMemberId { get; set; }
 
         public Credenciales() { }
         public Credenciales(
             string? ip, 
             string? port,
-            string? username, 
-            string? password, 
-            string? branchId, 
-            string? branchToken)
+            string? username,
+            string? password,
+            string? branchId,
+            string? branchToken,
+            string? currentCompanyMemberId
+            )
         {
-
             Ip = ip;
             Port = port;
             Username = username;
             Password = password;
             BranchId = branchId;
             BranchToken = branchToken;
+            CurrentCompanyMemberId = currentCompanyMemberId;
         }
 
         public override string ToString()
@@ -74,7 +78,8 @@ namespace DeportNetReconocimiento.Api.Data.Domain
                 $"Username: {Username}, " +
                 $"Password: {Password}, " +
                 $"BranchId: {BranchId}, " +
-                $"BranchToken: {BranchToken}";
+                $"BranchToken: {BranchToken}" +
+                $"CurrentCompanyMemberId: {CurrentCompanyMemberId}";
         }
     }
 }

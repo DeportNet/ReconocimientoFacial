@@ -27,8 +27,7 @@ namespace DeportNetReconocimiento.Utils
             }
 
 
-            Credenciales credObtenidas = new Credenciales();
-            credObtenidas = bdContext.Credenciales.FirstOrDefault();
+            Credenciales? credObtenidas = bdContext.Credenciales.FirstOrDefault();
 
 
             if (credObtenidas == null)
@@ -70,20 +69,17 @@ namespace DeportNetReconocimiento.Utils
                 bdContext = BdContext.CrearContexto();
             }
 
-            Credenciales credObtenidas = new Credenciales();
-
-            credObtenidas = bdContext.Credenciales.FirstOrDefault();
+            Credenciales? credObtenidas = bdContext.Credenciales.FirstOrDefault();
 
             if (credObtenidas != null)
             {
-                //elimino todas las credenciales
+                //elimino todas las credenciales anteriores
                 bdContext.Credenciales.RemoveRange(bdContext.Credenciales);
                 bdContext.SaveChanges(); // Guardar inserción
             }
             else
             {
                 Console.WriteLine("No hay credenciales viejas para sobreescribir");
-
             }
 
 
@@ -96,7 +92,7 @@ namespace DeportNetReconocimiento.Utils
         public static bool CredecialesCargadasEnBd()
         {
 
-            Credenciales credenciales = new Credenciales();
+            Credenciales? credenciales = new Credenciales();
             bool flag = false;
             using (var cotexto = BdContext.CrearContexto())
             {
@@ -110,9 +106,9 @@ namespace DeportNetReconocimiento.Utils
         public static string? LeerCredencialEspecifica(int unaCredencial)
         {
 
-            Credenciales credenciales = LeerCredencialesBd();
+            Credenciales? credenciales = LeerCredencialesBd();
 
-            if (!CredecialesCargadasEnBd())
+            if (/*!CredecialesCargadasEnBd()*/ credenciales == null)
             {
                 Console.WriteLine("No se encontraron credenciales");
                 return null;
@@ -140,6 +136,9 @@ namespace DeportNetReconocimiento.Utils
                     case 5:
                         //tokenSucursal
                         return credenciales.BranchToken;
+                    case 6:
+                        //id empleado actual
+                        return credenciales.CurrentCompanyMemberId;
                     default:
                         return null;
                 }

@@ -25,7 +25,7 @@ namespace DeportNetReconocimiento
             }
 
             /*API*/
-            //InicializarApi();
+            InicializarApi();
 
             //CredencialesUtils.EscribirCredencialesBd(new Credenciales("192.168.1.10", "8080", "admin", "123456", "23", "H7gVA3r89jvaMuDd"));
 

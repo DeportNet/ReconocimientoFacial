@@ -163,12 +163,26 @@ namespace DeportNetReconocimiento.SDKHikvision
             libre = false;
             
 
-            Credenciales credenciales = CredencialesUtils.LeerCredencialesBd();
-            string idSucursal = credenciales.BranchId;
-            
+            Credenciales? credenciales = CredencialesUtils.LeerCredencialesBd();
+
+            if (credenciales == null)
+            {
+                Console.WriteLine("Credenciales son null");
+                return;
+            }
+
+            string? idSucursal = credenciales.BranchId;
+
+            if (string.IsNullOrWhiteSpace(idSucursal))
+            {
+                Console.WriteLine("El idSucursal es null o vacio");
+                return;
+            }
+
+            string? nroEmpleado = credenciales.CurrentCompanyMemberId;
 
             /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
-            string response = await WebServicesDeportnet.ControlDeAcceso(numeroTarjeta,idSucursal);
+            string response = await WebServicesDeportnet.ControlDeAcceso(numeroTarjeta,idSucursal, null, nroEmpleado);
             
             ProcesarRespuestaAcceso(response, numeroTarjeta, idSucursal);
             
