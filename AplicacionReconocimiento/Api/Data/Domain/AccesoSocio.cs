@@ -31,7 +31,6 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [AllowNull]
         public int? AccesoId { get; set; }
 
-        //[InverseProperty("MemberAccess")]  // Relación inversa hacia la propiedad en Acceso
         [ForeignKey("AccesoId")]
         public virtual Acceso? Acceso { get; set; }
 

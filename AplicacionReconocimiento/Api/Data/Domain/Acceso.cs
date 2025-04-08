@@ -24,8 +24,6 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [AllowNull]
         public int? ProcessId { get; set; }
 
-        //[InverseProperty("Acceso")]  // Especificamos la relación inversa con la propiedad de navegación en AccesoSocio
-
         public List<AccesoSocio>? MemberAccess { get; set; }
 
         public Acceso() { }
