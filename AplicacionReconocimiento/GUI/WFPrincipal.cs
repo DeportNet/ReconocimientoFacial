@@ -478,8 +478,9 @@ namespace DeportNetReconocimiento.GUI
         // Método que maneja la respuesta del formulario
         public async void OnProcesarRespuesta(RespuestaAccesoManual response)
         {
+            string? idEmpleado = CredencialesUtils.LeerCredencialEspecifica(6);
 
-            string mensaje = await WebServicesDeportnet.ControlDeAcceso(response.MemberId, response.ActiveBranchId, response.IsSuccessful);
+            string mensaje = await WebServicesDeportnet.ControlDeAcceso(response.MemberId, response.ActiveBranchId, response.IsSuccessful, idEmpleado);
             Console.WriteLine("Mensaje pregunta: " + mensaje);
 
             Hik_Controladora_Eventos.ProcesarRespuestaAcceso(mensaje, response.MemberId, response.ActiveBranchId);

@@ -121,6 +121,8 @@ namespace DeportNetReconocimiento.GUI
         private void IngresarSinEmpleado()
         {
             Console.WriteLine("Logica ingresar sin empleado");
+            this.Hide();
+            WFPrincipal.ObtenerInstancia.Show();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -146,11 +148,21 @@ namespace DeportNetReconocimiento.GUI
                 return;
             }
 
+            Credenciales? credencialesActuales= CredencialesUtils.LeerCredencialesBd();
+
+            if(credencialesActuales == null)
+            {
+                Console.WriteLine("Credenciales actuales son null");
+                return;
+            }
+            credencialesActuales.CurrentCompanyMemberId = empleadoSeleccionado.Id.ToString();
+
+            CredencialesUtils.EscribirCredencialesBd(credencialesActuales);
+
+
             //si la contrasenia es correcta abrir el formulario principal
-
-
             this.Hide();
-            //WFPrincipal.ObtenerInstancia.Show();
+            WFPrincipal.ObtenerInstancia.Show();
         }
 
     }

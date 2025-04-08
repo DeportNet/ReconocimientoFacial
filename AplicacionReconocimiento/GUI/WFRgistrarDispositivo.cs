@@ -24,13 +24,14 @@ namespace DeportNetReconocimiento
         public int tipoApertura { get; set; } = 0;
         private WFRgistrarDispositivo()
         {
+            tipoApertura = 0;
             InitializeComponent();
             this.loading = new Loading();
         }
 
         private void VerificarTipoDeApertura()
         {
-            switch (instancia.tipoApertura)
+            switch (ObtenerInstancia.tipoApertura)
             {
                 case 0:
                     textBoxPort.Enabled = true;
@@ -76,11 +77,11 @@ namespace DeportNetReconocimiento
 
         private void WFRgistrarDispositivo_Load(object sender, EventArgs e)
         {
-            if (CredencialesUtils.CredecialesCargadasEnBd())
-            {
-                AgregarValoresAInputs(CredencialesUtils.LeerCredencialesBd());
-                VerificarTipoDeApertura();
+            Credenciales? credenciales = CredencialesUtils.LeerCredencialesBd();
 
+            if (credenciales != null) { 
+                AgregarValoresAInputs(credenciales);
+                VerificarTipoDeApertura();
                 ignorarCerrarPrograma = true;
             }
         }
@@ -205,7 +206,7 @@ namespace DeportNetReconocimiento
             //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
             //Escribe las credenciales en la base de datos
             */
-            credenciales = CargarCredencialesDeTextbox();
+            credenciales = CrearCredencialesDesdeTextbox();
 
             CredencialesUtils.EscribirCredencialesBd(credenciales);
 
@@ -216,7 +217,7 @@ namespace DeportNetReconocimiento
             this.Close();
         }
 
-        private Credenciales CargarCredencialesDeTextbox()
+        private Credenciales CrearCredencialesDesdeTextbox()
         {
             //Credenciales de prueba
             return new Credenciales(
@@ -225,7 +226,8 @@ namespace DeportNetReconocimiento
             "admin",
             "123456",
             "23",
-            "H7gVA3r89jvaMuDd");
+            "H7gVA3r89jvaMuDd",
+            null);
 
             /*
             return new Credenciales(
@@ -234,7 +236,8 @@ namespace DeportNetReconocimiento
             textBoxUserName.Text,
             textBoxPassword.Text,
             textBoxSucursalID.Text,
-            textBoxTokenSucursal.Text);
+            textBoxTokenSucursal.Text,
+            null);
             */
         }
 
@@ -267,7 +270,7 @@ namespace DeportNetReconocimiento
                 }
             }
 
-            if (instancia.tipoApertura == 2)
+            if (ObtenerInstancia.tipoApertura == 2)
             {
                 Console.WriteLine("cambios de este tipo de apertura");
                 if (guardarCambios)
