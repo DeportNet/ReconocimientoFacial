@@ -209,14 +209,13 @@ namespace DeportNetReconocimiento.GUI
             PanelAlmacenamiento.Name = "PanelAlmacenamiento";
             PanelAlmacenamiento.Size = new Size(438, 35);
             PanelAlmacenamiento.TabIndex = 30;
-            PanelAlmacenamiento.Visible = false;
             // 
             // TextoAlmacenamiento
             // 
             TextoAlmacenamiento.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             TextoAlmacenamiento.BackColor = Color.Silver;
             TextoAlmacenamiento.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            TextoAlmacenamiento.ForeColor = Color.Red;
+            TextoAlmacenamiento.ForeColor = Color.Green;
             TextoAlmacenamiento.Location = new Point(0, 0);
             TextoAlmacenamiento.Name = "TextoAlmacenamiento";
             TextoAlmacenamiento.Size = new Size(438, 36);
@@ -247,6 +246,7 @@ namespace DeportNetReconocimiento.GUI
             // 
             // textoInformacionCliente
             // 
+            textoInformacionCliente.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             textoInformacionCliente.FlatStyle = FlatStyle.Flat;
             textoInformacionCliente.Location = new Point(628, 0);
             textoInformacionCliente.Margin = new Padding(0);
