@@ -150,7 +150,7 @@ namespace DeportNetReconocimiento.GUI
 
 
             this.Hide();
-            //WFPrincipal.ObtenerInstancia.Show();
+            WFPrincipal.ObtenerInstancia.Show();
         }
 
     }

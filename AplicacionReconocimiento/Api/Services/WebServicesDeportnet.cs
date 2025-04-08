@@ -24,7 +24,8 @@ namespace DeportNetReconocimiento.Api.Services
         const string urlEmpleadosTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetUsers";
         const string urlEnviarAccesosTest = "https://testing.deportnet.com/offlineAccess/offlineSetAccess";
         const string urlConfiguracionAccesoTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConfiguration";
-        const string urlBajaMasivaCliente = "https://testing.deportnet.com/facialAccess/massiveMembersDelete";
+        const string urlBajaMasivaClienteTest = "https://testing.deportnet.com/facialAccess/massiveMembersDelete";
+        const string urlVerificarEstadoLoteTest = "https://testing.deportnet.com/offlineAccess/offlineGetMembersAccessResult";
 
         /*Produccion*/
         const string urlEntradaCliente = "https://deportnet.com/facialAccess/facialAccessCheckUserEnter";
@@ -94,6 +95,11 @@ namespace DeportNetReconocimiento.Api.Services
             return await FetchInformacion(json, urlEnviarAccesosTest, HttpMethod.Post);
         }
 
+        public static async Task<string> VerificarEstadoLoteAcceso(string json)
+        {
+            return await FetchInformacion(json, urlVerificarEstadoLoteTest, HttpMethod.Post);
+        }
+
         public static async Task<string> AltaFacialClienteDeportnet(RespuestaAltaBajaCliente rta)
         {
             return await FetchInformacion(rta.ToJson(), urlAltaCliente, HttpMethod.Post);
@@ -110,7 +116,7 @@ namespace DeportNetReconocimiento.Api.Services
             {
                 activeBranchId = idSucursal
             };
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlBajaMasivaCliente, HttpMethod.Post);
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlBajaMasivaClienteTest, HttpMethod.Post);
 
         }
 
