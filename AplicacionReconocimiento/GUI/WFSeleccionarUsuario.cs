@@ -17,7 +17,8 @@ namespace DeportNetReconocimiento.GUI
     public partial class WFSeleccionarUsuario : Form
     {
         private readonly BdContext _contextBd;
-        private string nombreSucursal;
+        private string? nombreSucursal;
+        private string? idSucursal;
         private bool ingresoSinEmpleado;
         private List<Empleado> listadoEmpleados;
 
@@ -25,32 +26,55 @@ namespace DeportNetReconocimiento.GUI
         {
             InitializeComponent();
             _contextBd = BdContext.CrearContexto();
-            nombreSucursal = ObtenerNombreSucursal();
-            listadoEmpleados = ObtenerListadoDeEmpleados();
-
+            listadoEmpleados = new List<Empleado>();
+            nombreSucursal = null;
+            idSucursal = null;
             ingresoSinEmpleado = false;
         }
         private string ObtenerNombreSucursal()
         {
-            string? nombre = "pepito";// _contextBd.ConfiguracionGeneral.FirstOrDefault(c => c.Id == 1)?.NombreSucursal;
+            string? nombre = _contextBd.ConfiguracionGeneral.FirstOrDefault(c => c.Id == 1)?.NombreSucursal;
 
             if (nombre == null)
             {
                 Console.WriteLine("No se pudo obtener el nombre de la sucursal en WFSeleccionarUsuario");
-                return "Sin nombre";
+                return "Nombre Gimnasio";
             }
 
             return nombre;
         }
 
+        private string? ObtenerIdSucursal()
+        {
+            string? idSucursal = CredencialesUtils.LeerCredencialEspecifica(4);
+
+            if (idSucursal == null)
+            {
+                Console.WriteLine("No se pudo obtener el id de la sucursal en WFSeleccionarUsuario");
+            }
+
+            return idSucursal;
+        }
+
         private List<Empleado> ObtenerListadoDeEmpleados()
         {
             List<Empleado> listadoAux = _contextBd.Empleados.ToList();
+            
+            bool parseExito = int.TryParse(idSucursal, out int idSucursalInt);
 
+            if (!parseExito)
+            {
+                Console.WriteLine("No se pudo parsear el id de la sucursal en WFSeleccionarUsuario");
+                return listadoAux;
+            }
+          
 
             if (listadoAux.Count == 0)
             {
-                listadoAux.Add(new Empleado(-1, "Empleado", "Predeterminado", "", "T"));
+                listadoAux.Add(new Empleado(idSucursalInt, "Empleado", "Predeterminado", "", "T"));
+
+                listadoAux.First().Id = -1;
+
                 Console.WriteLine("No se encontraron empleados en WFSeleccionarUsuario");
             }
 
@@ -59,7 +83,11 @@ namespace DeportNetReconocimiento.GUI
 
         private void WFSeleccionarUsuario_Load(object sender, EventArgs e)
         {
+            idSucursal = ObtenerIdSucursal();
+            nombreSucursal = ObtenerNombreSucursal();
+            listadoEmpleados = ObtenerListadoDeEmpleados();
             label1.Text = "Seleccione un usuario para ingresar a " + nombreSucursal;
+            panel1.Hide();
             CargarCombobox();
         }
 
@@ -91,6 +119,7 @@ namespace DeportNetReconocimiento.GUI
 
             if(empleadoSeleccionado.Id == -1)
             {
+                Console.WriteLine("Empleado predeterminado seleccionado");
                 ingresoSinEmpleado = true;
                 button1.Text = "Ingresar sin empleado";
                 panel1.Hide();

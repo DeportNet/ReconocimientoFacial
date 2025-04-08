@@ -26,10 +26,10 @@ namespace DeportNetReconocimiento.Utils
                 bdContext = BdContext.CrearContexto();
             }
 
+            Credenciales? credObtenidas = null;
+            credObtenidas = bdContext.Credenciales.FirstOrDefault();
 
-            Credenciales? credObtenidas = bdContext.Credenciales.FirstOrDefault();
-
-
+           
             if (credObtenidas == null)
             {
                 WFRgistrarDispositivo wFRgistrarDispositivo = WFRgistrarDispositivo.ObtenerInstancia;

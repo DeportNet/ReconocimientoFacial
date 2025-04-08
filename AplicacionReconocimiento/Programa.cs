@@ -38,7 +38,7 @@ namespace DeportNetReconocimiento
 
             /*Cargar BD*/
 
-           apiServer.CargarBd();
+           //apiServer.CargarBd();
             
 
 
@@ -46,7 +46,7 @@ namespace DeportNetReconocimiento
             Application.Run(new WFSeleccionarUsuario());
 
 
-            // Detener el servidor cuando la aplicaci�n cierre
+            // Detener el servidor cuando la aplicacion cierre
             AppDomain.CurrentDomain.ProcessExit += (s, e) => apiServer?.Stop();
 
         }

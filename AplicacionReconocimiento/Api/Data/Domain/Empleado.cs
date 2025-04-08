@@ -72,5 +72,10 @@ namespace DeportNetReconocimiento.Api.Data.Domain
                    local.IsActive == remoto.IsActive;
         }
 
+        public override string ToString()
+        {
+            return $"{Id} - {FirstName} {LastName}";
+        }
+
     }
 }

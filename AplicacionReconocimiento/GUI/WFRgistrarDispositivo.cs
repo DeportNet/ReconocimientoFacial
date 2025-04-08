@@ -14,13 +14,12 @@ namespace DeportNetReconocimiento
     {
         public bool ignorarCerrarPrograma = false;
         private static WFRgistrarDispositivo? instancia;
-        private string[] credencialesLeidas;
         private bool inputsValidos = false;
         private Loading loading;
-        public Credenciales credenciales;
+        public Credenciales? credenciales;
 
 
-        //Tipo de apertura 0 = normal, 1 = Credenciales bloqueadas, 2= Modificar credenciales ;
+        //Tipo de apertura 0 = normal, 1 = Credenciales bloqueadas(solo cambiar IP), 2= Modificar credenciales ;
         public int tipoApertura { get; set; } = 0;
         private WFRgistrarDispositivo()
         {
@@ -31,7 +30,7 @@ namespace DeportNetReconocimiento
 
         private void VerificarTipoDeApertura()
         {
-            switch (ObtenerInstancia.tipoApertura)
+            switch (tipoApertura)
             {
                 case 0:
                     textBoxPort.Enabled = true;
@@ -77,12 +76,17 @@ namespace DeportNetReconocimiento
 
         private void WFRgistrarDispositivo_Load(object sender, EventArgs e)
         {
-            Credenciales? credenciales = CredencialesUtils.LeerCredencialesBd();
+            VerificarTipoDeApertura();
+            if(tipoApertura != 0)
+            {
+                Credenciales? credenciales = CredencialesUtils.LeerCredencialesBd();
 
-            if (credenciales != null) { 
-                AgregarValoresAInputs(credenciales);
-                VerificarTipoDeApertura();
-                ignorarCerrarPrograma = true;
+                if(credenciales != null)
+                {
+                    AgregarValoresAInputs(credenciales);
+                    ignorarCerrarPrograma = true;
+                    
+                }
             }
         }
 
@@ -270,7 +274,7 @@ namespace DeportNetReconocimiento
                 }
             }
 
-            if (ObtenerInstancia.tipoApertura == 2)
+            if (tipoApertura == 2)
             {
                 Console.WriteLine("cambios de este tipo de apertura");
                 if (guardarCambios)
