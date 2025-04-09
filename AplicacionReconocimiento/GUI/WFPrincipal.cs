@@ -327,26 +327,36 @@ namespace DeportNetReconocimiento.GUI
 
 
         // ------------------------------falta hacer logica baja masiva
-        public void VerificarAlmacenamiento()
+        public void VerificarActivarPanelAlmacenamiento()
         {
-            
-            int capacidadMaxima = configuracionEstilos.CapacidadMaximaDispositivo;
+            Hik_Resultado? hayAlmacenamiento = VerificarAlmacenamientoUtils.VerificarHayAlmacenamiento();
 
-            int carasActuales = configuracionEstilos.CarasRegistradas;
-            float porcentaje = configuracionEstilos.PorcentajeAlertaCapacidad;
-
-            float porcentajeActual = (carasActuales * 100) / capacidadMaxima;
-
-            if (porcentajeActual > porcentaje && PanelAlmacenamiento.Visible == false)
+            if(hayAlmacenamiento == null)
             {
+                Console.WriteLine("No se pudo verificar el almacenamiento en WfPrincipal.");
+                return;
+            }
 
-                TextoAlmacenamiento.Text = $"- Capacidad al: {porcentajeActual}%     - Socios: {carasActuales}/{capacidadMaxima}";
+            //si hay almacenamiento 
+            if (hayAlmacenamiento.Exito)
+            {
+                //si el panel de almacenamiento esta visible, lo ocultamos
+
+
+                return;
+            }
+
+
+            //si NO hay almacenamiento
+
+            TextoAlmacenamiento.Text = hayAlmacenamiento.Mensaje;
+
+            if (PanelAlmacenamiento.Visible)
+            {
                 PanelAlmacenamiento.Visible = true;
             }
-            else if (porcentajeActual < porcentaje && PanelAlmacenamiento.Visible == true)
-            {
-                PanelAlmacenamiento.Visible = false;
-            }
+
+            
         }
 
         //Codigo para identificar un hilo secundario, se utiliza en ActualizarDatos
@@ -730,7 +740,7 @@ namespace DeportNetReconocimiento.GUI
             //Foto
             pictureBox1.BackColor = config.ColorFondoImagen;
 
-            VerificarAlmacenamiento();
+            VerificarActivarPanelAlmacenamiento();
         }
         private void botonPersonalizar_Click(object sender, EventArgs e)
         {

@@ -471,11 +471,14 @@ namespace DeportNetReconocimiento.SDK
 
             ConservarImagenSocio(configuracion, nombre, idCliente);
 
+            //actualizo el total de rostros registrados en BD
             int rostrosActuales = ConfiguracionGeneralUtils.SumarRegistroCara();
 
+            //lo actualizo en Config estilos asi el cliente puede ver
             configuracion.ActualizarCapacidadActualConfigEstilos(rostrosActuales);
 
-            WFPrincipal.ObtenerInstancia.VerificarAlmacenamiento();
+            //verifico si estoy cerca de la capacidad maxima
+            WFPrincipal.ObtenerInstancia.VerificarActivarPanelAlmacenamiento();
 
 
             return resultado;
@@ -563,7 +566,7 @@ namespace DeportNetReconocimiento.SDK
 
             configuracion.ActualizarCapacidadActualConfigEstilos(rostrosActuales);
 
-            WFPrincipal.ObtenerInstancia.VerificarAlmacenamiento();
+            WFPrincipal.ObtenerInstancia.VerificarActivarPanelAlmacenamiento();
 
 
             return resultado;

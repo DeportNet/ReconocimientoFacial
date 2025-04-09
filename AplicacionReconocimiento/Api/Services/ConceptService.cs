@@ -22,7 +22,7 @@ namespace DeportNetReconocimiento.Api.Services
         public ConceptService(BdContext bdContext)
         {
             _bdContext = bdContext;
-            idSucursal = "23";// CredencialesUtils.LeerCredencialEspecifica(4);
+            idSucursal = CredencialesUtils.LeerCredencialEspecifica(4);
         }
 
 
