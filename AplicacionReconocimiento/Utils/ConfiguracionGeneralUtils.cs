@@ -22,7 +22,8 @@ namespace DeportNetReconocimiento.Utils
                 null,
                 null,
                 Hik_Controladora_General.InstanciaControladoraGeneral.ObtenerCapacidadCarasDispositivo(),
-                1
+                1,
+                null
                 );
 
             _bdContext.Add(config);
@@ -99,7 +100,21 @@ namespace DeportNetReconocimiento.Utils
             return (int)rostrosActuales;
         }
 
+        public static string ObtenerLectorActual()
+        {
+            var lectorActual = _bdContext.ConfiguracionGeneral.Select(c => c.LectorActual).FirstOrDefault();
+            return lectorActual.ToString();
+        }
 
+        public static void ActualizarLectorActual(string? lectorNuevo)
+        {
+            var config = _bdContext.ConfiguracionGeneral.FirstOrDefault();
+            if(config != null)
+            {
+                config.LectorActual = lectorNuevo;
+                _bdContext.SaveChanges();
+            }
+        }
 
     }
 }

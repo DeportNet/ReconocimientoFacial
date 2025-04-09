@@ -21,7 +21,7 @@ namespace DeportNetReconocimiento.GUI
             this.configuracion = configuracionEstilos;
             this.principal = principal;
             _credenciales = CredencialesUtils.LeerCredencialesBd();
-
+            comboBoxNroLector.SelectedIndex = 0;
 
 
             // Asignar el objeto de configuración al PropertyGrid (para que se vea lo que se puede configurar)
@@ -76,8 +76,6 @@ namespace DeportNetReconocimiento.GUI
             ConfiguracionManager.OnConfiguracionActualizada -= RefrescarPropertyGrid;
 
         }
-
-
         private void PropertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             principal.AplicarConfiguracion(configuracion);
@@ -271,7 +269,7 @@ namespace DeportNetReconocimiento.GUI
 
         private void BotonOcultarConfig_Click(object sender, EventArgs e)
         {
-            
+
             configuracion.MetodoApertura = ComboBoxAperturaMolinete.Text;
             configuracion.RutaMetodoApertura = TextBoxRutaExe.Text;
 
@@ -324,6 +322,17 @@ namespace DeportNetReconocimiento.GUI
         private void label2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBoxNroLector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string lectorActual = comboBoxNroLector.Text;
+            ConfiguracionGeneralUtils.ActualizarLectorActual(lectorActual);
         }
     }
 }
