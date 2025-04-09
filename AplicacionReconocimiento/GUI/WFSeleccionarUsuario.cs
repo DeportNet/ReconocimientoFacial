@@ -192,7 +192,7 @@ namespace DeportNetReconocimiento.GUI
 
             //si la contrasenia es correcta abrir el formulario principal
             this.Hide();
-            WFPrincipal.ObtenerInstancia.Show();
+            ManejarVentanaUtils.MaximizarVentana();
         }
 
     }
