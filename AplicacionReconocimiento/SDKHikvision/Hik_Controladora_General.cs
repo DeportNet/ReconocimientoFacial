@@ -332,7 +332,6 @@ namespace DeportNetReconocimiento.SDK
             return resultado;
         }
 
-        
         public int ObtenerCapacidadCarasDispositivo()
         {
 
@@ -361,7 +360,46 @@ namespace DeportNetReconocimiento.SDK
 
             return capacidad;
         }
-        
+
+        public  bool VerificarEstadoDispositivo()
+        {
+            IntPtr pInBuf;
+            Int32 nSize;
+            int iLastErr = 17;
+            bool conectado = false;
+            pInBuf = IntPtr.Zero;
+            nSize = 0;
+
+            int XML_ABILITY_OUT_LEN = 3 * 1024 * 1024;
+            IntPtr pOutBuf = Marshal.AllocHGlobal(XML_ABILITY_OUT_LEN);
+
+            if (!Hik_SDK.NET_DVR_GetDeviceAbility(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, 0, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
+            {
+                iLastErr = (int)Hik_SDK.NET_DVR_GetLastError();
+
+                //si perdio conexión
+                if (iLastErr == 17)
+                {
+                    Console.WriteLine("Se perdio la conexion con el dispositivo");
+                    return conectado;
+                }
+
+            }
+
+            Marshal.FreeHGlobal(pInBuf);
+            Marshal.FreeHGlobal(pOutBuf);
+
+            if (iLastErr == 1000)
+            {
+                // Console.WriteLine("Conectado");
+                conectado = true;
+            }
+            else
+            {
+                //Console.WriteLine("Desconectado");
+            }
+            return conectado;
+        }
 
         private bool VerificarCapacidad(XmlDocument resultadoXML, string capacidad)
         {

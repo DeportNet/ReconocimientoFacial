@@ -164,9 +164,7 @@ namespace DeportNetReconocimiento.GUI
             PanelSinConexion.BackColor = Color.Transparent;
             PanelSinConexion.Controls.Add(botonDeportnetOffline);
             PanelSinConexion.Controls.Add(textoSinCoenxion);
-
-            PanelSinConexion.Location = new Point(1527, 1001);
-
+            PanelSinConexion.Location = new Point(927, 1007);
             PanelSinConexion.Name = "PanelSinConexion";
             PanelSinConexion.Size = new Size(402, 36);
             PanelSinConexion.TabIndex = 29;
@@ -180,20 +178,21 @@ namespace DeportNetReconocimiento.GUI
             botonDeportnetOffline.FlatAppearance.BorderSize = 0;
             botonDeportnetOffline.FlatStyle = FlatStyle.Flat;
             botonDeportnetOffline.ForeColor = Color.Black;
-            botonDeportnetOffline.Location = new Point(315, 10);
+            botonDeportnetOffline.Location = new Point(315, 7);
             botonDeportnetOffline.Name = "botonDeportnetOffline";
             botonDeportnetOffline.Size = new Size(84, 23);
             botonDeportnetOffline.TabIndex = 34;
             botonDeportnetOffline.Text = "Modo offline";
             botonDeportnetOffline.UseVisualStyleBackColor = false;
+            botonDeportnetOffline.Visible = false;
             // 
             // textoSinCoenxion
             // 
             textoSinCoenxion.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            textoSinCoenxion.BackColor = Color.Silver;
+            textoSinCoenxion.BackColor = Color.Transparent;
             textoSinCoenxion.Font = new Font("Segoe UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textoSinCoenxion.ForeColor = Color.Red;
-            textoSinCoenxion.Location = new Point(0, 5);
+            textoSinCoenxion.Location = new Point(0, 2);
             textoSinCoenxion.Name = "textoSinCoenxion";
             textoSinCoenxion.Size = new Size(312, 31);
             textoSinCoenxion.TabIndex = 0;
@@ -203,20 +202,19 @@ namespace DeportNetReconocimiento.GUI
             // PanelAlmacenamiento
             // 
             PanelAlmacenamiento.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            PanelAlmacenamiento.BackColor = Color.Black;
+            PanelAlmacenamiento.BackColor = Color.Transparent;
             PanelAlmacenamiento.Controls.Add(TextoAlmacenamiento);
-            PanelAlmacenamiento.Location = new Point(1083, 1006);
+            PanelAlmacenamiento.Location = new Point(1364, 1007);
             PanelAlmacenamiento.Name = "PanelAlmacenamiento";
             PanelAlmacenamiento.Size = new Size(438, 35);
             PanelAlmacenamiento.TabIndex = 30;
-            PanelAlmacenamiento.Visible = false;
             // 
             // TextoAlmacenamiento
             // 
             TextoAlmacenamiento.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            TextoAlmacenamiento.BackColor = Color.Silver;
+            TextoAlmacenamiento.BackColor = Color.Transparent;
             TextoAlmacenamiento.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            TextoAlmacenamiento.ForeColor = Color.Red;
+            TextoAlmacenamiento.ForeColor = Color.Green;
             TextoAlmacenamiento.Location = new Point(0, 0);
             TextoAlmacenamiento.Name = "TextoAlmacenamiento";
             TextoAlmacenamiento.Size = new Size(438, 36);
@@ -247,6 +245,7 @@ namespace DeportNetReconocimiento.GUI
             // 
             // textoInformacionCliente
             // 
+            textoInformacionCliente.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             textoInformacionCliente.FlatStyle = FlatStyle.Flat;
             textoInformacionCliente.Location = new Point(628, 0);
             textoInformacionCliente.Margin = new Padding(0);
