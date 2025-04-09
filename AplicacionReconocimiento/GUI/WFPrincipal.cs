@@ -30,8 +30,8 @@ namespace DeportNetReconocimiento.GUI
         private WFPrincipal()
         {
             InitializeComponent();
-            loading = new Loading();
-            Hik_Resultado resultadoInicio = InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            //loading = new Loading();
+           // Hik_Resultado resultadoInicio = InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
 
             //estilos se leen de un archivo
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion());

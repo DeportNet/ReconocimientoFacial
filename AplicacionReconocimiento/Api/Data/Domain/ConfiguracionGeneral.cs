@@ -48,11 +48,14 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [AllowNull]
         public int? RostrosActuales { get; set; }
 
+        [Column("face_reader")]
+        [AllowNull]
+        public string? LectorActual { get; set; }
 
 
         public ConfiguracionGeneral() { }
 
-        public ConfiguracionGeneral(int cantMaxLotes, string contraseniaBd, string nombreSucursal,DateTime? ultimaFechaSincronizacion, DateTime? anteriorFechaSincronizacion, int? capacidadMaximaRostros, int rostrosActuales)
+        public ConfiguracionGeneral(int cantMaxLotes, string contraseniaBd, string nombreSucursal,DateTime? ultimaFechaSincronizacion, DateTime? anteriorFechaSincronizacion, int? capacidadMaximaRostros, int rostrosActuales, string? lectorActual)
         {
             CantMaxLotes = cantMaxLotes;
             ContraseniaBd = contraseniaBd;
@@ -61,6 +64,7 @@ namespace DeportNetReconocimiento.Api.Data.Domain
             AnteriorFechaSincronizacion = anteriorFechaSincronizacion;
             CapacidadMaximaRostros = capacidadMaximaRostros;
             RostrosActuales = rostrosActuales;
+            LectorActual = lectorActual;
         }
 
     }
