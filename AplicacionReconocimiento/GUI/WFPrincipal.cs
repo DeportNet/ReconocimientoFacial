@@ -25,7 +25,7 @@ namespace DeportNetReconocimiento.GUI
         //private string[] _credenciales;
         private bool principalVisible = false;
         private static int intentosConexionADispositivo = 0;
-
+        private Loading loading;
 
         private WFPrincipal()
         {
@@ -35,7 +35,6 @@ namespace DeportNetReconocimiento.GUI
 
             //estilos se leen de un archivo
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion());
-
             ReproducirSonido(ConfiguracionEstilos.SonidoBienvenida);
 
         }
@@ -104,8 +103,6 @@ namespace DeportNetReconocimiento.GUI
             return resultado;
         }
 
-
-        private Loading loading;
         private async void ManejarErrorDispositivo(Hik_Resultado resultadoError)
         {
 
@@ -168,8 +165,6 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
-
-
         private void CerrarFormulario(object sender, FormClosingEventArgs e)
         {
             if (!ignorarCierre)
@@ -194,55 +189,10 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-        //función que verifica si el programa tiene conexión con el dispositivo
-        // ------------------------------llevarlo a sdk hikvision
-        public bool VerificarEstadoDispositivo()
-        {
-            IntPtr pInBuf;
-            Int32 nSize;
-            int iLastErr = 17;
-            bool conectado = false;
-            pInBuf = IntPtr.Zero;
-            nSize = 0;
-
-            int XML_ABILITY_OUT_LEN = 3 * 1024 * 1024;
-            IntPtr pOutBuf = Marshal.AllocHGlobal(XML_ABILITY_OUT_LEN);
-
-            if (!Hik_SDK.NET_DVR_GetDeviceAbility(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, 0, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
-            {
-                iLastErr = (int)Hik_SDK.NET_DVR_GetLastError();
-
-                //si perdio conexión
-                if (iLastErr == 17)
-                {
-                    Console.WriteLine("Se perdio la conexion con el dispositivo");
-                    return conectado;
-                }
-
-            }
-
-            Marshal.FreeHGlobal(pInBuf);
-            Marshal.FreeHGlobal(pOutBuf);
-
-            if (iLastErr == 1000)
-            {
-                // Console.WriteLine("Conectado");
-                conectado = true;
-            }
-            else
-            {
-                //Console.WriteLine("Desconectado");
-            }
-            return conectado;
-        }
-
-
-
         //Funcion que se ejecuta en cada TICK del timer
         public async void VerificarEstadoDispositivoAsync(object sender, EventArgs e)
         {
             VerificarConexionInternet();
-
             VerificarConexionConDispositivo();
         }
 
@@ -251,7 +201,7 @@ namespace DeportNetReconocimiento.GUI
             Hik_Resultado resultadoInstanciar = new Hik_Resultado();
 
             //Se espera al resultado de la función verificarEstadoDispositivo 
-            bool estadoConexionDispositivo = await Task.Run(() => VerificarEstadoDispositivo());
+            bool estadoConexionDispositivo = await Task.Run(() => Hik_Controladora_General.InstanciaControladoraGeneral.VerificarEstadoDispositivo());
 
             Console.WriteLine("Verificamos el estado de la conexion con el dispositivo. Estado: " + estadoConexionDispositivo);
 
@@ -393,7 +343,6 @@ namespace DeportNetReconocimiento.GUI
                 Console.WriteLine("Limpiar interfaz cancelada. Hubo otra lectura.");
             }
         }
-
 
         public void EvaluarMensajeAcceso(ValidarAccesoResponse json)
         {
@@ -551,7 +500,6 @@ namespace DeportNetReconocimiento.GUI
             LimpiarFotosDirectorio();
 
         }
-
 
         public void LimpiarFotosDirectorio()
         {

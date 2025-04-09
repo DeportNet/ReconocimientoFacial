@@ -17,7 +17,8 @@ namespace DeportNetReconocimiento
         private bool inputsValidos = false;
         private Loading loading;
         public Credenciales? credenciales;
-
+        private bool seClickeoBotonLogin = false;
+        private bool guardarCambios = false;
 
         //Tipo de apertura 0 = normal, 1 = Credenciales bloqueadas(solo cambiar IP), 2= Modificar credenciales ;
         public int tipoApertura { get; set; } = 0;
@@ -181,8 +182,7 @@ namespace DeportNetReconocimiento
             return flag;
         }
 
-        private bool seClickeoBotonLogin = false;
-        private bool guardarCambios = false;
+
 
         private async void BtnAdd_Click(object sender, EventArgs e)
         {
