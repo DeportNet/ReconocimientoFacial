@@ -22,7 +22,6 @@ namespace DeportNetReconocimiento.GUI
         private bool ignorarCierre = false;
         private bool conexionInternet = true;
         private static ReproductorSonidos? reproductorSonidos;
-        private bool principalVisible = false;
         private static int intentosConexionADispositivo = 0;
         private Loading loading;
 
@@ -40,8 +39,7 @@ namespace DeportNetReconocimiento.GUI
 
         private void WFPrincipal_Load(object sender, EventArgs e)
         {
-            this.Visible = principalVisible;
-
+            this.MaximizarVentana();
         }
 
 
@@ -120,7 +118,7 @@ namespace DeportNetReconocimiento.GUI
 
 
                     loading.Show();
-                    principalVisible = false; // Ocultamos la vista pri para que no se pueda hacer nada mientras se busca la ip del dispositivo
+                    this.MinimizarVentana();
                     trayReconocimiento.Visible = false; // Ocultamos el icono de la bandeja del sistema
 
 
@@ -128,7 +126,7 @@ namespace DeportNetReconocimiento.GUI
 
                     loading.Close();
                     trayReconocimiento.Visible = true;
-                    principalVisible = true;
+                    this.MaximizarVentana();
                    
                     if (!resultadoLogin.Exito)
                     {
