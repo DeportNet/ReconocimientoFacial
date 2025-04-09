@@ -41,7 +41,7 @@ namespace DeportNetReconocimiento.Api.Services
             }
 
             //2. Obtener el nombre de la sucursal
-            await GuardarNombreSucursal(listadoDeEmpleadosDx.BranchName);
+            GuardarNombreSucursal(listadoDeEmpleadosDx.BranchName);
 
 
             //3. Mappear el listado de empleados
@@ -141,14 +141,9 @@ namespace DeportNetReconocimiento.Api.Services
             }
         }
 
-        private async Task GuardarNombreSucursal(string nombreSucursal)
+        private void GuardarNombreSucursal(string nombreSucursal)
         {
-            ConfiguracionGeneral? config = _bdContext.ConfiguracionGeneral.FirstOrDefault(); // o por ID si lo tenés
-
-            if (config == null)
-            {
-                return;
-            }
+            ConfiguracionGeneral? config = ConfiguracionGeneralUtils.ObtenerConfiguracionGeneral(); // o por ID si lo tenés
 
             try
             {

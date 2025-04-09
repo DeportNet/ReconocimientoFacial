@@ -42,14 +42,13 @@ namespace DeportNetReconocimiento.Utils
             if (config == null)
             {
                 Console.WriteLine("Se creo un registro de ConfiguracionGeneral en ObtenerCantMaxCarasBd");
-                config = CrearRegistroConfiguracionGeneral();
             }
 
             return config.CapacidadMaximaRostros;
 
         }
 
-        public static ConfiguracionGeneral? ObtenerConfiguracionGeneral()
+        public static ConfiguracionGeneral ObtenerConfiguracionGeneral()
         {
             if (_bdContext == null)
             {
@@ -57,6 +56,13 @@ namespace DeportNetReconocimiento.Utils
             }
 
             ConfiguracionGeneral? config = _bdContext.ConfiguracionGeneral.FirstOrDefault(c => c.Id == 1);
+
+            if(config == null)
+            {
+                config = CrearRegistroConfiguracionGeneral();
+            }
+
+
             return config;
         }
 
@@ -64,13 +70,7 @@ namespace DeportNetReconocimiento.Utils
         public static int SumarRegistroCara()
         {
             int? rostrosActuales = null;
-            ConfiguracionGeneral? config = ObtenerConfiguracionGeneral();
-
-            if (config == null)
-            {
-                Console.WriteLine("Se creo un registro de ConfiguracionGeneral en SumarRegistroCara");
-                config = CrearRegistroConfiguracionGeneral();
-            }
+            ConfiguracionGeneral config = ObtenerConfiguracionGeneral();
 
             config.RostrosActuales += 1;
 
@@ -83,13 +83,8 @@ namespace DeportNetReconocimiento.Utils
         public static int RestarRegistroCara()
         {
             int? rostrosActuales = null;
-            ConfiguracionGeneral? config = ObtenerConfiguracionGeneral();
 
-            if (config == null)
-            {
-                Console.WriteLine("Se creo un registro de ConfiguracionGeneral en RestarRegistroCara");
-                config = CrearRegistroConfiguracionGeneral();
-            }
+            ConfiguracionGeneral config = ObtenerConfiguracionGeneral();
 
             config.RostrosActuales -= 1;
             rostrosActuales = config.RostrosActuales;
@@ -108,7 +103,7 @@ namespace DeportNetReconocimiento.Utils
 
         public static void ActualizarLectorActual(string? lectorNuevo)
         {
-            var config = _bdContext.ConfiguracionGeneral.FirstOrDefault();
+            ConfiguracionGeneral config = ObtenerConfiguracionGeneral();
             if(config != null)
             {
                 config.LectorActual = lectorNuevo;

@@ -17,7 +17,7 @@ namespace DeportNetReconocimiento.Utils
     public class VerificarAlmacenamientoUtils
     {
         private static BdContext context = BdContext.CrearContexto();
-        
+        private static ConfiguracionGeneral configGeneral = ConfiguracionGeneralUtils.ObtenerConfiguracionGeneral();
         public static Hik_Resultado? VerificarHayAlmacenamiento()
         {
 
@@ -27,7 +27,6 @@ namespace DeportNetReconocimiento.Utils
             int? capacidadMaximaNullable = null;
             int? carasActualesNullable = null;
 
-            ConfiguracionGeneral? configGeneral = context.ConfiguracionGeneral.FirstOrDefault(cg => cg.Id == 1);
             ConfiguracionEstilos configEstilos = ConfiguracionEstilos.LeerJsonConfiguracion();
             
             if(configGeneral == null)
@@ -86,8 +85,14 @@ namespace DeportNetReconocimiento.Utils
 
         private static async Task BajaMasivaClientes()
         {
-            Credenciales? credenciales = context.Credenciales.FirstOrDefault(cg => cg.Id == 1);
+            if (configGeneral == null)
+            {
+                Console.WriteLine("No se encontró la configuración general en la base de datos. En VerificarAlmacenamientoUtils.");
+                return;
+            }
 
+            Credenciales? credenciales = context.Credenciales.FirstOrDefault(cg => cg.Id == 1);
+            
             if(credenciales == null)
             {
                 Console.WriteLine("No se encontró credenciales en la base de datos. En VerificarAlmacenamientoUtils.");
@@ -103,9 +108,11 @@ namespace DeportNetReconocimiento.Utils
                 return;
             }
 
+        
+
 
             //hago la pegada
-            string json = await WebServicesDeportnet.BajaFacialMasivaClienteDeportnet(idSucursal);
+            string json = await WebServicesDeportnet.BajaFacialMasivaClienteDeportnet(idSucursal, configGeneral.LectorActual);
 
             //recibo el arreglo de ids a borrar
             ListadoBajaSociosDtoDx? listado = JsonConvert.DeserializeObject<ListadoBajaSociosDtoDx>(json);
