@@ -168,6 +168,7 @@ namespace DeportNetReconocimiento.GUI
             if (ingresoSinEmpleado)
             {
                 IngresarSinEmpleado();
+                return;
             }
 
             if(empleadoSeleccionado.Password != textBox1.Text)

@@ -23,7 +23,7 @@ namespace DeportNetReconocimiento.GUI
         private bool conexionInternet = true;
         private static ReproductorSonidos? reproductorSonidos;
         //private string[] _credenciales;
-        private bool ocultarPrincipal = false;
+        private bool principalVisible = false;
         private static int intentosConexionADispositivo = 0;
 
 
@@ -42,10 +42,7 @@ namespace DeportNetReconocimiento.GUI
 
         private void WFPrincipal_Load(object sender, EventArgs e)
         {
-            if (ocultarPrincipal)
-            {
-                this.Visible = false;
-            }
+            this.Visible = principalVisible;
 
         }
 
@@ -84,24 +81,13 @@ namespace DeportNetReconocimiento.GUI
             Hik_Resultado resultado = new Hik_Resultado();
 
             //ip , puerto, usuario, contraseña en ese orden
-            
-            
-            if (!CredencialesUtils.CredecialesCargadasEnBd())
-            {
-                WFRgistrarDispositivo wFRgistrarDispositivo = WFRgistrarDispositivo.ObtenerInstancia;
-                if (!wFRgistrarDispositivo.Visible)
-                {
-                    wFRgistrarDispositivo.tipoApertura = 0;
-                    wFRgistrarDispositivo.ShowDialog();
-                }
+            Credenciales? credenciales = CredencialesUtils.LeerCredencialesBd();
 
-                //Si no hubo exito mostrar ventana con el error. Un modal 
-                //resultado.MessageBoxResultado("Error al leer las credenciales");
+            if(credenciales == null)
+            {
                 resultado.ActualizarResultado(false, "No se pudieron leer las credenciales... Vuelva a intentarlo", "-1");
                 return resultado;
             }
-
-            Credenciales credenciales = CredencialesUtils.LeerCredencialesBd();
 
             resultado = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(credenciales.Username, credenciales.Password, credenciales.Port, credenciales.Ip);
 
@@ -113,10 +99,11 @@ namespace DeportNetReconocimiento.GUI
             {
                 ManejarErrorDispositivo(resultado);
             }
-            
+
 
             return resultado;
         }
+
 
         private Loading loading;
         private async void ManejarErrorDispositivo(Hik_Resultado resultadoError)
@@ -127,19 +114,26 @@ namespace DeportNetReconocimiento.GUI
                 case "7":
 
                     //Logica mostrar loading y buscar ip
-                    Credenciales credenciales = CredencialesUtils.LeerCredencialesBd();
+                    Credenciales? credenciales = CredencialesUtils.LeerCredencialesBd();
 
-                    ocultarPrincipal = true; // Ocultamos la vista pri para que no se pueda hacer nada mientras se busca la ip del dispositivo
+                    if(credenciales == null)
+                    {
+                        Console.WriteLine("No se pudieron obtener las credenciales de la base de datos en WfPrincipal, ManejarErrorDispositivo"); 
+                        return;
+                    }
+
+
                     loading.Show();
+                    principalVisible = false; // Ocultamos la vista pri para que no se pueda hacer nada mientras se busca la ip del dispositivo
+                    trayReconocimiento.Visible = false; // Ocultamos el icono de la bandeja del sistema
 
-                    Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales.Port, credenciales.Username, credenciales.Password));
+
+                    Hik_Resultado resultadoLogin = await Task.Run(()=> BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales.Port, credenciales.Username, credenciales.Password));
 
                     loading.Close();
-
-                    this.Visible = true;
-                    ocultarPrincipal = false;
-
-
+                    trayReconocimiento.Visible = true;
+                    principalVisible = true;
+                   
                     if (!resultadoLogin.Exito)
                     {
                         //va a mostrar no se encontro la ip
@@ -155,6 +149,7 @@ namespace DeportNetReconocimiento.GUI
 
                         return;
                     }
+                    //si hubo exito guardo la ip en credenciales
 
                     credenciales.Ip = resultadoLogin.Mensaje;
                     CredencialesUtils.EscribirCredencialesBd(credenciales);
@@ -200,6 +195,7 @@ namespace DeportNetReconocimiento.GUI
 
 
         //función que verifica si el programa tiene conexión con el dispositivo
+        // ------------------------------llevarlo a sdk hikvision
         public bool VerificarEstadoDispositivo()
         {
             IntPtr pInBuf;
@@ -328,6 +324,9 @@ namespace DeportNetReconocimiento.GUI
            
         }
 
+
+
+        // ------------------------------falta hacer logica baja masiva
         public void VerificarAlmacenamiento()
         {
             

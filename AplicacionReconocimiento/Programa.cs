@@ -32,7 +32,6 @@ namespace DeportNetReconocimiento
 
             using (var context = BdContext.CrearContexto())
             {
-                Console.WriteLine("Entro aca");
                 context.Database.EnsureCreated();
             }
 
