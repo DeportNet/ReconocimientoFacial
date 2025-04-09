@@ -336,7 +336,7 @@ namespace DeportNetReconocimiento.GUI
 
                 EvaluarMensajeAcceso(json);
 
-                ManejarVentanaUtils.AnalizarMinimizarVentana();
+                AnalizarMinimizarVentana();
 
                 //tiempo de muestra de datos
                 await Task.Delay((int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000), tokenDeCancelacion.Token);
@@ -357,7 +357,7 @@ namespace DeportNetReconocimiento.GUI
 
 
             //Console.WriteLine("Estado json:" + json.Estado);
-           ManejarVentanaUtils.AnalizarMaximizarVentana(json.Estado);
+            AnalizarMaximizarVentana(json.Estado);
 
 
             switch (json.Estado)
@@ -582,7 +582,73 @@ namespace DeportNetReconocimiento.GUI
 
         /* - - - - - - Maximizar Minimizar Ventana - - - - - - */
 
-    
+        public void AnalizarMaximizarVentana(string estado)
+        {
+            switch (estado)
+            {
+                case "T":
+                    if (configuracionEstilos.MaximizarAccesoConcedido)
+                        MaximizarVentana();
+                    break;
+                case "F":
+                    if (configuracionEstilos.MaximizarAccesoDenegado)
+                        MaximizarVentana();
+                    break;
+                case "Q":
+                    if (configuracionEstilos.MaximizarPregunta)
+                        MaximizarVentana();
+                    break;
+            }
+
+        }
+
+
+        public void MaximizarVentana()
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.Show(); // Muestra el formulario principal
+                this.WindowState = FormWindowState.Maximized; // Restaura el estado de la ventana
+            }
+        }
+
+        private CancellationTokenSource tokenCancelarTimerMinimizar = new CancellationTokenSource();
+        public async void AnalizarMinimizarVentana()
+        {
+
+            if (configuracionEstilos.EstadoMinimizar)
+            {
+                try
+                {
+                    CancellationTokenSource tokenDeCancelacion = CancelarTokenYGenerarNuevoHilos(tokenCancelarTimerMinimizar);
+
+                    await Task.Delay((int)(ConfiguracionEstilos.SegundosMinimizar * 1000), tokenDeCancelacion.Token);
+
+                    MinimizarVentana();
+
+                }
+                catch (TaskCanceledException ex)
+                {
+                    Console.WriteLine("Se cancelo el timer minimizar");
+                }
+            }
+
+        }
+
+        public void MinimizarVentana()
+        {
+
+            if (InvokeRequired)
+            {
+                Invoke(new Action(MinimizarVentana)); //Invocamos el metodo en el hilo principal
+            }
+
+            if (this.WindowState == FormWindowState.Maximized)
+            {
+                this.Hide();
+                this.WindowState = FormWindowState.Minimized;
+            }
+        }
 
 
         /* - - - - - - Configuracion Estilos - - - - - - */
