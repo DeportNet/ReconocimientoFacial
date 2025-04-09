@@ -276,7 +276,7 @@ namespace DeportNetReconocimiento.GUI
 
 
         // ------------------------------falta hacer logica baja masiva
-        public void VerificarActivarPanelAlmacenamiento()
+        public void VerificarPanelAlmacenamiento()
         {
             Hik_Resultado? hayAlmacenamiento = VerificarAlmacenamientoUtils.VerificarHayAlmacenamiento();
 
@@ -287,42 +287,20 @@ namespace DeportNetReconocimiento.GUI
                 return;
             }
 
-            //si hay almacenamiento 
+            //cambiamos los colores del mensaje, dependiendo si supero o no la alerta de almacenamiento
             if (hayAlmacenamiento.Exito)
             {
-                //si el panel de almacenamiento esta visible, lo ocultamos
-
-
-                return;
+                TextoAlmacenamiento.ForeColor = Color.Green;
+            }
+            else
+            {
+                TextoAlmacenamiento.ForeColor = Color.Red;
             }
 
-
-            //si NO hay almacenamiento
 
             TextoAlmacenamiento.Text = hayAlmacenamiento.Mensaje;
 
-            if (PanelAlmacenamiento.Visible)
-            {
-                PanelAlmacenamiento.Visible = true;
-            }
-
-            
-
-            int carasActuales = configuracionEstilos.CarasRegistradas;
-            float porcentaje = configuracionEstilos.PorcentajeAlertaCapacidad;
-
-            float porcentajeActual = (carasActuales * 100) / capacidadMaxima;
-
-            if (porcentajeActual > porcentaje)
-            {
-                TextoAlmacenamiento.Text = $"- Capacidad al: {porcentajeActual}%     - Socios: {carasActuales}/{capacidadMaxima}";
-                TextoAlmacenamiento.ForeColor = Color.Red;
-            }
-            else if (porcentajeActual < porcentaje)
-            {
-                TextoAlmacenamiento.Text = $"- Capacidad al: {porcentajeActual}%     - Socios: {carasActuales}/{capacidadMaxima}";
-                TextoAlmacenamiento.ForeColor = Color.Green;
-            }
+          
 
         }
 
@@ -705,7 +683,7 @@ namespace DeportNetReconocimiento.GUI
             //Foto
             pictureBox1.BackColor = config.ColorFondoImagen;
 
-            VerificarActivarPanelAlmacenamiento();
+            VerificarPanelAlmacenamiento();
         }
         private void botonPersonalizar_Click(object sender, EventArgs e)
         {

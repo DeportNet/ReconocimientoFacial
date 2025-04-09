@@ -516,7 +516,7 @@ namespace DeportNetReconocimiento.SDK
             configuracion.ActualizarCapacidadActualConfigEstilos(rostrosActuales);
 
             //verifico si estoy cerca de la capacidad maxima
-            WFPrincipal.ObtenerInstancia.VerificarActivarPanelAlmacenamiento();
+            WFPrincipal.ObtenerInstancia.VerificarPanelAlmacenamiento();
 
 
             return resultado;
@@ -604,7 +604,7 @@ namespace DeportNetReconocimiento.SDK
 
             configuracion.ActualizarCapacidadActualConfigEstilos(rostrosActuales);
 
-            WFPrincipal.ObtenerInstancia.VerificarActivarPanelAlmacenamiento();
+            WFPrincipal.ObtenerInstancia.VerificarPanelAlmacenamiento();
 
 
             return resultado;
@@ -615,10 +615,20 @@ namespace DeportNetReconocimiento.SDK
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
-            foreach (string id in ids)
+            try
             {
-                resultado = BajaCliente(id);
+                foreach (string id in ids)
+                {
+                    resultado = BajaCliente(id);
+                }
+
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error en la baja masiva de clientes: " + ex.Message);
+            }
+
+
 
             return resultado;
         }

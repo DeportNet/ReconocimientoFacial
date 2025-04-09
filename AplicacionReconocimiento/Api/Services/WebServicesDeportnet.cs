@@ -32,7 +32,7 @@ namespace DeportNetReconocimiento.Api.Services
         const string urlBajaCliente = "https://deportnet.com/facialAccess/facialAccessDeleteResult";
         const string urlAltaCliente = "https://deportnet.com/facialAccess/facialAccessLectureResult";
 
-        public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal, string rtaManual = null, string idEmpleado = null)
+        public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal, string? rtaManual = null, string? idEmpleado = null)
         {
             dynamic data = new ExpandoObject();
             data.memberId = nroTarjeta;
@@ -110,12 +110,21 @@ namespace DeportNetReconocimiento.Api.Services
             return await FetchInformacion(rta.ToJson(), urlBajaCliente, HttpMethod.Post);
         }
 
-        public static async Task<string> BajaFacialMasivaClienteDeportnet(string idSucursal)
+        public static async Task<string> BajaFacialMasivaClienteDeportnet(string idSucursal, string? lectorNumber = null, string? maxToDelete = null)
         {
-            object data = new
+            dynamic data = new ExpandoObject();
+            data.activeBranchId = idSucursal;
+
+            if (lectorNumber != null)
             {
-                activeBranchId = idSucursal
-            };
+                data.lectorNumber = lectorNumber;
+            }
+
+            if (maxToDelete != null) { 
+                data.maxToDelete = maxToDelete;
+            }
+
+
             return await FetchInformacion(JsonSerializer.Serialize(data), urlBajaMasivaClienteTest, HttpMethod.Post);
 
         }
