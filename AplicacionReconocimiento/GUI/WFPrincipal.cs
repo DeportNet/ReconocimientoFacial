@@ -274,8 +274,6 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-
-        // ------------------------------falta hacer logica baja masiva
         public void VerificarPanelAlmacenamiento()
         {
             Hik_Resultado? hayAlmacenamiento = VerificarAlmacenamientoUtils.VerificarHayAlmacenamiento();
