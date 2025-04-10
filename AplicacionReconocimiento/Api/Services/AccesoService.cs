@@ -5,6 +5,8 @@ using DeportNetReconocimiento.Api.Data.Mapper.Interfaces;
 using DeportNetReconocimiento.Api.Services.Interfaces;
 using DeportNetReconocimiento.Utils;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,25 +66,88 @@ namespace DeportNetReconocimiento.Api.Services
                 await _bdContext.Accesos.AddAsync(loteAcceso);
 
                 //Completar datos del lote 
-                Acceso ultimoLote = await _bdContext.Accesos.OrderByDescending(a => a.Id).FirstOrDefaultAsync();
-                ultimoLote.ProcessId = ultimoLote.Id;
-                await _bdContext.Accesos.AddAsync(ultimoLote);
+                Acceso? ultimoLote = await _bdContext.Accesos.OrderByDescending(a => a.Id).FirstOrDefaultAsync();
+
+                if(ultimoLote == null)
+                {
+                    Console.WriteLine("No se pudo obtener el ultimo lote a la hora de enviar el lote de acceso: Lote " + ultimoLote);
+                    return;
+                }
+
+                    ultimoLote.ProcessId = ultimoLote.Id;
+                    await _bdContext.Accesos.AddAsync(ultimoLote);
 
                 //Llamado al post de enviar lote 
                 string json = await WebServicesDeportnet.EnviarLoteDeAccesos(_accesoMapper.AccesoToAccesoDtoDx(ultimoLote).ToString());
 
-                RespuestaSincronizacionLoteAccesosDtoDx respuestaSincronizacion = System.Text.Json.JsonSerializer.Deserialize<RespuestaSincronizacionLoteAccesosDtoDx>(json);
+                RespuestaSincroLoteAccesosDtoDx? respuestaSincro = JsonConvert.DeserializeObject<RespuestaSincroLoteAccesosDtoDx>(json);
 
-                Console.WriteLine($"Respuesta de sincronización de lote {ultimoLote.ProcessId} es {respuestaSincronizacion.ProcessResult}. " +
-                    $"\nMensaje de error: {respuestaSincronizacion.ErrorMessage}" +
-                    $"\nCampos con error: {respuestaSincronizacion.ErrorItems.ToList()}");
+                ManejarRespuestaSincronizacionLoteAccesos(respuestaSincro, ultimoLote);
+
+
             }
             catch (Exception ex)
             {
                 Console.Write($"Error al sincronizar el lote de accesos {ex.Message}");
             }
         }
-        public async Task<Acceso> CrearLoteAcceso()
+
+        private void ManejarRespuestaSincronizacionLoteAccesos(RespuestaSincroLoteAccesosDtoDx respuestaSincro, Acceso loteAcceso)
+        {
+
+
+            Console.WriteLine($"Respuesta de sincronización de lote {loteAcceso.ProcessId} es {respuestaSincro.ProcessResult}. " +
+                                $"\nMensaje de error: {respuestaSincro.ErrorMessage}" +
+                                $"\nCampos con error: {respuestaSincro.ErrorItems.ToList()}");
+
+
+            if (respuestaSincro == null)
+            {
+                ManejarSincronizacionSinRespuesta(loteAcceso);
+            }
+
+            switch (respuestaSincro.ProcessResult)
+            {
+                case "T":
+                    ManejarSincronizacionExitosa(loteAcceso);
+                    break;
+                case "F":
+                    ManejarSincronizacionErronea(respuestaSincro, loteAcceso);
+                    break;
+            }
+
+
+        }
+
+        private async Task ManejarSincronizacionExitosa(Acceso lote)
+        {
+
+            //Agarrar todos los registros del lote y eliminarlos 
+            if(lote.MemberAccess != null)
+            {
+                using(var context = BdContext.CrearContexto())
+                {
+                    context.AccesosSocios.RemoveRange(lote.MemberAccess);
+                    await context.SaveChangesAsync();
+                }
+            }
+        }
+
+        private void ManejarSincronizacionErronea(RespuestaSincroLoteAccesosDtoDx respuestaSincro, Acceso lote)
+        {
+            //Ver que registros son correctos y cuales no 
+                //Los que no son correctos procesarlos
+        }
+
+        private void ManejarSincronizacionSinRespuesta(Acceso lote)
+        {
+            Console.WriteLine("La respuesta de la sincronziación  es null");
+            //Hacer petición para verificar si el lote está actualizado en DX
+
+        }
+
+
+        private async Task<Acceso> CrearLoteAcceso()
         {
             int limiteLote = 20;
             List<AccesoSocio> accesoSocios = await _bdContext.AccesosSocios.Take(limiteLote).ToListAsync();
