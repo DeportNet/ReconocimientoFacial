@@ -13,7 +13,7 @@ namespace DeportNetReconocimiento.GUI
     {
         private ConfiguracionEstilos configuracion;
         private WFPrincipal principal;
-        private Credenciales _credenciales;
+        private Credenciales? _credenciales;
 
         public WFConfiguracion(ConfiguracionEstilos configuracionEstilos, WFPrincipal principal)
         {
@@ -27,7 +27,7 @@ namespace DeportNetReconocimiento.GUI
             // Asignar el objeto de configuración al PropertyGrid (para que se vea lo que se puede configurar)
             propertyGrid1.SelectedObject = configuracion;
             ComboBoxAperturaMolinete.SelectedIndexChanged += ComboBoxAperturaMolinete_SelectedIndexChanged;
-            //ConfiguracionManager.OnConfiguracionActualizada += RefrescarPropertyGrid;
+
 
         }
 
@@ -331,7 +331,9 @@ namespace DeportNetReconocimiento.GUI
 
         private void comboBoxNroLector_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string lectorActual = comboBoxNroLector.Text;
+            //Se obtiene el caracter del final, que es el nro de lector, "Lector 1"
+            string lectorActual = comboBoxNroLector.Text.Substring(comboBoxNroLector.Text.Length - 1);
+
             ConfiguracionGeneralUtils.ActualizarLectorActual(lectorActual);
         }
     }
