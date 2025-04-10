@@ -27,7 +27,17 @@ namespace DeportNetReconocimiento.Utils
             }
 
             Credenciales? credObtenidas = null;
-            credObtenidas = bdContext.Credenciales.FirstOrDefault();
+
+                credObtenidas = bdContext.Credenciales.FirstOrDefault();
+            //try
+            //{
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("Error en LeerCredencialesbd." + ex.Message);
+            //}
+
 
            
             if (credObtenidas == null)
