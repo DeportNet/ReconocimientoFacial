@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Api.Data.Dtos.Dx.Acceso
 {
-    public class RespuestaSincronizacionLoteAccesosDtoDx
+    public class RespuestaSincroLoteAccesosDtoDx
     {
 
         public string ProcessResult { get; set; }
@@ -14,6 +14,6 @@ namespace DeportNetReconocimiento.Api.Data.Dtos.Dx.Acceso
         public ErrorItemLoteDtoDx[]? ErrorItems { get; set; }
 
 
-        public RespuestaSincronizacionLoteAccesosDtoDx() { }
+        public RespuestaSincroLoteAccesosDtoDx() { }
     }
 }
