@@ -27,14 +27,9 @@ namespace DeportNetReconocimiento
             /*API*/
             InicializarApi();
 
-            using (var context = BdContext.CrearContexto())
-            {
-                context.Database.EnsureCreated();
-            }
-
 
             /*Cargar BD*/
-           apiServer.CargarBd();
+            //apiServer.CargarBd();
             
 
 

@@ -29,26 +29,30 @@ namespace DeportNetReconocimiento.Api.BD
         }
         public static BdContext CrearContexto()
         {
+
+            //*
+            //using (var command = connection.CreateCommand())
+            //{
+            //    command.CommandText = "PRAGMA key = '!MiClaveSegura123!';"; // Tu clave
+            //    command.ExecuteNonQuery();
+            //}
+            //*
+
+
             var optionsBuilder = new DbContextOptionsBuilder<BdContext>();
 
             string rutaDb = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
                 "DeportnetReconocimiento", "dbDx.sqlite");
 
-            var connection = new SqliteConnection($"Data Source={rutaDb}");
-            connection.Open();
-
-            /*
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = "PRAGMA key = '!MiClaveSegura123!';"; // Tu clave
-                command.ExecuteNonQuery();
-            }
-            */
-            connection.Close();
-
             optionsBuilder.UseSqlite($"Data Source={rutaDb}");
-            return new BdContext(optionsBuilder.Options);
+
+            var context = new BdContext(optionsBuilder.Options);
+
+            context.Database.EnsureCreated();
+
+            return context;
+
         }
 
         public static void InicializarBd()
