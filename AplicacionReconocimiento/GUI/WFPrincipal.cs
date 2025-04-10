@@ -22,15 +22,14 @@ namespace DeportNetReconocimiento.GUI
         private bool ignorarCierre = false;
         private bool conexionInternet = true;
         private static ReproductorSonidos? reproductorSonidos;
-        private bool principalVisible = false;
         private static int intentosConexionADispositivo = 0;
         private Loading loading;
 
         private WFPrincipal()
         {
             InitializeComponent();
-            //loading = new Loading();
-           // Hik_Resultado resultadoInicio = InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
+            loading = new Loading();
+            Hik_Resultado resultadoInicio = InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
 
             //estilos se leen de un archivo
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion());
@@ -40,8 +39,10 @@ namespace DeportNetReconocimiento.GUI
 
         private void WFPrincipal_Load(object sender, EventArgs e)
         {
-            this.Visible = principalVisible;
-
+            if(!loading.Visible)
+            {
+                this.MaximizarVentana();
+            }
         }
 
 
@@ -118,9 +119,8 @@ namespace DeportNetReconocimiento.GUI
                         return;
                     }
 
-
                     loading.Show();
-                    principalVisible = false; // Ocultamos la vista pri para que no se pueda hacer nada mientras se busca la ip del dispositivo
+                    this.MinimizarVentana();
                     trayReconocimiento.Visible = false; // Ocultamos el icono de la bandeja del sistema
 
 
@@ -128,7 +128,8 @@ namespace DeportNetReconocimiento.GUI
 
                     loading.Close();
                     trayReconocimiento.Visible = true;
-                    principalVisible = true;
+
+                    this.MaximizarVentana();
                    
                     if (!resultadoLogin.Exito)
                     {
@@ -603,11 +604,16 @@ namespace DeportNetReconocimiento.GUI
 
         public void MaximizarVentana()
         {
-            if (this.WindowState == FormWindowState.Minimized)
+            if (this.WindowState != FormWindowState.Maximized)
             {
                 this.Show(); // Muestra el formulario principal
                 this.WindowState = FormWindowState.Maximized; // Restaura el estado de la ventana
             }
+
+            this.TopMost = true;
+            this.BringToFront();
+            this.Activate();
+            this.TopMost = false;
         }
 
         private CancellationTokenSource tokenCancelarTimerMinimizar = new CancellationTokenSource();
@@ -641,7 +647,7 @@ namespace DeportNetReconocimiento.GUI
                 Invoke(new Action(MinimizarVentana)); //Invocamos el metodo en el hilo principal
             }
 
-            if (this.WindowState == FormWindowState.Maximized)
+            if (this.WindowState != FormWindowState.Minimized)
             {
                 this.Hide();
                 this.WindowState = FormWindowState.Minimized;
