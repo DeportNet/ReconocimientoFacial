@@ -73,9 +73,7 @@ namespace DeportNetReconocimiento.Api.Services
         /*VALIDAR SI SE SINCRONIZO HOY*/
         public bool SeSincronizoHoy() {
 
-            ConfiguracionGeneral? config = _contextBd.ConfiguracionGeneral
-               .OrderBy(c => c.Id == 1)
-               .FirstOrDefault();
+            ConfiguracionGeneral? config = ConfiguracionGeneralUtils.ObtenerConfiguracionGeneral();
 
             if (config == null)
             {
