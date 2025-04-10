@@ -611,6 +611,11 @@ namespace DeportNetReconocimiento.GUI
                 this.Show(); // Muestra el formulario principal
                 this.WindowState = FormWindowState.Maximized; // Restaura el estado de la ventana
             }
+
+            this.TopMost = true;
+            this.BringToFront();
+            this.Activate();
+            this.TopMost = false;
         }
 
         private CancellationTokenSource tokenCancelarTimerMinimizar = new CancellationTokenSource();
