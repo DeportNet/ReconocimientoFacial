@@ -331,8 +331,11 @@ namespace DeportNetReconocimiento.GUI
 
         private void comboBoxNroLector_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Se obtiene el caracter del final, que es el nro de lector, "Lector 1"
-            string lectorActual = comboBoxNroLector.Text.Substring(comboBoxNroLector.Text.Length - 1);
+            //Se obtiene la parte del final, que es el nro de lector, "Lector 1"
+
+            string[] partes = comboBoxNroLector.Text.Split(' ');
+
+            string lectorActual = partes[^1]; // "Lector 1" -> "1"  se puede hacer tambien como partes.length -1
 
             ConfiguracionGeneralUtils.ActualizarLectorActual(lectorActual);
         }
