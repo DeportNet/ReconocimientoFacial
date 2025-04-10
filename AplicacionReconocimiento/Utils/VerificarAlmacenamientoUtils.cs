@@ -40,8 +40,13 @@ namespace DeportNetReconocimiento.Utils
             carasActualesNullable = configGeneral.RostrosActuales;
             float porcentajeAlerta = configEstilos.PorcentajeAlertaCapacidad;
 
+            if(porcentajeAlerta == 0 || porcentajeAlerta == null)
+            {
+                Console.WriteLine("El porcentaje de alerta es 0 o null. En VerificarAlmacenamientoUtils.");
+            }
+
             //verificamos los nullable
-            if(capacidadMaximaNullable == null)
+            if (capacidadMaximaNullable == null)
             {
                 Console.WriteLine("La capacidad máxima es null. En VerificarAlmacenamientoUtils.");
                 return null;
@@ -74,8 +79,6 @@ namespace DeportNetReconocimiento.Utils
                     Console.WriteLine("No puedo hacer peticion de baja masiva debido a que no hay internet");
                 }
 
-
-
                 //si no hay almacenamiento
                 resultado.ActualizarResultado(false, $"- Capacidad al: {porcentajeActual}%     - Socios: {carasActualesNullable}/{capacidadMaximaNullable}", "No hay almacenamiento");
             }
@@ -91,13 +94,9 @@ namespace DeportNetReconocimiento.Utils
                 return;
             }
 
-            Credenciales? credenciales = context.Credenciales.FirstOrDefault(cg => cg.Id == 1);
+            Credenciales? credenciales = CredencialesUtils.LeerCredencialesBd();
             
-            if(credenciales == null)
-            {
-                Console.WriteLine("No se encontró credenciales en la base de datos. En VerificarAlmacenamientoUtils.");
-                return;
-            }
+
 
             string? idSucursal = credenciales.BranchId;
 

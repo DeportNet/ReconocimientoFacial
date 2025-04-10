@@ -107,10 +107,13 @@ namespace DeportNetReconocimiento.GUI
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //limpiamos
             textBox1.Clear();
             mensajeErrorLabel.Hide();
-            Empleado empleadoSeleccionado = (Empleado)comboBox1.SelectedItem;
 
+            //obtenemos el empleado seleccionado
+            Empleado? empleadoSeleccionado = (Empleado?)comboBox1.SelectedItem;
+            
             if (empleadoSeleccionado == null)
             {
                 Console.WriteLine("Empleado seleccionado es null");
@@ -156,7 +159,7 @@ namespace DeportNetReconocimiento.GUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Empleado empleadoSeleccionado = (Empleado)comboBox1.SelectedItem;
+            Empleado? empleadoSeleccionado = (Empleado?)comboBox1.SelectedItem;
 
             if (empleadoSeleccionado == null)
             {
@@ -164,7 +167,7 @@ namespace DeportNetReconocimiento.GUI
                 return;
             }
 
-            //logica si la lista viene vacia
+            //logica si la lista viene vacia (empleado predeterminado)
             if (ingresoSinEmpleado)
             {
                 IngresarSinEmpleado();
@@ -185,7 +188,7 @@ namespace DeportNetReconocimiento.GUI
                 Console.WriteLine("Credenciales actuales son null");
                 return;
             }
-            credencialesActuales.CurrentCompanyMemberId = empleadoSeleccionado.Id.ToString();
+            credencialesActuales.CurrentCompanyMemberId = empleadoSeleccionado.CompanyMemberId.ToString();
 
             CredencialesUtils.EscribirCredencialesBd(credencialesActuales);
 
