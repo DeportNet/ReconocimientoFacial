@@ -97,18 +97,31 @@ namespace DeportNetReconocimiento.Utils
 
         public static string ObtenerLectorActual()
         {
-            var lectorActual = _bdContext.ConfiguracionGeneral.Select(c => c.LectorActual).FirstOrDefault();
+            string? lectorActual = ObtenerConfiguracionGeneral().LectorActual;
+
+            if (lectorActual == null) {
+                Console.WriteLine("nro lector es null");
+                lectorActual = "1";
+            }
+
             return lectorActual.ToString();
         }
 
         public static void ActualizarLectorActual(string? lectorNuevo)
         {
             ConfiguracionGeneral config = ObtenerConfiguracionGeneral();
-            if(config != null)
+            if(config == null)
             {
-                config.LectorActual = lectorNuevo;
-                _bdContext.SaveChanges();
+                Console.WriteLine("Configuracion General es null, en ActualizarLectorFacial");
+                return;
             }
+            if (lectorNuevo == null)
+            {
+                Console.WriteLine("Lector nuevo es null, en ActualizarLectorFacial");
+                return;
+            }
+            config.LectorActual = lectorNuevo;
+            _bdContext.SaveChanges();
         }
 
     }
