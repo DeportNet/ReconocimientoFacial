@@ -49,7 +49,7 @@ namespace DeportNetReconocimiento.Api.Services
             }
 
 
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaClienteTest, HttpMethod.Post);
         }
 
         public static async Task<string> ObtenerCofiguracionDeAccesoOffline(string idSucursal)
@@ -102,12 +102,12 @@ namespace DeportNetReconocimiento.Api.Services
 
         public static async Task<string> AltaFacialClienteDeportnet(RespuestaAltaBajaCliente rta)
         {
-            return await FetchInformacion(rta.ToJson(), urlAltaCliente, HttpMethod.Post);
+            return await FetchInformacion(rta.ToJson(), urlAltaClienteTest, HttpMethod.Post);
         }
 
         public static async Task<string> BajaFacialClienteDeportnet(RespuestaAltaBajaCliente rta)
         {
-            return await FetchInformacion(rta.ToJson(), urlBajaCliente, HttpMethod.Post);
+            return await FetchInformacion(rta.ToJson(), urlBajaClienteTest, HttpMethod.Post);
         }
 
         public static async Task<string> BajaFacialMasivaClienteDeportnet(string idSucursal, string? lectorNumber = null, string? maxToDelete = null)
@@ -131,6 +131,8 @@ namespace DeportNetReconocimiento.Api.Services
 
         public static async Task<Hik_Resultado> TestearConexionDeportnet(string tokenSucursal, string idSucursal)
         {
+
+            Console.WriteLine(tokenSucursal + " " + idSucursal);
             Hik_Resultado resultado = new Hik_Resultado();
 
             object dataEnviar = new { };
@@ -150,7 +152,7 @@ namespace DeportNetReconocimiento.Api.Services
             try
             {
                 //respuesta fetch
-                HttpResponseMessage response = await client.PostAsync(urlEntradaCliente, contenido);
+                HttpResponseMessage response = await client.PostAsync(urlEntradaClienteTest, contenido);
 
 
                 resultado = await VerificarResponseDeportnet(response);

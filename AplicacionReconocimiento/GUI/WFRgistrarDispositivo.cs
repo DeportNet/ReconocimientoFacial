@@ -186,7 +186,7 @@ namespace DeportNetReconocimiento
 
         private async void BtnAdd_Click(object sender, EventArgs e)
         {
-            /*
+            
             if (!ValidarInputs() || loading.Visible || seClickeoBotonLogin)
             {
                 return;
@@ -198,6 +198,8 @@ namespace DeportNetReconocimiento
 
            if (!resultadoLogin.Exito)
             {
+                seClickeoBotonLogin = false;
+
                 resultadoLogin.MessageBoxResultado("Error al incializar el dispositivo Hikvision");
                 return;
             }
@@ -207,6 +209,9 @@ namespace DeportNetReconocimiento
 
             if (!conexionDx.Exito)
             {
+                seClickeoBotonLogin = false;
+
+                Console.WriteLine("Hubo un error de conexión con DX");
                 conexionDx.MessageBoxResultado("Conexion con Deportnet");
                 return;
             }
@@ -214,7 +219,7 @@ namespace DeportNetReconocimiento
 
             //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
             //Escribe las credenciales en la base de datos
-            */
+            
             credenciales = CrearCredencialesDesdeTextbox();
 
             CredencialesUtils.EscribirCredencialesBd(credenciales);
@@ -229,6 +234,7 @@ namespace DeportNetReconocimiento
         private Credenciales CrearCredencialesDesdeTextbox()
         {
             //Credenciales de prueba
+            /*
             return new Credenciales(
             "192.168.1.10",
             "8080",
@@ -237,8 +243,8 @@ namespace DeportNetReconocimiento
             "23",
             "H7gVA3r89jvaMuDd",
             null);
-
-            /*
+            */
+            
             return new Credenciales(
             textBoxDeviceAddress.Text,
             textBoxPort.Text,
@@ -247,7 +253,7 @@ namespace DeportNetReconocimiento
             textBoxSucursalID.Text,
             textBoxTokenSucursal.Text,
             null);
-            */
+            
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)

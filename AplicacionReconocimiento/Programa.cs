@@ -29,7 +29,7 @@ namespace DeportNetReconocimiento
 
 
             /*Cargar BD*/
-            //apiServer.CargarBd();
+            apiServer.CargarBd();
             
 
 
