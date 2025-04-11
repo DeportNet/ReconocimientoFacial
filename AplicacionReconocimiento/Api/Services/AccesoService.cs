@@ -135,13 +135,29 @@ namespace DeportNetReconocimiento.Api.Services
 
         private void ManejarSincronizacionErronea(RespuestaSincroLoteAccesosDtoDx respuestaSincro, Acceso lote)
         {
+            Console.WriteLine("Manejo el error de sincronización erronea - Acceso service " + respuestaSincro.ErrorMessage);
             //Ver que registros son correctos y cuales no 
                 //Los que no son correctos procesarlos
         }
 
-        private void ManejarSincronizacionSinRespuesta(Acceso lote)
+        private async void ManejarSincronizacionSinRespuesta(Acceso lote)
         {
-            Console.WriteLine("La respuesta de la sincronziación  es null");
+            VerificarEstadoLoteDtoDx data = new VerificarEstadoLoteDtoDx(idSucursal, lote.ProcessId.ToString());
+            string json = JsonConvert.SerializeObject(data);
+            string respuesta = await WebServicesDeportnet.VerificarEstadoLoteAcceso(json);
+            VerificarEstadoLoteDtoDxResponse estado = JsonConvert.DeserializeObject<VerificarEstadoLoteDtoDxResponse>(respuesta);
+
+            if(estado.Result == null)
+            {
+               await EnviarLoteDeAccesos();
+            }
+
+            if(estado.Result == "T")
+            {
+            }
+            
+
+                Console.WriteLine("La respuesta de la sincronziación  es null");
             //Hacer petición para verificar si el lote está actualizado en DX
 
         }
