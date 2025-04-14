@@ -39,7 +39,7 @@ namespace DeportNetReconocimiento.GUI
 
         private void WFPrincipal_Load(object sender, EventArgs e)
         {
-            if(!loading.Visible)
+            if (!loading.Visible)
             {
                 this.MaximizarVentana();
             }
@@ -82,7 +82,7 @@ namespace DeportNetReconocimiento.GUI
             //ip , puerto, usuario, contraseña en ese orden
             Credenciales? credenciales = CredencialesUtils.LeerCredencialesBd();
 
-            if(credenciales == null)
+            if (credenciales == null)
             {
                 resultado.ActualizarResultado(false, "No se pudieron leer las credenciales... Vuelva a intentarlo", "-1");
                 return resultado;
@@ -113,9 +113,9 @@ namespace DeportNetReconocimiento.GUI
                     //Logica mostrar loading y buscar ip
                     Credenciales? credenciales = CredencialesUtils.LeerCredencialesBd();
 
-                    if(credenciales == null)
+                    if (credenciales == null)
                     {
-                        Console.WriteLine("No se pudieron obtener las credenciales de la base de datos en WfPrincipal, ManejarErrorDispositivo"); 
+                        Console.WriteLine("No se pudieron obtener las credenciales de la base de datos en WfPrincipal, ManejarErrorDispositivo");
                         return;
                     }
 
@@ -124,7 +124,7 @@ namespace DeportNetReconocimiento.GUI
                     trayReconocimiento.Visible = false; // Ocultamos el icono de la bandeja del sistema
 
 
-                    Hik_Resultado resultadoLogin = await Task.Run(()=> BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales.Port, credenciales.Username, credenciales.Password));
+                    Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales.Port, credenciales.Username, credenciales.Password));
 
                     loading.Close();
                     trayReconocimiento.Visible = true;
@@ -697,5 +697,9 @@ namespace DeportNetReconocimiento.GUI
             wFConfiguracion.ShowDialog();
         }
 
+        private void textoInformacionCliente_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
