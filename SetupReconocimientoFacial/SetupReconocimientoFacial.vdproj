@@ -15,7 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_D4270944C070488C8057FFF54AB62535"
+        "MsmKey" = "8:_4CF362BC8555426F9B1EA1A1E1FD374F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -79,7 +79,7 @@
             {
             "Enabled" = "11:TRUE"
             "PromptEnabled" = "11:TRUE"
-            "PrerequisitesLocation" = "2:1"
+            "PrerequisitesLocation" = "2:2"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
                 "Items"
@@ -89,25 +89,15 @@
                     "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
                     "ProductCode" = "8:.NETFramework,Version=v4.7.2"
                     }
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.CoreRuntime.8.0.x64"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.CoreRuntime.3.1.x64"
                     {
-                    "Name" = "8:.NET Runtime 8.0.11 (x64)"
-                    "ProductCode" = "8:Microsoft.NetCore.CoreRuntime.8.0.x64"
+                    "Name" = "8:.NET Core Runtime 3.1.32 (x64)"
+                    "ProductCode" = "8:Microsoft.NetCore.CoreRuntime.3.1.x64"
                     }
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.DesktopRuntime.8.0.x64"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.DesktopRuntime.3.1.x64"
                     {
-                    "Name" = "8:.NET Desktop Runtime 8.0.11 (x64)"
-                    "ProductCode" = "8:Microsoft.NetCore.DesktopRuntime.8.0.x64"
-                    }
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Visual.C++.14.0.x64"
-                    {
-                    "Name" = "8:Visual C++ \"14\" Runtime Libraries (x64)"
-                    "ProductCode" = "8:Microsoft.Visual.C++.14.0.x64"
-                    }
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Visual.C++.14.0.x86"
-                    {
-                    "Name" = "8:Visual C++ \"14\" Runtime Libraries (x86)"
-                    "ProductCode" = "8:Microsoft.Visual.C++.14.0.x86"
+                    "Name" = "8:.NET Desktop Runtime 3.1.32 (x64)"
+                    "ProductCode" = "8:Microsoft.NetCore.DesktopRuntime.3.1.x64"
                     }
                 }
             }
@@ -219,7 +209,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SetupReconocimientoFacial"
         "ProductCode" = "8:{B7BD8834-292F-425E-B959-B9B187914919}"
-        "PackageCode" = "8:{AECC3B59-2A67-4BE3-85D2-31841C3222DD}"
+        "PackageCode" = "8:{CC471AE2-3880-4339-92A4-66F56A008DF0}"
         "UpgradeCode" = "8:{CDEBFB2F-7C39-436C-BB3A-037FC2CB13BD}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -230,7 +220,7 @@
         "Manufacturer" = "8:Deportnet"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:"
+        "Title" = "8:Deportnet Reconocimiento"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Deportnet"
         "Keywords" = "8:"
@@ -339,7 +329,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_2840171C3A874449B48CF765CFB2582B"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_163E4F8D250A41799DD427CC2D5FCF15"
             {
             "Name" = "8:Deportnet Reconocimiento"
             "Arguments" = "8:"
@@ -347,13 +337,13 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_D4270944C070488C8057FFF54AB62535"
-            "Folder" = "8:_C19561BB760B49EB913DF7C69D24CDE1"
+            "Target" = "8:_4CF362BC8555426F9B1EA1A1E1FD374F"
+            "Folder" = "8:_F5BED5478B354EF3907A9EDC2CE1EF43"
             "WorkingFolder" = "8:_50DAC59DB5094EEDB5676890080DD2DA"
             "Icon" = "8:_F37E397930EE45B6B94D5515B3571C88"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_A5B5F294E7124F839D64965C5BA9B8E8"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_CF85DCDFC74D4708AE18E363D15802D7"
             {
             "Name" = "8:Deportnet Reconocimiento"
             "Arguments" = "8:"
@@ -361,8 +351,8 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_D4270944C070488C8057FFF54AB62535"
-            "Folder" = "8:_F5BED5478B354EF3907A9EDC2CE1EF43"
+            "Target" = "8:_4CF362BC8555426F9B1EA1A1E1FD374F"
+            "Folder" = "8:_C19561BB760B49EB913DF7C69D24CDE1"
             "WorkingFolder" = "8:_50DAC59DB5094EEDB5676890080DD2DA"
             "Icon" = "8:_F37E397930EE45B6B94D5515B3571C88"
             "Feature" = "8:"
@@ -766,9 +756,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_D4270944C070488C8057FFF54AB62535"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_4CF362BC8555426F9B1EA1A1E1FD374F"
             {
-            "SourcePath" = "8:..\\AplicacionReconocimiento\\obj\\Release\\net8.0-windows10.0.26100.0\\apphost.exe"
+            "SourcePath" = "8:..\\AplicacionReconocimiento\\obj\\Release\\net8.0-windows7.0\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_50DAC59DB5094EEDB5676890080DD2DA"

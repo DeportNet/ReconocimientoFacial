@@ -16,5 +16,8 @@
     <Compile Update="GUI\WFRgistrarDispositivo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="GUI\WFSeleccionarUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

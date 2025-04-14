@@ -1,5 +1,5 @@
-﻿
-using DeportNetReconocimiento.BD;
+﻿using DeportNetReconocimiento.Api.BD;
+using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
@@ -30,7 +30,7 @@ namespace DeportNetReconocimiento.SDK
         private static Hik_Controladora_Facial? hik_Controladora_Facial;
         private static Hik_Controladora_Tarjetas? hik_Controladora_Tarjetas;
         private static Hik_Controladora_Eventos? hik_Controladora_Eventos;
-
+      
 
         //constructores
         private Hik_Controladora_General()
@@ -40,7 +40,6 @@ namespace DeportNetReconocimiento.SDK
             this.soportaFacial = false;
             this.soportaHuella = false;
             this.soportaTarjeta = false;
-
         }
 
 
@@ -333,7 +332,6 @@ namespace DeportNetReconocimiento.SDK
             return resultado;
         }
 
-        
         public int ObtenerCapacidadCarasDispositivo()
         {
 
@@ -355,9 +353,53 @@ namespace DeportNetReconocimiento.SDK
                 Console.WriteLine("El xml es null");
             }
 
+            if(capacidad == -1)
+            {
+                Console.WriteLine("No se pudo obtener la capacidad maxima del dispositivo en ObtenerCapacidadCarasDispositivo");
+            }
+
             return capacidad;
         }
-        
+
+        public  bool VerificarEstadoDispositivo()
+        {
+            IntPtr pInBuf;
+            Int32 nSize;
+            int iLastErr = 17;
+            bool conectado = false;
+            pInBuf = IntPtr.Zero;
+            nSize = 0;
+
+            int XML_ABILITY_OUT_LEN = 3 * 1024 * 1024;
+            IntPtr pOutBuf = Marshal.AllocHGlobal(XML_ABILITY_OUT_LEN);
+
+            if (!Hik_SDK.NET_DVR_GetDeviceAbility(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, 0, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
+            {
+                iLastErr = (int)Hik_SDK.NET_DVR_GetLastError();
+
+                //si perdio conexión
+                if (iLastErr == 17)
+                {
+                    Console.WriteLine("Se perdio la conexion con el dispositivo");
+                    return conectado;
+                }
+
+            }
+
+            Marshal.FreeHGlobal(pInBuf);
+            Marshal.FreeHGlobal(pOutBuf);
+
+            if (iLastErr == 1000)
+            {
+                // Console.WriteLine("Conectado");
+                conectado = true;
+            }
+            else
+            {
+                //Console.WriteLine("Desconectado");
+            }
+            return conectado;
+        }
 
         private bool VerificarCapacidad(XmlDocument resultadoXML, string capacidad)
         {
@@ -407,52 +449,22 @@ namespace DeportNetReconocimiento.SDK
                 return resultado;
             }
 
-            configuracion.ActualizarCapacidadMaxima();
+            // obtenemos la capacidad de caras de la bd
+            int? cantMax = ConfiguracionGeneralUtils.ObtenerCantMaxCarasBd();
 
-            //setteamos el callback para obtener los ids de los usuarios
+            if(cantMax != null)
+            {
+                configuracion.ActualizarCapacidadMaximaConfigEstilos((int)cantMax);
+            }
+
+
+            //inicializamos todas las controladoras
             hik_Controladora_Eventos = Hik_Controladora_Eventos.InstanciaControladoraEventos;
             hik_Controladora_Facial = Hik_Controladora_Facial.ObtenerInstancia;
             hik_Controladora_Tarjetas = Hik_Controladora_Tarjetas.ObtenerInstancia;
             
             return resultado;
         }
-
-
-        //Verificar conexión a internet o en general
-        public static bool ComprobarConexionInternet()
-        {
-            //ponemos flag en false como predeterminado
-            bool flag = false;
-
-            Ping pingSender = new Ping();
-            string direccion = "8.8.8.8"; // IP de Google
-
-            try
-            {
-                //respuesta que nos da el enviador de ping
-                PingReply reply = pingSender.Send(direccion);
-
-                if (reply.Status == IPStatus.Success)
-                {
-                    flag = true;
-                    Console.WriteLine("Tenemos conexion a internet; Tiempo: " + reply.RoundtripTime + " ms");
-                    //Console.WriteLine("Dirección: " + reply.Address.ToString());
-                    
-                }
-                else
-                {
-
-                    Console.WriteLine("No se pudo conectar: " + reply.Status);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: " + e.Message);
-            }
-
-            return flag;
-        }
-
 
         public Hik_Resultado AltaCliente(string idCliente, string nombre)
         {
@@ -463,7 +475,7 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(idCliente));
             if (resultado.Exito)
             {
-                resultado.Mensaje = "Error de obtener la tarjeta";
+                resultado.Mensaje = "Error de obtener la tarjeta, el cliente con el nro de tarjeta: "+ idCliente+" ya existe";
                 return resultado;
             }
             
@@ -496,13 +508,21 @@ namespace DeportNetReconocimiento.SDK
             }
 
             ConservarImagenSocio(configuracion, nombre, idCliente);
-            configuracion.SumarRegistroCara();
+
+            //actualizo el total de rostros registrados en BD
+            int rostrosActuales = ConfiguracionGeneralUtils.SumarRegistroCara();
+
+            //lo actualizo en Config estilos asi el cliente puede ver
+            configuracion.ActualizarCapacidadActualConfigEstilos(rostrosActuales);
+
+            //verifico si estoy cerca de la capacidad maxima
+            WFPrincipal.ObtenerInstancia.VerificarPanelAlmacenamiento();
 
 
             return resultado;
         }
         
-
+       
         private static string CambiarNombreFoto(string nombreCompletoSocio, string idSocio)
         {
             string aux = Regex.Replace(nombreCompletoSocio, "'", "");
@@ -580,27 +600,43 @@ namespace DeportNetReconocimiento.SDK
             }
 
 
-            configuracion.RestarRegistroCara();
+            int rostrosActuales = ConfiguracionGeneralUtils.RestarRegistroCara();
+
+            configuracion.ActualizarCapacidadActualConfigEstilos(rostrosActuales);
+
+            WFPrincipal.ObtenerInstancia.VerificarPanelAlmacenamiento();
+
+
             return resultado;
 
         }
 
-        //public Hik_Resultado BajaMasivaClientes(string[] ids)
-        //{
-        //    Hik_Resultado resultado = new Hik_Resultado();
+        public Hik_Resultado BajaMasivaClientes(string[] ids)
+        {
+            Hik_Resultado resultado = new Hik_Resultado();
 
-        //    foreach (string id in ids)
-        //    {
-        //        resultado = BajaCliente(id);
-        //    }
+            try
+            {
+                foreach (string id in ids)
+                {
+                    resultado = BajaCliente(id);
+                }
 
-        //    return resultado;
-        //}
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error en la baja masiva de clientes: " + ex.Message);
+            }
 
 
-        
 
-        
-        
+            return resultado;
+        }
+
+
+
+
+
+
     }
 }

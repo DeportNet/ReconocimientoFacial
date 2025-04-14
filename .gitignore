@@ -3,3 +3,8 @@
 *.vsidx
 *.bin
 AplicacionReconocimiento/.vs/ProjectEvaluation/deportnetreconocimiento.projects.v9.bin
+/AplicacionReconocimiento/.vs
+/AplicacionReconocimiento/bin
+/AplicacionReconocimiento/obj
+/DeportnetOffline/obj
+*.resx

@@ -1,4 +1,5 @@
 ﻿
+using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
@@ -12,21 +13,21 @@ namespace DeportNetReconocimiento.GUI
     {
         private ConfiguracionEstilos configuracion;
         private WFPrincipal principal;
-        private string[] _credenciales;
+        private Credenciales? _credenciales;
 
         public WFConfiguracion(ConfiguracionEstilos configuracionEstilos, WFPrincipal principal)
         {
             InitializeComponent();
             this.configuracion = configuracionEstilos;
             this.principal = principal;
-            _credenciales = CredencialesUtils.LeerCredenciales();
-
+            _credenciales = CredencialesUtils.LeerCredencialesBd();
+            comboBoxNroLector.SelectedIndex = 0;
 
 
             // Asignar el objeto de configuración al PropertyGrid (para que se vea lo que se puede configurar)
             propertyGrid1.SelectedObject = configuracion;
             ComboBoxAperturaMolinete.SelectedIndexChanged += ComboBoxAperturaMolinete_SelectedIndexChanged;
-            //ConfiguracionManager.OnConfiguracionActualizada += RefrescarPropertyGrid;
+
 
         }
 
@@ -75,8 +76,6 @@ namespace DeportNetReconocimiento.GUI
             ConfiguracionManager.OnConfiguracionActualizada -= RefrescarPropertyGrid;
 
         }
-
-
         private void PropertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             principal.AplicarConfiguracion(configuracion);
@@ -254,7 +253,7 @@ namespace DeportNetReconocimiento.GUI
 
 
             //posicion 3 es la clave del dispositivo, pero usamos la misma
-            if (clave == _credenciales[3])
+            if (clave == _credenciales.Password)
             {
                 PanelConfigAdminsitrador.Visible = true;
 
@@ -270,39 +269,6 @@ namespace DeportNetReconocimiento.GUI
 
         private void BotonOcultarConfig_Click(object sender, EventArgs e)
         {
-            //validaciones primero 
-
-            //if (!int.TryParse(TextBoxIdSucursal.Text, out int idSucursalOut))
-            //{
-            //    MessageBox.Show(
-            //       "El id ingresado debe ser de tipo numero", // Mensaje
-            //       "Error de Formato",                                  // Título
-            //       MessageBoxButtons.OK,                                   // Botones (OK)
-            //       MessageBoxIcon.Error                                    // Ícono (Error)
-            //       );
-            //    return;
-            //}
-
-            //string tokenSucursal = textBoxTokenSucursal.Text;
-            //string idSucursalTexto = TextBoxIdSucursal.Text;
-
-
-
-
-            //bool conexion = true;
-            ////si hay cambios en las credenciales, se testea la conexion
-            //if (tokenSucursal != _credenciales[5] || idSucursalTexto != _credenciales[4])
-            //{
-            //    conexion = await VerificarCambiosCredenciales(tokenSucursal, idSucursalTexto);
-
-            //}
-
-            ////si fallo la conexion, no se guarda nada
-            //if (!conexion)
-            //{
-            //    return;
-            //}
-
 
             configuracion.MetodoApertura = ComboBoxAperturaMolinete.Text;
             configuracion.RutaMetodoApertura = TextBoxRutaExe.Text;
@@ -310,42 +276,8 @@ namespace DeportNetReconocimiento.GUI
             ConfiguracionEstilos.GuardarJsonConfiguracion(configuracion);
             principal.AplicarConfiguracion(configuracion);
 
-
             PanelConfigAdminsitrador.Visible = false;
 
-
-
-        }
-
-        private async Task<bool> VerificarCambiosCredenciales(string tokenSucursal, string idSucursalTexto)
-        {
-            bool conexion = false;
-
-            Hik_Resultado resultado = await WebServicesDeportnet.TestearConexionDeportnet(tokenSucursal, idSucursalTexto);
-
-            //si no es exitoso, se muestra el mensaje de error
-            if (!resultado.Exito)
-            {
-                resultado.MessageBoxResultado("Conexion con deportnet");
-                return conexion;
-            }
-
-            //si hubo exito, cambiamos las credenciales
-            conexion = true;
-            ActualizarDatosCredenciales(idSucursalTexto, tokenSucursal);
-
-
-            return conexion;
-        }
-
-        public void ActualizarDatosCredenciales(string idSucursal, string tokenSucursal)
-        {
-
-            _credenciales[4] = idSucursal;
-            _credenciales[5] = tokenSucursal;
-
-
-            CredencialesUtils.EscribirArchivoCredenciales(_credenciales);
         }
 
 
@@ -390,6 +322,22 @@ namespace DeportNetReconocimiento.GUI
         private void label2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBoxNroLector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Se obtiene la parte del final, que es el nro de lector, "Lector 1"
+
+            string[] partes = comboBoxNroLector.Text.Split(' ');
+
+            string lectorActual = partes[^1]; // "Lector 1" -> "1"  se puede hacer tambien como partes.length -1
+
+            ConfiguracionGeneralUtils.ActualizarLectorActual(lectorActual);
         }
     }
 }

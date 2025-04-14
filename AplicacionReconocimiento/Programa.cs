@@ -1,5 +1,10 @@
 using DeportNetReconocimiento.Api;
+using DeportNetReconocimiento.Api.BD;
+using DeportNetReconocimiento.Api.Data.Domain;
+using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.GUI;
+using DeportNetReconocimiento.Utils;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 
@@ -7,36 +12,47 @@ namespace DeportNetReconocimiento
 {
     internal class Programa
     {
-        private static ApiServer apiServer;
+        public static ApiServer apiServer;
 
         [STAThread]
         static void Main(string[] args)
         {
 
+            if (ProgramaCorriendo())
+            {
+                MessageBox.Show("El programa ya esta abierto en otra ventana", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            /*API*/
+            InicializarApi();
+
+
+            /*Cargar BD*/
+            apiServer.CargarBd();
+            
+
+
+            //iniciazamos la ventana principal de acceso
+            Application.Run(new WFSeleccionarUsuario());
+
+
+            // Detener el servidor cuando la aplicacion cierre
+            AppDomain.CurrentDomain.ProcessExit += (s, e) => apiServer?.Stop();
+
+        }
+
+        private static bool ProgramaCorriendo()
+        {
             string nombreDeProceso = Process.GetCurrentProcess().ProcessName;
             int cantidadDeInstancias = Process.GetProcessesByName(nombreDeProceso).Length;
 
             if (cantidadDeInstancias > 1)
             {
-                MessageBox.Show("El programa ya está corriendo", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                return true;
             }
 
-
-
-            /*API*/
-            InicializarApi();
-
-            /*Cargar BD*/
-
-
-            //iniciazamos la ventana principal de acceso
-            Application.Run(WFPrincipal.ObtenerInstancia);
-
-           
-            // Detener el servidor cuando la aplicación cierre
-            AppDomain.CurrentDomain.ProcessExit += (s, e) => apiServer?.Stop();
-
+            return false;
         }
 
         private static void InicializarApi()
@@ -44,7 +60,7 @@ namespace DeportNetReconocimiento
             //Instanciamos y arrancamos el servidor
             apiServer = new ApiServer();
             apiServer.Start();
-
+            
         }
     }
 }

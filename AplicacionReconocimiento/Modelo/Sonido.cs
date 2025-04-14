@@ -37,7 +37,7 @@ namespace DeportNetReconocimiento.Modelo
             this.Estado = true;
         }
 
-        private string GuardarSonidoEnDirectorio(string rutaArchivoOriginal)
+        private string? GuardarSonidoEnDirectorio(string rutaArchivoOriginal)
         {
             // Obtener el directorio actual de la aplicación
             string directorioActual = AppDomain.CurrentDomain.BaseDirectory;

@@ -38,6 +38,8 @@
             ComboBoxAperturaMolinete = new ComboBox();
             BotonOcultarConfig = new Button();
             PanelConfigAdminsitrador = new Panel();
+            comboBoxNroLector = new ComboBox();
+            label3 = new Label();
             botonEditarCredenciales = new Button();
             label2 = new Label();
             BotonAbrirFileDialog = new Button();
@@ -145,6 +147,8 @@
             // PanelConfigAdminsitrador
             // 
             PanelConfigAdminsitrador.BackColor = Color.IndianRed;
+            PanelConfigAdminsitrador.Controls.Add(comboBoxNroLector);
+            PanelConfigAdminsitrador.Controls.Add(label3);
             PanelConfigAdminsitrador.Controls.Add(botonEditarCredenciales);
             PanelConfigAdminsitrador.Controls.Add(label2);
             PanelConfigAdminsitrador.Controls.Add(BotonAbrirFileDialog);
@@ -159,6 +163,27 @@
             PanelConfigAdminsitrador.Size = new Size(377, 345);
             PanelConfigAdminsitrador.TabIndex = 20;
             PanelConfigAdminsitrador.Visible = false;
+            // 
+            // comboBoxNroLector
+            // 
+            comboBoxNroLector.FormattingEnabled = true;
+            comboBoxNroLector.Items.AddRange(new object[] { "Lector 1", "Lector 2" });
+            comboBoxNroLector.Location = new Point(90, 168);
+            comboBoxNroLector.Name = "comboBoxNroLector";
+            comboBoxNroLector.Size = new Size(121, 23);
+            comboBoxNroLector.TabIndex = 31;
+            comboBoxNroLector.SelectedIndexChanged += comboBoxNroLector_SelectedIndexChanged;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 12F);
+            label3.Location = new Point(21, 166);
+            label3.Name = "label3";
+            label3.Size = new Size(60, 21);
+            label3.TabIndex = 30;
+            label3.Text = "Lector: ";
+            label3.Click += label3_Click;
             // 
             // botonEditarCredenciales
             // 
@@ -179,7 +204,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F);
-            label2.Location = new Point(27, 127);
+            label2.Location = new Point(21, 127);
             label2.Name = "label2";
             label2.Size = new Size(142, 21);
             label2.TabIndex = 28;
@@ -314,5 +339,7 @@
         private Button button1;
         private Label label2;
         private Button botonEditarCredenciales;
+        private Label label3;
+        private ComboBox comboBoxNroLector;
     }
 }

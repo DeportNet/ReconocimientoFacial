@@ -1,6 +1,6 @@
-﻿using DeportNetReconocimiento.Api.Dtos.Response;
+﻿using DeportNetReconocimiento.Api.Data.Domain;
+using DeportNetReconocimiento.Api.Data.Dtos.Response;
 using DeportNetReconocimiento.Api.Services;
-using DeportNetReconocimiento.BD;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDK;
@@ -119,9 +119,9 @@ namespace DeportNetReconocimiento.SDKHikvision
                     if (!WFPrincipal.ObtenerInstancia.ConexionInternet)
                     {
                         Console.WriteLine("Guardo al cliente en bd y no dx");
-                        int.TryParse(infoEvento.Card_Number, out int nroTarjeta);
+                        //int.TryParse(infoEvento.Card_Number, out int nroTarjeta);
 
-                        BdClientes.InsertarCliente(nroTarjeta, "Cliente", infoEvento.Time);
+                        
                     }
                     else
                     {
@@ -163,12 +163,26 @@ namespace DeportNetReconocimiento.SDKHikvision
             libre = false;
             
 
-            string[] credenciales = CredencialesUtils.LeerCredenciales();
-            string idSucursal = credenciales[4];
-            
+            Credenciales? credenciales = CredencialesUtils.LeerCredencialesBd();
+
+            if (credenciales == null)
+            {
+                Console.WriteLine("Credenciales son null");
+                return;
+            }
+
+            string? idSucursal = credenciales.BranchId;
+
+            if (string.IsNullOrWhiteSpace(idSucursal))
+            {
+                Console.WriteLine("El idSucursal es null o vacio");
+                return;
+            }
+
+            string? nroEmpleado = credenciales.CurrentCompanyMemberId;
 
             /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
-            string response = await WebServicesDeportnet.ControlDeAcceso(numeroTarjeta,idSucursal);
+            string response = await WebServicesDeportnet.ControlDeAcceso(numeroTarjeta,idSucursal, null, nroEmpleado);
             
             ProcesarRespuestaAcceso(response, numeroTarjeta, idSucursal);
             

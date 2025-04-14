@@ -1,0 +1,178 @@
+﻿using DeportnetOffline.GUI.Modales;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace DeportnetOffline
+{
+    public partial class VistaSocios : UserControl
+    {
+        public VistaSocios()
+        {
+            int paginaActual = 1;
+            int filasPorPagina = 5;
+            int registros = 10;
+            InitializeComponent();
+            labelCantPaginas.Text = $"Página {paginaActual} de 50";
+
+            dataGridView1.Rows.Add("Facundo Procelli", 22316276, 4601238, "facundoprocelli@gmail.com", 45, "m", "Normal", "Activo", "nashe", "burger");
+
+            textBox1_Leave(this, EventArgs.Empty);
+            textBox2_Leave(this, EventArgs.Empty);
+            textBox3_Leave(this, EventArgs.Empty);
+            ComboBox1_Leave(this, EventArgs.Empty);
+            comboBox1.SelectedIndex = 0;
+            comboBox2.SelectedIndex = 0;
+            
+
+        }
+
+
+
+
+        private void textBox3_Enter(object sender, EventArgs e)
+        {
+            if (textBox3.Text == "Apellido y Nombre")
+            {
+                textBox3.Text = "";
+                textBox3.ForeColor = Color.Black; // Color del texto cuando el usuario escribe
+            }
+        }
+
+        private void textBox3_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox3.Text))
+            {
+                textBox3.Text = "Apellido y Nombre";
+                textBox3.ForeColor = Color.Gray; // Color del placeholder
+            }
+        }
+
+        private void textBox2_Enter(object sender, EventArgs e)
+        {
+            if (textBox2.Text == "Email")
+            {
+                textBox2.Text = "";
+                textBox2.ForeColor = Color.Black; // Color del texto cuando el usuario escribe
+            }
+        }
+
+        private void textBox2_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox2.Text))
+            {
+                textBox2.Text = "Email";
+                textBox2.ForeColor = Color.Gray; // Color del placeholder
+            }
+        }
+
+        private void textBox1_Enter(object sender, EventArgs e)
+        {
+            if (textBox1.Text == "Nro. tarjeta o DNI")
+            {
+                textBox1.Text = "";
+                textBox1.ForeColor = Color.Black; // Color del texto cuando el usuario escribe
+            }
+        }
+
+        private void textBox1_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                textBox1.Text = "Nro. tarjeta o DNI";
+                textBox1.ForeColor = Color.Gray; // Color del placeholder
+            }
+        }
+
+        private void ComboBox1_Enter(object sender, EventArgs e)
+        {
+            if (comboBox1.ForeColor == Color.Gray)
+            {
+                comboBox1.Text = "";
+                comboBox1.ForeColor = Color.Black;
+            }
+        }
+
+        private void ComboBox1_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(comboBox1.Text))
+            {
+                comboBox1.Text = "Categoría de socio...";
+                comboBox1.ForeColor = Color.Gray;
+            }
+        }
+
+
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ModalNuevoLegajo modal = new ModalNuevoLegajo();
+            modal.Show();
+        }
+
+        private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+
+                string nombreApellidoSocio = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
+
+                if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaVenta")
+                {
+                    ModalVentas modal = new ModalVentas(nombreApellidoSocio);
+                    modal.Show();
+                }
+                else if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaCobro")
+                {
+                    ModalCobro modal = new ModalCobro(nombreApellidoSocio);
+                    modal.Show();
+                }
+                //                    MessageBox.Show($"Vender usuario: {dataGridView1.Rows[e.RowIndex].Cells[1].Value}");
+
+            }
+        }
+
+        private void DataGridView1_Paint(object sender, PaintEventArgs e)
+        {
+
+            // Obtener posiciones de las columnas
+            Rectangle rectEditar = dataGridView1.GetCellDisplayRectangle(8, -1, true);
+            Rectangle rectEliminar = dataGridView1.GetCellDisplayRectangle(9, -1, true);
+
+            // Fusionar ambos rectángulos en un solo encabezado
+            int anchoTotal = rectEditar.Width + rectEliminar.Width - 1;
+            Rectangle newHeaderRect = new Rectangle(rectEditar.X, rectEditar.Y, anchoTotal, rectEditar.Height - 1);
+
+            // Dibujar fondo del encabezado combinado
+            e.Graphics.FillRectangle(new SolidBrush(Color.White), newHeaderRect);
+
+            // Dibujar borde
+            e.Graphics.DrawRectangle(Pens.Black, newHeaderRect);
+
+            // Dibujar texto centrado
+            StringFormat format = new StringFormat();
+            format.Alignment = StringAlignment.Center;
+            format.LineAlignment = StringAlignment.Center;
+
+            e.Graphics.DrawString("Acciones", dataGridView1.ColumnHeadersDefaultCellStyle.Font, Brushes.Black, newHeaderRect, format);
+
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
+}

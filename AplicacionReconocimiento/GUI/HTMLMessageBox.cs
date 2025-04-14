@@ -1,4 +1,4 @@
-﻿using DeportNetReconocimiento.Api.Dtos.Response;
+﻿using DeportNetReconocimiento.Api.Data.Dtos.Response;
 using DeportNetReconocimiento.Utils;
 using System;
 using System.Collections.Generic;

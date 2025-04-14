@@ -1,4 +1,5 @@
-﻿using DeportNetReconocimiento.Api.Dtos.Request;
+﻿
+using DeportNetReconocimiento.Api.Data.Dtos.Request;
 using DeportNetReconocimiento.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,6 +52,22 @@ namespace DeportNetReconocimiento.Api.Controllers
             string detalle = deportnetReconocimientoService.BajaFacialCliente(new BajaFacialClienteRequest(idCliente, idSucursal));
             return Ok(detalle);
         }
+
+        //[HttpGet("baja-masiva-facial-cliente")]
+        //public IActionResult BajaMasivaFacialCliente(
+        //    [FromQuery] string[] arregloIdClientes,
+        //    [FromQuery] int idSucursal
+        //    )
+        //{
+
+        //    if (arregloIdClientes == null || idSucursal == null)
+        //    {
+        //        return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
+        //    }
+
+        //    string detalle = deportnetReconocimientoService.BajaMasivaFacialCliente(new BajaFacialClienteRequest(arregloIdClientes, idSucursal));
+        //    return Ok(detalle);
+        //}
 
     }
 }

@@ -1,7 +1,12 @@
-﻿using DeportNetReconocimiento.SDK;
+﻿using DeportNetReconocimiento.Api.Data.Dtos.Response;
+using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
+using System.Dynamic;
+using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 
@@ -9,60 +14,125 @@ namespace DeportNetReconocimiento.Api.Services
 {
     public class WebServicesDeportnet
     {
-
+        /*Testing*/
         const string urlEntradaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessCheckUserEnter";
         const string urlBajaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessDeleteResult";
         const string urlAltaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessLectureResult";
+        //a partir de aca no estan en prod
+        const string urlClientesTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetMembers";
+        const string urlConceptsTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConcepts";
+        const string urlEmpleadosTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetUsers";
+        const string urlEnviarAccesosTest = "https://testing.deportnet.com/offlineAccess/offlineSetAccess";
+        const string urlConfiguracionAccesoTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConfiguration";
+        const string urlBajaMasivaClienteTest = "https://testing.deportnet.com/facialAccess/massiveMembersDelete";
+        const string urlVerificarEstadoLoteTest = "https://testing.deportnet.com/offlineAccess/offlineGetMembersAccessResult";
 
-
+        /*Produccion*/
         const string urlEntradaCliente = "https://deportnet.com/facialAccess/facialAccessCheckUserEnter";
         const string urlBajaCliente = "https://deportnet.com/facialAccess/facialAccessDeleteResult";
         const string urlAltaCliente = "https://deportnet.com/facialAccess/facialAccessLectureResult";
 
-        public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal) 
+        public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal, string? rtaManual = null, string? idEmpleado = null)
         {
-            object data = new { };
+            dynamic data = new ExpandoObject();
+            data.memberId = nroTarjeta;
+            data.activeBranchId = idSucursal;
 
+            if (rtaManual != null)
+            {
+                data.manualResponse = rtaManual;
+            }
+
+            if (idEmpleado != null)
+            {
+                data.companyMemberId = idEmpleado;
+            }
+
+
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaClienteTest, HttpMethod.Post);
+        }
+
+        public static async Task<string> ObtenerCofiguracionDeAccesoOffline(string idSucursal)
+        {
+            object data = new
+            {
+                activeBranchId = idSucursal
+            };
+
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlConfiguracionAccesoTest, HttpMethod.Post);
+        }
+
+        public static async Task<string> ObtenerEmpleadosSucursalOffline(string idSucursal)
+        {
+            object data = new
+            {
+                activeBranchId = idSucursal
+            };
           
-            
-            data = new { memberId = nroTarjeta, activeBranchId = idSucursal };
-
-          
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlEmpleadosTest, HttpMethod.Post);
         }
 
-        
-        public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal, string rtaManual)
+        public static async Task<string> ObtenerClientesOffline(string idSucursal)
         {
-            
-                /*
-                { 
-	                "activeBranchId": "1",
-	                "memberId": "17393",
-	                "manualAllowedAccess": "17393", (opcional)
-	                "isSuccessful": "T" ( T o F)
-                }
-                */
-            
-            object data = new { memberId = nroTarjeta, activeBranchId = idSucursal, manualAllowedAccess = nroTarjeta, isSuccessful = rtaManual};
-            
-            
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
+            object data = new
+            {
+                activeBranchId = idSucursal
+            };
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlClientesTest, HttpMethod.Post);
         }
 
-
-        public static async Task<string> AltaClienteDeportnet(string json)
+        public static async Task<string> ObtenerConceptsOffline(string idSucursal)
         {
-            return await FetchInformacion(json, urlAltaCliente, HttpMethod.Post);
+            object data = new
+            {
+                activeBranchId = idSucursal
+            };
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlConceptsTest, HttpMethod.Post);
         }
 
-        public static async Task<string> BajaClienteDeportnet(string json)
+        public static async Task<string> EnviarLoteDeAccesos(string json)
         {
-            return await FetchInformacion(json, urlBajaCliente, HttpMethod.Post);
+            return await FetchInformacion(json, urlEnviarAccesosTest, HttpMethod.Post);
+        }
+
+        public static async Task<string> VerificarEstadoLoteAcceso(string json)
+        {
+            return await FetchInformacion(json, urlVerificarEstadoLoteTest, HttpMethod.Post);
+        }
+
+        public static async Task<string> AltaFacialClienteDeportnet(RespuestaAltaBajaCliente rta)
+        {
+            return await FetchInformacion(rta.ToJson(), urlAltaClienteTest, HttpMethod.Post);
+        }
+
+        public static async Task<string> BajaFacialClienteDeportnet(RespuestaAltaBajaCliente rta)
+        {
+            return await FetchInformacion(rta.ToJson(), urlBajaClienteTest, HttpMethod.Post);
+        }
+
+        public static async Task<string> BajaFacialMasivaClienteDeportnet(string idSucursal, string? lectorNumber = null, string? maxToDelete = null)
+        {
+            dynamic data = new ExpandoObject();
+            data.activeBranchId = idSucursal;
+
+            if (lectorNumber != null)
+            {
+                data.lectorNumber = lectorNumber;
+            }
+
+            if (maxToDelete != null) { 
+                data.maxToDelete = maxToDelete;
+            }
+
+
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlBajaMasivaClienteTest, HttpMethod.Post);
+
         }
 
         public static async Task<Hik_Resultado> TestearConexionDeportnet(string tokenSucursal, string idSucursal)
         {
+
+            Console.WriteLine(tokenSucursal + " " + idSucursal);
             Hik_Resultado resultado = new Hik_Resultado();
 
             object dataEnviar = new { };
@@ -82,7 +152,7 @@ namespace DeportNetReconocimiento.Api.Services
             try
             {
                 //respuesta fetch
-                HttpResponseMessage response = await client.PostAsync(urlEntradaCliente, contenido);
+                HttpResponseMessage response = await client.PostAsync(urlEntradaClienteTest, contenido);
 
 
                 resultado = await VerificarResponseDeportnet(response);
@@ -147,7 +217,7 @@ namespace DeportNetReconocimiento.Api.Services
             return resultado;
         }
 
-
+        //Errores específicos de Deportnet
         private static Hik_Resultado CapturarErroresDeportnet(string dataRecibida)
         {
             //200 = Proceso realizado correctamente
@@ -225,18 +295,28 @@ namespace DeportNetReconocimiento.Api.Services
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
-            using HttpClient client = new HttpClient();
+            using HttpClient client = new HttpClient
+            {
+                Timeout = TimeSpan.FromSeconds(10) // o 5, según prefieras
+            };
 
-            string token= CredencialesUtils.LeerCredenciales()[5];
+            string token = CredencialesUtils.LeerCredencialesBd().BranchToken;//CredencialesUtils.LeerCredencialEspecifica(5); //"H7gVA3r89jvaMuDd";
+            
+          
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                Console.WriteLine("ERROR: No se encontró el token de la sucursal");
+                return "ERROR: No se encontró el token de la sucursal";
+            }
 
             // Configurar el header HTTP_X_SIGNATURE
             client.DefaultRequestHeaders.Add("X-Signature", token);
-
+            
             //creamos el contenido
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             //respuesta fetch, la inicializamos con error
-            HttpResponseMessage response = new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError);
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
 
             try
             {
@@ -244,6 +324,7 @@ namespace DeportNetReconocimiento.Api.Services
                 switch (metodo.Method)
                 {
                     case "POST":
+                        
                         response = await client.PostAsync(url, content);
                         break;
                     case "DELETE":
@@ -254,6 +335,8 @@ namespace DeportNetReconocimiento.Api.Services
                         break;
                     case "PUT":
                         response = await client.PutAsync(url, content);
+                        break;
+                    default:
                         break;
                 }
 
