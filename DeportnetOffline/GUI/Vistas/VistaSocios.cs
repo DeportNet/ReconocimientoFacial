@@ -1,4 +1,8 @@
-﻿using DeportnetOffline.GUI.Modales;
+﻿using DeportnetOffline.Data.Dto.Table;
+using DeportnetOffline.Data.Mapper;
+using DeportnetOffline.GUI.Modales;
+using DeportNetReconocimiento.Api.BD;
+using DeportNetReconocimiento.Api.Data.Domain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,72 +25,102 @@ namespace DeportnetOffline
             InitializeComponent();
             labelCantPaginas.Text = $"Página {paginaActual} de 50";
 
-            dataGridView1.Rows.Add("Facundo Procelli", 22316276, 4601238, "facundoprocelli@gmail.com", 45, "m", "Normal", "Activo", "nashe", "burger");
 
             textBox1_Leave(this, EventArgs.Empty);
             textBox2_Leave(this, EventArgs.Empty);
             textBox3_Leave(this, EventArgs.Empty);
             ComboBox1_Leave(this, EventArgs.Empty);
             comboBox1.SelectedIndex = 0;
-            comboBox2.SelectedIndex = 0;
-            
+            comboBoxEstado.SelectedIndex = 0;
+            cargarDatos();
 
         }
 
+        public void cargarDatos()
+        {
+            using (var context = BdContext.CrearContexto())
+            {
+                List<Socio> socios = context.Socios.ToList();
 
+                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(socios);
+
+                dataGridView1.Columns["ColumnaCobro"].DisplayIndex = dataGridView1.Columns.Count - 1;
+                dataGridView1.Columns["ColumnaVenta"].DisplayIndex = dataGridView1.Columns.Count - 1;
+                dataGridView1.Columns["Email"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridView1.Columns["NombreYApellido"].HeaderText = "Nombre y Apellido";
+                dataGridView1.Columns["NombreYApellido"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridView1.Columns["Direccion"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+        }
+
+
+        public string CalcularEdad(DateTime fecha)
+        {
+
+            int anio = fecha.Year;
+            int anioActual = DateTime.Now.Year;
+
+            return (anioActual - anio).ToString();
+
+        }
+
+        public string CalcularEstado(string estado)
+        {
+            return int.Parse(estado) == 1 ? "Activo" : "Inactivo";
+        }
 
 
         private void textBox3_Enter(object sender, EventArgs e)
         {
-            if (textBox3.Text == "Apellido y Nombre")
+            if (textBoxApellidoNombre.Text == "Apellido y Nombre")
             {
-                textBox3.Text = "";
-                textBox3.ForeColor = Color.Black; // Color del texto cuando el usuario escribe
+                textBoxApellidoNombre.Text = "";
+                textBoxApellidoNombre.ForeColor = Color.Black; // Color del texto cuando el usuario escribe
             }
         }
 
         private void textBox3_Leave(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBox3.Text))
+            if (string.IsNullOrWhiteSpace(textBoxApellidoNombre.Text))
             {
-                textBox3.Text = "Apellido y Nombre";
-                textBox3.ForeColor = Color.Gray; // Color del placeholder
+                textBoxApellidoNombre.Text = "Apellido y Nombre";
+                textBoxApellidoNombre.ForeColor = Color.Gray; // Color del placeholder
             }
         }
 
         private void textBox2_Enter(object sender, EventArgs e)
         {
-            if (textBox2.Text == "Email")
+            if (textBoxEmail.Text == "Email")
             {
-                textBox2.Text = "";
-                textBox2.ForeColor = Color.Black; // Color del texto cuando el usuario escribe
+                textBoxEmail.Text = "";
+                textBoxEmail.ForeColor = Color.Black; // Color del texto cuando el usuario escribe
             }
         }
 
         private void textBox2_Leave(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBox2.Text))
+            if (string.IsNullOrWhiteSpace(textBoxEmail.Text))
             {
-                textBox2.Text = "Email";
-                textBox2.ForeColor = Color.Gray; // Color del placeholder
+                textBoxEmail.Text = "Email";
+                textBoxEmail.ForeColor = Color.Gray; // Color del placeholder
             }
         }
 
         private void textBox1_Enter(object sender, EventArgs e)
         {
-            if (textBox1.Text == "Nro. tarjeta o DNI")
+            if (textBoxNroTarjeta.Text == "Nro. tarjeta o DNI")
             {
-                textBox1.Text = "";
-                textBox1.ForeColor = Color.Black; // Color del texto cuando el usuario escribe
+                textBoxNroTarjeta.Text = "";
+                textBoxNroTarjeta.ForeColor = Color.Black; // Color del texto cuando el usuario escribe
             }
         }
 
         private void textBox1_Leave(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            if (string.IsNullOrWhiteSpace(textBoxNroTarjeta.Text))
             {
-                textBox1.Text = "Nro. tarjeta o DNI";
-                textBox1.ForeColor = Color.Gray; // Color del placeholder
+                textBoxNroTarjeta.Text = "Nro. tarjeta o DNI";
+                textBoxNroTarjeta.ForeColor = Color.Gray; // Color del placeholder
             }
         }
 
@@ -120,8 +154,7 @@ namespace DeportnetOffline
         {
             if (e.RowIndex >= 0)
             {
-
-                string nombreApellidoSocio = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
+                string nombreApellidoSocio = dataGridView1.Rows[e.RowIndex].Cells["NombreYApellido"].Value.ToString();
 
                 if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaVenta")
                 {
@@ -133,37 +166,9 @@ namespace DeportnetOffline
                     ModalCobro modal = new ModalCobro(nombreApellidoSocio);
                     modal.Show();
                 }
-                //                    MessageBox.Show($"Vender usuario: {dataGridView1.Rows[e.RowIndex].Cells[1].Value}");
-
             }
         }
 
-        private void DataGridView1_Paint(object sender, PaintEventArgs e)
-        {
-
-            // Obtener posiciones de las columnas
-            Rectangle rectEditar = dataGridView1.GetCellDisplayRectangle(8, -1, true);
-            Rectangle rectEliminar = dataGridView1.GetCellDisplayRectangle(9, -1, true);
-
-            // Fusionar ambos rectángulos en un solo encabezado
-            int anchoTotal = rectEditar.Width + rectEliminar.Width - 1;
-            Rectangle newHeaderRect = new Rectangle(rectEditar.X, rectEditar.Y, anchoTotal, rectEditar.Height - 1);
-
-            // Dibujar fondo del encabezado combinado
-            e.Graphics.FillRectangle(new SolidBrush(Color.White), newHeaderRect);
-
-            // Dibujar borde
-            e.Graphics.DrawRectangle(Pens.Black, newHeaderRect);
-
-            // Dibujar texto centrado
-            StringFormat format = new StringFormat();
-            format.Alignment = StringAlignment.Center;
-            format.LineAlignment = StringAlignment.Center;
-
-            e.Graphics.DrawString("Acciones", dataGridView1.ColumnHeadersDefaultCellStyle.Font, Brushes.Black, newHeaderRect, format);
-
-
-        }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -174,5 +179,65 @@ namespace DeportnetOffline
         {
 
         }
+
+        //Boton para aplicar los filtros
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            //Obtener datos de todos los inputs
+            string estado = comboBoxEstado.Text;
+            string? nroTarjeta = textBoxNroTarjeta.Text;
+            string? apellidoNombre = textBoxApellidoNombre.Text;
+            string? email = textBoxEmail.Text;
+
+            List<Socio> listaSocios = FiltrarSocios(estado, nroTarjeta, apellidoNombre, email);
+
+            dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(listaSocios);
+            //Con los campos que tienen datos preparo una consulta
+
+            //Ejecuto la consulta
+
+            //Actualizo los datos con los registros devueltos por la consulta 
+
+        }
+
+
+        public List<Socio> FiltrarSocios(string estado, string? nroTarjeta, string? apellidoNombre, string? email)
+        {
+
+            using var context = BdContext.CrearContexto();
+
+            IQueryable<Socio> query = context.Socios;
+
+
+            if (!string.IsNullOrEmpty(nroTarjeta))
+            {
+                query = query.Where(p => p.CardNumber.Contains(nroTarjeta));
+            }
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                query = query.Where(p => p.Email.Contains(email));
+            }
+
+            if(!string.IsNullOrEmpty(apellidoNombre))
+            {
+                var nombres = apellidoNombre.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var nombre in nombres) {
+
+                    string nombreActual = nombre.ToLower();
+                    query = query.Where( p => 
+                        p.FirstName.ToLower().Contains(nombreActual) ||
+                        p.LastName.ToLower().Contains(nombreActual));
+                }
+            }
+
+            query = query.Where(p => p.IsActive.Contains(estado));
+
+
+            return query.ToList();
+        }
+
     }
 }
