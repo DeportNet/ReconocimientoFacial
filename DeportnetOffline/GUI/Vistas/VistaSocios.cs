@@ -1,19 +1,8 @@
-﻿using DeportnetOffline.Data.Dto.Table;
-using DeportnetOffline.Data.Mapper;
+﻿using DeportnetOffline.Data.Mapper;
 using DeportnetOffline.GUI.Modales;
 using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Windows.Devices.Lights;
 
 namespace DeportnetOffline
 {
@@ -54,21 +43,96 @@ namespace DeportnetOffline
         }
 
 
-        public string CalcularEdad(DateTime fecha)
+        //Filtros
+        public List<Socio> FiltrarSocios(string estado, string? nroTarjeta, string? apellidoNombre, string? email)
         {
 
-            int anio = fecha.Year;
-            int anioActual = DateTime.Now.Year;
+            using var context = BdContext.CrearContexto();
 
-            return (anioActual - anio).ToString();
+            IQueryable<Socio> query = context.Socios;
 
+            query = FiltrarPorNroTarjetaODNI(nroTarjeta, query);
+            query = FiltrarPorEmail(email, query);
+            query = FiltrarPorNombreYApellido(apellidoNombre, query);
+            query = FiltrarPorEstado(estado, query);
+
+            return query.ToList();
         }
 
-        public string CalcularEstado(string estado)
+
+        private IQueryable<Socio> FiltrarPorNroTarjetaODNI(string nroTarjeta, IQueryable<Socio> query)
         {
-            return int.Parse(estado) == 1 ? "Activo" : "Inactivo";
+
+                if (!string.IsNullOrEmpty(nroTarjeta))
+                {
+                    query = query.Where(p =>
+                    p.CardNumber.Contains(nroTarjeta) ||
+                    p.IdNumber.ToLower().Contains(nroTarjeta));
+
+                }
+
+            return query;
         }
 
+        private IQueryable<Socio> FiltrarPorEmail(string email, IQueryable<Socio> query)
+        {
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                query = query.Where(p => p.Email.Contains(email));
+            }
+
+            return query;
+        }
+
+        private IQueryable<Socio> FiltrarPorNombreYApellido(string apellidoNombre, IQueryable<Socio> query)
+        {
+
+            if (!string.IsNullOrEmpty(apellidoNombre))
+            {
+                var nombres = apellidoNombre.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var nombre in nombres)
+                {
+
+                    string nombreActual = nombre.ToLower();
+                    query = query.Where(p =>
+                        p.FirstName.ToLower().Contains(nombreActual) ||
+                        p.LastName.ToLower().Contains(nombreActual));
+                }
+            }
+
+            return query;
+        }
+
+        private IQueryable<Socio> FiltrarPorEstado(string estado, IQueryable<Socio> query)
+        {
+            if (!string.IsNullOrEmpty(estado))
+            {
+                query = query.Where(p => p.IsActive.Contains(estado));
+            }
+
+            return query;
+        }
+
+
+        //Eventos de la interfaz
+
+        //Boton para aplicar los filtros
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //Obtener datos de todos los inputs
+            string estado = ObtenerEstadoFiltro(comboBoxEstado.Text);
+            string? nroTarjeta = LimpiarPlaceholderCampoFiltro(textBoxNroTarjeta.Text);
+            string? apellidoNombre = LimpiarPlaceholderCampoFiltro(textBoxApellidoNombre.Text);
+            string? email = LimpiarPlaceholderCampoFiltro(textBoxEmail.Text);
+
+            //Filtrar socios
+            List<Socio> listaSocios = FiltrarSocios(estado, nroTarjeta, apellidoNombre, email);
+
+            //Actualizar datos en la tabla
+            dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(listaSocios);
+        }
 
         private void textBox3_Enter(object sender, EventArgs e)
         {
@@ -124,7 +188,6 @@ namespace DeportnetOffline
             }
         }
 
-
         private void button2_Click(object sender, EventArgs e)
         {
             ModalNuevoLegajo modal = new ModalNuevoLegajo();
@@ -151,105 +214,6 @@ namespace DeportnetOffline
         }
 
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        //Boton para aplicar los filtros
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //Obtener datos de todos los inputs
-            string estado = ObtenerEstadoFiltro(comboBoxEstado.Text);
-            string? nroTarjeta = LimpiarPlaceholderCampoFiltro(textBoxNroTarjeta.Text);
-            string? apellidoNombre = LimpiarPlaceholderCampoFiltro(textBoxApellidoNombre.Text);
-            string? email = LimpiarPlaceholderCampoFiltro(textBoxEmail.Text);
-
-            //Filtrar socios
-            List<Socio> listaSocios = FiltrarSocios(estado, nroTarjeta, apellidoNombre, email);
-
-            //Actualizar datos en la tabla
-            dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(listaSocios);
-        }
-
-      
-
-        public List<Socio> FiltrarSocios(string estado, string? nroTarjeta, string? apellidoNombre, string? email)
-        {
-
-            using var context = BdContext.CrearContexto();
-
-            IQueryable<Socio> query = context.Socios;
-
-            query = FiltrarPorNroTarjetaODNI(nroTarjeta, query);
-            query = FiltrarPorEmail(email, query);
-            query = FiltrarPorNombreYApellido(apellidoNombre, query);
-            query = FiltrarPorEstado(estado, query);
-
-            return query.ToList();
-        }
-
-
-        private IQueryable<Socio> FiltrarPorNroTarjetaODNI(string nroTarjeta, IQueryable<Socio> query)
-        {
-
-                if (!string.IsNullOrEmpty(nroTarjeta))
-                {
-                    query = query.Where(p =>
-                    p.CardNumber.Contains(nroTarjeta) ||
-                    p.IdNumber.ToLower().Contains(nroTarjeta));
-
-                }
-
-            return query;
-        }
-
-        private IQueryable<Socio> FiltrarPorEmail(string email, IQueryable<Socio> query)
-        {
-
-            if (!string.IsNullOrEmpty(email))
-            {
-                query = query.Where(p => p.Email.Contains(email));
-            }
-
-            return query;
-        }
-
-
-        private IQueryable<Socio> FiltrarPorNombreYApellido(string apellidoNombre, IQueryable<Socio> query)
-        {
-
-            if (!string.IsNullOrEmpty(apellidoNombre))
-            {
-                var nombres = apellidoNombre.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (var nombre in nombres)
-                {
-
-                    string nombreActual = nombre.ToLower();
-                    query = query.Where(p =>
-                        p.FirstName.ToLower().Contains(nombreActual) ||
-                        p.LastName.ToLower().Contains(nombreActual));
-                }
-            }
-
-            return query;
-        }
-
-        private IQueryable<Socio> FiltrarPorEstado(string estado, IQueryable<Socio> query)
-        {
-            if (!string.IsNullOrEmpty(estado))
-            {
-                query = query.Where(p => p.IsActive.Contains(estado));
-            }
-
-            return query;
-        }
 
         public string ObtenerEstadoFiltro(string estado)
         {

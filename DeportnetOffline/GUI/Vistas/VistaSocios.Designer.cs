@@ -152,7 +152,6 @@
             textBoxNroTarjeta.Name = "textBoxNroTarjeta";
             textBoxNroTarjeta.Size = new Size(146, 25);
             textBoxNroTarjeta.TabIndex = 2;
-            textBoxNroTarjeta.TextChanged += textBox1_TextChanged;
             textBoxNroTarjeta.Enter += textBox1_Enter;
             textBoxNroTarjeta.Leave += textBox1_Leave;
             // 
