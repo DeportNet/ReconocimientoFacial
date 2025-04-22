@@ -31,8 +31,6 @@ namespace DeportnetOffline
             textBox1_Leave(this, EventArgs.Empty);
             textBox2_Leave(this, EventArgs.Empty);
             textBox3_Leave(this, EventArgs.Empty);
-            ComboBox1_Leave(this, EventArgs.Empty);
-            comboBox1.SelectedIndex = 0;
             comboBoxEstado.SelectedIndex = 0;
             cargarDatos();
 
@@ -125,25 +123,6 @@ namespace DeportnetOffline
                 textBoxNroTarjeta.ForeColor = Color.Gray; // Color del placeholder
             }
         }
-
-        private void ComboBox1_Enter(object sender, EventArgs e)
-        {
-            if (comboBox1.ForeColor == Color.Gray)
-            {
-                comboBox1.Text = "";
-                comboBox1.ForeColor = Color.Black;
-            }
-        }
-
-        private void ComboBox1_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(comboBox1.Text))
-            {
-                comboBox1.Text = "Categoría de socio...";
-                comboBox1.ForeColor = Color.Gray;
-            }
-        }
-
 
 
         private void button2_Click(object sender, EventArgs e)
