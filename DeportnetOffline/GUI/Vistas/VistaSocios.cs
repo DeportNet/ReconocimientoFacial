@@ -1,4 +1,5 @@
-﻿using DeportnetOffline.Data.Mapper;
+﻿using DeportnetOffline.Data.Dto.Table;
+using DeportnetOffline.Data.Mapper;
 using DeportnetOffline.GUI.Modales;
 using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
@@ -198,16 +199,16 @@ namespace DeportnetOffline
         {
             if (e.RowIndex >= 0)
             {
-                string nombreApellidoSocio = dataGridView1.Rows[e.RowIndex].Cells["NombreYApellido"].Value.ToString();
+                InformacionSocioTabla socio = (InformacionSocioTabla)dataGridView1.Rows[e.RowIndex].DataBoundItem;
 
                 if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaVenta")
                 {
-                    ModalVentas modal = new ModalVentas(nombreApellidoSocio);
+                    ModalVentas modal = new ModalVentas(socio);
                     modal.Show();
                 }
                 else if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaCobro")
                 {
-                    ModalCobro modal = new ModalCobro(nombreApellidoSocio);
+                    ModalCobro modal = new ModalCobro(socio);
                     modal.Show();
                 }
             }

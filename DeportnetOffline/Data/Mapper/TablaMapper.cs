@@ -13,9 +13,9 @@ namespace DeportnetOffline.Data.Mapper
 
         public static InformacionSocioTabla SocioToInformacionTablaSocio(Socio socio)
         {
-
-           return new InformacionSocioTabla
+            return new InformacionSocioTabla
             {
+                Id = socio.IdDx,
                 NombreYApellido = socio.FirstName + " " + socio.LastName,
                 NroTarjeta = socio.CardNumber,
                 DNI = socio.IdNumber,
@@ -26,7 +26,7 @@ namespace DeportnetOffline.Data.Mapper
                 Estado = CalcularEstado(socio.IsActive),
                 Direccion = socio.Address,
                 Piso = socio.AddressFloor
-            };  
+            };
         }
 
         public static List<InformacionSocioTabla> ListaSocioToListaInformacionTablaSocio(List<Socio> socios)

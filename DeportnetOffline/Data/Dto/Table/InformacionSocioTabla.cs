@@ -8,7 +8,7 @@ namespace DeportnetOffline.Data.Dto.Table
 {
     public class InformacionSocioTabla
     {
-
+        public int? Id { get; set; }
         public string NombreYApellido {  get; set; }
         public string NroTarjeta {  get; set; }
         public string DNI { get; set; }

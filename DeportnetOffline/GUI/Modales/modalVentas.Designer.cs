@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModalVentas));
             panel1 = new Panel();
             labelNombreApelldioCliente = new Label();
             label5 = new Label();
@@ -86,11 +85,11 @@
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Seleccione un producto" });
             comboBox1.Location = new Point(236, 110);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(309, 29);
             comboBox1.TabIndex = 2;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // panel2
             // 
@@ -113,6 +112,7 @@
             buttonCobrar.TabIndex = 9;
             buttonCobrar.Text = "Cobrar";
             buttonCobrar.UseVisualStyleBackColor = true;
+            buttonCobrar.Click += buttonCobrar_Click;
             // 
             // panel3
             // 
@@ -128,8 +128,8 @@
             // 
             // label4
             // 
-            label4.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(414, 28);
+            label4.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Location = new Point(442, 32);
             label4.Name = "label4";
             label4.Size = new Size(121, 23);
             label4.TabIndex = 7;
@@ -140,26 +140,26 @@
             // 
             labelCaracteristicasCobro.AutoSize = true;
             labelCaracteristicasCobro.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelCaracteristicasCobro.Location = new Point(78, 7);
+            labelCaracteristicasCobro.Location = new Point(42, 7);
             labelCaracteristicasCobro.Name = "labelCaracteristicasCobro";
-            labelCaracteristicasCobro.Size = new Size(429, 21);
+            labelCaracteristicasCobro.Size = new Size(493, 21);
             labelCaracteristicasCobro.TabIndex = 3;
-            labelCaracteristicasCobro.Text = "Cantidad       |                Descripción                 |          Importe";
+            labelCaracteristicasCobro.Text = "Cantidad           |                    Descripción                     |              Importe";
             // 
             // labelDescripcion
             // 
-            labelDescripcion.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelDescripcion.Location = new Point(181, 30);
+            labelDescripcion.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelDescripcion.Location = new Point(161, 32);
             labelDescripcion.Name = "labelDescripcion";
-            labelDescripcion.Size = new Size(217, 23);
+            labelDescripcion.Size = new Size(249, 23);
             labelDescripcion.TabIndex = 5;
             labelDescripcion.Text = "Descripción";
             labelDescripcion.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // labelCantidad
             // 
-            labelCantidad.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelCantidad.Location = new Point(64, 28);
+            labelCantidad.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelCantidad.Location = new Point(28, 30);
             labelCantidad.Name = "labelCantidad";
             labelCantidad.Size = new Size(97, 23);
             labelCantidad.TabIndex = 4;
@@ -169,10 +169,10 @@
             // labelPrecio
             // 
             labelPrecio.AutoSize = true;
-            labelPrecio.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelPrecio.Location = new Point(88, 12);
+            labelPrecio.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelPrecio.Location = new Point(72, 12);
             labelPrecio.Name = "labelPrecio";
-            labelPrecio.Size = new Size(51, 20);
+            labelPrecio.Size = new Size(65, 25);
             labelPrecio.TabIndex = 2;
             labelPrecio.Text = "precio";
             // 
@@ -202,7 +202,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(panel1);
-            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "ModalVentas";
