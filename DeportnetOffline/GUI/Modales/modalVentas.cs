@@ -91,6 +91,7 @@ namespace DeportnetOffline
             labelDescripcion.Text = " ";
             label4.Text = " ";
             labelCantidad.Text = " ";
+            comboBox1.SelectedIndex = 0;
         }
 
         private void buttonCobrar_Click(object sender, EventArgs e)
@@ -98,13 +99,23 @@ namespace DeportnetOffline
 
             MessageBox.Show("Aca hay que hacer la logica de venta");
 
-            //Obtener Id del cliente
-            
+            if(socio != null)
+            {
 
-            //Obtener id del producto
+            Venta venta = new Venta(itemId: articuloSeleccionado.IdDx ,branchMemberId: socio.Id, isSaleItem:'T');
 
+               RegistrarVenta(venta);
 
+                //if (resultado)
+                //{
+                //    MessageBox.Show("Venta registrada con exito");
+                //LimpiarLabels();
 
+                //}
+                //else
+                //{
+                //    MessageBox.Show("Error al registrar la venta, intente nuevamente");
+                //}
             //Prepara la query para almacenar la venta
             //Ejecutar la query
 
@@ -112,8 +123,22 @@ namespace DeportnetOffline
             //Mostrar aviso de que se realizó la venta
 
             //Limpiar los campos
+            }
 
         }
+
+
+        private async void RegistrarVenta(Venta venta)
+        {
+            using (var context = BdContext.CrearContexto())
+            {
+                await context.Ventas.AddAsync(venta);
+                await context.SaveChangesAsync();
+            }
+        }
+
+
+
 
 
 

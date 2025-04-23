@@ -17,8 +17,10 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         public int Id { get; set; }
 
         [Column("branch_member_id")]
-        [DisallowNull]
-        public int BranchMemberId {  get; set; }
+        public int? BranchMemberId {  get; set; }
+
+        [Column("item_id")]
+        public int ItemId { get; set; }
 
         [Column("is_sale_item")]
         [DisallowNull]
@@ -26,22 +28,29 @@ namespace DeportNetReconocimiento.Api.Data.Domain
 
         [Column("period")]
         [AllowNull]
-        public string Period { get; set; }
+        public int? Period { get; set; }
         
         [Column("days")]
         [AllowNull]
-        public int Days { get; set; }
+        public int? Days { get; set; }
 
 
         public Venta(){}
 
-        public Venta(int id, int branchMemberId, char isSaleItem, string period, int days)
+        public Venta(int itemId, int? branchMemberId, char isSaleItem, int? period, int? days)
         {
-            Id = id;
+            ItemId = itemId;
             BranchMemberId = branchMemberId;
             IsSaleItem = isSaleItem;
             Period = period;
             Days = days;
+        }
+
+        public Venta(int itemId ,int? branchMemberId, char isSaleItem)
+        {
+            ItemId = itemId;
+            BranchMemberId = branchMemberId;
+            IsSaleItem = isSaleItem;
         }
     }
 }

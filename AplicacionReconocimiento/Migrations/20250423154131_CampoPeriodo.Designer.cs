@@ -3,6 +3,7 @@ using System;
 using DeportNetReconocimiento.Api.BD;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeportNetReconocimiento.Migrations
 {
     [DbContext(typeof(BdContext))]
-    partial class BdContextModelSnapshot : ModelSnapshot
+    [Migration("20250423154131_CampoPeriodo")]
+    partial class CampoPeriodo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
@@ -399,7 +402,7 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("branch_member_id");
 
-                    b.Property<int?>("Days")
+                    b.Property<int>("Days")
                         .HasColumnType("INTEGER")
                         .HasColumnName("days");
 
@@ -411,8 +414,9 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("item_id");
 
-                    b.Property<int?>("Period")
-                        .HasColumnType("INTEGER")
+                    b.Property<string>("Period")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
                         .HasColumnName("period");
 
                     b.HasKey("Id");
