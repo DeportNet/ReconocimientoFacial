@@ -8,22 +8,22 @@ using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Api.Data.Repository
 {
-    public class SocioRepository
+    public class VentaRepository
     {
 
 
-        public SocioRepository( )
+        public VentaRepository( )
         {
         }
 
 
-        public static async Task<bool> InsertarUnSocioEnTabla(Socio socio)
+        public static async Task<bool> RegistrarVenta(Venta venta)
         {
             try
             {
-                using(var context = BdContext.CrearContexto())
+                using (var context = BdContext.CrearContexto())
                 {
-                    await context.Socios.AddAsync(socio);
+                    await context.Ventas.AddAsync(venta);
                     await context.SaveChangesAsync();
                 }
                 return true;
@@ -33,8 +33,6 @@ namespace DeportNetReconocimiento.Api.Data.Repository
                 return false;
             }
         }
-
-
 
     }
 }

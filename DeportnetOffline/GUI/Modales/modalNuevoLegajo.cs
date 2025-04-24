@@ -333,10 +333,17 @@ namespace DeportnetOffline.GUI.Modales
         
         private async void buttonGuardarLegajo_Click(object sender, EventArgs e)
         {
-            BdContext context = new BdContext(new DbContextOptions<BdContext>());
 
-            var socioRepository = new SocioRepository(context);
-            Socio socio = new Socio
+            Socio socio = ObtenerSocio();
+
+           bool resultado = await SocioRepository.InsertarUnSocioEnTabla( socio );
+
+           Console.WriteLine(resultado ? $"El socio  {socio.FirstName + ' ' + socio.LastName} se insertó correctamente en la base de datos" : $"Error al insertar al socio {socio.FirstName + ' ' + socio.LastName} en la base de datos");
+        }
+
+        public Socio ObtenerSocio()
+        {
+            return new Socio
             {
                 FirstName = textBoxNombre.Text,
                 LastName = textBoxApellido.Text,
@@ -348,10 +355,6 @@ namespace DeportnetOffline.GUI.Modales
                 AddressFloor = textBoxPiso.Text,
                 CardNumber = textBoxNroTarjeta.Text
             };
-
-           bool resultado = await socioRepository.InsertarUnSocioEnTabla( socio );
-
-           Console.WriteLine(resultado ? $"El socio  {socio.FirstName + ' ' + socio.LastName} se insertó correctamente en la base de datos" : $"Error al insertar al socio {socio.FirstName + ' ' + socio.LastName} en la base de datos");
         }
     }
 }
