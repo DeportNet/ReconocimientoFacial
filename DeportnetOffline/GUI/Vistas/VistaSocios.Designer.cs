@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             dataGridView1 = new DataGridView();
             ColumnaCobro = new DataGridViewButtonColumn();
             ColumnaVenta = new DataGridViewButtonColumn();
@@ -63,14 +63,14 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ColumnaCobro, ColumnaVenta });
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Window;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
-            dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.Location = new Point(17, 3);
             dataGridView1.Margin = new Padding(0);
             dataGridView1.Name = "dataGridView1";
@@ -260,6 +260,7 @@
             botonAntPaginacion.TabIndex = 2;
             botonAntPaginacion.Text = "<--";
             botonAntPaginacion.UseVisualStyleBackColor = true;
+            botonAntPaginacion.Click += botonAntPaginacion_Click;
             // 
             // botonSgtPaginacion
             // 
@@ -270,6 +271,7 @@
             botonSgtPaginacion.TabIndex = 1;
             botonSgtPaginacion.Text = "-->";
             botonSgtPaginacion.UseVisualStyleBackColor = true;
+            botonSgtPaginacion.Click += botonSgtPaginacion_Click;
             // 
             // VistaSocios
             // 

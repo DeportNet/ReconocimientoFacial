@@ -3,36 +3,47 @@ using DeportnetOffline.Data.Mapper;
 using DeportnetOffline.GUI.Modales;
 using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
+using DeportNetReconocimiento.Utils;
 using System.Data;
 
 namespace DeportnetOffline
 {
     public partial class VistaSocios : UserControl
     {
+        int PaginaActual;
+        int TotalPaginas;
+        int TamanioPagina;
         public VistaSocios()
         {
-            int paginaActual = 1;
-            int filasPorPagina = 5;
-            int registros = 10;
             InitializeComponent();
-            labelCantPaginas.Text = $"Página {paginaActual} de 50";
+
+            PaginaActual = 1;
+            TotalPaginas = 1;
+            TamanioPagina = 10;
+            
 
 
             textBox1_Leave(this, EventArgs.Empty);
             textBox2_Leave(this, EventArgs.Empty);
             textBox3_Leave(this, EventArgs.Empty);
             comboBoxEstado.SelectedIndex = 0;
-            cargarDatos();
+            CargarDatos(PaginaActual, TamanioPagina);
 
         }
 
-        public void cargarDatos()
+        public void CargarDatos(int paginaActual, int tamanioPagina)
         {
             using (var context = BdContext.CrearContexto())
             {
-                List<Socio> socios = context.Socios.ToList();
 
-                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(socios);
+                PaginadoResultado<Socio> paginaSocios = PaginadorUtils.ObtenerPaginadoAsync(context.Socios, paginaActual, tamanioPagina).Result;
+                
+                TotalPaginas = paginaSocios.TotalPaginas;
+                PaginaActual = paginaSocios.PaginaActual;
+                labelCantPaginas.Text = $"Página {PaginaActual} de {TotalPaginas}";
+               
+
+                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(paginaSocios.Items);
 
                 dataGridView1.Columns["ColumnaCobro"].DisplayIndex = dataGridView1.Columns.Count - 1;
                 dataGridView1.Columns["ColumnaVenta"].DisplayIndex = dataGridView1.Columns.Count - 1;
@@ -43,6 +54,26 @@ namespace DeportnetOffline
             }
         }
 
+        //cambiar de pagina
+        private void botonAntPaginacion_Click(object sender, EventArgs e)
+        {
+            if(PaginaActual > 1)
+            {
+                PaginaActual--;
+                CargarDatos(PaginaActual, TamanioPagina);
+            }
+        }
+
+        private void botonSgtPaginacion_Click(object sender, EventArgs e)
+        {
+          
+            if (PaginaActual < TotalPaginas)
+            {
+                PaginaActual++;
+                CargarDatos(PaginaActual, TamanioPagina);
+            }
+
+        }
 
         //Filtros
         public List<Socio> FiltrarSocios(string estado, string? nroTarjeta, string? apellidoNombre, string? email)
@@ -61,21 +92,21 @@ namespace DeportnetOffline
         }
 
 
-        private IQueryable<Socio> FiltrarPorNroTarjetaODNI(string nroTarjeta, IQueryable<Socio> query)
+        private IQueryable<Socio> FiltrarPorNroTarjetaODNI(string? nroTarjeta, IQueryable<Socio> query)
         {
 
-                if (!string.IsNullOrEmpty(nroTarjeta))
-                {
-                    query = query.Where(p =>
-                    p.CardNumber.Contains(nroTarjeta) ||
-                    p.IdNumber.ToLower().Contains(nroTarjeta));
+            if (!string.IsNullOrEmpty(nroTarjeta))
+            {
+                query = query.Where(p =>
+                p.CardNumber.Contains(nroTarjeta) ||
+                p.IdNumber.ToLower().Contains(nroTarjeta));
 
-                }
+            }
 
             return query;
         }
 
-        private IQueryable<Socio> FiltrarPorEmail(string email, IQueryable<Socio> query)
+        private IQueryable<Socio> FiltrarPorEmail(string? email, IQueryable<Socio> query)
         {
 
             if (!string.IsNullOrEmpty(email))
@@ -86,7 +117,7 @@ namespace DeportnetOffline
             return query;
         }
 
-        private IQueryable<Socio> FiltrarPorNombreYApellido(string apellidoNombre, IQueryable<Socio> query)
+        private IQueryable<Socio> FiltrarPorNombreYApellido(string? apellidoNombre, IQueryable<Socio> query)
         {
 
             if (!string.IsNullOrEmpty(apellidoNombre))
@@ -254,6 +285,7 @@ namespace DeportnetOffline
 
             return campo;
         }
+
 
     }
 
