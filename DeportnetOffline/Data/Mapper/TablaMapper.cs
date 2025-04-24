@@ -54,7 +54,11 @@ namespace DeportnetOffline.Data.Mapper
 
         public static string CalcularEstado(string estado)
         {
-            return int.Parse(estado) == 1 ? "Activo" : "Inactivo";
+            if(estado != null)
+            {
+                return int.Parse(estado) == 1 ? "Activo" : "Inactivo";
+            }
+            return "Inactivo";
         }
 
 
