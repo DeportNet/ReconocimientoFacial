@@ -20,10 +20,6 @@ namespace DeportNetReconocimiento.Utils
             int totalRegistros = await query.CountAsync();
             int totalPaginas = (int)Math.Ceiling(totalRegistros / (double)cantidadPorPagina);
 
-          
-
-
-
             List<T> items = await query
                 .Skip((pagina - 1) * cantidadPorPagina)
                 .Take(cantidadPorPagina)
