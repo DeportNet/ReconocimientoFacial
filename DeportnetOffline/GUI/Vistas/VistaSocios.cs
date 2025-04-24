@@ -5,6 +5,7 @@ using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Utils;
 using System.Data;
+using System.Windows.Forms;
 
 namespace DeportnetOffline
 {
@@ -19,39 +20,38 @@ namespace DeportnetOffline
 
             PaginaActual = 1;
             TotalPaginas = 1;
-            TamanioPagina = 10;
+            TamanioPagina = 20;
             
-
-
             textBox1_Leave(this, EventArgs.Empty);
             textBox2_Leave(this, EventArgs.Empty);
             textBox3_Leave(this, EventArgs.Empty);
             comboBoxEstado.SelectedIndex = 0;
-            CargarDatos(PaginaActual, TamanioPagina);
 
+
+            CargarDatos(PaginaActual, TamanioPagina);
+            CrearTabla();
         }
+
+        public void CrearTabla()
+        {
+            dataGridView1.Columns["ColumnaCobro"].DisplayIndex = dataGridView1.Columns.Count - 1;
+            dataGridView1.Columns["ColumnaVenta"].DisplayIndex = dataGridView1.Columns.Count - 1;
+            dataGridView1.Columns["Email"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView1.Columns["NombreYApellido"].HeaderText = "Nombre y Apellido";
+            dataGridView1.Columns["NombreYApellido"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView1.Columns["Direccion"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
+
 
         public void CargarDatos(int paginaActual, int tamanioPagina)
         {
-            using (var context = BdContext.CrearContexto())
-            {
+            using var context = BdContext.CrearContexto();
 
-                PaginadoResultado<Socio> paginaSocios = PaginadorUtils.ObtenerPaginadoAsync(context.Socios, paginaActual, tamanioPagina).Result;
-                
-                TotalPaginas = paginaSocios.TotalPaginas;
-                PaginaActual = paginaSocios.PaginaActual;
-                labelCantPaginas.Text = $"Página {PaginaActual} de {TotalPaginas}";
-               
+            PaginadoResultado<Socio> paginaSocios = PaginadorUtils.ObtenerPaginadoAsync(context.Socios, paginaActual, tamanioPagina).Result;
 
-                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(paginaSocios.Items);
+            CambiarInformacionPagina(paginaSocios); 
 
-                dataGridView1.Columns["ColumnaCobro"].DisplayIndex = dataGridView1.Columns.Count - 1;
-                dataGridView1.Columns["ColumnaVenta"].DisplayIndex = dataGridView1.Columns.Count - 1;
-                dataGridView1.Columns["Email"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                dataGridView1.Columns["NombreYApellido"].HeaderText = "Nombre y Apellido";
-                dataGridView1.Columns["NombreYApellido"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                dataGridView1.Columns["Direccion"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            }
+            dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(paginaSocios.Items);
         }
 
         //cambiar de pagina
@@ -60,7 +60,12 @@ namespace DeportnetOffline
             if(PaginaActual > 1)
             {
                 PaginaActual--;
-                CargarDatos(PaginaActual, TamanioPagina);
+
+                //Filtrar socios
+                List<Socio> listaSocios = FiltrarSocios(FiltroEstado, FiltroNroTarjeta, FiltroApellidoNombre, FiltroEmail, PaginaActual, TamanioPagina);
+
+                //Actualizar datos en la tabla
+                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(listaSocios);
             }
         }
 
@@ -70,25 +75,44 @@ namespace DeportnetOffline
             if (PaginaActual < TotalPaginas)
             {
                 PaginaActual++;
-                CargarDatos(PaginaActual, TamanioPagina);
+                //Filtrar socios
+                List<Socio> listaSocios = FiltrarSocios(FiltroEstado, FiltroNroTarjeta, FiltroApellidoNombre, FiltroEmail, PaginaActual, TamanioPagina);
+
+                //Actualizar datos en la tabla
+                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(listaSocios);
             }
 
         }
 
+        private void CambiarInformacionPagina(PaginadoResultado<Socio> paginaSocios)
+        {
+            TotalPaginas = paginaSocios.TotalPaginas;
+            PaginaActual = paginaSocios.PaginaActual;
+
+            labelCantPaginas.Text = $"Página {PaginaActual} de {TotalPaginas}";
+        }
+
         //Filtros
-        public List<Socio> FiltrarSocios(string estado, string? nroTarjeta, string? apellidoNombre, string? email)
+        public List<Socio> FiltrarSocios(string estado, string? nroTarjeta, string? apellidoNombre, string? email, int nroPagina, int tamPag)
         {
 
             using var context = BdContext.CrearContexto();
 
-            IQueryable<Socio> query = context.Socios;
+            IQueryable<Socio> query = context.Socios.AsQueryable(); 
 
             query = FiltrarPorNroTarjetaODNI(nroTarjeta, query);
             query = FiltrarPorEmail(email, query);
             query = FiltrarPorNombreYApellido(apellidoNombre, query);
             query = FiltrarPorEstado(estado, query);
 
-            return query.ToList();
+            Console.WriteLine(estado);
+
+            PaginadoResultado<Socio> paginaSociosFiltrados = PaginadorUtils.ObtenerPaginadoAsync(query, nroPagina, tamPag).Result;
+            
+            
+            CambiarInformacionPagina(paginaSociosFiltrados);
+
+            return paginaSociosFiltrados.Items;
         }
 
 
@@ -139,28 +163,42 @@ namespace DeportnetOffline
 
         private IQueryable<Socio> FiltrarPorEstado(string estado, IQueryable<Socio> query)
         {
-            if (!string.IsNullOrEmpty(estado))
+            switch (estado)
             {
-                query = query.Where(p => p.IsActive.Contains(estado));
+                case "1":
+                    query = query.Where(p => p.IsActive.Contains(estado));
+                    break;
+                case "0":
+                    query = query.Where(p => p.IsActive == null);
+                    break;
+                default:
+                    break;
             }
-
             return query;
         }
 
 
         //Eventos de la interfaz
 
+        private string FiltroEstado;
+        private string? FiltroNroTarjeta;
+        private string? FiltroApellidoNombre;
+        private string? FiltroEmail;
+
+
         //Boton para aplicar los filtros
         private void button1_Click(object sender, EventArgs e)
         {
             //Obtener datos de todos los inputs
-            string estado = ObtenerEstadoFiltro(comboBoxEstado.Text);
-            string? nroTarjeta = LimpiarPlaceholderCampoFiltro(textBoxNroTarjeta.Text);
-            string? apellidoNombre = LimpiarPlaceholderCampoFiltro(textBoxApellidoNombre.Text);
-            string? email = LimpiarPlaceholderCampoFiltro(textBoxEmail.Text);
+            FiltroEstado = ObtenerEstadoFiltro(comboBoxEstado.Text);
+            FiltroNroTarjeta = LimpiarPlaceholderCampoFiltro(textBoxNroTarjeta.Text);
+            FiltroApellidoNombre = LimpiarPlaceholderCampoFiltro(textBoxApellidoNombre.Text);
+            FiltroEmail = LimpiarPlaceholderCampoFiltro(textBoxEmail.Text);
+            int nroPagina = 1;
+            int tamPag = TamanioPagina;
 
             //Filtrar socios
-            List<Socio> listaSocios = FiltrarSocios(estado, nroTarjeta, apellidoNombre, email);
+            List<Socio> listaSocios = FiltrarSocios(FiltroEstado, FiltroNroTarjeta, FiltroApellidoNombre, FiltroEmail, nroPagina, tamPag);
 
             //Actualizar datos en la tabla
             dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(listaSocios);
