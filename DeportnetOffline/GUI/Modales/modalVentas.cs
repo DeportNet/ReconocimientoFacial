@@ -1,12 +1,14 @@
 ﻿using DeportnetOffline.Data.Dto.Table;
 using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
+using DeportNetReconocimiento.Api.Data.Repository;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -94,48 +96,27 @@ namespace DeportnetOffline
             comboBox1.SelectedIndex = 0;
         }
 
-        private void buttonCobrar_Click(object sender, EventArgs e)
+        private async void buttonCobrar_Click(object sender, EventArgs e)
         {
-
-            MessageBox.Show("Aca hay que hacer la logica de venta");
-
             if(socio != null)
             {
+                Venta venta = new Venta(itemId: articuloSeleccionado.IdDx ,branchMemberId: socio.Id, isSaleItem:'T');
+                bool resultado = await VentaRepository.RegistrarVenta(venta);
 
-            Venta venta = new Venta(itemId: articuloSeleccionado.IdDx ,branchMemberId: socio.Id, isSaleItem:'T');
-
-               RegistrarVenta(venta);
-
-                //if (resultado)
-                //{
-                //    MessageBox.Show("Venta registrada con exito");
-                //LimpiarLabels();
-
-                //}
-                //else
-                //{
-                //    MessageBox.Show("Error al registrar la venta, intente nuevamente");
-                //}
-            //Prepara la query para almacenar la venta
-            //Ejecutar la query
-
-
-            //Mostrar aviso de que se realizó la venta
-
-            //Limpiar los campos
-            }
-
-        }
-
-
-        private async void RegistrarVenta(Venta venta)
-        {
-            using (var context = BdContext.CrearContexto())
-            {
-                await context.Ventas.AddAsync(venta);
-                await context.SaveChangesAsync();
+                if (resultado)
+                {
+                    MessageBox.Show("Venta completada","La venta se registro exitosamente",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LimpiarLabels();
+                }
+                else
+                {
+                    MessageBox.Show("Error al registrar la venta, intente nuevamente");
+                }
             }
         }
+
+
+
 
 
 
