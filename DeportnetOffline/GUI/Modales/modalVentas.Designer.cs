@@ -85,9 +85,9 @@
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(236, 110);
+            comboBox1.Location = new Point(220, 110);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(309, 29);
+            comboBox1.Size = new Size(340, 29);
             comboBox1.TabIndex = 2;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 

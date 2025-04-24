@@ -77,9 +77,11 @@
             comboBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "Seleccione un servicio" });
-            comboBox1.Location = new Point(246, 112);
+            comboBox1.Location = new Point(216, 113);
+            comboBox1.MaxDropDownItems = 10;
+            comboBox1.MaxLength = 10;
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(281, 29);
+            comboBox1.Size = new Size(340, 29);
             comboBox1.TabIndex = 2;
             // 
             // label1
@@ -159,7 +161,7 @@
             // 
             // labelDescripcion
             // 
-            labelDescripcion.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelDescripcion.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelDescripcion.Location = new Point(90, 30);
             labelDescripcion.Name = "labelDescripcion";
             labelDescripcion.Size = new Size(216, 23);
@@ -180,10 +182,10 @@
             // labelPrecio
             // 
             labelPrecio.AutoSize = true;
-            labelPrecio.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelPrecio.Location = new Point(88, 12);
+            labelPrecio.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelPrecio.Location = new Point(72, 9);
             labelPrecio.Name = "labelPrecio";
-            labelPrecio.Size = new Size(51, 20);
+            labelPrecio.Size = new Size(65, 25);
             labelPrecio.TabIndex = 2;
             labelPrecio.Text = "precio";
             // 

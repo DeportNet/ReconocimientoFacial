@@ -33,12 +33,12 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [DisallowNull]
         public char IsSaleItem { get; set; } // 'T' = Articulo, 'F' = Servicio
 
-        public Articulo(int idDx, string nombre, double precio, char esUnArticulo)
+        public Articulo(int idDx, string name, double amount, char isSaleItem)
         {
             IdDx = idDx;
-            Name = nombre;
-            Amount = precio;
-            IsSaleItem = esUnArticulo;
+            Name = name;
+            Amount = amount;
+            IsSaleItem = isSaleItem;
         }
 
         public Articulo() { }
