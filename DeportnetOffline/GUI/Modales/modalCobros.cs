@@ -1,6 +1,7 @@
 ﻿using DeportnetOffline.Data.Dto.Table;
 using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
+using DeportNetReconocimiento.Api.Data.Repository;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,9 +19,9 @@ namespace DeportnetOffline
 
 
 
-        private List<Membresia> ListaMembresias = [];
+        private List<Membresia> membresias = [];
         private InformacionSocioTabla socio;
-        private Articulo articuloSeleccionado;
+        private Membresia membresiaSeleccionada;
 
 
         public ModalCobro(InformacionSocioTabla socioTabla)
@@ -34,19 +35,19 @@ namespace DeportnetOffline
 
         public void ObtenerMembresiasDeBD()
         {
-            using(var context = BdContext.CrearContexto())
+            using (var context = BdContext.CrearContexto())
             {
-                ListaMembresias = context.Membresias.ToList();
+                membresias = context.Membresias.ToList();
             }
-            if(ListaMembresias != null)
+            if (membresias != null)
             {
-                CargarComboBox(ListaMembresias);
+                CargarComboBox(membresias);
             }
         }
 
         private void CargarComboBox(List<Membresia> membresias)
         {
-            membresias.Insert(0, new Membresia(idDx: 0, name:"Seleccione una membresía", amount: 0, isSaleItem:'x', period: 0, days: 0));
+            membresias.Insert(0, new Membresia(idDx: 0, name: "Seleccione una membresía", amount: 0, isSaleItem: 'x', period: 0, days: 0));
 
             comboBox1.DataSource = membresias;
             comboBox1.DisplayMember = "name";
@@ -56,18 +57,60 @@ namespace DeportnetOffline
             comboBox1.MaxDropDownItems = 10;
         }
 
-        //Obtener los datos para cargar el combo box.
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (membresias.Count > 0)
+            {
+                membresiaSeleccionada = (Membresia?)comboBox1.SelectedItem;
+                if (membresiaSeleccionada != null && membresiaSeleccionada.IdDx != 0)
+                {
+                    ActualizarLabels(membresiaSeleccionada);
+                }
+                else
+                {
+                    LimpiarLabels();
+                }
+            }
+        }
 
-        //Hacer que cuando seleccione un campo del combo box - Traer los datos
 
-        //Calcular la fecha de vigencia de este pago
+        private void ActualizarLabels(Membresia membresia)
+        {
+            labelCantidad.Text = "1";
+            labelPrecio.Text = membresia.Amount.ToString();
+            labelDescripcion.Text = membresia.Name.ToString();
+            labelVigencia.Text = membresia.Period.ToString();
+            label4.Text = membresia.Amount.ToString();
+        }
 
-        //Agregar los datos a los labels 
+        private void LimpiarLabels()
+        {
+            labelCantidad.Text = "";
+            labelPrecio.Text = "";
+            labelDescripcion.Text = "";
+            labelVigencia.Text = "";
+            label4.Text = "";
+            comboBox1.SelectedIndex = 0;
+        }
 
-        //En el boton agregar:
+        private async void buttonCobrar_Click(object sender, EventArgs e)
+        {
+            if (socio != null)
+            {
+                Venta venta = new Venta(itemId: membresiaSeleccionada.IdDx, branchMemberId: socio.Id, isSaleItem: 'F', period:membresiaSeleccionada.Period, days:membresiaSeleccionada.Days);
+                bool resultado = await VentaRepository.RegistrarVenta(venta);
 
-        //Hacer un registro de un cobro 
-
+                if (resultado)
+                {
+                    MessageBox.Show("Venta completada", "La venta se registro exitosamente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LimpiarLabels();
+                }
+                else
+                {
+                    MessageBox.Show("Error al registrar la venta, intente nuevamente");
+                }
+            }
+        }
 
     }
 }
