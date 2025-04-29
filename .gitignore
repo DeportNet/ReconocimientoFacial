@@ -3,3 +3,4 @@
 *.vsidx
 *.bin
 AplicacionReconocimiento/.vs/ProjectEvaluation/deportnetreconocimiento.projects.v9.bin
+/AplicacionReconocimiento/bin
