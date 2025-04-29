@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DeportnetOffline.Data.Dto.Table
 {
-    public class InformacionCobroTabla
+    public class InformacionTablaNuevoLegajo
     {
     }
 }

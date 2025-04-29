@@ -11,7 +11,21 @@ namespace DeportnetOffline.Data.Mapper
     public class TablaMapper
     {
 
-        //public static 
+        public static InformacionTablaNuevoLegajo
+
+
+
+        //public static InformacionTablaCobro CobroToInformacionTablaCobro(Venta venta)
+        //{
+        //    return new InformacionTablaCobro
+        //    {
+        //        Id = cobro.Id,
+        //        Fecha = cobro.Fecha.ToString("dd/MM/yyyy"),
+        //        Monto = cobro.Monto.ToString("C"),
+        //        MetodoPago = cobro.MetodoPago,
+        //        Estado = cobro.Estado
+        //    };
+        //}
 
 
 
