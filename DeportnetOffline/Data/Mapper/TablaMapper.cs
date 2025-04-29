@@ -11,6 +11,13 @@ namespace DeportnetOffline.Data.Mapper
     public class TablaMapper
     {
 
+        //public static 
+
+
+
+
+
+
         public static InformacionSocioTabla SocioToInformacionTablaSocio(Socio socio)
         {
             return new InformacionSocioTabla

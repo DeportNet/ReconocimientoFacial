@@ -11,13 +11,13 @@ namespace DeportnetOffline
 {
     public partial class VistaSocios : UserControl
     {
-        int PaginaActual;
-        int TotalPaginas;
-        int TamanioPagina;
+        private int PaginaActual;
+        private int TotalPaginas;
+        private int TamanioPagina;
         public VistaSocios()
         {
             InitializeComponent();
-
+            FiltroEstado = "";
             PaginaActual = 1;
             TotalPaginas = 1;
             TamanioPagina = 20;
@@ -26,7 +26,6 @@ namespace DeportnetOffline
             textBox2_Leave(this, EventArgs.Empty);
             textBox3_Leave(this, EventArgs.Empty);
             comboBoxEstado.SelectedIndex = 0;
-
 
             CargarDatos(PaginaActual, TamanioPagina);
             CrearTabla();
@@ -100,15 +99,12 @@ namespace DeportnetOffline
 
             IQueryable<Socio> query = context.Socios.AsQueryable(); 
 
-            query = FiltrarPorNroTarjetaODNI(nroTarjeta, query);
+            query = FiltrarPorNroTarjetaODni(nroTarjeta, query);
             query = FiltrarPorEmail(email, query);
             query = FiltrarPorNombreYApellido(apellidoNombre, query);
             query = FiltrarPorEstado(estado, query);
 
-            Console.WriteLine(estado);
-
             PaginadoResultado<Socio> paginaSociosFiltrados = PaginadorUtils.ObtenerPaginadoAsync(query, nroPagina, tamPag).Result;
-            
             
             CambiarInformacionPagina(paginaSociosFiltrados);
 
@@ -116,7 +112,7 @@ namespace DeportnetOffline
         }
 
 
-        private IQueryable<Socio> FiltrarPorNroTarjetaODNI(string? nroTarjeta, IQueryable<Socio> query)
+        private IQueryable<Socio> FiltrarPorNroTarjetaODni(string? nroTarjeta, IQueryable<Socio> query)
         {
 
             if (!string.IsNullOrEmpty(nroTarjeta))
