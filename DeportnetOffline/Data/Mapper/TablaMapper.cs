@@ -11,7 +11,7 @@ namespace DeportnetOffline.Data.Mapper
     public class TablaMapper
     {
 
-        public static InformacionTablaNuevoLegajo
+        //public static InformacionTablaNuevoLegajo 
 
 
 
@@ -39,7 +39,7 @@ namespace DeportnetOffline.Data.Mapper
                 Id = socio.IdDx,
                 NombreYApellido = socio.FirstName + " " + socio.LastName,
                 NroTarjeta = socio.CardNumber,
-                DNI = socio.IdNumber,
+                Dni = socio.IdNumber,
                 Email = socio.Email,
                 Edad = CalcularEdad(socio.BirthDate),
                 Sexo = socio.Gender,
