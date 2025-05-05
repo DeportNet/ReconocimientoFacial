@@ -261,7 +261,7 @@ namespace DeportnetOffline
         private void button2_Click(object sender, EventArgs e)
         {
             ModalNuevoLegajo modal = new ModalNuevoLegajo();
-            modal.Show();
+            modal.ShowDialog();
         }
 
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -295,14 +295,16 @@ namespace DeportnetOffline
 
         public string ObtenerEstadoFiltro(string estado)
         {
-            estado = estado.Trim().ToLower() switch
+            estado = estado.Trim().ToLower();
+            
+            return estado switch
             {
                 "actívos e inactivos" => "",
                 "solo inactivos" => "0",
                 "solo activos" => "1"
             };
 
-            return estado;
+            
         }
 
         //Limpia los placeholders, esto se hace porque son texto que con eventos se cambia,
@@ -310,14 +312,16 @@ namespace DeportnetOffline
         public string LimpiarPlaceholderCampoFiltro(string campo)
         {
 
-            campo = campo.Trim().ToLower() switch
+            campo = campo.Trim().ToLower();
+
+            return campo switch
             {
                 "apellido y nombre" => "",
                 "nro. tarjeta o dni" => "",
-                "email" => ""
+                "email" => "",
+                _ => campo
             };
 
-            return campo;
         }
 
 

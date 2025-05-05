@@ -56,7 +56,7 @@ namespace DeportnetOffline.GUI.Modales
         private void textBoxNombre_Validating(object sender, CancelEventArgs e)
         {
 
-            ValidarCampo(textBoxNombre, labelErrorNombre, EsTextoValido, "Nombre");
+            ValidarCampo(textBoxNombre, labelErrorNombre, EsTextoValido, "Nombre", true);
 
         }
         // Eventos de Apellido
@@ -68,7 +68,6 @@ namespace DeportnetOffline.GUI.Modales
             {
                 textBoxApellido.Text = "";
                 textBoxApellido.ForeColor = Color.Black; // Color del texto cuando el usuario escribe
-                labelErrorNombre.Visible = false;
             }
         }
 
@@ -78,14 +77,13 @@ namespace DeportnetOffline.GUI.Modales
             {
                 textBoxApellido.Text = "Apellido";
                 textBoxApellido.ForeColor = Color.Gray; // Color del placeholder
-                labelErrorApellido.Visible = false;
             }
         }
 
         private void textBoxApellido_Validating(object sender, CancelEventArgs e)
         {
 
-            ValidarCampo(textBoxApellido, labelErrorApellido, EsTextoValido, "Apellido");
+            ValidarCampo(textBoxApellido, labelErrorApellido, EsTextoValido, "Apellido", true);
 
         }
 
@@ -118,7 +116,7 @@ namespace DeportnetOffline.GUI.Modales
                 return;
             }
 
-            ValidarCampo(textBoxEmail, labelEmailError, EsEmailValido, "Email");
+            ValidarCampo(textBoxEmail, labelEmailError, EsEmailValido, "Email", true);
 
         }
 
@@ -152,7 +150,7 @@ namespace DeportnetOffline.GUI.Modales
                 return;
             }
 
-            ValidarCampo(textBoxTelefono, labelTelefonoError, EsNumeroValido, "Telefono");
+            ValidarCampo(textBoxTelefono, labelTelefonoError, EsNumeroValido, "Telefono", false);
 
         }
 
@@ -179,7 +177,7 @@ namespace DeportnetOffline.GUI.Modales
         }
         private void textBoxDireccionConPiso_Enter(object sender, EventArgs e)
         {
-            if (textBoxPiso.Text == "Piso/Dep.")
+            if (textBoxPiso.Text == "Dep")
             {
                 textBoxPiso.Text = "";
                 textBoxPiso.ForeColor = Color.Black; // Color del texto cuando el usuario escribe
@@ -191,7 +189,7 @@ namespace DeportnetOffline.GUI.Modales
         {
             if (string.IsNullOrWhiteSpace(textBoxPiso.Text))
             {
-                textBoxPiso.Text = "Piso/Dep.";
+                textBoxPiso.Text = "Dep";
                 textBoxPiso.ForeColor = Color.Gray; // Color del placeholder
                 labelPisoDepartamentoError.Visible = false;
             }
@@ -200,14 +198,14 @@ namespace DeportnetOffline.GUI.Modales
         private void textBoxDireccion_Validating(object sender, CancelEventArgs e)
         {
 
-            ValidarCampo(textBoxDireccion, labelDireccionError, EsLetrasNumerosEspaciosValido, "Piso/Dep.");
+            ValidarCampo(textBoxDireccion, labelDireccionError, EsLetrasNumerosEspaciosValido, "Dep", false);
 
         }
 
         private void textBoxPiso_Validating(object sender, CancelEventArgs e)
         {
 
-            ValidarCampo(textBoxPiso, labelPisoDepartamentoError, EsLetrasNumerosEspaciosValido, "Direccion");
+            ValidarCampo(textBoxPiso, labelPisoDepartamentoError, EsLetrasNumerosEspaciosValido, "Direccion", false);
 
         }
 
@@ -234,7 +232,8 @@ namespace DeportnetOffline.GUI.Modales
         private void textBoxNroTarjeta_Validating(object sender, CancelEventArgs e)
         {
 
-            ValidarCampo(textBoxNroTarjeta, labelNroTarjetaError, EsNumeroValido, "Tarjeta");
+            ValidarCampo(textBoxNroTarjeta, labelNroTarjetaError, EsNumeroValido, "Tarjeta", false);
+
 
         }
 
@@ -253,6 +252,7 @@ namespace DeportnetOffline.GUI.Modales
             if (ValidarTodosLosCampos())
             {
                 Socio socio = ObtenerSocio();
+                socio = FormatearSocio(socio);
                 bool resultado = await SocioRepository.InsertarUnSocioEnTabla(socio);
                 LimpiarLabels();
                 MessageBox.Show("Socio agregado con exito", "Socio registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -260,6 +260,20 @@ namespace DeportnetOffline.GUI.Modales
             }
         }
 
+
+        public Socio FormatearSocio(Socio socio)
+        {
+            if(socio.Address == "Direccion")
+                socio.Address = "";
+            if (socio.Cellphone == "Telefono")
+                socio.Cellphone = "";
+            if (socio.AddressFloor == "Dep")
+                socio.AddressFloor = "";
+            if (socio.CardNumber == "Tarjeta")  
+                socio.CardNumber = "";
+
+            return socio;
+        }
        
         public Socio ObtenerSocio()
         {
@@ -299,31 +313,45 @@ namespace DeportnetOffline.GUI.Modales
         {
             bool esValido = true;
 
-            esValido &= ValidarCampo(textBoxNombre, labelErrorNombre, EsTextoValido, "Nombre");
-            esValido &= ValidarCampo(textBoxApellido, labelErrorApellido, EsTextoValido, "Apellido");
-            esValido &= ValidarCampo(textBoxEmail, labelEmailError, EsEmailValido, "Email");
-            //esValido &= ValidarCampo(textBoxTelefono, labelTelefonoError, EsNumeroValido, "Telefono");
-            //esValido &= ValidarCampo(textBoxDireccion, labelDireccionError, EsLetrasNumerosEspaciosValido, "Direccion");
-            //esValido &= ValidarCampo(textBoxPiso, labelPisoDepartamentoError, EsLetrasNumerosEspaciosValido, "Piso/Dep.");
-            esValido &= ValidarCampo(textBoxNroTarjeta, labelNroTarjetaError, EsNumeroValido, "Tarjeta");
+            esValido &= ValidarCampo(textBoxNombre, labelErrorNombre, EsTextoValido, "Nombre", true);
+            esValido &= ValidarCampo(textBoxApellido, labelErrorApellido, EsTextoValido, "Apellido", true);
+            esValido &= ValidarCampo(textBoxEmail, labelEmailError, EsEmailValido, "Email", true);
+            esValido &= ValidarCampo(textBoxTelefono, labelTelefonoError, EsNumeroValido, "Telefono", false);
+            esValido &= ValidarCampo(textBoxDireccion, labelDireccionError, EsLetrasNumerosEspaciosValido, "Direccion", false);
+            esValido &= ValidarCampo(textBoxPiso, labelPisoDepartamentoError, EsLetrasNumerosEspaciosValido, "Dep", false);
+            esValido &= ValidarCampo(textBoxNroTarjeta, labelNroTarjetaError, EsNumeroValido, "Tarjeta", false);
             esValido &= ValidarFecha();
 
             return esValido;
         }
-        private bool ValidarCampo(TextBox textBox, Label labelError, Func<string, bool> funcionValidacion, string placeholder)
+        private bool ValidarCampo(TextBox textBox, Label labelError, Func<string, bool> funcionValidacion, string placeholder, bool requerido)
         {
+
+            if(string.IsNullOrWhiteSpace(textBox.Text) || textBox.Text == placeholder && requerido == false) {
+                labelError.Visible = false;
+                Console.WriteLine("Entro en la validacion 1");
+                return true;
+            }
 
             if (string.IsNullOrWhiteSpace(textBox.Text) || !funcionValidacion(textBox.Text) || textBox.Text == placeholder)
             {
                 labelError.Visible = true;
+                Console.WriteLine("Entro en la validacion 2");
+
                 return false;
             }
             else
             {
                 labelError.Visible = false;
+                Console.WriteLine("Entro en la validacion 3");
+
                 return true;
             }
         }
+
+
+
+
         private bool ValidarFecha()
         {
             bool esValido = true;
