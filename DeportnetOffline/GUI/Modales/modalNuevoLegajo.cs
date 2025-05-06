@@ -257,12 +257,17 @@ namespace DeportnetOffline.GUI.Modales
                 LimpiarLabels();
                 MessageBox.Show("Socio agregado con exito", "Socio registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Console.WriteLine(resultado ? $"El socio  {socio.FirstName + ' ' + socio.LastName} se insertó correctamente en la base de datos" : $"Error al insertar al socio {socio.FirstName + ' ' + socio.LastName} en la base de datos");
+                this.Close();
             }
         }
 
 
         public Socio FormatearSocio(Socio socio)
         {
+            socio.FirstName = MayusculaEnNombres(socio.FirstName);
+            socio.LastName = MayusculaEnNombres(socio.LastName);
+            socio.Address = MayusculaEnNombres(socio.Address);
+
             if(socio.Address == "Direccion")
                 socio.Address = "";
             if (socio.Cellphone == "Telefono")
@@ -275,6 +280,18 @@ namespace DeportnetOffline.GUI.Modales
             return socio;
         }
        
+        private string MayusculaEnNombres(string nombre)
+        {
+            string[] nombres = nombre.ToLower().Split(" ");
+
+            for(int i = 0; i < nombres.Length; i++)
+            {
+                nombres[i] = char.ToUpper(nombres[i][0]) + nombres[i].Substring(1);
+            }
+
+            return string.Join(" ", nombres);
+        }
+
         public Socio ObtenerSocio()
         {
             return new Socio
