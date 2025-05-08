@@ -22,8 +22,8 @@ namespace DeportNetReconocimiento.Api.Services
             enUso = false;
             hik_Controladora = Hik_Controladora_General.InstanciaControladoraGeneral;
 
-            int.TryParse(CredencialesUtils.LeerCredencialEspecifica(4), out int idSucursal);
-
+            int.TryParse(CredencialesUtils.LeerCredencialEspecifica(4), out int idSucursalOut);
+            idSucursal = idSucursalOut;
         }
 
         //Validaciones
@@ -31,6 +31,7 @@ namespace DeportNetReconocimiento.Api.Services
         {
             if (idSucursal == null)
             {
+                Console.WriteLine("Id sucursal es null en AltaFacial");
                 MensajeDeErrorAltaBajaCliente(
                                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                    clienteRequest.IdCliente.ToString(),
@@ -44,6 +45,7 @@ namespace DeportNetReconocimiento.Api.Services
 
             if (hik_Controladora.IdUsuario == -1)
             {
+                Console.WriteLine("Id usuario dispositivo es -1 en AltaFacial");
                 MensajeDeErrorAltaBajaCliente(
                                     new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                     clienteRequest.IdCliente.ToString(),
@@ -58,6 +60,7 @@ namespace DeportNetReconocimiento.Api.Services
 
             if (idSucursal != clienteRequest.IdSucursal)
             {
+                Console.WriteLine("El IdSucursal recibido no es igual al local en AltaFacial");
                 MensajeDeErrorAltaBajaCliente(
                                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                    clienteRequest.IdCliente.ToString(),
@@ -70,6 +73,7 @@ namespace DeportNetReconocimiento.Api.Services
 
             if (enUso)
             {
+                Console.WriteLine("El dispositivo esta en uso en AltaFacial");
                 MensajeDeErrorAltaBajaCliente(
                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                    clienteRequest.IdCliente.ToString(),
@@ -87,6 +91,7 @@ namespace DeportNetReconocimiento.Api.Services
         {
             if (idSucursal == null)
             {
+                Console.WriteLine("Id sucursal es null en BajaFacial");
                 MensajeDeErrorAltaBajaCliente(
                                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                    clienteRequest.IdCliente.ToString(),
@@ -100,6 +105,7 @@ namespace DeportNetReconocimiento.Api.Services
 
             if (hik_Controladora.IdUsuario == -1)
             {
+                Console.WriteLine("Id usuario dispositivo es -1 en BajaFacial");
                 MensajeDeErrorAltaBajaCliente(
                                     new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                     clienteRequest.IdCliente.ToString(),
@@ -114,6 +120,7 @@ namespace DeportNetReconocimiento.Api.Services
 
             if (idSucursal != clienteRequest.IdSucursal)
             {
+                Console.WriteLine("El IdSucursal recibido no es igual al local en BajaFacial");
                 MensajeDeErrorAltaBajaCliente(
                                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                    clienteRequest.IdCliente.ToString(),
@@ -126,6 +133,8 @@ namespace DeportNetReconocimiento.Api.Services
 
             if (enUso)
             {
+                Console.WriteLine("El dispositivo esta en uso en BajaFacial");
+
                 MensajeDeErrorAltaBajaCliente(
                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                    clienteRequest.IdCliente.ToString(),
