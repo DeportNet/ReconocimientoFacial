@@ -83,6 +83,7 @@
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(340, 29);
             comboBox1.TabIndex = 2;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -115,6 +116,7 @@
             buttonCobrar.TabIndex = 9;
             buttonCobrar.Text = "Cobrar";
             buttonCobrar.UseVisualStyleBackColor = true;
+            buttonCobrar.Click += buttonCobrar_Click;
             // 
             // panel3
             // 

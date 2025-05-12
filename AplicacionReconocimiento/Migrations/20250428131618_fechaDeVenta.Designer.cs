@@ -3,6 +3,7 @@ using System;
 using DeportNetReconocimiento.Api.BD;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeportNetReconocimiento.Migrations
 {
     [DbContext(typeof(BdContext))]
-    partial class BdContextModelSnapshot : ModelSnapshot
+    [Migration("20250428131618_fechaDeVenta")]
+    partial class fechaDeVenta
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
@@ -399,7 +402,7 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("branch_member_id");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("TEXT")
                         .HasColumnName("date");
 
@@ -418,15 +421,6 @@ namespace DeportNetReconocimiento.Migrations
                     b.Property<int?>("Period")
                         .HasColumnType("INTEGER")
                         .HasColumnName("period");
-
-                    b.Property<string>("Synchronized")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("synchronized");
-
-                    b.Property<DateTime?>("syncronized_date")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("syncronized_date");
 
                     b.HasKey("Id");
 

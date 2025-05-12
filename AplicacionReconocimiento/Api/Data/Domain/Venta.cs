@@ -30,6 +30,18 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         public int? Days { get; set; }
 
 
+        [Column("date")]
+        [DisallowNull]
+        public DateTime Date { get; set; }
+
+        [Column("synchronized")]
+        [DisallowNull]
+        public string Synchronized { get; set; }
+
+        [Column("syncronized_date")]
+        [AllowNull]
+        public DateTime? syncronized_date{ get; set; }
+
         public Venta(){}
 
         public Venta(int itemId, int? branchMemberId, char isSaleItem, int? period, int? days)
@@ -39,6 +51,8 @@ namespace DeportNetReconocimiento.Api.Data.Domain
             IsSaleItem = isSaleItem;
             Period = period;
             Days = days;
+            Date = DateTime.Now;
+            Synchronized = "F";
         }
 
         public Venta(int itemId ,int? branchMemberId, char isSaleItem)
@@ -46,6 +60,8 @@ namespace DeportNetReconocimiento.Api.Data.Domain
             ItemId = itemId;
             BranchMemberId = branchMemberId;
             IsSaleItem = isSaleItem;
+            Date = DateTime.Now;
+            Synchronized = "F";
         }
     }
 }

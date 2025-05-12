@@ -98,30 +98,30 @@ namespace DeportnetOffline
 
         private async void buttonCobrar_Click(object sender, EventArgs e)
         {
-            if(socio != null)
+            if (comboBox1.SelectedIndex == 0)
             {
-                Venta venta = new Venta(itemId: articuloSeleccionado.IdDx ,branchMemberId: socio.Id, isSaleItem:'T');
-                bool resultado = await VentaRepository.RegistrarVenta(venta);
+                return;
+            }
 
-                if (resultado)
-                {
-                    MessageBox.Show("Venta completada","La venta se registro exitosamente",MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LimpiarLabels();
-                }
-                else
-                {
-                    MessageBox.Show("Error al registrar la venta, intente nuevamente");
-                }
+            if (socio == null)
+            {
+                return;
+            }
+
+            Venta venta = new Venta(itemId: articuloSeleccionado.IdDx, branchMemberId: socio.Id, isSaleItem: 'T');
+            bool resultado = await VentaRepository.RegistrarVenta(venta);
+
+            if (resultado)
+            {
+                MessageBox.Show("Venta completada", "La venta se registro exitosamente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LimpiarLabels();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Error al registrar la venta, intente nuevamente");
             }
         }
-
-
-
-
-
-
-
-
 
     }
 }

@@ -257,24 +257,32 @@ namespace DeportnetOffline
         private void button2_Click(object sender, EventArgs e)
         {
             ModalNuevoLegajo modal = new ModalNuevoLegajo();
-            modal.Show();
+            modal.ShowDialog();
         }
 
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+
             if (e.RowIndex >= 0)
             {
                 InformacionSocioTabla socio = (InformacionSocioTabla)dataGridView1.Rows[e.RowIndex].DataBoundItem;
 
                 if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaVenta")
                 {
-                    ModalVentas modal = new ModalVentas(socio);
-                    modal.Show();
+                    if(socio.Estado == "Activo")
+                    {
+                        ModalVentas modal = new ModalVentas(socio);
+                        modal.ShowDialog();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se le puede vender nada al socio porque esta inactivo","Socio inactivo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
                 else if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaCobro")
                 {
                     ModalCobro modal = new ModalCobro(socio);
-                    modal.Show();
+                    modal.ShowDialog();
                 }
             }
         }
@@ -283,41 +291,33 @@ namespace DeportnetOffline
 
         public string ObtenerEstadoFiltro(string estado)
         {
-            switch (estado.Trim().ToLower())
+            estado = estado.Trim().ToLower();
+            
+            return estado switch
             {
-                case "actívos e inactivos":
-                    estado = "";
-                    break;
-                case "solo activos":
-                    estado = "1";
-                    break;
-                case "solo inactivos":
-                    estado = "0";
-                    break;
-            }
-            return estado;
+                "actívos e inactivos" => "",
+                "solo inactivos" => "0",
+                "solo activos" => "1"
+            };
+
+            
         }
 
         //Limpia los placeholders, esto se hace porque son texto que con eventos se cambia,
         //por lo tanto si no esta seleccionado el campo hay un texto que afecta a los filtros.
         public string LimpiarPlaceholderCampoFiltro(string campo)
         {
-            switch (campo.Trim().ToLower())
-            {
-                case "apellido y nombre":
-                    campo = "";
-                    break;
-                case "nro. tarjeta o dni":
-                    campo = "";
-                    break;
-                case "email":
-                    campo = "";
-                    break;
-                default:
-                    break;
-            }
 
-            return campo;
+            campo = campo.Trim().ToLower();
+
+            return campo switch
+            {
+                "apellido y nombre" => "",
+                "nro. tarjeta o dni" => "",
+                "email" => "",
+                _ => campo
+            };
+
         }
 
 
