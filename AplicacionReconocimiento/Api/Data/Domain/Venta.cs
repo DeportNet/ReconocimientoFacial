@@ -14,6 +14,10 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [Column("branch_member_id")]
         public int? BranchMemberId {  get; set; }
 
+        // Propiedad de navegación
+        [ForeignKey("branchMemberId")]
+        public virtual Socio Socio { get; set; }
+
         [Column("item_id")]
         public int ItemId { get; set; }
 
@@ -29,22 +33,27 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [AllowNull]
         public int? Days { get; set; }
 
-
         [Column("date")]
         [DisallowNull]
         public DateTime Date { get; set; }
+
+        [Column("sale_name")]
+        public string Name { get; set; }
+
+        [Column("sale_amount")]
+        public double Amount { get; set; }
 
         [Column("synchronized")]
         [DisallowNull]
         public string Synchronized { get; set; }
 
-        [Column("syncronized_date")]
+        [Column("synchronized_date")]
         [AllowNull]
-        public DateTime? syncronized_date{ get; set; }
+        public DateTime? SyncronizedDate{ get; set; }
 
         public Venta(){}
 
-        public Venta(int itemId, int? branchMemberId, char isSaleItem, int? period, int? days)
+        public Venta(int itemId, int? branchMemberId, char isSaleItem, int? period, int? days, string name, double amount)
         {
             ItemId = itemId;
             BranchMemberId = branchMemberId;
@@ -52,16 +61,31 @@ namespace DeportNetReconocimiento.Api.Data.Domain
             Period = period;
             Days = days;
             Date = DateTime.Now;
+            Name = name;
+            Amount = amount;
             Synchronized = "F";
+            SyncronizedDate = null;
         }
 
-        public Venta(int itemId ,int? branchMemberId, char isSaleItem)
-        {
-            ItemId = itemId;
-            BranchMemberId = branchMemberId;
-            IsSaleItem = isSaleItem;
-            Date = DateTime.Now;
-            Synchronized = "F";
-        }
+
+        //public Venta(int itemId, int? branchMemberId, char isSaleItem, int? period, int? days)
+        //{
+        //    ItemId = itemId;
+        //    BranchMemberId = branchMemberId;
+        //    IsSaleItem = isSaleItem;
+        //    Period = period;
+        //    Days = days;
+        //    Date = DateTime.Now;
+        //    Synchronized = "F";
+        //}
+
+        //public Venta(int itemId, int? branchMemberId, char isSaleItem)
+        //{
+        //    ItemId = itemId;
+        //    BranchMemberId = branchMemberId;
+        //    IsSaleItem = isSaleItem;
+        //    Date = DateTime.Now;
+        //    Synchronized = "F";
+        //}
     }
 }

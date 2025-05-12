@@ -105,7 +105,8 @@ namespace DeportnetOffline
                 return;
             }
 
-            Venta venta = new Venta(itemId: membresiaSeleccionada.IdDx, branchMemberId: socio.Id, isSaleItem: 'F', period:membresiaSeleccionada.Period, days:membresiaSeleccionada.Days);
+            Venta venta = new Venta(itemId: membresiaSeleccionada.IdDx, branchMemberId: socio.Id, 
+                isSaleItem: 'F', period:membresiaSeleccionada.Period, days:membresiaSeleccionada.Days, name:membresiaSeleccionada.Name, amount: membresiaSeleccionada.Amount);
             bool resultado = await VentaRepository.RegistrarVenta(venta);
 
             if (resultado)

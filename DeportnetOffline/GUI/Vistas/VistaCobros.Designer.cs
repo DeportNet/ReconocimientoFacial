@@ -36,6 +36,7 @@
             botonAntPaginacion = new Button();
             botonSgtPaginacion = new Button();
             dataGridView1 = new DataGridView();
+            IdSocio = new DataGridViewTextBoxColumn();
             columnaSocio = new DataGridViewTextBoxColumn();
             columnaServicioArticulo = new DataGridViewTextBoxColumn();
             columnaMonto = new DataGridViewTextBoxColumn();
@@ -141,13 +142,18 @@
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { columnaSocio, columnaServicioArticulo, columnaMonto, columnaFechaHora, columanSincronizado, columnaFechaHoraSincro });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { IdSocio, columnaSocio, columnaServicioArticulo, columnaMonto, columnaFechaHora, columanSincronizado, columnaFechaHoraSincro });
             dataGridView1.Location = new Point(154, 3);
             dataGridView1.Margin = new Padding(0);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.Size = new Size(831, 505);
             dataGridView1.TabIndex = 0;
+            // 
+            // IdSocio
+            // 
+            IdSocio.HeaderText = "Id Socio";
+            IdSocio.Name = "IdSocio";
             // 
             // columnaSocio
             // 
@@ -209,14 +215,15 @@
         private Label label1;
         private Panel panel2;
         private DataGridView dataGridView1;
+        private Label labelCantPaginas;
+        private Button botonAntPaginacion;
+        private Button botonSgtPaginacion;
+        private DataGridViewTextBoxColumn IdSocio;
         private DataGridViewTextBoxColumn columnaSocio;
         private DataGridViewTextBoxColumn columnaServicioArticulo;
         private DataGridViewTextBoxColumn columnaMonto;
         private DataGridViewTextBoxColumn columnaFechaHora;
         private DataGridViewTextBoxColumn columanSincronizado;
         private DataGridViewTextBoxColumn columnaFechaHoraSincro;
-        private Label labelCantPaginas;
-        private Button botonAntPaginacion;
-        private Button botonSgtPaginacion;
     }
 }

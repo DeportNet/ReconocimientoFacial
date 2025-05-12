@@ -17,12 +17,10 @@ namespace DeportnetOffline
 {
     public partial class VistaCobros : UserControl
     {
-
         private int PaginaActual;
         private int TotalPaginas;
         private int TamanioPagina;
         private BdContext Context = BdContext.CrearContexto();
-
 
         public VistaCobros()
         {
@@ -40,12 +38,12 @@ namespace DeportnetOffline
         {
                       
             PaginadoResultado<Venta> paginaVentas = PaginadorUtils.ObtenerPaginadoAsync(Context.Ventas, paginaActual, tamanioPagina).Result;
-
+    
             CambiarInformacionPagina(paginaVentas);
-
+    
             //todo hacer el mapper
-
-            //dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(paginaVentas.Items);
+            
+            dataGridView1.DataSource = TablaMapper.ListaCobroToListaInformacionTablaCobro(paginaVentas.Items);
         }
 
         private void CambiarInformacionPagina(PaginadoResultado<Venta> paginaSocios) 

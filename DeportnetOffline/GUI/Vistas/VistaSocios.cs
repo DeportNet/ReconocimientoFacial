@@ -14,6 +14,7 @@ namespace DeportnetOffline
         private int PaginaActual;
         private int TotalPaginas;
         private int TamanioPagina;
+        private static BdContext context = BdContext.CrearContexto();
         public VistaSocios()
         {
             InitializeComponent();
@@ -44,7 +45,6 @@ namespace DeportnetOffline
 
         public void CargarDatos(int paginaActual, int tamanioPagina)
         {
-            using var context = BdContext.CrearContexto();
 
             PaginadoResultado<Socio> paginaSocios = PaginadorUtils.ObtenerPaginadoAsync(context.Socios, paginaActual, tamanioPagina).Result;
 

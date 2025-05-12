@@ -10,28 +10,21 @@ namespace DeportnetOffline.Data.Mapper
 {
     public class TablaMapper
     {
-
-        //public static InformacionTablaNuevoLegajo 
-
-
-
-        //public static InformacionTablaCobro CobroToInformacionTablaCobro(Venta venta)
-        //{
-        //    return new InformacionTablaCobro
-        //    {
-        //        Id = cobro.Id,
-        //        Fecha = cobro.Fecha.ToString("dd/MM/yyyy"),
-        //        Monto = cobro.Monto.ToString("C"),
-        //        MetodoPago = cobro.MetodoPago,
-        //        Estado = cobro.Estado
-        //    };
-        //}
-
-
-
-
-
-
+        public static InformacionTablaCobro CobroToInformacionTablaCobro(Venta venta)
+        {
+            return new InformacionTablaCobro
+            {
+                Id = venta.Id,
+                IdSocio = venta.Socio.Id,
+                IsSaleItem = venta.IsSaleItem,
+                FullNameSocio = venta.Socio.FirstName + " " + venta.Socio.LastName,
+                ItemName = venta.Name,
+                Amount = venta.Amount,
+                SaleDate = venta.Date,
+                Synchronized = venta.Synchronized,
+                SyncronizedDate = venta.SyncronizedDate
+            };
+        }
         public static InformacionSocioTabla SocioToInformacionTablaSocio(Socio socio)
         {
             return new InformacionSocioTabla
@@ -48,6 +41,19 @@ namespace DeportnetOffline.Data.Mapper
                 Direccion = socio.Address,
                 Piso = socio.AddressFloor
             };
+        }
+
+        public static List<InformacionTablaCobro> ListaCobroToListaInformacionTablaCobro(List<Venta> ventas)
+        {
+
+            List<InformacionTablaCobro> cobroTabla = [];
+
+            foreach (Venta unaVenta in ventas)
+            {
+                cobroTabla.Add(CobroToInformacionTablaCobro(unaVenta));
+            }
+
+            return cobroTabla;
         }
 
         public static List<InformacionSocioTabla> ListaSocioToListaInformacionTablaSocio(List<Socio> socios)
