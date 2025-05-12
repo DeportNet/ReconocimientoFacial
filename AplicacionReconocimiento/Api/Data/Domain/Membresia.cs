@@ -27,20 +27,20 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [Column("amount")]
         [StringLength(50)]
         [DisallowNull]
-        public double Amount { get; set; }
+        public string Amount { get; set; }
         [Column("isSaleItem")]
         [DisallowNull]
         public char IsSaleItem { get; set; } // 'T' = Articulo, 'F' = Servicio 
         [Column("period")]
         [AllowNull]
-        public int Period { get; set; }
+        public string? Period { get; set; }
 
         [Column("days")]
         [AllowNull]
-        public int Days { get; set; }
+        public string? Days { get; set; }
 
         public Membresia() { }
-        public Membresia(int idDx, string name, double amount, char isSaleItem, int period, int days)
+        public Membresia(int idDx, string name, string amount, char isSaleItem, string period, string days)
         {
             IdDx = idDx;
             Name = name;

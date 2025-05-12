@@ -3,6 +3,7 @@ using System;
 using DeportNetReconocimiento.Api.BD;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeportNetReconocimiento.Migrations
 {
     [DbContext(typeof(BdContext))]
-    partial class BdContextModelSnapshot : ModelSnapshot
+    [Migration("20250512142616_AdaptaciónMembresiasYArticulos")]
+    partial class AdaptaciónMembresiasYArticulos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.3");

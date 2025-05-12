@@ -333,7 +333,9 @@ namespace DeportnetOffline.GUI.Modales
         
         private async void buttonGuardarLegajo_Click(object sender, EventArgs e)
         {
-            BdContext context = new BdContext(new DbContextOptions<BdContext>());
+            //BdContext context = new BdContext(new DbContextOptions<BdContext>());
+            using(var context = BdContext.CrearContexto())
+            {
 
             var socioRepository = new SocioRepository(context);
             Socio socio = new Socio
@@ -349,9 +351,10 @@ namespace DeportnetOffline.GUI.Modales
                 CardNumber = textBoxNroTarjeta.Text
             };
 
-           bool resultado = await socioRepository.InsertarUnSocioEnTabla( socio );
+                 bool resultado = await socioRepository.InsertarUnSocioEnTabla( socio );
 
-           Console.WriteLine(resultado ? $"El socio  {socio.FirstName + ' ' + socio.LastName} se insertó correctamente en la base de datos" : $"Error al insertar al socio {socio.FirstName + ' ' + socio.LastName} en la base de datos");
+               Console.WriteLine(resultado ? $"El socio  {socio.FirstName + ' ' + socio.LastName} se insertó correctamente en la base de datos" : $"Error al insertar al socio {socio.FirstName + ' ' + socio.LastName} en la base de datos");
+            }
         }
     }
 }

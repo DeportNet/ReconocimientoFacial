@@ -27,13 +27,13 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [Column("amount")]
         [StringLength(50)]
         [DisallowNull]
-        public double Amount { get; set; }
+        public string Amount { get; set; }
 
         [Column("isSaleItem")]
         [DisallowNull]
         public char IsSaleItem { get; set; } // 'T' = Articulo, 'F' = Servicio
 
-        public Articulo(int idDx, string nombre, double precio, char esUnArticulo)
+        public Articulo(int idDx, string nombre, string precio, char esUnArticulo)
         {
             IdDx = idDx;
             Name = nombre;
