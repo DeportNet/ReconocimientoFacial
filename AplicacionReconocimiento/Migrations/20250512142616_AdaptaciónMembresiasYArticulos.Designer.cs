@@ -3,6 +3,7 @@ using System;
 using DeportNetReconocimiento.Api.BD;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeportNetReconocimiento.Migrations
 {
     [DbContext(typeof(BdContext))]
-    partial class BdContextModelSnapshot : ModelSnapshot
+    [Migration("20250512142616_AdaptaciónMembresiasYArticulos")]
+    partial class AdaptaciónMembresiasYArticulos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
@@ -325,7 +328,7 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("address_floor");
 
-                    b.Property<DateTime>("BirthDate")
+                    b.Property<DateTime?>("BirthDate")
                         .HasColumnType("TEXT")
                         .HasColumnName("birth_date");
 
@@ -388,51 +391,6 @@ namespace DeportNetReconocimiento.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("socios", (string)null);
-                });
-
-            modelBuilder.Entity("DeportNetReconocimiento.Api.Data.Domain.Venta", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("id");
-
-                    b.Property<int?>("BranchMemberId")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("branch_member_id");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("date");
-
-                    b.Property<int?>("Days")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("days");
-
-                    b.Property<char>("IsSaleItem")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("is_sale_item");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("item_id");
-
-                    b.Property<int?>("Period")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("period");
-
-                    b.Property<string>("Synchronized")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("synchronized");
-
-                    b.Property<DateTime?>("syncronized_date")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("syncronized_date");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ventas");
                 });
 
             modelBuilder.Entity("DeportNetReconocimiento.Api.Data.Domain.AccesoSocio", b =>

@@ -27,7 +27,7 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [Column("amount")]
         [StringLength(50)]
         [DisallowNull]
-        public double Amount { get; set; }
+        public string Amount { get; set; }
 
         [Column("isSaleItem")]
         [DisallowNull]

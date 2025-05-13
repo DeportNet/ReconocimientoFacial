@@ -417,9 +417,17 @@ namespace DeportnetOffline.GUI.Modales
 
         }
 
+        
+        private async void buttonGuardarLegajo_Click(object sender, EventArgs e)
+        {
+            //BdContext context = new BdContext(new DbContextOptions<BdContext>());
+            using(var context = BdContext.CrearContexto())
+            {
+                 bool resultado = await socioRepository.InsertarUnSocioEnTabla( socio );
 
-
-
+               Console.WriteLine(resultado ? $"El socio  {socio.FirstName + ' ' + socio.LastName} se insertó correctamente en la base de datos" : $"Error al insertar al socio {socio.FirstName + ' ' + socio.LastName} en la base de datos");
+            }
+        }
 
     }
 }

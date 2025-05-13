@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace DeportNetReconocimiento.Api.Services
 {
@@ -51,6 +53,7 @@ namespace DeportNetReconocimiento.Api.Services
         }
         private async Task<ListadoDeConceptsDtoDx> ObtenerConceptsDelWebserviceAsync()
         {
+
             ListadoDeConceptsDtoDx listadoDeConceptsDx = new ListadoDeConceptsDtoDx();
             if (idSucursal == null)
             {
@@ -108,9 +111,10 @@ namespace DeportNetReconocimiento.Api.Services
                                 Period = int.Parse(c.Period),
                                 Days = 0,
                             });
-                            break;
+                            
                         }
-
+                        else
+                        {
                             membresias.Add(new Membresia
                             {
                                 IdDx = c.Id,
@@ -120,13 +124,16 @@ namespace DeportNetReconocimiento.Api.Services
                                 Period = int.Parse(c.Period),
                                 Days = int.Parse(c.Days),
                             });
+
+                        }
+                       
                         break;
                     case "t":
                         articulos.Add(new Articulo
                         {
                             IdDx = c.Id,
                             Name = c.Name,
-                            Amount = double.Parse(c.Amount),
+                            Amount = c.Amount,
                             IsSaleItem = c.IsSaleItem[0],
                         });
 
