@@ -90,6 +90,7 @@
             textBoxContrasenia.Size = new Size(233, 27);
             textBoxContrasenia.TabIndex = 70;
             textBoxContrasenia.UseSystemPasswordChar = true;
+            textBoxContrasenia.KeyDown += ApretarEnterContrasenia;
             // 
             // BotonVer1
             // 

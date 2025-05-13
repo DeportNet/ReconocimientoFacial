@@ -60,7 +60,7 @@ namespace DeportNetReconocimiento.GUI
         private List<Empleado> ObtenerListadoDeEmpleados()
         {
             List<Empleado> listadoAux = _contextBd.Empleados.ToList();
-            
+
             bool parseExito = int.TryParse(idSucursal, out int idSucursalInt);
 
             if (!parseExito)
@@ -68,7 +68,7 @@ namespace DeportNetReconocimiento.GUI
                 Console.WriteLine("No se pudo parsear el id de la sucursal en WFSeleccionarUsuario");
                 return listadoAux;
             }
-          
+
 
             if (listadoAux.Count == 0)
             {
@@ -98,12 +98,12 @@ namespace DeportNetReconocimiento.GUI
             //si no tiene empleados, se agrega un empleado predeterminado para que pueda pasar igual
 
             comboBox1.DataSource = listadoEmpleados;
-            
+
             comboBox1.DisplayMember = "FullName";
 
             comboBox1.ValueMember = "Id";
 
-            
+
         }
 
 
@@ -115,14 +115,14 @@ namespace DeportNetReconocimiento.GUI
 
             //obtenemos el empleado seleccionado
             Empleado? empleadoSeleccionado = (Empleado?)comboBox1.SelectedItem;
-            
+
             if (empleadoSeleccionado == null)
             {
                 Console.WriteLine("Empleado seleccionado es null");
                 return;
             }
 
-            if(empleadoSeleccionado.Id == -1)
+            if (empleadoSeleccionado.Id == -1)
             {
                 Console.WriteLine("Empleado predeterminado seleccionado");
                 ingresoSinEmpleado = true;
@@ -130,10 +130,10 @@ namespace DeportNetReconocimiento.GUI
                 panel1.Hide();
                 return;
             }
-           
+
             ingresoSinEmpleado = false;
             label2.Text = "Ingrese la contraseña de " + empleadoSeleccionado.FullName + ":";
-            
+
 
             panel1.Show();
 
@@ -160,6 +160,19 @@ namespace DeportNetReconocimiento.GUI
         }
 
         private void button1_Click(object sender, EventArgs e)
+        {
+            ValidarUsuario();
+        }
+        private void ApretarEnterContrasenia(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true; 
+                ValidarUsuario();
+            }
+        }
+        private void ValidarUsuario()
         {
             Empleado? empleadoSeleccionado = (Empleado?)comboBox1.SelectedItem;
 
@@ -215,5 +228,7 @@ namespace DeportNetReconocimiento.GUI
                 BotonVer1.Image = Resources.eye1;
             }
         }
+
+
     }
 }
