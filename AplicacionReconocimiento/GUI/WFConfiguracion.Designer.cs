@@ -166,6 +166,7 @@
             // 
             // comboBoxNroLector
             // 
+            comboBoxNroLector.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxNroLector.FormattingEnabled = true;
             comboBoxNroLector.Items.AddRange(new object[] { "Lector 1", "Lector 2" });
             comboBoxNroLector.Location = new Point(90, 168);

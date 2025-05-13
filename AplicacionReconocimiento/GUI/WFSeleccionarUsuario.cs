@@ -1,5 +1,6 @@
 ﻿using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
+using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.Utils;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -86,7 +87,8 @@ namespace DeportNetReconocimiento.GUI
             idSucursal = ObtenerIdSucursal();
             nombreSucursal = ObtenerNombreSucursal();
             listadoEmpleados = ObtenerListadoDeEmpleados();
-            label1.Text = "Seleccione un usuario para ingresar a " + nombreSucursal;
+            label1.Text = "Seleccione un usuario:";
+            labelNombreSucursal.Text = nombreSucursal;
             panel1.Hide();
             CargarCombobox();
         }
@@ -108,7 +110,7 @@ namespace DeportNetReconocimiento.GUI
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             //limpiamos
-            textBox1.Clear();
+            textBoxContrasenia.Clear();
             mensajeErrorLabel.Hide();
 
             //obtenemos el empleado seleccionado
@@ -174,16 +176,16 @@ namespace DeportNetReconocimiento.GUI
                 return;
             }
 
-            if(empleadoSeleccionado.Password != textBox1.Text)
+            if (empleadoSeleccionado.Password != textBoxContrasenia.Text)
             {
                 mensajeErrorLabel.Show();
                 mensajeErrorLabel.Text = "Contraseña incorrecta";
                 return;
             }
 
-            Credenciales? credencialesActuales= CredencialesUtils.LeerCredencialesBd();
+            Credenciales? credencialesActuales = CredencialesUtils.LeerCredencialesBd();
 
-            if(credencialesActuales == null)
+            if (credencialesActuales == null)
             {
                 Console.WriteLine("Credenciales actuales son null");
                 return;
@@ -198,5 +200,20 @@ namespace DeportNetReconocimiento.GUI
             WFPrincipal.ObtenerInstancia.Show();
         }
 
+        private void BotonVer1_Click(object sender, EventArgs e)
+        {
+            if (textBoxContrasenia.UseSystemPasswordChar)
+            {
+                Console.WriteLine("Entro aca");
+                textBoxContrasenia.UseSystemPasswordChar = false;
+                BotonVer1.Image = Resources.hidden1;
+            }
+            else
+            {
+                Console.WriteLine("Entro aca X2");
+                textBoxContrasenia.UseSystemPasswordChar = true;
+                BotonVer1.Image = Resources.eye1;
+            }
+        }
     }
 }
