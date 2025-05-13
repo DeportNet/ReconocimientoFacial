@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace DeportNetReconocimiento.Api.BD
         public DbSet<ConfiguracionDeAcceso> ConfiguracionDeAcceso { get; set; }
         public DbSet<Empleado> Empleados { get; set; }
         public DbSet<Credenciales> Credenciales { get; set; }
+        public DbSet<Venta> Ventas { get; set; }
 
         public BdContext(DbContextOptions<BdContext> options) : base(options)
         {
@@ -130,6 +132,7 @@ namespace DeportNetReconocimiento.Api.BD
             modelBuilder.Entity<Credenciales>().ToTable("credenciales");
             modelBuilder.Entity<ConfiguracionGeneral>().ToTable("configuracion_general");
             modelBuilder.Entity<ConfiguracionDeAcceso>().ToTable("configuracion_de_acceso");
+            modelBuilder.Entity<Venta>().ToTable("ventas");
 
             // Relación 1:N (Acceso tiene muchos AccesoSocio)
             modelBuilder.Entity<Acceso>()

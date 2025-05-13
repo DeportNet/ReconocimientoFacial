@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DeportNetReconocimiento.Api.BD;
+using DeportNetReconocimiento.Api.Data.Domain;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,6 +21,21 @@ namespace DeportnetOffline
             int filasPorPagina = 5;
             int registros = 10;
             labelCantPaginas.Text = $"Página {paginaActual} de 50";
+            //cargarDatos();
         }
+
+        public void cargarDatos()
+        {
+        using (var context = BdContext.CrearContexto())
+            {
+                List<Socio> socios = context.Socios.ToList();
+                dataGridView1.DataSource = socios;
+            }
+
+        }
+
+
+    
+
     }
 }

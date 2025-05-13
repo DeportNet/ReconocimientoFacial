@@ -50,6 +50,8 @@ namespace DeportNetReconocimiento.Api.Data.Domain
             Days = days;
         }
 
+
+
         public static bool EsIgual(Membresia local, Membresia remota)
         {
             return 

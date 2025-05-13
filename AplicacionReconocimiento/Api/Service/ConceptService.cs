@@ -86,6 +86,7 @@ namespace DeportNetReconocimiento.Api.Services
             {
                 return (membresias, articulos);
             }
+            Console.WriteLine("\n\n\n\n\nCantidad de membresias = " + listadoDeConceptsDx.Concepts.Count + "\n\n\n\n\n\n");
 
 
             //recorremos la lista de concepts, y separamos las listas de membresias y articulos
@@ -93,21 +94,41 @@ namespace DeportNetReconocimiento.Api.Services
             listadoDeConceptsDx.Concepts.ForEach(c =>
             {
 
-
-                switch (c.IsSaleItem)
+                switch (c.IsSaleItem.ToLower())
                 {
-                    case "F":
-                        membresias.Add(new Membresia
+
+
+                    case "f":
+
+                        if(c.Days == null)
                         {
-                            IdDx = c.Id,
-                            Name = c.Name,
-                            Amount = c.Amount,
-                            IsSaleItem = c.IsSaleItem[0],
-                            Period = c.Period,
-                            Days = c.Days,
-                        });
+                            membresias.Add(new Membresia
+                            {
+                                IdDx = c.Id,
+                                Name = c.Name,
+                                Amount = double.Parse(c.Amount),
+                                IsSaleItem = c.IsSaleItem[0],
+                                Period = int.Parse(c.Period),
+                                Days = 0,
+                            });
+                            
+                        }
+                        else
+                        {
+                            membresias.Add(new Membresia
+                            {
+                                IdDx = c.Id,
+                                Name = c.Name,
+                                Amount = double.Parse(c.Amount),
+                                IsSaleItem = c.IsSaleItem[0],
+                                Period = int.Parse(c.Period),
+                                Days = int.Parse(c.Days),
+                            });
+
+                        }
+                       
                         break;
-                    case "T":
+                    case "t":
                         articulos.Add(new Articulo
                         {
                             IdDx = c.Id,
@@ -183,7 +204,7 @@ namespace DeportNetReconocimiento.Api.Services
         {
             using var transaction = await _bdContext.Database.BeginTransactionAsync(); // Iniciar transacción
             try
-            {
+            {   
                 await VerificarCambiosEnTablaMembresias(listadoMembresias);
 
                 //Guardamos los cambios
