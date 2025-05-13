@@ -16,7 +16,7 @@ namespace DeportNetReconocimiento.Api.Data.Dtos.Dx.Socios
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? IdNumber { get; set; }
-        public DateTime? BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
         public string? Cellphone { get; set; }
         public string? IsActive { get; set; } // '1' = Activo, '0' = Inactivo
         public string? CardNumber { get; set; }

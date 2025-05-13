@@ -28,29 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             dataGridView1 = new DataGridView();
-            columnaNombreYApellido = new DataGridViewTextBoxColumn();
-            ColumnaNroTarjeta = new DataGridViewTextBoxColumn();
-            ColumnaDni = new DataGridViewTextBoxColumn();
-            ColumnaEmail = new DataGridViewTextBoxColumn();
-            ColumnaEdad = new DataGridViewTextBoxColumn();
-            ColumnaSexo = new DataGridViewTextBoxColumn();
-            ColumnaCategoria = new DataGridViewTextBoxColumn();
-            ColumnaEstado = new DataGridViewTextBoxColumn();
             ColumnaCobro = new DataGridViewButtonColumn();
             ColumnaVenta = new DataGridViewButtonColumn();
             label1 = new Label();
             button1 = new Button();
-            textBox3 = new TextBox();
-            textBox2 = new TextBox();
-            textBox1 = new TextBox();
-            comboBox2 = new ComboBox();
+            textBoxApellidoNombre = new TextBox();
+            textBoxEmail = new TextBox();
+            textBoxNroTarjeta = new TextBox();
+            comboBoxEstado = new ComboBox();
             tableLayoutPanel1 = new TableLayoutPanel();
             panel1 = new Panel();
             panel3 = new Panel();
             button2 = new Button();
-            comboBox1 = new ComboBox();
             panel2 = new Panel();
             labelCantPaginas = new Label();
             botonAntPaginacion = new Button();
@@ -69,17 +60,17 @@
             dataGridView1.AllowUserToOrderColumns = true;
             dataGridView1.AllowUserToResizeColumns = false;
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { columnaNombreYApellido, ColumnaNroTarjeta, ColumnaDni, ColumnaEmail, ColumnaEdad, ColumnaSexo, ColumnaCategoria, ColumnaEstado, ColumnaCobro, ColumnaVenta });
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Window;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
-            dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ColumnaCobro, ColumnaVenta });
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.Location = new Point(17, 3);
             dataGridView1.Margin = new Padding(0);
             dataGridView1.Name = "dataGridView1";
@@ -87,83 +78,6 @@
             dataGridView1.Size = new Size(1131, 504);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += DataGridView1_CellClick;
-            dataGridView1.Paint += DataGridView1_Paint;
-            // 
-            // columnaNombreYApellido
-            // 
-            columnaNombreYApellido.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            columnaNombreYApellido.FillWeight = 69.0842F;
-            columnaNombreYApellido.HeaderText = "Nombre y Apellido";
-            columnaNombreYApellido.Name = "columnaNombreYApellido";
-            columnaNombreYApellido.ReadOnly = true;
-            columnaNombreYApellido.Resizable = DataGridViewTriState.False;
-            // 
-            // ColumnaNroTarjeta
-            // 
-            ColumnaNroTarjeta.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ColumnaNroTarjeta.FillWeight = 69.0842F;
-            ColumnaNroTarjeta.HeaderText = "Nro. Tarjeta";
-            ColumnaNroTarjeta.Name = "ColumnaNroTarjeta";
-            ColumnaNroTarjeta.ReadOnly = true;
-            ColumnaNroTarjeta.Resizable = DataGridViewTriState.False;
-            // 
-            // ColumnaDni
-            // 
-            ColumnaDni.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ColumnaDni.FillWeight = 69.0842F;
-            ColumnaDni.HeaderText = "DNI";
-            ColumnaDni.Name = "ColumnaDni";
-            ColumnaDni.ReadOnly = true;
-            ColumnaDni.Resizable = DataGridViewTriState.False;
-            // 
-            // ColumnaEmail
-            // 
-            ColumnaEmail.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ColumnaEmail.FillWeight = 69.0842F;
-            ColumnaEmail.HeaderText = "Email";
-            ColumnaEmail.Name = "ColumnaEmail";
-            ColumnaEmail.ReadOnly = true;
-            ColumnaEmail.Resizable = DataGridViewTriState.False;
-            // 
-            // ColumnaEdad
-            // 
-            ColumnaEdad.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            ColumnaEdad.FillWeight = 187.9842F;
-            ColumnaEdad.HeaderText = "Edad";
-            ColumnaEdad.Name = "ColumnaEdad";
-            ColumnaEdad.ReadOnly = true;
-            ColumnaEdad.Resizable = DataGridViewTriState.False;
-            ColumnaEdad.Width = 80;
-            // 
-            // ColumnaSexo
-            // 
-            ColumnaSexo.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            ColumnaSexo.FillWeight = 228.426422F;
-            ColumnaSexo.HeaderText = "Sexo";
-            ColumnaSexo.Name = "ColumnaSexo";
-            ColumnaSexo.ReadOnly = true;
-            ColumnaSexo.Resizable = DataGridViewTriState.False;
-            ColumnaSexo.Width = 80;
-            // 
-            // ColumnaCategoria
-            // 
-            ColumnaCategoria.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            ColumnaCategoria.FillWeight = 69.0842F;
-            ColumnaCategoria.HeaderText = "Categoria";
-            ColumnaCategoria.Name = "ColumnaCategoria";
-            ColumnaCategoria.ReadOnly = true;
-            ColumnaCategoria.Resizable = DataGridViewTriState.False;
-            ColumnaCategoria.Width = 110;
-            // 
-            // ColumnaEstado
-            // 
-            ColumnaEstado.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            ColumnaEstado.FillWeight = 69.0842F;
-            ColumnaEstado.HeaderText = "Estado";
-            ColumnaEstado.Name = "ColumnaEstado";
-            ColumnaEstado.ReadOnly = true;
-            ColumnaEstado.Resizable = DataGridViewTriState.False;
-            ColumnaEstado.Width = 148;
             // 
             // ColumnaCobro
             // 
@@ -206,53 +120,53 @@
             button1.TabIndex = 5;
             button1.Text = "Buscar";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
-            // textBox3
+            // textBoxApellidoNombre
             // 
-            textBox3.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox3.Location = new Point(11, 89);
-            textBox3.MaxLength = 100;
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(278, 25);
-            textBox3.TabIndex = 4;
-            textBox3.Enter += textBox3_Enter;
-            textBox3.Leave += textBox3_Leave;
+            textBoxApellidoNombre.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxApellidoNombre.Location = new Point(11, 89);
+            textBoxApellidoNombre.MaxLength = 100;
+            textBoxApellidoNombre.Name = "textBoxApellidoNombre";
+            textBoxApellidoNombre.Size = new Size(278, 25);
+            textBoxApellidoNombre.TabIndex = 4;
+            textBoxApellidoNombre.Enter += textBox3_Enter;
+            textBoxApellidoNombre.Leave += textBox3_Leave;
             // 
-            // textBox2
+            // textBoxEmail
             // 
-            textBox2.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox2.Location = new Point(308, 88);
-            textBox2.MaxLength = 100;
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(258, 25);
-            textBox2.TabIndex = 3;
-            textBox2.Enter += textBox2_Enter;
-            textBox2.Leave += textBox2_Leave;
+            textBoxEmail.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxEmail.Location = new Point(308, 88);
+            textBoxEmail.MaxLength = 100;
+            textBoxEmail.Name = "textBoxEmail";
+            textBoxEmail.Size = new Size(258, 25);
+            textBoxEmail.TabIndex = 3;
+            textBoxEmail.Enter += textBox2_Enter;
+            textBoxEmail.Leave += textBox2_Leave;
             // 
-            // textBox1
+            // textBoxNroTarjeta
             // 
-            textBox1.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(420, 53);
-            textBox1.MaxLength = 11;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(146, 25);
-            textBox1.TabIndex = 2;
-            textBox1.TextChanged += textBox1_TextChanged;
-            textBox1.Enter += textBox1_Enter;
-            textBox1.Leave += textBox1_Leave;
+            textBoxNroTarjeta.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxNroTarjeta.Location = new Point(180, 54);
+            textBoxNroTarjeta.MaxLength = 11;
+            textBoxNroTarjeta.Name = "textBoxNroTarjeta";
+            textBoxNroTarjeta.Size = new Size(146, 25);
+            textBoxNroTarjeta.TabIndex = 2;
+            textBoxNroTarjeta.Enter += textBox1_Enter;
+            textBoxNroTarjeta.Leave += textBox1_Leave;
             // 
-            // comboBox2
+            // comboBoxEstado
             // 
-            comboBox2.BackColor = SystemColors.Window;
-            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox2.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "Actívos e inactivos", "Solo activos", "Solo inactivos" });
-            comboBox2.Location = new Point(253, 53);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(131, 25);
-            comboBox2.Sorted = true;
-            comboBox2.TabIndex = 1;
+            comboBoxEstado.BackColor = SystemColors.Window;
+            comboBoxEstado.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxEstado.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBoxEstado.FormattingEnabled = true;
+            comboBoxEstado.Items.AddRange(new object[] { "Actívos e inactivos", "Solo activos", "Solo inactivos" });
+            comboBoxEstado.Location = new Point(13, 54);
+            comboBoxEstado.Name = "comboBoxEstado";
+            comboBoxEstado.Size = new Size(131, 25);
+            comboBoxEstado.Sorted = true;
+            comboBoxEstado.TabIndex = 1;
             // 
             // tableLayoutPanel1
             // 
@@ -291,11 +205,10 @@
             panel3.Controls.Add(button2);
             panel3.Controls.Add(label1);
             panel3.Controls.Add(button1);
-            panel3.Controls.Add(comboBox1);
-            panel3.Controls.Add(textBox3);
-            panel3.Controls.Add(textBox1);
-            panel3.Controls.Add(textBox2);
-            panel3.Controls.Add(comboBox2);
+            panel3.Controls.Add(textBoxApellidoNombre);
+            panel3.Controls.Add(textBoxNroTarjeta);
+            panel3.Controls.Add(textBoxEmail);
+            panel3.Controls.Add(comboBoxEstado);
             panel3.Location = new Point(17, 11);
             panel3.Margin = new Padding(0);
             panel3.Name = "panel3";
@@ -311,20 +224,6 @@
             button2.Text = "Nuevo legajo";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
-            // 
-            // comboBox1
-            // 
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Categoría de socio " });
-            comboBox1.Location = new Point(11, 53);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(200, 25);
-            comboBox1.TabIndex = 3;
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            comboBox1.Enter += ComboBox1_Enter;
-            comboBox1.Leave += ComboBox1_Leave;
             // 
             // panel2
             // 
@@ -361,6 +260,7 @@
             botonAntPaginacion.TabIndex = 2;
             botonAntPaginacion.Text = "<--";
             botonAntPaginacion.UseVisualStyleBackColor = true;
+            botonAntPaginacion.Click += botonAntPaginacion_Click;
             // 
             // botonSgtPaginacion
             // 
@@ -371,6 +271,7 @@
             botonSgtPaginacion.TabIndex = 1;
             botonSgtPaginacion.Text = "-->";
             botonSgtPaginacion.UseVisualStyleBackColor = true;
+            botonSgtPaginacion.Click += botonSgtPaginacion_Click;
             // 
             // VistaSocios
             // 
@@ -396,10 +297,10 @@
         #endregion
 
         private DataGridView dataGridView1;
-        private ComboBox comboBox2;
-        private TextBox textBox3;
-        private TextBox textBox2;
-        private TextBox textBox1;
+        private ComboBox comboBoxEstado;
+        private TextBox textBoxApellidoNombre;
+        private TextBox textBoxEmail;
+        private TextBox textBoxNroTarjeta;
         private Button button1;
         private Label label1;
         private TableLayoutPanel tableLayoutPanel1;
@@ -410,16 +311,7 @@
         private Label labelCantPaginas;
         private Button button2;
         private Panel panel3;
-        private DataGridViewTextBoxColumn columnaNombreYApellido;
-        private DataGridViewTextBoxColumn ColumnaNroTarjeta;
-        private DataGridViewTextBoxColumn ColumnaDni;
-        private DataGridViewTextBoxColumn ColumnaEmail;
-        private DataGridViewTextBoxColumn ColumnaEdad;
-        private DataGridViewTextBoxColumn ColumnaSexo;
-        private DataGridViewTextBoxColumn ColumnaCategoria;
-        private DataGridViewTextBoxColumn ColumnaEstado;
         private DataGridViewButtonColumn ColumnaCobro;
         private DataGridViewButtonColumn ColumnaVenta;
-        internal ComboBox comboBox1;
     }
 }

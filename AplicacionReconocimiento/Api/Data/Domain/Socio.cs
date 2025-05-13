@@ -45,7 +45,7 @@ namespace DeportNetReconocimiento.Api.Data.Domain
 
         [Column("birth_date")]
         [AllowNull]
-        public DateTime? BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
         [Column("cellphone")]
         [StringLength(50)]
@@ -87,7 +87,7 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         public string? IsValid { get; set; } // Validación previa
 
         public Socio() { }
-        public Socio(int? idDx, string email, string firstName, string lastName, string? idNumber, DateTime? birthDate, string? cellphone, string? isActive, string? cardNumber, string? address, string? addressFloor, string? imageUrl, string? gender, string? isValid)
+        public Socio(int? idDx, string email, string firstName, string lastName, string? idNumber, DateTime birthDate, string? cellphone, string? isActive, string? cardNumber, string? address, string? addressFloor, string? imageUrl, string? gender, string? isValid)
         {
             IdDx = idDx;
             Email = email;

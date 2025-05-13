@@ -30,10 +30,11 @@ namespace DeportNetReconocimiento
 
             /*Cargar BD*/
             apiServer.CargarBd();
-            
+
 
 
             //iniciazamos la ventana principal de acceso
+            //modulo de acceso
             Application.Run(new WFSeleccionarUsuario());
 
 

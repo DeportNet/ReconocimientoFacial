@@ -448,7 +448,7 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
-        Image ObtenerFotoCliente(int nroLector, string idCliente)
+        public Image ObtenerFotoCliente(int nroLector, string idCliente)
         {
             Image imagen = Resources.avatarPredeterminado;
             //Se obtiene la foto del cliente
@@ -460,11 +460,14 @@ namespace DeportNetReconocimiento.GUI
                 try
                 {
                     string ruta = Path.Combine(Directory.GetCurrentDirectory(), "FacePicture.jpg");
-                    imagen = Image.FromFile(ruta);
+                    using (FileStream fs = new FileStream(ruta, FileMode.Open, FileAccess.Read))
+                    {
+                        imagen = Image.FromStream(fs);
+                    }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("No se pudo obtener foto cliente");
+                    Console.WriteLine("No se pudo obtener foto cliente: "+ex.Message);
                     imagen = Resources.avatarPredeterminado;
                 }
             }
@@ -473,7 +476,7 @@ namespace DeportNetReconocimiento.GUI
             return imagen;
         }
 
-        Image? CapturarFotoCliente()
+        public Image? CapturarFotoCliente()
         {
             Image imagen = null;
 

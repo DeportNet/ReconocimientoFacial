@@ -158,7 +158,7 @@ namespace DeportNetReconocimiento.SDK
             uint nroError = Hik_SDK.NET_DVR_GetLastError();
             string mensajeDeSdk = "";
 
-            Console.WriteLine("(BORRAR)Nro de error de login: " + nroError);
+            //Console.WriteLine("(BORRAR)Nro de error de login: " + nroError);
             switch (nroError)
             {
                 case Hik_SDK.NET_DVR_PASSWORD_ERROR:

@@ -1,4 +1,9 @@
-﻿using System;
+﻿using DeportnetOffline.Data.Dto.Table;
+using DeportnetOffline.Data.Mapper;
+using DeportNetReconocimiento.Api.BD;
+using DeportNetReconocimiento.Api.Data.Domain;
+using DeportNetReconocimiento.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,36 +17,51 @@ namespace DeportnetOffline
 {
     public partial class VistaCobros : UserControl
     {
+        private int PaginaActual;
+        private int TotalPaginas;
+        private int TamanioPagina;
+        private BdContext Context = BdContext.CrearContexto();
+
         public VistaCobros()
         {
             InitializeComponent();
-            int paginaActual = 1;
-            int filasPorPagina = 5;
-            int registros = 10;
-            labelCantPaginas.Text = $"Página {paginaActual} de 50";
+            PaginaActual = 1;
+            TotalPaginas = 1;
+            TamanioPagina = 20;
+
+            CargarDatos(PaginaActual, TamanioPagina);
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
+        //paginado
+
+        public void CargarDatos(int paginaActual, int tamanioPagina)
+        {
+                      
+            PaginadoResultado<Venta> paginaVentas = PaginadorUtils.ObtenerPaginadoAsync(Context.Ventas, paginaActual, tamanioPagina).Result;
+    
+            CambiarInformacionPagina(paginaVentas);
+    
+            //todo hacer el mapper
+            
+            dataGridView1.DataSource = TablaMapper.ListaCobroToListaInformacionTablaCobro(paginaVentas.Items);
+        }
+
+        private void CambiarInformacionPagina(PaginadoResultado<Venta> paginaSocios) 
+        {
+            TotalPaginas = paginaSocios.TotalPaginas;
+            PaginaActual = paginaSocios.PaginaActual;
+
+            labelCantPaginas.Text = $"Página {PaginaActual} de {TotalPaginas}";
+        }
+
+        //cambiar pagina
+
+        private void botonSgtPaginacion_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox5_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
+        private void botonAntPaginacion_Click(object sender, EventArgs e)
         {
 
         }

@@ -24,8 +24,6 @@ namespace DeportNetReconocimiento.Api.Controllers
             [FromQuery] string nombreCliente
             )
         {
-
-
             if (idCliente == null || idSucursal == null || nombreCliente == null)
             {
                 return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
@@ -41,9 +39,6 @@ namespace DeportNetReconocimiento.Api.Controllers
             [FromQuery] int idSucursal
             )
         {
-
-          
-
             if (idCliente == null || idSucursal == null)
             {
                 return BadRequest("El cuerpo de la solicitud no puede estar vacío.");

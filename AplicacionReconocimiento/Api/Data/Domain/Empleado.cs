@@ -58,8 +58,6 @@ namespace DeportNetReconocimiento.Api.Data.Domain
 
         public string JuntarNombreYApellido()
         {
-            Console.WriteLine("Entro a poner nombre compleo");
-            Console.WriteLine(FirstName + " " + LastName);
             return FirstName + " " + LastName;
         }
 

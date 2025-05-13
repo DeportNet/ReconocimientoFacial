@@ -4,7 +4,9 @@ using DeportNetReconocimiento.Api.Data.Repository;
 using DeportNetReconocimiento.Api.Services;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
+using Windows.Foundation.Metadata;
 
 
 namespace DeportnetOffline.GUI.Modales
@@ -53,19 +55,10 @@ namespace DeportnetOffline.GUI.Modales
 
         private void textBoxNombre_Validating(object sender, CancelEventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxNombre.Text))
-            {
-                return;
-            }
 
-            if (!EsTextoValido(textBoxNombre.Text))
-            {
-                MessageBox.Show("El nombre no puede contener números", "Nombre invalido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                textBoxNombre.Text = "";
-                textBoxNombre_Leave(this, EventArgs.Empty);
-            }
+            ValidarCampo(textBoxNombre, labelErrorNombre, EsTextoValido, "Nombre", true);
+
         }
-
         // Eventos de Apellido
 
 
@@ -89,16 +82,8 @@ namespace DeportnetOffline.GUI.Modales
 
         private void textBoxApellido_Validating(object sender, CancelEventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxApellido.Text))
-            {
-                return;
-            }
-            if (!EsTextoValido(textBoxApellido.Text))
-            {
-                MessageBox.Show("El apellido no puede contener números", "Apellido invalido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                textBoxApellido.Text = "";
-                textBoxApellido_Leave(this, EventArgs.Empty);
-            }
+
+            ValidarCampo(textBoxApellido, labelErrorApellido, EsTextoValido, "Apellido", true);
 
         }
 
@@ -120,10 +105,9 @@ namespace DeportnetOffline.GUI.Modales
             {
                 textBoxEmail.Text = "Email";
                 textBoxEmail.ForeColor = Color.Gray; // Color del placeholder
+                labelEmailError.Visible = false;
             }
         }
-
-
 
         private void textBoxEmail_Validating(object sender, CancelEventArgs e)
         {
@@ -131,16 +115,9 @@ namespace DeportnetOffline.GUI.Modales
             {
                 return;
             }
-            if (string.IsNullOrEmpty(textBoxEmail.Text))
-            {
-                return;
-            }
-            if (!EsEmailValido(textBoxEmail.Text))
-            {
-                MessageBox.Show("Recuerde que el email debe contener '@', un dominio y una extensión", "Email invalido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                textBoxEmail.Text = "";
-                textBoxEmail_Leave(this, EventArgs.Empty);
-            }
+
+            ValidarCampo(textBoxEmail, labelEmailError, EsEmailValido, "Email", true);
+
         }
 
 
@@ -162,6 +139,7 @@ namespace DeportnetOffline.GUI.Modales
             {
                 textBoxTelefono.Text = "Telefono";
                 textBoxTelefono.ForeColor = Color.Gray; // Color del placeholder
+                labelTelefonoError.Visible = false;
             }
         }
 
@@ -171,17 +149,9 @@ namespace DeportnetOffline.GUI.Modales
             {
                 return;
             }
-            if (string.IsNullOrEmpty(textBoxTelefono.Text))
-            {
-                return;
-            }
 
-            if (!EsNumeroValido(textBoxTelefono.Text))
-            {
-                MessageBox.Show("El teléfono solo puede contener números", "Teléfono invalido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                textBoxTelefono.Text = "";
-                textBoxTelefono_Leave(this, EventArgs.Empty);
-            }
+            ValidarCampo(textBoxTelefono, labelTelefonoError, EsNumeroValido, "Telefono", false);
+
         }
 
 
@@ -202,11 +172,12 @@ namespace DeportnetOffline.GUI.Modales
             {
                 textBoxDireccion.Text = "Direccion";
                 textBoxDireccion.ForeColor = Color.Gray; // Color del placeholder
+                labelDireccionError.Visible = false;
             }
         }
         private void textBoxDireccionConPiso_Enter(object sender, EventArgs e)
         {
-            if (textBoxPiso.Text == "Piso/Dep.")
+            if (textBoxPiso.Text == "Dep")
             {
                 textBoxPiso.Text = "";
                 textBoxPiso.ForeColor = Color.Black; // Color del texto cuando el usuario escribe
@@ -218,37 +189,24 @@ namespace DeportnetOffline.GUI.Modales
         {
             if (string.IsNullOrWhiteSpace(textBoxPiso.Text))
             {
-                textBoxPiso.Text = "Piso/Dep.";
+                textBoxPiso.Text = "Dep";
                 textBoxPiso.ForeColor = Color.Gray; // Color del placeholder
+                labelPisoDepartamentoError.Visible = false;
             }
         }
 
         private void textBoxDireccion_Validating(object sender, CancelEventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxDireccion.Text))
-            {
-                return;
-            }
-            if (!EsLetrasNumerosEspaciosValido(textBoxDireccion.Text))
-            {
-                MessageBox.Show("La dirección no puede contener caracteres especiales", "Dirección invalido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                textBoxDireccion.Text = "";
-                textBoxDireccion_Leave(this, EventArgs.Empty);
-            }
+
+            ValidarCampo(textBoxDireccion, labelDireccionError, EsLetrasNumerosEspaciosValido, "Dep", false);
+
         }
 
         private void textBoxPiso_Validating(object sender, CancelEventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxPiso.Text))
-            {
-                return;
-            }
-            if (!EsLetrasNumerosEspaciosValido(textBoxDireccion.Text))
-            {
-                MessageBox.Show("El piso no puede contener caracteres especiales", "Piso invalido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                textBoxPiso.Text = "";
-                textBoxDireccionConPiso_Leave(this, EventArgs.Empty);
-            }
+
+            ValidarCampo(textBoxPiso, labelPisoDepartamentoError, EsLetrasNumerosEspaciosValido, "Direccion", false);
+
         }
 
         // Eventos de Tarjeta
@@ -268,20 +226,14 @@ namespace DeportnetOffline.GUI.Modales
             {
                 textBoxNroTarjeta.Text = "Tarjeta";
                 textBoxNroTarjeta.ForeColor = Color.Gray; // Color del placeholder
+                labelNroTarjetaError.Visible = false;
             }
         }
         private void textBoxNroTarjeta_Validating(object sender, CancelEventArgs e)
         {
-            if (!string.IsNullOrEmpty(textBoxNroTarjeta.Text))
-            {
-                return;
-            }
-            if (!EsNumeroValido(textBoxNroTarjeta.Text))
-            {
-                MessageBox.Show("La tarjeta solo puede contener números", "Tarjeta invalido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                textBoxNroTarjeta.Text = "";
-                textBoxNroTarjeta_Leave(this, EventArgs.Empty);
-            }
+
+            ValidarCampo(textBoxNroTarjeta, labelNroTarjetaError, EsNumeroValido, "Tarjeta", false);
+
 
         }
 
@@ -290,14 +242,149 @@ namespace DeportnetOffline.GUI.Modales
 
         private void dateTimePickerFechaNacimiento_Validating(object sender, CancelEventArgs e)
         {
-            if (!EsFechaValida(dateTimePickerFechaNacimiento.Value))
+
+            ValidarFecha();
+            
+        }
+
+        private async void buttonGuardarLegajo_Click(object sender, EventArgs e)
+        {
+            if (ValidarTodosLosCampos())
             {
-                MessageBox.Show("Seleccione una fecha anterior a hoy", "Fecha invalida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                dateTimePickerFechaNacimiento.Value = DateTime.Today;
+                Socio socio = ObtenerSocio();
+                socio = FormatearSocio(socio);
+                bool resultado = await SocioRepository.InsertarUnSocioEnTabla(socio);
+                LimpiarLabels();
+                MessageBox.Show("Socio agregado con exito", "Socio registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Console.WriteLine(resultado ? $"El socio  {socio.FirstName + ' ' + socio.LastName} se insertó correctamente en la base de datos" : $"Error al insertar al socio {socio.FirstName + ' ' + socio.LastName} en la base de datos");
+                this.Close();
             }
         }
 
+
+        public Socio FormatearSocio(Socio socio)
+        {
+            socio.FirstName = MayusculaEnNombres(socio.FirstName);
+            socio.LastName = MayusculaEnNombres(socio.LastName);
+            socio.Address = MayusculaEnNombres(socio.Address);
+
+            if(socio.Address == "Direccion")
+                socio.Address = "";
+            if (socio.Cellphone == "Telefono")
+                socio.Cellphone = "";
+            if (socio.AddressFloor == "Dep")
+                socio.AddressFloor = "";
+            if (socio.CardNumber == "Tarjeta")  
+                socio.CardNumber = "";
+
+            return socio;
+        }
+       
+        private string MayusculaEnNombres(string nombre)
+        {
+            string[] nombres = nombre.ToLower().Split(" ");
+
+            for(int i = 0; i < nombres.Length; i++)
+            {
+                nombres[i] = char.ToUpper(nombres[i][0]) + nombres[i].Substring(1);
+            }
+
+            return string.Join(" ", nombres);
+        }
+
+        public Socio ObtenerSocio()
+        {
+            return new Socio
+            {
+                FirstName = textBoxNombre.Text,
+                LastName = textBoxApellido.Text,
+                Gender = comboBoxGenero.SelectedItem.ToString(),
+                BirthDate = dateTimePickerFechaNacimiento.Value,
+                Email = textBoxEmail.Text,
+                Cellphone = textBoxTelefono.Text,
+                Address = textBoxDireccion.Text,
+                AddressFloor = textBoxPiso.Text,
+                CardNumber = textBoxNroTarjeta.Text
+            };
+        }
+
+        private void LimpiarLabels()
+        {
+            textBoxPiso.Text = "";
+            textBoxTelefono.Text = "";
+            textBoxApellido.Text = "";
+            textBoxNombre.Text = "";
+            textBoxEmail.Text = "";
+            textBoxNroTarjeta.Text = "";
+            textBoxDireccion.Text = "";
+            dateTimePickerFechaNacimiento.Value = DateTime.Now;
+            comboBoxGenero.SelectedIndex = 0;
+        }
+
+
+
+
         //Validaciones 
+
+        private bool ValidarTodosLosCampos()
+        {
+            bool esValido = true;
+
+            esValido &= ValidarCampo(textBoxNombre, labelErrorNombre, EsTextoValido, "Nombre", true);
+            esValido &= ValidarCampo(textBoxApellido, labelErrorApellido, EsTextoValido, "Apellido", true);
+            esValido &= ValidarCampo(textBoxEmail, labelEmailError, EsEmailValido, "Email", true);
+            esValido &= ValidarCampo(textBoxTelefono, labelTelefonoError, EsNumeroValido, "Telefono", false);
+            esValido &= ValidarCampo(textBoxDireccion, labelDireccionError, EsLetrasNumerosEspaciosValido, "Direccion", false);
+            esValido &= ValidarCampo(textBoxPiso, labelPisoDepartamentoError, EsLetrasNumerosEspaciosValido, "Dep", false);
+            esValido &= ValidarCampo(textBoxNroTarjeta, labelNroTarjetaError, EsNumeroValido, "Tarjeta", false);
+            esValido &= ValidarFecha();
+
+            return esValido;
+        }
+        private bool ValidarCampo(TextBox textBox, Label labelError, Func<string, bool> funcionValidacion, string placeholder, bool requerido)
+        {
+
+            if(string.IsNullOrWhiteSpace(textBox.Text) || textBox.Text == placeholder && requerido == false) {
+                labelError.Visible = false;
+                Console.WriteLine("Entro en la validacion 1");
+                return true;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBox.Text) || !funcionValidacion(textBox.Text) || textBox.Text == placeholder)
+            {
+                labelError.Visible = true;
+                Console.WriteLine("Entro en la validacion 2");
+
+                return false;
+            }
+            else
+            {
+                labelError.Visible = false;
+                Console.WriteLine("Entro en la validacion 3");
+
+                return true;
+            }
+        }
+
+
+
+
+        private bool ValidarFecha()
+        {
+            bool esValido = true;
+            if (!EsFechaValida(dateTimePickerFechaNacimiento.Value))
+            {
+                labelFechaNacimientoError.Visible = true;
+                esValido = false;
+            }
+            else
+            {
+                labelFechaNacimientoError.Visible = false;
+            }
+
+            return esValido;
+        }
+
 
         private bool EsEmailValido(string email)
         {
@@ -336,25 +423,11 @@ namespace DeportnetOffline.GUI.Modales
             //BdContext context = new BdContext(new DbContextOptions<BdContext>());
             using(var context = BdContext.CrearContexto())
             {
-
-            var socioRepository = new SocioRepository(context);
-            Socio socio = new Socio
-            {
-                FirstName = textBoxNombre.Text,
-                LastName = textBoxApellido.Text,
-                Gender = comboBoxGenero.SelectedItem.ToString(),
-                BirthDate = dateTimePickerFechaNacimiento.Value,
-                Email = textBoxEmail.Text,
-                Cellphone = textBoxTelefono.Text,
-                Address = textBoxDireccion.Text,
-                AddressFloor = textBoxPiso.Text,
-                CardNumber = textBoxNroTarjeta.Text
-            };
-
                  bool resultado = await socioRepository.InsertarUnSocioEnTabla( socio );
 
                Console.WriteLine(resultado ? $"El socio  {socio.FirstName + ' ' + socio.LastName} se insertó correctamente en la base de datos" : $"Error al insertar al socio {socio.FirstName + ' ' + socio.LastName} en la base de datos");
             }
         }
+
     }
 }

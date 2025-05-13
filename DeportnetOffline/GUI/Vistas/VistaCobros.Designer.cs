@@ -36,6 +36,7 @@
             botonAntPaginacion = new Button();
             botonSgtPaginacion = new Button();
             dataGridView1 = new DataGridView();
+            IdSocio = new DataGridViewTextBoxColumn();
             columnaSocio = new DataGridViewTextBoxColumn();
             columnaServicioArticulo = new DataGridViewTextBoxColumn();
             columnaMonto = new DataGridViewTextBoxColumn();
@@ -85,7 +86,6 @@
             label1.TabIndex = 0;
             label1.Text = "Cobros offline";
             label1.TextAlign = ContentAlignment.MiddleCenter;
-            label1.Click += label1_Click;
             // 
             // panel2
             // 
@@ -119,6 +119,7 @@
             botonAntPaginacion.TabIndex = 8;
             botonAntPaginacion.Text = "<--";
             botonAntPaginacion.UseVisualStyleBackColor = true;
+            botonAntPaginacion.Click += botonAntPaginacion_Click;
             // 
             // botonSgtPaginacion
             // 
@@ -129,6 +130,7 @@
             botonSgtPaginacion.TabIndex = 7;
             botonSgtPaginacion.Text = "-->";
             botonSgtPaginacion.UseVisualStyleBackColor = true;
+            botonSgtPaginacion.Click += botonSgtPaginacion_Click;
             // 
             // dataGridView1
             // 
@@ -140,13 +142,18 @@
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { columnaSocio, columnaServicioArticulo, columnaMonto, columnaFechaHora, columanSincronizado, columnaFechaHoraSincro });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { IdSocio, columnaSocio, columnaServicioArticulo, columnaMonto, columnaFechaHora, columanSincronizado, columnaFechaHoraSincro });
             dataGridView1.Location = new Point(154, 3);
             dataGridView1.Margin = new Padding(0);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.Size = new Size(831, 505);
             dataGridView1.TabIndex = 0;
+            // 
+            // IdSocio
+            // 
+            IdSocio.HeaderText = "Id Socio";
+            IdSocio.Name = "IdSocio";
             // 
             // columnaSocio
             // 
@@ -184,14 +191,14 @@
             columnaFechaHoraSincro.Name = "columnaFechaHoraSincro";
             columnaFechaHoraSincro.ReadOnly = true;
             // 
-            // VisataCobros
+            // VistaCobros
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             Controls.Add(tableLayoutPanel1);
             Margin = new Padding(0);
-            Name = "VisataCobros";
+            Name = "VistaCobros";
             Size = new Size(1106, 706);
             tableLayoutPanel1.ResumeLayout(false);
             panel1.ResumeLayout(false);
@@ -208,14 +215,15 @@
         private Label label1;
         private Panel panel2;
         private DataGridView dataGridView1;
+        private Label labelCantPaginas;
+        private Button botonAntPaginacion;
+        private Button botonSgtPaginacion;
+        private DataGridViewTextBoxColumn IdSocio;
         private DataGridViewTextBoxColumn columnaSocio;
         private DataGridViewTextBoxColumn columnaServicioArticulo;
         private DataGridViewTextBoxColumn columnaMonto;
         private DataGridViewTextBoxColumn columnaFechaHora;
         private DataGridViewTextBoxColumn columanSincronizado;
         private DataGridViewTextBoxColumn columnaFechaHoraSincro;
-        private Label labelCantPaginas;
-        private Button botonAntPaginacion;
-        private Button botonSgtPaginacion;
     }
 }

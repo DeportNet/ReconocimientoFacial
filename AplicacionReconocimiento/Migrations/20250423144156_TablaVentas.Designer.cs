@@ -3,6 +3,7 @@ using System;
 using DeportNetReconocimiento.Api.BD;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeportNetReconocimiento.Migrations
 {
     [DbContext(typeof(BdContext))]
-    partial class BdContextModelSnapshot : ModelSnapshot
+    [Migration("20250423144156_TablaVentas")]
+    partial class TablaVentas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
@@ -77,10 +80,9 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("id");
 
-                    b.Property<string>("Amount")
-                        .IsRequired()
+                    b.Property<double>("Amount")
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("REAL")
                         .HasColumnName("amount");
 
                     b.Property<int>("IdDx")
@@ -275,14 +277,13 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("id");
 
-                    b.Property<string>("Amount")
-                        .IsRequired()
+                    b.Property<double>("Amount")
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("REAL")
                         .HasColumnName("amount");
 
-                    b.Property<string>("Days")
-                        .HasColumnType("TEXT")
+                    b.Property<int>("Days")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("days");
 
                     b.Property<int>("IdDx")
@@ -299,8 +300,8 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("name");
 
-                    b.Property<string>("Period")
-                        .HasColumnType("TEXT")
+                    b.Property<int>("Period")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("period");
 
                     b.HasKey("Id");
@@ -388,51 +389,6 @@ namespace DeportNetReconocimiento.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("socios", (string)null);
-                });
-
-            modelBuilder.Entity("DeportNetReconocimiento.Api.Data.Domain.Venta", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("id");
-
-                    b.Property<int?>("BranchMemberId")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("branch_member_id");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("date");
-
-                    b.Property<int?>("Days")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("days");
-
-                    b.Property<char>("IsSaleItem")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("is_sale_item");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("item_id");
-
-                    b.Property<int?>("Period")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("period");
-
-                    b.Property<string>("Synchronized")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("synchronized");
-
-                    b.Property<DateTime?>("syncronized_date")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("syncronized_date");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ventas");
                 });
 
             modelBuilder.Entity("DeportNetReconocimiento.Api.Data.Domain.AccesoSocio", b =>
