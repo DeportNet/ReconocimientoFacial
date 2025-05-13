@@ -96,37 +96,16 @@ namespace DeportNetReconocimiento.Api.Services
 
                 switch (c.IsSaleItem.ToLower())
                 {
-
-
                     case "f":
-
-                        if(c.Days == null)
+                        membresias.Add(new Membresia
                         {
-                            membresias.Add(new Membresia
-                            {
-                                IdDx = c.Id,
-                                Name = c.Name,
-                                Amount = double.Parse(c.Amount),
-                                IsSaleItem = c.IsSaleItem[0],
-                                Period = int.Parse(c.Period),
-                                Days = 0,
-                            });
-                            
-                        }
-                        else
-                        {
-                            membresias.Add(new Membresia
-                            {
-                                IdDx = c.Id,
-                                Name = c.Name,
-                                Amount = double.Parse(c.Amount),
-                                IsSaleItem = c.IsSaleItem[0],
-                                Period = int.Parse(c.Period),
-                                Days = int.Parse(c.Days),
-                            });
-
-                        }
-                       
+                            IdDx = c.Id,
+                            Name = c.Name,
+                            Amount = c.Amount,
+                            IsSaleItem = c.IsSaleItem[0],
+                            Period = c.Period,
+                            Days = c.Days,
+                        });
                         break;
                     case "t":
                         articulos.Add(new Articulo
