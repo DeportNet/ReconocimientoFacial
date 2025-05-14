@@ -21,7 +21,7 @@ namespace DeportNetReconocimiento.GUI
             this.configuracion = configuracionEstilos;
             this.principal = principal;
             _credenciales = CredencialesUtils.LeerCredencialesBd();
-            comboBoxNroLector.SelectedIndex = 0;
+            comboBoxNroLector.SelectedIndex = int.Parse(ConfiguracionGeneralUtils.ObtenerLectorActual()) - 1 ;
 
 
             // Asignar el objeto de configuración al PropertyGrid (para que se vea lo que se puede configurar)
