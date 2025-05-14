@@ -407,7 +407,7 @@ namespace DeportNetReconocimiento.GUI
                     ReproducirSonido(ConfiguracionEstilos.AccesoDenegado);
                     HeaderLabel.ForeColor = ConfiguracionEstilos.ColorMensajeAccesoDenegado;
 
-                    titulo = "Acceso denegado " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Nombre);
+                    titulo = "Acceso denegado " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Nombre) + " " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Apellido);
                     mensaje = ConvertidorTextoUtils.LimpiarTextoHtml(json.MensajeAcceso);
 
                     break;
