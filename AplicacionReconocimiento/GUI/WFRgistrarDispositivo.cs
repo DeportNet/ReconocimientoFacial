@@ -187,7 +187,7 @@ namespace DeportNetReconocimiento
         private async void BtnAdd_Click(object sender, EventArgs e)
         {
             
-            /*
+            
             if (!ValidarInputs() || loading.Visible || seClickeoBotonLogin)
             {
                 return;
@@ -216,7 +216,7 @@ namespace DeportNetReconocimiento
                 conexionDx.MessageBoxResultado("Conexion con Deportnet");
                 return;
             }
-            */
+            
 
             //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
             //Escribe las credenciales en la base de datos
@@ -235,7 +235,7 @@ namespace DeportNetReconocimiento
         private Credenciales CrearCredencialesDesdeTextbox()
         {
             //Credenciales de prueba
-            
+           /* 
             return new Credenciales(
             "192.168.1.10",
             "8080",
@@ -246,16 +246,16 @@ namespace DeportNetReconocimiento
             "1",
             "12345",
             null);
+            */
             
-            
-            //return new Credenciales(
-            //textBoxDeviceAddress.Text,
-            //textBoxPort.Text,
-            //textBoxUserName.Text,
-            //textBoxPassword.Text,
-            //textBoxSucursalID.Text,
-            //textBoxTokenSucursal.Text,
-            //null);
+            return new Credenciales(
+            textBoxDeviceAddress.Text,
+            textBoxPort.Text,
+            textBoxUserName.Text,
+            textBoxPassword.Text,
+            textBoxSucursalID.Text,
+            textBoxTokenSucursal.Text,
+            null);
             
         }
 
