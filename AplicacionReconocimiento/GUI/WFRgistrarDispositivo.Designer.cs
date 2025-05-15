@@ -70,7 +70,7 @@
             label1.ForeColor = Color.White;
             label1.Location = new Point(56, 19);
             label1.Name = "label1";
-            label1.Size = new Size(526, 51);
+            label1.Size = new Size(417, 41);
             label1.TabIndex = 2;
             label1.Text = "Registrar Dispositivo";
             // 
@@ -103,7 +103,7 @@
             textBoxPassword.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxPassword.Location = new Point(291, 200);
             textBoxPassword.Name = "textBoxPassword";
-            textBoxPassword.Size = new Size(250, 25);
+            textBoxPassword.Size = new Size(250, 22);
             textBoxPassword.TabIndex = 60;
             textBoxPassword.UseSystemPasswordChar = true;
             // 
@@ -113,9 +113,9 @@
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Consolas", 10.5F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.DimGray;
-            label5.Location = new Point(156, 200);
+            label5.Location = new Point(169, 200);
             label5.Name = "label5";
-            label5.Size = new Size(110, 22);
+            label5.Size = new Size(88, 17);
             label5.TabIndex = 61;
             label5.Text = "Contraseña";
             // 
@@ -125,9 +125,9 @@
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Consolas", 10.5F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.DimGray;
-            label3.Location = new Point(196, 167);
+            label3.Location = new Point(202, 167);
             label3.Name = "label3";
-            label3.Size = new Size(70, 22);
+            label3.Size = new Size(56, 17);
             label3.TabIndex = 59;
             label3.Text = "Puerto";
             // 
@@ -135,7 +135,7 @@
             // 
             textBoxPort.Location = new Point(291, 169);
             textBoxPort.Name = "textBoxPort";
-            textBoxPort.Size = new Size(250, 25);
+            textBoxPort.Size = new Size(250, 22);
             textBoxPort.TabIndex = 58;
             textBoxPort.Text = "8000";
             // 
@@ -143,7 +143,7 @@
             // 
             textBoxUserName.Location = new Point(291, 137);
             textBoxUserName.Name = "textBoxUserName";
-            textBoxUserName.Size = new Size(250, 25);
+            textBoxUserName.Size = new Size(250, 22);
             textBoxUserName.TabIndex = 56;
             textBoxUserName.Text = "admin";
             // 
@@ -153,9 +153,9 @@
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Consolas", 10.5F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.DimGray;
-            label4.Location = new Point(116, 136);
+            label4.Location = new Point(138, 136);
             label4.Name = "label4";
-            label4.Size = new Size(150, 22);
+            label4.Size = new Size(120, 17);
             label4.TabIndex = 57;
             label4.Text = "Nombre Usuario";
             // 
@@ -165,9 +165,9 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Consolas", 10.5F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.DimGray;
-            label2.Location = new Point(19, 106);
+            label2.Location = new Point(59, 106);
             label2.Name = "label2";
-            label2.Size = new Size(250, 22);
+            label2.Size = new Size(200, 17);
             label2.TabIndex = 55;
             label2.Text = "Direccion IP Dispositivo";
             // 
@@ -175,7 +175,7 @@
             // 
             textBoxDeviceAddress.Location = new Point(291, 106);
             textBoxDeviceAddress.Name = "textBoxDeviceAddress";
-            textBoxDeviceAddress.Size = new Size(250, 25);
+            textBoxDeviceAddress.Size = new Size(250, 22);
             textBoxDeviceAddress.TabIndex = 54;
             textBoxDeviceAddress.Text = "192.168.1.42";
             // 
@@ -185,9 +185,9 @@
             label6.BackColor = Color.Transparent;
             label6.Font = new Font("Consolas", 10.5F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.DimGray;
-            label6.Location = new Point(146, 231);
+            label6.Location = new Point(160, 231);
             label6.Name = "label6";
-            label6.Size = new Size(120, 22);
+            label6.Size = new Size(96, 17);
             label6.TabIndex = 64;
             label6.Text = "Sucursal ID";
             // 
@@ -196,7 +196,7 @@
             textBoxSucursalID.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxSucursalID.Location = new Point(291, 231);
             textBoxSucursalID.Name = "textBoxSucursalID";
-            textBoxSucursalID.Size = new Size(250, 25);
+            textBoxSucursalID.Size = new Size(250, 22);
             textBoxSucursalID.TabIndex = 65;
             textBoxSucursalID.UseSystemPasswordChar = true;
             // 
@@ -206,9 +206,9 @@
             label7.BackColor = Color.Transparent;
             label7.Font = new Font("Consolas", 10.5F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.DimGray;
-            label7.Location = new Point(116, 261);
+            label7.Location = new Point(138, 261);
             label7.Name = "label7";
-            label7.Size = new Size(150, 22);
+            label7.Size = new Size(120, 17);
             label7.TabIndex = 66;
             label7.Text = "Sucursal Token";
             // 
@@ -217,7 +217,7 @@
             textBoxTokenSucursal.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxTokenSucursal.Location = new Point(291, 263);
             textBoxTokenSucursal.Name = "textBoxTokenSucursal";
-            textBoxTokenSucursal.Size = new Size(250, 25);
+            textBoxTokenSucursal.Size = new Size(250, 22);
             textBoxTokenSucursal.TabIndex = 67;
             textBoxTokenSucursal.UseSystemPasswordChar = true;
             // 
@@ -271,7 +271,7 @@
             // 
             // WFRgistrarDispositivo
             // 
-            AutoScaleDimensions = new SizeF(8F, 18F);
+            AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonFace;
             ClientSize = new Size(636, 364);
