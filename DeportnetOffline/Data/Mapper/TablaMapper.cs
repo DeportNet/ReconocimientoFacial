@@ -39,7 +39,8 @@ namespace DeportnetOffline.Data.Mapper
                 Celular = socio.Cellphone,
                 Estado = CalcularEstado(socio.IsActive),
                 Direccion = socio.Address,
-                Piso = socio.AddressFloor
+                Piso = socio.AddressFloor,
+                
             };
         }
 

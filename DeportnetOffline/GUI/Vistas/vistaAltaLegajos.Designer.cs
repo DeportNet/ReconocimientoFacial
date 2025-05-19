@@ -36,15 +36,6 @@
             botonAntPaginacion = new Button();
             botonSgtPaginacion = new Button();
             dataGridView1 = new DataGridView();
-            columnaNombreApellido = new DataGridViewTextBoxColumn();
-            columnaNroTarjeta = new DataGridViewTextBoxColumn();
-            columnaDNI = new DataGridViewTextBoxColumn();
-            columnaEmail = new DataGridViewTextBoxColumn();
-            columnaSexo = new DataGridViewTextBoxColumn();
-            columnaEdad = new DataGridViewTextBoxColumn();
-            columnaEstado = new DataGridViewTextBoxColumn();
-            columnaSincronziado = new DataGridViewTextBoxColumn();
-            columnaFechaHoraSincro = new DataGridViewTextBoxColumn();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -103,7 +94,7 @@
             // 
             labelCantPaginas.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             labelCantPaginas.AutoSize = true;
-            labelCantPaginas.Location = new Point(897, 513);
+            labelCantPaginas.Location = new Point(897, 528);
             labelCantPaginas.Name = "labelCantPaginas";
             labelCantPaginas.Size = new Size(37, 15);
             labelCantPaginas.TabIndex = 9;
@@ -112,7 +103,7 @@
             // botonAntPaginacion
             // 
             botonAntPaginacion.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            botonAntPaginacion.Location = new Point(855, 509);
+            botonAntPaginacion.Location = new Point(855, 524);
             botonAntPaginacion.Name = "botonAntPaginacion";
             botonAntPaginacion.Size = new Size(36, 23);
             botonAntPaginacion.TabIndex = 8;
@@ -122,7 +113,7 @@
             // botonSgtPaginacion
             // 
             botonSgtPaginacion.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            botonSgtPaginacion.Location = new Point(989, 509);
+            botonSgtPaginacion.Location = new Point(989, 524);
             botonSgtPaginacion.Name = "botonSgtPaginacion";
             botonSgtPaginacion.Size = new Size(38, 23);
             botonSgtPaginacion.TabIndex = 7;
@@ -134,66 +125,11 @@
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { columnaNombreApellido, columnaNroTarjeta, columnaDNI, columnaEmail, columnaSexo, columnaEdad, columnaEstado, columnaSincronziado, columnaFechaHoraSincro });
-            dataGridView1.Location = new Point(43, 3);
+            dataGridView1.Location = new Point(43, 18);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.Size = new Size(1000, 500);
             dataGridView1.TabIndex = 0;
-            // 
-            // columnaNombreApellido
-            // 
-            columnaNombreApellido.HeaderText = "Nombre y Apellido";
-            columnaNombreApellido.Name = "columnaNombreApellido";
-            columnaNombreApellido.ReadOnly = true;
-            // 
-            // columnaNroTarjeta
-            // 
-            columnaNroTarjeta.HeaderText = "Nro. Tarjeta";
-            columnaNroTarjeta.Name = "columnaNroTarjeta";
-            columnaNroTarjeta.ReadOnly = true;
-            // 
-            // columnaDNI
-            // 
-            columnaDNI.HeaderText = "DNI";
-            columnaDNI.Name = "columnaDNI";
-            columnaDNI.ReadOnly = true;
-            // 
-            // columnaEmail
-            // 
-            columnaEmail.HeaderText = "Email";
-            columnaEmail.Name = "columnaEmail";
-            columnaEmail.ReadOnly = true;
-            // 
-            // columnaSexo
-            // 
-            columnaSexo.HeaderText = "Sexo";
-            columnaSexo.Name = "columnaSexo";
-            columnaSexo.ReadOnly = true;
-            // 
-            // columnaEdad
-            // 
-            columnaEdad.HeaderText = "Edad";
-            columnaEdad.Name = "columnaEdad";
-            columnaEdad.ReadOnly = true;
-            // 
-            // columnaEstado
-            // 
-            columnaEstado.HeaderText = "Estado";
-            columnaEstado.Name = "columnaEstado";
-            columnaEstado.ReadOnly = true;
-            // 
-            // columnaSincronziado
-            // 
-            columnaSincronziado.HeaderText = "Sincronizado";
-            columnaSincronziado.Name = "columnaSincronziado";
-            columnaSincronziado.ReadOnly = true;
-            // 
-            // columnaFechaHoraSincro
-            // 
-            columnaFechaHoraSincro.HeaderText = "Fecha - Hora sincro";
-            columnaFechaHoraSincro.Name = "columnaFechaHoraSincro";
-            columnaFechaHoraSincro.ReadOnly = true;
             // 
             // VistaAltaLegajos
             // 
@@ -217,15 +153,6 @@
         private Label label1;
         private Panel panel2;
         private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn columnaNombreApellido;
-        private DataGridViewTextBoxColumn columnaNroTarjeta;
-        private DataGridViewTextBoxColumn columnaDNI;
-        private DataGridViewTextBoxColumn columnaEmail;
-        private DataGridViewTextBoxColumn columnaSexo;
-        private DataGridViewTextBoxColumn columnaEdad;
-        private DataGridViewTextBoxColumn columnaEstado;
-        private DataGridViewTextBoxColumn columnaSincronziado;
-        private DataGridViewTextBoxColumn columnaFechaHoraSincro;
         private Label labelCantPaginas;
         private Button botonAntPaginacion;
         private Button botonSgtPaginacion;

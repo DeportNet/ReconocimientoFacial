@@ -28,8 +28,75 @@ namespace DeportnetOffline
             PaginaActual = 1;
             TotalPaginas = 1;
             TamanioPagina = 20;
-
             CargarDatos(PaginaActual, TamanioPagina);
+            CrearTabla();
+        }
+
+        public void CrearTabla()
+        {
+            dataGridView1.Columns.Clear();
+            dataGridView1.AutoGenerateColumns = false;
+
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Nombre y Apellido",
+                DataPropertyName = "NombreYApellido",
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            });
+
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Nro. Tarjeta",
+                DataPropertyName = "NroTarjeta"
+            });
+
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "DNI",
+                DataPropertyName = "Dni"
+            });
+
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Email",
+                DataPropertyName = "Email"
+            });
+
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Sexo",
+                DataPropertyName = "Sexo"
+            });
+
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Edad",
+                DataPropertyName = "Edad"
+            });
+
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Estado",
+                DataPropertyName = "Estado"
+            });
+
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Sincronizado",
+                DataPropertyName = "Synchronized"
+            });
+
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Fecha - Hora sincro",
+                DataPropertyName = "SyncronizedDate",
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "g" } // Formato corto de fecha y hora
+            });
+
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.MultiSelect = false;
         }
 
         //paginado
@@ -43,7 +110,7 @@ namespace DeportnetOffline
 
             //todo hacer el mapper
 
-            //dataGridView1.DataSource = TablaMapper.ListaCobroToListaInformacionTablaCobro(paginaSocios.Items);
+            dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(paginaSocios.Items);
         }
 
         private void CambiarInformacionPagina(PaginadoResultado<Socio> paginaSocios)
