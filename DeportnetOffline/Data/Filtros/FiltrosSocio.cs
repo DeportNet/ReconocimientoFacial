@@ -54,7 +54,7 @@ namespace DeportnetOffline.Data.Filtros
             return query;
         }
 
-        public static IQueryable<Socio> FiltrarPorEstado(string estado, IQueryable<Socio> query)
+        public static IQueryable<Socio> FiltrarPorIsActive(string estado, IQueryable<Socio> query)
         {
             switch (estado)
             {
@@ -68,6 +68,28 @@ namespace DeportnetOffline.Data.Filtros
                     break;
             }
             return query;
+        }
+
+        public static IQueryable<Socio> FiltrarPorIsValid(string estado, IQueryable<Socio> query)
+        {
+            switch (estado)
+            {
+                case "1":
+                    query = query.Where(p => p.IsValid.Contains("1"));
+                    break;
+                case "0":
+                    query = query.Where(p => p.IsValid.Contains("0"));
+                    break;
+                default:
+                    break;
+            }
+            return query;
+        }
+
+
+        public static IQueryable<Socio> FiltrarPorNuevosSocios(IQueryable<Socio> query)
+        {
+            return query.Where(p => p.IdDx == null);
         }
 
 

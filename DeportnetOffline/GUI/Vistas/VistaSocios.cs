@@ -44,7 +44,6 @@ namespace DeportnetOffline
             dataGridView1.Columns["Direccion"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
-
         public void CargarDatos(int paginaActual, int tamanioPagina)
         {
 
@@ -97,14 +96,12 @@ namespace DeportnetOffline
         public List<Socio> FiltrarSocios(FiltrosSocioRequest filtrosSocio, int nroPagina, int tamPag)
         {
 
-            using var context = BdContext.CrearContexto();
-
             IQueryable<Socio> query = context.Socios.AsQueryable(); 
 
             query = FiltrosSocio.FiltrarPorNroTarjetaODni(filtrosSocio.NroTarjeta, query);
             query = FiltrosSocio.FiltrarPorEmail(filtrosSocio.Email, query);
             query = FiltrosSocio.FiltrarPorNombreYApellido(filtrosSocio.ApellidoNombre, query);
-            query = FiltrosSocio.FiltrarPorEstado(filtrosSocio.Estado, query);
+            query = FiltrosSocio.FiltrarPorIsActive(filtrosSocio.Estado, query);
 
             PaginadoResultado<Socio> paginaSociosFiltrados = PaginadorUtils.ObtenerPaginadoAsync(query, nroPagina, tamPag).Result;
             

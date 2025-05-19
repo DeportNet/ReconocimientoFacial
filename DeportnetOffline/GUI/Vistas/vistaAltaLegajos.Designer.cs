@@ -109,6 +109,7 @@
             botonAntPaginacion.TabIndex = 8;
             botonAntPaginacion.Text = "<--";
             botonAntPaginacion.UseVisualStyleBackColor = true;
+            botonAntPaginacion.Click += botonAntPaginacion_Click;
             // 
             // botonSgtPaginacion
             // 
@@ -119,6 +120,7 @@
             botonSgtPaginacion.TabIndex = 7;
             botonSgtPaginacion.Text = "-->";
             botonSgtPaginacion.UseVisualStyleBackColor = true;
+            botonSgtPaginacion.Click += botonSgtPaginacion_Click;
             // 
             // dataGridView1
             // 
