@@ -10,6 +10,9 @@ namespace DeportnetOffline.Data.Mapper
 {
     public class TablaMapper
     {
+        //Cobros
+
+        //Venta a InformacionTablaCobro
         public static InformacionTablaCobro CobroToInformacionTablaCobro(Venta venta)
         {
             return new InformacionTablaCobro
@@ -25,6 +28,38 @@ namespace DeportnetOffline.Data.Mapper
                 SyncronizedDate = venta.SyncronizedDate
             };
         }
+
+        //Listado ventas a Listado InformacionTablaCobro
+        public static List<InformacionTablaCobro> ListaCobroToListaInformacionTablaCobro(List<Venta> ventas)
+        {
+
+            List<InformacionTablaCobro> cobroTabla = [];
+
+            foreach (Venta unaVenta in ventas)
+            {
+                cobroTabla.Add(CobroToInformacionTablaCobro(unaVenta));
+            }
+
+            return cobroTabla;
+        }
+
+        //Nuevos Socios
+
+        public static InformacionTablaNuevoLegajo NuevoLegajoToInformacionTablaNuevoLegajo(Socio nuevoSocio)
+        {
+            
+        }
+
+        public static List<InformacionTablaNuevoLegajo> ListadoNuevosLegajosToListadoInformacionNuevoLegajos(List<Socio> nuevosSocios)
+        {
+
+        }
+
+
+
+        //Socios
+
+        //Socio a InformacionTablaSocio
         public static InformacionSocioTabla SocioToInformacionTablaSocio(Socio socio)
         {
             return new InformacionSocioTabla
@@ -44,19 +79,7 @@ namespace DeportnetOffline.Data.Mapper
             };
         }
 
-        public static List<InformacionTablaCobro> ListaCobroToListaInformacionTablaCobro(List<Venta> ventas)
-        {
-
-            List<InformacionTablaCobro> cobroTabla = [];
-
-            foreach (Venta unaVenta in ventas)
-            {
-                cobroTabla.Add(CobroToInformacionTablaCobro(unaVenta));
-            }
-
-            return cobroTabla;
-        }
-
+        //Lista Socios a Informacion Socio
         public static List<InformacionSocioTabla> ListaSocioToListaInformacionTablaSocio(List<Socio> socios)
         {
 
