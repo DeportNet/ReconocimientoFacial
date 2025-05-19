@@ -29,7 +29,8 @@ namespace DeportnetOffline.Data.Mapper
         {
             return new InformacionSocioTabla
             {
-                Id = socio.IdDx,
+                Id = socio.Id,
+                IdDx = socio.IdDx,
                 NombreYApellido = socio.FirstName + " " + socio.LastName,
                 NroTarjeta = socio.CardNumber,
                 Dni = socio.IdNumber,

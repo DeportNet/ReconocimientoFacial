@@ -9,6 +9,7 @@ namespace DeportnetOffline.Data.Dto.Table
     public class InformacionSocioTabla
     {
         public int? Id { get; set; }
+        public int? IdDx { get; set; }
         public string NombreYApellido {  get; set; }
         public string NroTarjeta {  get; set; }
         public string Dni { get; set; }
@@ -22,10 +23,11 @@ namespace DeportnetOffline.Data.Dto.Table
 
         public InformacionSocioTabla() { }
 
-        public InformacionSocioTabla(int? id, string nombreYApellido, string nroTarjeta, string dni, string email, 
+        public InformacionSocioTabla(int? id, int? idDx, string nombreYApellido, string nroTarjeta, string dni, string email, 
             string edad, string celular, string direccion, string piso, string sexo, string estado)
         {
             Id = id;
+            IdDx = idDx;
             NombreYApellido = nombreYApellido;
             NroTarjeta = nroTarjeta;
             Dni = dni;

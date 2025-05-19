@@ -3,6 +3,7 @@ using System;
 using DeportNetReconocimiento.Api.BD;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeportNetReconocimiento.Migrations
 {
     [DbContext(typeof(BdContext))]
-    partial class BdContextModelSnapshot : ModelSnapshot
+    [Migration("20250519133937_FacilitarVentas")]
+    partial class FacilitarVentas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.4");
@@ -440,9 +443,12 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("synchronized_date");
 
+                    b.Property<int>("branchMemberId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("BranchMemberId");
+                    b.HasIndex("branchMemberId");
 
                     b.ToTable("ventas", (string)null);
                 });
@@ -460,7 +466,9 @@ namespace DeportNetReconocimiento.Migrations
                 {
                     b.HasOne("DeportNetReconocimiento.Api.Data.Domain.Socio", "Socio")
                         .WithMany()
-                        .HasForeignKey("BranchMemberId");
+                        .HasForeignKey("branchMemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Socio");
                 });
