@@ -45,15 +45,15 @@ namespace DeportnetOffline.Data.Mapper
 
         //Nuevos Socios
 
-        public static InformacionTablaNuevoLegajo NuevoLegajoToInformacionTablaNuevoLegajo(Socio nuevoSocio)
-        {
+        //public static InformacionTablaNuevoLegajo NuevoLegajoToInformacionTablaNuevoLegajo(Socio nuevoSocio)
+        //{
             
-        }
+        //}
 
-        public static List<InformacionTablaNuevoLegajo> ListadoNuevosLegajosToListadoInformacionNuevoLegajos(List<Socio> nuevosSocios)
-        {
+        //public static List<InformacionTablaNuevoLegajo> ListadoNuevosLegajosToListadoInformacionNuevoLegajos(List<Socio> nuevosSocios)
+        //{
 
-        }
+        //}
 
 
 
