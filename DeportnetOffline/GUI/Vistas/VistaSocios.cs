@@ -36,12 +36,14 @@ namespace DeportnetOffline
 
         public void CrearTabla()
         {
+            
             dataGridView1.Columns["ColumnaCobro"].DisplayIndex = dataGridView1.Columns.Count - 1;
             dataGridView1.Columns["ColumnaVenta"].DisplayIndex = dataGridView1.Columns.Count - 1;
             dataGridView1.Columns["Email"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView1.Columns["NombreYApellido"].HeaderText = "Nombre y Apellido";
             dataGridView1.Columns["NombreYApellido"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView1.Columns["Direccion"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView1.Columns["Id"].Visible = false;
         }
 
         public void CargarDatos(int paginaActual, int tamanioPagina)
@@ -65,7 +67,7 @@ namespace DeportnetOffline
                 List<Socio> listaSocios = FiltrarSocios(new FiltrosSocioRequest(FiltroEstado, FiltroNroTarjeta, FiltroApellidoNombre, FiltroEmail), PaginaActual, TamanioPagina);
 
                 //Actualizar datos en la tabla
-                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(listaSocios);
+                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(listaSocios); 
             }
         }
 
@@ -79,7 +81,7 @@ namespace DeportnetOffline
                 List<Socio> listaSocios = FiltrarSocios(new FiltrosSocioRequest(FiltroEstado, FiltroNroTarjeta, FiltroApellidoNombre, FiltroEmail), PaginaActual, TamanioPagina);
 
                 //Actualizar datos en la tabla
-                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(listaSocios);
+                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(listaSocios); 
             }
 
         }

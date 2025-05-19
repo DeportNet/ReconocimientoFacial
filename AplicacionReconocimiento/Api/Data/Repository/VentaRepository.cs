@@ -1,5 +1,6 @@
 ﻿using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,12 +25,14 @@ namespace DeportNetReconocimiento.Api.Data.Repository
                 using (var context = BdContext.CrearContexto())
                 {
                     await context.Ventas.AddAsync(venta);
+                    
                     await context.SaveChangesAsync();
                 }
                 return true;
             }
-            catch
+            catch(DbUpdateException ex)
             {
+                Console.Write(ex.InnerException );
                 return false;
             }
         }

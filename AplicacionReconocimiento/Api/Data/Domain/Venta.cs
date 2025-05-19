@@ -15,7 +15,7 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         public int? BranchMemberId {  get; set; }
 
         // Propiedad de navegación
-        [ForeignKey("branchMemberId")]
+        [ForeignKey("BranchMemberId")]
         public virtual Socio Socio { get; set; }
 
         [Column("item_id")]
@@ -27,11 +27,11 @@ namespace DeportNetReconocimiento.Api.Data.Domain
 
         [Column("period")]
         [AllowNull]
-        public int? Period { get; set; }
+        public string? Period { get; set; }
         
         [Column("days")]
         [AllowNull]
-        public int? Days { get; set; }
+        public string? Days { get; set; }
 
         [Column("date")]
         [DisallowNull]
@@ -41,7 +41,7 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         public string Name { get; set; }
 
         [Column("sale_amount")]
-        public double Amount { get; set; }
+        public string Amount { get; set; }
 
         [Column("synchronized")]
         [DisallowNull]
@@ -53,7 +53,7 @@ namespace DeportNetReconocimiento.Api.Data.Domain
 
         public Venta(){}
 
-        public Venta(int itemId, int? branchMemberId, char isSaleItem, int? period, int? days, string name, double amount)
+        public Venta(int itemId, int? branchMemberId, char isSaleItem, string? period, string? days, string name, string amount)
         {
             ItemId = itemId;
             BranchMemberId = branchMemberId;
