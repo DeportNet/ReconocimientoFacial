@@ -49,18 +49,24 @@
             TextBoxAdmin = new TextBox();
             BotonIngresarAdmin = new Button();
             button1 = new Button();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            panel1 = new Panel();
+            panel2 = new Panel();
             PanelConfigAdminsitrador.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
+            panel1.SuspendLayout();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // tituloConfig
             // 
-            tituloConfig.AutoSize = true;
             tituloConfig.Font = new Font("Segoe UI", 24F, FontStyle.Bold | FontStyle.Underline);
-            tituloConfig.Location = new Point(267, 20);
+            tituloConfig.Location = new Point(2, 25);
             tituloConfig.Name = "tituloConfig";
-            tituloConfig.Size = new Size(679, 45);
+            tituloConfig.Size = new Size(1003, 45);
             tituloConfig.TabIndex = 0;
             tituloConfig.Text = "Configuraciones dispositivo reconocimiento";
+            tituloConfig.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label6
             // 
@@ -96,9 +102,10 @@
             // propertyGrid1
             // 
             propertyGrid1.AllowDrop = true;
-            propertyGrid1.Location = new Point(22, 124);
+            propertyGrid1.Dock = DockStyle.Fill;
+            propertyGrid1.Location = new Point(0, 0);
             propertyGrid1.Name = "propertyGrid1";
-            propertyGrid1.Size = new Size(701, 490);
+            propertyGrid1.Size = new Size(639, 508);
             propertyGrid1.TabIndex = 15;
             propertyGrid1.PropertyValueChanged += PropertyGrid1_PropertyValueChanged;
             propertyGrid1.DragDrop += PropertyGrid1_DragDrop;
@@ -136,7 +143,7 @@
             BotonOcultarConfig.Cursor = Cursors.Hand;
             BotonOcultarConfig.FlatAppearance.BorderSize = 0;
             BotonOcultarConfig.FlatStyle = FlatStyle.Flat;
-            BotonOcultarConfig.Location = new Point(21, 304);
+            BotonOcultarConfig.Location = new Point(21, 221);
             BotonOcultarConfig.Name = "BotonOcultarConfig";
             BotonOcultarConfig.Size = new Size(121, 23);
             BotonOcultarConfig.TabIndex = 19;
@@ -158,9 +165,9 @@
             PanelConfigAdminsitrador.Controls.Add(ComboBoxAperturaMolinete);
             PanelConfigAdminsitrador.Controls.Add(opcionesTituloLabel);
             PanelConfigAdminsitrador.Controls.Add(label6);
-            PanelConfigAdminsitrador.Location = new Point(780, 269);
+            PanelConfigAdminsitrador.Location = new Point(18, 118);
             PanelConfigAdminsitrador.Name = "PanelConfigAdminsitrador";
-            PanelConfigAdminsitrador.Size = new Size(377, 345);
+            PanelConfigAdminsitrador.Size = new Size(318, 260);
             PanelConfigAdminsitrador.TabIndex = 20;
             PanelConfigAdminsitrador.Visible = false;
             // 
@@ -247,7 +254,7 @@
             // 
             LabelAdmin.AutoSize = true;
             LabelAdmin.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            LabelAdmin.Location = new Point(829, 196);
+            LabelAdmin.Location = new Point(26, 39);
             LabelAdmin.Name = "LabelAdmin";
             LabelAdmin.Size = new Size(110, 21);
             LabelAdmin.TabIndex = 21;
@@ -256,7 +263,7 @@
             // TextBoxAdmin
             // 
             TextBoxAdmin.Cursor = Cursors.IBeam;
-            TextBoxAdmin.Location = new Point(945, 194);
+            TextBoxAdmin.Location = new Point(142, 39);
             TextBoxAdmin.Name = "TextBoxAdmin";
             TextBoxAdmin.Size = new Size(111, 23);
             TextBoxAdmin.TabIndex = 22;
@@ -268,7 +275,7 @@
             BotonIngresarAdmin.Cursor = Cursors.Hand;
             BotonIngresarAdmin.FlatAppearance.BorderSize = 0;
             BotonIngresarAdmin.FlatStyle = FlatStyle.Flat;
-            BotonIngresarAdmin.Location = new Point(999, 223);
+            BotonIngresarAdmin.Location = new Point(196, 68);
             BotonIngresarAdmin.Name = "BotonIngresarAdmin";
             BotonIngresarAdmin.Size = new Size(57, 23);
             BotonIngresarAdmin.TabIndex = 23;
@@ -280,41 +287,77 @@
             // 
             button1.Cursor = Cursors.Hand;
             button1.Image = Properties.Resources.eye;
-            button1.Location = new Point(1062, 193);
+            button1.Location = new Point(259, 40);
             button1.Name = "button1";
             button1.Size = new Size(35, 22);
             button1.TabIndex = 24;
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click_1;
             // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 65F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35F));
+            tableLayoutPanel1.Controls.Add(panel1, 1, 0);
+            tableLayoutPanel1.Controls.Add(panel2, 0, 0);
+            tableLayoutPanel1.Location = new Point(12, 114);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Size = new Size(993, 514);
+            tableLayoutPanel1.TabIndex = 10;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(LabelAdmin);
+            panel1.Controls.Add(PanelConfigAdminsitrador);
+            panel1.Controls.Add(BotonIngresarAdmin);
+            panel1.Controls.Add(button1);
+            panel1.Controls.Add(TextBoxAdmin);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(648, 3);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(342, 508);
+            panel1.TabIndex = 0;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(propertyGrid1);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(3, 3);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(639, 508);
+            panel2.TabIndex = 1;
+            panel2.Paint += panel2_Paint;
+            // 
             // WFConfiguracion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DarkGray;
-            ClientSize = new Size(1177, 691);
-            Controls.Add(button1);
-            Controls.Add(BotonIngresarAdmin);
-            Controls.Add(TextBoxAdmin);
-            Controls.Add(LabelAdmin);
-            Controls.Add(PanelConfigAdminsitrador);
+            ClientSize = new Size(1008, 687);
+            Controls.Add(tableLayoutPanel1);
             Controls.Add(guardarCambiosButton);
-            Controls.Add(propertyGrid1);
             Controls.Add(personalizacionTituloLabel);
             Controls.Add(tituloConfig);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
-            MaximumSize = new Size(1193, 730);
+            MaximumSize = new Size(1024, 726);
             MinimizeBox = false;
-            MinimumSize = new Size(1193, 730);
+            MinimumSize = new Size(1024, 726);
             Name = "WFConfiguracion";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Configuracion Dispositivo";
             FormClosing += WFConfiguracion_FormClosing;
             DragEnter += PropertyGrid1_DragEnter;
             DragLeave += PropertyGrid1_DragLeave;
             PanelConfigAdminsitrador.ResumeLayout(false);
             PanelConfigAdminsitrador.PerformLayout();
+            tableLayoutPanel1.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            panel2.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -342,5 +385,8 @@
         private Button botonEditarCredenciales;
         private Label label3;
         private ComboBox comboBoxNroLector;
+        private TableLayoutPanel tableLayoutPanel1;
+        private Panel panel1;
+        private Panel panel2;
     }
 }
