@@ -247,18 +247,39 @@ namespace DeportnetOffline.GUI.Modales
             
         }
 
+        
+        //Guardar Socio
         private async void buttonGuardarLegajo_Click(object sender, EventArgs e)
         {
-            if (ValidarTodosLosCampos())
+            if (!ValidarTodosLosCampos())
             {
-                Socio socio = ObtenerSocio();
-                socio = FormatearSocio(socio);
-                bool resultado = await SocioRepository.InsertarUnSocioEnTabla(socio);
-                LimpiarLabels();
-                MessageBox.Show("Socio agregado con exito", "Socio registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Console.WriteLine(resultado ? $"El socio  {socio.FirstName + ' ' + socio.LastName} se insertó correctamente en la base de datos" : $"Error al insertar al socio {socio.FirstName + ' ' + socio.LastName} en la base de datos");
-                this.Close();
+                return;
             }
+
+            Socio socio = ObtenerSocio();
+
+            socio = FormatearSocio(socio);
+
+            bool resultado = await SocioRepository.InsertarUnSocioEnTabla(socio);
+
+            //si hubo error
+            if (!resultado) {
+
+                MessageBox.Show("Fallo al registrar un socio. Por favor intente de nuevo.", "Error al registrar socio", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                Console.WriteLine($"Error al insertar al socio {socio.FirstName + ' ' + socio.LastName} en la base de datos");
+
+                return;
+            }
+
+
+            LimpiarLabels();
+
+            MessageBox.Show("Socio agregado con exito", "Socio registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+           
+            Console.WriteLine($"El socio  {socio.FirstName + ' ' + socio.LastName} se insertó correctamente en la base de datos");
+            
+            this.Close();
         }
 
 
@@ -296,15 +317,20 @@ namespace DeportnetOffline.GUI.Modales
         {
             return new Socio
             {
+                IdDx = null,
+                Email = textBoxEmail.Text,
                 FirstName = textBoxNombre.Text,
                 LastName = textBoxApellido.Text,
-                Gender = comboBoxGenero.SelectedItem.ToString(),
+                IdNumber = null,
                 BirthDate = dateTimePickerFechaNacimiento.Value,
-                Email = textBoxEmail.Text,
                 Cellphone = textBoxTelefono.Text,
+                IsActive = null,
+                CardNumber = textBoxNroTarjeta.Text,
                 Address = textBoxDireccion.Text,
                 AddressFloor = textBoxPiso.Text,
-                CardNumber = textBoxNroTarjeta.Text
+                ImageUrl = null,
+                Gender = comboBoxGenero.SelectedItem.ToString(),
+                IsValid = "0"
             };
         }
 
@@ -416,18 +442,5 @@ namespace DeportnetOffline.GUI.Modales
             return Regex.IsMatch(texto, patron);
 
         }
-
-        
-        private async void buttonGuardarLegajo_Click(object sender, EventArgs e)
-        {
-            //BdContext context = new BdContext(new DbContextOptions<BdContext>());
-            using(var context = BdContext.CrearContexto())
-            {
-                 bool resultado = await socioRepository.InsertarUnSocioEnTabla( socio );
-
-               Console.WriteLine(resultado ? $"El socio  {socio.FirstName + ' ' + socio.LastName} se insertó correctamente en la base de datos" : $"Error al insertar al socio {socio.FirstName + ' ' + socio.LastName} en la base de datos");
-            }
-        }
-
     }
 }

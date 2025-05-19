@@ -46,10 +46,10 @@ namespace DeportnetOffline
             dataGridView1.DataSource = TablaMapper.ListaCobroToListaInformacionTablaCobro(paginaVentas.Items);
         }
 
-        private void CambiarInformacionPagina(PaginadoResultado<Venta> paginaSocios) 
+        private void CambiarInformacionPagina(PaginadoResultado<Venta> paginaVentas) 
         {
-            TotalPaginas = paginaSocios.TotalPaginas;
-            PaginaActual = paginaSocios.PaginaActual;
+            TotalPaginas = paginaVentas.TotalPaginas;
+            PaginaActual = paginaVentas.PaginaActual;
 
             labelCantPaginas.Text = $"Página {PaginaActual} de {TotalPaginas}";
         }

@@ -1,6 +1,6 @@
 ﻿namespace DeportnetOffline
 {
-    partial class vistaAltaLegajos
+    partial class VistaAltaLegajos
     {
         /// <summary> 
         /// Variable del diseñador necesaria.
@@ -195,12 +195,12 @@
             columnaFechaHoraSincro.Name = "columnaFechaHoraSincro";
             columnaFechaHoraSincro.ReadOnly = true;
             // 
-            // vistaAltaLegajos
+            // VistaAltaLegajos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanel1);
-            Name = "vistaAltaLegajos";
+            Name = "VistaAltaLegajos";
             Size = new Size(1100, 700);
             tableLayoutPanel1.ResumeLayout(false);
             panel1.ResumeLayout(false);

@@ -1,5 +1,8 @@
-﻿using DeportNetReconocimiento.Api.BD;
+﻿using DeportnetOffline.Data.Dto.Table;
+using DeportnetOffline.Data.Mapper;
+using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
+using DeportNetReconocimiento.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,30 +15,45 @@ using System.Windows.Forms;
 
 namespace DeportnetOffline
 {
-    public partial class vistaAltaLegajos : UserControl
+    public partial class VistaAltaLegajos : UserControl
     {
-        public vistaAltaLegajos()
+        private int PaginaActual;
+        private int TotalPaginas;
+        private int TamanioPagina;
+        private BdContext Context = BdContext.CrearContexto();
+
+        public VistaAltaLegajos()
         {
             InitializeComponent();
-            int paginaActual = 1;
-            int filasPorPagina = 5;
-            int registros = 10;
-            labelCantPaginas.Text = $"Página {paginaActual} de 50";
-            //cargarDatos();
+            PaginaActual = 1;
+            TotalPaginas = 1;
+            TamanioPagina = 20;
+
+            CargarDatos(PaginaActual, TamanioPagina);
         }
 
-        public void cargarDatos()
+        //paginado
+
+        public void CargarDatos(int paginaActual, int tamanioPagina)
         {
-        using (var context = BdContext.CrearContexto())
-            {
-                List<Socio> socios = context.Socios.ToList();
-                dataGridView1.DataSource = socios;
-            }
 
+            PaginadoResultado<Socio> paginaSocios = PaginadorUtils.ObtenerPaginadoAsync(Context.Socios, paginaActual, tamanioPagina).Result;
+
+            CambiarInformacionPagina(paginaSocios);
+
+            //todo hacer el mapper
+
+            //dataGridView1.DataSource = TablaMapper.ListaCobroToListaInformacionTablaCobro(paginaSocios.Items);
         }
 
+        private void CambiarInformacionPagina(PaginadoResultado<Socio> paginaSocios)
+        {
+            TotalPaginas = paginaSocios.TotalPaginas;
+            PaginaActual = paginaSocios.PaginaActual;
 
-    
+            labelCantPaginas.Text = $"Página {PaginaActual} de {TotalPaginas}";
+        }
+
 
     }
 }

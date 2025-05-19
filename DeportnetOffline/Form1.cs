@@ -40,7 +40,7 @@ namespace DeportnetOffline
         private void botonAltaLegajos_Click(object sender, EventArgs e)
         {
             this.ActiveControl = null; // Quita el foco del botón
-            vistaAltaLegajos vistaAltaLegajos = new vistaAltaLegajos();
+            VistaAltaLegajos vistaAltaLegajos = new VistaAltaLegajos();
             cambiarUserControl(vistaAltaLegajos);
             cambiarBotonSeleccionado(3);
         }

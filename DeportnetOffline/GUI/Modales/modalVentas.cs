@@ -47,7 +47,7 @@ namespace DeportnetOffline
 
         private void CargarComboBox(List<Articulo> articulos)
         {
-            articulos.Insert(0, new Articulo(idDx: 0, name: "Seleccione un producto", amount: 0, isSaleItem: 'x'));
+            articulos.Insert(0, new Articulo(idDx: 0, name: "Seleccione un producto", amount: "0", isSaleItem: 'x'));
 
             comboBox1.DataSource = articulos;
             comboBox1.DisplayMember = "name";

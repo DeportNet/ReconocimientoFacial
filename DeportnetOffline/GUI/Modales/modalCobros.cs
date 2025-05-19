@@ -47,7 +47,7 @@ namespace DeportnetOffline
 
         private void CargarComboBox(List<Membresia> membresias)
         {
-            membresias.Insert(0, new Membresia(idDx: 0, name: "Seleccione una membresía", amount: 0, isSaleItem: 'x', period: 0, days: 0));
+            membresias.Insert(0, new Membresia(idDx: 0, name: "Seleccione una membresía", amount: "0", isSaleItem: 'x', period: "0", days: "0"));
 
             comboBox1.DataSource = membresias;
             comboBox1.DisplayMember = "name";

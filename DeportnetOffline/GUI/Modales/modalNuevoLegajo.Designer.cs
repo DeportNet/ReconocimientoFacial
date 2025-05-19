@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModalNuevoLegajo));
             panel1 = new Panel();
             buttonGuardarLegajo = new Button();
             label5 = new Label();
@@ -75,13 +76,15 @@
             // 
             // buttonGuardarLegajo
             // 
+            buttonGuardarLegajo.BackColor = Color.LightGreen;
+            buttonGuardarLegajo.FlatStyle = FlatStyle.Flat;
             buttonGuardarLegajo.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             buttonGuardarLegajo.Location = new Point(250, 524);
             buttonGuardarLegajo.Name = "buttonGuardarLegajo";
             buttonGuardarLegajo.Size = new Size(250, 35);
             buttonGuardarLegajo.TabIndex = 19;
             buttonGuardarLegajo.Text = "Guardar nuevo legajo";
-            buttonGuardarLegajo.UseVisualStyleBackColor = true;
+            buttonGuardarLegajo.UseVisualStyleBackColor = false;
             buttonGuardarLegajo.Click += buttonGuardarLegajo_Click;
             // 
             // label5
@@ -312,7 +315,7 @@
             textBoxPiso.Location = new Point(340, 280);
             textBoxPiso.MaxLength = 5;
             textBoxPiso.Name = "textBoxPiso";
-            textBoxPiso.Size = new Size(100, 29);
+            textBoxPiso.Size = new Size(149, 29);
             textBoxPiso.TabIndex = 13;
             textBoxPiso.Enter += textBoxDireccionConPiso_Enter;
             textBoxPiso.Leave += textBoxDireccionConPiso_Leave;
@@ -351,7 +354,7 @@
             textBoxNroTarjeta.Location = new Point(32, 358);
             textBoxNroTarjeta.MaxLength = 11;
             textBoxNroTarjeta.Name = "textBoxNroTarjeta";
-            textBoxNroTarjeta.Size = new Size(141, 29);
+            textBoxNroTarjeta.Size = new Size(157, 29);
             textBoxNroTarjeta.TabIndex = 12;
             textBoxNroTarjeta.Enter += textBoxNroTarjeta_Enter;
             textBoxNroTarjeta.Leave += textBoxNroTarjeta_Leave;
@@ -383,7 +386,7 @@
             label9.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label9.Location = new Point(32, 332);
             label9.Name = "label9";
-            label9.Size = new Size(141, 23);
+            label9.Size = new Size(157, 23);
             label9.TabIndex = 8;
             label9.Text = "Numero de tarjeta*";
             // 
@@ -411,6 +414,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(730, 594);
             Controls.Add(panel1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "ModalNuevoLegajo";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Nuevo Legajo";

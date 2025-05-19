@@ -41,7 +41,7 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [Column("id_number")]
         [StringLength(50)]
         [AllowNull]
-        public string? IdNumber { get; set; }
+        public string? IdNumber { get; set; } // Nro de documento
 
         [Column("birth_date")]
         [AllowNull]
@@ -55,12 +55,12 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [Column("is_active")]
         [StringLength(1)]
         [AllowNull]
-        public string? IsActive { get; set; } // '1' = Activo, '0' = Inactivo
+        public string? IsActive { get; set; } // '1' = Activo, '0' = Inactivo !desde Dx
 
         [Column("card_number")]
         [StringLength(100)]
         [AllowNull]
-        public string? CardNumber { get; set; }
+        public string? CardNumber { get; set; } // Codigo de acceso
 
         [Column("address")]
         [StringLength(100)]
@@ -84,7 +84,7 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [Column("is_valid")]
         [StringLength(1)]
         [AllowNull]
-        public string? IsValid { get; set; } // Validación previa
+        public string? IsValid { get; set; } // '1' = Activo, '0' = Inactivo !desde .NET
 
         public Socio() { }
         public Socio(int? idDx, string email, string firstName, string lastName, string? idNumber, DateTime birthDate, string? cellphone, string? isActive, string? cardNumber, string? address, string? addressFloor, string? imageUrl, string? gender, string? isValid)

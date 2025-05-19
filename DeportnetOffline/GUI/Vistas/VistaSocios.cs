@@ -1,4 +1,6 @@
-﻿using DeportnetOffline.Data.Dto.Table;
+﻿using DeportnetOffline.Data.Dto.FiltrosRequest;
+using DeportnetOffline.Data.Dto.Table;
+using DeportnetOffline.Data.Filtros;
 using DeportnetOffline.Data.Mapper;
 using DeportnetOffline.GUI.Modales;
 using DeportNetReconocimiento.Api.BD;
@@ -61,7 +63,7 @@ namespace DeportnetOffline
                 PaginaActual--;
 
                 //Filtrar socios
-                List<Socio> listaSocios = FiltrarSocios(FiltroEstado, FiltroNroTarjeta, FiltroApellidoNombre, FiltroEmail, PaginaActual, TamanioPagina);
+                List<Socio> listaSocios = FiltrarSocios(new FiltrosSocioRequest(FiltroEstado, FiltroNroTarjeta, FiltroApellidoNombre, FiltroEmail), PaginaActual, TamanioPagina);
 
                 //Actualizar datos en la tabla
                 dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(listaSocios);
@@ -75,7 +77,7 @@ namespace DeportnetOffline
             {
                 PaginaActual++;
                 //Filtrar socios
-                List<Socio> listaSocios = FiltrarSocios(FiltroEstado, FiltroNroTarjeta, FiltroApellidoNombre, FiltroEmail, PaginaActual, TamanioPagina);
+                List<Socio> listaSocios = FiltrarSocios(new FiltrosSocioRequest(FiltroEstado, FiltroNroTarjeta, FiltroApellidoNombre, FiltroEmail), PaginaActual, TamanioPagina);
 
                 //Actualizar datos en la tabla
                 dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(listaSocios);
@@ -92,85 +94,23 @@ namespace DeportnetOffline
         }
 
         //Filtros
-        public List<Socio> FiltrarSocios(string estado, string? nroTarjeta, string? apellidoNombre, string? email, int nroPagina, int tamPag)
+        public List<Socio> FiltrarSocios(FiltrosSocioRequest filtrosSocio, int nroPagina, int tamPag)
         {
 
             using var context = BdContext.CrearContexto();
 
             IQueryable<Socio> query = context.Socios.AsQueryable(); 
 
-            query = FiltrarPorNroTarjetaODni(nroTarjeta, query);
-            query = FiltrarPorEmail(email, query);
-            query = FiltrarPorNombreYApellido(apellidoNombre, query);
-            query = FiltrarPorEstado(estado, query);
+            query = FiltrosSocio.FiltrarPorNroTarjetaODni(filtrosSocio.NroTarjeta, query);
+            query = FiltrosSocio.FiltrarPorEmail(filtrosSocio.Email, query);
+            query = FiltrosSocio.FiltrarPorNombreYApellido(filtrosSocio.ApellidoNombre, query);
+            query = FiltrosSocio.FiltrarPorEstado(filtrosSocio.Estado, query);
 
             PaginadoResultado<Socio> paginaSociosFiltrados = PaginadorUtils.ObtenerPaginadoAsync(query, nroPagina, tamPag).Result;
             
             CambiarInformacionPagina(paginaSociosFiltrados);
 
             return paginaSociosFiltrados.Items;
-        }
-
-
-        private IQueryable<Socio> FiltrarPorNroTarjetaODni(string? nroTarjeta, IQueryable<Socio> query)
-        {
-
-            if (!string.IsNullOrEmpty(nroTarjeta))
-            {
-                query = query.Where(p =>
-                p.CardNumber.Contains(nroTarjeta) ||
-                p.IdNumber.ToLower().Contains(nroTarjeta));
-
-            }
-
-            return query;
-        }
-
-        private IQueryable<Socio> FiltrarPorEmail(string? email, IQueryable<Socio> query)
-        {
-
-            if (!string.IsNullOrEmpty(email))
-            {
-                query = query.Where(p => p.Email.Contains(email));
-            }
-
-            return query;
-        }
-
-        private IQueryable<Socio> FiltrarPorNombreYApellido(string? apellidoNombre, IQueryable<Socio> query)
-        {
-
-            if (!string.IsNullOrEmpty(apellidoNombre))
-            {
-                var nombres = apellidoNombre.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (var nombre in nombres)
-                {
-
-                    string nombreActual = nombre.ToLower();
-                    query = query.Where(p =>
-                        p.FirstName.ToLower().Contains(nombreActual) ||
-                        p.LastName.ToLower().Contains(nombreActual));
-                }
-            }
-
-            return query;
-        }
-
-        private IQueryable<Socio> FiltrarPorEstado(string estado, IQueryable<Socio> query)
-        {
-            switch (estado)
-            {
-                case "1":
-                    query = query.Where(p => p.IsActive.Contains(estado));
-                    break;
-                case "0":
-                    query = query.Where(p => p.IsActive == null);
-                    break;
-                default:
-                    break;
-            }
-            return query;
         }
 
 
@@ -194,7 +134,7 @@ namespace DeportnetOffline
             int tamPag = TamanioPagina;
 
             //Filtrar socios
-            List<Socio> listaSocios = FiltrarSocios(FiltroEstado, FiltroNroTarjeta, FiltroApellidoNombre, FiltroEmail, nroPagina, tamPag);
+            List<Socio> listaSocios = FiltrarSocios(new FiltrosSocioRequest(FiltroEstado, FiltroNroTarjeta, FiltroApellidoNombre, FiltroEmail), nroPagina, tamPag);
 
             //Actualizar datos en la tabla
             dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(listaSocios);
