@@ -6,6 +6,7 @@ using DeportnetOffline.GUI.Modales;
 using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Utils;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Windows.Forms;
 

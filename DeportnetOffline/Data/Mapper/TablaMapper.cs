@@ -14,13 +14,14 @@ namespace DeportnetOffline.Data.Mapper
             {
                 Id = venta.Id,
                 IdSocio = venta.SocioId,
-                IsSaleItem = venta.IsSaleItem,
+                IdDx = venta.Socio.IdDx,
+                IsSaleItem = CalcularTipoProducto(venta.IsSaleItem.ToString()),
                 FullNameSocio = venta.Socio.FirstName + " " + venta.Socio.LastName,
                 ItemName = venta.Name,
                 Amount = venta.Amount,
                 SaleDate = venta.Date,
-                Synchronized = venta.Synchronized,
-                SyncronizedDate = venta.SyncronizedDate
+                Synchronized = CalcularSincronizado(venta.Synchronized.ToString()),
+                SynchronizedDate = venta.SyncronizedDate
             };
         }
 
@@ -29,6 +30,8 @@ namespace DeportnetOffline.Data.Mapper
         {
 
             List<InformacionTablaCobro> cobroTabla = [];
+
+
 
             foreach (Venta unaVenta in ventas)
             {
@@ -43,7 +46,7 @@ namespace DeportnetOffline.Data.Mapper
         public static InformacionTablaNuevoLegajo NuevoLegajoToInformacionTablaNuevoLegajo(Socio nuevoSocio)
         {
             return new InformacionTablaNuevoLegajo(
-                nuevoSocio.IsSincronizado,
+                CalcularSincronizado(nuevoSocio.IsSincronizado),
                 nuevoSocio.FechaHoraSincronizado,
                 nuevoSocio.Id,
                 nuevoSocio.IdDx,
@@ -123,6 +126,23 @@ namespace DeportnetOffline.Data.Mapper
             return "Inactivo";
         }
 
+        public static string CalcularTipoProducto(string tipo)
+        {
+            if(tipo != null)
+            {
+                return tipo == "T" ? "Artículo" : "Membresía";
+            }
+            return "Membresía";
+        }
+
+        public static string CalcularSincronizado(string estado)
+        {
+            if( estado != null)
+            {
+                return estado == "T" ? "Sincronizado" : "No sincronizado";  
+            }
+            return "No sincronizado";
+        }
 
     }
 }

@@ -12,10 +12,10 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         public int Id { get; set; }
 
         [Column("branch_member_id")]
-        public int? BranchMemberId {  get; set; }
+        public int? SocioId {  get; set; }
 
         // Propiedad de navegación
-        [ForeignKey("BranchMemberId")]
+        [ForeignKey("SocioId")]
         public virtual Socio Socio { get; set; }
 
         [Column("item_id")]
@@ -56,7 +56,7 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         public Venta(int itemId, int? branchMemberId, char isSaleItem, string? period, string? days, string name, string amount)
         {
             ItemId = itemId;
-            BranchMemberId = branchMemberId;
+            SocioId = branchMemberId;
             IsSaleItem = isSaleItem;
             Period = period;
             Days = days;
