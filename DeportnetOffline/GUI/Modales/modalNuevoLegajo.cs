@@ -330,7 +330,9 @@ namespace DeportnetOffline.GUI.Modales
                 AddressFloor = textBoxPiso.Text,
                 ImageUrl = null,
                 Gender = comboBoxGenero.SelectedItem.ToString(),
-                IsValid = "0"
+                IsValid = "F",
+                IsSincronizado = "F",
+                FechaHoraSincronizado = null,
             };
         }
 

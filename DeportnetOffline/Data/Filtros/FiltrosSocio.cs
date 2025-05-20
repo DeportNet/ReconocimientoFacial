@@ -74,11 +74,11 @@ namespace DeportnetOffline.Data.Filtros
         {
             switch (estado)
             {
-                case "1":
-                    query = query.Where(p => p.IsValid.Contains("1"));
+                case "T":
+                    query = query.Where(p => p.IsValid.Contains("T"));
                     break;
-                case "0":
-                    query = query.Where(p => p.IsValid.Contains("0"));
+                case "F":
+                    query = query.Where(p => p.IsValid.Contains("F"));
                     break;
                 default:
                     break;

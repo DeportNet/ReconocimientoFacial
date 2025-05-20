@@ -1,5 +1,6 @@
 ﻿using DeportnetOffline.Data.Dto.Table;
 using DeportNetReconocimiento.Api.Data.Domain;
+using DeportNetReconocimiento.Modelo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,15 +46,31 @@ namespace DeportnetOffline.Data.Mapper
 
         //Nuevos Socios
 
-        //public static InformacionTablaNuevoLegajo NuevoLegajoToInformacionTablaNuevoLegajo(Socio nuevoSocio)
-        //{
-            
-        //}
+        public static InformacionTablaNuevoLegajo NuevoLegajoToInformacionTablaNuevoLegajo(Socio nuevoSocio)
+        {
+            return new InformacionTablaNuevoLegajo(
+                nuevoSocio.IsSincronizado,
+                nuevoSocio.FechaHoraSincronizado,
+                nuevoSocio.Id,
+                nuevoSocio.IdDx,
+                nuevoSocio.FirstName + " " + nuevoSocio.LastName,
+                nuevoSocio.CardNumber,
+                nuevoSocio.IdNumber,
+                nuevoSocio.Email,
+                CalcularEdad(nuevoSocio.BirthDate),
+                nuevoSocio.Cellphone,
+                nuevoSocio.Address,
+                nuevoSocio.AddressFloor,
+                nuevoSocio.Gender,
+                CalcularEstado(nuevoSocio.IsValid));
+        }
 
-        //public static List<InformacionTablaNuevoLegajo> ListadoNuevosLegajosToListadoInformacionNuevoLegajos(List<Socio> nuevosSocios)
-        //{
-
-        //}
+        public static List<InformacionTablaNuevoLegajo> ListadoNuevosLegajosToListadoInformacionNuevoLegajos(List<Socio> nuevosSocios)
+        {
+            return nuevosSocios
+                    .Select(NuevoLegajoToInformacionTablaNuevoLegajo)
+                    .ToList();
+        }
 
 
 

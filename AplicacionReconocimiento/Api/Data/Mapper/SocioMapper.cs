@@ -25,7 +25,9 @@ namespace DeportNetReconocimiento.Api.Data.Mapper
                 CardNumber = socioDto.CardNumber,
                 ImageUrl = socioDto.ImageUrl,
                 Gender = socioDto.Gender,
-                IsValid = socioDto.IsValid
+                IsValid = socioDto.IsValid,
+                IsSincronizado = "T",
+                FechaHoraSincronizado = DateTime.Now,
             };
         }
 

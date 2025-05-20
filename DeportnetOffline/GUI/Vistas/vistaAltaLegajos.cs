@@ -79,13 +79,13 @@ namespace DeportnetOffline
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Sincronizado",
-                DataPropertyName = "Synchronized"
+                DataPropertyName = "IsSincronizado"
             });
 
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Fecha - Hora sincro",
-                DataPropertyName = "SyncronizedDate",
+                DataPropertyName = "FechaHoraSincronizado",
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "g" } // Formato corto de fecha y hora
             });
 
@@ -110,7 +110,7 @@ namespace DeportnetOffline
             CambiarInformacionPagina(paginaSocios);
 
             //actualizamos la info de la tabla
-            dataGridView1.DataSource = paginaSocios.Items;
+            dataGridView1.DataSource = TablaMapper.ListadoNuevosLegajosToListadoInformacionNuevoLegajos(paginaSocios.Items);
         }
 
         private void CambiarInformacionPagina(PaginadoResultado<Socio> paginaSocios)
@@ -139,7 +139,7 @@ namespace DeportnetOffline
                 CambiarInformacionPagina(paginaSocios);
 
                 //Actualizar datos en la tabla
-                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(paginaSocios.Items);
+                dataGridView1.DataSource = TablaMapper.ListadoNuevosLegajosToListadoInformacionNuevoLegajos(paginaSocios.Items);
             }
         }
 
@@ -160,7 +160,7 @@ namespace DeportnetOffline
                 CambiarInformacionPagina(paginaSocios);
 
                 //Actualizar datos en la tabla
-                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(paginaSocios.Items);
+                dataGridView1.DataSource = TablaMapper.ListadoNuevosLegajosToListadoInformacionNuevoLegajos(paginaSocios.Items);
             }
 
         }

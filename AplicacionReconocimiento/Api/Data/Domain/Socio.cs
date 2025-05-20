@@ -84,10 +84,19 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [Column("is_valid")]
         [StringLength(1)]
         [AllowNull]
-        public string? IsValid { get; set; } // '1' = Activo, '0' = Inactivo !desde .NET
+        public string? IsValid { get; set; } // 'T' = Activo, 'F' = Inactivo !desde .NET
+
+        [Column("is_synchronized")]
+        [StringLength(1)]
+        [AllowNull]
+        public string? IsSincronizado { get; set; } // 'T' = Sincro, 'F' = No Sincro
+
+        [Column("synchronized_date")]
+        [AllowNull]
+        public DateTime? FechaHoraSincronizado { get; set; }
 
         public Socio() { }
-        public Socio(int? idDx, string email, string firstName, string lastName, string? idNumber, DateTime birthDate, string? cellphone, string? isActive, string? cardNumber, string? address, string? addressFloor, string? imageUrl, string? gender, string? isValid)
+        public Socio(int? idDx, string email, string firstName, string lastName, string? idNumber, DateTime birthDate, string? cellphone, string? isActive, string? cardNumber, string? address, string? addressFloor, string? imageUrl, string? gender, string? isValid, string? isSincronizado, DateTime? fechaHoraSincronizado)
         {
             IdDx = idDx;
             Email = email;
@@ -103,6 +112,8 @@ namespace DeportNetReconocimiento.Api.Data.Domain
             ImageUrl = imageUrl;
             Gender = gender;
             IsValid = isValid;
+            IsSincronizado = isSincronizado;
+            FechaHoraSincronizado = fechaHoraSincronizado;
         }
 
         public static bool EsIgual(Socio local, Socio remoto)

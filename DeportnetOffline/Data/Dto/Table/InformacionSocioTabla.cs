@@ -20,13 +20,11 @@ namespace DeportnetOffline.Data.Dto.Table
         public string Piso { get; set; }
         public string Sexo {  get; set; }
         public string Estado {  get; set; }
-        public string Synchronized { get; set; }
-        public DateTime? SyncronizedDate { get; set; }
 
         public InformacionSocioTabla() { }
 
-        public InformacionSocioTabla(int? id, string nombreYApellido, string nroTarjeta, string dni, string email, 
-            string edad, string celular, string direccion, string piso, string sexo, string estado, string synchronized, DateTime? syncronizedDate)
+        public InformacionSocioTabla(int? id,int? idDx, string nombreYApellido, string nroTarjeta, string dni, string email, 
+            string edad, string celular, string direccion, string piso, string sexo, string estado)
         {
             Id = id;
             IdDx = idDx;
@@ -40,8 +38,6 @@ namespace DeportnetOffline.Data.Dto.Table
             Piso = piso;
             Sexo = sexo;
             Estado = estado;
-            Synchronized = synchronized;
-            SyncronizedDate = syncronizedDate;
         }
     }
 }
