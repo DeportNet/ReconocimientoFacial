@@ -1,11 +1,5 @@
 ﻿using DeportnetOffline.Data.Dto.Table;
 using DeportNetReconocimiento.Api.Data.Domain;
-using DeportNetReconocimiento.Modelo;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeportnetOffline.Data.Mapper
 {
@@ -19,7 +13,7 @@ namespace DeportnetOffline.Data.Mapper
             return new InformacionTablaCobro
             {
                 Id = venta.Id,
-                IdSocio = venta.Socio.Id,
+                IdSocio = venta.SocioId,
                 IsSaleItem = venta.IsSaleItem,
                 FullNameSocio = venta.Socio.FirstName + " " + venta.Socio.LastName,
                 ItemName = venta.Name,
@@ -90,10 +84,9 @@ namespace DeportnetOffline.Data.Mapper
                 Edad = CalcularEdad(socio.BirthDate),
                 Sexo = socio.Gender,
                 Celular = socio.Cellphone,
-                Estado = CalcularEstado(socio.IsActive),
+                Estado = CalcularEstado(socio.IsValid),
                 Direccion = socio.Address,
                 Piso = socio.AddressFloor,
-                
             };
         }
 
@@ -125,7 +118,7 @@ namespace DeportnetOffline.Data.Mapper
         {
             if(estado != null)
             {
-                return int.Parse(estado) == 1 ? "Activo" : "Inactivo";
+                return estado == "T" ? "Activo" : "Inactivo";
             }
             return "Inactivo";
         }
