@@ -22,7 +22,7 @@ namespace DeportnetOffline
         private List<Membresia> membresias = [];
         private InformacionSocioTabla socio;
         private Membresia membresiaSeleccionada;
-
+        private static BdContext context = BdContext.CrearContexto();
 
         public ModalCobro(InformacionSocioTabla socioTabla)
         {
@@ -35,10 +35,9 @@ namespace DeportnetOffline
 
         public void ObtenerMembresiasDeBD()
         {
-            using (var context = BdContext.CrearContexto())
-            {
-                membresias = context.Membresias.ToList();
-            }
+            
+            membresias = context.Membresias.ToList();
+            
             if (membresias != null)
             {
                 CargarComboBox(membresias);
