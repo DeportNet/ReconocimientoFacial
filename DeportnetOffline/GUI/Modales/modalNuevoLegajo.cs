@@ -7,12 +7,17 @@ using System.ComponentModel;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using Windows.Foundation.Metadata;
+using Windows.UI;
+using Color = System.Drawing.Color;
 
 
 namespace DeportnetOffline.GUI.Modales
 {
     public partial class ModalNuevoLegajo : Form
     {
+
+        private static BdContext context = BdContext.CrearContexto();
+
         public ModalNuevoLegajo()
         {
             InitializeComponent();
@@ -56,7 +61,7 @@ namespace DeportnetOffline.GUI.Modales
         private void textBoxNombre_Validating(object sender, CancelEventArgs e)
         {
 
-            ValidarCampo(textBoxNombre, labelErrorNombre, EsTextoValido, "Nombre", true);
+            ValidarCampo(textBoxNombre, labelErrorNombre, EsTextoValido, "Nombre", true, "Solo se permiten letras y espacios");
 
         }
         // Eventos de Apellido
@@ -83,7 +88,7 @@ namespace DeportnetOffline.GUI.Modales
         private void textBoxApellido_Validating(object sender, CancelEventArgs e)
         {
 
-            ValidarCampo(textBoxApellido, labelErrorApellido, EsTextoValido, "Apellido", true);
+            ValidarCampo(textBoxApellido, labelErrorApellido, EsTextoValido, "Apellido", true, "Solo se permiten letras y espacios");
 
         }
 
@@ -116,7 +121,7 @@ namespace DeportnetOffline.GUI.Modales
                 return;
             }
 
-            ValidarCampo(textBoxEmail, labelEmailError, EsEmailValido, "Email", true);
+            ValidarCampo(textBoxEmail, labelEmailError, EsEmailValido, "Email", true, "Ingrese un correo valido (ej: correo@gmail.com)");
 
         }
 
@@ -150,7 +155,7 @@ namespace DeportnetOffline.GUI.Modales
                 return;
             }
 
-            ValidarCampo(textBoxTelefono, labelTelefonoError, EsNumeroValido, "Telefono", false);
+            ValidarCampo(textBoxTelefono, labelTelefonoError, EsNumeroValido, "Telefono", false, "Solo se permiten números");
 
         }
 
@@ -198,14 +203,14 @@ namespace DeportnetOffline.GUI.Modales
         private void textBoxDireccion_Validating(object sender, CancelEventArgs e)
         {
 
-            ValidarCampo(textBoxDireccion, labelDireccionError, EsLetrasNumerosEspaciosValido, "Dep", false);
+            ValidarCampo(textBoxDireccion, labelDireccionError, EsLetrasNumerosEspaciosValido, "Dep", false, "No se permiten caracteres especiales");
 
         }
 
         private void textBoxPiso_Validating(object sender, CancelEventArgs e)
         {
 
-            ValidarCampo(textBoxPiso, labelPisoDepartamentoError, EsLetrasNumerosEspaciosValido, "Direccion", false);
+            ValidarCampo(textBoxPiso, labelPisoDepartamentoError, EsLetrasNumerosEspaciosValido, "Direccion", false, "No se permiten caracteres especiales");
 
         }
 
@@ -232,7 +237,7 @@ namespace DeportnetOffline.GUI.Modales
         private void textBoxNroTarjeta_Validating(object sender, CancelEventArgs e)
         {
 
-            ValidarCampo(textBoxNroTarjeta, labelNroTarjetaError, EsNumeroValido, "Tarjeta", false);
+            ValidarCampo(textBoxNroTarjeta, labelNroTarjetaError, EsNumeroValido, "Tarjeta", false, "Solo se permiten números");
 
 
         }
@@ -255,6 +260,8 @@ namespace DeportnetOffline.GUI.Modales
             {
                 return;
             }
+
+
 
             Socio socio = ObtenerSocio();
 
@@ -358,38 +365,35 @@ namespace DeportnetOffline.GUI.Modales
         {
             bool esValido = true;
 
-            esValido &= ValidarCampo(textBoxNombre, labelErrorNombre, EsTextoValido, "Nombre", true);
-            esValido &= ValidarCampo(textBoxApellido, labelErrorApellido, EsTextoValido, "Apellido", true);
-            esValido &= ValidarCampo(textBoxEmail, labelEmailError, EsEmailValido, "Email", true);
-            esValido &= ValidarCampo(textBoxTelefono, labelTelefonoError, EsNumeroValido, "Telefono", false);
-            esValido &= ValidarCampo(textBoxDireccion, labelDireccionError, EsLetrasNumerosEspaciosValido, "Direccion", false);
-            esValido &= ValidarCampo(textBoxPiso, labelPisoDepartamentoError, EsLetrasNumerosEspaciosValido, "Dep", false);
-            esValido &= ValidarCampo(textBoxNroTarjeta, labelNroTarjetaError, EsNumeroValido, "Tarjeta", false);
+            esValido &= ValidarCampo(textBoxNombre, labelErrorNombre, EsTextoValido, "Nombre", true, "Solo se permiten letras y espacios");
+            esValido &= ValidarCampo(textBoxApellido, labelErrorApellido, EsTextoValido, "Apellido", true, "Solo se permiten letras y espacios");
+            esValido &= ValidarCampo(textBoxEmail, labelEmailError, EsEmailValido, "Email", true, "Ingrese un correo valido (ej: correo@gmail.com)");
+            esValido &= ValidarCampo(textBoxEmail, labelEmailError, EsEmailExistente, "Email", true, "El email ya está registrado");
+            esValido &= ValidarCampo(textBoxTelefono, labelTelefonoError, EsNumeroValido, "Telefono", false, "Solo se permiten números");
+            esValido &= ValidarCampo(textBoxDireccion, labelDireccionError, EsLetrasNumerosEspaciosValido, "Direccion", false, "No se permiten caracteres especiales");
+            esValido &= ValidarCampo(textBoxPiso, labelPisoDepartamentoError, EsLetrasNumerosEspaciosValido, "Dep", false, "No se permiten caracteres especiales ");
+            esValido &= ValidarCampo(textBoxNroTarjeta, labelNroTarjetaError, EsNumeroValido, "Tarjeta", false, "Solo se permiten números");
             esValido &= ValidarFecha();
-
             return esValido;
         }
-        private bool ValidarCampo(TextBox textBox, Label labelError, Func<string, bool> funcionValidacion, string placeholder, bool requerido)
+        private bool ValidarCampo(TextBox textBox, Label labelError, Func<string, bool> funcionValidacion, string placeholder, bool requerido, string mensaje)
         {
 
             if(string.IsNullOrWhiteSpace(textBox.Text) || textBox.Text == placeholder && requerido == false) {
+
                 labelError.Visible = false;
-                Console.WriteLine("Entro en la validacion 1");
                 return true;
             }
 
             if (string.IsNullOrWhiteSpace(textBox.Text) || !funcionValidacion(textBox.Text) || textBox.Text == placeholder)
             {
+                labelError.Text = mensaje;
                 labelError.Visible = true;
-                Console.WriteLine("Entro en la validacion 2");
-
                 return false;
             }
             else
             {
                 labelError.Visible = false;
-                Console.WriteLine("Entro en la validacion 3");
-
                 return true;
             }
         }
@@ -418,6 +422,11 @@ namespace DeportnetOffline.GUI.Modales
         {
             string patron = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
             return Regex.IsMatch(email, patron);
+        }
+
+        private bool EsEmailExistente(string email)
+        {
+            return context.Socios.Any(s => s.Email.ToLower() == email.ToLower());
         }
 
         private bool EsFechaValida(DateTime fecha)
