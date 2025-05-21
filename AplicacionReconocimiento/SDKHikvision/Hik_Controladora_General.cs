@@ -399,13 +399,13 @@ namespace DeportNetReconocimiento.SDK
             }
 
             //obtenemos las capacidades
-           // resultado = ObtenerTripleCapacidadDelDispositivo();
-
-           // if (!resultado.Exito)
-          //  {
-                //si no hubo exito, signfica que directamente el dispositivo no soporta acceso
-           //     return resultado;
-          //  }
+            resultado = ObtenerTripleCapacidadDelDispositivo();
+            resultado.EscribirResultado("Capacidades del dispositivo");
+            if (!resultado.Exito)
+            {
+               // si no hubo exito, signfica que directamente el dispositivo no soporta acceso
+                return resultado;
+            }
 
             configuracion.ActualizarCapacidadMaxima();
 
