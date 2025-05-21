@@ -16,15 +16,17 @@ namespace DeportNetReconocimiento
         [STAThread]
         static void Main(string[] args)
         {
-            /*Base de Datos*/
-                      
+            if (ProgramaCorriendo())
+            {
+                MessageBox.Show("El programa ya esta abierto en otra ventana", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             /*API*/
             apiServer = new ApiServer();
             apiServer.Start();
 
-            //esto no me acuerdo que era
-            //ApplicationConfiguration.Initialize();
-
+           
 
             //iniciazamos la ventana principal de acceso
             Application.Run(WFPrincipal.ObtenerInstancia);
@@ -33,7 +35,19 @@ namespace DeportNetReconocimiento
             AppDomain.CurrentDomain.ProcessExit += (s, e) => apiServer?.Stop();
 
         }
-            //Nuestro: "admin", "Facundo2024*", "8000", "192.168.0.207"
-            //Level : "admin", "020921Levelgym", "8000", "192.168.0.214"
+
+        private static bool ProgramaCorriendo()
+        {
+            string nombreDeProceso = Process.GetCurrentProcess().ProcessName;
+            int cantidadDeInstancias = Process.GetProcessesByName(nombreDeProceso).Length;
+
+            if (cantidadDeInstancias > 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
     }
 }
