@@ -432,9 +432,7 @@ namespace DeportNetReconocimiento.GUI
         {
             string? idEmpleado = CredencialesUtils.LeerCredencialEspecifica(6);
 
-            string mensaje = await WebServicesDeportnet.ControlDeAcceso(response.MemberId, response.ActiveBranchId, response.IsSuccessful, idEmpleado);
-            Console.WriteLine("Mensaje pregunta: " + mensaje);
-
+            string mensaje = await WebServicesDeportnet.ControlDeAcceso(response.MemberId, response.ActiveBranchId, response.IsSuccessful , idEmpleado);
             Hik_Controladora_Eventos.ProcesarRespuestaAcceso(mensaje, response.MemberId, response.ActiveBranchId);
         }
 

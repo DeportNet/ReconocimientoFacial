@@ -61,7 +61,8 @@ namespace DeportNetReconocimiento.Utils
                 Username = credObtenidas.Username,
                 Password = credObtenidas.Password,
                 BranchId = credObtenidas.BranchId,
-                BranchToken = credObtenidas.BranchToken
+                BranchToken = credObtenidas.BranchToken,
+                CurrentCompanyMemberId = credObtenidas.CurrentCompanyMemberId
             };
         }
 
@@ -118,6 +119,7 @@ namespace DeportNetReconocimiento.Utils
 
             Credenciales? credenciales = LeerCredencialesBd();
 
+
             if (/*!CredecialesCargadasEnBd()*/ credenciales == null)
             {
                 Console.WriteLine("No se encontraron credenciales");
@@ -148,7 +150,8 @@ namespace DeportNetReconocimiento.Utils
                         return credenciales.BranchToken;
                     case 6:
                         //id empleado actual
-                        return credenciales.CurrentCompanyMemberId;
+                        string credencial = credenciales.CurrentCompanyMemberId;
+                        return credencial;
                     default:
                         return null;
                 }

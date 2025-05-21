@@ -40,7 +40,8 @@ namespace DeportNetReconocimiento.Api.Services
 
             if (rtaManual != null)
             {
-                data.manualResponse = rtaManual;
+                data.isSuccessful = rtaManual;
+                data.manualAllowedAccess = rtaManual;////Ver aca que poner para que sea falso y no me tire siempre verdadero
             }
 
             if (idEmpleado != null)
@@ -48,8 +49,10 @@ namespace DeportNetReconocimiento.Api.Services
                 data.companyMemberId = idEmpleado;
             }
 
+            string json = JsonSerializer.Serialize(data);
+            Console.WriteLine("JSON serializado a enviar:\n" + json);
 
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaClienteTest, HttpMethod.Post);
+            return await FetchInformacion(json, urlEntradaClienteTest, HttpMethod.Post);
         }
 
         public static async Task<string> ObtenerCofiguracionDeAccesoOffline(string idSucursal)
@@ -178,40 +181,20 @@ namespace DeportNetReconocimiento.Api.Services
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
-        
+
 
             //leo el json de la respuesta recibida
             string dataRecibida = await responseMessage.Content.ReadAsStringAsync();
 
-            
+
             //si el status code es 200, entonces la conexión fue exitosa
             if (responseMessage.IsSuccessStatusCode)
             {
 
-                /*
-                //if(dataRecibida != "200")
-                //{
-
-                //    using JsonDocument doc = JsonDocument.Parse(dataRecibida);
-
-                //    JsonElement root = doc.RootElement;
-
-                //    //Busco la propiedad branchAcces y digo que el elemento  es de tipo arreglo
-
-                //    if ((root.TryGetProperty("branchAccess", out JsonElement branchAccess) && branchAccess.ValueKind == JsonValueKind.Array))
-                //    {
-                //        //en realidad arroja "No se encontro el Socio" pero es justamente lo que necesitamos para saber si la conexión fue exitosa
-                //    }
-                //}
-                */
                 resultado.ActualizarResultado(true, dataRecibida, "200");
-
-
-
             }
             else
             {
-                
                 resultado = CapturarErroresDeportnet(dataRecibida);
             }
             return resultado;
