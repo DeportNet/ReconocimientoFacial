@@ -24,7 +24,7 @@ namespace DeportNetReconocimiento.Api.Controllers
             [FromQuery] string nombreCliente
             )
         {
-
+            string detalle = "F";
 
             if (idCliente == null || idSucursal == null || nombreCliente == null)
             {
@@ -32,18 +32,18 @@ namespace DeportNetReconocimiento.Api.Controllers
             }
 
 
-            if(DispositivoEnUsoUtils.EstaOcupado() == false)
+            if(!DispositivoEnUsoUtils.EstaOcupado())
             {
                 Console.WriteLine("Proceso el evento con id cliente  " + idCliente);
                 DispositivoEnUsoUtils.Ocupar();
-                 detalle = deportnetReconocimientoService.AltaFacialCliente(new AltaFacialClienteRequest(idCliente, idSucursal, nombreCliente));
+                detalle = deportnetReconocimientoService.AltaFacialCliente(new AltaFacialClienteRequest(idCliente, idSucursal, nombreCliente));
             }
             else
             {
                 Console.WriteLine("No se procesa  el evento con id cliente " + idCliente);
             }
 
-                return Ok(detalle);
+            return Ok(detalle);
         }
 
         [HttpGet("baja-facial-cliente")]
