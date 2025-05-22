@@ -71,7 +71,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             Evento infoEvento = new Evento();
 
             //validamos si hay espera luego de un alta
-            if (ReconocimientoService.estaEsperandoLuegoDeUnAlta)
+            if (ReconocimientoService.EstaEsperandoLuegoDeUnAlta)
             {
                 Console.WriteLine("Esperando cierto tiempo luego de un alta");
                 return;
