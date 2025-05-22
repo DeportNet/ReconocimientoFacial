@@ -78,7 +78,6 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
 
             
-            
             //si esta clase esta instanciada
             if(this == null)
             {
@@ -99,11 +98,16 @@ namespace DeportNetReconocimiento.SDKHikvision
                     break;
             }
 
+            DateTime? tiempoDisp = Hik_Controladora_General.InstanciaControladoraGeneral.ObtenerTiempoDispositivo();
+
+            if (!tiempoDisp.HasValue)
+            {
+                Console.WriteLine("Tiempo del disp null");
+            }
+            
             DateTime tiempoActual = DateTime.Now.AddSeconds(-10);
-
-            Console.WriteLine("tiempo Actual " + tiempoActual);
-            Console.WriteLine("Tiempo evento "+ infoEvento.Time);
-
+            
+            Console.WriteLine("Tiempo del dispositivo: "+ tiempoDisp + "Tiempo Actual: " + tiempoActual + ". Tiempo del evento: "+ infoEvento.Time);
 
             //si el evento es exitoso y el tiempo del evento es mayorIgual a la hora actual
 

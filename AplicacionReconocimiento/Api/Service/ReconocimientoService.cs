@@ -170,17 +170,16 @@ namespace DeportNetReconocimiento.Api.Services
 
         }
 
-        private static int tiempoRetrasoLuegoDeUnAlta;
-
-        public static bool estaEsperandoLuegoDeUnAlta;
+        private static int TiempoRetrasoLuegoDeUnAlta;
+        public static bool EstaEsperandoLuegoDeUnAlta;
 
         public void IniciarTiempoEspera()
         {
-            tiempoRetrasoLuegoDeUnAlta = ConfiguracionEstilos.LeerJsonConfiguracion().TiempoDeRetrasoAltaCliente;
+            TiempoRetrasoLuegoDeUnAlta = ConfiguracionEstilos.LeerJsonConfiguracion().TiempoDeRetrasoAltaCliente;
 
-            estaEsperandoLuegoDeUnAlta = true;
-            Thread.Sleep(tiempoRetrasoLuegoDeUnAlta * 1000);
-            estaEsperandoLuegoDeUnAlta = false;
+            EstaEsperandoLuegoDeUnAlta = true;
+            Thread.Sleep(TiempoRetrasoLuegoDeUnAlta * 1000);
+            EstaEsperandoLuegoDeUnAlta = false;
 
         }
 
