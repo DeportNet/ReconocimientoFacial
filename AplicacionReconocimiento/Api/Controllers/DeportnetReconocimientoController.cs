@@ -24,7 +24,7 @@ namespace DeportNetReconocimiento.Api.Controllers
             [FromQuery] string nombreCliente
             )
         {
-            string detalle = "F";
+            string detalle = "lectureisunavailable";
 
             if (idCliente == null || idSucursal == null || nombreCliente == null)
             {
