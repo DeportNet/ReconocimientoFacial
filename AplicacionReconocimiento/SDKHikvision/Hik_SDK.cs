@@ -8,7 +8,7 @@ namespace DeportNetReconocimiento.SDK
     public class Hik_SDK
     {
 
-        #region HCNetSDK.dll macro definition
+        #region HCNetSDK.dll macro constants definition
 
         #region definicion constantes facial
         public const int SERIALNO_LEN = 48; //serial number length
@@ -407,6 +407,11 @@ namespace DeportNetReconocimiento.SDK
         public const int NET_DVR_GET_CARD_CFG_V50 = 2178;    //Parameters to acquire new CARDS (V50)
         public const int NET_DVR_SET_CARD_CFG_V50 = 2179;    //Setting up the new parameters (V50)
 
+        #endregion
+
+        #region constantes tiempo
+        public const int NET_DVR_GET_TIMECFG = 118;
+        public const int NET_DVR_SET_TIMECFG = 119;
         #endregion
 
         #endregion
@@ -1172,7 +1177,12 @@ namespace DeportNetReconocimiento.SDK
         [DllImport(rutaLibreriaSDK)]
         public static extern bool NET_DVR_SetDVRMessageCallBack_V50(int iIndex, MSGCallBack fMessageCallBack, IntPtr pUser);
 
+        /*Prototipos de tiempo del dispositivo*/
+        [DllImport(rutaLibreriaSDK)]
+        public static extern bool NET_DVR_GetDVRConfig(int lUserID, uint dwCommand, int lChannel, IntPtr lpOutBuffer, uint dwOutBufferSize, ref uint lpBytesReturned);
 
+        [DllImport(rutaLibreriaSDK)]
+        public static extern bool NET_DVR_SetDVRConfig(int lUserID, uint dwCommand, int lChannel, System.IntPtr lpInBuffer, uint dwInBufferSize);
 
         #endregion}
 

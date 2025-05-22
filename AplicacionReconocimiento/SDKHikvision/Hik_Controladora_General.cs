@@ -3,6 +3,7 @@ using DeportNetReconocimiento.BD;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
+using System.IO;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -19,8 +20,6 @@ namespace DeportNetReconocimiento.SDK
 
         //patron singleton, instancia de la propia clase
         private static Hik_Controladora_General? instanciaControladoraGeneral;
-
-
 
 
         private int idUsuario; // solo puede haber solo un user_ID
@@ -409,12 +408,103 @@ namespace DeportNetReconocimiento.SDK
 
             configuracion.ActualizarCapacidadMaxima();
 
+
+            SetTiempoDispositivo(DateTime.Now);
+
+
             //setteamos el callback para obtener los ids de los usuarios
             hik_Controladora_Eventos = Hik_Controladora_Eventos.InstanciaControladoraEventos;
             hik_Controladora_Facial = Hik_Controladora_Facial.ObtenerInstancia;
             hik_Controladora_Tarjetas = Hik_Controladora_Tarjetas.ObtenerInstancia;
             
             return resultado;
+        }
+
+        
+        public Hik_SDK.NET_DVR_TIME m_struTimeCfg;
+        public Hik_SDK.NET_DVR_DEVICEINFO_V30 m_struDeviceInfo;
+        
+
+
+        public DateTime? ObtenerTiempoDispositivo()
+        {
+            Hik_Resultado resultado = new Hik_Resultado();
+            DateTime? tiempoDisp = null;
+
+            //Inicializo los valores necesarios para obtener el tiempo del dispositivo
+
+            UInt32 dwReturn = 0;
+            Int32 nSize = Marshal.SizeOf(m_struTimeCfg);
+            IntPtr ptrTimeCfg = Marshal.AllocHGlobal(nSize);
+            Marshal.StructureToPtr(m_struTimeCfg, ptrTimeCfg, false);
+
+            //obtenemos el tiempo del dispositivo
+            if (!Hik_SDK.NET_DVR_GetDVRConfig(idUsuario, Hik_SDK.NET_DVR_GET_TIMECFG, -1, ptrTimeCfg, (UInt32)nSize, ref dwReturn))
+            {
+       
+                resultado.ActualizarResultado(false, 
+                    "Error al obtener el tiempo del dispositivo", 
+                    Hik_SDK.NET_DVR_GetLastError().ToString()
+                );
+
+                resultado.EscribirResultado("Obtener Tiempo Dispositivo");
+            }
+            else
+            {
+                m_struTimeCfg = (Hik_SDK.NET_DVR_TIME)Marshal.PtrToStructure(ptrTimeCfg, typeof(Hik_SDK.NET_DVR_TIME));
+                 
+                tiempoDisp = new DateTime(
+                    m_struTimeCfg.dwYear, 
+                    m_struTimeCfg.dwMonth,
+                    m_struTimeCfg.dwDay,
+                    m_struTimeCfg.dwHour,
+                    m_struTimeCfg.dwMinute,
+                    m_struTimeCfg.dwSecond
+                );
+                
+            }
+            Marshal.FreeHGlobal(ptrTimeCfg);
+            return tiempoDisp;
+        }
+
+         
+
+        public void SetTiempoDispositivo(DateTime nuevoTiempo)
+        {
+            Hik_Resultado resultado = new Hik_Resultado();
+
+            // Creamos el tiempo a settear
+            m_struTimeCfg.dwYear = nuevoTiempo.Year;
+            m_struTimeCfg.dwMonth = nuevoTiempo.Month;
+            m_struTimeCfg.dwDay = nuevoTiempo.Day;
+            m_struTimeCfg.dwHour = nuevoTiempo.Hour;
+            m_struTimeCfg.dwMinute = nuevoTiempo.Minute;
+            m_struTimeCfg.dwSecond = nuevoTiempo.Second;
+
+            // Inicializo los valores necesarios para settear el tiempo del dispositivo
+            Int32 nSize = Marshal.SizeOf(m_struTimeCfg);
+            IntPtr ptrTimeCfg = Marshal.AllocHGlobal(nSize);
+            Marshal.StructureToPtr(m_struTimeCfg, ptrTimeCfg, false);
+
+            if (!Hik_SDK.NET_DVR_SetDVRConfig(idUsuario, Hik_SDK.NET_DVR_SET_TIMECFG, -1, ptrTimeCfg, (UInt32)nSize))
+            {
+                resultado.ActualizarResultado(false,
+                    "Error al obtener el tiempo del dispositivo",
+                    Hik_SDK.NET_DVR_GetLastError().ToString()
+                );
+
+            }
+            else
+            {
+                resultado.ActualizarResultado(true,
+                    "El tiempo del dispositivo se asigno con exito",
+                    "1"
+                );
+
+            }
+            resultado.EscribirResultado("Asignar Tiempo Dispositivo");
+
+            Marshal.FreeHGlobal(ptrTimeCfg);
         }
 
 
