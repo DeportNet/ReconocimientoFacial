@@ -149,6 +149,8 @@ namespace DeportNetReconocimiento.Api.Services
                 );
 
                 Console.WriteLine("Hubo un Error en alta facial: " + resAlta.Mensaje);
+                DispositivoEnUsoUtils.Desocupar();
+
                 return;
             }
 
@@ -168,6 +170,7 @@ namespace DeportNetReconocimiento.Api.Services
             
             
             EnUso = false;
+            DispositivoEnUsoUtils.Desocupar();
         }
 
        
