@@ -173,7 +173,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             AsignarFechaDeInicioYVencimientoTarjeta(ref tarjetaRecord);
 
             //asignamos los permisos de la tarjeta (1 = default osea todos, 0= ninguno)
-            tarjetaRecord.byDoorRight[0] = configuracionEstilos.PermisosDeTarjeta;     
+            tarjetaRecord.byDoorRight[0] = 1;     
 
             //asignamos la estructura record a un puntero
             ptrTarjetaRecord = Marshal.AllocHGlobal((int)tarjetaRecord.dwSize);

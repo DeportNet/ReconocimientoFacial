@@ -78,13 +78,14 @@ namespace DeportNetReconocimiento.Utils
                         string unDato = reader.ReadString(); // Lee cada string
                         listaDatos.Add(unDato);
 
-                        Console.WriteLine($"Leído: {unDato}");
+                        //Console.WriteLine($"Leído: {unDato}");
                     }
+                    
                 }
             }
 
             return listaDatos.ToArray();
         }
-
+            
     }
 }
