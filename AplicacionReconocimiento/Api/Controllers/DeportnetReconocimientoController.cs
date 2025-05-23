@@ -1,4 +1,6 @@
 ﻿using DeportNetReconocimiento.Api.Dtos.Request;
+using DeportNetReconocimiento.Api.Dtos.Response;
+using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.Api.Services.Interfaces;
 using DeportNetReconocimiento.Utils;
 using Microsoft.AspNetCore.Mvc;
@@ -24,13 +26,13 @@ namespace DeportNetReconocimiento.Api.Controllers
             [FromQuery] string nombreCliente
             )
         {
-            string detalle = "lectureisunavailable";
+
 
             if (idCliente == null || idSucursal == null || nombreCliente == null)
             {
                 return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
             }
-
+            string detalle = "F";
 
             if(!DispositivoEnUsoUtils.EstaOcupado())
             {
@@ -40,6 +42,14 @@ namespace DeportNetReconocimiento.Api.Controllers
             }
             else
             {
+                RespuestaAltaBajaCliente respuestaAlta = new RespuestaAltaBajaCliente(
+                    idSucursal: idSucursal.ToString(),
+                    idCliente: idCliente.ToString(),
+                    mensaje: "El dispositivo se encuentra ocupado",
+                    exito: "F");
+
+                _ = WebServicesDeportnet.AltaClienteDeportnet(respuestaAlta.ToJson());
+
                 Console.WriteLine("No se procesa  el evento con id cliente " + idCliente);
             }
 
