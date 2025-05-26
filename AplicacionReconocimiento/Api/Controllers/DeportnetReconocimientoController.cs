@@ -25,6 +25,7 @@ namespace DeportNetReconocimiento.Api.Controllers
             [FromQuery] string nombreCliente
             )
         {
+            string detalle = "F";
             if (idCliente == null || idSucursal == null || nombreCliente == null)
             {
                 return BadRequest("El cuerpo de la solicitud no puede estar vacío.");

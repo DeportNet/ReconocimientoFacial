@@ -71,7 +71,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             Evento infoEvento = new Evento();
 
             //validamos si hay espera luego de un alta
-            if (ReconocimientoService.estaEsperandoLuegoDeUnAlta)
+            if (ReconocimientoService.EstaEsperandoLuegoDeUnAlta)
             {
                 Console.WriteLine("Esperando cierto tiempo luego de un alta");
                 return;
@@ -213,13 +213,6 @@ namespace DeportNetReconocimiento.SDKHikvision
 
                 if (branchAccess[1].ToString() == "U")
                 {
-                    
-                    //MessageBox.Show(branchAccess[0].ToString(),
-                    //"Error",
-                    //MessageBoxButtons.OK,
-                    //MessageBoxIcon.Error
-                    //);
-                    //verificar si existe en el dispositivo eliminarlo
 
                     jsonDeportnet.MensajeCrudo = branchAccess[0].ToString();
                     jsonDeportnet.Estado = "U";

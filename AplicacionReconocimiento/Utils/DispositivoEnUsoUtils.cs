@@ -27,14 +27,14 @@ namespace DeportNetReconocimiento.Utils
         public static void Ocupar()
         {
             File.WriteAllText(rutaArchivo, "1");
-            Console.WriteLine("\n\n\n- - - - - - -Ocupo el dispositivo - - - -- \n\n\n");
+            Console.WriteLine("- - - - - - Ocupo el dispositivo - - - - -");
         }
 
         //cambia el estado a desocupado
         public static void Desocupar()
         {
             File.WriteAllText(rutaArchivo, "0");
-            Console.WriteLine("\n\n\n- - - - - - -Desocupo el dispositivo - - - -- \n\n\n");
+            Console.WriteLine("- - - - - - Desocupo el dispositivo - - - - -");
         }
 
         //Devuelve si esta ocupado el dispositivo 

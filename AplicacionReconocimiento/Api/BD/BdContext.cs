@@ -75,7 +75,7 @@ namespace DeportNetReconocimiento.Api.BD
             // Si la base de datos no existe, la crea
             CrearYOcultarArchivoDb(rutaDb);
 
-            Console.WriteLine("Base de datos creada y oculta correctamente.");
+            //Console.WriteLine("Base de datos creada y oculta correctamente.");
         }
 
         private static void CrearYOcultarCarpetaDb(string rutaCarpeta)
