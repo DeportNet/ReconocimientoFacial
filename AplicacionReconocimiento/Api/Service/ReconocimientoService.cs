@@ -231,7 +231,6 @@ namespace DeportNetReconocimiento.Api.Services
                 _ = BajaClienteDeportnet(clienteRequest);
                  return resultado;
             }
-            return resultado;
 
             if (hik_Controladora.IdUsuario == -1)
             {
@@ -239,7 +238,8 @@ namespace DeportNetReconocimiento.Api.Services
                     new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                     clienteRequest.IdCliente.ToString(),
                     "El idUsuario del dispositivo de reconocimiento facial es -1. El dispositivo no esta conectado.",
-                    "F")
+                    "F"),
+                    false
                 );
 
                 return "F";
