@@ -30,7 +30,6 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
             loading = new Loading();
             Hik_Resultado resultadoInicio = InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-            DispositivoEnUsoUtils.Desocupar();
 
 
             //estilos se leen de un archivo
