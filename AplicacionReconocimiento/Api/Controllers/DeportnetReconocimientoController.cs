@@ -47,7 +47,8 @@ namespace DeportNetReconocimiento.Api.Controllers
                 idSucursal: idSucursal.ToString(),
                 idCliente: idCliente.ToString(),
                 mensaje: "El dispositivo se encuentra ocupado",
-                exito: "F");
+                exito: "F", 
+                lector: ConfiguracionGeneralUtils.ObtenerLectorActual());
 
                 _ = WebServicesDeportnet.AltaFacialClienteDeportnet(respuestaAlta);
 

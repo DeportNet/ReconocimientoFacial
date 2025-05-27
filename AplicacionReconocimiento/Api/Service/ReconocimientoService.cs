@@ -34,7 +34,9 @@ namespace DeportNetReconocimiento.Api.Services
                                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                    clienteRequest.IdCliente.ToString(),
                                    "El idSucursal es nulo, debido a que todavia no se ingresaron las credenciales correspondientes y se esta queriendo realizar una accion desde Deportnet.",
-                                   "F"),
+                                   "F",
+                                   lector: ConfiguracionGeneralUtils.ObtenerLectorActual()
+                                   ),
                                    true
                                );
                 return "F";
@@ -48,7 +50,10 @@ namespace DeportNetReconocimiento.Api.Services
                                     new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                     clienteRequest.IdCliente.ToString(),
                                     "El idUsuario del dispositivo de reconocimiento facial es -1. El dispositivo no esta conectado.",
-                                    "F"),
+                                    "F",
+                                    lector: ConfiguracionGeneralUtils.ObtenerLectorActual()
+
+                                    ),
                                    true
                                 );
                 return "F";
@@ -63,7 +68,8 @@ namespace DeportNetReconocimiento.Api.Services
                                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                    clienteRequest.IdCliente.ToString(),
                                    "El idSucursal del dispositivo no coincide con el idSucursal del cliente.",
-                                   "F"),
+                                   "F",
+                                   lector: ConfiguracionGeneralUtils.ObtenerLectorActual()),
                                    true
                                );
                 return "F";
@@ -77,7 +83,8 @@ namespace DeportNetReconocimiento.Api.Services
                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                    clienteRequest.IdCliente.ToString(),
                    "El dispositivo ya está en uso.",
-                   "F"),
+                   "F",
+                   lector: ConfiguracionGeneralUtils.ObtenerLectorActual()),
                     true
                );
 
@@ -99,7 +106,8 @@ namespace DeportNetReconocimiento.Api.Services
                                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                    clienteRequest.IdCliente.ToString(),
                                    "El idSucursal es nulo, debido a que todavia no se ingresaron las credenciales correspondientes y se esta queriendo realizar una accion desde Deportnet.",
-                                   "F"),
+                                   "F",
+                                   lector: ConfiguracionGeneralUtils.ObtenerLectorActual()),
                                    true
                                );
                 return "F";
@@ -113,7 +121,8 @@ namespace DeportNetReconocimiento.Api.Services
                                     new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                     clienteRequest.IdCliente.ToString(),
                                     "El idUsuario del dispositivo de reconocimiento facial es -1. El dispositivo no esta conectado.",
-                                    "F"),
+                                    "F", 
+                                    lector: ConfiguracionGeneralUtils.ObtenerLectorActual()),
                                    true
                                 );
                 return "F";
@@ -128,7 +137,8 @@ namespace DeportNetReconocimiento.Api.Services
                                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                    clienteRequest.IdCliente.ToString(),
                                    "El idSucursal del dispositivo no coincide con el idSucursal del cliente.",
-                                   "F"),
+                                   "F",
+                                   lector: ConfiguracionGeneralUtils.ObtenerLectorActual()),
                                    true
                                );
                 return "F";
@@ -142,7 +152,8 @@ namespace DeportNetReconocimiento.Api.Services
                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                    clienteRequest.IdCliente.ToString(),
                    "El dispositivo ya está en uso.",
-                   "F"),
+                   "F",
+                   lector: ConfiguracionGeneralUtils.ObtenerLectorActual()),
                     true
                );
 
@@ -191,7 +202,8 @@ namespace DeportNetReconocimiento.Api.Services
                     new RespuestaAltaBajaCliente(altaFacialClienteRequest.IdSucursal.ToString(),
                     altaFacialClienteRequest.IdCliente.ToString(),
                     resAlta.Mensaje,
-                    "F"),
+                    "F",
+                    lector: ConfiguracionGeneralUtils.ObtenerLectorActual()),
                     true
                 );
 
@@ -206,7 +218,8 @@ namespace DeportNetReconocimiento.Api.Services
                 altaFacialClienteRequest.IdSucursal.ToString(),
                 altaFacialClienteRequest.IdCliente.ToString(),
                 "Alta facial cliente exitosa",
-                "T"
+                "T",
+                ConfiguracionGeneralUtils.ObtenerLectorActual()
             );
 
             string mensaje = await WebServicesDeportnet.AltaFacialClienteDeportnet(respuestaAlta);
@@ -238,7 +251,8 @@ namespace DeportNetReconocimiento.Api.Services
                     new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                     clienteRequest.IdCliente.ToString(),
                     "El idUsuario del dispositivo de reconocimiento facial es -1. El dispositivo no esta conectado.",
-                    "F"),
+                    "F",
+                    lector: ConfiguracionGeneralUtils.ObtenerLectorActual()),
                     false
                 );
 
@@ -251,7 +265,8 @@ namespace DeportNetReconocimiento.Api.Services
                     new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                     clienteRequest.IdCliente.ToString(),
                     "El idSucursal del dispositivo no coincide con el idSucursal del cliente.",
-                    "F"),
+                    "F",
+                    lector: ConfiguracionGeneralUtils.ObtenerLectorActual()),
                     false
                 );
 
@@ -265,7 +280,8 @@ namespace DeportNetReconocimiento.Api.Services
                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                    clienteRequest.IdCliente.ToString(),
                    "El dispositivo ya está en uso.",
-                   "F"),
+                   "F",
+                   lector: ConfiguracionGeneralUtils.ObtenerLectorActual()),
                    false
                );
 
@@ -292,7 +308,8 @@ namespace DeportNetReconocimiento.Api.Services
                     new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                     clienteRequest.IdCliente.ToString(),
                     resBaja.Mensaje,
-                    "F"),
+                    "F",
+                    lector: ConfiguracionGeneralUtils.ObtenerLectorActual()),
                     false
                 );
                 Console.WriteLine("Hubo un Error en Baja facial: " + resBaja.Mensaje);
@@ -305,7 +322,8 @@ namespace DeportNetReconocimiento.Api.Services
                     clienteRequest.IdSucursal.ToString(),
                     clienteRequest.IdCliente.ToString(),
                     "Baja facial cliente exitosa",
-                    "T"
+                    "T",
+                    ConfiguracionGeneralUtils.ObtenerLectorActual()
                 );
                 string mensaje = await WebServicesDeportnet.BajaFacialClienteDeportnet(respuestaAlta);
 
