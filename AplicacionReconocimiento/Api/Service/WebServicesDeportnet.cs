@@ -41,7 +41,7 @@ namespace DeportNetReconocimiento.Api.Services
             if (rtaManual != null)
             {
                 data.isSuccessful = rtaManual;
-                data.manualAllowedAccess = rtaManual;////Ver aca que poner para que sea falso y no me tire siempre verdadero
+                data.manualAllowedAccess = rtaManual;
             }
 
             if (idEmpleado != null)

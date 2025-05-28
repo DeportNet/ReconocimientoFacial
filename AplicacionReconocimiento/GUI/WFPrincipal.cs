@@ -433,7 +433,7 @@ namespace DeportNetReconocimiento.GUI
         {
             string? idEmpleado = CredencialesUtils.LeerCredencialEspecifica(6);
 
-            string mensaje = await WebServicesDeportnet.ControlDeAcceso(response.MemberId, response.ActiveBranchId, response.IsSuccessful , idEmpleado);
+            string mensaje = await WebServicesDeportnet.ControlDeAcceso(response.MemberId, response.ActiveBranchId, response.IsSuccessful , idEmpleado, ConfiguracionGeneralUtils.ObtenerLectorActual());
             Hik_Controladora_Eventos.ProcesarRespuestaAcceso(mensaje, response.MemberId, response.ActiveBranchId);
         }
 
