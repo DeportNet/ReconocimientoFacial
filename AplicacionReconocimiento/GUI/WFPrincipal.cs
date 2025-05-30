@@ -30,7 +30,6 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
             loading = new Loading();
             Hik_Resultado resultadoInicio = InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-            DispositivoEnUsoUtils.Desocupar();
 
 
             //estilos se leen de un archivo
@@ -434,7 +433,7 @@ namespace DeportNetReconocimiento.GUI
         {
             string? idEmpleado = CredencialesUtils.LeerCredencialEspecifica(6);
 
-            string mensaje = await WebServicesDeportnet.ControlDeAcceso(response.MemberId, response.ActiveBranchId, response.IsSuccessful , idEmpleado);
+            string mensaje = await WebServicesDeportnet.ControlDeAcceso(response.MemberId, response.ActiveBranchId, response.IsSuccessful , idEmpleado, ConfiguracionGeneralUtils.ObtenerLectorActual());
             Hik_Controladora_Eventos.ProcesarRespuestaAcceso(mensaje, response.MemberId, response.ActiveBranchId);
         }
 

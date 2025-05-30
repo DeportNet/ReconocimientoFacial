@@ -63,16 +63,16 @@
             // 
             // label1
             // 
-            label1.Anchor = AnchorStyles.Left;
-            label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
+            label1.Dock = DockStyle.Fill;
             label1.Font = new Font("Consolas", 26.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(56, 19);
+            label1.Location = new Point(0, 0);
             label1.Name = "label1";
-            label1.Size = new Size(417, 41);
+            label1.Size = new Size(637, 82);
             label1.TabIndex = 2;
             label1.Text = "Registrar Dispositivo";
+            label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnCancel
             // 
@@ -304,7 +304,6 @@
             FormClosing += CerrarFormulario;
             Load += WFRgistrarDispositivo_Load;
             panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }

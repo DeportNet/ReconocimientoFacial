@@ -268,15 +268,32 @@ namespace DeportNetReconocimiento
 
         private void CerrarFormulario(object sender, FormClosingEventArgs e)
         {
-            
-            if (!ignorarCerrarPrograma || instancia.tipoApertura == 1)
+            if (!ignorarCerrarPrograma)
             {
-                Console.WriteLine("Entro a cerrar programa, tipo de apertura " + instancia.tipoApertura);
 
                 var result = MessageBox.Show("¿Estás seguro de que quieres cerrar la aplicación?",
                                              "Confirmación",
                                              MessageBoxButtons.YesNo,
                                              MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    // Cerrar completamente la aplicación
+                    Environment.Exit(0); // 0 indica salida exitosa; otro valor indica error.
+                }
+                else
+                {
+                    // Cancelar el cierre
+                    e.Cancel = true;
+                }
+            }
+
+            if(tipoApertura == 1)
+            {
+                var result = MessageBox.Show("Cerrar la aplicación para volver a inicializar la conexión",
+                                            "Confirmación",
+                                            MessageBoxButtons.YesNo,
+                                            MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
