@@ -187,12 +187,10 @@ namespace DeportNetReconocimiento.SDKHikvision
             string? nroEmpleado = credenciales.CurrentCompanyMemberId;
 
             /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
-            string response = await WebServicesDeportnet.ControlDeAcceso(numeroTarjeta,idSucursal, null, nroEmpleado);
+            string response = await WebServicesDeportnet.ControlDeAcceso(numeroTarjeta,idSucursal, null, nroEmpleado, ConfiguracionGeneralUtils.ObtenerLectorActual());
             
             ProcesarRespuestaAcceso(response, numeroTarjeta, idSucursal);
             
-
-
             libre = true;
 
         }
