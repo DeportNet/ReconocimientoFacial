@@ -2,7 +2,7 @@
 using DeportNetReconocimiento.Api.Data.Dtos.Response;
 using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.GUI;
-using DeportNetReconocimiento.Modelo;
+using DeportNetReconocimiento.Hikvision.Modelo;
 using DeportNetReconocimiento.Utils;
 using System.Runtime.InteropServices;
 using System.Text.Json;

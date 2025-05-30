@@ -1,11 +1,11 @@
+using DeportnetOffline;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Dtos.Response;
 using DeportNetReconocimiento.Api.Services;
-using DeportNetReconocimiento.Modelo;
+using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using DeportNetReconocimiento.Properties;
-using DeportNetReconocimiento.SDK;
-using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
+using DeportNetReconocimiento.Utils.Modelo;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
@@ -131,7 +131,7 @@ namespace DeportNetReconocimiento.GUI
                     trayReconocimiento.Visible = true;
 
                     this.MaximizarVentana();
-                   
+
                     if (!resultadoLogin.Exito)
                     {
                         //va a mostrar no se encontro la ip
@@ -212,7 +212,7 @@ namespace DeportNetReconocimiento.GUI
                 return;
             }
 
-           
+
             //intentamos volver a conectarnos
             resultadoInstanciar = InstanciarPrograma();
             Console.WriteLine("No hay conexion, intentamos reinstanciar programa. nro de intentos: " + intentosConexionADispositivo);
@@ -243,7 +243,7 @@ namespace DeportNetReconocimiento.GUI
                 }
             }
 
-            
+
         }
 
         public async void VerificarConexionInternet()
@@ -272,7 +272,7 @@ namespace DeportNetReconocimiento.GUI
                 }
 
             }
-           
+
         }
 
 
@@ -281,7 +281,7 @@ namespace DeportNetReconocimiento.GUI
             Hik_Resultado? hayAlmacenamiento = VerificarAlmacenamientoUtils.VerificarHayAlmacenamiento();
 
 
-            if(hayAlmacenamiento == null)
+            if (hayAlmacenamiento == null)
             {
                 Console.WriteLine("No se pudo verificar el almacenamiento en WfPrincipal.");
                 return;
@@ -300,7 +300,7 @@ namespace DeportNetReconocimiento.GUI
 
             TextoAlmacenamiento.Text = hayAlmacenamiento.Mensaje;
 
-          
+
 
         }
 
@@ -433,7 +433,7 @@ namespace DeportNetReconocimiento.GUI
         {
             string? idEmpleado = CredencialesUtils.LeerCredencialEspecifica(6);
 
-            string mensaje = await WebServicesDeportnet.ControlDeAcceso(response.MemberId, response.ActiveBranchId, response.IsSuccessful , idEmpleado, ConfiguracionGeneralUtils.ObtenerLectorActual());
+            string mensaje = await WebServicesDeportnet.ControlDeAcceso(response.MemberId, response.ActiveBranchId, response.IsSuccessful, idEmpleado, ConfiguracionGeneralUtils.ObtenerLectorActual());
             Hik_Controladora_Eventos.ProcesarRespuestaAcceso(mensaje, response.MemberId, response.ActiveBranchId);
         }
 
@@ -466,7 +466,7 @@ namespace DeportNetReconocimiento.GUI
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("No se pudo obtener foto cliente: "+ex.Message);
+                    Console.WriteLine("No se pudo obtener foto cliente: " + ex.Message);
                     imagen = Resources.avatarPredeterminado;
                 }
             }
@@ -702,6 +702,12 @@ namespace DeportNetReconocimiento.GUI
         private void textoInformacionCliente_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void botonDeportnetOffline_Click(object sender, EventArgs e)
+        {
+            WFDeportnetOffline wfDeportnetOffline = new WFDeportnetOffline();
+            wfDeportnetOffline.Show();
         }
     }
 }

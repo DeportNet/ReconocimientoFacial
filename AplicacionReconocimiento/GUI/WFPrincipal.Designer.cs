@@ -185,6 +185,7 @@ namespace DeportNetReconocimiento.GUI
             botonDeportnetOffline.Text = "Modo offline";
             botonDeportnetOffline.UseVisualStyleBackColor = false;
             botonDeportnetOffline.Visible = false;
+            botonDeportnetOffline.Click += botonDeportnetOffline_Click;
             // 
             // textoSinCoenxion
             // 

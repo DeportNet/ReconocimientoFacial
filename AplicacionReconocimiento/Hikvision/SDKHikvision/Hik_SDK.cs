@@ -1099,7 +1099,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
         #region  HCNetSDK.dll function definition
 
         //ruta libreria sdk hikvision
-        private const string rutaLibreriaSDK = @"HCNetSDK\HCNetSDK.dll";
+        private const string rutaLibreriaSDK = @"Hikvision\HCNetSDK\HCNetSDK.dll";
 
         [DllImport(rutaLibreriaSDK)]
         public static extern bool NET_DVR_Init();
