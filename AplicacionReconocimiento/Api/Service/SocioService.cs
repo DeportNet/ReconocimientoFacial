@@ -47,7 +47,6 @@ namespace DeportNetReconocimiento.Api.Services
             await InsertarSociosEnTabla(listadoDeSociosDx);
         }
 
-
         private async Task<List<Socio>> ObtenerSociosDelWebserviceAsync()
         {
 
@@ -121,6 +120,25 @@ namespace DeportNetReconocimiento.Api.Services
                     var socioLocal = listadoSociosLocal.First(l => l.IdDx == socio.IdDx);
                     _bdContext.Entry(socioLocal).CurrentValues.SetValues(socio);
                 }
+            }
+        }
+
+        public static  async Task ActualizarEstadoSocio(int? idSocio, int estado)
+        {
+            
+            using (var context = BdContext.CrearContexto())
+            {
+                Socio socio = context.Socios.Find(idSocio);
+                if(socio == null)
+                {
+                    Console.WriteLine("No se encontró al socio con id " + idSocio);
+                    return;
+                }
+
+                socio.IsValid = estado == 1 ? "T" : "F";
+
+                context.SaveChanges();
+                Console.WriteLine("Estado de socio actualizado con exito");
             }
         }
     }

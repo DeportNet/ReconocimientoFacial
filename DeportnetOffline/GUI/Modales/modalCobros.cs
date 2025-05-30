@@ -2,6 +2,8 @@
 using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Repository;
+using DeportNetReconocimiento.Api.Services;
+using DeportNetReconocimiento.Api.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,8 +19,6 @@ namespace DeportnetOffline
     public partial class ModalCobro : Form
     {
 
-
-
         private List<Membresia> membresias = [];
         private InformacionSocioTabla socio;
         private Membresia membresiaSeleccionada;
@@ -30,7 +30,6 @@ namespace DeportnetOffline
             socio = socioTabla;
             labelNombreApelldioCliente.Text = socio.NombreYApellido;
             ObtenerMembresiasDeBD();
-
         }
 
         public void ObtenerMembresiasDeBD()
@@ -110,7 +109,11 @@ namespace DeportnetOffline
 
             if (resultado)
             {
+
+
                 MessageBox.Show("Venta completada", "La venta se registro exitosamente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                await SocioService.ActualizarEstadoSocio(socio.Id, 1);
+                
                 LimpiarLabels();
                 this.Close();
             }

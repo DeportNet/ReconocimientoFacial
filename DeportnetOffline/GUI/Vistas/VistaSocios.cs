@@ -53,12 +53,12 @@ namespace DeportnetOffline
 
         public void CargarDatos(int paginaActual, int tamanioPagina)
         {
-
-            PaginadoResultado<Socio> paginaSocios = PaginadorUtils.ObtenerPaginadoAsync(context.Socios, paginaActual, tamanioPagina).Result;
-
-            CambiarInformacionPagina(paginaSocios); 
-
-            dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(paginaSocios.Items);
+            using(var contexto = BdContext.CrearContexto())
+            {
+                PaginadoResultado<Socio> paginaSocios = PaginadorUtils.ObtenerPaginadoAsync(contexto.Socios, paginaActual, tamanioPagina).Result;
+                CambiarInformacionPagina(paginaSocios); 
+                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(paginaSocios.Items);
+            }
         }
 
         //cambiar de pagina
@@ -201,7 +201,15 @@ namespace DeportnetOffline
         private void button2_Click(object sender, EventArgs e)
         {
             ModalNuevoLegajo modal = new ModalNuevoLegajo();
+
+            modal.FormClosed += (s, args) =>
+            {
+                CargarDatos(PaginaActual, TamanioPagina);
+            };
+
             modal.ShowDialog();
+
+            
         }
 
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -216,6 +224,10 @@ namespace DeportnetOffline
                     if(socio.Estado == "Activo")
                     {
                         ModalVentas modal = new ModalVentas(socio);
+                        modal.FormClosed += (s, args) =>
+                        {
+                            CargarDatos(PaginaActual, TamanioPagina);
+                        };
                         modal.ShowDialog();
                     }
                     else
@@ -226,6 +238,10 @@ namespace DeportnetOffline
                 else if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaCobro")
                 {
                     ModalCobro modal = new ModalCobro(socio);
+                    modal.FormClosed += (s, args) =>
+                    {
+                        CargarDatos(PaginaActual, TamanioPagina);
+                    };
                     modal.ShowDialog();
                 }
             }
