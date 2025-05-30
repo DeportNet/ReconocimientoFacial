@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyCopyrightAttribute("Deportnet")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3dc783c4213a227297366437109bb76600284e05")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9ce9319d2adedfd96ab6cbf6ec16a246b6268f6c")]
 [assembly: System.Reflection.AssemblyProductAttribute("DeportNetReconocimiento")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DeportNetReconocimiento")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -17,6 +17,30 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Update="DeportnetOffline\GUI\Modales\modalCobros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DeportnetOffline\GUI\Modales\modalNuevoLegajo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DeportnetOffline\GUI\Modales\modalVentas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DeportnetOffline\GUI\Vistas\VistaAccesos.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="DeportnetOffline\GUI\Vistas\vistaAltaLegajos.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="DeportnetOffline\GUI\Vistas\VistaCobros.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="DeportnetOffline\GUI\Vistas\VistaSocios.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="GUI\WFDeportnetOffline.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -57,7 +81,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="HCNetSDK\**\*">
+    <Content Include="Hikvision\HCNetSDK\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -67,118 +91,118 @@
    </ItemGroup>
 
    <ItemGroup>
-     <Content Update="HCNetSDK\-¨Ëð+Ô+-+¦+¢¦¦Á¢©+-+-+¤-.txt">
+     <Content Update="Hikvision\HCNetSDK\-¨Ëð+Ô+-+¦+¢¦¦Á¢©+-+-+¤-.txt">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\AudioRender.dll">
+     <Content Update="Hikvision\HCNetSDK\AudioRender.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\EagleEyeRender.dll">
+     <Content Update="Hikvision\HCNetSDK\EagleEyeRender.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\GdiPlus.dll">
+     <Content Update="Hikvision\HCNetSDK\GdiPlus.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\GdiPlus.lib">
+     <Content Update="Hikvision\HCNetSDK\GdiPlus.lib">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCCore.dll">
+     <Content Update="Hikvision\HCNetSDK\HCCore.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCCore.lib">
+     <Content Update="Hikvision\HCNetSDK\HCCore.lib">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDK.dll">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDK.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDK.lib">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDK.lib">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDKCom\AnalyzeData.dll">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDKCom\AnalyzeData.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDKCom\AudioIntercom.dll">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDKCom\AudioIntercom.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDKCom\HCAlarm.dll">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDKCom\HCAlarm.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDKCom\HCAlarm.lib">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDKCom\HCAlarm.lib">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDKCom\HCCoreDevCfg.dll">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDKCom\HCCoreDevCfg.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDKCom\HCDisplay.dll">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDKCom\HCDisplay.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDKCom\HCGeneralCfgMgr.dll">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDKCom\HCGeneralCfgMgr.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDKCom\HCGeneralCfgMgr.lib">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDKCom\HCGeneralCfgMgr.lib">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDKCom\HCIndustry.dll">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDKCom\HCIndustry.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDKCom\HCPlayBack.dll">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDKCom\HCPlayBack.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDKCom\HCPreview.dll">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDKCom\HCPreview.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDKCom\HCPreview.lib">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDKCom\HCPreview.lib">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDKCom\HCVoiceTalk.dll">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDKCom\HCVoiceTalk.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDKCom\libiconv2.dll">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDKCom\libiconv2.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDKCom\OpenAL32.dll">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDKCom\OpenAL32.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDKCom\StreamTransClient.dll">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDKCom\StreamTransClient.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HCNetSDKCom\SystemTransform.dll">
+     <Content Update="Hikvision\HCNetSDK\HCNetSDKCom\SystemTransform.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\hlog.dll">
+     <Content Update="Hikvision\HCNetSDK\hlog.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\hpr.dll">
+     <Content Update="Hikvision\HCNetSDK\hpr.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\HXVA.dll">
+     <Content Update="Hikvision\HCNetSDK\HXVA.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\libeay32.dll">
+     <Content Update="Hikvision\HCNetSDK\libeay32.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\libmmd.dll">
+     <Content Update="Hikvision\HCNetSDK\libmmd.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\MP_Render.dll">
+     <Content Update="Hikvision\HCNetSDK\MP_Render.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\NPQos.dll">
+     <Content Update="Hikvision\HCNetSDK\NPQos.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\PlayCtrl.dll">
+     <Content Update="Hikvision\HCNetSDK\PlayCtrl.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\PlayCtrl.lib">
+     <Content Update="Hikvision\HCNetSDK\PlayCtrl.lib">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\ssleay32.dll">
+     <Content Update="Hikvision\HCNetSDK\ssleay32.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\SuperRender.dll">
+     <Content Update="Hikvision\HCNetSDK\SuperRender.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
-     <Content Update="HCNetSDK\YUVProcess.dll">
+     <Content Update="Hikvision\HCNetSDK\YUVProcess.dll">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </Content>
    </ItemGroup>

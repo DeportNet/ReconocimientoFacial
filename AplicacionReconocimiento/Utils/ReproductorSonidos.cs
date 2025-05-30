@@ -1,4 +1,4 @@
-﻿using DeportNetReconocimiento.Modelo;
+﻿using DeportNetReconocimiento.Utils.Modelo;
 using NAudio.Wave;
 
 

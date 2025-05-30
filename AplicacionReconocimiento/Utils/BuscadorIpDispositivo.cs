@@ -1,4 +1,4 @@
-﻿using DeportNetReconocimiento.SDK;
+﻿using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
