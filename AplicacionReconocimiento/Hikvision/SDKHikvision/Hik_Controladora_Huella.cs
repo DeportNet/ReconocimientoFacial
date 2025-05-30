@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DeportNetReconocimiento.SDKHikvision
+namespace DeportNetReconocimiento.Hikvision.SDKHikvision
 {
     public class Hik_Controladora_Huella
     {

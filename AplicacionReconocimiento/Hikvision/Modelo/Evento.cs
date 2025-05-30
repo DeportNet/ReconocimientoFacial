@@ -1,6 +1,4 @@
-﻿
-
-namespace DeportNetReconocimiento.Modelo
+﻿namespace DeportNetReconocimiento.Hikvision.Modelo
 {
     internal class Evento
     {

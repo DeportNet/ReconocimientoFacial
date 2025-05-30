@@ -2,9 +2,9 @@
 using System.Drawing.Design;
 using System.Globalization;
 using System.Windows.Forms.Design;
-using static DeportNetReconocimiento.Modelo.BooleanToggleEditor;
+using static DeportNetReconocimiento.Utils.Modelo.BooleanToggleEditor;
 
-namespace DeportNetReconocimiento.Modelo
+namespace DeportNetReconocimiento.Utils.Modelo
 {
     //Esto para que aparezca como un objeto expandible en el PropertyGrid
     [TypeConverter(typeof(ExpandableObjectConverter))]
@@ -27,14 +27,14 @@ namespace DeportNetReconocimiento.Modelo
 
         public Sonido()
         {
-            this.RutaArchivo = "";
-            this.Estado = false;
+            RutaArchivo = "";
+            Estado = false;
         }
 
-        public Sonido(string rutaArchivo) 
-        { 
-            this.RutaArchivo = rutaArchivo;
-            this.Estado = true;
+        public Sonido(string rutaArchivo)
+        {
+            RutaArchivo = rutaArchivo;
+            Estado = true;
         }
 
         private string? GuardarSonidoEnDirectorio(string rutaArchivoOriginal)
@@ -135,7 +135,7 @@ namespace DeportNetReconocimiento.Modelo
 
     public class BooleanToggleEditor : UITypeEditor
     {
-        public override UITypeEditorEditStyle GetEditStyle(System.ComponentModel.ITypeDescriptorContext context)
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
         {
             // Define el estilo como DropDown
             return UITypeEditorEditStyle.DropDown;

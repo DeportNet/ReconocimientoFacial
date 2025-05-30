@@ -1,8 +1,7 @@
-﻿using DeportNetReconocimiento.SDK;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 
-namespace DeportNetReconocimiento.SDKHikvision
+namespace DeportNetReconocimiento.Hikvision.SDKHikvision
 {
     internal class Hik_Controladora_Puertas
     {
@@ -11,7 +10,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
         private Hik_Controladora_Puertas()
         {
-            
+
         }
 
         //propiedades
@@ -32,13 +31,14 @@ namespace DeportNetReconocimiento.SDKHikvision
         {
             Hik_Resultado resultado = new Hik_Resultado();
             int idUsuario = Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario;
-            if(idUsuario == -1)
+            if (idUsuario == -1)
             {
                 resultado.ActualizarResultado(false, "No se ha logueado el usuario.", Hik_SDK.NET_DVR_GetLastError().ToString());
                 return resultado;
             }
 
-            switch (operacion) {
+            switch (operacion)
+            {
 
                 case 0:
                     //0-close
@@ -52,10 +52,10 @@ namespace DeportNetReconocimiento.SDKHikvision
                         resultado.ActualizarResultado(false, "Error al cerrar la puerta", Hik_SDK.NET_DVR_GetLastError().ToString());
 
                     }
-                break;
+                    break;
                 case 1:
                     //1 - open
-                    if(Hik_SDK.NET_DVR_ControlGateway(idUsuario, 1, 1))
+                    if (Hik_SDK.NET_DVR_ControlGateway(idUsuario, 1, 1))
                     {
                         resultado.ActualizarResultado(true, "Puerta abierta con exito", Hik_SDK.NET_DVR_GetLastError().ToString());
 
@@ -65,11 +65,11 @@ namespace DeportNetReconocimiento.SDKHikvision
                         resultado.ActualizarResultado(false, "Error al abrir la puerta", Hik_SDK.NET_DVR_GetLastError().ToString());
 
                     }
-                break;
+                    break;
                 case 2:
                     //2 - stay open
 
-                    if(Hik_SDK.NET_DVR_ControlGateway(idUsuario, 1, 2))
+                    if (Hik_SDK.NET_DVR_ControlGateway(idUsuario, 1, 2))
                     {
                         resultado.ActualizarResultado(true, "Puerta abierta y se mantiene abierta", Hik_SDK.NET_DVR_GetLastError().ToString());
 
@@ -80,7 +80,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
                     }
 
-                break;
+                    break;
                 case 3:
                     //3 - stay close
 
@@ -94,11 +94,11 @@ namespace DeportNetReconocimiento.SDKHikvision
                         resultado.ActualizarResultado(false, "Error al mantener la puerta cerrada", Hik_SDK.NET_DVR_GetLastError().ToString());
 
                     }
-                break;
+                    break;
                 default:
                     resultado.Exito = false;
                     resultado.Mensaje = "Operacion no valida, operaciones del 0 al 3";
-                break;
+                    break;
 
 
             }
@@ -130,7 +130,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
             catch
             {
-                
+
                 MessageBox.Show("Error al procesar el archivo en " + ruta, "Error");
             }
         }

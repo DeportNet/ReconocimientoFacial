@@ -1,6 +1,4 @@
-﻿
-
-namespace DeportNetReconocimiento.SDK
+﻿namespace DeportNetReconocimiento.Hikvision.SDKHikvision
 {
     public class Hik_Resultado
     {
@@ -32,12 +30,12 @@ namespace DeportNetReconocimiento.SDK
 
         public Hik_Resultado()
         {
-            this.exito = false;
-            this.mensaje = "";
-            this.codigo = "";
+            exito = false;
+            mensaje = "";
+            codigo = "";
         }
 
-        public bool Exito 
+        public bool Exito
         {
             get { return exito; }
             set { lock (this) { exito = value; } }
@@ -46,7 +44,7 @@ namespace DeportNetReconocimiento.SDK
         public string Mensaje
         {
             get { return mensaje; }
-            set { lock (this) { mensaje= value; } }
+            set { lock (this) { mensaje = value; } }
         }
 
         public string Codigo
@@ -55,7 +53,7 @@ namespace DeportNetReconocimiento.SDK
             set { lock (this) { codigo = value; } }
         }
 
-        public  void EscribirResultado(string titulo)
+        public void EscribirResultado(string titulo)
         {
             Console.WriteLine("- - - - - - " + titulo + " - - - - - -");
             Console.WriteLine("Exito: " + Exito);
@@ -64,10 +62,10 @@ namespace DeportNetReconocimiento.SDK
         }
         public void MessageBoxResultado(string titulo)
         {
-            if(Exito == false)
-            MessageBox.Show($"Exito: {Exito} \nMensaje: {Mensaje}\nCodigo: {Codigo}", titulo,MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (Exito == false)
+                MessageBox.Show($"Exito: {Exito} \nMensaje: {Mensaje}\nCodigo: {Codigo}", titulo, MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
-            MessageBox.Show($"Exito: {Exito} \nMensaje: {Mensaje}\nCodigo: {Codigo}", titulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Exito: {Exito} \nMensaje: {Mensaje}\nCodigo: {Codigo}", titulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 

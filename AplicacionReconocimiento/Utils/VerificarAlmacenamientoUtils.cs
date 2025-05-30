@@ -4,7 +4,7 @@ using DeportNetReconocimiento.Api.Data.Dtos.Dx.Concepts;
 using DeportNetReconocimiento.Api.Data.Dtos.Dx.Socios;
 using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.GUI;
-using DeportNetReconocimiento.SDK;
+using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

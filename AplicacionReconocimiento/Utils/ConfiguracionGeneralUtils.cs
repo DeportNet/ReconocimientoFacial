@@ -1,6 +1,6 @@
 ﻿using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
-using DeportNetReconocimiento.SDK;
+using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using System;
 using System.Collections.Generic;
 using System.Linq;

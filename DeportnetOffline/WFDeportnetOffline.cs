@@ -3,9 +3,9 @@ using Windows.Media.Playback;
 
 namespace DeportnetOffline
 {
-    public partial class Form1 : Form
+    public partial class WFDeportnetOffline : Form
     {
-        public Form1()
+        public WFDeportnetOffline()
         {
             InitializeComponent();
             botonSocios_Click(this, EventArgs.Empty);

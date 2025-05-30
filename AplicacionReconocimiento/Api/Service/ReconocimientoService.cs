@@ -1,7 +1,7 @@
 ﻿using DeportNetReconocimiento.Api.Data.Dtos.Request;
 using DeportNetReconocimiento.Api.Data.Dtos.Response;
 using DeportNetReconocimiento.Api.Services.Interfaces;
-using DeportNetReconocimiento.SDK;
+using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using DeportNetReconocimiento.Utils;
 
 namespace DeportNetReconocimiento.Api.Services

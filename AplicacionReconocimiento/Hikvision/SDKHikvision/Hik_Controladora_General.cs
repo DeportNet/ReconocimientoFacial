@@ -1,7 +1,6 @@
 ﻿using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.GUI;
-using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
 using System.IO;
 using System.Net.NetworkInformation;
@@ -12,7 +11,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 
-namespace DeportNetReconocimiento.SDK
+namespace DeportNetReconocimiento.Hikvision.SDKHikvision
 {
     public class Hik_Controladora_General
     {
@@ -29,16 +28,16 @@ namespace DeportNetReconocimiento.SDK
         private static Hik_Controladora_Facial? hik_Controladora_Facial;
         private static Hik_Controladora_Tarjetas? hik_Controladora_Tarjetas;
         private static Hik_Controladora_Eventos? hik_Controladora_Eventos;
-      
+
 
         //constructores
         private Hik_Controladora_General()
         {
-            this.idUsuario = -1;
+            idUsuario = -1;
 
-            this.soportaFacial = false;
-            this.soportaHuella = false;
-            this.soportaTarjeta = false;
+            soportaFacial = false;
+            soportaHuella = false;
+            soportaTarjeta = false;
         }
 
 
@@ -127,7 +126,7 @@ namespace DeportNetReconocimiento.SDK
             ushort.TryParse(port, out struLoginInfo.wPort);
 
             //struLoginInfo.bUseAsynLogin = false;
-            
+
 
 
             //utilizamos metodo de iniciar sesion
@@ -142,11 +141,11 @@ namespace DeportNetReconocimiento.SDK
             }
             else
             {
-                 resultado = ProcesarErrorDeLogin(struDeviceInfoV40);
+                resultado = ProcesarErrorDeLogin(struDeviceInfoV40);
             }
 
             Hik_Resultado.EscribirLog();
-            
+
             return resultado;
         }
 
@@ -161,14 +160,14 @@ namespace DeportNetReconocimiento.SDK
             switch (nroError)
             {
                 case Hik_SDK.NET_DVR_PASSWORD_ERROR:
-                
+
                     if (1 == struDeviceInfoV40.bySupportLock)
                     {
                         mensajeDeSdk = string.Format($"Te quedan {struDeviceInfoV40.byRetryLoginTime} intentos para logearte" /*struDeviceInfoV40.byRetryLoginTime*/);
                     }
                     resultado.ActualizarResultado(false, $"Usuario o contraseña invalidos \n {mensajeDeSdk}", Hik_SDK.NET_DVR_GetLastError().ToString());
-                
-                break;
+
+                    break;
                 case Hik_SDK.NET_DVR_USER_LOCKED:
 
                     if (1 == struDeviceInfoV40.bySupportLock)
@@ -177,9 +176,9 @@ namespace DeportNetReconocimiento.SDK
                     }
                     resultado.ActualizarResultado(false, mensajeDeSdk, Hik_SDK.NET_DVR_GetLastError().ToString());
 
-                break;
+                    break;
                 case Hik_SDK.NET_DVR_NETWORK_FAIL_CONNECT:
-                    
+
                     resultado.ActualizarResultado(false, "Error IP Incorrecta o Dispositivo no conectado", Hik_SDK.NET_DVR_GetLastError().ToString());
                     break;
                 case Hik_SDK.NET_DVR_DVROPRATEFAILED:
@@ -352,7 +351,7 @@ namespace DeportNetReconocimiento.SDK
                 Console.WriteLine("El xml es null");
             }
 
-            if(capacidad == -1)
+            if (capacidad == -1)
             {
                 Console.WriteLine("No se pudo obtener la capacidad maxima del dispositivo en ObtenerCapacidadCarasDispositivo");
             }
@@ -360,19 +359,19 @@ namespace DeportNetReconocimiento.SDK
             return capacidad;
         }
 
-        public  bool VerificarEstadoDispositivo()
+        public bool VerificarEstadoDispositivo()
         {
-            IntPtr pInBuf;
-            Int32 nSize;
+            nint pInBuf;
+            int nSize;
             int iLastErr = 17;
             bool conectado = false;
-            pInBuf = IntPtr.Zero;
+            pInBuf = nint.Zero;
             nSize = 0;
 
             int XML_ABILITY_OUT_LEN = 3 * 1024 * 1024;
-            IntPtr pOutBuf = Marshal.AllocHGlobal(XML_ABILITY_OUT_LEN);
+            nint pOutBuf = Marshal.AllocHGlobal(XML_ABILITY_OUT_LEN);
 
-            if (!Hik_SDK.NET_DVR_GetDeviceAbility(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, 0, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
+            if (!Hik_SDK.NET_DVR_GetDeviceAbility(InstanciaControladoraGeneral.IdUsuario, 0, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
             {
                 iLastErr = (int)Hik_SDK.NET_DVR_GetLastError();
 
@@ -418,7 +417,7 @@ namespace DeportNetReconocimiento.SDK
         //INICIALIZAMOS TODO
         public Hik_Resultado InicializarPrograma(string user, string password, string port, string ip)
         {
-            ConfiguracionEstilos configuracion= ConfiguracionEstilos.LeerJsonConfiguracion();
+            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion();
             Hik_Resultado resultado = new Hik_Resultado();
 
             resultado = InicializarNet_DVR();
@@ -451,7 +450,7 @@ namespace DeportNetReconocimiento.SDK
             // obtenemos la capacidad de caras de la bd
             int? cantMax = ConfiguracionGeneralUtils.ObtenerCantMaxCarasBd();
 
-            if(cantMax != null)
+            if (cantMax != null)
             {
                 configuracion.ActualizarCapacidadMaximaConfigEstilos((int)cantMax);
             }
@@ -466,14 +465,14 @@ namespace DeportNetReconocimiento.SDK
             hik_Controladora_Eventos = Hik_Controladora_Eventos.InstanciaControladoraEventos;
             hik_Controladora_Facial = Hik_Controladora_Facial.ObtenerInstancia;
             hik_Controladora_Tarjetas = Hik_Controladora_Tarjetas.ObtenerInstancia;
-            
+
             return resultado;
         }
 
-        
+
         public Hik_SDK.NET_DVR_TIME m_struTimeCfg;
         public Hik_SDK.NET_DVR_DEVICEINFO_V30 m_struDeviceInfo;
-        
+
 
         public DateTime? ObtenerTiempoDispositivo()
         {
@@ -482,17 +481,17 @@ namespace DeportNetReconocimiento.SDK
 
             //Inicializo los valores necesarios para obtener el tiempo del dispositivo
 
-            UInt32 dwReturn = 0;
-            Int32 nSize = Marshal.SizeOf(m_struTimeCfg);
-            IntPtr ptrTimeCfg = Marshal.AllocHGlobal(nSize);
+            uint dwReturn = 0;
+            int nSize = Marshal.SizeOf(m_struTimeCfg);
+            nint ptrTimeCfg = Marshal.AllocHGlobal(nSize);
             Marshal.StructureToPtr(m_struTimeCfg, ptrTimeCfg, false);
 
             //obtenemos el tiempo del dispositivo
-            if (!Hik_SDK.NET_DVR_GetDVRConfig(idUsuario, Hik_SDK.NET_DVR_GET_TIMECFG, -1, ptrTimeCfg, (UInt32)nSize, ref dwReturn))
+            if (!Hik_SDK.NET_DVR_GetDVRConfig(idUsuario, Hik_SDK.NET_DVR_GET_TIMECFG, -1, ptrTimeCfg, (uint)nSize, ref dwReturn))
             {
-       
-                resultado.ActualizarResultado(false, 
-                    "Error al obtener el tiempo del dispositivo", 
+
+                resultado.ActualizarResultado(false,
+                    "Error al obtener el tiempo del dispositivo",
                     Hik_SDK.NET_DVR_GetLastError().ToString()
                 );
 
@@ -501,22 +500,22 @@ namespace DeportNetReconocimiento.SDK
             else
             {
                 m_struTimeCfg = (Hik_SDK.NET_DVR_TIME)Marshal.PtrToStructure(ptrTimeCfg, typeof(Hik_SDK.NET_DVR_TIME));
-                 
+
                 tiempoDisp = new DateTime(
-                    m_struTimeCfg.dwYear, 
+                    m_struTimeCfg.dwYear,
                     m_struTimeCfg.dwMonth,
                     m_struTimeCfg.dwDay,
                     m_struTimeCfg.dwHour,
                     m_struTimeCfg.dwMinute,
                     m_struTimeCfg.dwSecond
                 );
-                
+
             }
             Marshal.FreeHGlobal(ptrTimeCfg);
             return tiempoDisp;
         }
 
-         
+
 
         public void SetTiempoDispositivo(DateTime nuevoTiempo)
         {
@@ -531,11 +530,11 @@ namespace DeportNetReconocimiento.SDK
             m_struTimeCfg.dwSecond = nuevoTiempo.Second;
 
             // Inicializo los valores necesarios para settear el tiempo del dispositivo
-            Int32 nSize = Marshal.SizeOf(m_struTimeCfg);
-            IntPtr ptrTimeCfg = Marshal.AllocHGlobal(nSize);
+            int nSize = Marshal.SizeOf(m_struTimeCfg);
+            nint ptrTimeCfg = Marshal.AllocHGlobal(nSize);
             Marshal.StructureToPtr(m_struTimeCfg, ptrTimeCfg, false);
 
-            if (!Hik_SDK.NET_DVR_SetDVRConfig(idUsuario, Hik_SDK.NET_DVR_SET_TIMECFG, -1, ptrTimeCfg, (UInt32)nSize))
+            if (!Hik_SDK.NET_DVR_SetDVRConfig(idUsuario, Hik_SDK.NET_DVR_SET_TIMECFG, -1, ptrTimeCfg, (uint)nSize))
             {
                 resultado.ActualizarResultado(false,
                     "Error al obtener el tiempo del dispositivo",
@@ -576,7 +575,7 @@ namespace DeportNetReconocimiento.SDK
                     flag = true;
                     Console.WriteLine("Tenemos conexion a internet; Tiempo: " + reply.RoundtripTime + " ms");
                     //Console.WriteLine("Dirección: " + reply.Address.ToString());
-                    
+
                 }
                 else
                 {
@@ -602,10 +601,10 @@ namespace DeportNetReconocimiento.SDK
             resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(idCliente));
             if (resultado.Exito)
             {
-                resultado.Mensaje = "Error de obtener la tarjeta, el cliente con el nro de tarjeta: "+ idCliente+" ya existe";
+                resultado.Mensaje = "Error de obtener la tarjeta, el cliente con el nro de tarjeta: " + idCliente + " ya existe";
                 return resultado;
             }
-            
+
             //Pauso el hilo para que no se cargue el dispositivo
             Thread.Sleep(1000);
 
@@ -648,8 +647,8 @@ namespace DeportNetReconocimiento.SDK
 
             return resultado;
         }
-        
-       
+
+
         private static string CambiarNombreFoto(string nombreCompletoSocio, string idSocio)
         {
             string aux = Regex.Replace(nombreCompletoSocio, "'", "");
@@ -659,7 +658,7 @@ namespace DeportNetReconocimiento.SDK
 
 
         public void ConservarImagenSocio(ConfiguracionEstilos configuracion, string nombreCompletoSocio, string idSocio)
-        {            
+        {
             if (!configuracion.AlmacenarFotoSocio)
             {
                 return;
@@ -668,7 +667,7 @@ namespace DeportNetReconocimiento.SDK
             //Obtengo las rutas necesarias
             string rutaOriginal = "captura.jpg";
             string rutaNueva = configuracion.RutaCarpeta;
-          
+
 
             if (string.IsNullOrEmpty(rutaNueva))
             {
