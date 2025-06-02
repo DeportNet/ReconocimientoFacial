@@ -1,7 +1,4 @@
 
-using DeportNetReconocimiento.GUI;
-using Windows.Media.Playback;
-
 namespace DeportnetOffline
 {
     public partial class WFDeportnetOffline : Form

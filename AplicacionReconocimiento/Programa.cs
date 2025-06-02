@@ -1,10 +1,5 @@
 using DeportNetReconocimiento.Api;
-using DeportNetReconocimiento.Api.BD;
-using DeportNetReconocimiento.Api.Data.Domain;
-using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.GUI;
-using DeportNetReconocimiento.Utils;
-using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 

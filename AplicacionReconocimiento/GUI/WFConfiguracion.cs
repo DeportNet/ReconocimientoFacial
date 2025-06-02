@@ -1,5 +1,4 @@
-﻿
-using DeportnetOffline;
+﻿using DeportnetOffline;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.Utils;

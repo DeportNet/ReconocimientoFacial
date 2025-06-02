@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace DeportNetReconocimiento.Api.GlobalExceptionHandler.Exceptions
+﻿namespace DeportNetReconocimiento.Api.GlobalExceptionHandler.Exceptions
 {
     public class HikvisionException : Exception
     {

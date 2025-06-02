@@ -6,7 +6,6 @@ using DeportNetReconocimiento.Hikvision.Modelo;
 using DeportNetReconocimiento.Utils;
 using System.Runtime.InteropServices;
 using System.Text.Json;
-using System.Web;
 using static DeportNetReconocimiento.Hikvision.SDKHikvision.Hik_SDK;
 
 namespace DeportNetReconocimiento.Hikvision.SDKHikvision

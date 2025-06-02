@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeportnetOffline.Data.Dto.FiltrosRequest
+﻿namespace DeportnetOffline.Data.Dto.FiltrosRequest
 {
     public class FiltrosSocioRequest
     {

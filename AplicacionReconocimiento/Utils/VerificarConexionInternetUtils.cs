@@ -1,13 +1,8 @@
 ﻿using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.Hikvision.SDKHikvision;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Utils
 {

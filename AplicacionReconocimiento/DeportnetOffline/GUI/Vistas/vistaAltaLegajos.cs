@@ -1,19 +1,9 @@
-﻿using DeportnetOffline.Data.Dto.FiltrosRequest;
-using DeportnetOffline.Data.Dto.Table;
+﻿using DeportnetOffline.Data.Dto.Table;
 using DeportnetOffline.Data.Filtros;
 using DeportnetOffline.Data.Mapper;
 using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Utils;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace DeportnetOffline
 {

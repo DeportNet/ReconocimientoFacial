@@ -1,16 +1,10 @@
 ﻿using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
-using DeportNetReconocimiento.Api.Data.Dtos.Dx.Concepts;
 using DeportNetReconocimiento.Api.Data.Dtos.Dx.Socios;
 using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Utils
 {
