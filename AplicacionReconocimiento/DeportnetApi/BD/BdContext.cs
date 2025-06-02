@@ -1,15 +1,6 @@
 ﻿using DeportNetReconocimiento.Api.Data.Domain;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DeportNetReconocimiento.Api.BD
 {

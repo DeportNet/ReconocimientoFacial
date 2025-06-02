@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeportNetReconocimiento.Api.Data.Dtos.Dx.ConfigAcceso
+﻿namespace DeportNetReconocimiento.Api.Data.Dtos.Dx.ConfigAcceso
 {
     public class ConfigAccesoDtoDx
     {

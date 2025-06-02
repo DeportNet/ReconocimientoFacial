@@ -1,22 +1,7 @@
 ﻿using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
-using DeportNetReconocimiento.Api.Data.Mapper;
-using DeportNetReconocimiento.Api.Data.Mapper.Interfaces;
 using DeportNetReconocimiento.Api.Services.Interfaces;
 using DeportNetReconocimiento.Utils;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System.Runtime.Intrinsics.X86;
-using System.Xml.Serialization;
-using Windows.UI;
-using System.Text.Json;
-using DeportNetReconocimiento.Api.Data.Dtos.Dx.Acceso;
-using DeportNetReconocimiento.Api.Data.Dtos.Dx.ConfigAcceso;
-using DeportNetReconocimiento.Api.Data.Dtos.Dx.Socios;
-using DeportNetReconocimiento.Api.Data.Dtos.Dx.Concepts;
-using DeportNetReconocimiento.Api.Data.Dtos.Dx.Empleados;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Microsoft.Extensions.DependencyInjection;
 
 
 namespace DeportNetReconocimiento.Api.Services
@@ -144,16 +129,17 @@ namespace DeportNetReconocimiento.Api.Services
             await _socioService.EnviarNuevosSocios();
 
 
-            ////1. Enviar los empleados
-            //await _empleadoService.EnviarEmpleados();
+            //1. Enviar los empleados
+            await _empleadoService.EnviarEmpleados();
 
-            ////2. Enviar los concepts
-            //await _conceptService.EnviarConcepts();
+            //2. Enviar los concepts
+            await _conceptService.EnviarConcepts();
 
 
-            ////4. Enviar configuracion de acceso
-            //await _configuracionAccesoService.EnviarConfiguracionDeAcceso();
+            //4. Enviar configuracion de acceso
+            await _configuracionAccesoService.EnviarConfiguracionDeAcceso();
 
         }
+
     }
 }

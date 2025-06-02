@@ -4,10 +4,8 @@ using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using DeportNetReconocimiento.Utils;
 using System.Dynamic;
 using System.Net;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 

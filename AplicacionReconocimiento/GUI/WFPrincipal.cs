@@ -6,8 +6,6 @@ using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.Utils;
 using DeportNetReconocimiento.Utils.Modelo;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 
 
 namespace DeportNetReconocimiento.GUI

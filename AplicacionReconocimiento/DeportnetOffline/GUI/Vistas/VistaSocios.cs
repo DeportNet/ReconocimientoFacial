@@ -108,7 +108,7 @@ namespace DeportnetOffline
             query = FiltrosSocio.FiltrarPorNroTarjetaODni(filtrosSocio.NroTarjeta, query);
             query = FiltrosSocio.FiltrarPorEmail(filtrosSocio.Email, query);
             query = FiltrosSocio.FiltrarPorNombreYApellido(filtrosSocio.ApellidoNombre, query);
-            query = FiltrosSocio.FiltrarPorIsActive(filtrosSocio.Estado, query);
+            query = FiltrosSocio.FiltrarPorIsValid(filtrosSocio.Estado, query);
 
             PaginadoResultado<Socio> paginaSociosFiltrados = PaginadorUtils.ObtenerPaginadoAsync(query, nroPagina, tamPag).Result;
             
@@ -256,8 +256,8 @@ namespace DeportnetOffline
             return estado switch
             {
                 "actívos e inactivos" => "",
-                "solo inactivos" => "0",
-                "solo activos" => "1"
+                "solo inactivos" => "F",
+                "solo activos" => "T"
             };
 
             
