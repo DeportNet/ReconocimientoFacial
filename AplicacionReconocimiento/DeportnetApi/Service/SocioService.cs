@@ -3,6 +3,7 @@ using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Dtos.Dx.Socios;
 using DeportNetReconocimiento.Api.Data.Mapper.Interfaces;
 using DeportNetReconocimiento.Api.Services.Interfaces;
+using DeportNetReconocimiento.DeportnetApi.Data.Dto.Dx.Socios;
 using DeportNetReconocimiento.Utils;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -53,7 +54,7 @@ namespace DeportNetReconocimiento.Api.Services
             }
 
             string json = await WebServicesDeportnet.ObtenerClientesOffline(idSucursal);
-            ListadoClientesDtoDx apiResponse = JsonConvert.DeserializeObject<ListadoClientesDtoDx>(json);
+            ListadoSociosDtoDx apiResponse = JsonConvert.DeserializeObject<ListadoSociosDtoDx>(json);
 
             if (apiResponse == null)
             {
@@ -151,17 +152,23 @@ namespace DeportNetReconocimiento.Api.Services
             return listadoNuevosSocios;
         }
 
-        public Task EnviarNuevosSocios()
+        public async Task EnviarNuevosSocios()
         {
-            List<Socio> listadoNuevosSocios = ObtenerListadoNuevosSocios();
+            List<Socio> listadoSocios = ObtenerListadoNuevosSocios();
 
-            if (listadoNuevosSocios.Count == 0)
+            if (listadoSocios.Count == 0)
             {
                 Console.WriteLine("No hay nuevos socios para enviar");
-                return Task.CompletedTask;
+                
             }
 
-            return Task.CompletedTask;
+            List<NuevoSocio> listadoNuevosSociosParsed = _socioMapper.ListaSocioToListaNuevoSocio(listadoSocios);
+             await WebServicesDeportnet.EnviarNuevosSocios(listadoNuevosSociosParsed, idSucursal);
+
+            //falta agregar los nuevos ids, a los socios nuevos
+
+
+
 
 
 

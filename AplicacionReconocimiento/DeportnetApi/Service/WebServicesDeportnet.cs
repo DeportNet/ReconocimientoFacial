@@ -1,4 +1,5 @@
 ﻿using DeportNetReconocimiento.Api.Data.Dtos.Response;
+using DeportNetReconocimiento.DeportnetApi.Data.Dto.Dx.Socios;
 using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using DeportNetReconocimiento.Utils;
 using System.Dynamic;
@@ -19,14 +20,15 @@ namespace DeportNetReconocimiento.Api.Services
         const string urlBajaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessDeleteResult";
         const string urlAltaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessLectureResult";
         //a partir de aca no estan en prod
-        const string urlClientesTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetMembers";
-        const string urlConceptsTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConcepts";
-        const string urlEmpleadosTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetUsers";
+        const string urlObtenerClientesTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetMembers";
+        const string urlObtenerConceptsTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConcepts";
+        const string urlObtenerEmpleadosTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetUsers";
         const string urlEnviarAccesosTest = "https://testing.deportnet.com/offlineAccess/offlineSetAccess";
-        const string urlConfiguracionAccesoTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConfiguration";
+        const string urlObtenerConfiguracionAccesoTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConfiguration";
         const string urlBajaMasivaClienteTest = "https://testing.deportnet.com/facialAccess/massiveMembersDelete";
-        const string urlVerificarEstadoLoteTest = "https://testing.deportnet.com/offlineAccess/offlineGetMembersAccessResult";
-
+        const string urlObtenerVerificacionEstadoLoteTest = "https://testing.deportnet.com/offlineAccess/offlineGetMembersAccessResult";
+        const string urlEnviarNuevosSociosTest = "https://testing.deportnet.com/offlineAccess/offlineSetMembers";
+        
         /*Produccion*/
         const string urlEntradaCliente = "https://deportnet.com/facialAccess/facialAccessCheckUserEnter";
         const string urlBajaCliente = "https://deportnet.com/facialAccess/facialAccessDeleteResult";
@@ -67,7 +69,7 @@ namespace DeportNetReconocimiento.Api.Services
                 activeBranchId = idSucursal
             };
 
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlConfiguracionAccesoTest, HttpMethod.Post);
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlObtenerConfiguracionAccesoTest, HttpMethod.Post);
         }
 
         public static async Task<string> ObtenerEmpleadosSucursalOffline(string idSucursal)
@@ -77,7 +79,7 @@ namespace DeportNetReconocimiento.Api.Services
                 activeBranchId = idSucursal
             };
           
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlEmpleadosTest, HttpMethod.Post);
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlObtenerEmpleadosTest, HttpMethod.Post);
         }
 
         public static async Task<string> ObtenerClientesOffline(string idSucursal)
@@ -86,7 +88,7 @@ namespace DeportNetReconocimiento.Api.Services
             {
                 activeBranchId = idSucursal
             };
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlClientesTest, HttpMethod.Post);
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlObtenerClientesTest, HttpMethod.Post);
         }
 
         public static async Task<string> ObtenerConceptsOffline(string idSucursal)
@@ -95,7 +97,7 @@ namespace DeportNetReconocimiento.Api.Services
             {
                 activeBranchId = idSucursal
             };
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlConceptsTest, HttpMethod.Post);
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlObtenerConceptsTest, HttpMethod.Post);
         }
 
         public static async Task<string> EnviarLoteDeAccesos(string json)
@@ -103,9 +105,20 @@ namespace DeportNetReconocimiento.Api.Services
             return await FetchInformacion(json, urlEnviarAccesosTest, HttpMethod.Post);
         }
 
+        public static async Task<string> EnviarNuevosSocios(List<NuevoSocio> listadoNuevosSocios, string idSucursal)
+        {
+            object data = new
+            {
+                activeBranchId = idSucursal,
+                members = listadoNuevosSocios
+            };
+
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlEnviarNuevosSociosTest, HttpMethod.Post);
+        }
+
         public static async Task<string> VerificarEstadoLoteAcceso(string json)
         {
-            return await FetchInformacion(json, urlVerificarEstadoLoteTest, HttpMethod.Post);
+            return await FetchInformacion(json, urlObtenerVerificacionEstadoLoteTest, HttpMethod.Post);
         }
 
         public static async Task<string> AltaFacialClienteDeportnet(RespuestaAltaBajaCliente rta)

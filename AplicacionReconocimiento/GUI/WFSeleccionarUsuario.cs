@@ -72,7 +72,7 @@ namespace DeportNetReconocimiento.GUI
 
             if (listadoAux.Count == 0)
             {
-                listadoAux.Add(new Empleado(idSucursalInt, "Empleado", "Predeterminado", "", "T"));
+                listadoAux.Add(new Empleado(idSucursalInt, "Empleado", "Predeterminado", "", "T","F"));
 
                 listadoAux.First().Id = -1;
 
