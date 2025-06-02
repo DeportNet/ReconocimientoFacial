@@ -12,7 +12,6 @@ namespace DeportnetOffline
         private int PaginaActual;
         private int TotalPaginas;
         private int TamanioPagina;
-        private BdContext Context = BdContext.CrearContexto();
 
         public VistaAltaLegajos()
         {
@@ -89,8 +88,10 @@ namespace DeportnetOffline
 
         public void CargarDatos(int paginaActual, int tamanioPagina)
         {
+            using var bdContext = BdContext.CrearContexto();
+
             //creamos la consulta a la base de datos con el filtro de nuevos socios
-            IQueryable<Socio> query = Context.Socios.AsQueryable();
+            IQueryable<Socio> query = bdContext.Socios.AsQueryable();
             query = FiltrosSocio.FiltrarPorNuevosSocios(query);
 
             //hacemos la consulta paginada + filtrada
@@ -114,13 +115,15 @@ namespace DeportnetOffline
         //cambiar de pagina
         private void botonAntPaginacion_Click(object sender, EventArgs e)
         {
+            using var bdContext = BdContext.CrearContexto();
+
             if (PaginaActual > 1)
             {
                 PaginaActual--;
 
 
                 //creamos la consulta a la base de datos con el filtro de nuevos socios
-                IQueryable<Socio> query = Context.Socios.AsQueryable();
+                IQueryable<Socio> query = bdContext.Socios.AsQueryable();
                 query = FiltrosSocio.FiltrarPorNuevosSocios(query);
 
                 //hacemos la consulta paginada + filtrada
@@ -135,13 +138,15 @@ namespace DeportnetOffline
 
         private void botonSgtPaginacion_Click(object sender, EventArgs e)
         {
+            using var bdContext = BdContext.CrearContexto();
+
 
             if (PaginaActual < TotalPaginas)
             {
                 PaginaActual++;
 
                 //creamos la consulta a la base de datos con el filtro de nuevos socios
-                IQueryable<Socio> query = Context.Socios.AsQueryable();
+                IQueryable<Socio> query = bdContext.Socios.AsQueryable();
                 query = FiltrosSocio.FiltrarPorNuevosSocios(query);
 
                 //hacemos la consulta paginada + filtrada

@@ -1,13 +1,8 @@
 ﻿using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Repository;
-using DeportNetReconocimiento.Api.Services;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
-using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
-using Windows.Foundation.Metadata;
-using Windows.UI;
 using Color = System.Drawing.Color;
 
 
@@ -16,7 +11,6 @@ namespace DeportnetOffline.GUI.Modales
     public partial class ModalNuevoLegajo : Form
     {
 
-        private static BdContext context = BdContext.CrearContexto();
 
         public ModalNuevoLegajo()
         {
@@ -426,7 +420,9 @@ namespace DeportnetOffline.GUI.Modales
 
         private bool EsEmailExistente(string email)
         {
-            return !context.Socios.Any(s => s.Email.ToLower() == email.ToLower());
+            using var bdContext = BdContext.CrearContexto();
+
+            return bdContext.Socios.Any(s => s.Email.ToLower() == email.ToLower());
         }
 
         private bool EsFechaValida(DateTime fecha)

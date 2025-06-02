@@ -10,7 +10,6 @@ namespace DeportNetReconocimiento.Utils
 {
     public class VerificarAlmacenamientoUtils
     {
-        private static BdContext context = BdContext.CrearContexto();
         private static ConfiguracionGeneral configGeneral = ConfiguracionGeneralUtils.ObtenerConfiguracionGeneral();
         public static Hik_Resultado? VerificarHayAlmacenamiento()
         {

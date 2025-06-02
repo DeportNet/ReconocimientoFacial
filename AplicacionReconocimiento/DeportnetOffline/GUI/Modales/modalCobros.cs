@@ -3,16 +3,7 @@ using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Repository;
 using DeportNetReconocimiento.Api.Services;
-using DeportNetReconocimiento.Api.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+
 
 namespace DeportnetOffline
 {
@@ -22,7 +13,7 @@ namespace DeportnetOffline
         private List<Membresia> membresias = [];
         private InformacionSocioTabla socio;
         private Membresia membresiaSeleccionada;
-        private static BdContext context = BdContext.CrearContexto();
+
 
         public ModalCobro(InformacionSocioTabla socioTabla)
         {
@@ -34,8 +25,8 @@ namespace DeportnetOffline
 
         public void ObtenerMembresiasDeBD()
         {
-            
-            membresias = context.Membresias.ToList();
+            using var bdContext = BdContext.CrearContexto();
+            membresias = bdContext.Membresias.ToList();
             
             if (membresias != null)
             {

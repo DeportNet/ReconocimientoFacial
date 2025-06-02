@@ -2,17 +2,7 @@
 using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Repository;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
 
 namespace DeportnetOffline
 {
@@ -34,10 +24,10 @@ namespace DeportnetOffline
 
         public void ObtenerProductosDeBD()
         {
-            using (var context = BdContext.CrearContexto())
-            {
-                articulos = context.Articulos.ToList();
-            }
+            using var context = BdContext.CrearContexto();
+            
+            articulos = context.Articulos.ToList();
+
             if(articulos != null)
             {
                 CargarComboBox(articulos);

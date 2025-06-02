@@ -54,11 +54,6 @@ namespace DeportNetReconocimiento.Api.Services
         {
             using var bdContext = BdContext.CrearContexto();
 
-            //if (idSucursal == null)
-            //{
-            //    Console.WriteLine("No se pudo obtener el id de la sucursal para enviar el lote de accesos");
-            //    return;
-            //}
 
             try
             {
@@ -123,15 +118,13 @@ namespace DeportNetReconocimiento.Api.Services
 
         private async Task ManejarSincronizacionExitosa(Acceso lote)
         {
+            using var context = BdContext.CrearContexto();
 
             //Agarrar todos los registros del lote y eliminarlos 
             if(lote.MemberAccess != null)
-            {
-                using(var context = BdContext.CrearContexto())
-                {
-                    context.AccesosSocios.RemoveRange(lote.MemberAccess);
-                    await context.SaveChangesAsync();
-                }
+            {    
+                context.AccesosSocios.RemoveRange(lote.MemberAccess);
+                await context.SaveChangesAsync();   
             }
         }
 

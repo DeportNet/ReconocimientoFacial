@@ -6,9 +6,7 @@ using DeportnetOffline.GUI.Modales;
 using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Utils;
-using Microsoft.EntityFrameworkCore;
-using System.Data;
-using System.Windows.Forms;
+
 
 namespace DeportnetOffline
 {
@@ -17,7 +15,6 @@ namespace DeportnetOffline
         private int PaginaActual;
         private int TotalPaginas;
         private int TamanioPagina;
-        private static BdContext context = BdContext.CrearContexto();
         public VistaSocios()
         {
             InitializeComponent();
@@ -53,12 +50,12 @@ namespace DeportnetOffline
 
         public void CargarDatos(int paginaActual, int tamanioPagina)
         {
-            using(var contexto = BdContext.CrearContexto())
-            {
-                PaginadoResultado<Socio> paginaSocios = PaginadorUtils.ObtenerPaginadoAsync(contexto.Socios, paginaActual, tamanioPagina).Result;
-                CambiarInformacionPagina(paginaSocios); 
-                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(paginaSocios.Items);
-            }
+            using var contexto = BdContext.CrearContexto();
+            
+            PaginadoResultado<Socio> paginaSocios = PaginadorUtils.ObtenerPaginadoAsync(contexto.Socios, paginaActual, tamanioPagina).Result;
+            CambiarInformacionPagina(paginaSocios); 
+            dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(paginaSocios.Items);
+            
         }
 
         //cambiar de pagina
@@ -102,8 +99,9 @@ namespace DeportnetOffline
         //Filtros
         public List<Socio> FiltrarSocios(FiltrosSocioRequest filtrosSocio, int nroPagina, int tamPag)
         {
+            using var bdContext = BdContext.CrearContexto();
 
-            IQueryable<Socio> query = context.Socios.AsQueryable(); 
+            IQueryable<Socio> query = bdContext.Socios.AsQueryable(); 
 
             query = FiltrosSocio.FiltrarPorNroTarjetaODni(filtrosSocio.NroTarjeta, query);
             query = FiltrosSocio.FiltrarPorEmail(filtrosSocio.Email, query);

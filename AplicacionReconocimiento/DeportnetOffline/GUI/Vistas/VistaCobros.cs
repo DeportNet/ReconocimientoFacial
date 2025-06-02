@@ -12,7 +12,6 @@ namespace DeportnetOffline
         private int PaginaActual;
         private int TotalPaginas;
         private int TamanioPagina;
-        private BdContext Context = BdContext.CrearContexto();
 
         public VistaCobros()
         {
@@ -45,8 +44,9 @@ namespace DeportnetOffline
 
         public void CargarDatos(int paginaActual, int tamanioPagina)
         {
+            using var bdContext = BdContext.CrearContexto();
 
-            PaginadoResultado<Venta> paginaVentas = PaginadorUtils.ObtenerPaginadoAsync(Context.Ventas.Include(v => v.Socio), paginaActual, tamanioPagina).Result;
+            PaginadoResultado<Venta> paginaVentas = PaginadorUtils.ObtenerPaginadoAsync(bdContext.Ventas.Include(v => v.Socio), paginaActual, tamanioPagina).Result;
     
             CambiarInformacionPagina(paginaVentas);
                 

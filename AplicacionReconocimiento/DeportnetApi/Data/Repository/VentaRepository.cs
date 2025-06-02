@@ -15,14 +15,12 @@ namespace DeportNetReconocimiento.Api.Data.Repository
 
         public static async Task<bool> RegistrarVenta(Venta venta)
         {
+            using var context = BdContext.CrearContexto();
             try
             {
-                using (var context = BdContext.CrearContexto())
-                {
-                    await context.Ventas.AddAsync(venta);
-                    
-                    await context.SaveChangesAsync();
-                }
+                await context.Ventas.AddAsync(venta);
+                await context.SaveChangesAsync();
+                
                 return true;
             }
             catch(DbUpdateException ex)

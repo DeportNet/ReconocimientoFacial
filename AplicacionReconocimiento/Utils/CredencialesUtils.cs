@@ -81,16 +81,12 @@ namespace DeportNetReconocimiento.Utils
 
         public static bool CredecialesCargadasEnBd()
         {
+            using var cotexto = BdContext.CrearContexto();
 
-            Credenciales? credenciales = new Credenciales();
-            bool flag = false;
-            using (var cotexto = BdContext.CrearContexto())
-            {
-                credenciales = cotexto.Credenciales.FirstOrDefault();
-            }
+            Credenciales? credenciales = new Credenciales();    
+            credenciales = cotexto.Credenciales.FirstOrDefault();
 
             return credenciales != null ? true : false;
-
         }
 
         public static string? LeerCredencialEspecifica(int unaCredencial)

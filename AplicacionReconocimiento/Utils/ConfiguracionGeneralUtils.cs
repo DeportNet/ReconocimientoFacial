@@ -6,10 +6,12 @@ namespace DeportNetReconocimiento.Utils
 {
     public class ConfiguracionGeneralUtils
     {
-        private static BdContext _bdContext = BdContext.CrearContexto();
 
         private static ConfiguracionGeneral CrearRegistroConfiguracionGeneral()
         {
+            using var bdContext = BdContext.CrearContexto();
+
+
             ConfiguracionGeneral config = new ConfiguracionGeneral(
                 200,
                 "!MiClaveSegura123!",
@@ -21,8 +23,8 @@ namespace DeportNetReconocimiento.Utils
                 null
                 );
 
-            _bdContext.Add(config);
-            _bdContext.SaveChanges();
+            bdContext.Add(config);
+            bdContext.SaveChanges();
 
             return config;
         }
@@ -45,12 +47,10 @@ namespace DeportNetReconocimiento.Utils
 
         public static ConfiguracionGeneral ObtenerConfiguracionGeneral()
         {
-            if (_bdContext == null)
-            {
-                _bdContext = BdContext.CrearContexto();
-            }
+            using var bdContext = BdContext.CrearContexto();
 
-            ConfiguracionGeneral? config = _bdContext.ConfiguracionGeneral.FirstOrDefault(c => c.Id == 1);
+
+            ConfiguracionGeneral? config = bdContext.ConfiguracionGeneral.FirstOrDefault(c => c.Id == 1);
 
             if(config == null)
             {
@@ -64,6 +64,8 @@ namespace DeportNetReconocimiento.Utils
 
         public static int SumarRegistroCara()
         {
+            using var bdContext = BdContext.CrearContexto();
+
             int? rostrosActuales = null;
             ConfiguracionGeneral config = ObtenerConfiguracionGeneral();
 
@@ -71,12 +73,14 @@ namespace DeportNetReconocimiento.Utils
 
             rostrosActuales = config.RostrosActuales;
 
-            _bdContext.SaveChanges();
+            bdContext.SaveChanges();
             return (int)rostrosActuales;
         }
 
         public static int RestarRegistroCara()
         {
+            using var bdContext = BdContext.CrearContexto();
+
             int? rostrosActuales = null;
 
             ConfiguracionGeneral config = ObtenerConfiguracionGeneral();
@@ -85,7 +89,7 @@ namespace DeportNetReconocimiento.Utils
             rostrosActuales = config.RostrosActuales;
 
 
-            _bdContext.SaveChanges();
+            bdContext.SaveChanges();
 
             return (int)rostrosActuales;
         }
@@ -104,6 +108,8 @@ namespace DeportNetReconocimiento.Utils
 
         public static void ActualizarLectorActual(string? lectorNuevo)
         {
+            using var bdContext = BdContext.CrearContexto();
+
             ConfiguracionGeneral config = ObtenerConfiguracionGeneral();
             if(config == null)
             {
@@ -116,7 +122,7 @@ namespace DeportNetReconocimiento.Utils
                 return;
             }
             config.LectorActual = lectorNuevo;
-            _bdContext.SaveChanges();
+            bdContext.SaveChanges();
         }
 
     }
