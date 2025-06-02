@@ -1,9 +1,7 @@
 using DeportNetReconocimiento.Properties;
-using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils.Modelo;
 using System.ComponentModel;
 using System.Drawing.Design;
-using System.Numerics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows.Forms.Design;

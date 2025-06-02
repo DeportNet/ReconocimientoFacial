@@ -1,14 +1,28 @@
 
+using DeportNetReconocimiento.GUI;
 using Windows.Media.Playback;
 
 namespace DeportnetOffline
 {
     public partial class WFDeportnetOffline : Form
     {
-        public WFDeportnetOffline()
+        private static WFDeportnetOffline? instancia = null;
+        private WFDeportnetOffline()
         {
             InitializeComponent();
             botonSocios_Click(this, EventArgs.Empty);
+        }
+
+        public static WFDeportnetOffline ObtenerInstancia
+        {
+            get
+            {
+                if (instancia == null)
+                {
+                    instancia = new WFDeportnetOffline();
+                }
+                return instancia;
+            }
         }
 
         private void botonSocios_Click(object sender, EventArgs e)

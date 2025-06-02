@@ -706,8 +706,15 @@ namespace DeportNetReconocimiento.GUI
 
         private void botonDeportnetOffline_Click(object sender, EventArgs e)
         {
-            WFDeportnetOffline wfDeportnetOffline = new WFDeportnetOffline();
-            wfDeportnetOffline.Show();
+            WFDeportnetOffline wFDeportnetOffline = WFDeportnetOffline.ObtenerInstancia;
+            
+            if (wFDeportnetOffline.Visible)
+            {
+                wFDeportnetOffline.BringToFront();
+                return;
+            }
+
+            wFDeportnetOffline.Show();
         }
     }
 }

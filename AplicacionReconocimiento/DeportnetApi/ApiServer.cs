@@ -26,17 +26,17 @@ namespace DeportNetReconocimiento.Api
         {
         }
 
-        public BdContext? ObtenerBdContext()
-        {
-            BdContext? bd = host.Services.GetService<BdContext>();
+        //public BdContext? ObtenerBdContext()
+        //{
+        //    BdContext? bd = host.Services.GetService<BdContext>();
 
-            if (bd == null) {
-                Console.WriteLine("Bd Null");
-            }
+        //    if (bd == null) {
+        //        Console.WriteLine("Bd Null");
+        //    }
 
-            return bd;
+        //    return bd;
             
-        }
+        //}
 
         public void CargarBd()
         {
@@ -45,7 +45,7 @@ namespace DeportNetReconocimiento.Api
             try
             {
 
-               _funcionesSincronizacionService.SincronizarTodasLasTablasDx().Wait();
+               _funcionesSincronizacionService.RecibirTodasLasTablasDx().Wait();
                 
             }catch(Exception ex)
             {

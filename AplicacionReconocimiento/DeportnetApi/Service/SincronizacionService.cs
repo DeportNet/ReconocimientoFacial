@@ -42,7 +42,7 @@ namespace DeportNetReconocimiento.Api.Services
 
         /*TRAERSE TABLAS DE DX*/
 
-        public async Task SincronizarTodasLasTablasDx()
+        public async Task RecibirTodasLasTablasDx()
         {
 
             if (SeSincronizoHoy())
@@ -68,7 +68,6 @@ namespace DeportNetReconocimiento.Api.Services
             // Actualizamos la fecha de sincronizacion
             ActualizarFechaSincronizacion();
         }
-
 
         /*VALIDAR SI SE SINCRONIZO HOY*/
         public bool SeSincronizoHoy() {
@@ -135,5 +134,23 @@ namespace DeportNetReconocimiento.Api.Services
 
         }
 
-    }
+        /*ENVIAR TODAS LAS TABLAS A DX*/
+
+        public async Task EnviarTodasLasTablasDx()
+        {
+            //1. Enviar a los socios NUEVOS
+            await _socioService.EnviarNuevosSocios();
+
+
+            //1. Enviar los empleados
+            await _empleadoService.EnviarEmpleados();
+
+            //2. Enviar los concepts
+            await _conceptService.EnviarConcepts();
+
+
+            //4. Enviar configuracion de acceso
+            await _configuracionAccesoService.EnviarConfiguracionDeAcceso();
+
+        }
 }

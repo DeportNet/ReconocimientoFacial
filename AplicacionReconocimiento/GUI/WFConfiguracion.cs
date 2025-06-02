@@ -1,10 +1,8 @@
 ﻿
+using DeportnetOffline;
 using DeportNetReconocimiento.Api.Data.Domain;
-using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.Properties;
-using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
-using System.Numerics;
 
 
 namespace DeportNetReconocimiento.GUI
@@ -21,7 +19,7 @@ namespace DeportNetReconocimiento.GUI
             this.configuracion = configuracionEstilos;
             this.principal = principal;
             _credenciales = CredencialesUtils.LeerCredencialesBd();
-            comboBoxNroLector.SelectedIndex = int.Parse(ConfiguracionGeneralUtils.ObtenerLectorActual()) - 1 ;
+            comboBoxNroLector.SelectedIndex = int.Parse(ConfiguracionGeneralUtils.ObtenerLectorActual()) - 1;
 
 
             // Asignar el objeto de configuración al PropertyGrid (para que se vea lo que se puede configurar)
@@ -338,6 +336,20 @@ namespace DeportNetReconocimiento.GUI
             string lectorActual = partes[^1]; // "Lector 1" -> "1"  se puede hacer tambien como partes.length -1
 
             ConfiguracionGeneralUtils.ActualizarLectorActual(lectorActual);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            WFDeportnetOffline wFDeportnetOffline = WFDeportnetOffline.ObtenerInstancia;
+            
+            if (wFDeportnetOffline.Visible)
+            {
+                wFDeportnetOffline.BringToFront();
+                return;
+            }
+
+            wFDeportnetOffline.Show();
+
         }
     }
 }

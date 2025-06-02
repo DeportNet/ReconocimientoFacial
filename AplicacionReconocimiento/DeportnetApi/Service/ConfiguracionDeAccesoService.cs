@@ -35,12 +35,11 @@ namespace DeportNetReconocimiento.Api.Services
 
             if (configAcceso == null)
             {
-                
                 return;
             }
 
             //Guardamos la config en la BD
-            //await InsertarConfigAccesoTabla(configAcceso);
+            await InsertarConfigAccesoTabla(configAcceso);
         }
 
         private async Task<ConfiguracionDeAcceso?> ObtenerConfiguracionDeAccesoDelWebserviceAsync()
@@ -54,13 +53,13 @@ namespace DeportNetReconocimiento.Api.Services
 
             if (apiResponse == null)
             {
-                Console.WriteLine("Error al obtener listado de clientes, la respuesta vino null");
+                Console.WriteLine("Error al obtener configuracion de acceso, la respuesta vino null");
                 return null;
             }
 
             if (apiResponse.Result == "F")
             {
-                Console.WriteLine("Error al obtener listado de clientes: " + apiResponse.ErrorMessage);
+                Console.WriteLine("Error al obtener configuracion de acceso: " + apiResponse.ErrorMessage);
                 return null;
             }
 

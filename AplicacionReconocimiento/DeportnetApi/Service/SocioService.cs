@@ -16,15 +16,11 @@ namespace DeportNetReconocimiento.Api.Services
 {
     public class SocioService : ISincronizacionSocioService
     {
-
-
-        private readonly BdContext _bdContext;
         private string? idSucursal;
         private readonly ISocioMapper _socioMapper;
 
         public SocioService(BdContext bdContext, ISocioMapper socioMapper)
         {
-            _bdContext = bdContext;
             _socioMapper = socioMapper;
             idSucursal = CredencialesUtils.LeerCredencialEspecifica(4);
         }
@@ -77,6 +73,7 @@ namespace DeportNetReconocimiento.Api.Services
 
         private async Task InsertarSociosEnTabla(List<Socio> listadoSociosDx)
         {
+            using var _bdContext = BdContext.CrearContexto();
             using var transaction = await _bdContext.Database.BeginTransactionAsync(); // Iniciar transacción
             try
             {
@@ -97,7 +94,9 @@ namespace DeportNetReconocimiento.Api.Services
 
         private async Task VerificarCambiosEnTablaSocios(List<Socio> listadoSociosDx)
         {
-            List<Socio> listadoSociosLocal = await _bdContext.Socios.ToListAsync();
+            using var bdContext = BdContext.CrearContexto();
+
+            List<Socio> listadoSociosLocal = await bdContext.Socios.ToListAsync();
 
             // 2️. Determinar cambios
             var nuevosSocios = listadoSociosDx.Where(sDx => !listadoSociosLocal.Any(sl => sl.IdDx == sDx.IdDx)).ToList();
@@ -107,39 +106,65 @@ namespace DeportNetReconocimiento.Api.Services
             // 3️. Aplicar cambios en la BD
             if (sociosEliminados.Count > 0)
             {
-                _bdContext.Socios.RemoveRange(sociosEliminados);
+                bdContext.Socios.RemoveRange(sociosEliminados);
             }
             if (nuevosSocios.Count > 0)
             {
-                await _bdContext.Socios.AddRangeAsync(nuevosSocios);
+                await bdContext.Socios.AddRangeAsync(nuevosSocios);
             }
             if (sociosActualizados.Count > 0)
             {
                 foreach (var socio in sociosActualizados)
                 {
                     var socioLocal = listadoSociosLocal.First(l => l.IdDx == socio.IdDx);
-                    _bdContext.Entry(socioLocal).CurrentValues.SetValues(socio);
+                    bdContext.Entry(socioLocal).CurrentValues.SetValues(socio);
                 }
             }
         }
 
-        public static  async Task ActualizarEstadoSocio(int? idSocio, int estado)
+        public static async Task ActualizarEstadoSocio(int? idSocio, int estado)
         {
+            using var context = BdContext.CrearContexto();
+
             
-            using (var context = BdContext.CrearContexto())
+            Socio socio = context.Socios.Find(idSocio);
+            if(socio == null)
             {
-                Socio socio = context.Socios.Find(idSocio);
-                if(socio == null)
-                {
-                    Console.WriteLine("No se encontró al socio con id " + idSocio);
-                    return;
-                }
-
-                socio.IsValid = estado == 1 ? "T" : "F";
-
-                context.SaveChanges();
-                Console.WriteLine("Estado de socio actualizado con exito");
+                Console.WriteLine("No se encontró al socio con id " + idSocio);
+                return;
             }
+
+            socio.IsValid = estado == 1 ? "T" : "F";
+
+            context.SaveChanges();
+            Console.WriteLine("Estado de socio actualizado con exito");
+
+        }
+
+        private List<Socio> ObtenerListadoNuevosSocios()
+        {
+            using var bdContext = BdContext.CrearContexto();
+
+            List<Socio> listadoNuevosSocios = bdContext.Socios
+                .Where(s => s.IdDx == null || s.IdDx == 0)
+                .ToList();
+            return listadoNuevosSocios;
+        }
+
+        public Task EnviarNuevosSocios()
+        {
+            List<Socio> listadoNuevosSocios = ObtenerListadoNuevosSocios();
+
+            if (listadoNuevosSocios.Count == 0)
+            {
+                Console.WriteLine("No hay nuevos socios para enviar");
+                return Task.CompletedTask;
+            }
+
+            return Task.CompletedTask;
+
+
+
         }
     }
 }
