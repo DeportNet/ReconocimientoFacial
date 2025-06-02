@@ -16,7 +16,6 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [Column("id")]
         public int Id { get; set; }
 
-
         [Column("company_member_id")]
         [DisallowNull]
         public int CompanyMemberId { get; set; }
@@ -44,9 +43,11 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [AllowNull]
         public string? FullName { get; set; }
 
+        [Column("is_admin_user")]
+        public string IsAdminUser { get; set; } 
         public Empleado() { }
 
-        public Empleado(int companyMemberId, string firstName, string lastName, string password, string isActive)
+        public Empleado(int companyMemberId, string firstName, string lastName, string password, string isActive, string isAdminUser)
         {
             CompanyMemberId = companyMemberId;
             FirstName = firstName;
@@ -54,6 +55,7 @@ namespace DeportNetReconocimiento.Api.Data.Domain
             Password = password;
             IsActive = isActive;
             FullName = JuntarNombreYApellido();
+            IsAdminUser = isAdminUser;
         }
 
         public string JuntarNombreYApellido()
