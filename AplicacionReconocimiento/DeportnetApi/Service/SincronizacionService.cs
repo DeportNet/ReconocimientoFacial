@@ -22,7 +22,7 @@ namespace DeportNetReconocimiento.Api.Services
             _conceptService = conceptsService;
             _configuracionAccesoService = sincronizacionConfigAccesoService;
             //idSucursal = CredencialesUtils.LeerCredencialesBd().BranchId;//CredencialesUtils.LeerCredencialEspecifica(4);// "23";
-            
+
         }
 
         /*TRAERSE TABLAS DE DX*/
@@ -38,13 +38,13 @@ namespace DeportNetReconocimiento.Api.Services
 
             //1. Obtener de Dx los empleados
             await _empleadoService.SincronizarEmpleados();
-            
+
             //2. Obtener de Dx los concepts
             await _conceptService.SincronizarConcepts();
 
             ////3. Obtener de Dx los clientes
             // Hay que inportar esto
-            await _socioService.SincronizarSocios(); 
+            await _socioService.SincronizarSocios();
 
             ////4. Obtener Configuracion de Acceso
             await _configuracionAccesoService.SincronizarConfiguracionDeAcceso();
@@ -55,7 +55,8 @@ namespace DeportNetReconocimiento.Api.Services
         }
 
         /*VALIDAR SI SE SINCRONIZO HOY*/
-        public bool SeSincronizoHoy() {
+        public bool SeSincronizoHoy()
+        {
 
             ConfiguracionGeneral? config = ConfiguracionGeneralUtils.ObtenerConfiguracionGeneral();
 
@@ -66,7 +67,7 @@ namespace DeportNetReconocimiento.Api.Services
             }
             bool flag = false;
             DateTime? ultimaFecha = _contextBd.ConfiguracionGeneral
-                              .OrderBy(c => c.Id == 1) 
+                              .OrderBy(c => c.Id == 1)
                               .Select(c => c.UltimaFechaSincronizacion)
                               .FirstOrDefault();
 
@@ -96,13 +97,13 @@ namespace DeportNetReconocimiento.Api.Services
                 .FirstOrDefault();
 
 
-            
+
             if (config == null)
             {
                 Console.WriteLine("Config es null");
                 return;
             }
-            
+
 
             try
             {
@@ -122,22 +123,23 @@ namespace DeportNetReconocimiento.Api.Services
 
         /*ENVIAR TODAS LAS TABLAS A DX*/
 
-        //public async Task EnviarTodasLasTablasDx()
-        //{
-        //    //1. Enviar a los socios NUEVOS
-        //    await _socioService.EnviarNuevosSocios();
+        public async Task EnviarTodasLasTablasDx()
+        {
+            //1. Enviar a los socios NUEVOS
+            await _socioService.EnviarNuevosSocios();
 
 
-        //    //1. Enviar los empleados
-        //    await _empleadoService.EnviarEmpleados();
+            //1. Enviar los empleados
+            await _empleadoService.EnviarEmpleados();
 
-        //    //2. Enviar los concepts
-        //    await _conceptService.EnviarConcepts();
+            //2. Enviar los concepts
+            await _conceptService.EnviarConcepts();
 
 
-        //    //4. Enviar configuracion de acceso
-        //    await _configuracionAccesoService.EnviarConfiguracionDeAcceso();
+            //4. Enviar configuracion de acceso
+            await _configuracionAccesoService.EnviarConfiguracionDeAcceso();
 
-        //}
+        }
+
     }
 }

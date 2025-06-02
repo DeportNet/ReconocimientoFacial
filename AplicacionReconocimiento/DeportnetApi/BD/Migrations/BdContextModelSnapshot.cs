@@ -251,6 +251,11 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("is_active");
 
+                    b.Property<string>("IsAdminUser")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("is_admin_user");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -411,10 +416,6 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("sale_amount");
 
-                    b.Property<int?>("BranchMemberId")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("branch_member_id");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT")
                         .HasColumnName("date");
@@ -440,6 +441,10 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("period");
 
+                    b.Property<int?>("SocioId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("branch_member_id");
+
                     b.Property<string>("Synchronized")
                         .IsRequired()
                         .HasColumnType("TEXT")
@@ -451,7 +456,7 @@ namespace DeportNetReconocimiento.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BranchMemberId");
+                    b.HasIndex("SocioId");
 
                     b.ToTable("ventas", (string)null);
                 });
@@ -469,7 +474,7 @@ namespace DeportNetReconocimiento.Migrations
                 {
                     b.HasOne("DeportNetReconocimiento.Api.Data.Domain.Socio", "Socio")
                         .WithMany()
-                        .HasForeignKey("BranchMemberId");
+                        .HasForeignKey("SocioId");
 
                     b.Navigation("Socio");
                 });

@@ -2,6 +2,7 @@
 using DeportNetReconocimiento.Api.Data.Dtos.Dx.Socios;
 using DeportNetReconocimiento.Api.Data.Mapper.Interfaces;
 
+
 namespace DeportNetReconocimiento.Api.Data.Mapper
 {
     public class SocioMapper : ISocioMapper
@@ -30,5 +31,24 @@ namespace DeportNetReconocimiento.Api.Data.Mapper
         {
             return sociosDto.Select(SocioDtoDxToSocio).ToList();
         }
+
+        public NuevoSocio SocioToNuevoSocio(Socio socio)
+        {
+            return new NuevoSocio
+            {
+                BirthDate = socio.BirthDate, //YYYY-MM-DD
+                CardNumber = socio.CardNumber,
+                Email = socio.Email,
+                FirstName = socio.FirstName,
+                LastName = socio.LastName,
+                Gender = socio.Gender
+            };
+        }
+
+        public List<NuevoSocio> ListaSocioToListaNuevoSocio(List<Socio> listadoSocios)
+        {
+            return listadoSocios.Select(SocioToNuevoSocio).ToList();
+        }
+
     }
 }
