@@ -1,4 +1,6 @@
 
+using DeportNetReconocimiento.Utils;
+
 namespace DeportnetOffline
 {
     public partial class WFDeportnetOffline : Form
@@ -71,39 +73,57 @@ namespace DeportnetOffline
 
         private void cambiarBotonSeleccionado(int nroBoton)
         {
+            botonSocios.BackColor = SystemColors.Window;
+            botonAccesos.BackColor = SystemColors.Window;
+            botonCobros.BackColor = SystemColors.Window;
+            botonAltaLegajos.BackColor = SystemColors.Window;
+
             switch (nroBoton)
             {
                 //Boton Socio
                 case 0:
                     botonSocios.BackColor = SystemColors.ActiveCaption;
-                    botonAccesos.BackColor = SystemColors.Window;
-                    botonCobros.BackColor = SystemColors.Window;
-                    botonAltaLegajos.BackColor = SystemColors.Window;
                     break;
                 //Boton Acceso
                 case 1:
-                    botonSocios.BackColor = SystemColors.Window;
                     botonAccesos.BackColor = SystemColors.ActiveCaption;
-                    botonCobros.BackColor = SystemColors.Window;
-                    botonAltaLegajos.BackColor = SystemColors.Window;
                     break;
                 //Boton Cobros
                 case 2:
-                    botonSocios.BackColor = SystemColors.Window;
-                    botonAccesos.BackColor = SystemColors.Window;
                     botonCobros.BackColor = SystemColors.ActiveCaption;
-                    botonAltaLegajos.BackColor = SystemColors.Window;
                     break;
                 //Boton Alta legajos
                 case 3:
-                    botonSocios.BackColor = SystemColors.Window;
-                    botonAccesos.BackColor = SystemColors.Window;
-                    botonCobros.BackColor = SystemColors.Window;
                     botonAltaLegajos.BackColor = SystemColors.ActiveCaption;
                     break;
             }
 
         }
 
+        private void WFDeportnetOffline_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+            var result = MessageBox.Show("Deportnet dice:\n¿Estás seguro de que quieres cerrar la aplicación Offline",
+                                             "Confirmación",
+                                             MessageBoxButtons.YesNo,
+                                             MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                // 
+                this.Dispose();
+            }
+            else
+            {
+                // Cancelar el cierre
+                e.Cancel = true;
+            }
+            
+        }
+
+        private void WFDeportnetOffline_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ConfiguracionGeneralUtils.CambiarEstadoModuloActivo();
+        }
     }
 }

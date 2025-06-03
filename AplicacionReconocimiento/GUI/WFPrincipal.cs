@@ -1,4 +1,5 @@
 using DeportnetOffline;
+using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Dtos.Response;
 using DeportNetReconocimiento.Api.Services;
@@ -708,11 +709,16 @@ namespace DeportNetReconocimiento.GUI
             
             if (wFDeportnetOffline.Visible)
             {
+            Console.WriteLine("Esta visible");
                 wFDeportnetOffline.BringToFront();
                 return;
             }
 
+
+            Console.WriteLine("No está visible");
+            ConfiguracionGeneralUtils.CambiarEstadoModuloActivo();
             wFDeportnetOffline.Show();
+
         }
     }
 }
