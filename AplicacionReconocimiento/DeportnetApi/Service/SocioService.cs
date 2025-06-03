@@ -158,7 +158,7 @@ namespace DeportNetReconocimiento.Api.Services
             }
 
             List<NuevoSocio> listadoNuevosSociosParsed = _socioMapper.ListaSocioToListaNuevoSocio(listadoSocios);
-             await WebServicesDeportnet.EnviarNuevosSocios(listadoNuevosSociosParsed, idSucursal);
+            string jsonRta = await WebServicesDeportnet.EnviarNuevosSocios(listadoNuevosSociosParsed, idSucursal);
 
             //falta agregar los nuevos ids, a los socios nuevos
 

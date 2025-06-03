@@ -1,5 +1,6 @@
 ﻿using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Dtos.Dx.Socios;
+using DeportNetReconocimiento.DeportnetApi.Data.Dto.Dx.Socios;
 
 namespace DeportNetReconocimiento.Api.Data.Mapper.Interfaces
 {
