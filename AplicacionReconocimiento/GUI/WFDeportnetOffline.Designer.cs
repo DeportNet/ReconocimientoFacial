@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WFDeportnetOffline));
             tableLayoutPanel1 = new TableLayoutPanel();
             panel1 = new Panel();
             tableLayoutPanel2 = new TableLayoutPanel();
@@ -158,15 +157,16 @@
             panelContenido.Size = new Size(1350, 692);
             panelContenido.TabIndex = 1;
             // 
-            // Form1
+            // WFDeportnetOffline
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1350, 729);
             Controls.Add(tableLayoutPanel1);
-            Icon = (Icon)resources.GetObject("$this.Icon");
-            Name = "Form1";
+            Name = "WFDeportnetOffline";
             Text = "Modo Offline";
+            FormClosing += WFDeportnetOffline_FormClosing;
+            FormClosed += WFDeportnetOffline_FormClosed;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             panel1.ResumeLayout(false);

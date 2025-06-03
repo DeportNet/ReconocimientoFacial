@@ -126,5 +126,20 @@ namespace DeportNetReconocimiento.Utils
             bdContext.SaveChanges();
         }
 
+
+       //Cambia el estado de modulo offline activo
+        public static void CambiarEstadoModuloActivo()
+        {
+            using var bdContext = BdContext.CrearContexto();
+            ConfiguracionGeneral config = bdContext.ConfiguracionGeneral.FirstOrDefault();
+            if(config == null)
+            {
+                Console.Error.WriteLine("Configuración general es null");
+                return;
+            }
+
+            config.IsOffline = !config.IsOffline;
+            bdContext.SaveChanges();
+        }
     }
 }
