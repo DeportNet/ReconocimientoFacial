@@ -43,7 +43,6 @@ namespace DeportNetReconocimiento.Api.Services
             await _conceptService.SincronizarConcepts();
 
             ////3. Obtener de Dx los clientes
-            // Hay que inportar esto
             await _socioService.SincronizarSocios();
 
             ////4. Obtener Configuracion de Acceso

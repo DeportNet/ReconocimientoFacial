@@ -93,14 +93,22 @@ namespace DeportnetOffline
             {
                 return;
             }
-
-            Venta venta = new Venta(itemId: membresiaSeleccionada.IdDx, branchMemberId: socio.Id, 
-                isSaleItem: 'F', period:membresiaSeleccionada.Period, days:membresiaSeleccionada.Days, name:membresiaSeleccionada.Name, amount: membresiaSeleccionada.Amount);
+            //        public Venta(int itemId, int branchMemberId,int? idSocio, char isSaleItem, string? period, string? days, string name, string amount)
+            Venta venta = new Venta(
+                itemId: membresiaSeleccionada.IdDx,
+                branchMemberId: socio.IdDx,
+                idSocio: socio.Id,
+                isSaleItem: membresiaSeleccionada.IsSaleItem,
+                period: membresiaSeleccionada.Period,
+                days: membresiaSeleccionada.Days,
+                name: membresiaSeleccionada.Name,
+                amount: membresiaSeleccionada.Amount
+                );
+             
             bool resultado = await VentaRepository.RegistrarVenta(venta);
 
             if (resultado)
             {
-
 
                 MessageBox.Show("Venta completada", "La venta se registro exitosamente", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 await SocioService.ActualizarEstadoSocio(socio.Id, 1);

@@ -1,5 +1,5 @@
 ﻿using DeportNetReconocimiento.Api.Data.Dtos.Response;
-using DeportNetReconocimiento.DeportnetApi.Data.Dto.Dx.Socios;
+using DeportNetReconocimiento.DeportnetApi.Data.Dto.Dx.Socios.NuevosSocios;
 using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using DeportNetReconocimiento.Utils;
 using System.Dynamic;

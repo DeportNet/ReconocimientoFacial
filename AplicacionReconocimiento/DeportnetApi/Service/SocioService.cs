@@ -3,7 +3,7 @@ using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Dtos.Dx.Socios;
 using DeportNetReconocimiento.Api.Data.Mapper.Interfaces;
 using DeportNetReconocimiento.Api.Services.Interfaces;
-using DeportNetReconocimiento.DeportnetApi.Data.Dto.Dx.Socios;
+using DeportNetReconocimiento.DeportnetApi.Data.Dto.Dx.Socios.NuevosSocios;
 using DeportNetReconocimiento.Utils;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -154,19 +154,72 @@ namespace DeportNetReconocimiento.Api.Services
             if (listadoSocios.Count == 0)
             {
                 Console.WriteLine("No hay nuevos socios para enviar");
-                
+                return;
             }
 
             List<NuevoSocio> listadoNuevosSociosParsed = _socioMapper.ListaSocioToListaNuevoSocio(listadoSocios);
-            string jsonRta = await WebServicesDeportnet.EnviarNuevosSocios(listadoNuevosSociosParsed, idSucursal);
+            string? jsonRta = await WebServicesDeportnet.EnviarNuevosSocios(listadoNuevosSociosParsed, idSucursal);
+            
+            if(jsonRta == null) {
+                Console.WriteLine("Error al enviar nuevos socios, la respuesta recibida de dx es null");
+                return;
+            }
 
-            //falta agregar los nuevos ids, a los socios nuevos
-
-
-
-
-
+            RespuestaAltaNuevosSocios respuestaAltaNuevosSocios = JsonConvert.DeserializeObject<RespuestaAltaNuevosSocios>(jsonRta);
+            
+            if(respuestaAltaNuevosSocios.ProcessResult == "F")
+            {
+                MessageBox.Show(respuestaAltaNuevosSocios.ErrorMessage, "Error al enviar nuevos socios", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Console.WriteLine(respuestaAltaNuevosSocios.ErrorItems.ToString());
+                return;
+            }
+            
+            //falta agregar los nuevos ids, a los socios nuevos y cambiar los emails
+            await ActualizarIdsNuevosSocios(listadoSocios, respuestaAltaNuevosSocios.UpdatedMembers);
 
         }
+
+        public async Task ActualizarIdsNuevosSocios(List<Socio> listadoSocios, List<UpdatedMember> listadoSociosActualizados)
+        {
+            using var dbContext = BdContext.CrearContexto();
+            using var transaction = await dbContext.Database.BeginTransactionAsync();
+
+            try
+            {
+                foreach (UpdatedMember socioActualizado in listadoSociosActualizados)
+                {
+                    // Buscar en la base el socio para actualizar
+                    var socioEnBd = await dbContext.Socios.FindAsync(socioActualizado.LocalId);
+
+                    if (socioEnBd == null)
+                    {
+                        Console.WriteLine($"No se encontró en BD el socio con Id {socioActualizado.LocalId}");
+                        continue;
+                    }
+
+                    // Actualizar ID y email
+                    socioEnBd.IdDx = socioActualizado.NewId; // Suponiendo que tenés un campo IdDx para el ID remoto (muy recomendable tenerlo!)
+
+                    if (!string.IsNullOrEmpty(socioActualizado.NewEmail))
+                    {
+                        socioEnBd.Email = socioActualizado.NewEmail;
+                    }
+
+                    Console.WriteLine($"Actualizado socio localId={socioActualizado.LocalId} → newId={socioActualizado.NewId}, newEmail={socioActualizado.NewEmail}");
+                }
+
+                // Guardar cambios
+                await dbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                Console.WriteLine("Actualización de nuevos socios completada.");
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                Console.WriteLine($"Error al actualizar nuevos socios: {ex.Message}");
+            }
+        }
+
     }
 }

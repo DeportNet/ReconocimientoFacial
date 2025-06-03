@@ -11,7 +11,7 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [Key]
         public int Id { get; set; }
 
-        [Column("branch_member_id")]
+        [Column("local_member_id")]
         public int? SocioId {  get; set; }
 
         // Propiedad de navegación
@@ -43,6 +43,9 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [Column("sale_amount")]
         public string Amount { get; set; }
 
+        [Column("branch_member_id")]
+        public int? BranchMemberId { get; set; }
+
         [Column("synchronized")]
         [DisallowNull]
         public string Synchronized { get; set; }
@@ -53,10 +56,10 @@ namespace DeportNetReconocimiento.Api.Data.Domain
 
         public Venta(){}
 
-        public Venta(int itemId, int? branchMemberId, char isSaleItem, string? period, string? days, string name, string amount)
+        public Venta(int itemId, int? branchMemberId,int? idSocio, char isSaleItem, string? period, string? days, string name, string amount)
         {
             ItemId = itemId;
-            SocioId = branchMemberId;
+            SocioId = idSocio;
             IsSaleItem = isSaleItem;
             Period = period;
             Days = days;
@@ -67,25 +70,5 @@ namespace DeportNetReconocimiento.Api.Data.Domain
             SyncronizedDate = null;
         }
 
-
-        //public Venta(int itemId, int? branchMemberId, char isSaleItem, int? period, int? days)
-        //{
-        //    ItemId = itemId;
-        //    BranchMemberId = branchMemberId;
-        //    IsSaleItem = isSaleItem;
-        //    Period = period;
-        //    Days = days;
-        //    Date = DateTime.Now;
-        //    Synchronized = "F";
-        //}
-
-        //public Venta(int itemId, int? branchMemberId, char isSaleItem)
-        //{
-        //    ItemId = itemId;
-        //    BranchMemberId = branchMemberId;
-        //    IsSaleItem = isSaleItem;
-        //    Date = DateTime.Now;
-        //    Synchronized = "F";
-        //}
     }
 }

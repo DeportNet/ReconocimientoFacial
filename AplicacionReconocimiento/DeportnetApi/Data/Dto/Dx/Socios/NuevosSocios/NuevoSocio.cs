@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeportNetReconocimiento.DeportnetApi.Data.Dto.Dx.Socios
+namespace DeportNetReconocimiento.DeportnetApi.Data.Dto.Dx.Socios.NuevosSocios
 {
     public class NuevoSocio
     {
-        public int Id { get; set; } 
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
