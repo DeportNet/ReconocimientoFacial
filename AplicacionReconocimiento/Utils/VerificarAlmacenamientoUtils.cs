@@ -1,5 +1,4 @@
-﻿using DeportNetReconocimiento.Api.BD;
-using DeportNetReconocimiento.Api.Data.Domain;
+﻿using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Dtos.Dx.Socios;
 using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.GUI;

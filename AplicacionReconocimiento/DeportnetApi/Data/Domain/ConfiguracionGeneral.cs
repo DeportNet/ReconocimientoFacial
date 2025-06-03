@@ -52,10 +52,12 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [AllowNull]
         public string? LectorActual { get; set; }
 
+        [Column("is_offline")]
+        public bool IsOffline { get; set; }
 
         public ConfiguracionGeneral() { }
 
-        public ConfiguracionGeneral(int cantMaxLotes, string contraseniaBd, string nombreSucursal,DateTime? ultimaFechaSincronizacion, DateTime? anteriorFechaSincronizacion, int? capacidadMaximaRostros, int rostrosActuales, string? lectorActual)
+        public ConfiguracionGeneral(int cantMaxLotes, string contraseniaBd, string nombreSucursal,DateTime? ultimaFechaSincronizacion, DateTime? anteriorFechaSincronizacion, int? capacidadMaximaRostros, int rostrosActuales, string? lectorActual, bool isOffline)
         {
             CantMaxLotes = cantMaxLotes;
             ContraseniaBd = contraseniaBd;
@@ -65,6 +67,7 @@ namespace DeportNetReconocimiento.Api.Data.Domain
             CapacidadMaximaRostros = capacidadMaximaRostros;
             RostrosActuales = rostrosActuales;
             LectorActual = lectorActual;
+            IsOffline = isOffline;
         }
 
     }

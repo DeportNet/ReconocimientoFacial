@@ -20,7 +20,8 @@ namespace DeportNetReconocimiento.Utils
                 null,
                 Hik_Controladora_General.InstanciaControladoraGeneral.ObtenerCapacidadCarasDispositivo(),
                 1,
-                null
+                null,
+                false
                 );
 
             bdContext.Add(config);

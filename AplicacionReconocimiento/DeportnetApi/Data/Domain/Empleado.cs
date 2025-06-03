@@ -40,7 +40,7 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         public string? FullName { get; set; }
 
         [Column("is_admin_user")]
-        public string IsAdminUser { get; set; } 
+        public string? IsAdminUser { get; set; } 
         public Empleado() { }
 
         public Empleado(int companyMemberId, string firstName, string lastName, string password, string isActive, string isAdminUser)

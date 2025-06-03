@@ -123,10 +123,10 @@ namespace DeportNetReconocimiento.Api.Services
 
         /*ENVIAR TODAS LAS TABLAS A DX*/
 
-        public async Task EnviarTodasLasTablasDx()
-        {
-            //1. Enviar a los socios NUEVOS
-            await _socioService.EnviarNuevosSocios();
+        //public async Task EnviarTodasLasTablasDx()
+        //{
+        //    //1. Enviar a los socios NUEVOS
+        //    await _socioService.EnviarNuevosSocios();
 
 
             //1. Enviar los empleados
@@ -139,7 +139,7 @@ namespace DeportNetReconocimiento.Api.Services
             ////4. Enviar configuracion de acceso
             //await _configuracionAccesoService.EnviarConfiguracionDeAcceso();
 
-        }
+        //}
 
     }
 }
