@@ -69,13 +69,12 @@ namespace DeportNetReconocimiento.Api.Services
 
         private async Task InsertarSociosEnTabla(List<Socio> listadoSociosDx)
         {
-            using var _bdContext = BdContext.CrearContexto();
-            using var transaction = await _bdContext.Database.BeginTransactionAsync(); // Iniciar transacción
+            using var bdContext = BdContext.CrearContexto();
+            using var transaction = await bdContext.Database.BeginTransactionAsync(); // Iniciar transacción
             try
             {
-                await VerificarCambiosEnTablaSocios(listadoSociosDx);
-
-                await _bdContext.SaveChangesAsync();
+                await VerificarCambiosEnTablaSocios(listadoSociosDx, bdContext);
+                await bdContext.SaveChangesAsync();
 
                 await transaction.CommitAsync();// Confirmamos transaccion
 
@@ -88,9 +87,8 @@ namespace DeportNetReconocimiento.Api.Services
             }
         }
 
-        private async Task VerificarCambiosEnTablaSocios(List<Socio> listadoSociosDx)
+        private async Task VerificarCambiosEnTablaSocios(List<Socio> listadoSociosDx, BdContext bdContext)
         {
-            using var bdContext = BdContext.CrearContexto();
 
             List<Socio> listadoSociosLocal = await bdContext.Socios.ToListAsync();
 
