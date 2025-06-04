@@ -65,12 +65,20 @@ namespace DeportnetOffline
 
         private void botonSgtPaginacion_Click(object sender, EventArgs e)
         {
-
+            if(PaginaActual < TotalPaginas)
+            {
+                PaginaActual++;
+                CargarDatos(PaginaActual, TamanioPagina);
+            }
         }
 
         private void botonAntPaginacion_Click(object sender, EventArgs e)
         {
-
+            if (PaginaActual > 1)
+            {
+                PaginaActual--;
+                CargarDatos(PaginaActual, TamanioPagina);
+            }
         }
     }
 }
