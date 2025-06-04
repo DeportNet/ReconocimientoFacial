@@ -22,7 +22,7 @@ namespace DeportnetOffline
             PaginaActual = 1;
             TotalPaginas = 1;
             TamanioPagina = 20;
-            
+
             textBox1_Leave(this, EventArgs.Empty);
             textBox2_Leave(this, EventArgs.Empty);
             textBox3_Leave(this, EventArgs.Empty);
@@ -34,7 +34,7 @@ namespace DeportnetOffline
 
         public void CrearTabla()
         {
-            
+
             dataGridView1.Columns["ColumnaCobro"].DisplayIndex = dataGridView1.Columns.Count - 1;
             dataGridView1.Columns["ColumnaVenta"].DisplayIndex = dataGridView1.Columns.Count - 1;
 
@@ -51,17 +51,17 @@ namespace DeportnetOffline
         public void CargarDatos(int paginaActual, int tamanioPagina)
         {
             using var contexto = BdContext.CrearContexto();
-            
+
             PaginadoResultado<Socio> paginaSocios = PaginadorUtils.ObtenerPaginadoAsync(contexto.Socios, paginaActual, tamanioPagina).Result;
-            CambiarInformacionPagina(paginaSocios); 
+            CambiarInformacionPagina(paginaSocios);
             dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(paginaSocios.Items);
-            
+
         }
 
         //cambiar de pagina
         private void botonAntPaginacion_Click(object sender, EventArgs e)
         {
-            if(PaginaActual > 1)
+            if (PaginaActual > 1)
             {
                 PaginaActual--;
 
@@ -69,13 +69,13 @@ namespace DeportnetOffline
                 List<Socio> listaSocios = FiltrarSocios(new FiltrosSocioRequest(FiltroEstado, FiltroNroTarjeta, FiltroApellidoNombre, FiltroEmail), PaginaActual, TamanioPagina);
 
                 //Actualizar datos en la tabla
-                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(listaSocios); 
+                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(listaSocios);
             }
         }
 
         private void botonSgtPaginacion_Click(object sender, EventArgs e)
         {
-          
+
             if (PaginaActual < TotalPaginas)
             {
                 PaginaActual++;
@@ -83,7 +83,7 @@ namespace DeportnetOffline
                 List<Socio> listaSocios = FiltrarSocios(new FiltrosSocioRequest(FiltroEstado, FiltroNroTarjeta, FiltroApellidoNombre, FiltroEmail), PaginaActual, TamanioPagina);
 
                 //Actualizar datos en la tabla
-                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(listaSocios); 
+                dataGridView1.DataSource = TablaMapper.ListaSocioToListaInformacionTablaSocio(listaSocios);
             }
 
         }
@@ -101,7 +101,7 @@ namespace DeportnetOffline
         {
             using var bdContext = BdContext.CrearContexto();
 
-            IQueryable<Socio> query = bdContext.Socios.AsQueryable(); 
+            IQueryable<Socio> query = bdContext.Socios.AsQueryable();
 
             query = FiltrosSocio.FiltrarPorNroTarjetaODni(filtrosSocio.NroTarjeta, query);
             query = FiltrosSocio.FiltrarPorEmail(filtrosSocio.Email, query);
@@ -109,7 +109,7 @@ namespace DeportnetOffline
             query = FiltrosSocio.FiltrarPorIsValid(filtrosSocio.Estado, query);
 
             PaginadoResultado<Socio> paginaSociosFiltrados = PaginadorUtils.ObtenerPaginadoAsync(query, nroPagina, tamPag).Result;
-            
+
             CambiarInformacionPagina(paginaSociosFiltrados);
 
             return paginaSociosFiltrados.Items;
@@ -207,7 +207,7 @@ namespace DeportnetOffline
 
             modal.ShowDialog();
 
-            
+
         }
 
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -219,7 +219,7 @@ namespace DeportnetOffline
 
                 if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaVenta")
                 {
-                    if(socio.Estado == "Activo")
+                    if (socio.Estado == "Activo")
                     {
                         ModalVentas modal = new ModalVentas(socio);
                         modal.FormClosed += (s, args) =>
@@ -230,7 +230,7 @@ namespace DeportnetOffline
                     }
                     else
                     {
-                        MessageBox.Show("No se le puede vender nada al socio porque esta inactivo","Socio inactivo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("No se le puede vender nada al socio porque esta inactivo", "Socio inactivo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
                 else if (dataGridView1.Columns[e.ColumnIndex].Name == "ColumnaCobro")
@@ -250,7 +250,7 @@ namespace DeportnetOffline
         public string ObtenerEstadoFiltro(string estado)
         {
             estado = estado.Trim().ToLower();
-            
+
             return estado switch
             {
                 "actívos e inactivos" => "",
@@ -258,7 +258,7 @@ namespace DeportnetOffline
                 "solo activos" => "T"
             };
 
-            
+
         }
 
         //Limpia los placeholders, esto se hace porque son texto que con eventos se cambia,
@@ -276,6 +276,24 @@ namespace DeportnetOffline
                 _ => campo
             };
 
+        }
+
+        public int CalcularTamanioPagina()
+        {
+            int alturaTabla = dataGridView1.ClientSize.Height;
+
+            int tamanioFila = dataGridView1.Rows[0].Height;
+            double resultado = alturaTabla / tamanioFila;
+            int filasTotales = (int)Math.Floor(resultado);
+            return filasTotales - 1;
+        }
+
+
+        private void dataGridView1_SizeChanged(object sender, EventArgs e)
+        {
+            TamanioPagina = CalcularTamanioPagina();
+
+            CargarDatos(PaginaActual, TamanioPagina);
         }
 
 

@@ -148,11 +148,12 @@
             // 
             // panelContenido
             // 
-            panelContenido.AutoSize = true;
+            panelContenido.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             panelContenido.BackColor = Color.WhiteSmoke;
             panelContenido.Dock = DockStyle.Fill;
             panelContenido.Location = new Point(0, 0);
             panelContenido.Margin = new Padding(0);
+            panelContenido.MinimumSize = new Size(1000, 600);
             panelContenido.Name = "panelContenido";
             panelContenido.Size = new Size(1350, 692);
             panelContenido.TabIndex = 1;
@@ -163,12 +164,12 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1350, 729);
             Controls.Add(tableLayoutPanel1);
+            MinimumSize = new Size(1080, 680);
             Name = "WFDeportnetOffline";
             Text = "Modo Offline";
             FormClosing += WFDeportnetOffline_FormClosing;
             FormClosed += WFDeportnetOffline_FormClosed;
             tableLayoutPanel1.ResumeLayout(false);
-            tableLayoutPanel1.PerformLayout();
             panel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             ResumeLayout(false);
