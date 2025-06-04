@@ -80,5 +80,22 @@ namespace DeportnetOffline
                 CargarDatos(PaginaActual, TamanioPagina);
             }
         }
+
+
+        public int CalcularTamanioPagina()
+        {
+            int alturaTabla = dataGridView1.ClientSize.Height;
+            int tamanioHeader = dataGridView1.ColumnHeadersHeight;
+            int tamanioFila = dataGridView1.Rows[0].Height;
+            double resultado = (alturaTabla - tamanioHeader )/ tamanioFila;
+            int filasTotales = (int)Math.Floor(resultado);
+            return filasTotales;
+        }
+
+        private void dataGridView1_SizeChanged_1(object sender, EventArgs e)
+        {
+            TamanioPagina = CalcularTamanioPagina();
+            CargarDatos(PaginaActual, TamanioPagina);
+        }
     }
 }
