@@ -53,7 +53,7 @@ namespace DeportNetReconocimiento.Utils
 
             ConfiguracionGeneral? config = bdContext.ConfiguracionGeneral.FirstOrDefault(c => c.Id == 1);
 
-            if(config == null)
+            if (config == null)
             {
                 config = CrearRegistroConfiguracionGeneral();
             }
@@ -99,7 +99,8 @@ namespace DeportNetReconocimiento.Utils
         {
             string? lectorActual = ObtenerConfiguracionGeneral().LectorActual;
 
-            if (lectorActual == null) {
+            if (lectorActual == null)
+            {
                 Console.WriteLine("nro lector es null");
                 lectorActual = "1";
             }
@@ -112,7 +113,7 @@ namespace DeportNetReconocimiento.Utils
             using var bdContext = BdContext.CrearContexto();
 
             ConfiguracionGeneral config = ObtenerConfiguracionGeneral();
-            if(config == null)
+            if (config == null)
             {
                 Console.WriteLine("Configuracion General es null, en ActualizarLectorFacial");
                 return;
@@ -127,12 +128,12 @@ namespace DeportNetReconocimiento.Utils
         }
 
 
-       //Cambia el estado de modulo offline activo
+        //Cambia el estado de modulo offline activo
         public static void CambiarEstadoModuloActivo()
         {
             using var bdContext = BdContext.CrearContexto();
             ConfiguracionGeneral config = bdContext.ConfiguracionGeneral.FirstOrDefault();
-            if(config == null)
+            if (config == null)
             {
                 Console.Error.WriteLine("Configuración general es null");
                 return;
@@ -140,6 +141,14 @@ namespace DeportNetReconocimiento.Utils
 
             config.IsOffline = !config.IsOffline;
             bdContext.SaveChanges();
+        }
+
+        public static bool ModuloOfflineActivo()
+        {
+            using var bdContext = BdContext.CrearContexto();
+            ConfiguracionGeneral config = ConfiguracionGeneralUtils.ObtenerConfiguracionGeneral();
+            return config.IsOffline;
+
         }
     }
 }
