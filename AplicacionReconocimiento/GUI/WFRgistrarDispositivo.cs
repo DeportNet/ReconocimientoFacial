@@ -258,11 +258,12 @@ namespace DeportNetReconocimiento
             {
                 return;
             }
+            loading = new Loading();
             loading.Show();
             
             Hik_Resultado resultadoLogin = await Task.Run(()=> BuscadorIpDispositivo.ObtenerIpDispositivo(textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text));
             
-            loading.Hide();
+            loading.Close();
 
 
             if (!resultadoLogin.Exito)

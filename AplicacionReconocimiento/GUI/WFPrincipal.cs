@@ -161,7 +161,8 @@ namespace DeportNetReconocimiento.GUI
 
                     if (ConfiguracionEstilos.BloquearIp)
                     {
-                        MessageBox.Show("No se pudo conectar con el dispositivo, verifique si la ip es correcta o si el dispositivo esta conectado a la red", "Error de conexión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Console.WriteLine("No se pudo conectar con el dispositivo, verifique si la ip es correcta o si el dispositivo esta conectado a la red");
+                        //MessageBox.Show("No se pudo conectar con el dispositivo, verifique si la ip es correcta o si el dispositivo esta conectado a la red", "Error de conexión", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
@@ -169,6 +170,7 @@ namespace DeportNetReconocimiento.GUI
                     string[] credenciales = CredencialesUtils.LeerCredenciales();
 
                     ocultarPrincipal = true; // Ocultamos la vista pri para que no se pueda hacer nada mientras se busca la ip del dispositivo
+                    loading = new Loading();
                     loading.Show();
 
                     Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales[1], credenciales[2], credenciales[3]));
