@@ -366,6 +366,9 @@ namespace DeportNetReconocimiento.Utils
         [Browsable(false)]
         public byte PermisosDeTarjeta { get; set; }
 
+        [Browsable(false)]
+        public bool BloquearIp { get; set; }
+
         // Constructor predeterminado
         public ConfiguracionEstilos()
         {
@@ -426,6 +429,9 @@ namespace DeportNetReconocimiento.Utils
             // Guardar fotos socio
             AlmacenarFotoSocio = false;
             RutaCarpeta = Directory.GetCurrentDirectory();
+
+            // Rastrear IP
+            BloquearIp = false;
         }
 
 

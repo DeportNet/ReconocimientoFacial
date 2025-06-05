@@ -19,7 +19,7 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
             this.configuracion = configuracionEstilos;
             this.principal = principal;
-            comboBoxPermisoTarjeta.SelectedIndex = 0;
+            
             _credenciales = CredencialesUtils.LeerCredenciales();
 
 
@@ -387,9 +387,10 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            configuracion.BloquearIp = !configuracion.BloquearIp;
         }
     }
 }

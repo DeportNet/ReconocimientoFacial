@@ -159,6 +159,12 @@ namespace DeportNetReconocimiento.GUI
             {
                 case "7":
 
+                    if (ConfiguracionEstilos.BloquearIp)
+                    {
+                        MessageBox.Show("No se pudo conectar con el dispositivo, verifique si la ip es correcta o si el dispositivo esta conectado a la red", "Error de conexión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
                     //Logica mostrar loading y buscar ip
                     string[] credenciales = CredencialesUtils.LeerCredenciales();
 

@@ -38,8 +38,6 @@
             ComboBoxAperturaMolinete = new ComboBox();
             BotonOcultarConfig = new Button();
             PanelConfigAdminsitrador = new Panel();
-            comboBoxPermisoTarjeta = new ComboBox();
-            label3 = new Label();
             botonEditarCredenciales = new Button();
             label2 = new Label();
             BotonAbrirFileDialog = new Button();
@@ -49,6 +47,8 @@
             TextBoxAdmin = new TextBox();
             BotonIngresarAdmin = new Button();
             button1 = new Button();
+            label3 = new Label();
+            checkBox1 = new CheckBox();
             PanelConfigAdminsitrador.SuspendLayout();
             SuspendLayout();
             // 
@@ -145,7 +145,7 @@
             // PanelConfigAdminsitrador
             // 
             PanelConfigAdminsitrador.BackColor = Color.IndianRed;
-            PanelConfigAdminsitrador.Controls.Add(comboBoxPermisoTarjeta);
+            PanelConfigAdminsitrador.Controls.Add(checkBox1);
             PanelConfigAdminsitrador.Controls.Add(label3);
             PanelConfigAdminsitrador.Controls.Add(botonEditarCredenciales);
             PanelConfigAdminsitrador.Controls.Add(label2);
@@ -162,32 +162,13 @@
             PanelConfigAdminsitrador.TabIndex = 20;
             PanelConfigAdminsitrador.Visible = false;
             // 
-            // comboBoxPermisoTarjeta
-            // 
-            comboBoxPermisoTarjeta.FormattingEnabled = true;
-            comboBoxPermisoTarjeta.Items.AddRange(new object[] { "0", "1" });
-            comboBoxPermisoTarjeta.Location = new Point(171, 131);
-            comboBoxPermisoTarjeta.Name = "comboBoxPermisoTarjeta";
-            comboBoxPermisoTarjeta.Size = new Size(58, 23);
-            comboBoxPermisoTarjeta.TabIndex = 31;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F);
-            label3.Location = new Point(20, 129);
-            label3.Name = "label3";
-            label3.Size = new Size(145, 21);
-            label3.TabIndex = 30;
-            label3.Text = "Permisos de tarjeta:";
-            // 
             // botonEditarCredenciales
             // 
             botonEditarCredenciales.BackColor = Color.Gainsboro;
             botonEditarCredenciales.Cursor = Cursors.Hand;
             botonEditarCredenciales.FlatAppearance.BorderSize = 0;
             botonEditarCredenciales.FlatStyle = FlatStyle.Flat;
-            botonEditarCredenciales.Location = new Point(171, 172);
+            botonEditarCredenciales.Location = new Point(165, 132);
             botonEditarCredenciales.Margin = new Padding(0);
             botonEditarCredenciales.Name = "botonEditarCredenciales";
             botonEditarCredenciales.Size = new Size(75, 23);
@@ -200,12 +181,11 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F);
-            label2.Location = new Point(27, 172);
+            label2.Location = new Point(21, 132);
             label2.Name = "label2";
             label2.Size = new Size(142, 21);
             label2.TabIndex = 28;
             label2.Text = "Editar credenciales:";
-            label2.Click += label2_Click;
             // 
             // BotonAbrirFileDialog
             // 
@@ -282,6 +262,26 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click_1;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 12F);
+            label3.Location = new Point(21, 191);
+            label3.Name = "label3";
+            label3.Size = new Size(0, 21);
+            label3.TabIndex = 30;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(21, 171);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(86, 19);
+            checkBox1.TabIndex = 31;
+            checkBox1.Text = "Bloquear IP";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            // 
             // WFConfiguracion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -331,7 +331,7 @@
         private Button button1;
         private Label label2;
         private Button botonEditarCredenciales;
+        private CheckBox checkBox1;
         private Label label3;
-        private ComboBox comboBoxPermisoTarjeta;
     }
 }
