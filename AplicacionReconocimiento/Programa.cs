@@ -28,7 +28,8 @@ namespace DeportNetReconocimiento
             apiServer = new ApiServer();
             apiServer.Start();
 
-           
+
+            Log.Information("Aplicacion iniciada.");
 
             //iniciazamos la ventana principal de acceso
             Application.Run(WFPrincipal.ObtenerInstancia);
@@ -52,7 +53,7 @@ namespace DeportNetReconocimiento
             )
             .CreateLogger();
 
-            Log.Information("Logger Iniciado");
+            
         }
 
         private static bool ProgramaCorriendo()
@@ -62,6 +63,7 @@ namespace DeportNetReconocimiento
 
             if (cantidadDeInstancias > 1)
             {
+                Log.Information("Se intento abrir el programa de nuevo y este ya esta corriendo.");
                 return true;
             }
 

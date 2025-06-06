@@ -4,6 +4,7 @@ using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.Api.Services.Interfaces;
 using DeportNetReconocimiento.Utils;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace DeportNetReconocimiento.Api.Controllers
 {
@@ -26,8 +27,6 @@ namespace DeportNetReconocimiento.Api.Controllers
             [FromQuery] string nombreCliente
             )
         {
-
-
             if (idCliente == null || idSucursal == null || nombreCliente == null)
             {
                 return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
@@ -36,7 +35,7 @@ namespace DeportNetReconocimiento.Api.Controllers
 
             if(!DispositivoEnUsoUtils.EstaOcupado())
             {
-                Console.WriteLine("Proceso el evento con id cliente  " + idCliente);
+                Log.Information("Proceso el evento con id cliente  " + idCliente + ".");
                 DispositivoEnUsoUtils.Ocupar();
                 detalle = deportnetReconocimientoService.AltaFacialCliente(new AltaFacialClienteRequest(idCliente, idSucursal, nombreCliente));
             }
@@ -50,7 +49,7 @@ namespace DeportNetReconocimiento.Api.Controllers
 
                 _ = WebServicesDeportnet.AltaClienteDeportnet(respuestaAlta.ToJson());
 
-                Console.WriteLine("No se procesa  el evento con id cliente " + idCliente);
+                Log.Information("No se procesa  el evento con id cliente " + idCliente+" debido a que el dispositivo esta ocupado.");
             }
 
             return Ok(detalle);

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using DeportNetReconocimiento.Api.Services.Interfaces;
 using DeportNetReconocimiento.Api.Services;
+using Serilog;
 
 
 namespace DeportNetReconocimiento.Api
@@ -81,15 +82,15 @@ namespace DeportNetReconocimiento.Api
 
             // Iniciar el servidor en un hilo separado
             _ = host.RunAsync();
-            
-            Console.WriteLine("Servidor API iniciado en http://localhost:5000");
+            Log.Information("Servidor API iniciado en http://localhost:5000");
         }
 
         public void Stop()
         {
+            Log.Information("Servidor API detenido.");
+
             // Detener el servidor
             host?.StopAsync().Wait();
-            Console.WriteLine("Servidor API detenido.");
         }
     }
 }
