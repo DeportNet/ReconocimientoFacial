@@ -1,9 +1,9 @@
 using DeportNetReconocimiento.Api;
-using DeportNetReconocimiento.BD;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
+using Serilog;
 using System.Diagnostics;
 using static DeportNetReconocimiento.SDK.Hik_SDK;
 
@@ -16,6 +16,8 @@ namespace DeportNetReconocimiento
         [STAThread]
         static void Main(string[] args)
         {
+            InicializarLogger();
+
             if (ProgramaCorriendo())
             {
                 MessageBox.Show("El programa ya esta abierto en otra ventana", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -30,10 +32,27 @@ namespace DeportNetReconocimiento
 
             //iniciazamos la ventana principal de acceso
             Application.Run(WFPrincipal.ObtenerInstancia);
-
+            
             // Detener el servidor cuando la aplicación cierre
             AppDomain.CurrentDomain.ProcessExit += (s, e) => apiServer?.Stop();
 
+        }
+
+        private static void InicializarLogger()
+        {
+            // Configurar Serilog para registrar en la consola y en un archivo
+
+            Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Information() // puedes cambiar a Information para prod
+            .WriteTo.Console()
+            .WriteTo.File(
+                "LogsDeportnetReconocimiento/log-.log",
+                rollingInterval: RollingInterval.Day,
+                retainedFileCountLimit: 60 // mantener solo últimos 60 días
+            )
+            .CreateLogger();
+
+            Log.Information("Logger Iniciado");
         }
 
         private static bool ProgramaCorriendo()

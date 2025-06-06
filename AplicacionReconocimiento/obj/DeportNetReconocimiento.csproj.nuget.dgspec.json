@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj": {}
+    "G:\\Trabajo\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj": {}
   },
   "projects": {
-    "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj": {
+    "G:\\Trabajo\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
+        "projectUniqueName": "G:\\Trabajo\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
         "projectName": "DeportNetReconocimiento",
-        "projectPath": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
-        "packagesPath": "C:\\Users\\facun\\.nuget\\packages\\",
-        "outputPath": "D:\\DeportNet\\DeportNetReconocimiento\\AplicacionReconocimiento\\obj\\",
+        "projectPath": "G:\\Trabajo\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\DeportNetReconocimiento.csproj",
+        "packagesPath": "C:\\Users\\fabri\\.nuget\\packages\\",
+        "outputPath": "G:\\Trabajo\\Deportnet\\DeportnetReconocimiento\\AplicacionReconocimiento\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "G:\\Programs\\Visual Studio Community\\SharedComponents IDE\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\facun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\fabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -50,6 +54,18 @@
               "target": "Package",
               "version": "[2.2.1, )"
             },
+            "Serilog": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "Serilog.Sinks.Console": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Serilog.Sinks.File": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[7.2.0, )"
@@ -73,7 +89,7 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.Windows.SDK.NET.Ref",
-              "version": "[10.0.22621.31, 10.0.22621.31]"
+              "version": "[10.0.22621.53, 10.0.22621.53]"
             }
           ],
           "frameworkReferences": {
@@ -90,7 +106,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

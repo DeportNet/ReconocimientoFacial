@@ -1,6 +1,5 @@
 ﻿using DeportNetReconocimiento.Api.Dtos.Response;
 using DeportNetReconocimiento.Api.Services;
-using DeportNetReconocimiento.BD;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDK;
@@ -123,10 +122,12 @@ namespace DeportNetReconocimiento.SDKHikvision
                     //Si no tenemos conexion a internet, hay que guardar el evento en la base de datos
                     if (!WFPrincipal.ObtenerInstancia.ConexionInternet)
                     {
-                        Console.WriteLine("Guardo al cliente en bd y no dx");
-                        int.TryParse(infoEvento.Card_Number, out int nroTarjeta);
-
-                        BdClientes.InsertarCliente(nroTarjeta, "Cliente", infoEvento.Time);
+                        MessageBox.Show(
+                            "No hay conexion a internet, revise la conexion, ESPERE unos segundos, y vuelva a intentar el acceso del socio.",
+                            "Error de Conexión",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                            );
                     }
                     else
                     {
@@ -176,82 +177,98 @@ namespace DeportNetReconocimiento.SDKHikvision
             string response = await WebServicesDeportnet.ControlDeAcceso(numeroTarjeta,idSucursal);
             
             ProcesarRespuestaAcceso(response, numeroTarjeta, idSucursal);
-            
-
-
+           
             libre = true;
-
         }
 
         public static void ProcesarRespuestaAcceso(string response, string nroTarjeta, string idSucursal)
         {
-
-            using JsonDocument doc = JsonDocument.Parse(response);
-            JsonElement root = doc.RootElement;
-
-            //Busco la propiedad branchAcces y digo que el elemento  es de tipo arreglo
-            if (root.TryGetProperty("branchAccess", out JsonElement branchAccess) && branchAccess.ValueKind == JsonValueKind.Array)
+            try
             {
-                ValidarAccesoResponse jsonDeportnet = new ValidarAccesoResponse();
 
-                jsonDeportnet.IdCliente = nroTarjeta;
-                jsonDeportnet.IdSucursal = idSucursal;
-
-                if (branchAccess[1].ToString() == "U")
+                if(string.IsNullOrWhiteSpace(response))
                 {
-                    
-                    //MessageBox.Show(branchAccess[0].ToString(),
-                    //"Error",
-                    //MessageBoxButtons.OK,
-                    //MessageBoxIcon.Error
-                    //);
-                    //verificar si existe en el dispositivo eliminarlo
-
-                    jsonDeportnet.MensajeCrudo = branchAccess[0].ToString();
-                    jsonDeportnet.Estado = "U";
-
-                    //return;
+                    Console.WriteLine("Respuesta nula o vacia de deportnet. No se pudo procesar la respuesta.");
+                    return;
                 }
 
+                using JsonDocument doc = JsonDocument.Parse(response);
+                JsonElement root = doc.RootElement;
 
-                //verificamos el estado del acceso, si es pregunta
-                if (branchAccess[1].ToString() == "Q")
+
+                //Busco la propiedad branchAcces y digo que el elemento  es de tipo arreglo
+                if (root.TryGetProperty("branchAccess", out JsonElement branchAccess) && branchAccess.ValueKind == JsonValueKind.Array)
                 {
-                    jsonDeportnet.MensajeCrudo = branchAccess[0].ToString();
-                    jsonDeportnet.Estado = "Q";
+                    ValidarAccesoResponse jsonDeportnet = new ValidarAccesoResponse();
 
-                }
+                    jsonDeportnet.IdCliente = nroTarjeta;
+                    jsonDeportnet.IdSucursal = idSucursal;
 
-                //Verificamos el jsonObject en la pos 2 que serian los datos del cliente
-                if (branchAccess[2].ValueKind != JsonValueKind.Null)
-                {
-
-                    //jsonDeportnet.Id = branchAccess[2].GetProperty("id").ToString();
-                    jsonDeportnet.Nombre = branchAccess[2].GetProperty("firstName").ToString();
-                    jsonDeportnet.Apellido = branchAccess[2].GetProperty("lastName").ToString();
-                    jsonDeportnet.NombreCompleto = branchAccess[2].GetProperty("name").ToString();
-                    jsonDeportnet.MensajeCrudo = branchAccess[2].GetProperty("accessStatus").ToString();
-                    jsonDeportnet.Mostrarcumpleanios = branchAccess[2].GetProperty("showBirthday").ToString();
+                    if (branchAccess[1].ToString() == "U")
+                    {
                     
-                    jsonDeportnet.Estado = branchAccess[2].GetProperty("status").ToString(); 
+                        //MessageBox.Show(branchAccess[0].ToString(),
+                        //"Error",
+                        //MessageBoxButtons.OK,
+                        //MessageBoxIcon.Error
+                        //);
+                        //verificar si existe en el dispositivo eliminarlo
 
-                    if(jsonDeportnet.Estado == "T")
-                    {
-                        jsonDeportnet.MensajeAcceso = branchAccess[2].GetProperty("accessOk").ToString();
-                    }
-                    else if (jsonDeportnet.Estado == "F")
-                    {
-                        jsonDeportnet.MensajeAcceso = branchAccess[2].GetProperty("accessError").ToString();
+                        jsonDeportnet.MensajeCrudo = branchAccess[0].ToString();
+                        jsonDeportnet.Estado = "U";
+
+                        //return;
                     }
 
-                    
-                }
 
-                WFPrincipal.ObtenerInstancia.ActualizarDatos(jsonDeportnet);
+                    //verificamos el estado del acceso, si es pregunta
+                    if (branchAccess[1].ToString() == "Q")
+                    {
+                        jsonDeportnet.MensajeCrudo = branchAccess[0].ToString();
+                        jsonDeportnet.Estado = "Q";
+
+                    }
+
+                    //Verificamos el jsonObject en la pos 2 que serian los datos del cliente
+                    if (branchAccess[2].ValueKind != JsonValueKind.Null)
+                    {
+
+                        //jsonDeportnet.Id = branchAccess[2].GetProperty("id").ToString();
+                        jsonDeportnet.Nombre = branchAccess[2].GetProperty("firstName").ToString();
+                        jsonDeportnet.Apellido = branchAccess[2].GetProperty("lastName").ToString();
+                        jsonDeportnet.NombreCompleto = branchAccess[2].GetProperty("name").ToString();
+                        jsonDeportnet.MensajeCrudo = branchAccess[2].GetProperty("accessStatus").ToString();
+                        jsonDeportnet.Mostrarcumpleanios = branchAccess[2].GetProperty("showBirthday").ToString();
+                    
+                        jsonDeportnet.Estado = branchAccess[2].GetProperty("status").ToString(); 
+
+                        if(jsonDeportnet.Estado == "T")
+                        {
+                            jsonDeportnet.MensajeAcceso = branchAccess[2].GetProperty("accessOk").ToString();
+                        }
+                        else if (jsonDeportnet.Estado == "F")
+                        {
+                            jsonDeportnet.MensajeAcceso = branchAccess[2].GetProperty("accessError").ToString();
+                        }
+
+                    
+                    }
+
+                    WFPrincipal.ObtenerInstancia.ActualizarDatos(jsonDeportnet);
+                }
+                else
+                {
+                    Console.WriteLine("No está la propiedad branch access.");
+                }
             }
-            else
+            catch (JsonException ex)
             {
-                Console.WriteLine("No está la propiedad branch access.");
+                Console.WriteLine($"Error al parsear JSON en ProcesarRespuestaAcceso: {ex.Message}");
+                // Podés loggear a un archivo o base de datos para seguimiento
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error inesperado en ProcesarRespuestaAcceso: {ex.Message}");
             }
         }
 

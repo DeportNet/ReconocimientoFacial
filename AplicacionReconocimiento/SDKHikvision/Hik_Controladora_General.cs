@@ -1,5 +1,4 @@
 ﻿
-using DeportNetReconocimiento.BD;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
