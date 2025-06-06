@@ -26,6 +26,7 @@ namespace DeportNetReconocimiento.GUI
             // Asignar el objeto de configuración al PropertyGrid (para que se vea lo que se puede configurar)
             propertyGrid1.SelectedObject = configuracion;
             ComboBoxAperturaMolinete.SelectedIndexChanged += ComboBoxAperturaMolinete_SelectedIndexChanged;
+            checkBox1.Checked = configuracionEstilos.BloquearIp;
             //ConfiguracionManager.OnConfiguracionActualizada += RefrescarPropertyGrid;
 
         }

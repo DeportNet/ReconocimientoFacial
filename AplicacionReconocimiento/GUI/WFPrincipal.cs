@@ -29,6 +29,7 @@ namespace DeportNetReconocimiento.GUI
         //private string[] _credenciales;
         private bool ocultarPrincipal = false;
         private static int intentosConexionADispositivo = 0;
+        private bool ObligarCerrarPrograma = false;
 
 
         private WFPrincipal()
@@ -155,6 +156,8 @@ namespace DeportNetReconocimiento.GUI
         private async void ManejarErrorDispositivo(Hik_Resultado resultadoError)
         {
 
+            ConfiguracionEstilos = ConfiguracionEstilos.LeerJsonConfiguracion();
+
             switch (resultadoError.Codigo)
             {
                 case "7":
@@ -211,6 +214,15 @@ namespace DeportNetReconocimiento.GUI
             if (!ignorarCierre)
             {
 
+                if (ObligarCerrarPrograma)
+                {
+                    MessageBox.Show("Deportnet dice:\n¿Estás seguro de que quieres cerrar la aplicación de reconocimiento facial?",
+                                             "Confirmación",
+                                             MessageBoxButtons.OK,
+                                             MessageBoxIcon.Question);
+                    Environment.Exit(0);
+                }
+
                 var result = MessageBox.Show("Deportnet dice:\n¿Estás seguro de que quieres cerrar la aplicación de reconocimiento facial?",
                                              "Confirmación",
                                              MessageBoxButtons.YesNo,
@@ -226,6 +238,9 @@ namespace DeportNetReconocimiento.GUI
                     // Cancelar el cierre
                     e.Cancel = true;
                 }
+
+
+
             }
         }
 
@@ -308,7 +323,10 @@ namespace DeportNetReconocimiento.GUI
                     {
                         Console.WriteLine("Llegamos a los 2 intentos, dejamos de intentar conectarnos");
                         timerConexion.Stop();
-                        MessageBox.Show("No se pudo conectar con el dispositivo, revise si el dispositivo esta conectado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("No se pudo conectar con el dispositivo, Revise si el dispositivo está conectado y Reinicie el programa", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        ObligarCerrarPrograma = true;
+                        this.Close();
                     }
                 }
                 else
