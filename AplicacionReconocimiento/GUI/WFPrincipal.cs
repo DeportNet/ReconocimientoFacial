@@ -303,7 +303,7 @@ namespace DeportNetReconocimiento.GUI
             //Se espera al resultado de la función verificarEstadoDispositivo 
             bool estadoConexionDispositivo = await Task.Run(() => VerificarEstadoDispositivo());
 
-            Console.WriteLine("Verificamos el estado de la conexion con el dispositivo. Estado: " + estadoConexionDispositivo);
+            Console.WriteLine(" ( 1 )Verificamos el estado de la conexion con el dispositivo. Estado: " + estadoConexionDispositivo);
 
 
 
@@ -312,7 +312,7 @@ namespace DeportNetReconocimiento.GUI
             {
                 //intentamos volver a conectarnos
                 resultadoInstanciar = InstanciarPrograma();
-                Console.WriteLine("No hay conexion, intentamos reinstanciar programa. nro de intentos: " + intentosConexionADispositivo);
+                Console.WriteLine(" ( 2 )No hay conexion, intentamos reinstanciar programa. nro de intentos: " + intentosConexionADispositivo);
 
                 //si el resultado no tuvo exito 
                 if (!resultadoInstanciar.Exito)
@@ -321,9 +321,9 @@ namespace DeportNetReconocimiento.GUI
                     //despues de n veces seguidas
                     if (intentosConexionADispositivo >= 2)
                     {
-                        Console.WriteLine("Llegamos a los 2 intentos, dejamos de intentar conectarnos");
+                        Console.WriteLine(" ( 3 )Llegamos a los 2 intentos, dejamos de intentar conectarnos");
                         timerConexion.Stop();
-                        MessageBox.Show("No se pudo conectar con el dispositivo, Revise si el dispositivo está conectado y Reinicie el programa", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(" ( 4 ) No se pudo conectar con el dispositivo, Revise si el dispositivo está conectado y Reinicie el programa", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                         ObligarCerrarPrograma = true;
                         this.Close();
@@ -332,13 +332,14 @@ namespace DeportNetReconocimiento.GUI
                 else
                 {
                     //si hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado
-                    Console.WriteLine("Hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado");
+                    Console.WriteLine(" ( 5 )Hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado");
                     intentosConexionADispositivo = 0;
 
-                    Hik_Controladora_Eventos.InstanciaControladoraEventos.ReinstanciarMsgCallback();
+                    Hik_Controladora_Eventos.InstanciaControladoraEventos.InstanciarMsgCallback();
 
                     if (!timerConexion.Enabled)
                     {
+                        Console.WriteLine(" ( 6 )Reiniciamos el timer");
                         timerConexion.Start();
                     }
                 }
@@ -519,8 +520,6 @@ namespace DeportNetReconocimiento.GUI
         {
 
             string mensaje = await WebServicesDeportnet.ControlDeAcceso(response.MemberId, response.ActiveBranchId, response.IsSuccessful);
-            Console.WriteLine("Mensaje pregunta: " + mensaje);
-
             Hik_Controladora_Eventos.ProcesarRespuestaAcceso(mensaje, response.MemberId, response.ActiveBranchId);
         }
 

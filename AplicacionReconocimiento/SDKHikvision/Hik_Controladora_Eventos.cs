@@ -4,6 +4,7 @@ using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
+using Serilog;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Web;
@@ -27,14 +28,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         
      
         private Hik_Controladora_Eventos(){
-            this.SetupAlarm();
-            
-            msgCallback = new MSGCallBack(MsgCallback);
-
-            if (!Hik_SDK.NET_DVR_SetDVRMessageCallBack_V50(0, msgCallback, IntPtr.Zero))
-            {
-                Console.WriteLine("Error al asociar callback");
-            }
+            InstanciarMsgCallback();
         }
 
 
@@ -51,9 +45,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         }
 
 
-        public void ReinstanciarMsgCallback() {
-            Console.WriteLine("Reinstanciamos msgCallback");
-
+        public void InstanciarMsgCallback() {
 
             this.SetupAlarm();
 
@@ -61,7 +53,11 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             if (!Hik_SDK.NET_DVR_SetDVRMessageCallBack_V50(0, msgCallback, IntPtr.Zero))
             {
-                Console.WriteLine("Error al asociar callback");
+                Log.Error("Error al asociar callback");
+            }
+            else
+            {
+                Log.Information("Se instancia el Callback");
             }
         }
 
@@ -106,16 +102,15 @@ namespace DeportNetReconocimiento.SDKHikvision
             
             DateTime tiempoActual = DateTime.Now.AddSeconds(-10);
             
-            Console.WriteLine("Tiempo del dispositivo: "+ tiempoDisp + "Tiempo Actual: " + tiempoActual + ". Tiempo del evento: "+ infoEvento.Time);
 
             //si el evento es exitoso y el tiempo del evento es mayorIgual a la hora actual
 
             if (infoEvento.Success && infoEvento.Time >= tiempoActual)
             {
-                Console.WriteLine("Evento Hikvision: \n"+
-                infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description +
-                " Tarjeta: " + infoEvento.Card_Number +
-                " Puerta: " + infoEvento.Door_Number);
+                //Los eventos de abrir y cerrar la puerta no se escriben 
+                if(infoEvento.Minor_Type != MINOR_LOCK_CLOSE && infoEvento.Minor_Type != MINOR_LOCK_OPEN)
+                Log.Information($"Evento Hikvision:  {infoEvento.Time.ToString()}  Tipo: {infoEvento.Minor_Type_Description} Tarjeta: {infoEvento.Card_Number} Puerta: {infoEvento.Device_IP_Address}");
+
 
                 if (infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS)
                 {
@@ -140,7 +135,9 @@ namespace DeportNetReconocimiento.SDKHikvision
 
                 if (!string.IsNullOrEmpty(infoEvento.Exception))
                 {
-                    Console.WriteLine("Excepcion evento hikvision: "+infoEvento.Exception);
+
+                    Log.Error($"Excepción evento Hikvision: {infoEvento.Exception}");
+
                 }
 
             }
@@ -151,7 +148,6 @@ namespace DeportNetReconocimiento.SDKHikvision
         public static async void ObtenerDatosClienteDeportNet(string numeroTarjeta)
         {
 
-           
 
             if (!libre)
             {
@@ -188,7 +184,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
                 if(string.IsNullOrWhiteSpace(response))
                 {
-                    Console.WriteLine("Respuesta nula o vacia de deportnet. No se pudo procesar la respuesta.");
+                    Log.Error("Respuesta nula o vacia de deportnet. No se pudo procesar la respuesta.");
                     return;
                 }
 

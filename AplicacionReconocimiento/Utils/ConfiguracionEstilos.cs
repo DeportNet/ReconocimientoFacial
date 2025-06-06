@@ -1,6 +1,7 @@
 using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
+using Serilog;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Numerics;
@@ -454,7 +455,6 @@ namespace DeportNetReconocimiento.Utils
 
                 ConfiguracionManager.ActualizarConfiguracionDesdeJson("configuracionEstilos");
 
-                //Console.WriteLine("Configuración guardada correctamente.");
             }
             catch (Exception ex)
             {
@@ -488,11 +488,10 @@ namespace DeportNetReconocimiento.Utils
                     // Deserializar el contenido
                     configuracionEstilos = JsonSerializer.Deserialize<ConfiguracionEstilos>(jsonContent, options);
 
-                    Console.WriteLine("Configuración leida correctamente.");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"No se pudo leer el JSON de configuración: {ex.Message}");
+                    Log.Error($"No se pudo leer el JSON de configuración: {ex.Message}");
                 }
             }
 
@@ -563,7 +562,7 @@ namespace DeportNetReconocimiento.Utils
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al liberar la imagen: {ex.Message}");
+                Log.Error($"Error al liberar la imagen: {ex.Message}");
             }
         }
 
@@ -586,7 +585,7 @@ namespace DeportNetReconocimiento.Utils
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al guardar la imagen: {ex.Message}");
+                Log.Error($"Error al guardar la imagen: {ex.Message}");
             }
             
             return null;
@@ -650,7 +649,7 @@ namespace DeportNetReconocimiento.Utils
             // Verificar si la ruta es válida
             if (string.IsNullOrEmpty(rutaRelativa) || !File.Exists(rutaAbsoluta))
             {
-                Console.WriteLine("Si hay algun problema, ponemos la img predeterminada");
+                //Si hay algun problema, ponemos la img predeterminada
                 return Resources.logo_deportnet_1; //retorno el logo deportnet si no se pudo leer nada
             }
 
@@ -664,7 +663,8 @@ namespace DeportNetReconocimiento.Utils
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"read Error al cargar la imagen: {ex.Message}");
+                Log.Error($"read Error al cargar la imagen: {ex.Message}");
+
             }
 
             return Resources.logo_deportnet_1; //retorno el logo deportnet si no se pudo leer nada

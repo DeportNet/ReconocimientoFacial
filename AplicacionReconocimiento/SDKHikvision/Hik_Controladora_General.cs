@@ -2,6 +2,7 @@
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
+using Serilog;
 using System.IO;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
@@ -145,7 +146,6 @@ namespace DeportNetReconocimiento.SDK
                  resultado = ProcesarErrorDeLogin(struDeviceInfoV40);
             }
 
-            Hik_Resultado.EscribirLog();
             
             return resultado;
         }
@@ -387,7 +387,8 @@ namespace DeportNetReconocimiento.SDK
 
             //nos loggeamos
             resultado = Login(user, password, port, ip);
-            resultado.EscribirResultado("Login");
+
+            Log.Information($"Resultado login: Exito: {resultado.Exito} Mensaje: {resultado.Mensaje} Codigo: {resultado.Codigo}");
 
             if (!resultado.Exito)
             {
@@ -397,7 +398,8 @@ namespace DeportNetReconocimiento.SDK
 
             //obtenemos las capacidades
             resultado = ObtenerTripleCapacidadDelDispositivo();
-            resultado.EscribirResultado("Capacidades del dispositivo");
+            Log.Information($"Capacidades del dispositivo: Exito: {resultado.Exito} Mensaje: {resultado.Mensaje} Codigo: {resultado.Codigo}");
+
             if (!resultado.Exito)
             {
                // si no hubo exito, signfica que directamente el dispositivo no soporta acceso
@@ -500,7 +502,8 @@ namespace DeportNetReconocimiento.SDK
                 );
 
             }
-            resultado.EscribirResultado("Asignar Tiempo Dispositivo");
+
+            Log.Information($"Resultado login: Exito: {resultado.Exito} Mensaje: {resultado.Mensaje} Codigo: {resultado.Codigo}");
 
             Marshal.FreeHGlobal(ptrTimeCfg);
         }
