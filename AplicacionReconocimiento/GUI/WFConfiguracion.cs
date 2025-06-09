@@ -316,26 +316,26 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
-        private async Task<bool> VerificarCambiosCredenciales(string tokenSucursal, string idSucursalTexto)
-        {
-            bool conexion = false;
+        //private async Task<bool> VerificarCambiosCredenciales(string tokenSucursal, string idSucursalTexto)
+        //{
+        //    bool conexion = false;
 
-            Hik_Resultado resultado = await WebServicesDeportnet.TestearConexionDeportnet(tokenSucursal, idSucursalTexto);
+        //    Hik_Resultado resultado = await WebServicesDeportnet.TestearConexionDeportnet(tokenSucursal, idSucursalTexto);
 
-            //si no es exitoso, se muestra el mensaje de error
-            if (!resultado.Exito)
-            {
-                resultado.MessageBoxResultado("Conexion con deportnet");
-                return conexion;
-            }
+        //    //si no es exitoso, se muestra el mensaje de error
+        //    if (!resultado.Exito)
+        //    {
+        //        resultado.MessageBoxResultado("Conexion con deportnet");
+        //        return conexion;
+        //    }
 
-            //si hubo exito, cambiamos las credenciales
-            conexion = true;
-            ActualizarDatosCredenciales(idSucursalTexto, tokenSucursal);
+        //    //si hubo exito, cambiamos las credenciales
+        //    conexion = true;
+        //    ActualizarDatosCredenciales(idSucursalTexto, tokenSucursal);
 
 
-            return conexion;
-        }
+        //    return conexion;
+        //}
 
         public void ActualizarDatosCredenciales(string idSucursal, string tokenSucursal)
         {
