@@ -117,7 +117,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                     //Si no tenemos conexion a internet, hay que guardar el evento en la base de datos
                     if (!WFPrincipal.ObtenerInstancia.ConexionInternet) //Hacer que verifique 
                     {
-                        MEss.Show(
+                        MessageBox.Show(
                             "No hay conexion a internet, revise la conexion, ESPERE unos segundos, y vuelva a intentar el acceso del socio.",
                             "Error de Conexión",
                             MessageBoxButtons.OK,
