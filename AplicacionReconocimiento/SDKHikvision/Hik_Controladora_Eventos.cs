@@ -115,7 +115,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                 if (infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS)
                 {
                     //Si no tenemos conexion a internet, hay que guardar el evento en la base de datos
-                    if (!WFPrincipal.ObtenerInstancia.ConexionInternet)
+                    if (!WFPrincipal.ObtenerInstancia.ConexionInternet) //Hacer que verifique 
                     {
                         MEss.Show(
                             "No hay conexion a internet, revise la conexion, ESPERE unos segundos, y vuelva a intentar el acceso del socio.",

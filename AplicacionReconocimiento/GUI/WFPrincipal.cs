@@ -208,14 +208,15 @@ namespace DeportNetReconocimiento.GUI
             if (!ignorarCierre)
             {
 
-                if (ObligarCerrarPrograma)
-                {
-                    MessageBox.Show("Deportnet dice:\n¿Estás seguro de que quieres cerrar la aplicación de reconocimiento facial?",
-                                             "Confirmación",
-                                             MessageBoxButtons.OK,
-                                             MessageBoxIcon.Question);
-                    Environment.Exit(0);
-                }
+                //if (ObligarCerrarPrograma)
+                //{
+                //    MessageBox.Show("Deportnet dice:\n¿Estás seguro de que quieres cerrar la aplicación de reconocimiento facial?",
+                //                             "Confirmación",
+                //                             MessageBoxButtons.OK,
+                //                             MessageBoxIcon.Question);
+                //    Environment.Exit(0);
+                //}
+
 
                 var result = MessageBox.Show("Deportnet dice:\n¿Estás seguro de que quieres cerrar la aplicación de reconocimiento facial?",
                                              "Confirmación",
@@ -355,8 +356,8 @@ namespace DeportNetReconocimiento.GUI
                         timerConexion.Stop();
                         MessageBox.Show("No se pudo conectar con el dispositivo, Revise si el dispositivo está conectado y Reinicie el programa.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                        ObligarCerrarPrograma = true;
-                        this.Close();
+                        //ObligarCerrarPrograma = true;
+                        //this.Close();
                     }
                 }
                 else
