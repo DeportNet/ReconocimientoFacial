@@ -19,6 +19,7 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
             this.configuracion = configuracionEstilos;
             this.principal = principal;
+            checkBox1.Checked = configuracion.BloquearIp;
             
             _credenciales = CredencialesUtils.LeerCredenciales();
 
