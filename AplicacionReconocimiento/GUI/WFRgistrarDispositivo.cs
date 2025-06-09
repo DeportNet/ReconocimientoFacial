@@ -165,7 +165,11 @@ namespace DeportNetReconocimiento
             //creamos un arreglo de strings con los datos que recibimos del input
             //ip , puerto, usuario, contraseña, sucursalId, tokenSucursal
             CredencialesUtils.EscribirArchivoCredenciales([textBoxDeviceAddress.Text, textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text, textBoxSucursalID.Text, textBoxTokenSucursal.Text]);
-            
+
+
+            WFPrincipal.ObtenerInstancia.ReactivarTimer();
+
+
             //Creador de credenciales manual
             //CredencialesUtils.EscribirArchivoCredenciales(["192.168.0.203", "8000", "admin", "facu", "321", "laskjdhf"]);
 

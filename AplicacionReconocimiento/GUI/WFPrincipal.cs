@@ -5,14 +5,9 @@ using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
-using System.Timers;
-using System.Reflection;
-using System.Reflection.Emit;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using System.Runtime.CompilerServices;
 using Serilog;
+using System.Windows.Forms;
 
 
 namespace DeportNetReconocimiento.GUI
@@ -27,7 +22,6 @@ namespace DeportNetReconocimiento.GUI
         private bool ignorarCierre = false;
         private bool conexionInternet = true;
         private static ReproductorSonidos reproductorSonidos;
-        //private string[] _credenciales;
         private bool ocultarPrincipal = false;
         private static int intentosConexionADispositivo = 0;
         private bool ObligarCerrarPrograma = false;
@@ -337,11 +331,7 @@ namespace DeportNetReconocimiento.GUI
 
                     Hik_Controladora_Eventos.InstanciaControladoraEventos.InstanciarMsgCallback();
 
-                    if (!timerConexion.Enabled)
-                    {
-                        Log.Information("Reiniciamos el timer que verifica la conexion con el disp.");
-                        timerConexion.Start();
-                    }
+                    ReactivarTimer();
                 }
 
             }
@@ -503,6 +493,26 @@ namespace DeportNetReconocimiento.GUI
 
             HeaderLabel.Text = titulo;
             textoInformacionCliente.Text = mensaje;
+        }
+
+
+        public void ReactivarTimer()
+        {
+            if(timerConexion == null)
+            {
+                timerConexion = new System.Windows.Forms.Timer();
+                timerConexion.Interval = 20000;
+                timerConexion.Tick += VerificarEstadoDispositivoAsync;
+                Log.Information("Se crea un timer que verifica la conexión con el dispositivo cada 20 segundos");
+
+            }
+
+            if (!timerConexion.Enabled)
+            {
+                Log.Information("Iniciamos el timer que verifica la conexion con el disp.");
+                timerConexion.Start();
+            }
+
         }
 
         private void CalcularPosicion(HTMLMessageBox popupPregunta)
