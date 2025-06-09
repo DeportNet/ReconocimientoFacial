@@ -185,7 +185,7 @@ namespace DeportNetReconocimiento.GUI
                         return;
                     }
 
-                    credenciales[0] = resultadoLogin.Mensaje;
+                    credenciales[0] = resultadoLogin.Mensaje; //El resultado de la busqueda de ip es el mensaje, que es la ip del dispositivo
                     CredencialesUtils.EscribirArchivoCredenciales(credenciales);
                     MessageBox.Show("Se busco la direccion del dispositivo y se configuro con la correspondiente", "Aviso busqueda de Ip dispositivo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -290,6 +290,42 @@ namespace DeportNetReconocimiento.GUI
             VerificarConexionConDispositivo();
         }
 
+        public async void VerificarConexionInternet()
+        {
+            int cantMaxIntentos = 2;
+
+            bool? rtaConexion = await VerificarConexionInternetUtils.InstanciaVerificarConexionInternet.ComprobarConexionInternetConDeportnet();
+
+            if(rtaConexion == null)
+            {
+                Log.Error("No se pudo verificar la conexion a internet, no hay credenciales de Deportnet.");
+                return;
+            }
+
+            ConexionInternet = rtaConexion.Value;
+
+            int nroIntentos = VerificarConexionInternetUtils.InstanciaVerificarConexionInternet.IntentosVelocidadInternet;
+
+            //si tenemos conexion a internet y el panel de conexion esta visible, lo ocultamos
+            if (ConexionInternet && PanelSinConexion.Visible == true)
+            {
+                PanelSinConexion.Visible = false;
+                return;
+            }
+
+            //si no hay internet, levantamos un panel de offline
+            if (!ConexionInternet || nroIntentos >= cantMaxIntentos)
+            {
+
+                if (PanelSinConexion.Visible == false)
+                {
+                    PanelSinConexion.Visible = true;
+                }
+
+            }
+
+        }
+
         public async void VerificarConexionConDispositivo()
         {
             Hik_Resultado resultadoInstanciar = new Hik_Resultado();
@@ -334,28 +370,6 @@ namespace DeportNetReconocimiento.GUI
                     ReactivarTimer();
                 }
 
-            }
-        }
-
-        public void VerificarConexionInternet()
-        {
-            //verificamos y asignamos la conexion a internet
-            ConexionInternet = Hik_Controladora_General.ComprobarConexionInternet();
-
-            //si no hay internet, levantamos un panel de offline
-            if (!ConexionInternet)
-            {
-
-                if (PanelSinConexion.Visible == false)
-                {
-                    PanelSinConexion.Visible = true;
-
-                }
-
-            }
-            else if (PanelSinConexion.Visible == true)
-            {
-                PanelSinConexion.Visible = false;
             }
         }
 

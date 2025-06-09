@@ -509,42 +509,6 @@ namespace DeportNetReconocimiento.SDK
         }
 
 
-        //Verificar conexión a internet o en general
-        public static bool ComprobarConexionInternet()
-        {
-            //ponemos flag en false como predeterminado
-            bool flag = false;
-
-            Ping pingSender = new Ping();
-            string direccion = "8.8.8.8"; // IP de Google
-
-            try
-            {
-                //respuesta que nos da el enviador de ping
-                PingReply reply = pingSender.Send(direccion);
-
-                if (reply.Status == IPStatus.Success)
-                {
-                    flag = true;
-                    Console.WriteLine("Tenemos conexion a internet; Tiempo: " + reply.RoundtripTime + " ms");
-                    //Console.WriteLine("Dirección: " + reply.Address.ToString());
-                    
-                }
-                else
-                {
-
-                    Console.WriteLine("No se pudo conectar: " + reply.Status);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: " + e.Message);
-            }
-
-            return flag;
-        }
-
-
         public Hik_Resultado AltaCliente(string idCliente, string nombre)
         {
             Hik_Resultado resultado = new Hik_Resultado();
