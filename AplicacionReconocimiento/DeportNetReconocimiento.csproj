@@ -178,6 +178,15 @@
        <Pack>True</Pack>
        <PackagePath>\</PackagePath>
      </None>
+     <None Update="Recursos\sonido-concedido.mp3">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </None>
+     <None Update="Recursos\sonido-denegado.mp3">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </None>
+     <None Update="Recursos\sonido-pregunta.mp3">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </None>
    </ItemGroup>
 
 </Project>

@@ -27,8 +27,6 @@ namespace DeportNetReconocimiento.GUI
             propertyGrid1.SelectedObject = configuracion;
             ComboBoxAperturaMolinete.SelectedIndexChanged += ComboBoxAperturaMolinete_SelectedIndexChanged;
             checkBox1.Checked = configuracionEstilos.BloquearIp;
-            //ConfiguracionManager.OnConfiguracionActualizada += RefrescarPropertyGrid;
-
         }
 
         private void ComboBoxAperturaMolinete_SelectedIndexChanged(object? sender, EventArgs e)

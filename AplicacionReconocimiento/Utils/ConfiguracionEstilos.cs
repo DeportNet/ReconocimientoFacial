@@ -404,10 +404,13 @@ namespace DeportNetReconocimiento.Utils
             ColorFondoImagen = Color.DarkGray;
 
 
+
             // Sonidos
-            AccesoConcedido = new Sonido();
-            AccesoDenegado = new Sonido();
-            SonidoPregunta = new Sonido();
+            string rutaRecursos = Path.Combine(AppContext.BaseDirectory, "Recursos");
+
+            AccesoConcedido = new Sonido(Path.Combine(rutaRecursos, "sonido-concedido.mp3"));
+            AccesoDenegado = new Sonido(Path.Combine(rutaRecursos, "sonido-denegado.mp3"));
+            SonidoPregunta = new Sonido(Path.Combine(rutaRecursos, "sonido-pregunta.mp3"));
             SonidoBienvenida = new Sonido();
 
             // Campos de estadísticas
@@ -458,7 +461,7 @@ namespace DeportNetReconocimiento.Utils
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al guardar el archivo de configuración: {ex.Message}");
+                Log.Error($"Error al guardar el archivo de configuración: {ex.Message}");
             }
         }
 
@@ -596,7 +599,7 @@ namespace DeportNetReconocimiento.Utils
         {
             if (value == null)
             {
-                Console.WriteLine("Img Es null. Estoy en Write de ImageToPathJsonConverter");
+                Log.Error("Img Es null. Estoy en Write de ImageToPathJsonConverter");
                 writer.WriteStringValue(string.Empty); // Guardar una cadena vacía si la imagen es null
                 return;
             }

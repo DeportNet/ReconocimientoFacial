@@ -68,7 +68,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             //validamos si hay espera luego de un alta
             if (ReconocimientoService.EstaEsperandoLuegoDeUnAlta)
             {
-                Console.WriteLine("Esperando cierto tiempo luego de un alta");
+                Log.Warning("Esperando cierto tiempo luego de un alta");
                 return;
             }
 
@@ -76,7 +76,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             //si esta clase esta instanciada
             if(this == null)
             {
-                Console.WriteLine("Clase Hik_Controladora_Eventos no instanciada. La instancio de nuevo");
+                Log.Information("Clase Hik_Controladora_Eventos no instanciada. La instancio de nuevo");
                 Hik_Controladora_Eventos instancia = InstanciaControladoraEventos;
                 return;
             }
@@ -97,7 +97,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             if (!tiempoDisp.HasValue)
             {
-                Console.WriteLine("Tiempo del disp null");
+                Log.Error("Tiempo del disp null");
             }
             
             DateTime tiempoActual = DateTime.Now.AddSeconds(-10);
@@ -132,32 +132,27 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
             else
             {
-
+                //si el error no esta vacio o null, lo loggeamos
                 if (!string.IsNullOrEmpty(infoEvento.Exception))
                 {
-
                     Log.Error($"Excepción evento Hikvision: {infoEvento.Exception}");
-
                 }
-
             }
-
         }
 
-        //todo verificar si es necesario el nroReader realmente
         public static async void ObtenerDatosClienteDeportNet(string numeroTarjeta)
         {
 
 
             if (!libre)
             {
-                Console.WriteLine("Se está procesando un evento, dispositivo no esta libre.");
+                Log.Warning("Se está procesando un evento en ObtenerDatosClienteDeportNet, dispositivo no esta libre.");
                 return;
             }
 
             if(string.IsNullOrWhiteSpace(numeroTarjeta))
             {
-                Console.WriteLine("El evento no tiene numero de tarjeta.");
+                Log.Error("El evento no tiene numero de tarjeta en ObtenerDatosClienteDeportNet.");
                 return;
             }
 
@@ -254,17 +249,17 @@ namespace DeportNetReconocimiento.SDKHikvision
                 }
                 else
                 {
-                    Console.WriteLine("No está la propiedad branch access.");
+                    Log.Error("No está la propiedad branch access en ProcesarRespuestaAcceso.");
                 }
             }
             catch (JsonException ex)
             {
-                Console.WriteLine($"Error al parsear JSON en ProcesarRespuestaAcceso: {ex.Message}");
+                Log.Error($"Error al parsear JSON en ProcesarRespuestaAcceso: {ex.Message}");
                 // Podés loggear a un archivo o base de datos para seguimiento
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error inesperado en ProcesarRespuestaAcceso: {ex.Message}");
+                Log.Error($"Error inesperado en ProcesarRespuestaAcceso: {ex.Message}");
             }
         }
 

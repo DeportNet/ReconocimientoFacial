@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Runtime.CompilerServices;
+using Serilog;
 
 
 namespace DeportNetReconocimiento.GUI
@@ -164,8 +165,7 @@ namespace DeportNetReconocimiento.GUI
 
                     if (ConfiguracionEstilos.BloquearIp)
                     {
-                        Console.WriteLine("No se pudo conectar con el dispositivo, verifique si la ip es correcta o si el dispositivo esta conectado a la red");
-                        //MessageBox.Show("No se pudo conectar con el dispositivo, verifique si la ip es correcta o si el dispositivo esta conectado a la red", "Error de conexión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Log.Error("No se va a buscar nuevas Ips debido a que la configuracion de bloquear IP esta activa. No se pudo conectar con el dispositivo, verifique si la ip es correcta o si el dispositivo esta conectado a la red.");
                         return;
                     }
 
@@ -265,7 +265,7 @@ namespace DeportNetReconocimiento.GUI
                 //si perdio conexión
                 if (iLastErr == 17)
                 {
-                    Console.WriteLine("Se perdio la conexion con el dispositivo");
+                    Log.Error("Se perdio la conexion con el dispositivo en VerificarEstadoDispositivo.");
                     return conectado;
                 }
 
@@ -303,7 +303,7 @@ namespace DeportNetReconocimiento.GUI
             //Se espera al resultado de la función verificarEstadoDispositivo 
             bool estadoConexionDispositivo = await Task.Run(() => VerificarEstadoDispositivo());
 
-            Console.WriteLine(" ( 1 )Verificamos el estado de la conexion con el dispositivo. Estado: " + estadoConexionDispositivo);
+            Console.WriteLine("Verificamos el estado de la conexion con el dispositivo. Estado: " + estadoConexionDispositivo);
 
 
 
@@ -312,7 +312,7 @@ namespace DeportNetReconocimiento.GUI
             {
                 //intentamos volver a conectarnos
                 resultadoInstanciar = InstanciarPrograma();
-                Console.WriteLine(" ( 2 )No hay conexion, intentamos reinstanciar programa. nro de intentos: " + intentosConexionADispositivo);
+                Log.Warning("No hay conexion con el dispositivo, intentamos reinstanciar programa. nro de intentos: " + intentosConexionADispositivo+".");
 
                 //si el resultado no tuvo exito 
                 if (!resultadoInstanciar.Exito)
@@ -321,9 +321,9 @@ namespace DeportNetReconocimiento.GUI
                     //despues de n veces seguidas
                     if (intentosConexionADispositivo >= 2)
                     {
-                        Console.WriteLine(" ( 3 )Llegamos a los 2 intentos, dejamos de intentar conectarnos");
+                        Log.Error("Llegamos a los 2 intentos, dejamos de intentar conectarnos.");
                         timerConexion.Stop();
-                        MessageBox.Show(" ( 4 ) No se pudo conectar con el dispositivo, Revise si el dispositivo está conectado y Reinicie el programa", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("No se pudo conectar con el dispositivo, Revise si el dispositivo está conectado y Reinicie el programa.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                         ObligarCerrarPrograma = true;
                         this.Close();
@@ -332,14 +332,14 @@ namespace DeportNetReconocimiento.GUI
                 else
                 {
                     //si hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado
-                    Console.WriteLine(" ( 5 )Hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado");
+                    Log.Information("Hubo conexion exitosa con el dispositivo, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado");
                     intentosConexionADispositivo = 0;
 
                     Hik_Controladora_Eventos.InstanciaControladoraEventos.InstanciarMsgCallback();
 
                     if (!timerConexion.Enabled)
                     {
-                        Console.WriteLine(" ( 6 )Reiniciamos el timer");
+                        Log.Information("Reiniciamos el timer que verifica la conexion con el disp.");
                         timerConexion.Start();
                     }
                 }
@@ -476,7 +476,7 @@ namespace DeportNetReconocimiento.GUI
 
                     if (ConfiguracionEstilos.MetodoApertura == ".exe")
                     {
-                        Console.WriteLine("Ejecuto el exe");
+                        Log.Information("Ejecuto el exe para la apertura.");
                         Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.RutaMetodoApertura);
                     }
                     else if (ConfiguracionEstilos.MetodoApertura == "Hikvision")
@@ -549,7 +549,7 @@ namespace DeportNetReconocimiento.GUI
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("No se pudo obtener foto cliente");
+                    Log.Error("No se pudo obtener foto cliente");
                     imagen = Resources.avatarPredeterminado;
                 }
             }
@@ -608,6 +608,7 @@ namespace DeportNetReconocimiento.GUI
         {
             if (sonido == null || string.IsNullOrEmpty(sonido.RutaArchivo) || !sonido.Estado)
             {
+                Console.WriteLine("No se puede reproducir el sonido, no esta activo o no tiene ruta de archivo");
                 return;
             }
             Console.WriteLine("Reproducimos sonido");
