@@ -1,4 +1,5 @@
 ﻿using DeportNetReconocimiento.SDK;
+using Serilog;
 using System.Diagnostics;
 
 
@@ -111,7 +112,8 @@ namespace DeportNetReconocimiento.SDKHikvision
         {
             if (string.IsNullOrEmpty(ruta))
             {
-                Console.WriteLine("Ruta nula o vacia, no ejecuto el exe.");
+                Log.Information("Error al ejecutar el exe: La ruta esta vacía");
+
                 return;
             }
 
@@ -127,11 +129,12 @@ namespace DeportNetReconocimiento.SDKHikvision
                 };
 
                 Process proceso = Process.Start(processStartInfo);
+                Log.Information("Ejecuto el exe para la apertura.");
+
             }
             catch
             {
-                
-                MessageBox.Show("Error al procesar el archivo en " + ruta, "Error");
+                Log.Error($"Error al procesar el archivo en {ruta}");
             }
         }
 

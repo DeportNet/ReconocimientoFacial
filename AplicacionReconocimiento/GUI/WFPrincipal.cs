@@ -25,7 +25,8 @@ namespace DeportNetReconocimiento.GUI
         private bool ocultarPrincipal = false;
         private static int intentosConexionADispositivo = 0;
         private bool ObligarCerrarPrograma = false;
-
+        private bool buscandoIp = false;
+        private Loading loading;
 
         private WFPrincipal()
         {
@@ -126,7 +127,6 @@ namespace DeportNetReconocimiento.GUI
                 }
 
                 //Si no hubo exito mostrar ventana con el error. Un modal 
-                //resultado.MessageBoxResultado("Error al leer las credenciales");
                 resultado.ActualizarResultado(false, "No se pudieron leer las credenciales... Vuelva a intentarlo", "-1");
                 return resultado;
             }
@@ -137,7 +137,8 @@ namespace DeportNetReconocimiento.GUI
 
             if (resultado.Exito)
             {
-                timerConexion.Enabled = true; //una vez exitosa la conexion con el dispositivo, iniciamos el timer, para verificar la conexion con el disp                
+                //una vez exitosa la conexion con el dispositivo, iniciamos el timer, para verificar la conexion con el disp                
+                timerConexion.Enabled = true;
             }
             else
             {
@@ -147,7 +148,6 @@ namespace DeportNetReconocimiento.GUI
             return resultado;
         }
 
-        private Loading loading;
         private async void ManejarErrorDispositivo(Hik_Resultado resultadoError)
         {
 
@@ -162,37 +162,46 @@ namespace DeportNetReconocimiento.GUI
                         Log.Error("No se va a buscar nuevas Ips debido a que la configuracion de bloquear IP esta activa. No se pudo conectar con el dispositivo, verifique si la ip es correcta o si el dispositivo esta conectado a la red.");
                         return;
                     }
-
-                    //Logica mostrar loading y buscar ip
-                    string[] credenciales = CredencialesUtils.LeerCredenciales();
-
-                    ocultarPrincipal = true; // Ocultamos la vista pri para que no se pueda hacer nada mientras se busca la ip del dispositivo
-                    loading = new Loading();
-                    loading.Show();
-
-                    Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales[1], credenciales[2], credenciales[3]));
-
-                    loading.Close();
-
-                    this.Visible = true;
-                    ocultarPrincipal = false;
-
-
-                    if (!resultadoLogin.Exito)
+                    Console.WriteLine($"\nBuscar ip {buscandoIp}\n");
+                    if (!buscandoIp && intentosConexionADispositivo <= 2)
                     {
-                        //va a mostrar no se encontro la ip
-                        resultadoLogin.MessageBoxResultado("Error al incializar el dispositivo Hikvision");
-                        return;
+                        timerConexion.Stop();
+                        buscandoIp = true;
+                        //Logica mostrar loading y buscar ip
+                        string[] credenciales = CredencialesUtils.LeerCredenciales();
+
+                        ocultarPrincipal = true; // Ocultamos la vista pri para que no se pueda hacer nada mientras se busca la ip del dispositivo
+
+
+                        loading.Visible = true;
+                        Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales[1], credenciales[2], credenciales[3]));
+                        loading.Visible = false;
+
+                        this.Visible = true;
+                        ocultarPrincipal = false;
+
+
+                        if (!resultadoLogin.Exito)
+                        {
+                            //va a mostrar no se encontro la ip
+                            Log.Error("No se encontro ninguna IP de Hikvision");
+                            buscandoIp = false;
+                            timerConexion.Start();
+                            return;
+                        }
+
+                        credenciales[0] = resultadoLogin.Mensaje; //El resultado de la busqueda de ip es el mensaje, que es la ip del dispositivo
+                        CredencialesUtils.EscribirArchivoCredenciales(credenciales);
+                        MessageBox.Show("Se busco la direccion del dispositivo y se configuro con la correspondiente", "Aviso busqueda de Ip dispositivo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        buscandoIp = false;
+                        timerConexion.Start();
                     }
-
-                    credenciales[0] = resultadoLogin.Mensaje; //El resultado de la busqueda de ip es el mensaje, que es la ip del dispositivo
-                    CredencialesUtils.EscribirArchivoCredenciales(credenciales);
-                    MessageBox.Show("Se busco la direccion del dispositivo y se configuro con la correspondiente", "Aviso busqueda de Ip dispositivo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
 
                     break;
                 default:
-                    resultadoError.MessageBoxResultado("Error al inicializar el programa");
+
+                    Log.Error($"Error al inicializar el programa  Exito: {resultadoError.Exito} Código: {resultadoError.Codigo} Mensaje: {resultadoError.Mensaje} ");
+                    ActualizarTextoHeaderLabel("Error De conexión con el dispositivo, verifique la conexión", Color.Red);
                     break;
             }
 
@@ -271,13 +280,9 @@ namespace DeportNetReconocimiento.GUI
 
             if (iLastErr == 1000)
             {
-                // Console.WriteLine("Conectado");
                 conectado = true;
             }
-            else
-            {
-                //Console.WriteLine("Desconectado");
-            }
+
             return conectado;
         }
 
@@ -295,9 +300,9 @@ namespace DeportNetReconocimiento.GUI
         {
             int cantMaxIntentos = 2;
 
-            bool? rtaConexion = await VerificarConexionInternetUtils.InstanciaVerificarConexionInternet.ComprobarConexionInternetConDeportnet();
+            bool? rtaConexion = await VerificarConexionInternetUtils.Instancia.ComprobarConexionInternetConDeportnet();
 
-            if(rtaConexion == null)
+            if (rtaConexion == null)
             {
                 Log.Error("No se pudo verificar la conexion a internet, no hay credenciales de Deportnet.");
                 return;
@@ -305,7 +310,7 @@ namespace DeportNetReconocimiento.GUI
 
             ConexionInternet = rtaConexion.Value;
 
-            int nroIntentos = VerificarConexionInternetUtils.InstanciaVerificarConexionInternet.IntentosVelocidadInternet;
+            int nroIntentos = VerificarConexionInternetUtils.Instancia.IntentosVelocidadInternet;
 
             //si tenemos conexion a internet y el panel de conexion esta visible, lo ocultamos
             if (ConexionInternet && PanelSinConexion.Visible == true)
@@ -336,29 +341,22 @@ namespace DeportNetReconocimiento.GUI
 
             Console.WriteLine("Verificamos el estado de la conexion con el dispositivo. Estado: " + estadoConexionDispositivo);
 
-
+            
 
             //si perdemos la conexion con el dispositivo
             if (!estadoConexionDispositivo)
             {
                 //intentamos volver a conectarnos
                 resultadoInstanciar = InstanciarPrograma();
-                Log.Warning("No hay conexion con el dispositivo, intentamos reinstanciar programa. nro de intentos: " + intentosConexionADispositivo+".");
+                Log.Warning("No hay conexion con el dispositivo, intentamos reinstanciar programa. nro de intentos: " + intentosConexionADispositivo + ".");
 
                 //si el resultado no tuvo exito 
                 if (!resultadoInstanciar.Exito)
                 {
                     intentosConexionADispositivo++;
-                    //despues de n veces seguidas
-                    if (intentosConexionADispositivo >= 2)
-                    {
-                        Log.Error("Llegamos a los 2 intentos, dejamos de intentar conectarnos.");
-                        timerConexion.Stop();
-                        MessageBox.Show("No se pudo conectar con el dispositivo, Revise si el dispositivo está conectado y Reinicie el programa.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ActualizarTextoHeaderLabel($"Intentos de conexión al dispositivo {intentosConexionADispositivo}", Color.Red);
+                    Log.Error($"Intento de conexión al dispositivo n° {intentosConexionADispositivo}");
 
-                        //ObligarCerrarPrograma = true;
-                        //this.Close();
-                    }
                 }
                 else
                 {
@@ -367,10 +365,18 @@ namespace DeportNetReconocimiento.GUI
                     intentosConexionADispositivo = 0;
 
                     Hik_Controladora_Eventos.InstanciaControladoraEventos.InstanciarMsgCallback();
-
+                    ActualizarTextoHeaderLabel(ConfiguracionEstilos.LeerJsonConfiguracion().MensajeBienvenida, ConfiguracionEstilos.LeerJsonConfiguracion().ColorFondoMensajeBienvenida);
                     ReactivarTimer();
                 }
 
+            }
+            else
+            {
+                if (loading.Visible)
+                {
+                    Console.WriteLine("Cierro el loading");
+                    loading.Visible = false;
+                }
             }
         }
 
@@ -440,6 +446,34 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
+        public async void ActualizarTextoHeaderLabel(string texto, Color color)
+        {
+            CancellationTokenSource tokenDeCancelacion = CancelarTokenYGenerarNuevoHilos(tokenCancelarTiempoMuestraDeDatos);
+            int nroLector = 1;
+
+            try
+            {
+                if (InvokeRequired)
+                {
+                    Invoke(ActualizarTextoHeaderLabel, texto);
+                    return;
+                }
+
+                LimpiarInterfaz();
+
+                HeaderLabel.Text = texto;
+                HeaderLabel.ForeColor = color;
+
+                //tiempo de muestra de datos
+                await Task.Delay((int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000), tokenDeCancelacion.Token);
+            }
+            catch (TaskCanceledException)
+            {
+                // Ignorar si la tarea fue cancelada
+                Console.WriteLine("Limpiar interfaz cancelada. Hubo otra lectura.");
+            }
+        }
+
 
         public void EvaluarMensajeAcceso(ValidarAccesoResponse json)
         {
@@ -481,7 +515,6 @@ namespace DeportNetReconocimiento.GUI
 
                     if (ConfiguracionEstilos.MetodoApertura == ".exe")
                     {
-                        Log.Information("Ejecuto el exe para la apertura.");
                         Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.RutaMetodoApertura);
                     }
                     else if (ConfiguracionEstilos.MetodoApertura == "Hikvision")
@@ -513,7 +546,7 @@ namespace DeportNetReconocimiento.GUI
 
         public void ReactivarTimer()
         {
-            if(timerConexion == null)
+            if (timerConexion == null)
             {
                 timerConexion = new System.Windows.Forms.Timer();
                 timerConexion.Interval = 20000;
@@ -633,7 +666,6 @@ namespace DeportNetReconocimiento.GUI
         {
             if (sonido == null || string.IsNullOrEmpty(sonido.RutaArchivo) || !sonido.Estado)
             {
-                Console.WriteLine("No se puede reproducir el sonido, no esta activo o no tiene ruta de archivo");
                 return;
             }
             Console.WriteLine("Reproducimos sonido");

@@ -521,6 +521,11 @@ namespace DeportNetReconocimiento.Utils
             GuardarJsonConfiguracion(this);
         }
 
+        public void CambiarEstadoBloqueoIp()
+        {
+            BloquearIp = !BloquearIp;
+            GuardarJsonConfiguracion(this);
+        }
 
     }
 

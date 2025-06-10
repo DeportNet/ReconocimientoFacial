@@ -19,9 +19,8 @@ namespace DeportNetReconocimiento.GUI
             InitializeComponent();
             this.configuracion = configuracionEstilos;
             this.principal = principal;
-            checkBox1.Checked = configuracion.BloquearIp;
-            
             _credenciales = CredencialesUtils.LeerCredenciales();
+            
 
 
             // Asignar el objeto de configuración al PropertyGrid (para que se vea lo que se puede configurar)
@@ -390,7 +389,7 @@ namespace DeportNetReconocimiento.GUI
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            configuracion.BloquearIp = !configuracion.BloquearIp;
+            configuracion.CambiarEstadoBloqueoIp();            
         }
     }
 }

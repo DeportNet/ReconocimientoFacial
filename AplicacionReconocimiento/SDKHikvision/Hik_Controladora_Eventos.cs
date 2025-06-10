@@ -99,8 +99,17 @@ namespace DeportNetReconocimiento.SDKHikvision
             {
                 Log.Error("Tiempo del disp null");
             }
-            
-            DateTime tiempoActual = DateTime.Now.AddSeconds(-10);
+
+
+            ProcesarNuevoEvento(infoEvento);
+
+           
+        }
+
+
+        private static void ProcesarNuevoEvento(Evento infoEvento)
+        {
+             DateTime tiempoActual = DateTime.Now.AddSeconds(-10);
             
 
             //si el evento es exitoso y el tiempo del evento es mayorIgual a la hora actual
@@ -114,15 +123,11 @@ namespace DeportNetReconocimiento.SDKHikvision
 
                 if (infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS)
                 {
-                    //Si no tenemos conexion a internet, hay que guardar el evento en la base de datos
-                    if (!WFPrincipal.ObtenerInstancia.ConexionInternet) //Hacer que verifique 
+                    //Verifica Doble si hay conexión a internet
+                    if (!WFPrincipal.ObtenerInstancia.ConexionInternet && !(bool)VerificarConexionInternetUtils.Instancia.TieneConexionAInternet()) 
                     {
-                        MessageBox.Show(
-                            "No hay conexion a internet, revise la conexion, ESPERE unos segundos, y vuelva a intentar el acceso del socio.",
-                            "Error de Conexión",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error
-                            );
+                        WFPrincipal.ObtenerInstancia.ActualizarTextoHeaderLabel("No hay conexion a internet, revise la conexion y reintente el acceso.", Color.Red);
+                        Log.Error("No hay conexión a internet y el dispositivo reconoció a un socio. Se mostro el mensaje 'No hay conexion a internet, revise la conexion y reintente el acceso.'");
                     }
                     else
                     {
@@ -139,6 +144,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                 }
             }
         }
+
 
         public static async void ObtenerDatosClienteDeportNet(string numeroTarjeta)
         {
@@ -198,17 +204,9 @@ namespace DeportNetReconocimiento.SDKHikvision
                     if (branchAccess[1].ToString() == "U")
                     {
                     
-                        //MessageBox.Show(branchAccess[0].ToString(),
-                        //"Error",
-                        //MessageBoxButtons.OK,
-                        //MessageBoxIcon.Error
-                        //);
-                        //verificar si existe en el dispositivo eliminarlo
-
                         jsonDeportnet.MensajeCrudo = branchAccess[0].ToString();
                         jsonDeportnet.Estado = "U";
 
-                        //return;
                     }
 
 
@@ -217,7 +215,6 @@ namespace DeportNetReconocimiento.SDKHikvision
                     {
                         jsonDeportnet.MensajeCrudo = branchAccess[0].ToString();
                         jsonDeportnet.Estado = "Q";
-
                     }
 
                     //Verificamos el jsonObject en la pos 2 que serian los datos del cliente

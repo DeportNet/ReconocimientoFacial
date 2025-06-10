@@ -1,5 +1,6 @@
 ﻿using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.SDK;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,7 +14,7 @@ namespace DeportNetReconocimiento.Utils
     public class VerificarConexionInternetUtils
     {
 
-        private static VerificarConexionInternetUtils? instanciaVerificarConexionInternet;
+        private static VerificarConexionInternetUtils? instancia;
         private int intentosVelocidadInternet;
 
         private VerificarConexionInternetUtils()
@@ -22,15 +23,15 @@ namespace DeportNetReconocimiento.Utils
         }
 
 
-        public static VerificarConexionInternetUtils InstanciaVerificarConexionInternet
+        public static VerificarConexionInternetUtils Instancia
         {
             get
             {
-                if (instanciaVerificarConexionInternet == null)
+                if (instancia == null)
                 {
-                    instanciaVerificarConexionInternet = new VerificarConexionInternetUtils();
+                    instancia = new VerificarConexionInternetUtils();
                 }
-                return instanciaVerificarConexionInternet;
+                return instancia;
             }
         }
 
@@ -74,6 +75,22 @@ namespace DeportNetReconocimiento.Utils
             return resultado.Exito;
         }
 
+
+        public bool? TieneConexionAInternet()
+        {
+            try
+            {
+                bool? exito = ComprobarConexionInternetConDeportnet().ConfigureAwait(false).GetAwaiter().GetResult();
+                return exito;
+            }
+            catch (Exception ex)
+            {
+
+                Log.Error("Error al validar la conexión a internet");
+                return false;
+            }
+        }
+
         //Verificar conexión a internet o en general
         public bool ComprobarConexionInternet()
         {
@@ -113,7 +130,6 @@ namespace DeportNetReconocimiento.Utils
 
 
                 Console.WriteLine("Tenemos conexion a internet; Tiempo: " + reply.RoundtripTime + " ms");
-                //Console.WriteLine("Dirección: " + reply.Address.ToString());
 
 
             }
