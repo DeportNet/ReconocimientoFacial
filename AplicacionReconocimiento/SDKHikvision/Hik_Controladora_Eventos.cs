@@ -5,6 +5,7 @@ using DeportNetReconocimiento.Modelo;
 using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
 using Serilog;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Web;
@@ -178,10 +179,13 @@ namespace DeportNetReconocimiento.SDKHikvision
             string[] credenciales = CredencialesUtils.LeerCredenciales();
             string idSucursal = credenciales[4];
             
-
+            Stopwatch stopwatch= new Stopwatch();
+            stopwatch.Start();
             /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
             string response = await WebServicesDeportnet.ControlDeAcceso(numeroTarjeta,idSucursal);
-            
+            stopwatch.Stop();
+            Log.Information($"Se pidieron los datos del socio {numeroTarjeta} a dx y tardó {stopwatch.ElapsedMilliseconds}ms");
+
             ProcesarRespuestaAcceso(response, numeroTarjeta, idSucursal);
            
             libre = true;
