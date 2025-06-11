@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,14 +28,14 @@ namespace DeportNetReconocimiento.Utils
         public static void Ocupar()
         {
             File.WriteAllText(rutaArchivo, "1");
-            Console.WriteLine("- - - - - - Ocupo el dispositivo - - - - - - ");
+            Log.Information("Ocupo el dispositivo, con un archivo temporal.");
         }
 
         //cambia el estado a desocupado
         public static void Desocupar()
         {
             File.WriteAllText(rutaArchivo, "0");
-            Console.WriteLine("- - - - - - Desocupo el dispositivo - - - - - - ");
+            Log.Information("Desocupo el dispositivo, eliminando el archivo temporal.");
         }
 
         //Devuelve si esta ocupado el dispositivo 

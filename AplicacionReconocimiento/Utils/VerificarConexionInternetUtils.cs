@@ -37,51 +37,45 @@ namespace DeportNetReconocimiento.Utils
 
         public int IntentosVelocidadInternet { get; }
 
-        public async Task<bool?> ComprobarConexionInternetConDeportnet()
+        public async Task<bool> ComprobarConexionInternetConDeportnet()
         {
             Hik_Resultado resultado = new Hik_Resultado();
             string[] credenciales = CredencialesUtils.LeerCredenciales();
 
             if (credenciales == null || credenciales.Length == 0) {
-                return null; // no hay credenciales
+                Log.Error("No hay credenciales de Deportnet en ComprobarConexionInternetConDeportnet, probamos con Ping a Google.");
+                return ComprobarConexionInternet();
             }
 
             //verificamos y asignamos la conexion a internet
-
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-
-            resultado = await WebServicesDeportnet.TestearConexionDeportnet(credenciales[5], credenciales[4]);
-
-            stopwatch.Stop();
-
-            if (!resultado.Exito)
+            try
             {
-                Console.WriteLine(resultado.Mensaje);
-            }
-            else
-            {
-                Console.WriteLine("Tiempo de respuesta de Deportnet: " + stopwatch.ElapsedMilliseconds + " ms");
-                if (stopwatch.ElapsedMilliseconds > 300)
+
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+
+                resultado = await WebServicesDeportnet.TestearConexionDeportnet(credenciales[5], credenciales[4]);
+
+                stopwatch.Stop();
+
+                if (!resultado.Exito)
                 {
-                    intentosVelocidadInternet += 1;
+                    Log.Error(resultado.Mensaje);
                 }
                 else
                 {
-                    intentosVelocidadInternet = 0;
+                    Log.Information("Tiempo de respuesta de Deportnet: " + stopwatch.ElapsedMilliseconds + " ms");
+                    if (stopwatch.ElapsedMilliseconds > 500)
+                    {
+                        Log.Warning("La velocidad de internet es lenta, intentos: " + intentosVelocidadInternet);
+                        intentosVelocidadInternet += 1;
+                    }
+                    else
+                    {
+                        Log.Information("La velocidad de internet es aceptable, reiniciamos los intentos");
+                        intentosVelocidadInternet = 0;
+                    }
                 }
-
-            }
-            return resultado.Exito;
-        }
-
-
-        public bool? TieneConexionAInternet()
-        {
-            try
-            {
-                bool? exito = ComprobarConexionInternetConDeportnet().ConfigureAwait(false).GetAwaiter().GetResult();
-                return exito;
             }
             catch (Exception ex)
             {
@@ -89,6 +83,16 @@ namespace DeportNetReconocimiento.Utils
                 Log.Error("Error al validar la conexión a internet");
                 return false;
             }
+
+            return resultado.Exito;
+        }
+
+
+        public bool TieneConexionAInternet()
+        {
+            bool exito = ComprobarConexionInternetConDeportnet().ConfigureAwait(false).GetAwaiter().GetResult();
+
+            return exito;
         }
 
         //Verificar conexión a internet o en general
@@ -108,34 +112,31 @@ namespace DeportNetReconocimiento.Utils
 
                 if (reply.Status != IPStatus.Success)
                 {
-
-
-                    Console.WriteLine("No se pudo conectar: " + reply.Status);
+                    Log.Error("No se pudo conectar: " + reply.Status);
                     return flag;
                 }
 
-
-
                 flag = true;
 
-                //300ms
-                if (reply.RoundtripTime > 300)
+                //ms
+                int velocidadAceptable = 500;
+                if (reply.RoundtripTime > velocidadAceptable)
                 {
+                    Log.Warning($"Velocidad mayor a {velocidadAceptable}, se suma 1 a los intentos de velocidad de internet.");
                     intentosVelocidadInternet += 1;
                 }
                 else
                 {
+                    Log.Information($"Velocidad aceptable, reiniciamos los intentos.");
                     intentosVelocidadInternet = 0;
                 }
 
-
-                Console.WriteLine("Tenemos conexion a internet; Tiempo: " + reply.RoundtripTime + " ms");
-
+                Log.Information("Tenemos conexion a internet; Tiempo: " + reply.RoundtripTime + " ms.");
 
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error: " + e.Message);
+                Log.Error("Error: " + e.Message);
             }
 
             return flag;

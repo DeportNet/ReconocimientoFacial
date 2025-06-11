@@ -68,12 +68,11 @@ namespace DeportNetReconocimiento.SDKHikvision
             //validamos si hay espera luego de un alta
             if (ReconocimientoService.EstaEsperandoLuegoDeUnAlta)
             {
-                Log.Warning("Esperando cierto tiempo luego de un alta");
+                Log.Warning("Se recibio un evento de acceso, pero se esta esperando cierto tiempo luego de un alta.");
                 return;
             }
 
-            
-            //si esta clase esta instanciada
+            //si esta clase no esta instanciada
             if(this == null)
             {
                 Log.Information("Clase Hik_Controladora_Eventos no instanciada. La instancio de nuevo");
@@ -93,12 +92,12 @@ namespace DeportNetReconocimiento.SDKHikvision
                     break;
             }
 
-            DateTime? tiempoDisp = Hik_Controladora_General.InstanciaControladoraGeneral.ObtenerTiempoDispositivo();
+            //DateTime? tiempoDisp = Hik_Controladora_General.InstanciaControladoraGeneral.ObtenerTiempoDispositivo();
 
-            if (!tiempoDisp.HasValue)
-            {
-                Log.Error("Tiempo del disp null");
-            }
+            //if (!tiempoDisp.HasValue)
+            //{
+            //    Log.Error("Tiempo del disp null");
+            //}
 
 
             ProcesarNuevoEvento(infoEvento);
@@ -118,13 +117,16 @@ namespace DeportNetReconocimiento.SDKHikvision
             {
                 //Los eventos de abrir y cerrar la puerta no se escriben 
                 if(infoEvento.Minor_Type != MINOR_LOCK_CLOSE && infoEvento.Minor_Type != MINOR_LOCK_OPEN)
-                Log.Information($"Evento Hikvision:  {infoEvento.Time.ToString()}  Tipo: {infoEvento.Minor_Type_Description} Tarjeta: {infoEvento.Card_Number} Puerta: {infoEvento.Device_IP_Address}");
+                {
+                    Log.Information($"Evento Hikvision:  {infoEvento.Time.ToString()}  Tipo: {infoEvento.Minor_Type_Description} Tarjeta: {infoEvento.Card_Number} Puerta: {infoEvento.Device_IP_Address}");
 
+                }
 
+                // Si el evento es de verificación facial exitosa y tiene un número de tarjeta, obtenemos los datos del cliente
                 if (infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS)
                 {
                     //Verifica Doble si hay conexión a internet
-                    if (!WFPrincipal.ObtenerInstancia.ConexionInternet && !(bool)VerificarConexionInternetUtils.Instancia.TieneConexionAInternet()) 
+                    if (!WFPrincipal.ObtenerInstancia.ConexionInternet && !VerificarConexionInternetUtils.Instancia.TieneConexionAInternet()) 
                     {
                         WFPrincipal.ObtenerInstancia.ActualizarTextoHeaderLabel("No hay conexion a internet, revise la conexion y reintente el acceso.", Color.Red);
                         Log.Error("No hay conexión a internet y el dispositivo reconoció a un socio. Se mostro el mensaje 'No hay conexion a internet, revise la conexion y reintente el acceso.'");
@@ -152,13 +154,13 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             if (!libre)
             {
-                Log.Warning("Se está procesando un evento en ObtenerDatosClienteDeportNet, dispositivo no esta libre.");
+                Log.Warning($"Se está realizando una peticion a Dx para obtener datos del cliente, el dispositivo no esta libre. El socio con nro: {numeroTarjeta} no se va a procesar.");
                 return;
             }
 
             if(string.IsNullOrWhiteSpace(numeroTarjeta))
             {
-                Log.Error("El evento no tiene numero de tarjeta en ObtenerDatosClienteDeportNet.");
+                Log.Error("El evento no tiene numero de tarjeta (es null o vacio) en ObtenerDatosClienteDeportNet.");
                 return;
             }
 
@@ -239,7 +241,6 @@ namespace DeportNetReconocimiento.SDKHikvision
                             jsonDeportnet.MensajeAcceso = branchAccess[2].GetProperty("accessError").ToString();
                         }
 
-                    
                     }
 
                     WFPrincipal.ObtenerInstancia.ActualizarDatos(jsonDeportnet);
@@ -259,8 +260,6 @@ namespace DeportNetReconocimiento.SDKHikvision
                 Log.Error($"Error inesperado en ProcesarRespuestaAcceso: {ex.Message}");
             }
         }
-
-        
 
         public void SetupAlarm()
         {
