@@ -296,19 +296,11 @@ namespace DeportNetReconocimiento.GUI
             VerificarConexionConDispositivo();
         }
 
-        public async void VerificarConexionInternet()
+        public void VerificarConexionInternet()
         {
             int cantMaxIntentos = 2;
 
-            bool? rtaConexion = await VerificarConexionInternetUtils.Instancia.ComprobarConexionInternetConDeportnet();
-
-            if (rtaConexion == null)
-            {
-                Log.Error("No se pudo verificar la conexion a internet, no hay credenciales de Deportnet.");
-                return;
-            }
-
-            ConexionInternet = rtaConexion.Value;
+            ConexionInternet = VerificarConexionInternetUtils.Instancia.ComprobarConexionInternet();
 
             int nroIntentos = VerificarConexionInternetUtils.Instancia.IntentosVelocidadInternet;
 
