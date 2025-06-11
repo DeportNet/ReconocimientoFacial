@@ -119,7 +119,6 @@ namespace DeportNetReconocimiento.SDKHikvision
                 if(infoEvento.Minor_Type != MINOR_LOCK_CLOSE && infoEvento.Minor_Type != MINOR_LOCK_OPEN)
                 {
                     Log.Information($"Evento Hikvision:  {infoEvento.Time.ToString()}  Tipo: {infoEvento.Minor_Type_Description} Tarjeta: {infoEvento.Card_Number} Puerta: {infoEvento.Device_IP_Address}");
-
                 }
 
                 // Si el evento es de verificación facial exitosa y tiene un número de tarjeta, obtenemos los datos del cliente
@@ -128,7 +127,8 @@ namespace DeportNetReconocimiento.SDKHikvision
                     //Verifica Doble si hay conexión a internet
                     if (!WFPrincipal.ObtenerInstancia.ConexionInternet) 
                     {
-                        if ((bool)VerificarConexionInternetUtils.Instancia.TieneConexionAInternet())
+                        //Ping a google, para ver si hay internet
+                        if (VerificarConexionInternetUtils.Instancia.ComprobarConexionInternet())
                         {
                             ObtenerDatosClienteDeportNet(infoEvento.Card_Number);
                         }
