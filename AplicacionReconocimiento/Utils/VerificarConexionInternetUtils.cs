@@ -95,9 +95,10 @@ namespace DeportNetReconocimiento.Utils
         //Verificar conexión a internet o en general
         public bool ComprobarConexionInternet()
         {
-
             //ponemos flag en false como predeterminado
+
             bool flag = false;
+            int velocidadAceptable = 500;
 
             Ping pingSender = new Ping();
             string direccion = "8.8.8.8"; // IP de Google
@@ -109,32 +110,27 @@ namespace DeportNetReconocimiento.Utils
 
                 if (reply.Status != IPStatus.Success)
                 {
-
-
-                    Console.WriteLine("No se pudo conectar: " + reply.Status);
+                    Log.Error($"No se pudo conectar a internet (Google): {reply.Status}");
                     return flag;
                 }
-
+                //hay internet, ahora validamos la velocidad
                 flag = true;
 
-                //300ms
-                if (reply.RoundtripTime > 300)
+                //ms
+                if (reply.RoundtripTime > velocidadAceptable)
                 {
                     intentosVelocidadInternet += 1;
+                    Log.Warning($"Velocidad de internet muy lenta: {reply.RoundtripTime} ms. Velocidad aceptable: {velocidadAceptable}. Sumamos 1 a los intentos.");
                 }
                 else
                 {
                     intentosVelocidadInternet = 0;
+                    Log.Information($"Velocidad de internet aceptable: {reply.RoundtripTime} ms. Velocidad aceptable: {velocidadAceptable}. Reiniciamos los intentos.");
                 }
-
-
-                Console.WriteLine("Tenemos conexion a internet; Tiempo: " + reply.RoundtripTime + " ms");
-
-
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error: " + e.Message);
+                Log.Error("Error: " + e.Message);
             }
 
             return flag;
