@@ -126,10 +126,17 @@ namespace DeportNetReconocimiento.SDKHikvision
                 if (infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS)
                 {
                     //Verifica Doble si hay conexión a internet
-                    if (!WFPrincipal.ObtenerInstancia.ConexionInternet && !VerificarConexionInternetUtils.Instancia.TieneConexionAInternet()) 
+                    if (!WFPrincipal.ObtenerInstancia.ConexionInternet) 
                     {
-                        WFPrincipal.ObtenerInstancia.ActualizarTextoHeaderLabel("No hay conexion a internet, revise la conexion y reintente el acceso.", Color.Red);
-                        Log.Error("No hay conexión a internet y el dispositivo reconoció a un socio. Se mostro el mensaje 'No hay conexion a internet, revise la conexion y reintente el acceso.'");
+                        if ((bool)VerificarConexionInternetUtils.Instancia.TieneConexionAInternet())
+                        {
+                            ObtenerDatosClienteDeportNet(infoEvento.Card_Number);
+                        }
+                        else
+                        {
+                            WFPrincipal.ObtenerInstancia.ActualizarTextoHeaderLabel("No hay conexion a internet, revise la conexion y reintente el acceso.", Color.Red);
+                            Log.Error("No hay conexión a internet y el dispositivo reconoció a un socio. Se mostro el mensaje 'No hay conexion a internet, revise la conexion y reintente el acceso.'");
+                        }
                     }
                     else
                     {

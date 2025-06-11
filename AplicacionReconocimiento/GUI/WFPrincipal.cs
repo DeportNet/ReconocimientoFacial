@@ -300,9 +300,15 @@ namespace DeportNetReconocimiento.GUI
         {
             int cantMaxIntentos = 2;
 
-            bool rtaConexion = await VerificarConexionInternetUtils.Instancia.ComprobarConexionInternetConDeportnet();
+            bool? rtaConexion = await VerificarConexionInternetUtils.Instancia.ComprobarConexionInternetConDeportnet();
 
-            ConexionInternet = rtaConexion;
+            if (rtaConexion == null)
+            {
+                Log.Error("No se pudo verificar la conexion a internet, no hay credenciales de Deportnet.");
+                return;
+            }
+
+            ConexionInternet = rtaConexion.Value;
 
             int nroIntentos = VerificarConexionInternetUtils.Instancia.IntentosVelocidadInternet;
 
@@ -333,7 +339,7 @@ namespace DeportNetReconocimiento.GUI
             //Se espera al resultado de la función verificarEstadoDispositivo 
             bool estadoConexionDispositivo = await Task.Run(() => VerificarEstadoDispositivo());
 
-            Console.WriteLine("Verificamos el estado de la conexion con el dispositivo. Estado: " + estadoConexionDispositivo);
+            Log.Information("Verificamos el estado de la conexion con el dispositivo. Estado: " + estadoConexionDispositivo);
 
             
 
