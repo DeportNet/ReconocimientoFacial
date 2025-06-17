@@ -518,13 +518,10 @@ namespace DeportNetReconocimiento.SDK
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
-            //Busco si la tarjeta existe
             resultado = ObtenerTarjeta(idCliente);
             if (resultado.Exito) return resultado;
-            
-            //Pauso el hilo para que no se cargue el dispositivo
-            Thread.Sleep(1000);
 
+            EsperarCooldownDispositivo(1000);
             resultado = CapturarFoto();
             if (!resultado.Exito) return resultado;
 
