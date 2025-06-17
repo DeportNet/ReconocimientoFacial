@@ -321,7 +321,7 @@ namespace DeportNetReconocimiento.SDK
                 SoportaTarjeta = VerificarCapacidad(resultadoXML, "//Card");
 
                 // Dar valor a resultado
-                resultado.ActualizarResultado(true, $"Soporta reconocimiento facial: {SoportaFacial} \nSoporta huella digital: {SoportaHuella} \nSoporta tarjeta: {SoportaTarjeta}", Hik_SDK.NET_DVR_GetLastError().ToString());
+                resultado.ActualizarResultado(true, $"Soporta reconocimiento facial: {SoportaFacial}. Soporta huella digital: {SoportaHuella}. Soporta tarjeta: {SoportaTarjeta}", Hik_SDK.NET_DVR_GetLastError().ToString());
 
             }
 
@@ -557,15 +557,6 @@ namespace DeportNetReconocimiento.SDK
             return resultado;
         }
         
-
-        private static string CambiarNombreFoto(string nombreCompletoSocio, string idSocio)
-        {
-            string aux = Regex.Replace(nombreCompletoSocio, "'", "");
-            return Regex.Replace(aux, " ", "_") + "_" + idSocio + ".jpg";
-        }
-
-
-
         public void ConservarImagenSocio(ConfiguracionEstilos configuracion, string nombreCompletoSocio, string idSocio)
         {            
             if (!configuracion.AlmacenarFotoSocio)
@@ -592,7 +583,7 @@ namespace DeportNetReconocimiento.SDK
                 }
 
                 //Configuro el nombre de la foto
-                string nuevoNombre = CambiarNombreFoto(nombreCompletoSocio, idSocio);
+                string nuevoNombre = BuscarImagenSocioUtils.CambiarNombreFoto(nombreCompletoSocio, idSocio);
                 string rutaDestino = Path.Combine(rutaNueva, nuevoNombre);
 
                 //Hago la copia de un directorio a otro
@@ -601,7 +592,7 @@ namespace DeportNetReconocimiento.SDK
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                Log.Error("Error al guardar la imagen del socio: "+ex.ToString());
             }
         }
 

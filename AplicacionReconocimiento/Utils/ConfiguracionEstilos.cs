@@ -16,11 +16,6 @@ namespace DeportNetReconocimiento.Utils
 {
     public class ConfiguracionEstilos
     {
-
-
-
-
-
         /* - - - - - - General - - - - - */
 
         [Category("General")]
@@ -204,8 +199,14 @@ namespace DeportNetReconocimiento.Utils
         [DisplayName("Color de fondo imagen cliente")]
         [Description("Color de fondo donde se mostrara la imagen del cliente cuando se reconozca.")]
         [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorFondoImagen { get; set; } 
+        public Color ColorFondoImagen { get; set; }
 
+        [Category("Imagen Cliente")]
+        [DisplayName("Enviar foto socio a Depornet")]
+        [Description("Si se activa, y los rostros se guardan en una carpeta, se puede asignar la foto de perfil del socio en Depornet a partir de un alta facial.")]
+        [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
+        [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
+        public bool EnviarFotoSocioADx { get; set; }
 
 
 
@@ -355,11 +356,11 @@ namespace DeportNetReconocimiento.Utils
 
         }
         private float segundosMinimizar;
-
+       
+        /* - - - - - - Configuracion de Admin - - - - - - */
 
         [Browsable(false)]
         public string MetodoApertura { get; set; }
-
 
         [Browsable(false)]
         public string RutaMetodoApertura { get; set; }
@@ -402,8 +403,7 @@ namespace DeportNetReconocimiento.Utils
         
             // Imagen Cliente
             ColorFondoImagen = Color.DarkGray;
-
-
+            EnviarFotoSocioADx = true;
 
             // Sonidos
             string rutaRecursos = Path.Combine(AppContext.BaseDirectory, "Recursos");
@@ -443,8 +443,6 @@ namespace DeportNetReconocimiento.Utils
         public static void GuardarJsonConfiguracion(ConfiguracionEstilos configuracion)
         {
             string rutaJson = "configuracionEstilos.json";
-            //string tempRutaJson = "configuracionEstilos_temp.json";
-
             try
             {
                 var options = new JsonSerializerOptions
@@ -533,8 +531,6 @@ namespace DeportNetReconocimiento.Utils
     public class ImageToPathJsonConverter : JsonConverter<Image>
     {
         private readonly string directorioBase = AppDomain.CurrentDomain.BaseDirectory;
-
-       
 
         private bool ValidarImagen(Image image)
         {
@@ -629,22 +625,12 @@ namespace DeportNetReconocimiento.Utils
                 }
 
             }
-            //catch(OutOfMemoryException ex)
-            //{
-            //    Console.WriteLine($"write Out of memory exception: {ex.Message}");
-
-            //}
             catch (Exception ex)
             {
-                //LiberarImagen(value);
-                //Console.WriteLine($"write Error al guardar la imagen: {ex.Message}");
                 writer.WriteStringValue(string.Empty); // Guardar cadena vacía si ocurre un error (string.Empty)
             }
             
         }
-
-
-       
 
         public override Image Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {

@@ -8,6 +8,7 @@ using DeportNetReconocimiento.SDK;
 using DeportNetReconocimiento.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -134,7 +135,6 @@ namespace DeportNetReconocimiento.Api.Services
 
         public async Task AltaClienteDeportnet(AltaFacialClienteRequest altaFacialClienteRequest)
         {
-            
             Hik_Resultado resAlta= hik_Controladora.AltaCliente(altaFacialClienteRequest.IdCliente.ToString(), altaFacialClienteRequest.NombreCliente);
 
 
@@ -148,10 +148,22 @@ namespace DeportNetReconocimiento.Api.Services
                    "F")
                 );
 
-                Console.WriteLine("Hubo un Error en alta facial: " + resAlta.Mensaje);
+                Log.Error("Hubo un Error en alta facial: " + resAlta.Mensaje);
                 DispositivoEnUsoUtils.Desocupar();
 
                 return;
+            }
+            //  Envioa foto del socio si esta la config activa
+
+            ConfiguracionEstilos configuracionEstilos = ConfiguracionEstilos.LeerJsonConfiguracion();
+            string? imagenSocioBase64 = null;
+
+            if (configuracionEstilos.EnviarFotoSocioADx)
+            {
+                imagenSocioBase64 = BuscarImagenSocioUtils.BuscarImagenSocio(
+                    altaFacialClienteRequest.NombreCliente,
+                    altaFacialClienteRequest.IdCliente.ToString()
+                    );
             }
 
             //si hubo exito
@@ -159,12 +171,13 @@ namespace DeportNetReconocimiento.Api.Services
                 altaFacialClienteRequest.IdSucursal.ToString(),
                 altaFacialClienteRequest.IdCliente.ToString(),
                 "Alta facial cliente exitosa",
-                "T"
+                "T",
+                imagenSocioBase64
             );
 
             string mensaje = await WebServicesDeportnet.AltaClienteDeportnet(respuestaAlta.ToJson());
                 
-            Console.WriteLine("Se ha dado de alta el cliente facial con id: " + altaFacialClienteRequest.IdCliente + " y nombre: " + altaFacialClienteRequest.NombreCliente);
+            Log.Information("Se ha dado de alta el cliente facial con id: " + altaFacialClienteRequest.IdCliente + " y nombre: " + altaFacialClienteRequest.NombreCliente);
 
             IniciarTiempoEspera();
             
