@@ -565,7 +565,7 @@ namespace DeportNetReconocimiento.SDK
 
         private Hik_Resultado AsignarCaraATarjeta(string idCliente)
         {
-            var resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(numeroLector, idCliente);
+            var resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara((uint)numeroLector, idCliente);
             resultado.Mensaje = "Error de establecer una cara";
             return resultado;
         }
@@ -681,10 +681,6 @@ namespace DeportNetReconocimiento.SDK
 
         //    return resultado;
         //}
-
-
-
-
 
 
     }
