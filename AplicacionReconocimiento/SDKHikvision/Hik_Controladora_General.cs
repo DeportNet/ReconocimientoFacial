@@ -29,8 +29,9 @@ namespace DeportNetReconocimiento.SDK
         private static Hik_Controladora_Facial? hik_Controladora_Facial;
         private static Hik_Controladora_Tarjetas? hik_Controladora_Tarjetas;
         private static Hik_Controladora_Eventos? hik_Controladora_Eventos;
-
-
+        public Hik_SDK.NET_DVR_TIME m_struTimeCfg;
+        public Hik_SDK.NET_DVR_DEVICEINFO_V30 m_struDeviceInfo;
+        private int numeroLector = 1;
         //constructores
         private Hik_Controladora_General()
         {
@@ -374,57 +375,63 @@ namespace DeportNetReconocimiento.SDK
         //INICIALIZAMOS TODO
         public Hik_Resultado InicializarPrograma(string user, string password, string port, string ip)
         {
-            ConfiguracionEstilos configuracion= ConfiguracionEstilos.LeerJsonConfiguracion();
             Hik_Resultado resultado = new Hik_Resultado();
 
-            resultado = InicializarNet_DVR();
+            resultado = InicializarDVR();
+            if (!resultado.Exito) return resultado;
 
-            if (!resultado.Exito)
-            {
-                //si no se pudo inicializar
-                return resultado;
-            }
+            resultado = HacerLogin(user, password, port, ip);    
+            if (!resultado.Exito) return resultado;
 
-            //nos loggeamos
-            resultado = Login(user, password, port, ip);
+            resultado = ObtenerCapacidades();
+            if (!resultado.Exito) return resultado;
 
-            Log.Information($"Resultado login: Exito: {resultado.Exito} Mensaje: {resultado.Mensaje} Codigo: {resultado.Codigo}");
-
-            if (!resultado.Exito)
-            {
-                //si no se pudo Loggear
-                return resultado;
-            }
-
-            //obtenemos las capacidades
-            resultado = ObtenerTripleCapacidadDelDispositivo();
-            Log.Information($"Capacidades del dispositivo: Exito: {resultado.Exito} Mensaje: {resultado.Mensaje} Codigo: {resultado.Codigo}");
-
-            if (!resultado.Exito)
-            {
-               // si no hubo exito, signfica que directamente el dispositivo no soporta acceso
-                return resultado;
-            }
-
-            configuracion.ActualizarCapacidadMaxima();
-
-
+            ActualizarCapacidadCarasDispositivo();
             SetTiempoDispositivo(DateTime.Now);
-
-
-            //setteamos el callback para obtener los ids de los usuarios
-            hik_Controladora_Eventos = Hik_Controladora_Eventos.InstanciaControladoraEventos;
-            hik_Controladora_Facial = Hik_Controladora_Facial.ObtenerInstancia;
-            hik_Controladora_Tarjetas = Hik_Controladora_Tarjetas.ObtenerInstancia;
+            ConfigurarCallbacks();
             
             return resultado;
         }
 
-        
-        public Hik_SDK.NET_DVR_TIME m_struTimeCfg;
-        public Hik_SDK.NET_DVR_DEVICEINFO_V30 m_struDeviceInfo;
-        
 
+        private Hik_Resultado InicializarDVR()
+        {
+            return InicializarNet_DVR();
+        }
+
+        private Hik_Resultado HacerLogin(string user, string password, string port, string ip)
+        {
+            var resultado = Login(user, password, port, ip);
+            Log.Information($"Resultado login: Exito: {resultado.Exito} Mensaje: {resultado.Mensaje} Codigo: {resultado.Codigo}");
+            return resultado;
+        }
+
+        private Hik_Resultado ObtenerCapacidades()
+        {
+            var resultado = ObtenerTripleCapacidadDelDispositivo();
+            Log.Information($"Capacidades del dispositivo: Exito: {resultado.Exito} Mensaje: {resultado.Mensaje} Codigo: {resultado.Codigo}");
+            if (!resultado.Exito)
+            {
+                Log.Information($"El dipositivo no soporta reconocimiento facial de Dx");
+            }
+
+            return resultado;
+        }
+
+        private void ActualizarCapacidadCarasDispositivo()
+        {
+            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion();
+            configuracion.ActualizarCapacidadMaxima();
+
+        }
+
+        private void ConfigurarCallbacks()
+        {
+            //setteamos el callback para obtener los ids de los usuarios
+            hik_Controladora_Eventos = Hik_Controladora_Eventos.InstanciaControladoraEventos;
+            hik_Controladora_Facial = Hik_Controladora_Facial.ObtenerInstancia;
+            hik_Controladora_Tarjetas = Hik_Controladora_Tarjetas.ObtenerInstancia;
+        }
 
         public DateTime? ObtenerTiempoDispositivo()
         {
@@ -466,8 +473,6 @@ namespace DeportNetReconocimiento.SDK
             Marshal.FreeHGlobal(ptrTimeCfg);
             return tiempoDisp;
         }
-
-         
 
         public void SetTiempoDispositivo(DateTime nuevoTiempo)
         {
@@ -512,51 +517,75 @@ namespace DeportNetReconocimiento.SDK
         public Hik_Resultado AltaCliente(string idCliente, string nombre)
         {
             Hik_Resultado resultado = new Hik_Resultado();
-            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion();
 
             //Busco si la tarjeta existe
-            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(idCliente));
-            if (resultado.Exito)
-            {
-                resultado.Mensaje = "Error de obtener la tarjeta";
-                return resultado;
-            }
+            resultado = ObtenerTarjeta(idCliente);
+            if (resultado.Exito) return resultado;
             
             //Pauso el hilo para que no se cargue el dispositivo
             Thread.Sleep(1000);
 
+            resultado = CapturarFoto();
+            if (!resultado.Exito) return resultado;
 
-            //Capturo la foto
-            resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
-            if (!resultado.Exito)
-            {
-                resultado.Mensaje = "Error de obtener la cara";
-                return resultado;
-            }
 
-            //Creo la tarjeta
-            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(int.Parse(idCliente), nombre);
-            if (!resultado.Exito)
-            {
-                resultado.Mensaje = "Error de crear una tarjeta";
-                return resultado;
-            }
+            resultado = CrearTarjeta(idCliente, nombre);
+            if (!resultado.Exito) return resultado;
 
-            //Asigno la cara a la tarjeta
-            resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(1, idCliente);
-            if (!resultado.Exito)
-            {
-                resultado.Mensaje = "Error de establecer una cara";
-                return resultado;
-            }
+            resultado = AsignarCaraATarjeta(idCliente);
+            if (!resultado.Exito) return resultado;
 
-            ConservarImagenSocio(configuracion, nombre, idCliente);
-            configuracion.SumarRegistroCara();
-
+            ActualizarCaras(nombre, idCliente);
 
             return resultado;
         }
         
+
+
+        private Hik_Resultado ObtenerTarjeta(string idCliente)
+        {
+            var resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(idCliente));
+            resultado.Mensaje = "Error de obtener la tarjeta";
+            return resultado;
+        }
+
+        private Hik_Resultado CapturarFoto()
+        {
+            var resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
+            resultado.Mensaje = "Error de obtener la cara";
+            return resultado;
+        }
+
+        private Hik_Resultado CrearTarjeta(string idCliente, string nombre)
+        {
+            var resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EstablecerUnaTarjeta(int.Parse(idCliente), nombre);
+            resultado.Mensaje = "Error de crear una tarjeta";
+            return resultado;
+        }
+
+        private Hik_Resultado AsignarCaraATarjeta(string idCliente)
+        {
+            var resultado = Hik_Controladora_Facial.ObtenerInstancia.EstablecerUnaCara(numeroLector, idCliente);
+            resultado.Mensaje = "Error de establecer una cara";
+            return resultado;
+        }
+
+
+        private void ActualizarCaras(string nombre, string idCliente)
+        {
+            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion();
+            ConservarImagenSocio(configuracion, nombre, idCliente);
+            configuracion.SumarRegistroCara();
+        }
+
+        private static string CambiarNombreFoto(string nombreCompletoSocio, string idSocio)
+        {
+            string aux = Regex.Replace(nombreCompletoSocio, "'", "");
+            return Regex.Replace(aux, " ", "_") + "_" + idSocio + ".jpg";
+        }
+
+
+
         public void ConservarImagenSocio(ConfiguracionEstilos configuracion, string nombreCompletoSocio, string idSocio)
         {            
             if (!configuracion.AlmacenarFotoSocio)
@@ -598,39 +627,49 @@ namespace DeportNetReconocimiento.SDK
 
         public Hik_Resultado BajaCliente(string id)
         {
-            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion();
             Hik_Resultado resultado = new Hik_Resultado();
 
-            //Buscar tarjeta
-            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(id));
-            if (!resultado.Exito)
-            {
-                return resultado;
-            }
-
-            //Pausa el  hilo para no sobrecargar el dispositivo
-            Thread.Sleep(1000);
-
-            //Eliminar cara de la tarjeta
-            resultado = Hik_Controladora_Facial.ObtenerInstancia.EliminarCara(1, id);
-            if (!resultado.Exito)
-            {
-                return resultado;
-            }
-
-            //Eliminar tarjeta
-            resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EliminarTarjetaPorId(int.Parse(id));
-            if (!resultado.Exito)
-            {
-                return resultado;
-            }
+            resultado = ObtenerTarjeta(id);
+            if(!resultado.Exito) return resultado;
 
 
-            configuracion.RestarRegistroCara();
+            EsperarCooldownDispositivo(1000);
+
+            resultado = EliminarCaraDeTarjeta(id);
+            if (!resultado.Exito) return resultado;
+            
+
+            resultado = EliminarTarjeta(id);
+            if (!resultado.Exito) return resultado;
+
+            RestarCara();
+
             return resultado;
 
         }
 
+        private Hik_Resultado EliminarCaraDeTarjeta(string id)
+        {
+            var resultado = Hik_Controladora_Facial.ObtenerInstancia.EliminarCara(numeroLector, id);
+            return resultado;
+        }
+
+        private Hik_Resultado EliminarTarjeta(string id)
+        {
+           var resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.EliminarTarjetaPorId(int.Parse(id));
+           return resultado;
+        }
+
+        private void RestarCara()
+        {
+            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion();
+            configuracion.RestarRegistroCara();
+        }
+
+        private void EsperarCooldownDispositivo(int ms)
+        {
+            Thread.Sleep(ms);
+        }
         //public Hik_Resultado BajaMasivaClientes(string[] ids)
         //{
         //    Hik_Resultado resultado = new Hik_Resultado();
@@ -644,9 +683,9 @@ namespace DeportNetReconocimiento.SDK
         //}
 
 
-        
 
-        
-        
+
+
+
     }
 }
