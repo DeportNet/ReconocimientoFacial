@@ -16,6 +16,30 @@ namespace DeportNetReconocimiento.Utils
             string aux = Regex.Replace(nombreCompletoSocio, "'", "");
             return Regex.Replace(aux, " ", "_") + "_" + idSocio + ".jpg";
         }
+        public static string? BuscarImagenSocio(string nombreSocio, string idSocio)
+        {
+            if(string.IsNullOrEmpty(nombreSocio) || string.IsNullOrEmpty(idSocio))
+            {
+                Log.Warning("Nombre o IDSocio no pueden ser nulos o vacíos.");
+                return null;
+            }
+         
+            string nombreABuscar = CambiarNombreFoto(nombreSocio, idSocio);
+
+            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion();
+
+
+            if(string.IsNullOrEmpty(configuracion.RutaCarpeta) || !Directory.Exists(configuracion.RutaCarpeta))
+            {
+                Log.Warning("La ruta de la carpeta de imágenes no está configurada o no existe: " + configuracion.RutaCarpeta);
+                return null;
+            }
+
+            string rutaImagen = Path.Combine(configuracion.RutaCarpeta, nombreABuscar);
+
+            return ObtenerImagenBase64(rutaImagen);
+        }
+
 
         public static string? ObtenerImagenBase64(string rutaImagen)
         {
@@ -49,26 +73,12 @@ namespace DeportNetReconocimiento.Utils
 
                 imagenRedimensionada.Save(ms, encoder, encoderParams);
                 byte[] imagenBytes = ms.ToArray();
+                string dataImage = $"data:image/jpg;base64,{Convert.ToBase64String(imagenBytes)}";
 
-                return $"data:image/jpg;base64,{Convert.ToBase64String(imagenBytes)}";
+                Log.Information(dataImage);
+
+                return dataImage;
             }
-        }
-
-        public static string? BuscarImagenSocio(string nombreSocio, string idSocio)
-        {
-            if(string.IsNullOrEmpty(nombreSocio) || string.IsNullOrEmpty(idSocio))
-            {
-                Log.Warning("Nombre o IDSocio no pueden ser nulos o vacíos.");
-                return null;
-            }
-         
-            string nombreABuscar = CambiarNombreFoto(nombreSocio, idSocio);
-
-            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion();
-
-            string rutaImagen = Path.Combine(configuracion.RutaCarpeta, nombreABuscar);
-
-            return ObtenerImagenBase64(rutaImagen);
         }
 
 

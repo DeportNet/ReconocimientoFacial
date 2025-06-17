@@ -53,8 +53,6 @@ namespace DeportNetReconocimiento
                 retainedFileCountLimit: 60 // mantener solo últimos 60 días
             )
             .CreateLogger();
-
-            
         }
 
         private static bool ProgramaCorriendo()
