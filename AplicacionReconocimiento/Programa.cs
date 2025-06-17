@@ -16,13 +16,13 @@ namespace DeportNetReconocimiento
         [STAThread]
         static void Main(string[] args)
         {
-            InicializarLogger();
-
             if (ProgramaCorriendo())
             {
                 MessageBox.Show("El programa ya esta abierto en otra ventana", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
+            InicializarLogger();
 
             /*API*/
             apiServer = new ApiServer();
@@ -37,6 +37,7 @@ namespace DeportNetReconocimiento
             // Detener el servidor cuando la aplicación cierre
             AppDomain.CurrentDomain.ProcessExit += (s, e) => apiServer?.Stop();
 
+            Log.Information("Aplicacion cerrada.");
         }
 
         private static void InicializarLogger()

@@ -125,7 +125,7 @@ namespace DeportNetReconocimiento.Utils
                 else
                 {
                     intentosVelocidadInternet = 0;
-                    Log.Information($"Velocidad de internet aceptable: {reply.RoundtripTime} ms. Velocidad aceptable: {velocidadAceptable}. Reiniciamos los intentos.");
+                    //Log.Information($"Velocidad de internet aceptable: {reply.RoundtripTime} ms. Velocidad aceptable: {velocidadAceptable}. Reiniciamos los intentos.");
                 }
             }
             catch (Exception e)

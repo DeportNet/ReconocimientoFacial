@@ -93,14 +93,6 @@ namespace DeportNetReconocimiento.SDKHikvision
                     break;
             }
 
-            //DateTime? tiempoDisp = Hik_Controladora_General.InstanciaControladoraGeneral.ObtenerTiempoDispositivo();
-
-            //if (!tiempoDisp.HasValue)
-            //{
-            //    Log.Error("Tiempo del disp null");
-            //}
-
-
             ProcesarNuevoEvento(infoEvento);
 
            

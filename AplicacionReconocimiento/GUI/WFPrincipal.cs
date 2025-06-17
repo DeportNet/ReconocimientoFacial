@@ -331,8 +331,8 @@ namespace DeportNetReconocimiento.GUI
             //Se espera al resultado de la función verificarEstadoDispositivo 
             bool estadoConexionDispositivo = await Task.Run(() => VerificarEstadoDispositivo());
 
-            Log.Information("Verificamos el estado de la conexion con el dispositivo. Estado: " + estadoConexionDispositivo);
-
+            
+            //Log.Information("Verificamos el estado de la conexion con el dispositivo. Estado: " + estadoConexionDispositivo);
             
 
             //si perdemos la conexion con el dispositivo
@@ -340,7 +340,7 @@ namespace DeportNetReconocimiento.GUI
             {
                 //intentamos volver a conectarnos
                 resultadoInstanciar = InstanciarPrograma();
-                Log.Warning("No hay conexion con el dispositivo, intentamos reinstanciar programa. nro de intentos: " + intentosConexionADispositivo + ".");
+                Log.Warning($"No hay conexion con el dispositivo(Estado: {estadoConexionDispositivo}), intentamos reinstanciar programa. nro de intentos: {intentosConexionADispositivo}.");
 
                 //si el resultado no tuvo exito 
                 if (!resultadoInstanciar.Exito)
@@ -540,8 +540,9 @@ namespace DeportNetReconocimiento.GUI
         {
             if (timerConexion == null)
             {
+                int intervalo = 20000;//20 segundos
                 timerConexion = new System.Windows.Forms.Timer();
-                timerConexion.Interval = 20000;
+                timerConexion.Interval = intervalo;
                 timerConexion.Tick += VerificarEstadoDispositivoAsync;
                 Log.Information("Se crea un timer que verifica la conexión con el dispositivo cada 20 segundos");
 
