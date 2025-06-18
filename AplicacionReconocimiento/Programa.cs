@@ -24,6 +24,13 @@ namespace DeportNetReconocimiento
 
             InicializarLogger();
 
+
+            Application.ApplicationExit += (s, e) => {
+                Log.Information("La aplicación se cerró.");
+                Log.CloseAndFlush();
+                apiServer?.Stop();
+            };
+
             /*API*/
             apiServer = new ApiServer();
             apiServer.Start();
@@ -34,10 +41,6 @@ namespace DeportNetReconocimiento
             //iniciazamos la ventana principal de acceso
             Application.Run(WFPrincipal.ObtenerInstancia);
             
-            // Detener el servidor cuando la aplicación cierre
-            AppDomain.CurrentDomain.ProcessExit += (s, e) => apiServer?.Stop();
-
-            Log.Information("Aplicacion cerrada.");
         }
 
         private static void InicializarLogger()
