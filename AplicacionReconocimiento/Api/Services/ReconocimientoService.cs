@@ -94,7 +94,7 @@ namespace DeportNetReconocimiento.Api.Services
                 return "F";
             }
 
-            DispositivoEnUsoUtils.Ocupar();
+            DispositivoEnUsoUtils.Ocupar("Alta facial cliente");
             //asincronico no se espera
             _ = AltaClienteDeportnet(clienteRequest);
             
@@ -232,7 +232,7 @@ namespace DeportNetReconocimiento.Api.Services
                
             }
 
-            DispositivoEnUsoUtils.Ocupar();
+            DispositivoEnUsoUtils.Ocupar("Baja cliente");
             //asincronico no se espera
             _ = BajaClienteDeportnet(clienteRequest);
 

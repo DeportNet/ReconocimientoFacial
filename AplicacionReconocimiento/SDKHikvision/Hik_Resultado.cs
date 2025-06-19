@@ -17,9 +17,23 @@ namespace DeportNetReconocimiento.SDK
             this.codigo = "";
         }
 
-        public bool Exito { get; set; }
-        public string Mensaje { get; set; }
-        public string Codigo { get; set; }
+        public bool Exito
+        {
+            get { return exito; }
+            set { lock (this) { exito = value; } }
+        }
+
+        public string Mensaje
+        {
+            get { return mensaje; }
+            set { lock (this) { mensaje = value; } }
+        }
+
+        public string Codigo
+        {
+            get { return codigo; }
+            set { lock (this) { codigo = value; } }
+        }
 
         public  void EscribirResultado(string titulo)
         {

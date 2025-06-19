@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage.Search;
 
 namespace DeportNetReconocimiento.Utils
 {
@@ -13,14 +14,14 @@ namespace DeportNetReconocimiento.Utils
         private static readonly SemaphoreSlim _semaforo = new SemaphoreSlim(1, 1);
 
         // Intenta ocupar el dispositivo sin esperar. Devuelve true si pudo.
-        public static bool Ocupar()
+        public static bool Ocupar(string queOcupo)
         {
             bool resultado = true;
             try
             {
                 Console.WriteLine("- - - - - Ocupo dispositivo - - - - - ");
                 resultado = _semaforo.Wait(0); // No bloquea: si no puede entrar, devuelve false
-                Log.Information($"Intento ocupar el dispositivo. Exito: {resultado}");
+                Log.Information($"Intento ocupar el dispositivo para {queOcupo}. Exito: {resultado}");
 
             }
             catch (Exception ex) {

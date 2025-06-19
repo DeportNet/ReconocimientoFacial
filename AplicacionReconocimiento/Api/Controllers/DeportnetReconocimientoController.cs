@@ -36,7 +36,7 @@ namespace DeportNetReconocimiento.Api.Controllers
             if(DispositivoEnUsoUtils.EstaLibre())
             {
                 Log.Information("Proceso la peticion de alta con id cliente  " + idCliente + ".");
-                DispositivoEnUsoUtils.Ocupar();
+                DispositivoEnUsoUtils.Ocupar("Alta cliente");
                 detalle = deportnetReconocimientoService.AltaFacialCliente(new AltaFacialClienteRequest(idCliente, idSucursal, nombreCliente));
             }
             else
