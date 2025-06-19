@@ -90,7 +90,6 @@ namespace DeportNetReconocimiento.SDKHikvision
                     break;
             }
 
-            DispositivoEnUsoUtils.Ocupar("Procesar evento General"); // Ocupa el dispositivo para evitar que se procese otro evento mientras se procesa este
             ProcesarNuevoEvento(infoEvento);
            
         }
@@ -98,14 +97,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
         private static void ProcesarNuevoEvento(Evento infoEvento)
         {
-            //validamos si el dispositivo no esta libre
-            //if (!DispositivoEnUsoUtils.EstaLibre())
-            //{
-            //    Log.Warning($"Se está realizando una peticion a Dx para obtener datos del cliente, el dispositivo no esta libre. El socio con nro: {infoEvento.Card_Number} no se va a procesar.");
-
-            //    //Log.Warning("Se recibio un evento de acceso, pero el dispositivo no esta libre. No se procesara el evento.");
-            //    return;
-            //}
+            
 
             if (EsTiempoValido(infoEvento))
             {
@@ -114,6 +106,17 @@ namespace DeportNetReconocimiento.SDKHikvision
 
                 if (EsEventoFacialValido(infoEvento))
                 {
+                    //validamos si el dispositivo no esta libre
+                    if (!DispositivoEnUsoUtils.EstaLibre())
+                    {
+                        Log.Warning($"Se está realizando una peticion a Dx para obtener datos del cliente, el dispositivo no esta libre. El socio con nro: {infoEvento.Card_Number} no se va a procesar.");
+
+                        //Log.Warning("Se recibio un evento de acceso, pero el dispositivo no esta libre. No se procesara el evento.");
+                        return;
+                    }
+
+
+                    DispositivoEnUsoUtils.Ocupar("Procesar evento Facial"); // Ocupa el dispositivo para evitar que se procese otro evento mientras se procesa este
 
                     if (DobleVerifiacionInternet())
                     {
@@ -127,7 +130,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                 else
                 {
                     //Si no es facial se desocupa
-                    Console.WriteLine("Este desocupo");
+                    Console.WriteLine("Desocupo de un Acceso");
                     DispositivoEnUsoUtils.Desocupar();
 
                 }
