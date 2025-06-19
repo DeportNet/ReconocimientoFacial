@@ -17,16 +17,10 @@ namespace DeportNetReconocimiento.SDKHikvision
     public class Hik_Controladora_Eventos
     {
         //Defino el delegado ( A quien el voy a pasar el evento cuando lo reciba)
-        private static Hik_Controladora_Eventos? instanciaControladoraEventos;
+        private static Hik_Controladora_Eventos? instancia;
 
         private MSGCallBack msgCallback;
-
         public static bool libre = true;
-
-        //public int GetAcsEventHandle = -1;
-        //private string CsTemp = null;
-        //private int m_lLogNum = 0;
-
 
         private Hik_Controladora_Eventos()
         {
@@ -38,11 +32,11 @@ namespace DeportNetReconocimiento.SDKHikvision
         {
             get
             {
-                if (instanciaControladoraEventos == null)
+                if (instancia == null)
                 {
-                    instanciaControladoraEventos = new Hik_Controladora_Eventos();
+                    instancia = new Hik_Controladora_Eventos();
                 }
-                return instanciaControladoraEventos;
+                return instancia;
             }
         }
 
