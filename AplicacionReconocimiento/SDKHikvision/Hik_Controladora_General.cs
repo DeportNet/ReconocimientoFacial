@@ -19,7 +19,7 @@ namespace DeportNetReconocimiento.SDK
         //atributos
 
         //patron singleton, instancia de la propia clase
-        private static Hik_Controladora_General? instanciaControladoraGeneral;
+        private static Hik_Controladora_General? instancia;
 
 
         private int idUsuario; // solo puede haber solo un user_ID
@@ -43,21 +43,19 @@ namespace DeportNetReconocimiento.SDK
 
         }
 
-
         //propiedades (getters y setters)
 
-        public static Hik_Controladora_General InstanciaControladoraGeneral
+        public static Hik_Controladora_General Instancia
         {
             get
             {
-                if (instanciaControladoraGeneral == null)
+                if (instancia == null)
                 {
-                    instanciaControladoraGeneral = new Hik_Controladora_General();
+                    instancia = new Hik_Controladora_General();
                 }
-                return instanciaControladoraGeneral;
+                return instancia;
             }
         }
-
 
         public int IdUsuario
         {
@@ -377,7 +375,7 @@ namespace DeportNetReconocimiento.SDK
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
-            resultado = InicializarDVR();
+            resultado = InicializarNet_DVR();
             if (!resultado.Exito) return resultado;
 
             resultado = HacerLogin(user, password, port, ip);    
@@ -388,20 +386,51 @@ namespace DeportNetReconocimiento.SDK
 
             ActualizarCapacidadCarasDispositivo();
             SetTiempoDispositivo(DateTime.Now);
-            ConfigurarCallbacks();
+            InicializarInstanciasControladoras();
             
             return resultado;
         }
 
-
-        private Hik_Resultado InicializarDVR()
+        //función que verifica si el programa tiene conexión con el dispositivo
+        public bool VerificarEstadoDispositivo()
         {
-            return InicializarNet_DVR();
+            IntPtr pInBuf;
+            Int32 nSize;
+            int iLastErr = 17;
+            bool conectado = false;
+            pInBuf = IntPtr.Zero;
+            nSize = 0;
+
+            int XML_ABILITY_OUT_LEN = 3 * 1024 * 1024;
+            IntPtr pOutBuf = Marshal.AllocHGlobal(XML_ABILITY_OUT_LEN);
+
+            if (!Hik_SDK.NET_DVR_GetDeviceAbility(IdUsuario, 0, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
+            {
+                iLastErr = (int)Hik_SDK.NET_DVR_GetLastError();
+
+                //si perdio conexión
+                if (iLastErr == 17)
+                {
+                    Log.Error("Se perdio la conexion con el dispositivo en VerificarEstadoDispositivo.");
+                    return conectado;
+                }
+
+            }
+
+            Marshal.FreeHGlobal(pInBuf);
+            Marshal.FreeHGlobal(pOutBuf);
+
+            if (iLastErr == 1000)
+            {
+                conectado = true;
+            }
+
+            return conectado;
         }
 
         private Hik_Resultado HacerLogin(string user, string password, string port, string ip)
         {
-            var resultado = Login(user, password, port, ip);
+            Hik_Resultado resultado = Login(user, password, port, ip);
             Log.Information($"Resultado login: Exito: {resultado.Exito} Mensaje: {resultado.Mensaje} Codigo: {resultado.Codigo}");
             return resultado;
         }
@@ -412,7 +441,7 @@ namespace DeportNetReconocimiento.SDK
             Log.Information($"Capacidades del dispositivo: Exito: {resultado.Exito} Mensaje: {resultado.Mensaje} Codigo: {resultado.Codigo}");
             if (!resultado.Exito)
             {
-                Log.Information($"El dipositivo no soporta reconocimiento facial de Dx");
+                Log.Error($"El dipositivo no soporta reconocimiento facial de Dx");
             }
 
             return resultado;
@@ -425,7 +454,7 @@ namespace DeportNetReconocimiento.SDK
 
         }
 
-        private void ConfigurarCallbacks()
+        private void InicializarInstanciasControladoras()
         {
             //setteamos el callback para obtener los ids de los usuarios
             hik_Controladora_Eventos = Hik_Controladora_Eventos.InstanciaControladoraEventos;
@@ -513,7 +542,6 @@ namespace DeportNetReconocimiento.SDK
             Marshal.FreeHGlobal(ptrTimeCfg);
         }
 
-
         public Hik_Resultado AltaCliente(string idCliente, string nombre)
         {
             Hik_Resultado resultado = new Hik_Resultado();
@@ -537,8 +565,6 @@ namespace DeportNetReconocimiento.SDK
             return resultado;
         }
         
-
-
         private Hik_Resultado ObtenerTarjeta(string idCliente)
         {
             var resultado = Hik_Controladora_Tarjetas.ObtenerInstancia.ObtenerUnaTarjeta(int.Parse(idCliente));
@@ -567,21 +593,12 @@ namespace DeportNetReconocimiento.SDK
             return resultado;
         }
 
-
         private void ActualizarCaras(string nombre, string idCliente)
         {
             ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion();
             ConservarImagenSocio(configuracion, nombre, idCliente);
             configuracion.SumarRegistroCara();
         }
-
-        private static string CambiarNombreFoto(string nombreCompletoSocio, string idSocio)
-        {
-            string aux = Regex.Replace(nombreCompletoSocio, "'", "");
-            return Regex.Replace(aux, " ", "_") + "_" + idSocio + ".jpg";
-        }
-
-
 
         public void ConservarImagenSocio(ConfiguracionEstilos configuracion, string nombreCompletoSocio, string idSocio)
         {            
@@ -667,6 +684,8 @@ namespace DeportNetReconocimiento.SDK
         {
             Thread.Sleep(ms);
         }
+
+
         //public Hik_Resultado BajaMasivaClientes(string[] ids)
         //{
         //    Hik_Resultado resultado = new Hik_Resultado();

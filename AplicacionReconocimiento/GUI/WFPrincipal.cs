@@ -14,9 +14,6 @@ namespace DeportNetReconocimiento.GUI
 {
     public partial class WFPrincipal : Form
     {
-        private static Hik_Controladora_General? hik_Controladora_General;
-
-
         private static WFPrincipal? instancia;
         private ConfiguracionEstilos configuracionEstilos;
         private bool ignorarCierre = false;
@@ -26,12 +23,11 @@ namespace DeportNetReconocimiento.GUI
         private static int intentosConexionADispositivo = 0;
         private bool ObligarCerrarPrograma = false;
         private bool buscandoIp = false;
-        private Loading loading;
+       
 
         private WFPrincipal()
         {
             InitializeComponent();
-            loading = new Loading();
             Hik_Resultado resultadoInicio = InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
             DispositivoEnUsoUtils.Desocupar();
 
@@ -95,20 +91,6 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
-        public Hik_Controladora_General? Instancia_Controladora_General
-        {
-            get
-            {
-                if (instancia == null)
-                {
-                    hik_Controladora_General = Hik_Controladora_General.InstanciaControladoraGeneral;
-                }
-                return hik_Controladora_General;
-            }
-            set { hik_Controladora_General = value; }
-        }
-
-
 
         public Hik_Resultado InstanciarPrograma()
         {
@@ -133,7 +115,7 @@ namespace DeportNetReconocimiento.GUI
 
             string[] credenciales = CredencialesUtils.LeerCredenciales();
 
-            resultado = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(credenciales[2], credenciales[3], credenciales[1], credenciales[0]);
+            resultado = Hik_Controladora_General.Instancia.InicializarPrograma(credenciales[2], credenciales[3], credenciales[1], credenciales[0]);
 
             if (resultado.Exito)
             {
@@ -172,10 +154,11 @@ namespace DeportNetReconocimiento.GUI
 
                         ocultarPrincipal = true; // Ocultamos la vista pri para que no se pueda hacer nada mientras se busca la ip del dispositivo
 
+                        Loading loading = new Loading();
 
-                        loading.Visible = true;
+                        loading.Show();
                         Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales[1], credenciales[2], credenciales[3]));
-                        loading.Visible = false;
+                        loading.Close();
 
                         this.Visible = true;
                         ocultarPrincipal = false;
@@ -249,42 +232,7 @@ namespace DeportNetReconocimiento.GUI
         }
 
 
-        //función que verifica si el programa tiene conexión con el dispositivo
-        public bool VerificarEstadoDispositivo()
-        {
-            IntPtr pInBuf;
-            Int32 nSize;
-            int iLastErr = 17;
-            bool conectado = false;
-            pInBuf = IntPtr.Zero;
-            nSize = 0;
 
-            int XML_ABILITY_OUT_LEN = 3 * 1024 * 1024;
-            IntPtr pOutBuf = Marshal.AllocHGlobal(XML_ABILITY_OUT_LEN);
-
-            if (!Hik_SDK.NET_DVR_GetDeviceAbility(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, 0, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
-            {
-                iLastErr = (int)Hik_SDK.NET_DVR_GetLastError();
-
-                //si perdio conexión
-                if (iLastErr == 17)
-                {
-                    Log.Error("Se perdio la conexion con el dispositivo en VerificarEstadoDispositivo.");
-                    return conectado;
-                }
-
-            }
-
-            Marshal.FreeHGlobal(pInBuf);
-            Marshal.FreeHGlobal(pOutBuf);
-
-            if (iLastErr == 1000)
-            {
-                conectado = true;
-            }
-
-            return conectado;
-        }
 
 
 
@@ -329,47 +277,42 @@ namespace DeportNetReconocimiento.GUI
             Hik_Resultado resultadoInstanciar = new Hik_Resultado();
 
             //Se espera al resultado de la función verificarEstadoDispositivo 
-            bool estadoConexionDispositivo = await Task.Run(() => VerificarEstadoDispositivo());
+            bool estadoConexionDispositivo = Hik_Controladora_General.Instancia.VerificarEstadoDispositivo();
 
-            
+
             //Log.Information("Verificamos el estado de la conexion con el dispositivo. Estado: " + estadoConexionDispositivo);
-            
 
-            //si perdemos la conexion con el dispositivo
-            if (!estadoConexionDispositivo)
+            //si tenemos conexion con el dispositivo
+            if (estadoConexionDispositivo)
             {
-                //intentamos volver a conectarnos
-                resultadoInstanciar = InstanciarPrograma();
-                Log.Warning($"No hay conexion con el dispositivo(Estado: {estadoConexionDispositivo}), intentamos reinstanciar programa. nro de intentos: {intentosConexionADispositivo}.");
+                return;
+            }
 
-                //si el resultado no tuvo exito 
-                if (!resultadoInstanciar.Exito)
-                {
-                    intentosConexionADispositivo++;
-                    ActualizarTextoHeaderLabel($"Intentos de conexión al dispositivo {intentosConexionADispositivo}", Color.Red);
-                    Log.Error($"Intento de conexión al dispositivo n° {intentosConexionADispositivo}");
+            //si NO hay conexion intentamos volver a conectarnos
+            Log.Warning($"No hay conexion con el dispositivo(Estado: {estadoConexionDispositivo}), intentamos reinstanciar programa. nro de intentos: {intentosConexionADispositivo}.");
 
-                }
-                else
-                {
-                    //si hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado
-                    Log.Information("Hubo conexion exitosa con el dispositivo, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado");
-                    intentosConexionADispositivo = 0;
+            resultadoInstanciar = InstanciarPrograma();
 
-                    Hik_Controladora_Eventos.InstanciaControladoraEventos.InstanciarMsgCallback();
-                    ActualizarTextoHeaderLabel(ConfiguracionEstilos.LeerJsonConfiguracion().MensajeBienvenida, ConfiguracionEstilos.LeerJsonConfiguracion().ColorFondoMensajeBienvenida);
-                    ReactivarTimer();
-                }
+            //si el resultado no tuvo exito 
+            if (!resultadoInstanciar.Exito)
+            {
+                intentosConexionADispositivo++;
+                ActualizarTextoHeaderLabel($"Intentos de conexión al dispositivo {intentosConexionADispositivo}", Color.Red);
+                Log.Error($"Intento de conexión al dispositivo n° {intentosConexionADispositivo}");
 
             }
             else
             {
-                if (loading.Visible)
-                {
-                    Console.WriteLine("Cierro el loading");
-                    loading.Visible = false;
-                }
+                //si hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado
+                Log.Information("Hubo conexion exitosa con el dispositivo, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado");
+                intentosConexionADispositivo = 0;
+
+                Hik_Controladora_Eventos.InstanciaControladoraEventos.InstanciarMsgCallback();
+                ActualizarTextoHeaderLabel(ConfiguracionEstilos.LeerJsonConfiguracion().MensajeBienvenida, ConfiguracionEstilos.LeerJsonConfiguracion().ColorFondoMensajeBienvenida);
+                ReactivarTimer();
             }
+
+            
         }
 
         public void VerificarAlmacenamiento()
@@ -600,7 +543,7 @@ namespace DeportNetReconocimiento.GUI
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("No se pudo obtener foto cliente");
+                    Log.Error("No se pudo obtener foto cliente: "+ ex.Message);
                     imagen = Resources.avatarPredeterminado;
                 }
             }
@@ -765,7 +708,7 @@ namespace DeportNetReconocimiento.GUI
                 }
                 catch (TaskCanceledException ex)
                 {
-                    Console.WriteLine("Se cancelo el timer minimizar");
+                    Console.WriteLine("Se cancelo el timer minimizar: "+ ex.Message);
                 }
             }
 

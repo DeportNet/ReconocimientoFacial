@@ -26,7 +26,7 @@ namespace DeportNetReconocimiento
 
 
             Application.ApplicationExit += (s, e) => {
-                Log.Information("La aplicación se cerró.");
+                Log.Information("La aplicación se cerro.");
                 Log.CloseAndFlush();
                 apiServer?.Stop();
             };

@@ -75,7 +75,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             InicializarEstructuraTarjetaCond(ref tarjetaCond, ref ptrTarjetaCond,(uint) nuevoNumeroTarjeta);
 
-            SetCardCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_SET_CARD, ptrTarjetaCond, (int)tarjetaCond.dwSize, null, IntPtr.Zero);
+            SetCardCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.Instancia.IdUsuario, Hik_SDK.NET_DVR_SET_CARD, ptrTarjetaCond, (int)tarjetaCond.dwSize, null, IntPtr.Zero);
 
             if (SetCardCfgHandle >= 0)
             {
@@ -337,7 +337,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             IntPtr ptrUserData = IntPtr.Zero;
             //Hik_SDK.NET_DVR_GET_CARD es una constante que vale 2560
-            getCardCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_GET_CARD, ptrTarjetaCond, (int)tarjetaCond.dwSize, null, ptrUserData);
+            getCardCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.Instancia.IdUsuario, Hik_SDK.NET_DVR_GET_CARD, ptrTarjetaCond, (int)tarjetaCond.dwSize, null, ptrUserData);
 
             if (getCardCfgHandle < 0)
             {
@@ -459,7 +459,7 @@ namespace DeportNetReconocimiento.SDKHikvision
 
 
 
-            DelCardCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_DEL_CARD, ptrTarjetaCond, (int)tarjetaCond.dwSize, null, ptrUserData);
+            DelCardCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.Instancia.IdUsuario, Hik_SDK.NET_DVR_DEL_CARD, ptrTarjetaCond, (int)tarjetaCond.dwSize, null, ptrUserData);
             if (DelCardCfgHandle < 0)
             {
                 //ocurrio un error:

@@ -514,7 +514,7 @@ namespace DeportNetReconocimiento.Utils
 
         public void ActualizarCapacidadMaxima()
         {
-            int capacidad = Hik_Controladora_General.InstanciaControladoraGeneral.ObtenerCapacidadCarasDispositivo();
+            int capacidad = Hik_Controladora_General.Instancia.ObtenerCapacidadCarasDispositivo();
             //CapacidadMaximaDispositivo = 1500;
             GuardarJsonConfiguracion(this);
         }

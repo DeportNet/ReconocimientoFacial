@@ -300,7 +300,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             struSetupAlarmParam.byAlarmInfoType = 1;
             struSetupAlarmParam.byDeployType = (byte)0;
 
-            Hik_SDK.NET_DVR_SetupAlarmChan_V41(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, ref struSetupAlarmParam);
+            Hik_SDK.NET_DVR_SetupAlarmChan_V41(Hik_Controladora_General.Instancia.IdUsuario, ref struSetupAlarmParam);
         }
 
         private Evento AlarmInfoToEvent(ref Hik_SDK.NET_DVR_ALARMER pAlarmer, IntPtr pAlarmInfo, uint dwBufLen, IntPtr pUser)

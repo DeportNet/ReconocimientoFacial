@@ -85,7 +85,7 @@ public class Hik_Controladora_Facial
 
         InicializarFaceCond(ref struCond, ref dwSize, (uint)cardReaderNumber, cardNumber, ref ptrStruCond);
 
-        GetFaceCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_GET_FACE, ptrStruCond, dwSize, null, IntPtr.Zero);
+        GetFaceCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.Instancia.IdUsuario, Hik_SDK.NET_DVR_GET_FACE, ptrStruCond, dwSize, null, IntPtr.Zero);
 
 
         // revisamos el valor del handler, si sale mal, libera la memoria y muestra un mensaje de error
@@ -271,7 +271,7 @@ public class Hik_Controladora_Facial
 
         InicializarCaptureFaceCond(ref struCapCond, ref ptrCapCond, ref dwInBufferSize);
 
-        CapFaceCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_CAPTURE_FACE_INFO, ptrCapCond, dwInBufferSize, null, IntPtr.Zero);
+        CapFaceCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.Instancia.IdUsuario, Hik_SDK.NET_DVR_CAPTURE_FACE_INFO, ptrCapCond, dwInBufferSize, null, IntPtr.Zero);
 
 
         //Si hubo un error
@@ -423,7 +423,7 @@ public class Hik_Controladora_Facial
 
         InicializarFaceCond(ref struCond, ref dwInBufferSize, cardReaderNumber, cardNumber, ref ptrStruCond);
 
-        SetFaceCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_SET_FACE, ptrStruCond, dwInBufferSize, null, IntPtr.Zero);
+        SetFaceCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.Instancia.IdUsuario, Hik_SDK.NET_DVR_SET_FACE, ptrStruCond, dwInBufferSize, null, IntPtr.Zero);
 
         if (SetFaceCfgHandle == -1)
         {
@@ -636,7 +636,7 @@ public class Hik_Controladora_Facial
         IntPtr lpInBuffer = IntPtr.Zero;
         InicializarParamControlCardNo(ref struCardNo, ref dwSize, cardNumber, ref lpInBuffer, cardReaderNumber);
 
-        if ( false == Hik_SDK.NET_DVR_RemoteControl(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, Hik_SDK.NET_DVR_DEL_FACE_PARAM_CFG, ref  struCardNo, (int)dwSize))
+        if ( false == Hik_SDK.NET_DVR_RemoteControl(Hik_Controladora_General.Instancia.IdUsuario, Hik_SDK.NET_DVR_DEL_FACE_PARAM_CFG, ref  struCardNo, (int)dwSize))
         {
             resultado.ActualizarResultado(false, "Error al eliminar la estructura", Hik_SDK.NET_DVR_GetLastError().ToString());
         }

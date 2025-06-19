@@ -23,7 +23,7 @@ namespace DeportNetReconocimiento.Utils
                 if (ip.StartsWith("192.168."))
                 {
                     Log.Information($"Probando con ip: {ip}");
-                    resultadoLogin = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(username, password, port, ip);
+                    resultadoLogin = Hik_Controladora_General.Instancia.InicializarPrograma(username, password, port, ip);
 
                     if (resultadoLogin.Exito)
                     {

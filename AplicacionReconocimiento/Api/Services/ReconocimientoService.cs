@@ -22,17 +22,13 @@ namespace DeportNetReconocimiento.Api.Services
 {
     public class ReconocimientoService : IDeportnetReconocimientoService
     {
-        private static Hik_Controladora_General hik_Controladora;
-    
         private static int? idSucursal;
-        
         public static bool EnUso { get; set; }
 
         public ReconocimientoService()
         {
             EnUso = false;
             idSucursal = null;
-            hik_Controladora = Hik_Controladora_General.InstanciaControladoraGeneral;
             
             LeerCredencialesReconocimientoService();
         }
@@ -75,7 +71,7 @@ namespace DeportNetReconocimiento.Api.Services
             }
 
 
-            if (hik_Controladora.IdUsuario == -1)
+            if (Hik_Controladora_General.Instancia.IdUsuario == -1)
             {
                 MensajeDeErrorAltaBajaCliente(
                                     new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
@@ -135,8 +131,16 @@ namespace DeportNetReconocimiento.Api.Services
 
         public async Task AltaClienteDeportnet(AltaFacialClienteRequest altaFacialClienteRequest)
         {
-            Hik_Resultado resAlta= hik_Controladora.AltaCliente(altaFacialClienteRequest.IdCliente.ToString(), altaFacialClienteRequest.NombreCliente);
+            //verificar conexion con el dispositivo
 
+            bool conexionConDisp = Hik_Controladora_General.Instancia.VerificarEstadoDispositivo();
+
+            if (!conexionConDisp) { 
+                Log.Error("No se pudo conectar con el dispositivo de reconocimiento facial. Verifique que este conectado y que las credenciales sean correctas.");
+                return;
+            }
+            
+            Hik_Resultado resAlta = Hik_Controladora_General.Instancia.AltaCliente(altaFacialClienteRequest.IdCliente.ToString(), altaFacialClienteRequest.NombreCliente);
 
             //si no hubo exito
             if (!resAlta.Exito)

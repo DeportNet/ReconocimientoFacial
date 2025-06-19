@@ -87,7 +87,7 @@ namespace DeportNetReconocimiento.Utils
             catch (Exception ex)
             {
 
-                Log.Error("Error al validar la conexión a internet");
+                Log.Error("Error al validar la conexión a internet: "+ex.Message);
                 return false;
             }
         }
