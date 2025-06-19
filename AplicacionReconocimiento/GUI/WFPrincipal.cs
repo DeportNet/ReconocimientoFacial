@@ -23,7 +23,7 @@ namespace DeportNetReconocimiento.GUI
         private static int intentosConexionADispositivo = 0;
         private bool ObligarCerrarPrograma = false;
         private bool buscandoIp = false;
-       
+        private bool verificandoEstado = false;
 
         private WFPrincipal()
         {
@@ -144,7 +144,7 @@ namespace DeportNetReconocimiento.GUI
                         Log.Error("No se va a buscar nuevas Ips debido a que la configuracion de bloquear IP esta activa. No se pudo conectar con el dispositivo, verifique si la ip es correcta o si el dispositivo esta conectado a la red.");
                         return;
                     }
-                    Console.WriteLine($"\nBuscar ip {buscandoIp}\n");
+
                     if (!buscandoIp && intentosConexionADispositivo <= 2)
                     {
                         timerConexion.Stop();
@@ -200,17 +200,7 @@ namespace DeportNetReconocimiento.GUI
             if (!ignorarCierre)
             {
 
-                //if (ObligarCerrarPrograma)
-                //{
-                //    MessageBox.Show("Deportnet dice:\n¿Estás seguro de que quieres cerrar la aplicación de reconocimiento facial?",
-                //                             "Confirmación",
-                //                             MessageBoxButtons.OK,
-                //                             MessageBoxIcon.Question);
-                //    Environment.Exit(0);
-                //}
-
-
-                var result = MessageBox.Show("Deportnet dice:\n¿Estás seguro de que quieres cerrar la aplicación de reconocimiento facial?",
+                DialogResult result = MessageBox.Show("Deportnet dice:\n¿Estás seguro de que quieres cerrar la aplicación de reconocimiento facial?",
                                              "Confirmación",
                                              MessageBoxButtons.YesNo,
                                              MessageBoxIcon.Question);
@@ -225,26 +215,37 @@ namespace DeportNetReconocimiento.GUI
                     // Cancelar el cierre
                     e.Cancel = true;
                 }
-
-
-
             }
         }
-
-
-
-
-
 
         //Funcion que se ejecuta en cada TICK del timer
         public async void VerificarEstadoDispositivoAsync(object sender, EventArgs e)
         {
-            VerificarConexionInternet();
 
-            VerificarConexionConDispositivo();
+            if (verificandoEstado)
+                return;
+
+            //if (DispositivoEnUsoUtils.EstaOcupado())
+            //    return;
+
+            verificandoEstado = true;
+
+            try
+            {
+                VerificarConexionInternet();
+                VerificarConexionConDispositivo();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error en VerificarEstadoDispositivoAsync: {ex.Message}");
+            }
+            finally
+            {
+                verificandoEstado = false;
+            }
         }
 
-        public void VerificarConexionInternet()
+        public async Task VerificarConexionInternet()
         {
             int cantMaxIntentos = 2;
 
@@ -272,12 +273,12 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
-        public async void VerificarConexionConDispositivo()
+        public async Task VerificarConexionConDispositivo()
         {
             Hik_Resultado resultadoInstanciar = new Hik_Resultado();
 
             //Se espera al resultado de la función verificarEstadoDispositivo 
-            bool estadoConexionDispositivo = Hik_Controladora_General.Instancia.VerificarEstadoDispositivo();
+            bool estadoConexionDispositivo = await Task.Run(()=>Hik_Controladora_General.Instancia.VerificarEstadoDispositivo());
 
 
             //Log.Information("Verificamos el estado de la conexion con el dispositivo. Estado: " + estadoConexionDispositivo);
@@ -414,12 +415,9 @@ namespace DeportNetReconocimiento.GUI
         {
             string titulo = "";
             string mensaje = "";
-            Hik_Resultado resultado;
+            Hik_Resultado resultado = new Hik_Resultado();
 
-
-            //Console.WriteLine("Estado json:" + json.Estado);
             AnalizarMaximizarVentana(json.Estado);
-
 
             switch (json.Estado)
             {
@@ -456,7 +454,7 @@ namespace DeportNetReconocimiento.GUI
                     {
                         Console.WriteLine("Abro con Hikvision");
                         resultado = Hik_Controladora_Puertas.OperadorPuerta(1);
-                        Console.WriteLine("Resultado de apertura con Hikvision: \n " + resultado);
+                        Log.Information("Resultado de apertura con Hikvision: " + resultado.Exito);
                     }
 
                     titulo = "Bienvenido/a " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Nombre) + " " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Apellido);

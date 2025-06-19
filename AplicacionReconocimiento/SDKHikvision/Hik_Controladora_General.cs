@@ -95,10 +95,12 @@ namespace DeportNetReconocimiento.SDK
             }
             catch
             {
-                resultado.ActualizarResultado(false, $"Error al inicializar el dispositivo\nNET_DVR_Init error", Hik_SDK.NET_DVR_GetLastError().ToString());
+                resultado.ActualizarResultado(false, $"Error al inicializar el dispositivo. NET_DVR_Init error", Hik_SDK.NET_DVR_GetLastError().ToString());
+
+                Log.Error($"Error al inicializar el dispositivo. Exito: {resultado.Exito}, Mensaje: {resultado.Mensaje}, Codigo: {resultado.Codigo}");
             }
 
-            Hik_Resultado.EscribirLog();
+            
 
             return resultado;
         }
@@ -212,51 +214,51 @@ namespace DeportNetReconocimiento.SDK
             //solicitamos habilidades de acceso del dispositvo: huella digital, tarjeta y facial
             //! en caso de que surgan errores a la hora de busqeuda del XML hay que tener en cuenta esta parte.
             string xmlRequest = "<AcsAbility version=\"2.0\"><fingerPrintAbility></fingerPrintAbility><cardAbility></cardAbility><faceAbility></faceAbility></AcsAbility>";
-
-            //Request que ira por referencia a la funcion NET_DVR_GetDeviceAbility
-            nint pInBuf;
-
-            //Tamaño del string xmlInput
-            int nSize = xmlRequest.Length;
-
-            //Documento xml que vamos a retornar
+            nint pInBuf;  //Request que ira por referencia a la funcion NET_DVR_GetDeviceAbility
+            int nSize = xmlRequest.Length;  //Tamaño del string xmlInput
             pInBuf = Marshal.AllocHGlobal(nSize);
-            pInBuf = Marshal.StringToHGlobalAnsi(xmlRequest);
-
+            pInBuf = Marshal.StringToHGlobalAnsi(xmlRequest);  //Documento xml que vamos a retornar
 
             //xml que nos va a devolver la funcion NET_DVR_GetDeviceAbility
             int XML_ABILITY_OUT_LEN = 3 * 1024 * 1024; //esto seria el tamanio del xml que nos va a devolver la funcion NET_DVR_GetDeviceAbility
             nint pOutBuf = Marshal.AllocHGlobal(XML_ABILITY_OUT_LEN);
 
-            //si nos retorna false, significa que hubo un error
-            if (Hik_SDK.NET_DVR_GetDeviceAbility(IdUsuario, Hik_SDK.ACS_ABILITY, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
+            try
             {
-                //si todo salio bien, se crea el xml con el string que nos devolvio la funcion NET_DVR_GetDeviceAbility y lo retornamos
-                string strOutBuf = Marshal.PtrToStringAnsi(pOutBuf, XML_ABILITY_OUT_LEN);
-                documentoXml.LoadXml(strOutBuf);
+                //si nos retorna false, significa que hubo un error
+                if (Hik_SDK.NET_DVR_GetDeviceAbility(IdUsuario, Hik_SDK.ACS_ABILITY, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
+                {
+                    //si todo salio bien, se crea el xml con el string que nos devolvio la funcion NET_DVR_GetDeviceAbility y lo retornamos
+                    string strOutBuf = Marshal.PtrToStringAnsi(pOutBuf, XML_ABILITY_OUT_LEN);
+                    documentoXml.LoadXml(strOutBuf);
 
-                try
-                {
-                    // Especifica la ruta donde quieres guardar el archivo XML
-                    string filePath = @"capacidadesDispositivo.xml";
-                    documentoXml.Save(filePath); // Guarda el XML en el archivo 
+                    try
+                    {
+                        // Especifica la ruta donde quieres guardar el archivo XML
+                        string filePath = @"capacidadesDispositivo.xml";
+                        documentoXml.Save(filePath); // Guarda el XML en el archivo 
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error($"Error al guardar el archivo XML en RetornarXmlConLasCapacidadesDelDispositivo: {ex.Message}");
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Console.WriteLine($"Error al guardar el archivo XML: {ex.Message}");
+                    documentoXml = null;
                 }
             }
-            else
+            catch(Exception ex)
             {
-                documentoXml = null;
+                Log.Error("Error al obtener las capacidades del dispositivo: " + ex.Message);
             }
+            finally
+            {
+                //liberamos memoria
+                Marshal.FreeHGlobal(pInBuf);
+                Marshal.FreeHGlobal(pOutBuf);
 
-            Hik_Resultado.EscribirLog();
-
-            //liberamos memoria
-            Marshal.FreeHGlobal(pInBuf);
-            Marshal.FreeHGlobal(pOutBuf);
-
+            }
             return documentoXml;
         }
 
@@ -311,6 +313,8 @@ namespace DeportNetReconocimiento.SDK
             {
                 //AcsAbility no soportado
                 resultado.ActualizarResultado(false, GetDescripcionErrorDeviceAbility(1000), "1000");
+
+                Log.Fatal($"Resultado de las capacidades del dispositivo: Exito: {resultado.Exito} Mensaje: {resultado.Mensaje} Codigo: {resultado.Codigo}")
             }
             else
             {
@@ -321,10 +325,9 @@ namespace DeportNetReconocimiento.SDK
 
                 // Dar valor a resultado
                 resultado.ActualizarResultado(true, $"Soporta reconocimiento facial: {SoportaFacial}. Soporta huella digital: {SoportaHuella}. Soporta tarjeta: {SoportaTarjeta}", Hik_SDK.NET_DVR_GetLastError().ToString());
-
+                
+                Log.Information($"Resultado de las capacidades del dispositivo: Exito: {resultado.Exito} Mensaje: {resultado.Mensaje} Codigo: {resultado.Codigo}");
             }
-
-            Hik_Resultado.EscribirLog();
 
             return resultado;
         }
@@ -348,7 +351,7 @@ namespace DeportNetReconocimiento.SDK
             }
             else
             {
-                Console.WriteLine("El xml es null");
+                Log.Error("El xml es null en ObtenerCapacidadCarasDispositivo");
             }
 
             return capacidad;
@@ -400,29 +403,35 @@ namespace DeportNetReconocimiento.SDK
             bool conectado = false;
             pInBuf = IntPtr.Zero;
             nSize = 0;
-
             int XML_ABILITY_OUT_LEN = 3 * 1024 * 1024;
             IntPtr pOutBuf = Marshal.AllocHGlobal(XML_ABILITY_OUT_LEN);
 
-            if (!Hik_SDK.NET_DVR_GetDeviceAbility(IdUsuario, 0, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
+            try
             {
-                iLastErr = (int)Hik_SDK.NET_DVR_GetLastError();
-
-                //si perdio conexión
-                if (iLastErr == 17)
+                if (!Hik_SDK.NET_DVR_GetDeviceAbility(IdUsuario, 0, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
                 {
-                    Log.Error("Se perdio la conexion con el dispositivo en VerificarEstadoDispositivo.");
-                    return conectado;
+                    iLastErr = (int)Hik_SDK.NET_DVR_GetLastError();
+
+                    //si perdio conexión
+                    if (iLastErr == 17)
+                    {
+                        Log.Error("Se perdio la conexion con el dispositivo en VerificarEstadoDispositivo.");
+                        return conectado;
+                    }
                 }
 
+                if (iLastErr == 1000)
+                {
+                    conectado = true;
+                }
             }
-
-            Marshal.FreeHGlobal(pInBuf);
-            Marshal.FreeHGlobal(pOutBuf);
-
-            if (iLastErr == 1000)
+            catch (Exception ex)
             {
-                conectado = true;
+                Log.Error($"Error al verificar el estado del dispositivo: {ex.Message}");
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(pOutBuf);
             }
 
             return conectado;

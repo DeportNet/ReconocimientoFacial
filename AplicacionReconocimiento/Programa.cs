@@ -26,7 +26,7 @@ namespace DeportNetReconocimiento
 
 
             Application.ApplicationExit += (s, e) => {
-                Log.Information("La aplicación se cerro.");
+                Log.Information("La aplicacion se cerro.");
                 Log.CloseAndFlush();
                 apiServer?.Stop();
             };
@@ -45,8 +45,10 @@ namespace DeportNetReconocimiento
 
         private static void InicializarLogger()
         {
-            // Configurar Serilog para registrar en la consola y en un archivo
+            //Inicializamos el SDK de Hikvision para registrar logs
+            Hik_Resultado.InicializarLogsHikvsion();
 
+            // Configurar Serilog para registrar en la consola y en un archivo
             Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information() // puedes cambiar a Information para prod
             .WriteTo.Console()

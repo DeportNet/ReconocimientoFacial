@@ -348,8 +348,6 @@ namespace DeportNetReconocimiento.SDKHikvision
                 }
 
 
-             
-
                 String szInfo = new String(csTmp).TrimEnd('\0');
                 String szInfoBuf = null;
                 szInfoBuf = szInfo;
