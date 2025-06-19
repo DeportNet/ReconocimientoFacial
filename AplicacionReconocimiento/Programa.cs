@@ -46,7 +46,7 @@ namespace DeportNetReconocimiento
         private static void InicializarLogger()
         {
             //Inicializamos el SDK de Hikvision para registrar logs
-            Hik_Resultado.InicializarLogsHikvsion();
+            //Hik_Resultado.InicializarLogsHikvsion();
 
             // Configurar Serilog para registrar en la consola y en un archivo
             Log.Logger = new LoggerConfiguration()
