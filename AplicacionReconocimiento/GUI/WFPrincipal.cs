@@ -219,14 +219,14 @@ namespace DeportNetReconocimiento.GUI
         }
 
         //Funcion que se ejecuta en cada TICK del timer
-        public async void VerificarEstadoDispositivoAsync(object sender, EventArgs e)
+        public async void VerificarEstadoGeneralAsync(object sender, EventArgs e)
         {
-
+            
             if (verificandoEstado)
                 return;
 
-            //if (DispositivoEnUsoUtils.EstaOcupado())
-            //    return;
+            if (!DispositivoEnUsoUtils.EstaLibre())
+                return;
 
             verificandoEstado = true;
 
@@ -484,7 +484,7 @@ namespace DeportNetReconocimiento.GUI
                 int intervalo = 20000;//20 segundos
                 timerConexion = new System.Windows.Forms.Timer();
                 timerConexion.Interval = intervalo;
-                timerConexion.Tick += VerificarEstadoDispositivoAsync;
+                timerConexion.Tick += VerificarEstadoGeneralAsync;
                 Log.Information("Se crea un timer que verifica la conexión con el dispositivo cada 20 segundos");
 
             }
@@ -529,7 +529,7 @@ namespace DeportNetReconocimiento.GUI
         {
             Image imagen = Resources.avatarPredeterminado;
             //Se obtiene la foto del cliente
-            Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(nroLector, idCliente);
+            Hik_Resultado resultado = Hik_Controladora_Facial.Instancia.ObtenerCara(nroLector, idCliente);
 
 
             if (resultado.Exito)
@@ -554,7 +554,7 @@ namespace DeportNetReconocimiento.GUI
         {
             Image imagen = null;
 
-            Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
+            Hik_Resultado resultado = Hik_Controladora_Facial.Instancia.CapturarCara();
             if (resultado.Exito)
             {
                 String ruta = Path.Combine(Directory.GetCurrentDirectory(), "captura.jpg");

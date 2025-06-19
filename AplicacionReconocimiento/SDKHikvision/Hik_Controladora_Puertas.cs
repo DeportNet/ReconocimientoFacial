@@ -8,7 +8,7 @@ namespace DeportNetReconocimiento.SDKHikvision
     internal class Hik_Controladora_Puertas
     {
         //atributos
-        private static Hik_Controladora_Puertas? instanciaControladoraPuertas;
+        private static Hik_Controladora_Puertas? instancia;
 
         private Hik_Controladora_Puertas()
         {
@@ -16,15 +16,15 @@ namespace DeportNetReconocimiento.SDKHikvision
         }
 
         //propiedades
-        public static Hik_Controladora_Puertas InstanciaControladoraPuertas
+        public static Hik_Controladora_Puertas Instancia
         {
             get
             {
-                if (instanciaControladoraPuertas == null)
+                if (instancia == null)
                 {
-                    instanciaControladoraPuertas = new Hik_Controladora_Puertas();
+                    instancia = new Hik_Controladora_Puertas();
                 }
-                return instanciaControladoraPuertas;
+                return instancia;
             }
         }
 

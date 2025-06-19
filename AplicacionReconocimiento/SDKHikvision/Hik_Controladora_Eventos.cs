@@ -20,7 +20,6 @@ namespace DeportNetReconocimiento.SDKHikvision
         private static Hik_Controladora_Eventos? instancia;
 
         private MSGCallBack msgCallback;
-        public static bool libre = true;
 
         private Hik_Controladora_Eventos()
         {
@@ -69,6 +68,16 @@ namespace DeportNetReconocimiento.SDKHikvision
                 return;
             }
 
+            //validamos si el dispositivo no esta libre
+            if (!DispositivoEnUsoUtils.EstaLibre())
+            {
+                Log.Warning($"Se está realizando una peticion a Dx para obtener datos del cliente, el dispositivo no esta libre. El socio con nro: {infoEvento.Card_Number} no se va a procesar.");
+
+                //Log.Warning("Se recibio un evento de acceso, pero el dispositivo no esta libre. No se procesara el evento.");
+                return;
+            }
+
+
             //si esta clase no esta instanciada
             if (this == null)
             {
@@ -89,8 +98,9 @@ namespace DeportNetReconocimiento.SDKHikvision
                     break;
             }
 
+            DispositivoEnUsoUtils.Ocupar(); // Ocupa el dispositivo para evitar que se procese otro evento mientras se procesa este
             ProcesarNuevoEvento(infoEvento);
-
+            DispositivoEnUsoUtils.Desocupar();
            
         }
 
@@ -168,36 +178,29 @@ namespace DeportNetReconocimiento.SDKHikvision
         public static async void ObtenerDatosClienteDeportNet(string numeroTarjeta)
         {
 
-
-            if (!libre)
-            {
-                Log.Warning($"Se está realizando una peticion a Dx para obtener datos del cliente, el dispositivo no esta libre. El socio con nro: {numeroTarjeta} no se va a procesar.");
-                return;
-            }
-
             if(string.IsNullOrWhiteSpace(numeroTarjeta))
             {
                 Log.Error("El evento no tiene numero de tarjeta (es null o vacio) en ObtenerDatosClienteDeportNet.");
                 return;
             }
 
-            
-            libre = false;
-            
-
             string[] credenciales = CredencialesUtils.LeerCredenciales();
             string idSucursal = credenciales[4];
+            
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
+
             /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
             string response = await WebServicesDeportnet.ControlDeAcceso(numeroTarjeta, idSucursal);
+
+
             stopwatch.Stop();
             Log.Information($"Se pidieron los datos del socio {numeroTarjeta} a dx y tardó {stopwatch.ElapsedMilliseconds}ms");
 
             ProcesarRespuestaAcceso(response, numeroTarjeta, idSucursal);
            
-            libre = true;
+            
         }
 
         public static void ProcesarRespuestaAcceso(string response, string nroTarjeta, string idSucursal)
@@ -267,12 +270,12 @@ namespace DeportNetReconocimiento.SDKHikvision
                     WFPrincipal.ObtenerInstancia.ActualizarDatos(jsonDeportnet);
                     stopwatch.Stop();
 
-                    Console.WriteLine($"Todo el análisis de la respuesta tardó {stopwatch.ElapsedMilliseconds}");
+                    Console.WriteLine($"Todo el analisis de la respuesta tardo {stopwatch.ElapsedMilliseconds}");
 
                 }
                 else
                 {
-                    Log.Error("No está la propiedad branch access en ProcesarRespuestaAcceso.");
+                    Log.Error("No esta la propiedad branch access en ProcesarRespuestaAcceso.");
                 }
             }
             catch (JsonException ex)

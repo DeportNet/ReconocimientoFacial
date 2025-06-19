@@ -9,17 +9,10 @@ namespace DeportNetReconocimiento.SDKHikvision
     {
 
         public static Hik_Controladora_Tarjetas? instancia;
-        
-
-
-
 
         private int getCardCfgHandle;
         private int setCardCfgHandle;
         private int delCardCfgHandle;
-
-
-
 
         private Hik_Controladora_Tarjetas()
         {
@@ -27,7 +20,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             setCardCfgHandle = -1;
             delCardCfgHandle = -1;
         }
-        public static Hik_Controladora_Tarjetas ObtenerInstancia
+        public static Hik_Controladora_Tarjetas Instancia
         {
             get
             {
@@ -41,12 +34,9 @@ namespace DeportNetReconocimiento.SDKHikvision
 
         }
 
-        public int GetCardCfgHandle
-        { get => getCardCfgHandle; set => getCardCfgHandle = value; }
-        public int SetCardCfgHandle
-        { get => setCardCfgHandle; set => setCardCfgHandle = value; }
-        public int DelCardCfgHandle
-        { get => delCardCfgHandle; set => delCardCfgHandle = value; }
+        public int GetCardCfgHandle { get; set; }
+        public int SetCardCfgHandle { get; set; }
+        public int DelCardCfgHandle { get; set; }
 
         //set card
         public Hik_Resultado EstablecerUnaTarjeta(int nuevoNumeroTarjeta, string nuevoNombreRelacionadoTarjeta)

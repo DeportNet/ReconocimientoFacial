@@ -33,7 +33,7 @@ namespace DeportNetReconocimiento.Api.Controllers
             }
             string detalle = "F";
 
-            if(!DispositivoEnUsoUtils.EstaOcupado())
+            if(DispositivoEnUsoUtils.EstaLibre())
             {
                 Log.Information("Proceso la peticion de alta con id cliente  " + idCliente + ".");
                 DispositivoEnUsoUtils.Ocupar();
@@ -49,7 +49,7 @@ namespace DeportNetReconocimiento.Api.Controllers
 
                 _ = WebServicesDeportnet.AltaClienteDeportnet(respuestaAlta.ToJson());
 
-                Log.Information("No se procesa la peticion de alta con id cliente " + idCliente+" debido a que el dispositivo esta ocupado.");
+                Log.Information($"No se procesa la peticion de alta con id cliente {idCliente} debido a que el dispositivo esta ocupado.");
             }
 
             return Ok(detalle);

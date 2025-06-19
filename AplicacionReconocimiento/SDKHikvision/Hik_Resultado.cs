@@ -10,28 +10,6 @@ namespace DeportNetReconocimiento.SDK
         private string mensaje = "";
         private string codigo = "";
 
-
-        /* 
-         * Ej de uso:
-         Hik_Resultado resultado = new Hik_resultado(); 
-         
-            ...Logica dentro de un metodo...
-
-            if (true)
-            {
-                resultado.ActualizarResultado(true, "Exito al cargar los datos", Hik_SDK.NET_DVR_GetLastError().ToString());
-            }
-            else
-            {
-                resultado.ActualizarResultado(false, "Error al cargar los datos", Hik_SDK.NET_DVR_GetLastError().ToString());
-            }
-
-            resultado.EscribirResultados("Carga de datos");
-            
-            return resultado;
-         */
-
-
         public Hik_Resultado()
         {
             this.exito = false;
@@ -39,23 +17,9 @@ namespace DeportNetReconocimiento.SDK
             this.codigo = "";
         }
 
-        public bool Exito 
-        {
-            get { return exito; }
-            set { lock (this) { exito = value; } }
-        }
-
-        public string Mensaje
-        {
-            get { return mensaje; }
-            set { lock (this) { mensaje= value; } }
-        }
-
-        public string Codigo
-        {
-            get { return codigo; }
-            set { lock (this) { codigo = value; } }
-        }
+        public bool Exito { get; set; }
+        public string Mensaje { get; set; }
+        public string Codigo { get; set; }
 
         public  void EscribirResultado(string titulo)
         {
@@ -70,9 +34,7 @@ namespace DeportNetReconocimiento.SDK
             MessageBox.Show($"Exito: {Exito} \nMensaje: {Mensaje}\nCodigo: {Codigo}", titulo,MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
             MessageBox.Show($"Exito: {Exito} \nMensaje: {Mensaje}\nCodigo: {Codigo}", titulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
         }
-
 
         public void ActualizarResultado(bool exito, string mensaje, string codigo)
         {
@@ -80,12 +42,6 @@ namespace DeportNetReconocimiento.SDK
             this.mensaje = mensaje;
             this.codigo = codigo;
         }
-
-        //public static bool EscribirLog()
-        //{
-        //    //Log level: 0-disable log (default), 1-output error log only, 2-output error and debug log, 3-output all logs (i.e., error, debug, and information).
-        //    return Hik_SDK.NET_DVR_SetLogToFile(3, @"logsHikvision", false);
-        //}
 
         public static bool InicializarLogsHikvsion()
         {

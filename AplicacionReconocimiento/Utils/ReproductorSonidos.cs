@@ -1,5 +1,6 @@
 ﻿using DeportNetReconocimiento.Modelo;
 using NAudio.Wave;
+using Serilog;
 
 
 namespace DeportNetReconocimiento.Utils
@@ -43,7 +44,7 @@ namespace DeportNetReconocimiento.Utils
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al reproducir el sonido: {ex.Message}");
+                Log.Error($"Error al reproducir el sonido: {ex.Message}");
             }
         }
 

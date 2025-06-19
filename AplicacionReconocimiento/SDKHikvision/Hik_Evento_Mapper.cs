@@ -3,7 +3,7 @@
 
 namespace DeportNetReconocimiento.SDKHikvision
 {
-    internal class Hik_Evento_Mapper
+    public class Hik_Evento_Mapper
     {
         
         
