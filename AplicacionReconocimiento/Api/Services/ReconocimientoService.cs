@@ -207,7 +207,7 @@ namespace DeportNetReconocimiento.Api.Services
                 return "F";
             }
 
-            if (hik_Controladora.IdUsuario == -1)
+            if (Hik_Controladora_General.Instancia.IdUsuario == -1)
             {
                 MensajeDeErrorAltaBajaCliente(
                     new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
@@ -257,7 +257,7 @@ namespace DeportNetReconocimiento.Api.Services
         private async Task BajaClienteDeportnet(BajaFacialClienteRequest clienteRequest)
         {
             EnUso = true;
-            Hik_Resultado resBaja = hik_Controladora.BajaCliente(clienteRequest.IdCliente.ToString());
+            Hik_Resultado resBaja = Hik_Controladora_General.Instancia.BajaCliente(clienteRequest.IdCliente.ToString());
 
             if (!resBaja.Exito)
             {

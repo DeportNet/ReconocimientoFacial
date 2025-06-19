@@ -1,4 +1,5 @@
 ﻿
+using Serilog;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -138,7 +139,7 @@ public class Hik_Controladora_Facial
             case (int)Hik_SDK.NET_SDK_GET_NEXT_STATUS_NEED_WAIT:
 
                 //Esperamos, y si el resultado final es esperamos, signifca que no se tomo ningun dato
-                resultado.ActualizarResultado(false, "El cliente no posiciono la cara frente al dispositivo", Hik_SDK.NET_DVR_GetLastError().ToString());
+                resultado.ActualizarResultado(false, "El proceso debe esperar, se vovlerá a llamar", Hik_SDK.NET_DVR_GetLastError().ToString());
                 
                 break;
             case Hik_SDK.NET_SDK_GET_NEXT_STATUS_FAILED:
@@ -169,7 +170,9 @@ public class Hik_Controladora_Facial
 
         }
 
-        return resultado;
+
+        //Log.Information($"Resultado de obtener la cara: {resultado.Mensaje}");
+            return resultado;
     }
     //Recoge y almacena la foto encontrada en el dispositivo
     private void ProcesarInformacionFacialRecord(ref Hik_SDK.NET_DVR_FACE_RECORD struRecord, ref Boolean Flag)
