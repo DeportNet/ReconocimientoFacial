@@ -109,9 +109,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                     //validamos si el dispositivo no esta libre
                     if (!DispositivoEnUsoUtils.EstaLibre())
                     {
-                        Log.Warning($"Se está realizando una peticion a Dx para obtener datos del cliente, el dispositivo no esta libre. El socio con nro: {infoEvento.Card_Number} no se va a procesar.");
-
-                        //Log.Warning("Se recibio un evento de acceso, pero el dispositivo no esta libre. No se procesara el evento.");
+                        Log.Warning($"Se recibio un evento de acceso, pero el dispositivo no esta libre. No se procesara el evento. El socio con nro: {infoEvento.Card_Number} no se va a procesar.");
                         return;
                     }
 

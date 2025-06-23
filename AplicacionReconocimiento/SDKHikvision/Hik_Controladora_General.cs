@@ -110,6 +110,12 @@ namespace DeportNetReconocimiento.SDK
             Hik_Resultado resultado = new Hik_Resultado();
 
 
+            if (!DispositivoEnUsoUtils.EstaLibre())
+            {
+                //Libero DispositivoEnUsoUtils si no esta libre
+                DispositivoEnUsoUtils.Desocupar();
+            }
+
             //cerramos la sesion que estaba iniciada anteriormente
             if (IdUsuario >= 0)
             {

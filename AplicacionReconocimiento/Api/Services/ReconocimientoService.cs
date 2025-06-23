@@ -144,7 +144,7 @@ namespace DeportNetReconocimiento.Api.Services
 
                 return;
             }
-            //  Envioa foto del socio si esta la config activa
+            //  Envio la foto del socio si esta la config activa
 
             ConfiguracionEstilos configuracionEstilos = ConfiguracionEstilos.LeerJsonConfiguracion();
             string? imagenSocioBase64 = null;
@@ -171,7 +171,6 @@ namespace DeportNetReconocimiento.Api.Services
             Log.Information("Se ha dado de alta el cliente facial con id: " + altaFacialClienteRequest.IdCliente + " y nombre: " + altaFacialClienteRequest.NombreCliente);
 
             IniciarTiempoEspera();
-
             
             DispositivoEnUsoUtils.Desocupar();
         }
