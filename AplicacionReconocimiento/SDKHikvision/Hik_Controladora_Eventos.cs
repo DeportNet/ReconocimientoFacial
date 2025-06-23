@@ -118,9 +118,9 @@ namespace DeportNetReconocimiento.SDKHikvision
 
                     DispositivoEnUsoUtils.Ocupar("Procesar evento Facial"); // Ocupa el dispositivo para evitar que se procese otro evento mientras se procesa este
 
-                    if (DobleVerifiacionInternet())
+                    if (DobleVerificacionInternet())
                     {
-                        ObtenerDatosClienteDeportNet(infoEvento.Card_Number);
+                        ObtenerDatosClienteDeportnet(infoEvento.Card_Number);
                     }
                     else
                     {
@@ -131,7 +131,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                 {
                     //Si no es facial se desocupa
                     Console.WriteLine("Desocupo de un Acceso");
-                    DispositivoEnUsoUtils.Desocupar();
+                     //DispositivoEnUsoUtils.Desocupar();
 
                 }
             }
@@ -166,7 +166,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         }
 
 
-        private static bool DobleVerifiacionInternet()
+        private static bool DobleVerificacionInternet()
         {
             if (WFPrincipal.ObtenerInstancia.ConexionInternet)
                 return true;
@@ -184,7 +184,7 @@ namespace DeportNetReconocimiento.SDKHikvision
         }
 
 
-        public static async void ObtenerDatosClienteDeportNet(string numeroTarjeta)
+        public static async void ObtenerDatosClienteDeportnet(string numeroTarjeta)
         {
 
             if(string.IsNullOrWhiteSpace(numeroTarjeta))
@@ -297,6 +297,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                 Log.Error($"Error inesperado en ProcesarRespuestaAcceso: {ex.Message}");
             }
 
+            //Fin evento de acceso, por lo tanto lo desocupo
             DispositivoEnUsoUtils.Desocupar();
         }
 
