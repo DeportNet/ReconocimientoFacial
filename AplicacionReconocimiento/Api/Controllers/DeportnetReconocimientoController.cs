@@ -35,24 +35,29 @@ namespace DeportNetReconocimiento.Api.Controllers
 
             if(DispositivoEnUsoUtils.EstaLibre())
             {
-                Log.Information("Proceso la peticion de alta con id cliente  " + idCliente + ".");
+                Log.Information($"Proceso la peticion de alta con idCliente: {idCliente}.");
                 DispositivoEnUsoUtils.Ocupar("Alta cliente");
                 detalle = deportnetReconocimientoService.AltaFacialCliente(new AltaFacialClienteRequest(idCliente, idSucursal, nombreCliente));
             }
             else
             {
+                Log.Information($"No se procesa la peticion de alta con idCliente {idCliente} debido a que el dispositivo esta ocupado.");
+
                 RespuestaAltaBajaCliente respuestaAlta = new RespuestaAltaBajaCliente(
                     idSucursal: idSucursal.ToString(),
                     idCliente: idCliente.ToString(),
                     mensaje: "El dispositivo se encuentra ocupado",
-                    exito: "F");
+                    exito: "F"
+                    );
 
                 _ = WebServicesDeportnet.AltaClienteDeportnet(respuestaAlta.ToJson());
 
-                Log.Information($"No se procesa la peticion de alta con id cliente {idCliente} debido a que el dispositivo esta ocupado.");
             }
 
-            return Ok(detalle);
+            return Ok(new
+            {
+                detalle
+            });
         }
 
         [HttpGet("baja-facial-cliente")]
