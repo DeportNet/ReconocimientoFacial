@@ -127,7 +127,7 @@ namespace DeportNetReconocimiento.Api.Services
             bool conexionConDisp = Hik_Controladora_General.Instancia.VerificarEstadoDispositivo();
 
             if (!conexionConDisp) { 
-                Log.Error("No se pudo conectar con el dispositivo de reconocimiento facial. Verifique que este conectado y que las credenciales sean correctas.");
+                Log.Error("Se intento hacer un alta facial pero no se pudo conectar con el dispositivo. Verifique que este conectado y que las credenciales sean correctas.");
                 return;
             }
             

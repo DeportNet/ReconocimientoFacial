@@ -125,6 +125,10 @@ namespace DeportNetReconocimiento.SDKHikvision
                         MostrarErrorSinInternet();
                     }
                 }
+                else
+                {
+                    EsEventoValidoParaDesocupar(infoEvento);
+                }
               
             }
             else
@@ -137,6 +141,19 @@ namespace DeportNetReconocimiento.SDKHikvision
             }
         }
 
+        private static void EsEventoValidoParaDesocupar(Evento infoEvento) { 
+        
+            if(infoEvento == null)
+            {
+                return;
+            }
+
+            if(infoEvento.Minor_Type == MINOR_REMOTE_ARM || infoEvento.Minor_Type == MINOR_REMOTE_LOGIN)
+            {
+                DispositivoEnUsoUtils.Desocupar();
+            }
+
+        }
 
         private static bool EsTiempoValido(Evento infoEvento)
         {
