@@ -31,33 +31,11 @@ namespace DeportNetReconocimiento.Api.Controllers
             {
                 return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
             }
-            string detalle = "F";
+           
+            string detalle = deportnetReconocimientoService.AltaFacialCliente(new AltaFacialClienteRequest(idCliente, idSucursal, nombreCliente));
 
-            if(DispositivoEnUsoUtils.EstaLibre())
-            {
-                Log.Information($"Proceso la peticion de alta con idCliente: {idCliente}.");
-                DispositivoEnUsoUtils.Ocupar("Alta cliente");
-                detalle = deportnetReconocimientoService.AltaFacialCliente(new AltaFacialClienteRequest(idCliente, idSucursal, nombreCliente));
-            }
-            else
-            {
-                Log.Information($"No se procesa la peticion de alta con idCliente {idCliente} debido a que el dispositivo esta ocupado.");
 
-                RespuestaAltaBajaCliente respuestaAlta = new RespuestaAltaBajaCliente(
-                    idSucursal: idSucursal.ToString(),
-                    idCliente: idCliente.ToString(),
-                    mensaje: "El dispositivo se encuentra ocupado",
-                    exito: "F"
-                    );
-
-                _ = WebServicesDeportnet.AltaClienteDeportnet(respuestaAlta.ToJson());
-
-            }
-
-            return Ok(new
-            {
-                detalle
-            });
+            return Ok(detalle);
         }
 
         [HttpGet("baja-facial-cliente")]
@@ -66,9 +44,6 @@ namespace DeportNetReconocimiento.Api.Controllers
             [FromQuery] int idSucursal
             )
         {
-
-          
-
             if (idCliente == null || idSucursal == null)
             {
                 return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
