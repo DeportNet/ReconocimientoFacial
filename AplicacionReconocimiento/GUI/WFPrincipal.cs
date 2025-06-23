@@ -457,6 +457,8 @@ namespace DeportNetReconocimiento.GUI
                         Log.Information("Resultado de apertura con Hikvision: " + resultado.Exito);
                     }
 
+                    
+
                     titulo = "Bienvenido/a " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Nombre) + " " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Apellido);
                     mensaje = ConvertidorTextoUtils.LimpiarTextoHtml(json.MensajeAcceso);
 
@@ -472,8 +474,15 @@ namespace DeportNetReconocimiento.GUI
                     break;
             }
 
+
             HeaderLabel.Text = titulo;
             textoInformacionCliente.Text = mensaje;
+
+            if (json.Estado != "Q")
+            {
+                //Fin evento de acceso, por lo tanto lo desocupo
+                DispositivoEnUsoUtils.Desocupar();
+            }
         }
 
 

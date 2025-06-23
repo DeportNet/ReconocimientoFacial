@@ -127,13 +127,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                         MostrarErrorSinInternet();
                     }
                 }
-                else
-                {
-                    //Si no es facial se desocupa
-                    Console.WriteLine("Desocupo de un Acceso");
-                     //DispositivoEnUsoUtils.Desocupar();
-
-                }
+              
             }
             else
             {
@@ -297,8 +291,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                 Log.Error($"Error inesperado en ProcesarRespuestaAcceso: {ex.Message}");
             }
 
-            //Fin evento de acceso, por lo tanto lo desocupo
-            DispositivoEnUsoUtils.Desocupar();
+            
         }
 
         public void SetupAlarm()
