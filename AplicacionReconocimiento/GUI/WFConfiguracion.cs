@@ -2,7 +2,7 @@
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.Properties;
-using DeportNetReconocimiento.SDK;
+using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using DeportNetReconocimiento.Utils;
 using System.Numerics;
 

@@ -57,7 +57,7 @@ namespace DeportNetReconocimiento.Api.Services
             string json = JsonSerializer.Serialize(data);
             Console.WriteLine("JSON serializado a enviar:\n" + json);
 
-            return await FetchInformacion(json, urlEntradaClienteTest, HttpMethod.Post);
+            return await FetchInformacion(json, urlEntradaCliente, HttpMethod.Post);
         }
 
         public static async Task<string> ObtenerCofiguracionDeAccesoOffline(string idSucursal)
@@ -160,7 +160,7 @@ namespace DeportNetReconocimiento.Api.Services
             try
             {
                 //respuesta fetch
-                HttpResponseMessage response = await client.PostAsync(urlEntradaClienteTest, contenido);
+                HttpResponseMessage response = await client.PostAsync(urlEntradaCliente, contenido);
 
 
                 resultado = await VerificarResponseDeportnet(response);

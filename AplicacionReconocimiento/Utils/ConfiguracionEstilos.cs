@@ -1,5 +1,5 @@
 using DeportNetReconocimiento.Properties;
-using DeportNetReconocimiento.SDK;
+using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using DeportNetReconocimiento.Utils.Modelo;
 using System.ComponentModel;
 using System.Drawing.Design;
