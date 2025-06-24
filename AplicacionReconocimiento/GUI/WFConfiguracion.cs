@@ -7,6 +7,8 @@ using DeportNetReconocimiento.Utils;
 using System.Numerics;
 
 
+
+
 namespace DeportNetReconocimiento.GUI
 {
     public partial class WFConfiguracion : Form
