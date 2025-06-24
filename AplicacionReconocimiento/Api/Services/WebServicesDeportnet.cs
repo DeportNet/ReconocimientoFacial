@@ -22,44 +22,28 @@ namespace DeportNetReconocimiento.Api.Services
         public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal) 
         {
             object data = new { };
-
-          
-            
             data = new { memberId = nroTarjeta, activeBranchId = idSucursal };
-
-          
-
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaClienteTest, HttpMethod.Post);
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
         }
 
         
         public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal, string rtaManual)
         {
             
-                /*
-                { 
-	                "activeBranchId": "1",
-	                "memberId": "17393",
-	                "manualAllowedAccess": "17393", (opcional)
-	                "isSuccessful": "T" ( T o F)
-                }
-                */
-            
             object data = new { memberId = nroTarjeta, activeBranchId = idSucursal, manualAllowedAccess = nroTarjeta, isSuccessful = rtaManual};
             
-            
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaClienteTest, HttpMethod.Post);
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
         }
 
 
         public static async Task<string> AltaClienteDeportnet(string json)
         {
-            return await FetchInformacion(json, urlAltaClienteTest, HttpMethod.Post);
+            return await FetchInformacion(json, urlAltaCliente, HttpMethod.Post);
         }
 
         public static async Task<string> BajaClienteDeportnet(string json)
         {
-            return await FetchInformacion(json, urlBajaClienteTest, HttpMethod.Post);
+            return await FetchInformacion(json, urlBajaCliente, HttpMethod.Post);
         }
 
         public static async Task<Hik_Resultado> TestearConexionDeportnet(string tokenSucursal, string idSucursal)
@@ -83,7 +67,7 @@ namespace DeportNetReconocimiento.Api.Services
             try
             {
                 //respuesta fetch
-                HttpResponseMessage response = await client.PostAsync(urlEntradaClienteTest, contenido);
+                HttpResponseMessage response = await client.PostAsync(urlEntradaCliente, contenido);
 
 
                 resultado = await VerificarResponseDeportnet(response);
