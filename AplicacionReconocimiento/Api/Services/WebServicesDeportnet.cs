@@ -28,6 +28,7 @@ namespace DeportNetReconocimiento.Api.Services
             data = new { memberId = nroTarjeta, activeBranchId = idSucursal };
 
           
+
             return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaClienteTest, HttpMethod.Post);
         }
 
