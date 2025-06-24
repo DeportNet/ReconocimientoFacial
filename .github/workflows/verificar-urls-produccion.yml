@@ -11,27 +11,23 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Buscar USOS de variables de TEST en código fuente
+      - name: Buscar USOS de variables de TEST en WebServicesDeportnet.cs
         run: |
-          # Buscar nombres de variables con "Test" usados fuera de su declaración
-          # Esto busca líneas donde se use la variable, pero NO la declaración "const string url*Test"
-          # O sea, líneas donde se utilice, no donde se define.
-          VARS_TEST=$(grep -hoP 'const string (\w+Test)' **/*.cs | awk '{print $3}' | sort | uniq)
+          ARCHIVO="AplicacionReconocimiento/DeportnetApi/Service/WebServicesDeportnet.cs"
 
-           RET=0
+          # Buscar nombres de variables con "Test" usados fuera de su declaración
+          VARS_TEST=$(grep -hoP 'const string (\w+Test)' "$ARCHIVO" | awk '{print $3}' | sort | uniq)
+
+          RET=0
           for VAR in $VARS_TEST; do
-            # Buscar usos de la variable fuera de su declaración
-            # (descartando la línea de declaración)
-            if grep -r --exclude-dir=.git --exclude='*.Designer.cs' --exclude='*.g.cs' --exclude='*.AssemblyInfo.cs' -w "$VAR" **/*.cs | grep -v "const string $VAR" ; then
+            if grep -w "$VAR" "$ARCHIVO" | grep -v "const string $VAR" ; then
               echo "::error ::ERROR: La variable de TEST '$VAR' está siendo utilizada en el código fuente."
               RET=1
             fi
           done
-            
-            
 
           # Buscar si la URL de testing es pasada directa
-          if grep -r 'https://testing.deportnet.com' **/*.cs | grep -v "const string"; then
+          if grep 'https://testing.deportnet.com' "$ARCHIVO" | grep -v "const string"; then
             echo "::error ::ERROR: Se está usando una URL de testing directamente en el código."
             RET=1
           fi
