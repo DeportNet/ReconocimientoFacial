@@ -1,0 +1,25 @@
+name: Verificar OutputType en csproj
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verificar_output_type:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Validar que OutputType sea WinExe
+        run: |
+          ARCHIVO="AplicacionReconocimiento/DeportNetReconocimiento.csproj"
+
+          # Buscar la etiqueta OutputType
+          if grep -q '<OutputType>WinExe</OutputType>' "$ARCHIVO"; then
+            echo "OutputType correcto: WinExe"
+            exit 0
+          else
+            echo "::error ::ERROR: OutputType en $ARCHIVO NO es 'WinExe'. Verifica que la etiqueta <OutputType>WinExe</OutputType> esté presente y no tenga otro valor."
+            exit 1
+          fi
