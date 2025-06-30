@@ -521,7 +521,7 @@ namespace DeportNetReconocimiento.SDK
         }
 
         //Evalua si la foto seleccionada cumple con los requisitos
-        private Hik_Resultado BuscarFotoParaIngresar(ref Hik_SDK.NET_DVR_FACE_RECORD struRecord, String ubicacionArchivo)
+        private Hik_Resultado BuscarFotoParaIngresar(ref Hik_SDK.NET_DVR_FACE_RECORD struRecord, string ubicacionArchivo)
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
