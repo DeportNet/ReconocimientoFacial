@@ -477,8 +477,6 @@ namespace DeportNetReconocimiento.SDK
                 case Hik_SDK.NET_SDK_GET_NEXT_STATUS_NEED_WAIT: //1001
 
                     resultado.ActualizarResultado(false, "Se necesita esperar", Hik_SDK.NET_DVR_GetLastError().ToString());
-
-
                     break;
 
                 case Hik_SDK.NET_SDK_GET_NEXT_STATUS_FAILED: //1003

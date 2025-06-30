@@ -554,13 +554,14 @@ namespace DeportNetReconocimiento.SDK
         {
             Hik_Resultado resultado = new Hik_Resultado();
 
+            //valido si existe
             resultado = ObtenerTarjeta(idCliente);
             if (resultado.Exito) return resultado;
 
             EsperarCooldownDispositivo(1000);
+
             resultado = CapturarFoto();
             if (!resultado.Exito) return resultado;
-
 
             resultado = CrearTarjeta(idCliente, nombre);
             if (!resultado.Exito) return resultado;
@@ -575,29 +576,49 @@ namespace DeportNetReconocimiento.SDK
         
         private Hik_Resultado ObtenerTarjeta(string idCliente)
         {
-            var resultado = Hik_Controladora_Tarjetas.Instancia.ObtenerUnaTarjeta(int.Parse(idCliente));
-            resultado.Mensaje = "Error de obtener la tarjeta";
+            Hik_Resultado resultado = Hik_Controladora_Tarjetas.Instancia.ObtenerUnaTarjeta(int.Parse(idCliente));
+
+            if (!resultado.Exito)
+            {
+                resultado.Mensaje = "Error de obtener la tarjeta";
+            }
+
             return resultado;
         }
 
         private Hik_Resultado CapturarFoto()
         {
-            var resultado = Hik_Controladora_Facial.Instancia.CapturarCara();
-            resultado.Mensaje = "Error de obtener la cara";
+            Hik_Resultado resultado = Hik_Controladora_Facial.Instancia.CapturarCara();
+
+            if (!resultado.Exito)
+            {
+                resultado.Mensaje = "Error de obtener la cara";
+            }
+
             return resultado;
         }
 
         private Hik_Resultado CrearTarjeta(string idCliente, string nombre)
         {
-            var resultado = Hik_Controladora_Tarjetas.Instancia.EstablecerUnaTarjeta(int.Parse(idCliente), nombre);
-            resultado.Mensaje = "Error de crear una tarjeta";
+            Hik_Resultado resultado = Hik_Controladora_Tarjetas.Instancia.EstablecerUnaTarjeta(int.Parse(idCliente), nombre);
+
+            if (!resultado.Exito)
+            {
+                resultado.Mensaje = "Error de crear una tarjeta";
+            }
+
             return resultado;
         }
 
         private Hik_Resultado AsignarCaraATarjeta(string idCliente)
         {
-            var resultado = Hik_Controladora_Facial.Instancia.EstablecerUnaCara((uint)numeroLector, idCliente);
-            resultado.Mensaje = "Error de establecer una cara";
+            Hik_Resultado resultado = Hik_Controladora_Facial.Instancia.EstablecerUnaCara((uint)numeroLector, idCliente);
+
+            if (!resultado.Exito)
+            {
+                resultado.Mensaje = "Error de establecer una cara";
+            }
+
             return resultado;
         }
 
@@ -653,7 +674,6 @@ namespace DeportNetReconocimiento.SDK
 
             resultado = ObtenerTarjeta(id);
             if(!resultado.Exito) return resultado;
-
 
             EsperarCooldownDispositivo(1000);
 
