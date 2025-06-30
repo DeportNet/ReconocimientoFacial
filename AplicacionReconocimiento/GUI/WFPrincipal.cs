@@ -559,20 +559,6 @@ namespace DeportNetReconocimiento.GUI
             return imagen;
         }
 
-        Image CapturarFotoCliente()
-        {
-            Image imagen = null;
-
-            Hik_Resultado resultado = Hik_Controladora_Facial.Instancia.CapturarCara();
-            if (resultado.Exito)
-            {
-                String ruta = Path.Combine(Directory.GetCurrentDirectory(), "captura.jpg");
-                imagen = Image.FromFile(ruta);
-            }
-            return imagen;
-        }
-
-
         public async void LimpiarInterfaz()
         {
             if (InvokeRequired)
