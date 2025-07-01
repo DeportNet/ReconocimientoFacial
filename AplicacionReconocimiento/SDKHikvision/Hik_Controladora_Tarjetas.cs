@@ -8,17 +8,12 @@ namespace DeportNetReconocimiento.SDKHikvision
     public class Hik_Controladora_Tarjetas
     {
 
-        public static Hik_Controladora_Tarjetas? instancia;
-
-        private int getCardCfgHandle;
-        private int setCardCfgHandle;
-        private int delCardCfgHandle;
-
+        private static Hik_Controladora_Tarjetas? instancia;
         private Hik_Controladora_Tarjetas()
         {
-            getCardCfgHandle = -1;
-            setCardCfgHandle = -1;
-            delCardCfgHandle = -1;
+            GetCardCfgHandle = -1;
+            SetCardCfgHandle = -1;
+            DelCardCfgHandle = -1;
         }
         public static Hik_Controladora_Tarjetas Instancia
         {
@@ -74,15 +69,12 @@ namespace DeportNetReconocimiento.SDKHikvision
             else
             {
                 resultado.ActualizarResultado(false, "Error al establecer la tarjeta", Hik_SDK.NET_DVR_GetLastError().ToString());
-
             }
-
+            Marshal.FreeHGlobal(ptrTarjetaCond);
             return resultado;
         }
         public Hik_Resultado EnviarInformacionTarjeta(int nuevoNumeroTarjeta, string nuevoNombreRelacionadoTarjeta)
         {
-
-
             //tarjeta record
             Hik_SDK.NET_DVR_CARD_RECORD tarjetaRecord = new Hik_SDK.NET_DVR_CARD_RECORD();
             IntPtr ptrTarjetaRecord = IntPtr.Zero;
@@ -229,8 +221,7 @@ namespace DeportNetReconocimiento.SDKHikvision
             {
                 case (int)Hik_SDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_NEEDWAIT:
                     //esperamos
-
-
+                    Thread.Sleep(10);
                     break;
                 case (int)Hik_SDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_FAILED:
                     //fallo
@@ -262,9 +253,7 @@ namespace DeportNetReconocimiento.SDKHikvision
                     break;
                 case (int)Hik_SDK.NET_SDK_SENDWITHRECV_STATUS.NET_SDK_CONFIG_STATUS_EXCEPTION:
                     //exception
-
                     resultado.ActualizarResultado(false, "Se arrojo una excepcion, no se pudo settear tarjeta", Hik_SDK.NET_DVR_GetLastError().ToString());
-
                     break;
                 default:
                     //error desconocido, no se pudo settear tarjeta
@@ -327,9 +316,9 @@ namespace DeportNetReconocimiento.SDKHikvision
 
             IntPtr ptrUserData = IntPtr.Zero;
             //Hik_SDK.NET_DVR_GET_CARD es una constante que vale 2560
-            getCardCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.Instancia.IdUsuario, Hik_SDK.NET_DVR_GET_CARD, ptrTarjetaCond, (int)tarjetaCond.dwSize, null, ptrUserData);
+            GetCardCfgHandle = Hik_SDK.NET_DVR_StartRemoteConfig(Hik_Controladora_General.Instancia.IdUsuario, Hik_SDK.NET_DVR_GET_CARD, ptrTarjetaCond, (int)tarjetaCond.dwSize, null, ptrUserData);
 
-            if (getCardCfgHandle < 0)
+            if (GetCardCfgHandle < 0)
             {
                 resultado.ActualizarResultado(false, "Error al obtener la tarjeta", Hik_SDK.NET_DVR_GetLastError().ToString());
 

@@ -23,7 +23,7 @@ namespace DeportNetReconocimiento.Api.Services
         {
             object data = new { };
             data = new { memberId = nroTarjeta, activeBranchId = idSucursal };
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaClienteTest, HttpMethod.Post);
         }
 
         
@@ -32,18 +32,18 @@ namespace DeportNetReconocimiento.Api.Services
             
             object data = new { memberId = nroTarjeta, activeBranchId = idSucursal, manualAllowedAccess = nroTarjeta, isSuccessful = rtaManual};
             
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaCliente, HttpMethod.Post);
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaClienteTest, HttpMethod.Post);
         }
 
 
         public static async Task<string> AltaClienteDeportnet(string json)
         {
-            return await FetchInformacion(json, urlAltaCliente, HttpMethod.Post);
+            return await FetchInformacion(json, urlAltaClienteTest, HttpMethod.Post);
         }
 
         public static async Task<string> BajaClienteDeportnet(string json)
         {
-            return await FetchInformacion(json, urlBajaCliente, HttpMethod.Post);
+            return await FetchInformacion(json, urlBajaClienteTest, HttpMethod.Post);
         }
 
         public static async Task<Hik_Resultado> TestearConexionDeportnet(string tokenSucursal, string idSucursal)
@@ -67,7 +67,7 @@ namespace DeportNetReconocimiento.Api.Services
             try
             {
                 //respuesta fetch
-                HttpResponseMessage response = await client.PostAsync(urlEntradaCliente, contenido);
+                HttpResponseMessage response = await client.PostAsync(urlEntradaClienteTest, contenido);
 
 
                 resultado = await VerificarResponseDeportnet(response);
