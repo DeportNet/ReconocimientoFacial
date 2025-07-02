@@ -421,8 +421,7 @@ namespace DeportnetOffline.GUI.Modales
         private bool EsEmailExistente(string email)
         {
             using var bdContext = BdContext.CrearContexto();
-
-            return bdContext.Socios.Any(s => s.Email.ToLower() == email.ToLower());
+            return !bdContext.Socios.Any(s => s.Email.ToLower() == email.ToLower());
         }
 
         private bool EsFechaValida(DateTime fecha)

@@ -121,12 +121,12 @@ namespace DeportNetReconocimiento.Api.Services
 
         public static async Task<string> AltaFacialClienteDeportnet(RespuestaAltaBajaCliente rta)
         {
-            return await FetchInformacion(rta.ToJson(), urlAltaCliente, HttpMethod.Post);
+            return await FetchInformacion(rta.ToJson(), urlAltaClienteTest, HttpMethod.Post);
         }
 
         public static async Task<string> BajaFacialClienteDeportnet(RespuestaAltaBajaCliente rta)
         {
-            return await FetchInformacion(rta.ToJson(), urlBajaCliente, HttpMethod.Post);
+            return await FetchInformacion(rta.ToJson(), urlBajaClienteTest, HttpMethod.Post);
         }
 
         public static async Task<string> BajaFacialMasivaClienteDeportnet(string idSucursal, string? lectorNumber = null, string? maxToDelete = null)
@@ -171,7 +171,7 @@ namespace DeportNetReconocimiento.Api.Services
             try
             {
                 //respuesta fetch
-                HttpResponseMessage response = await client.PostAsync(urlEntradaCliente, contenido);
+                HttpResponseMessage response = await client.PostAsync(urlEntradaClienteTest, contenido);
 
 
                 resultado = await VerificarResponseDeportnet(response);
@@ -296,7 +296,7 @@ namespace DeportNetReconocimiento.Api.Services
 
             using HttpClient client = new HttpClient
             {
-                Timeout = TimeSpan.FromSeconds(10) // o 5, según prefieras
+                Timeout = TimeSpan.FromSeconds(60) // o 5, según prefieras
             };
 
             string token = CredencialesUtils.LeerCredencialesBd().BranchToken;//CredencialesUtils.LeerCredencialEspecifica(5); //"H7gVA3r89jvaMuDd";
