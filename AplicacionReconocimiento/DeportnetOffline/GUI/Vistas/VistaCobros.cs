@@ -29,14 +29,14 @@ namespace DeportnetOffline
             dataGridView1.Columns["IdSocio"].Visible = false;
             dataGridView1.Columns["Id"].Visible = false;
 
-            dataGridView1.Columns["IdDx"].HeaderText= "Legajo";
-            dataGridView1.Columns["IsSaleItem"].HeaderText= "Tipo";
+            dataGridView1.Columns["IdDx"].HeaderText = "Legajo";
+            dataGridView1.Columns["IsSaleItem"].HeaderText = "Tipo";
             dataGridView1.Columns["FullNameSocio"].HeaderText = "Nombre Socio";
             dataGridView1.Columns["ItemName"].HeaderText = "Nombre producto";
-            dataGridView1.Columns["Amount"].HeaderText= "Precio";
-            dataGridView1.Columns["SaleDate"].HeaderText= "Fecha / Hora Venta";
+            dataGridView1.Columns["Amount"].HeaderText = "Precio";
+            dataGridView1.Columns["SaleDate"].HeaderText = "Fecha / Hora Venta";
             dataGridView1.Columns["Synchronized"].HeaderText = "Sincroniazdo";
-            dataGridView1.Columns["SynchronizedDate"].HeaderText= "Fecha / Hora sincro";
+            dataGridView1.Columns["SynchronizedDate"].HeaderText = "Fecha / Hora sincro";
         }
 
 
@@ -47,13 +47,13 @@ namespace DeportnetOffline
             using var bdContext = BdContext.CrearContexto();
 
             PaginadoResultado<Venta> paginaVentas = PaginadorUtils.ObtenerPaginadoAsync(bdContext.Ventas.Include(v => v.Socio), paginaActual, tamanioPagina).Result;
-    
+
             CambiarInformacionPagina(paginaVentas);
-                
+
             dataGridView1.DataSource = TablaMapper.ListaCobroToListaInformacionTablaCobro(paginaVentas.Items);
         }
 
-        private void CambiarInformacionPagina(PaginadoResultado<Venta> paginaVentas) 
+        private void CambiarInformacionPagina(PaginadoResultado<Venta> paginaVentas)
         {
             TotalPaginas = paginaVentas.TotalPaginas;
             PaginaActual = paginaVentas.PaginaActual;
@@ -65,7 +65,7 @@ namespace DeportnetOffline
 
         private void botonSgtPaginacion_Click(object sender, EventArgs e)
         {
-            if(PaginaActual < TotalPaginas)
+            if (PaginaActual < TotalPaginas)
             {
                 PaginaActual++;
                 CargarDatos(PaginaActual, TamanioPagina);
@@ -87,7 +87,7 @@ namespace DeportnetOffline
             int alturaTabla = dataGridView1.ClientSize.Height;
             int tamanioHeader = dataGridView1.ColumnHeadersHeight;
             int tamanioFila = dataGridView1.Rows[0].Height;
-            double resultado = (alturaTabla - tamanioHeader )/ tamanioFila;
+            double resultado = (alturaTabla - tamanioHeader) / tamanioFila;
             int filasTotales = (int)Math.Floor(resultado);
             return filasTotales;
         }

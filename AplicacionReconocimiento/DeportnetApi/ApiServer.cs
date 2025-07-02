@@ -30,7 +30,7 @@ namespace DeportNetReconocimiento.Api
         //    }
 
         //    return bd;
-            
+
         //}
 
         public void CargarBd()
@@ -40,9 +40,10 @@ namespace DeportNetReconocimiento.Api
             try
             {
 
-               _funcionesSincronizacionService.RecibirTodasLasTablasDx().Wait();
-                
-            }catch(Exception ex)
+                _funcionesSincronizacionService.RecibirTodasLasTablasDx().Wait();
+
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine("Error al intentar sincronizar todo");
             }
@@ -64,7 +65,7 @@ namespace DeportNetReconocimiento.Api
                         services.AddDbContext<BdContext>(options =>
                         {
                             BdContext.InicializarBd();
-                            
+
                             string rutaDb = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "DeportnetReconocimiento", "dbDx.sqlite");
                             var connection = new SqliteConnection($"Data Source={rutaDb}");
                             connection.Open();
@@ -96,7 +97,7 @@ namespace DeportNetReconocimiento.Api
                         services.AddScoped<ISincronizarAccesoService, AccesoService>();
                         services.AddScoped<IFuncionesSincronizacionService, SincronizacionService>();
                         services.AddScoped<IDeportnetReconocimientoService, ReconocimientoService>();
-                        
+
 
                         // Configurar CORS
                         services.AddCors(options =>
@@ -152,6 +153,6 @@ namespace DeportNetReconocimiento.Api
             host?.StopAsync().Wait();
             Console.WriteLine("Servidor API detenido.");
         }
-       
+
     }
 }

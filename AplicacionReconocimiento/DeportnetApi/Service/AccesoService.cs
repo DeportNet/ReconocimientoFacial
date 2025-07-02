@@ -15,7 +15,7 @@ namespace DeportNetReconocimiento.Api.Services
         private string? idSucursal;
         private IAccesoMapper _accesoMapper;
 
-        public AccesoService(BdContext bdContext, IAccesoMapper accesoMapper) 
+        public AccesoService(BdContext bdContext, IAccesoMapper accesoMapper)
         {
             _accesoMapper = accesoMapper;
             idSucursal = CredencialesUtils.LeerCredencialEspecifica(4);
@@ -65,14 +65,14 @@ namespace DeportNetReconocimiento.Api.Services
                 //Completar datos del lote 
                 Acceso? ultimoLote = await bdContext.Accesos.OrderByDescending(a => a.Id).FirstOrDefaultAsync();
 
-                if(ultimoLote == null)
+                if (ultimoLote == null)
                 {
                     Console.WriteLine("No se pudo obtener el ultimo lote a la hora de enviar el lote de acceso: Lote " + ultimoLote);
                     return;
                 }
 
-                    ultimoLote.ProcessId = ultimoLote.Id;
-                    await bdContext.Accesos.AddAsync(ultimoLote);
+                ultimoLote.ProcessId = ultimoLote.Id;
+                await bdContext.Accesos.AddAsync(ultimoLote);
 
                 //Llamado al post de enviar lote 
                 string json = await WebServicesDeportnet.EnviarLoteDeAccesos(_accesoMapper.AccesoToAccesoDtoDx(ultimoLote).ToString());
@@ -121,19 +121,19 @@ namespace DeportNetReconocimiento.Api.Services
             using var context = BdContext.CrearContexto();
 
             //Agarrar todos los registros del lote y eliminarlos 
-            if(lote.MemberAccess != null)
-            {    
+            if (lote.MemberAccess != null)
+            {
                 context.AccesosSocios.RemoveRange(lote.MemberAccess);
-                await context.SaveChangesAsync();   
+                await context.SaveChangesAsync();
             }
         }
 
         private void ManejarSincronizacionErronea(RespuestaSincroLoteAccesosDtoDx respuestaSincro, Acceso lote)
         {
             Console.WriteLine("Manejo el error de sincronización erronea - Acceso service " + respuestaSincro.ErrorMessage);
-            
+
             //Ver que registros son correctos y cuales no 
-                //Los que no son correctos procesarlos
+            //Los que no son correctos procesarlos
         }
 
         private async void ManejarSincronizacionSinRespuesta(Acceso lote)
@@ -143,15 +143,15 @@ namespace DeportNetReconocimiento.Api.Services
             string respuesta = await WebServicesDeportnet.VerificarEstadoLoteAcceso(json);
             VerificarEstadoLoteDtoDxResponse estado = JsonConvert.DeserializeObject<VerificarEstadoLoteDtoDxResponse>(respuesta);
 
-            if(estado.Result == null)
+            if (estado.Result == null)
             {
-               await EnviarLoteDeAccesos();
+                await EnviarLoteDeAccesos();
             }
 
-            if(estado.Result == "T")
+            if (estado.Result == "T")
             {
             }
-            
+
 
             Console.WriteLine("La respuesta de la sincronziación  es null");
             //Hacer petición para verificar si el lote está actualizado en DX

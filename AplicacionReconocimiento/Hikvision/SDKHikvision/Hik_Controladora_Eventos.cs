@@ -4,6 +4,8 @@ using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.Hikvision.Modelo;
 using DeportNetReconocimiento.Utils;
+using Serilog;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using static DeportNetReconocimiento.Hikvision.SDKHikvision.Hik_SDK;
@@ -14,27 +16,13 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
     public class Hik_Controladora_Eventos
     {
         //Defino el delegado ( A quien el voy a pasar el evento cuando lo reciba)
-        private static Hik_Controladora_Eventos? instanciaControladoraEventos;
+        private static Hik_Controladora_Eventos? instancia;
 
         private MSGCallBack msgCallback;
 
-        public static bool libre = true;
-
-        //public int GetAcsEventHandle = -1;
-        //private string CsTemp = null;
-        //private int m_lLogNum = 0;
-
-
         private Hik_Controladora_Eventos()
         {
-            SetupAlarm();
-
-            msgCallback = new MSGCallBack(MsgCallback);
-
-            if (!NET_DVR_SetDVRMessageCallBack_V50(0, msgCallback, nint.Zero))
-            {
-                Console.WriteLine("Error al asociar callback");
-            }
+            InstanciarMsgCallback();
         }
 
 
@@ -42,19 +30,17 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
         {
             get
             {
-                if (instanciaControladoraEventos == null)
+                if (instancia == null)
                 {
-                    instanciaControladoraEventos = new Hik_Controladora_Eventos();
+                    instancia = new Hik_Controladora_Eventos();
                 }
-                return instanciaControladoraEventos;
+                return instancia;
             }
         }
 
 
-        public void ReinstanciarMsgCallback()
+        public void InstanciarMsgCallback()
         {
-            Console.WriteLine("Reinstanciamos msgCallback");
-
 
             SetupAlarm();
 
@@ -62,7 +48,11 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
 
             if (!NET_DVR_SetDVRMessageCallBack_V50(0, msgCallback, nint.Zero))
             {
-                Console.WriteLine("Error al asociar callback");
+                Log.Error("Error al asociar callback");
+            }
+            else
+            {
+                Log.Information("Se instancia el Callback");
             }
         }
 
@@ -73,15 +63,16 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
             //validamos si hay espera luego de un alta
             if (ReconocimientoService.EstaEsperandoLuegoDeUnAlta)
             {
-                Console.WriteLine("Esperando cierto tiempo luego de un alta");
+                Log.Warning("Se recibio un evento de acceso, pero se esta esperando cierto tiempo luego de un alta.");
                 return;
             }
 
 
-            //si esta clase esta instanciada
+
+            //si esta clase no esta instanciada
             if (this == null)
             {
-                Console.WriteLine("Clase Hik_Controladora_Eventos no instanciada. La instancio de nuevo");
+                Log.Information("Clase Hik_Controladora_Eventos no instanciada. La instancio de nuevo");
                 Hik_Controladora_Eventos instancia = InstanciaControladoraEventos;
                 return;
             }
@@ -89,7 +80,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
 
             switch (lCommand)
             {
-                case COMM_ALARM_ACS:
+                case Hik_SDK.COMM_ALARM_ACS:
                     infoEvento = AlarmInfoToEvent(ref pAlarmer, pAlarmInfo, dwBufLen, pUser);
                     break;
                 default:
@@ -98,75 +89,118 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
                     break;
             }
 
-            DateTime? tiempoDisp = Hik_Controladora_General.InstanciaControladoraGeneral.ObtenerTiempoDispositivo();
+            ProcesarNuevoEvento(infoEvento);
 
-            if (!tiempoDisp.HasValue)
+        }
+
+
+        private static void ProcesarNuevoEvento(Evento infoEvento)
+        {
+
+
+            if (EsTiempoValido(infoEvento))
             {
-                Console.WriteLine("Tiempo del disp null");
-            }
 
-            DateTime tiempoActual = DateTime.Now.AddSeconds(-10);
+                EscribirEventos(infoEvento);
 
-            Console.WriteLine("Tiempo del dispositivo: " + tiempoDisp + "Tiempo Actual: " + tiempoActual + ". Tiempo del evento: " + infoEvento.Time);
-
-            //si el evento es exitoso y el tiempo del evento es mayorIgual a la hora actual
-
-            if (infoEvento.Success && infoEvento.Time >= tiempoActual)
-            {
-                Console.WriteLine("Evento Hikvision: \n" +
-                infoEvento.Time.ToString() + " " + infoEvento.Minor_Type_Description +
-                " Tarjeta: " + infoEvento.Card_Number +
-                " Puerta: " + infoEvento.Door_Number);
-
-                if (infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS)
+                if (EsEventoFacialValido(infoEvento))
                 {
-                    //Si no tenemos conexion a internet, hay que guardar el evento en la base de datos
-                    if (!WFPrincipal.ObtenerInstancia.ConexionInternet)
+                    //validamos si el dispositivo no esta libre
+                    if (!DispositivoEnUsoUtils.EstaLibre())
                     {
-                        Console.WriteLine("Guardo al cliente en bd y no dx");
-                        //int.TryParse(infoEvento.Card_Number, out int nroTarjeta);
+                        Log.Warning($"Se recibio un evento de acceso, pero el dispositivo no esta libre. No se procesara el evento. El socio con nro: {infoEvento.Card_Number} no se va a procesar.");
+                        return;
+                    }
 
 
+                    DispositivoEnUsoUtils.Ocupar("Procesar evento Facial"); // Ocupa el dispositivo para evitar que se procese otro evento mientras se procesa este
+
+                    if (DobleVerificacionInternet())
+                    {
+                        ObtenerDatosClienteDeportnet(infoEvento.Card_Number);
                     }
                     else
                     {
-                        ObtenerDatosClienteDeportNet(infoEvento.Card_Number);
+                        MostrarErrorSinInternet();
                     }
                 }
+                else
+                {
+                    EsEventoValidoParaDesocupar(infoEvento);
+                }
+
             }
             else
             {
-
+                //si el error no esta vacio o null, lo loggeamos
                 if (!string.IsNullOrEmpty(infoEvento.Exception))
                 {
-                    Console.WriteLine("Excepcion evento hikvision: " + infoEvento.Exception);
+                    Log.Error($"Excepción evento Hikvision: {infoEvento.Exception}");
                 }
+            }
+        }
 
+        private static void EsEventoValidoParaDesocupar(Evento infoEvento)
+        {
+
+            if (infoEvento == null)
+            {
+                return;
+            }
+
+            if (infoEvento.Minor_Type == MINOR_REMOTE_ARM || infoEvento.Minor_Type == MINOR_REMOTE_LOGIN)
+            {
+                DispositivoEnUsoUtils.Desocupar();
             }
 
         }
 
-        //todo verificar si es necesario el nroReader realmente
-        public static async void ObtenerDatosClienteDeportNet(string numeroTarjeta)
+        private static bool EsTiempoValido(Evento infoEvento)
         {
+            DateTime tiempoActual = DateTime.Now.AddSeconds(-10);
+            return infoEvento.Success && infoEvento.Time >= tiempoActual;
+        }
 
-
-
-            if (!libre)
+        private static void EscribirEventos(Evento infoEvento)
+        {
+            if (infoEvento.Minor_Type != MINOR_LOCK_CLOSE && infoEvento.Minor_Type != MINOR_LOCK_OPEN)
             {
-                Console.WriteLine("Se está procesando un evento, dispositivo no esta libre.");
-                return;
+                Log.Information($"Evento Hikvision:  {infoEvento.Time.ToString()}  Tipo: {infoEvento.Minor_Type_Description} Tarjeta: {infoEvento.Card_Number} Puerta: {infoEvento.Device_IP_Address}");
             }
+        }
+
+        private static bool EsEventoFacialValido(Evento infoEvento)
+        {
+            return infoEvento.Card_Number != null && infoEvento.Minor_Type == MINOR_FACE_VERIFY_PASS;
+        }
+
+
+        private static bool DobleVerificacionInternet()
+        {
+            if (WFPrincipal.ObtenerInstancia.ConexionInternet)
+                return true;
+
+            if (VerificarConexionInternetUtils.Instancia.ComprobarConexionInternet())
+                return true;
+
+            return false;
+        }
+
+        private static void MostrarErrorSinInternet()
+        {
+            WFPrincipal.ObtenerInstancia.ActualizarTextoHeaderLabel("No hay conexion a internet, revise la conexion y reintente el acceso.", Color.Red);
+            Log.Error("No hay conexión a internet y el dispositivo reconoció a un socio. Se mostro el mensaje 'No hay conexion a internet, revise la conexion y reintente el acceso.'");
+        }
+
+
+        public static async void ObtenerDatosClienteDeportnet(string numeroTarjeta)
+        {
 
             if (string.IsNullOrWhiteSpace(numeroTarjeta))
             {
-                Console.WriteLine("El evento no tiene numero de tarjeta.");
+                Log.Error("El evento no tiene numero de tarjeta (es null o vacio) en ObtenerDatosClienteDeportNet.");
                 return;
             }
-
-
-            libre = false;
-
 
             Credenciales? credenciales = CredencialesUtils.LeerCredencialesBd();
 
@@ -186,81 +220,107 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
 
             string? nroEmpleado = credenciales.CurrentCompanyMemberId;
 
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             /*Logica para conectar con deportNet y traer todos los datos del cliente que le mandamos con el numero de tarjeta*/
             string response = await WebServicesDeportnet.ControlDeAcceso(numeroTarjeta, idSucursal, null, nroEmpleado, ConfiguracionGeneralUtils.ObtenerLectorActual());
 
-            ProcesarRespuestaAcceso(response, numeroTarjeta, idSucursal);
+            stopwatch.Stop();
 
-            libre = true;
+            Log.Information($"Se pidieron los datos del socio {numeroTarjeta} a dx y tardó {stopwatch.ElapsedMilliseconds}ms");
+
+            ProcesarRespuestaAcceso(response, numeroTarjeta, idSucursal);
 
         }
 
         public static void ProcesarRespuestaAcceso(string response, string nroTarjeta, string idSucursal)
         {
-
-            using JsonDocument doc = JsonDocument.Parse(response);
-            JsonElement root = doc.RootElement;
-
-            //Busco la propiedad branchAcces y digo que el elemento  es de tipo arreglo
-            if (root.TryGetProperty("branchAccess", out JsonElement branchAccess) && branchAccess.ValueKind == JsonValueKind.Array)
+            Stopwatch stopwatch = new Stopwatch();
+            try
             {
-                ValidarAccesoResponse jsonDeportnet = new ValidarAccesoResponse();
-
-                jsonDeportnet.IdCliente = nroTarjeta;
-                jsonDeportnet.IdSucursal = idSucursal;
-
-                if (branchAccess[1].ToString() == "U")
+                stopwatch.Start();
+                if (string.IsNullOrWhiteSpace(response))
                 {
-
-                    jsonDeportnet.MensajeCrudo = branchAccess[0].ToString();
-                    jsonDeportnet.Estado = "U";
-
-                    //return;
+                    Log.Error("Respuesta nula o vacia de deportnet. No se pudo procesar la respuesta.");
+                    return;
                 }
 
+                using JsonDocument doc = JsonDocument.Parse(response);
+                JsonElement root = doc.RootElement;
 
-                //verificamos el estado del acceso, si es pregunta
-                if (branchAccess[1].ToString() == "Q")
+
+                //Busco la propiedad branchAcces y digo que el elemento  es de tipo arreglo
+                if (root.TryGetProperty("branchAccess", out JsonElement branchAccess) && branchAccess.ValueKind == JsonValueKind.Array)
                 {
-                    jsonDeportnet.MensajeCrudo = branchAccess[0].ToString();
-                    jsonDeportnet.Estado = "Q";
+                    ValidarAccesoResponse jsonDeportnet = new ValidarAccesoResponse();
 
-                }
+                    jsonDeportnet.IdCliente = nroTarjeta;
+                    jsonDeportnet.IdSucursal = idSucursal;
 
-                //Verificamos el jsonObject en la pos 2 que serian los datos del cliente
-                if (branchAccess[2].ValueKind != JsonValueKind.Null)
-                {
-
-                    //jsonDeportnet.Id = branchAccess[2].GetProperty("id").ToString();
-                    jsonDeportnet.Nombre = branchAccess[2].GetProperty("firstName").ToString();
-                    jsonDeportnet.Apellido = branchAccess[2].GetProperty("lastName").ToString();
-                    jsonDeportnet.NombreCompleto = branchAccess[2].GetProperty("name").ToString();
-                    jsonDeportnet.MensajeCrudo = branchAccess[2].GetProperty("accessStatus").ToString();
-                    jsonDeportnet.Mostrarcumpleanios = branchAccess[2].GetProperty("showBirthday").ToString();
-
-                    jsonDeportnet.Estado = branchAccess[2].GetProperty("status").ToString();
-
-                    if (jsonDeportnet.Estado == "T")
+                    if (branchAccess[1].ToString() == "U")
                     {
-                        jsonDeportnet.MensajeAcceso = branchAccess[2].GetProperty("accessOk").ToString();
-                    }
-                    else if (jsonDeportnet.Estado == "F")
-                    {
-                        jsonDeportnet.MensajeAcceso = branchAccess[2].GetProperty("accessError").ToString();
+
+                        jsonDeportnet.MensajeCrudo = branchAccess[0].ToString();
+                        jsonDeportnet.Estado = "U";
+
                     }
 
 
-                }
+                    //verificamos el estado del acceso, si es pregunta
+                    if (branchAccess[1].ToString() == "Q")
+                    {
+                        jsonDeportnet.MensajeCrudo = branchAccess[0].ToString();
+                        jsonDeportnet.Estado = "Q";
+                    }
 
-                WFPrincipal.ObtenerInstancia.ActualizarDatos(jsonDeportnet);
+                    //Verificamos el jsonObject en la pos 2 que serian los datos del cliente
+                    if (branchAccess[2].ValueKind != JsonValueKind.Null)
+                    {
+
+                        //jsonDeportnet.Id = branchAccess[2].GetProperty("id").ToString();
+                        jsonDeportnet.Nombre = branchAccess[2].GetProperty("firstName").ToString();
+                        jsonDeportnet.Apellido = branchAccess[2].GetProperty("lastName").ToString();
+                        jsonDeportnet.NombreCompleto = branchAccess[2].GetProperty("name").ToString();
+                        jsonDeportnet.MensajeCrudo = branchAccess[2].GetProperty("accessStatus").ToString();
+                        jsonDeportnet.Mostrarcumpleanios = branchAccess[2].GetProperty("showBirthday").ToString();
+
+                        jsonDeportnet.Estado = branchAccess[2].GetProperty("status").ToString();
+
+                        if (jsonDeportnet.Estado == "T")
+                        {
+                            jsonDeportnet.MensajeAcceso = branchAccess[2].GetProperty("accessOk").ToString();
+                        }
+                        else if (jsonDeportnet.Estado == "F")
+                        {
+                            jsonDeportnet.MensajeAcceso = branchAccess[2].GetProperty("accessError").ToString();
+                        }
+
+                    }
+
+                    WFPrincipal.ObtenerInstancia.ActualizarDatos(jsonDeportnet);
+                    stopwatch.Stop();
+
+                    Console.WriteLine($"Todo el analisis de la respuesta tardo {stopwatch.ElapsedMilliseconds}");
+
+                }
+                else
+                {
+                    Log.Error("No esta la propiedad branch access en ProcesarRespuestaAcceso.");
+                }
             }
-            else
+            catch (JsonException ex)
             {
-                Console.WriteLine("No está la propiedad branch access.");
+                Log.Error($"Error al parsear JSON en ProcesarRespuestaAcceso: {ex.Message}");
+                // Podés loggear a un archivo o base de datos para seguimiento
             }
+            catch (Exception ex)
+            {
+                Log.Error($"Error inesperado en ProcesarRespuestaAcceso: {ex.Message}");
+            }
+
+
         }
-
-
 
         public void SetupAlarm()
         {
@@ -270,7 +330,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
             struSetupAlarmParam.byAlarmInfoType = 1;
             struSetupAlarmParam.byDeployType = 0;
 
-            NET_DVR_SetupAlarmChan_V41(Hik_Controladora_General.InstanciaControladoraGeneral.IdUsuario, ref struSetupAlarmParam);
+            Hik_SDK.NET_DVR_SetupAlarmChan_V41(Hik_Controladora_General.Instancia.IdUsuario, ref struSetupAlarmParam);
         }
 
         private Evento AlarmInfoToEvent(ref NET_DVR_ALARMER pAlarmer, nint pAlarmInfo, uint dwBufLen, nint pUser)
@@ -316,8 +376,6 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
                         EventInfo.Major_Type_Description = "ERROR";
                         break;
                 }
-
-
 
 
                 string szInfo = new string(csTmp).TrimEnd('\0');

@@ -26,11 +26,12 @@ namespace DeportNetReconocimiento.Api.Services
         const string urlBajaMasivaClienteTest = "https://testing.deportnet.com/facialAccess/massiveMembersDelete";
         const string urlObtenerVerificacionEstadoLoteTest = "https://testing.deportnet.com/offlineAccess/offlineGetMembersAccessResult";
         const string urlEnviarNuevosSociosTest = "https://testing.deportnet.com/offlineAccess/offlineSetMembers";
-        
+
         /*Produccion*/
         const string urlEntradaCliente = "https://deportnet.com/facialAccess/facialAccessCheckUserEnter";
         const string urlBajaCliente = "https://deportnet.com/facialAccess/facialAccessDeleteResult";
         const string urlAltaCliente = "https://deportnet.com/facialAccess/facialAccessLectureResult";
+
 
         public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal, string? rtaManual = null, string? idEmpleado = null, string? lector = null)
         {
@@ -55,7 +56,6 @@ namespace DeportNetReconocimiento.Api.Services
             }
 
             string json = JsonSerializer.Serialize(data);
-            Console.WriteLine("JSON serializado a enviar:\n" + json);
 
             return await FetchInformacion(json, urlEntradaClienteTest, HttpMethod.Post);
         }
@@ -76,7 +76,7 @@ namespace DeportNetReconocimiento.Api.Services
             {
                 activeBranchId = idSucursal
             };
-          
+
             return await FetchInformacion(JsonSerializer.Serialize(data), urlObtenerEmpleadosTest, HttpMethod.Post);
         }
 
@@ -139,7 +139,8 @@ namespace DeportNetReconocimiento.Api.Services
                 data.lectorNumber = lectorNumber;
             }
 
-            if (maxToDelete != null) { 
+            if (maxToDelete != null)
+            {
                 data.maxToDelete = maxToDelete;
             }
 
@@ -157,13 +158,13 @@ namespace DeportNetReconocimiento.Api.Services
             object dataEnviar = new { };
 
             dataEnviar = new { memberId = 1, activeBranchId = idSucursal };
-            
-            
+
+
             using HttpClient client = new HttpClient();
 
             // Configurar el header HTTP_X_SIGNATURE con el valor "1234"
             client.DefaultRequestHeaders.Add("X-Signature", tokenSucursal);
-            
+
             //creamos el contenido
             var contenido = new StringContent(JsonSerializer.Serialize(dataEnviar), Encoding.UTF8, "application/json");
 
@@ -176,12 +177,12 @@ namespace DeportNetReconocimiento.Api.Services
 
                 resultado = await VerificarResponseDeportnet(response);
 
-                
+
             }
             catch (HttpRequestException e)
             {
                 resultado.ActualizarResultado(false, $"Error de conexión: No se pudo conectar al servidor. Detalles: {e.Message}", "500");
-                
+
             }
             catch (Exception e)
             {
@@ -215,6 +216,7 @@ namespace DeportNetReconocimiento.Api.Services
             }
             return resultado;
         }
+
 
         //Errores específicos de Deportnet
         private static Hik_Resultado CapturarErroresDeportnet(string dataRecibida)
@@ -282,7 +284,7 @@ namespace DeportNetReconocimiento.Api.Services
                     resultado.ActualizarResultado(false, "El token de la sucursal proporcionado es invalido, no coincide con el de la sucursal.", "507");
                     break;
                 default:
-                    resultado.ActualizarResultado(false, $"Error inesperado: "+ dataRecibida, "Inesperado.");
+                    resultado.ActualizarResultado(false, $"Error inesperado: " + dataRecibida, "Inesperado.");
                     break;
             }
 
@@ -300,8 +302,8 @@ namespace DeportNetReconocimiento.Api.Services
             };
 
             string token = CredencialesUtils.LeerCredencialesBd().BranchToken;//CredencialesUtils.LeerCredencialEspecifica(5); //"H7gVA3r89jvaMuDd";
-            
-          
+
+
             if (string.IsNullOrWhiteSpace(token))
             {
                 Console.WriteLine("ERROR: No se encontró el token de la sucursal");
@@ -310,7 +312,7 @@ namespace DeportNetReconocimiento.Api.Services
 
             // Configurar el header HTTP_X_SIGNATURE
             client.DefaultRequestHeaders.Add("X-Signature", token);
-            
+
             //creamos el contenido
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -323,7 +325,7 @@ namespace DeportNetReconocimiento.Api.Services
                 switch (metodo.Method)
                 {
                     case "POST":
-                        
+
                         response = await client.PostAsync(url, content);
                         break;
                     case "DELETE":
@@ -341,13 +343,13 @@ namespace DeportNetReconocimiento.Api.Services
 
 
                 resultado = await VerificarResponseDeportnet(response);
-                
+
 
 
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error al hacer fetch de informacion: "+ex.Message);
+                Console.WriteLine("Error al hacer fetch de informacion: " + ex.Message);
 
             }
 

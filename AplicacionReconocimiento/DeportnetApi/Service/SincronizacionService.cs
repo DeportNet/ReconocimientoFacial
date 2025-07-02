@@ -128,15 +128,15 @@ namespace DeportNetReconocimiento.Api.Services
         //    await _socioService.EnviarNuevosSocios();
 
 
-            //1. Enviar los empleados
-            //await _empleadoService.EnviarEmpleados();
+        //1. Enviar los empleados
+        //await _empleadoService.EnviarEmpleados();
 
-            ////2. Enviar los concepts
-            //await _conceptService.EnviarConcepts();
+        ////2. Enviar los concepts
+        //await _conceptService.EnviarConcepts();
 
 
-            ////4. Enviar configuracion de acceso
-            //await _configuracionAccesoService.EnviarConfiguracionDeAcceso();
+        ////4. Enviar configuracion de acceso
+        //await _configuracionAccesoService.EnviarConfiguracionDeAcceso();
 
         //}
 

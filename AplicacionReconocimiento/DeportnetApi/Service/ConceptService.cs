@@ -176,7 +176,7 @@ namespace DeportNetReconocimiento.Api.Services
         {
             using var transaction = await _bdContext.Database.BeginTransactionAsync(); // Iniciar transacción
             try
-            {   
+            {
                 await VerificarCambiosEnTablaMembresias(listadoMembresias);
 
                 //Guardamos los cambios

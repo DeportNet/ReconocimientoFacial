@@ -80,15 +80,15 @@ namespace DeportNetReconocimiento
         private void WFRgistrarDispositivo_Load(object sender, EventArgs e)
         {
             VerificarTipoDeApertura();
-            if(tipoApertura != 0)
+            if (tipoApertura != 0)
             {
                 Credenciales? credenciales = CredencialesUtils.LeerCredencialesBd();
 
-                if(credenciales != null)
+                if (credenciales != null)
                 {
                     AgregarValoresAInputs(credenciales);
                     ignorarCerrarPrograma = true;
-                    
+
                 }
             }
         }
@@ -183,8 +183,8 @@ namespace DeportNetReconocimiento
 
         private async void BtnAdd_Click(object sender, EventArgs e)
         {
-            
-            
+
+
             if (!ValidarInputs() || loading.Visible || seClickeoBotonLogin)
             {
                 return;
@@ -192,7 +192,7 @@ namespace DeportNetReconocimiento
             seClickeoBotonLogin = true;
 
 
-            Hik_Resultado resultadoLogin = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(textBoxUserName.Text, textBoxPassword.Text, textBoxPort.Text, textBoxDeviceAddress.Text);
+            Hik_Resultado resultadoLogin = Hik_Controladora_General.Instancia.InicializarPrograma(textBoxUserName.Text, textBoxPassword.Text, textBoxPort.Text, textBoxDeviceAddress.Text);
 
             if (!resultadoLogin.Exito)
             {
@@ -219,9 +219,12 @@ namespace DeportNetReconocimiento
             //Escribe las credenciales en la base de datos
 
             credenciales = CrearCredencialesDesdeTextbox();
-
             CredencialesUtils.EscribirCredencialesBd(credenciales);
+            WFPrincipal.ObtenerInstancia.ReactivarTimer();
 
+
+            //Creador de credenciales manual
+            //CredencialesUtils.EscribirArchivoCredenciales(["192.168.0.203", "8000", "admin", "facu", "321", "laskjdhf"]);
 
             ignorarCerrarPrograma = true;
             seClickeoBotonLogin = false;
@@ -273,7 +276,7 @@ namespace DeportNetReconocimiento
                 }
             }
 
-            if(tipoApertura == 1)
+            if (tipoApertura == 1)
             {
                 var result = MessageBox.Show("Cerrar la aplicación para volver a inicializar la conexión",
                                             "Confirmación",
@@ -355,11 +358,12 @@ namespace DeportNetReconocimiento
             {
                 return;
             }
+            loading = new Loading();
             loading.Show();
 
             Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text));
 
-            loading.Hide();
+            loading.Close();
 
 
             if (!resultadoLogin.Exito)

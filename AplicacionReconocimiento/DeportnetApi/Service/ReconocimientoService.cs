@@ -3,22 +3,23 @@ using DeportNetReconocimiento.Api.Data.Dtos.Response;
 using DeportNetReconocimiento.Api.Services.Interfaces;
 using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using DeportNetReconocimiento.Utils;
+using Serilog;
 
 namespace DeportNetReconocimiento.Api.Services
 {
     public class ReconocimientoService : IDeportnetReconocimientoService
     {
         private static Hik_Controladora_General hik_Controladora;
-    
+
         private static int? idSucursal;
-        
+
         public static bool EnUso { get; set; }
 
         public ReconocimientoService()
         {
             EnUso = false;
             idSucursal = null;
-            hik_Controladora = Hik_Controladora_General.InstanciaControladoraGeneral;
+            hik_Controladora = Hik_Controladora_General.Instancia;
 
             int.TryParse(CredencialesUtils.LeerCredencialEspecifica(4), out int idSucursalOut);
             idSucursal = idSucursalOut;
@@ -75,7 +76,7 @@ namespace DeportNetReconocimiento.Api.Services
                 return "F";
             }
 
-            
+
             if (EnUso)
             {
                 Console.WriteLine("El dispositivo esta en uso en AltaFacial");
@@ -94,7 +95,7 @@ namespace DeportNetReconocimiento.Api.Services
             EnUso = true;
             //asincronico no se espera
             _ = AltaClienteDeportnet(clienteRequest);
-           
+
             return "T";
         }
         public string ValidarValores(BajaFacialClienteRequest clienteRequest)
@@ -121,7 +122,7 @@ namespace DeportNetReconocimiento.Api.Services
                                     new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                     clienteRequest.IdCliente.ToString(),
                                     "El idUsuario del dispositivo de reconocimiento facial es -1. El dispositivo no esta conectado.",
-                                    "F", 
+                                    "F",
                                     lector: ConfiguracionGeneralUtils.ObtenerLectorActual()),
                                    true
                                 );
@@ -164,11 +165,11 @@ namespace DeportNetReconocimiento.Api.Services
         }
 
 
-        public string AltaFacialCliente(AltaFacialClienteRequest clienteRequest) 
+        public string AltaFacialCliente(AltaFacialClienteRequest clienteRequest)
         {
             string resultado = ValidarValores(clienteRequest);
 
-            if(resultado == "T")
+            if (resultado == "T")
             {
                 //asincronico no se espera
                 _ = AltaClienteDeportnet(clienteRequest);
@@ -192,25 +193,47 @@ namespace DeportNetReconocimiento.Api.Services
 
         public async Task AltaClienteDeportnet(AltaFacialClienteRequest altaFacialClienteRequest)
         {
-            EnUso = true;
-            Hik_Resultado resAlta = hik_Controladora.AltaCliente(altaFacialClienteRequest.IdCliente.ToString(), altaFacialClienteRequest.NombreCliente);
+            //verificar conexion con el dispositivo
+
+            bool conexionConDisp = Hik_Controladora_General.Instancia.VerificarEstadoDispositivo();
+
+            if (!conexionConDisp)
+            {
+                Log.Error("Se intento hacer un alta facial pero no se pudo conectar con el dispositivo. Verifique que este conectado y que las credenciales sean correctas.");
+                return;
+            }
+
+            Hik_Resultado resAlta = Hik_Controladora_General.Instancia.AltaCliente(altaFacialClienteRequest.IdCliente.ToString(), altaFacialClienteRequest.NombreCliente);
 
             //si no hubo exito
             if (!resAlta.Exito)
             {
                 MensajeDeErrorAltaBajaCliente(
-                    new RespuestaAltaBajaCliente(altaFacialClienteRequest.IdSucursal.ToString(),
-                    altaFacialClienteRequest.IdCliente.ToString(),
-                    resAlta.Mensaje,
-                    "F",
-                    lector: ConfiguracionGeneralUtils.ObtenerLectorActual()),
-                    true
+                   new RespuestaAltaBajaCliente(altaFacialClienteRequest.IdSucursal.ToString(),
+                   altaFacialClienteRequest.IdCliente.ToString(),
+                   resAlta.Mensaje,
+                   "F",
+                   ConfiguracionGeneralUtils.ObtenerLectorActual()
+                   ),
+                   true
                 );
 
-                Console.WriteLine("Hubo un Error en alta facial: " + resAlta.Mensaje);
-                DispositivoEnUsoUtils.Liberar();
+                Log.Error("Hubo un Error en alta facial: " + resAlta.Mensaje);
+                DispositivoEnUsoUtils.Desocupar();
 
                 return;
+            }
+            //  Envio la foto del socio si esta la config activa
+
+            ConfiguracionEstilos configuracionEstilos = ConfiguracionEstilos.LeerJsonConfiguracion();
+            string? imagenSocioBase64 = null;
+
+            if (configuracionEstilos.EnviarFotoSocioADx)
+            {
+                imagenSocioBase64 = BuscarImagenSocioUtils.BuscarImagenSocio(
+                    altaFacialClienteRequest.NombreCliente,
+                    altaFacialClienteRequest.IdCliente.ToString()
+                    );
             }
 
             //si hubo exito
@@ -219,30 +242,30 @@ namespace DeportNetReconocimiento.Api.Services
                 altaFacialClienteRequest.IdCliente.ToString(),
                 "Alta facial cliente exitosa",
                 "T",
-                ConfiguracionGeneralUtils.ObtenerLectorActual()
+                imagenSocioBase64
             );
 
             string mensaje = await WebServicesDeportnet.AltaFacialClienteDeportnet(respuestaAlta);
 
-                
-            Console.WriteLine("Se ha dado de alta el cliente facial con id: " + altaFacialClienteRequest.IdCliente + " y nombre: " + altaFacialClienteRequest.NombreCliente);
+            Log.Information("Se ha dado de alta el cliente facial con id: " + altaFacialClienteRequest.IdCliente + " y nombre: " + altaFacialClienteRequest.NombreCliente);
+
             IniciarTiempoEspera();
-            
-            
-            EnUso = false;
-            DispositivoEnUsoUtils.Liberar();
+
+            DispositivoEnUsoUtils.Desocupar();
         }
+
+
 
         public string BajaFacialCliente(BajaFacialClienteRequest clienteRequest)
         {
 
             string resultado = ValidarValores(clienteRequest);
 
-            if(resultado == "T")
+            if (resultado == "T")
             {
                 //asincronico no se espera
                 _ = BajaClienteDeportnet(clienteRequest);
-                 return resultado;
+                return resultado;
             }
 
             if (hik_Controladora.IdUsuario == -1)
@@ -270,7 +293,7 @@ namespace DeportNetReconocimiento.Api.Services
                     false
                 );
 
-               
+
                 return "F";
             }
 
@@ -285,9 +308,9 @@ namespace DeportNetReconocimiento.Api.Services
                    false
                );
 
-             
+
                 return "F";
-               
+
             }
 
             //asincronico no se espera
@@ -313,6 +336,7 @@ namespace DeportNetReconocimiento.Api.Services
                     false
                 );
                 Console.WriteLine("Hubo un Error en Baja facial: " + resBaja.Mensaje);
+                DispositivoEnUsoUtils.Desocupar();
                 return;
 
             }
@@ -330,7 +354,7 @@ namespace DeportNetReconocimiento.Api.Services
                 Console.WriteLine("Se ha dado de baja el cliente facial con id: " + clienteRequest.IdCliente);
 
             }
-                EnUso = false;
+            EnUso = false;
         }
 
         private void MensajeDeErrorAltaBajaCliente(RespuestaAltaBajaCliente rta, bool isAlta)

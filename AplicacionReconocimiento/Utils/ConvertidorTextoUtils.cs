@@ -32,7 +32,7 @@ namespace DeportNetReconocimiento.Utils
             }
 
             string textoHTMLSimplificado = Regex.Replace(mensajeHTMLCrudo, "<.*?>", "\n");
-            
+
             return textoHTMLSimplificado;
 
         }

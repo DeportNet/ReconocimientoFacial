@@ -27,8 +27,7 @@ namespace DeportNetReconocimiento.GUI
             // Asignar el objeto de configuración al PropertyGrid (para que se vea lo que se puede configurar)
             propertyGrid1.SelectedObject = configuracion;
             ComboBoxAperturaMolinete.SelectedIndexChanged += ComboBoxAperturaMolinete_SelectedIndexChanged;
-
-
+            checkBox1.Checked = configuracionEstilos.BloquearIp;
         }
 
         private void ComboBoxAperturaMolinete_SelectedIndexChanged(object? sender, EventArgs e)
@@ -319,9 +318,10 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            configuracion.CambiarEstadoBloqueoIp();
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -343,7 +343,7 @@ namespace DeportNetReconocimiento.GUI
         private void button2_Click(object sender, EventArgs e)
         {
             WFDeportnetOffline wFDeportnetOffline = WFDeportnetOffline.ObtenerInstancia;
-            
+
             if (wFDeportnetOffline.Visible)
             {
                 wFDeportnetOffline.BringToFront();

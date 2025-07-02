@@ -2,7 +2,7 @@
 {
     public partial class Loading : Form
     {
-        
+
         public Loading()
         {
             InitializeComponent();
@@ -15,7 +15,7 @@
 
         private void Loading_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)

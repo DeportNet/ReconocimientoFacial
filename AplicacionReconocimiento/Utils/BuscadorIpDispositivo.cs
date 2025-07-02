@@ -1,4 +1,5 @@
-﻿using DeportNetReconocimiento.Hikvision.SDKHikvision;
+using DeportNetReconocimiento.Hikvision.SDKHikvision;
+using Serilog;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
@@ -7,9 +8,9 @@ namespace DeportNetReconocimiento.Utils
 {
     public class BuscadorIpDispositivo
     {
-        public static async Task<Hik_Resultado> ObtenerIpDispositivo(string port,string username, string password)
+        public static async Task<Hik_Resultado> ObtenerIpDispositivo(string port, string username, string password)
         {
-            
+
 
             Hik_Resultado resultadoLogin = new Hik_Resultado();
 
@@ -21,17 +22,16 @@ namespace DeportNetReconocimiento.Utils
                 //disminuimos el tiempo de ejecucion descartando las ips que no empiezan con esta secuencia
                 if (ip.StartsWith("192.168."))
                 {
-                    Console.WriteLine("Probando con ip: " + ip);
-
-                    resultadoLogin = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(username, password, port, ip);
+                    Log.Information($"Probando con ip: {ip}");
+                    resultadoLogin = Hik_Controladora_General.Instancia.InicializarPrograma(username, password, port, ip);
 
                     if (resultadoLogin.Exito)
                     {
-                        Console.WriteLine($"Dispositivo Hikvision encontrado en: {ip}");
+                        Log.Information($"Dispositivo Hikvision encontrado en: {ip}");
                         resultadoLogin.Mensaje = ip;
                         break; // Sale del bucle al encontrar el primer dispositivo
                     }
-                    
+
                 }
 
             }

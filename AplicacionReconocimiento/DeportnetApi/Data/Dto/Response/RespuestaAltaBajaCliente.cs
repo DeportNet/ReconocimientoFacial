@@ -23,12 +23,16 @@ namespace DeportNetReconocimiento.Api.Data.Dtos.Response
         [JsonPropertyName("lectorNumber")]
         public string LectorNumber { get; set; }
 
-        public RespuestaAltaBajaCliente(string idSucursal, string idCliente, string mensaje, string exito, string lector)
+        [JsonPropertyName("imageBase64")]
+        public string? ImagenBase64 { get; set; }
+
+        public RespuestaAltaBajaCliente(string idSucursal, string idCliente, string mensaje, string exito,string lector,string? imagenBase64 = null)
         {
             ActiveBranchId = idSucursal;
             MemberId = idCliente;
             IsSuccessful = exito;
             LectorNumber = lector;
+            ImagenBase64 = imagenBase64;
 
             switch (exito)
             {

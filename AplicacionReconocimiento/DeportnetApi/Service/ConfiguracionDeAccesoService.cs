@@ -19,7 +19,7 @@ namespace DeportNetReconocimiento.Api.Services
         public ConfiguracionDeAccesoService(BdContext bdContext, IConfigAccesoMapper configAccesoMapper)
         {
             _bdContext = bdContext;
-            _configAccesoMapper= configAccesoMapper;
+            _configAccesoMapper = configAccesoMapper;
             idSucursal = CredencialesUtils.LeerCredencialEspecifica(4);
         }
 

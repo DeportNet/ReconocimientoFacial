@@ -17,7 +17,7 @@ namespace DeportNetReconocimiento.GUI
 
         public HTMLMessageBox(ValidarAccesoResponse accesoResponse)
         {
-           
+
             InitializeComponent();
 
             this.AccesoResponse = accesoResponse;
