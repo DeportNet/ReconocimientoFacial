@@ -168,7 +168,7 @@ namespace DeportNetReconocimiento.GUI
             PanelSinConexion.Name = "PanelSinConexion";
             PanelSinConexion.Size = new Size(402, 36);
             PanelSinConexion.TabIndex = 29;
-            PanelSinConexion.Visible = false;
+            PanelSinConexion.Visible = true;
             // 
             // botonDeportnetOffline
             // 
@@ -184,7 +184,7 @@ namespace DeportNetReconocimiento.GUI
             botonDeportnetOffline.TabIndex = 34;
             botonDeportnetOffline.Text = "Modo offline";
             botonDeportnetOffline.UseVisualStyleBackColor = false;
-            botonDeportnetOffline.Visible = false;
+            botonDeportnetOffline.Visible = true;
             botonDeportnetOffline.Click += botonDeportnetOffline_Click;
             // 
             // textoSinCoenxion

@@ -32,14 +32,16 @@
             panel1 = new Panel();
             label1 = new Label();
             panel2 = new Panel();
-            labelCantPaginas = new Label();
-            botonAntPaginacion = new Button();
-            botonSgtPaginacion = new Button();
             dataGridView1 = new DataGridView();
+            panel3 = new Panel();
+            labelCantPaginas = new Label();
+            botonSgtPaginacion = new Button();
+            botonAntPaginacion = new Button();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            panel3.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -48,14 +50,16 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(panel1, 0, 0);
             tableLayoutPanel1.Controls.Add(panel2, 0, 1);
+            tableLayoutPanel1.Controls.Add(panel3, 0, 2);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Margin = new Padding(0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 2;
+            tableLayoutPanel1.RowCount = 3;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 120F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.Size = new Size(1106, 706);
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel1.Size = new Size(900, 500);
             tableLayoutPanel1.TabIndex = 1;
             // 
             // panel1
@@ -65,7 +69,7 @@
             panel1.Location = new Point(0, 0);
             panel1.Margin = new Padding(0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1106, 120);
+            panel1.Size = new Size(900, 120);
             panel1.TabIndex = 0;
             // 
             // label1
@@ -75,55 +79,21 @@
             label1.Location = new Point(0, 0);
             label1.Margin = new Padding(0);
             label1.Name = "label1";
-            label1.Size = new Size(1106, 120);
+            label1.Size = new Size(900, 120);
             label1.TabIndex = 0;
             label1.Text = "Cobros offline";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // panel2
             // 
-            panel2.Controls.Add(labelCantPaginas);
-            panel2.Controls.Add(botonAntPaginacion);
-            panel2.Controls.Add(botonSgtPaginacion);
             panel2.Controls.Add(dataGridView1);
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 120);
             panel2.Margin = new Padding(0);
+            panel2.MinimumSize = new Size(900, 340);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1106, 586);
+            panel2.Size = new Size(900, 340);
             panel2.TabIndex = 1;
-            // 
-            // labelCantPaginas
-            // 
-            labelCantPaginas.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            labelCantPaginas.AutoSize = true;
-            labelCantPaginas.Location = new Point(793, 524);
-            labelCantPaginas.Name = "labelCantPaginas";
-            labelCantPaginas.Size = new Size(37, 15);
-            labelCantPaginas.TabIndex = 9;
-            labelCantPaginas.Text = "------";
-            // 
-            // botonAntPaginacion
-            // 
-            botonAntPaginacion.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            botonAntPaginacion.Location = new Point(751, 520);
-            botonAntPaginacion.Name = "botonAntPaginacion";
-            botonAntPaginacion.Size = new Size(36, 23);
-            botonAntPaginacion.TabIndex = 8;
-            botonAntPaginacion.Text = "<--";
-            botonAntPaginacion.UseVisualStyleBackColor = true;
-            botonAntPaginacion.Click += botonAntPaginacion_Click;
-            // 
-            // botonSgtPaginacion
-            // 
-            botonSgtPaginacion.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            botonSgtPaginacion.Location = new Point(885, 520);
-            botonSgtPaginacion.Name = "botonSgtPaginacion";
-            botonSgtPaginacion.Size = new Size(38, 23);
-            botonSgtPaginacion.TabIndex = 7;
-            botonSgtPaginacion.Text = "-->";
-            botonSgtPaginacion.UseVisualStyleBackColor = true;
-            botonSgtPaginacion.Click += botonSgtPaginacion_Click;
             // 
             // dataGridView1
             // 
@@ -135,12 +105,58 @@
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(154, 3);
+            dataGridView1.Location = new Point(51, 3);
             dataGridView1.Margin = new Padding(0);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
-            dataGridView1.Size = new Size(831, 505);
+            dataGridView1.ScrollBars = ScrollBars.None;
+            dataGridView1.Size = new Size(791, 319);
             dataGridView1.TabIndex = 0;
+            dataGridView1.SizeChanged += dataGridView1_SizeChanged_1;
+            // 
+            // panel3
+            // 
+            panel3.Controls.Add(labelCantPaginas);
+            panel3.Controls.Add(botonSgtPaginacion);
+            panel3.Controls.Add(botonAntPaginacion);
+            panel3.Dock = DockStyle.Fill;
+            panel3.Location = new Point(0, 460);
+            panel3.Margin = new Padding(0);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(900, 40);
+            panel3.TabIndex = 2;
+            // 
+            // labelCantPaginas
+            // 
+            labelCantPaginas.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            labelCantPaginas.AutoSize = true;
+            labelCantPaginas.Location = new Point(712, 11);
+            labelCantPaginas.Name = "labelCantPaginas";
+            labelCantPaginas.Size = new Size(37, 15);
+            labelCantPaginas.TabIndex = 9;
+            labelCantPaginas.Text = "------";
+            // 
+            // botonSgtPaginacion
+            // 
+            botonSgtPaginacion.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            botonSgtPaginacion.Location = new Point(804, 7);
+            botonSgtPaginacion.Name = "botonSgtPaginacion";
+            botonSgtPaginacion.Size = new Size(38, 23);
+            botonSgtPaginacion.TabIndex = 7;
+            botonSgtPaginacion.Text = "-->";
+            botonSgtPaginacion.UseVisualStyleBackColor = true;
+            botonSgtPaginacion.Click += botonSgtPaginacion_Click;
+            // 
+            // botonAntPaginacion
+            // 
+            botonAntPaginacion.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            botonAntPaginacion.Location = new Point(670, 7);
+            botonAntPaginacion.Name = "botonAntPaginacion";
+            botonAntPaginacion.Size = new Size(36, 23);
+            botonAntPaginacion.TabIndex = 8;
+            botonAntPaginacion.Text = "<--";
+            botonAntPaginacion.UseVisualStyleBackColor = true;
+            botonAntPaginacion.Click += botonAntPaginacion_Click;
             // 
             // VistaCobros
             // 
@@ -150,12 +166,13 @@
             Controls.Add(tableLayoutPanel1);
             Margin = new Padding(0);
             Name = "VistaCobros";
-            Size = new Size(1106, 706);
+            Size = new Size(900, 500);
             tableLayoutPanel1.ResumeLayout(false);
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
-            panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -169,5 +186,6 @@
         private Label labelCantPaginas;
         private Button botonAntPaginacion;
         private Button botonSgtPaginacion;
+        private Panel panel3;
     }
 }

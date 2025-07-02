@@ -1,11 +1,8 @@
 ﻿using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Dtos.Dx.Socios;
 using DeportNetReconocimiento.Api.Data.Mapper.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DeportNetReconocimiento.DeportnetApi.Data.Dto.Dx.Socios.NuevosSocios;
+
 
 namespace DeportNetReconocimiento.Api.Data.Mapper
 {
@@ -35,5 +32,25 @@ namespace DeportNetReconocimiento.Api.Data.Mapper
         {
             return sociosDto.Select(SocioDtoDxToSocio).ToList();
         }
+
+        public NuevoSocio SocioToNuevoSocio(Socio socio)
+        {
+            return new NuevoSocio
+            {
+                Id = socio.Id,
+                BirthDate = socio.BirthDate, //YYYY-MM-DD
+                CardNumber = socio.CardNumber,
+                Email = socio.Email,
+                FirstName = socio.FirstName,
+                LastName = socio.LastName,
+                Gender = socio.Gender
+            };
+        }
+
+        public List<NuevoSocio> ListaSocioToListaNuevoSocio(List<Socio> listadoSocios)
+        {
+            return listadoSocios.Select(SocioToNuevoSocio).ToList();
+        }
+
     }
 }

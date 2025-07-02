@@ -157,6 +157,10 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("password");
 
+                    b.Property<bool>("IsOffline")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("is_offline");
+
                     b.Property<string>("LectorActual")
                         .HasColumnType("TEXT")
                         .HasColumnName("face_reader");
@@ -250,6 +254,10 @@ namespace DeportNetReconocimiento.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("is_active");
+
+                    b.Property<string>("IsAdminUser")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("is_admin_user");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -440,6 +448,10 @@ namespace DeportNetReconocimiento.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("period");
 
+                    b.Property<int?>("SocioId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("local_member_id");
+
                     b.Property<string>("Synchronized")
                         .IsRequired()
                         .HasColumnType("TEXT")
@@ -451,7 +463,7 @@ namespace DeportNetReconocimiento.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BranchMemberId");
+                    b.HasIndex("SocioId");
 
                     b.ToTable("ventas", (string)null);
                 });
@@ -469,7 +481,7 @@ namespace DeportNetReconocimiento.Migrations
                 {
                     b.HasOne("DeportNetReconocimiento.Api.Data.Domain.Socio", "Socio")
                         .WithMany()
-                        .HasForeignKey("BranchMemberId");
+                        .HasForeignKey("SocioId");
 
                     b.Navigation("Socio");
                 });

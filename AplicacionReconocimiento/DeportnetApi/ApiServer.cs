@@ -5,11 +5,6 @@ using Microsoft.Extensions.Hosting;
 using DeportNetReconocimiento.Api.Services.Interfaces;
 using DeportNetReconocimiento.Api.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using System;
-using static System.Windows.Forms.Design.AxImporter;
-using System.IO;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using Microsoft.Data.Sqlite;
 using DeportNetReconocimiento.Api.Data.Mapper.Interfaces;
 using DeportNetReconocimiento.Api.Data.Mapper;
@@ -26,17 +21,17 @@ namespace DeportNetReconocimiento.Api
         {
         }
 
-        public BdContext? ObtenerBdContext()
-        {
-            BdContext? bd = host.Services.GetService<BdContext>();
+        //public BdContext? ObtenerBdContext()
+        //{
+        //    BdContext? bd = host.Services.GetService<BdContext>();
 
-            if (bd == null) {
-                Console.WriteLine("Bd Null");
-            }
+        //    if (bd == null) {
+        //        Console.WriteLine("Bd Null");
+        //    }
 
-            return bd;
+        //    return bd;
             
-        }
+        //}
 
         public void CargarBd()
         {
@@ -45,7 +40,7 @@ namespace DeportNetReconocimiento.Api
             try
             {
 
-               _funcionesSincronizacionService.SincronizarTodasLasTablasDx().Wait();
+               _funcionesSincronizacionService.RecibirTodasLasTablasDx().Wait();
                 
             }catch(Exception ex)
             {

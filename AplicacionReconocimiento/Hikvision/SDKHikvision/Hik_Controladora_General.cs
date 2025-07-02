@@ -1,13 +1,9 @@
-﻿using DeportNetReconocimiento.Api.BD;
-using DeportNetReconocimiento.Api.Data.Domain;
-using DeportNetReconocimiento.GUI;
+﻿using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.Utils;
-using System.IO;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Xml;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 

@@ -1,4 +1,5 @@
 using DeportnetOffline;
+using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Dtos.Response;
 using DeportNetReconocimiento.Api.Services;
@@ -6,8 +7,6 @@ using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.Utils;
 using DeportNetReconocimiento.Utils.Modelo;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 
 
 namespace DeportNetReconocimiento.GUI
@@ -706,8 +705,20 @@ namespace DeportNetReconocimiento.GUI
 
         private void botonDeportnetOffline_Click(object sender, EventArgs e)
         {
-            WFDeportnetOffline wfDeportnetOffline = new WFDeportnetOffline();
-            wfDeportnetOffline.Show();
+            WFDeportnetOffline wFDeportnetOffline = WFDeportnetOffline.ObtenerInstancia;
+            
+            if (wFDeportnetOffline.Visible)
+            {
+            Console.WriteLine("Esta visible");
+                wFDeportnetOffline.BringToFront();
+                return;
+            }
+
+
+            Console.WriteLine("No está visible");
+            ConfiguracionGeneralUtils.CambiarEstadoModuloActivo();
+            wFDeportnetOffline.Show();
+
         }
     }
 }

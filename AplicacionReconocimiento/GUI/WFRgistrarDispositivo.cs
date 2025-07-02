@@ -1,12 +1,9 @@
-﻿using DeportNetReconocimiento.Api;
-using DeportNetReconocimiento.Api.Data.Domain;
+﻿using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Services;
 using DeportNetReconocimiento.GUI;
 using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.Utils;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
 
 namespace DeportNetReconocimiento
 {

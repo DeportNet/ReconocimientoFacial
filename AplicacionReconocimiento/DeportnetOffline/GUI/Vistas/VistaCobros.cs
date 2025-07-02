@@ -4,15 +4,6 @@ using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Utils;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace DeportnetOffline
 {
@@ -21,7 +12,6 @@ namespace DeportnetOffline
         private int PaginaActual;
         private int TotalPaginas;
         private int TamanioPagina;
-        private BdContext Context = BdContext.CrearContexto();
 
         public VistaCobros()
         {
@@ -54,8 +44,9 @@ namespace DeportnetOffline
 
         public void CargarDatos(int paginaActual, int tamanioPagina)
         {
+            using var bdContext = BdContext.CrearContexto();
 
-            PaginadoResultado<Venta> paginaVentas = PaginadorUtils.ObtenerPaginadoAsync(Context.Ventas.Include(v => v.Socio), paginaActual, tamanioPagina).Result;
+            PaginadoResultado<Venta> paginaVentas = PaginadorUtils.ObtenerPaginadoAsync(bdContext.Ventas.Include(v => v.Socio), paginaActual, tamanioPagina).Result;
     
             CambiarInformacionPagina(paginaVentas);
                 
@@ -74,12 +65,37 @@ namespace DeportnetOffline
 
         private void botonSgtPaginacion_Click(object sender, EventArgs e)
         {
-
+            if(PaginaActual < TotalPaginas)
+            {
+                PaginaActual++;
+                CargarDatos(PaginaActual, TamanioPagina);
+            }
         }
 
         private void botonAntPaginacion_Click(object sender, EventArgs e)
         {
+            if (PaginaActual > 1)
+            {
+                PaginaActual--;
+                CargarDatos(PaginaActual, TamanioPagina);
+            }
+        }
 
+
+        public int CalcularTamanioPagina()
+        {
+            int alturaTabla = dataGridView1.ClientSize.Height;
+            int tamanioHeader = dataGridView1.ColumnHeadersHeight;
+            int tamanioFila = dataGridView1.Rows[0].Height;
+            double resultado = (alturaTabla - tamanioHeader )/ tamanioFila;
+            int filasTotales = (int)Math.Floor(resultado);
+            return filasTotales;
+        }
+
+        private void dataGridView1_SizeChanged_1(object sender, EventArgs e)
+        {
+            TamanioPagina = CalcularTamanioPagina();
+            CargarDatos(PaginaActual, TamanioPagina);
         }
     }
 }

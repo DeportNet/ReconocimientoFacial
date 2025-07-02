@@ -2,17 +2,7 @@
 using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Repository;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
 
 namespace DeportnetOffline
 {
@@ -34,10 +24,10 @@ namespace DeportnetOffline
 
         public void ObtenerProductosDeBD()
         {
-            using (var context = BdContext.CrearContexto())
-            {
-                articulos = context.Articulos.ToList();
-            }
+            using var context = BdContext.CrearContexto();
+            
+            articulos = context.Articulos.ToList();
+
             if(articulos != null)
             {
                 CargarComboBox(articulos);
@@ -108,13 +98,17 @@ namespace DeportnetOffline
                 return;
             }
 
-            Venta venta = new Venta(itemId: articuloSeleccionado.IdDx,
-                                    branchMemberId: socio.Id,
-                                    isSaleItem: 'T',
-                                    null,
-                                    null,
-                                    name: articuloSeleccionado.Name,
-                                    amount: articuloSeleccionado.Amount);
+            Venta venta = new Venta(
+                itemId: articuloSeleccionado.IdDx,
+                branchMemberId: socio.IdDx,
+                idSocio: socio.Id,
+                isSaleItem: articuloSeleccionado.IsSaleItem,
+                period: null,
+                days: null,
+                name: articuloSeleccionado.Name,
+                amount: articuloSeleccionado.Amount
+                );
+
 
             bool resultado = await VentaRepository.RegistrarVenta(venta);
 

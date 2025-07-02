@@ -1,5 +1,4 @@
-﻿using DeportNetReconocimiento.Api;
-using DeportNetReconocimiento.Api.BD;
+﻿using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 
 
@@ -8,10 +7,10 @@ namespace DeportNetReconocimiento.Utils
     public class CredencialesUtils
     {
 
-        private static BdContext? bdContext;
 
         public static Credenciales? LeerCredencialesBd()
         {
+            using var bdContext = BdContext.CrearContexto();
 
             if (!BdContext.BdInicializada())
             {
@@ -19,26 +18,9 @@ namespace DeportNetReconocimiento.Utils
                 return null;
             }
 
-
-            if (bdContext == null)
-            {
-                Console.WriteLine("El bd context es null");
-                bdContext = BdContext.CrearContexto();
-            }
-
             Credenciales? credObtenidas = null;
 
-                credObtenidas = bdContext.Credenciales.FirstOrDefault();
-            //try
-            //{
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine("Error en LeerCredencialesbd." + ex.Message);
-            //}
-
-
+            credObtenidas = bdContext.Credenciales.FirstOrDefault();
            
             if (credObtenidas == null)
             {
@@ -68,17 +50,14 @@ namespace DeportNetReconocimiento.Utils
 
         public static void EscribirCredencialesBd(Credenciales credenciales)
         {
+            using var bdContext = BdContext.CrearContexto();
+
             if (!BdContext.BdInicializada())
             {
                 Console.WriteLine("Base de datos no inicializada");
                 return;
             }
 
-
-            if (bdContext == null)
-            {
-                bdContext = BdContext.CrearContexto();
-            }
 
             Credenciales? credObtenidas = bdContext.Credenciales.FirstOrDefault();
 
@@ -102,16 +81,12 @@ namespace DeportNetReconocimiento.Utils
 
         public static bool CredecialesCargadasEnBd()
         {
+            using var cotexto = BdContext.CrearContexto();
 
-            Credenciales? credenciales = new Credenciales();
-            bool flag = false;
-            using (var cotexto = BdContext.CrearContexto())
-            {
-                credenciales = cotexto.Credenciales.FirstOrDefault();
-            }
+            Credenciales? credenciales = new Credenciales();    
+            credenciales = cotexto.Credenciales.FirstOrDefault();
 
             return credenciales != null ? true : false;
-
         }
 
         public static string? LeerCredencialEspecifica(int unaCredencial)
@@ -150,8 +125,7 @@ namespace DeportNetReconocimiento.Utils
                         return credenciales.BranchToken;
                     case 6:
                         //id empleado actual
-                        string credencial = credenciales.CurrentCompanyMemberId;
-                        return credencial;
+                        return credenciales.CurrentCompanyMemberId;
                     default:
                         return null;
                 }

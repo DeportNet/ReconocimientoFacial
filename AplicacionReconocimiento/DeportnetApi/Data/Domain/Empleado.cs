@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DeportNetReconocimiento.Api.Data.Domain
 {
@@ -15,7 +11,6 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [Key]
         [Column("id")]
         public int Id { get; set; }
-
 
         [Column("company_member_id")]
         [DisallowNull]
@@ -44,9 +39,11 @@ namespace DeportNetReconocimiento.Api.Data.Domain
         [AllowNull]
         public string? FullName { get; set; }
 
+        [Column("is_admin_user")]
+        public string? IsAdminUser { get; set; } 
         public Empleado() { }
 
-        public Empleado(int companyMemberId, string firstName, string lastName, string password, string isActive)
+        public Empleado(int companyMemberId, string firstName, string lastName, string password, string isActive, string isAdminUser)
         {
             CompanyMemberId = companyMemberId;
             FirstName = firstName;
@@ -54,6 +51,7 @@ namespace DeportNetReconocimiento.Api.Data.Domain
             Password = password;
             IsActive = isActive;
             FullName = JuntarNombreYApellido();
+            IsAdminUser = isAdminUser;
         }
 
         public string JuntarNombreYApellido()

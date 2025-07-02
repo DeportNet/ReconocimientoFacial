@@ -1,20 +1,17 @@
 ﻿using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Hikvision.SDKHikvision;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Utils
 {
     public class ConfiguracionGeneralUtils
     {
-        private static BdContext _bdContext = BdContext.CrearContexto();
 
         private static ConfiguracionGeneral CrearRegistroConfiguracionGeneral()
         {
+            using var bdContext = BdContext.CrearContexto();
+
+
             ConfiguracionGeneral config = new ConfiguracionGeneral(
                 200,
                 "!MiClaveSegura123!",
@@ -23,11 +20,12 @@ namespace DeportNetReconocimiento.Utils
                 null,
                 Hik_Controladora_General.InstanciaControladoraGeneral.ObtenerCapacidadCarasDispositivo(),
                 1,
-                null
+                null,
+                false
                 );
 
-            _bdContext.Add(config);
-            _bdContext.SaveChanges();
+            bdContext.Add(config);
+            bdContext.SaveChanges();
 
             return config;
         }
@@ -50,14 +48,12 @@ namespace DeportNetReconocimiento.Utils
 
         public static ConfiguracionGeneral ObtenerConfiguracionGeneral()
         {
-            if (_bdContext == null)
-            {
-                _bdContext = BdContext.CrearContexto();
-            }
+            using var bdContext = BdContext.CrearContexto();
 
-            ConfiguracionGeneral? config = _bdContext.ConfiguracionGeneral.FirstOrDefault(c => c.Id == 1);
 
-            if(config == null)
+            ConfiguracionGeneral? config = bdContext.ConfiguracionGeneral.FirstOrDefault(c => c.Id == 1);
+
+            if (config == null)
             {
                 config = CrearRegistroConfiguracionGeneral();
             }
@@ -69,6 +65,8 @@ namespace DeportNetReconocimiento.Utils
 
         public static int SumarRegistroCara()
         {
+            using var bdContext = BdContext.CrearContexto();
+
             int? rostrosActuales = null;
             ConfiguracionGeneral config = ObtenerConfiguracionGeneral();
 
@@ -76,12 +74,14 @@ namespace DeportNetReconocimiento.Utils
 
             rostrosActuales = config.RostrosActuales;
 
-            _bdContext.SaveChanges();
+            bdContext.SaveChanges();
             return (int)rostrosActuales;
         }
 
         public static int RestarRegistroCara()
         {
+            using var bdContext = BdContext.CrearContexto();
+
             int? rostrosActuales = null;
 
             ConfiguracionGeneral config = ObtenerConfiguracionGeneral();
@@ -90,7 +90,7 @@ namespace DeportNetReconocimiento.Utils
             rostrosActuales = config.RostrosActuales;
 
 
-            _bdContext.SaveChanges();
+            bdContext.SaveChanges();
 
             return (int)rostrosActuales;
         }
@@ -99,7 +99,8 @@ namespace DeportNetReconocimiento.Utils
         {
             string? lectorActual = ObtenerConfiguracionGeneral().LectorActual;
 
-            if (lectorActual == null) {
+            if (lectorActual == null)
+            {
                 Console.WriteLine("nro lector es null");
                 lectorActual = "1";
             }
@@ -109,8 +110,10 @@ namespace DeportNetReconocimiento.Utils
 
         public static void ActualizarLectorActual(string? lectorNuevo)
         {
+            using var bdContext = BdContext.CrearContexto();
+
             ConfiguracionGeneral config = ObtenerConfiguracionGeneral();
-            if(config == null)
+            if (config == null)
             {
                 Console.WriteLine("Configuracion General es null, en ActualizarLectorFacial");
                 return;
@@ -121,8 +124,31 @@ namespace DeportNetReconocimiento.Utils
                 return;
             }
             config.LectorActual = lectorNuevo;
-            _bdContext.SaveChanges();
+            bdContext.SaveChanges();
         }
 
+
+        //Cambia el estado de modulo offline activo
+        public static void CambiarEstadoModuloActivo()
+        {
+            using var bdContext = BdContext.CrearContexto();
+            ConfiguracionGeneral config = bdContext.ConfiguracionGeneral.FirstOrDefault();
+            if (config == null)
+            {
+                Console.Error.WriteLine("Configuración general es null");
+                return;
+            }
+
+            config.IsOffline = !config.IsOffline;
+            bdContext.SaveChanges();
+        }
+
+        public static bool ModuloOfflineActivo()
+        {
+            using var bdContext = BdContext.CrearContexto();
+            ConfiguracionGeneral config = ConfiguracionGeneralUtils.ObtenerConfiguracionGeneral();
+            return config.IsOffline;
+
+        }
     }
 }

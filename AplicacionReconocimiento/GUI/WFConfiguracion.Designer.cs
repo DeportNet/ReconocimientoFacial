@@ -52,6 +52,7 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             panel1 = new Panel();
             panel2 = new Panel();
+            botonModoOffline = new Button();
             PanelConfigAdminsitrador.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
@@ -83,7 +84,7 @@
             // 
             personalizacionTituloLabel.AutoSize = true;
             personalizacionTituloLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Underline);
-            personalizacionTituloLabel.Location = new Point(22, 90);
+            personalizacionTituloLabel.Location = new Point(12, 90);
             personalizacionTituloLabel.Name = "personalizacionTituloLabel";
             personalizacionTituloLabel.Size = new Size(131, 21);
             personalizacionTituloLabel.TabIndex = 12;
@@ -129,6 +130,7 @@
             // 
             // ComboBoxAperturaMolinete
             // 
+            ComboBoxAperturaMolinete.BackColor = Color.WhiteSmoke;
             ComboBoxAperturaMolinete.FormattingEnabled = true;
             ComboBoxAperturaMolinete.Items.AddRange(new object[] { ".exe", "Hikvision", "Ninguno" });
             ComboBoxAperturaMolinete.Location = new Point(171, 46);
@@ -143,7 +145,7 @@
             BotonOcultarConfig.Cursor = Cursors.Hand;
             BotonOcultarConfig.FlatAppearance.BorderSize = 0;
             BotonOcultarConfig.FlatStyle = FlatStyle.Flat;
-            BotonOcultarConfig.Location = new Point(21, 221);
+            BotonOcultarConfig.Location = new Point(21, 262);
             BotonOcultarConfig.Name = "BotonOcultarConfig";
             BotonOcultarConfig.Size = new Size(121, 23);
             BotonOcultarConfig.TabIndex = 19;
@@ -154,6 +156,7 @@
             // PanelConfigAdminsitrador
             // 
             PanelConfigAdminsitrador.BackColor = Color.IndianRed;
+            PanelConfigAdminsitrador.Controls.Add(botonModoOffline);
             PanelConfigAdminsitrador.Controls.Add(comboBoxNroLector);
             PanelConfigAdminsitrador.Controls.Add(label3);
             PanelConfigAdminsitrador.Controls.Add(botonEditarCredenciales);
@@ -165,9 +168,9 @@
             PanelConfigAdminsitrador.Controls.Add(ComboBoxAperturaMolinete);
             PanelConfigAdminsitrador.Controls.Add(opcionesTituloLabel);
             PanelConfigAdminsitrador.Controls.Add(label6);
-            PanelConfigAdminsitrador.Location = new Point(18, 118);
+            PanelConfigAdminsitrador.Location = new Point(18, 112);
             PanelConfigAdminsitrador.Name = "PanelConfigAdminsitrador";
-            PanelConfigAdminsitrador.Size = new Size(318, 260);
+            PanelConfigAdminsitrador.Size = new Size(318, 308);
             PanelConfigAdminsitrador.TabIndex = 20;
             PanelConfigAdminsitrador.Visible = false;
             // 
@@ -235,6 +238,7 @@
             // 
             // TextBoxRutaExe
             // 
+            TextBoxRutaExe.BackColor = Color.WhiteSmoke;
             TextBoxRutaExe.Location = new Point(106, 90);
             TextBoxRutaExe.Name = "TextBoxRutaExe";
             TextBoxRutaExe.Size = new Size(151, 23);
@@ -285,13 +289,14 @@
             // 
             // button1
             // 
+            button1.BackColor = Color.Gainsboro;
             button1.Cursor = Cursors.Hand;
             button1.Image = Properties.Resources.eye;
             button1.Location = new Point(259, 40);
             button1.Name = "button1";
             button1.Size = new Size(35, 22);
             button1.TabIndex = 24;
-            button1.UseVisualStyleBackColor = true;
+            button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click_1;
             // 
             // tableLayoutPanel1
@@ -329,6 +334,20 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(639, 508);
             panel2.TabIndex = 1;
+            // 
+            // botonModoOffline
+            // 
+            botonModoOffline.BackColor = Color.WhiteSmoke;
+            botonModoOffline.Cursor = Cursors.Hand;
+            botonModoOffline.FlatAppearance.BorderSize = 0;
+            botonModoOffline.FlatStyle = FlatStyle.Flat;
+            botonModoOffline.Location = new Point(21, 212);
+            botonModoOffline.Name = "botonModoOffline";
+            botonModoOffline.Size = new Size(174, 23);
+            botonModoOffline.TabIndex = 32;
+            botonModoOffline.Text = "Activar modo offline";
+            botonModoOffline.UseVisualStyleBackColor = false;
+            botonModoOffline.Click += button2_Click;
             // 
             // WFConfiguracion
             // 
@@ -387,5 +406,6 @@
         private TableLayoutPanel tableLayoutPanel1;
         private Panel panel1;
         private Panel panel2;
+        private Button botonModoOffline;
     }
 }

@@ -3,28 +3,20 @@ using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Dtos.Dx.Socios;
 using DeportNetReconocimiento.Api.Data.Mapper.Interfaces;
 using DeportNetReconocimiento.Api.Services.Interfaces;
+using DeportNetReconocimiento.DeportnetApi.Data.Dto.Dx.Socios.NuevosSocios;
 using DeportNetReconocimiento.Utils;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Api.Services
 {
     public class SocioService : ISincronizacionSocioService
     {
-
-
-        private readonly BdContext _bdContext;
         private string? idSucursal;
         private readonly ISocioMapper _socioMapper;
 
         public SocioService(BdContext bdContext, ISocioMapper socioMapper)
         {
-            _bdContext = bdContext;
             _socioMapper = socioMapper;
             idSucursal = CredencialesUtils.LeerCredencialEspecifica(4);
         }
@@ -57,7 +49,7 @@ namespace DeportNetReconocimiento.Api.Services
             }
 
             string json = await WebServicesDeportnet.ObtenerClientesOffline(idSucursal);
-            ListadoClientesDtoDx apiResponse = JsonConvert.DeserializeObject<ListadoClientesDtoDx>(json);
+            ListadoSociosDtoDx apiResponse = JsonConvert.DeserializeObject<ListadoSociosDtoDx>(json);
 
             if (apiResponse == null)
             {
@@ -77,12 +69,12 @@ namespace DeportNetReconocimiento.Api.Services
 
         private async Task InsertarSociosEnTabla(List<Socio> listadoSociosDx)
         {
-            using var transaction = await _bdContext.Database.BeginTransactionAsync(); // Iniciar transacción
+            using var bdContext = BdContext.CrearContexto();
+            using var transaction = await bdContext.Database.BeginTransactionAsync(); // Iniciar transacción
             try
             {
-                await VerificarCambiosEnTablaSocios(listadoSociosDx);
-
-                await _bdContext.SaveChangesAsync();
+                await VerificarCambiosEnTablaSocios(listadoSociosDx, bdContext);
+                await bdContext.SaveChangesAsync();
 
                 await transaction.CommitAsync();// Confirmamos transaccion
 
@@ -95,9 +87,10 @@ namespace DeportNetReconocimiento.Api.Services
             }
         }
 
-        private async Task VerificarCambiosEnTablaSocios(List<Socio> listadoSociosDx)
+        private async Task VerificarCambiosEnTablaSocios(List<Socio> listadoSociosDx, BdContext bdContext)
         {
-            List<Socio> listadoSociosLocal = await _bdContext.Socios.ToListAsync();
+
+            List<Socio> listadoSociosLocal = await bdContext.Socios.ToListAsync();
 
             // 2️. Determinar cambios
             var nuevosSocios = listadoSociosDx.Where(sDx => !listadoSociosLocal.Any(sl => sl.IdDx == sDx.IdDx)).ToList();
@@ -107,39 +100,124 @@ namespace DeportNetReconocimiento.Api.Services
             // 3️. Aplicar cambios en la BD
             if (sociosEliminados.Count > 0)
             {
-                _bdContext.Socios.RemoveRange(sociosEliminados);
+                bdContext.Socios.RemoveRange(sociosEliminados);
             }
             if (nuevosSocios.Count > 0)
             {
-                await _bdContext.Socios.AddRangeAsync(nuevosSocios);
+                await bdContext.Socios.AddRangeAsync(nuevosSocios);
             }
             if (sociosActualizados.Count > 0)
             {
                 foreach (var socio in sociosActualizados)
                 {
                     var socioLocal = listadoSociosLocal.First(l => l.IdDx == socio.IdDx);
-                    _bdContext.Entry(socioLocal).CurrentValues.SetValues(socio);
+                    bdContext.Entry(socioLocal).CurrentValues.SetValues(socio);
                 }
             }
         }
 
-        public static  async Task ActualizarEstadoSocio(int? idSocio, int estado)
+        public static async Task ActualizarEstadoSocio(int? idSocio, int estado)
         {
+            using var context = BdContext.CrearContexto();
+
             
-            using (var context = BdContext.CrearContexto())
+            Socio socio = context.Socios.Find(idSocio);
+            if(socio == null)
             {
-                Socio socio = context.Socios.Find(idSocio);
-                if(socio == null)
+                Console.WriteLine("No se encontró al socio con id " + idSocio);
+                return;
+            }
+
+            socio.IsValid = estado == 1 ? "T" : "F";
+
+            context.SaveChanges();
+            Console.WriteLine("Estado de socio actualizado con exito");
+
+        }
+
+        private List<Socio> ObtenerListadoNuevosSocios()
+        {
+            using var bdContext = BdContext.CrearContexto();
+
+            List<Socio> listadoNuevosSocios = bdContext.Socios
+                .Where(s => s.IdDx == null || s.IdDx == 0)
+                .ToList();
+            return listadoNuevosSocios;
+        }
+
+        public async Task EnviarNuevosSocios()
+        {
+            List<Socio> listadoSocios = ObtenerListadoNuevosSocios();
+
+            if (listadoSocios.Count == 0)
+            {
+                Console.WriteLine("No hay nuevos socios para enviar");
+                return;
+            }
+
+            List<NuevoSocio> listadoNuevosSociosParsed = _socioMapper.ListaSocioToListaNuevoSocio(listadoSocios);
+            string? jsonRta = await WebServicesDeportnet.EnviarNuevosSocios(listadoNuevosSociosParsed, idSucursal);
+            
+            if(jsonRta == null) {
+                Console.WriteLine("Error al enviar nuevos socios, la respuesta recibida de dx es null");
+                return;
+            }
+
+            RespuestaAltaNuevosSocios respuestaAltaNuevosSocios = JsonConvert.DeserializeObject<RespuestaAltaNuevosSocios>(jsonRta);
+            
+            if(respuestaAltaNuevosSocios.ProcessResult == "F")
+            {
+                MessageBox.Show(respuestaAltaNuevosSocios.ErrorMessage, "Error al enviar nuevos socios", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Console.WriteLine(respuestaAltaNuevosSocios.ErrorItems.ToString());
+                return;
+            }
+            
+            //falta agregar los nuevos ids, a los socios nuevos y cambiar los emails
+            await ActualizarIdsNuevosSocios(listadoSocios, respuestaAltaNuevosSocios.UpdatedMembers);
+
+        }
+
+        public async Task ActualizarIdsNuevosSocios(List<Socio> listadoSocios, List<UpdatedMember> listadoSociosActualizados)
+        {
+            using var dbContext = BdContext.CrearContexto();
+            using var transaction = await dbContext.Database.BeginTransactionAsync();
+
+            try
+            {
+                foreach (UpdatedMember socioActualizado in listadoSociosActualizados)
                 {
-                    Console.WriteLine("No se encontró al socio con id " + idSocio);
-                    return;
+                    // Buscar en la base el socio para actualizar
+                    var socioEnBd = await dbContext.Socios.FindAsync(socioActualizado.LocalId);
+
+                    if (socioEnBd == null)
+                    {
+                        Console.WriteLine($"No se encontró en BD el socio con Id {socioActualizado.LocalId}");
+                        continue;
+                    }
+
+                    // Actualizar ID y email
+                    socioEnBd.IdDx = socioActualizado.NewId; // Suponiendo que tenés un campo IdDx para el ID remoto (muy recomendable tenerlo!)
+
+                    if (!string.IsNullOrEmpty(socioActualizado.NewEmail))
+                    {
+                        socioEnBd.Email = socioActualizado.NewEmail;
+                    }
+
+                    Console.WriteLine($"Actualizado socio localId={socioActualizado.LocalId} → newId={socioActualizado.NewId}, newEmail={socioActualizado.NewEmail}");
                 }
 
-                socio.IsValid = estado == 1 ? "T" : "F";
+                // Guardar cambios
+                await dbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
 
-                context.SaveChanges();
-                Console.WriteLine("Estado de socio actualizado con exito");
+                Console.WriteLine("Actualización de nuevos socios completada.");
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                Console.WriteLine($"Error al actualizar nuevos socios: {ex.Message}");
             }
         }
+
     }
 }

@@ -1,11 +1,6 @@
 ﻿using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Api.Data.Repository
 {
@@ -20,14 +15,12 @@ namespace DeportNetReconocimiento.Api.Data.Repository
 
         public static async Task<bool> RegistrarVenta(Venta venta)
         {
+            using var context = BdContext.CrearContexto();
             try
             {
-                using (var context = BdContext.CrearContexto())
-                {
-                    await context.Ventas.AddAsync(venta);
-                    
-                    await context.SaveChangesAsync();
-                }
+                await context.Ventas.AddAsync(venta);
+                await context.SaveChangesAsync();
+                
                 return true;
             }
             catch(DbUpdateException ex)

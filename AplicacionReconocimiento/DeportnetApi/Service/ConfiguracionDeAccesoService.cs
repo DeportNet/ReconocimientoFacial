@@ -1,16 +1,10 @@
 ﻿using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Api.Data.Dtos.Dx.ConfigAcceso;
-using DeportNetReconocimiento.Api.Data.Mapper;
 using DeportNetReconocimiento.Api.Data.Mapper.Interfaces;
 using DeportNetReconocimiento.Api.Services.Interfaces;
 using DeportNetReconocimiento.Utils;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Api.Services
 {
@@ -35,12 +29,11 @@ namespace DeportNetReconocimiento.Api.Services
 
             if (configAcceso == null)
             {
-                
                 return;
             }
 
             //Guardamos la config en la BD
-            //await InsertarConfigAccesoTabla(configAcceso);
+            await InsertarConfigAccesoTabla(configAcceso);
         }
 
         private async Task<ConfiguracionDeAcceso?> ObtenerConfiguracionDeAccesoDelWebserviceAsync()
@@ -54,13 +47,13 @@ namespace DeportNetReconocimiento.Api.Services
 
             if (apiResponse == null)
             {
-                Console.WriteLine("Error al obtener listado de clientes, la respuesta vino null");
+                Console.WriteLine("Error al obtener configuracion de acceso, la respuesta vino null");
                 return null;
             }
 
             if (apiResponse.Result == "F")
             {
-                Console.WriteLine("Error al obtener listado de clientes: " + apiResponse.ErrorMessage);
+                Console.WriteLine("Error al obtener configuracion de acceso: " + apiResponse.ErrorMessage);
                 return null;
             }
 
