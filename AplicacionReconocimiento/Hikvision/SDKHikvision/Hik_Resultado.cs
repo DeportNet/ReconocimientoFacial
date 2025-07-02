@@ -1,32 +1,13 @@
-﻿namespace DeportNetReconocimiento.Hikvision.SDKHikvision
+using Serilog;
+
+
+namespace DeportNetReconocimiento.Hikvision.SDKHikvision
 {
     public class Hik_Resultado
     {
         private bool exito = false;
         private string mensaje = "";
         private string codigo = "";
-
-
-        /* 
-         * Ej de uso:
-         Hik_Resultado resultado = new Hik_resultado(); 
-         
-            ...Logica dentro de un metodo...
-
-            if (true)
-            {
-                resultado.ActualizarResultado(true, "Exito al cargar los datos", Hik_SDK.NET_DVR_GetLastError().ToString());
-            }
-            else
-            {
-                resultado.ActualizarResultado(false, "Error al cargar los datos", Hik_SDK.NET_DVR_GetLastError().ToString());
-            }
-
-            resultado.EscribirResultados("Carga de datos");
-            
-            return resultado;
-         */
-
 
         public Hik_Resultado()
         {
@@ -65,10 +46,8 @@
             if (Exito == false)
                 MessageBox.Show($"Exito: {Exito} \nMensaje: {Mensaje}\nCodigo: {Codigo}", titulo, MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
-                MessageBox.Show($"Exito: {Exito} \nMensaje: {Mensaje}\nCodigo: {Codigo}", titulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+            MessageBox.Show($"Exito: {Exito} \nMensaje: {Mensaje}\nCodigo: {Codigo}", titulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
 
         public void ActualizarResultado(bool exito, string mensaje, string codigo)
         {
@@ -77,7 +56,7 @@
             this.codigo = codigo;
         }
 
-        public static bool EscribirLog()
+        public static bool InicializarLogsHikvsion()
         {
             //Log level: 0-disable log (default), 1-output error log only, 2-output error and debug log, 3-output all logs (i.e., error, debug, and information).
             return Hik_SDK.NET_DVR_SetLogToFile(3, @"logsHikvision", false);

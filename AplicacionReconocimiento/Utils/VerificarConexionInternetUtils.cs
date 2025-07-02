@@ -1,16 +1,22 @@
-﻿using DeportNetReconocimiento.Api.Data.Domain;
-using DeportNetReconocimiento.Api.Services;
+using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
+using DeportNetReconocimiento.Api.Services;
+using DeportNetReconocimiento.SDK;
+using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Utils
 {
     public class VerificarConexionInternetUtils
     {
 
-    
-        private static VerificarConexionInternetUtils? instanciaVerificarConexionInternet;
+        private static VerificarConexionInternetUtils? instancia;
         private int intentosVelocidadInternet;
 
         private VerificarConexionInternetUtils()
@@ -18,16 +24,16 @@ namespace DeportNetReconocimiento.Utils
             intentosVelocidadInternet = 0;
         }
 
-        
-        public static VerificarConexionInternetUtils InstanciaVerificarConexionInternet
+
+        public static VerificarConexionInternetUtils Instancia
         {
             get
             {
-                if (instanciaVerificarConexionInternet == null)
+                if (instancia == null)
                 {
-                    instanciaVerificarConexionInternet = new VerificarConexionInternetUtils();
+                    instancia = new VerificarConexionInternetUtils();
                 }
-                return instanciaVerificarConexionInternet;
+                return instancia;
             }
         }
 
@@ -54,12 +60,13 @@ namespace DeportNetReconocimiento.Utils
 
             if (!resultado.Exito)
             {
+                Log.Error($"Error al probar la conexión {resultado.Mensaje}");
                 Console.WriteLine(resultado.Mensaje);
             }
             else
             {
-                Console.WriteLine("Tiempo de respuesta de Deportnet: " + stopwatch.ElapsedMilliseconds + " ms");
-                if(stopwatch.ElapsedMilliseconds > 300)
+                Log.Information("Tiempo de respuesta de Deportnet: " + stopwatch.ElapsedMilliseconds + " ms");
+                if (stopwatch.ElapsedMilliseconds > 300)
                 {
                     intentosVelocidadInternet += 1;
                 }
@@ -72,12 +79,29 @@ namespace DeportNetReconocimiento.Utils
             return resultado.Exito;
         }
 
+
+        public bool? TieneConexionAInternet()
+        {
+            try
+            {
+                bool? exito = ComprobarConexionInternetConDeportnet().ConfigureAwait(false).GetAwaiter().GetResult();
+                return exito;
+            }
+            catch (Exception ex)
+            {
+
+                Log.Error("Error al validar la conexión a internet: "+ex.Message);
+                return false;
+            }
+        }
+
         //Verificar conexión a internet o en general
         public bool ComprobarConexionInternet()
         {
-
             //ponemos flag en false como predeterminado
+
             bool flag = false;
+            int velocidadAceptable = 500;
 
             Ping pingSender = new Ping();
             string direccion = "8.8.8.8"; // IP de Google
@@ -89,46 +113,30 @@ namespace DeportNetReconocimiento.Utils
 
                 if (reply.Status != IPStatus.Success)
                 {
-
-
-                    Console.WriteLine("No se pudo conectar: " + reply.Status);
+                    Log.Error($"No se pudo conectar a internet (Google): {reply.Status}");
                     return flag;
                 }
-
-
-
+                //hay internet, ahora validamos la velocidad
                 flag = true;
 
-                //300ms
-                if (reply.RoundtripTime > 300)
+                //ms
+                if (reply.RoundtripTime > velocidadAceptable)
                 {
                     intentosVelocidadInternet += 1;
+                    Log.Warning($"Velocidad de internet muy lenta: {reply.RoundtripTime} ms. Velocidad aceptable: {velocidadAceptable}. Sumamos 1 a los intentos.");
                 }
                 else
                 {
                     intentosVelocidadInternet = 0;
+                    //Log.Information($"Velocidad de internet aceptable: {reply.RoundtripTime} ms. Velocidad aceptable: {velocidadAceptable}. Reiniciamos los intentos.");
                 }
-
-
-                Console.WriteLine("Tenemos conexion a internet; Tiempo: " + reply.RoundtripTime + " ms");
-                //Console.WriteLine("Dirección: " + reply.Address.ToString());
-
-
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error: " + e.Message);
+                Log.Error("Error: " + e.Message);
             }
 
             return flag;
         }
-
-
-
-
-
-
-
-
     }
 }

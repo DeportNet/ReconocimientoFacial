@@ -34,118 +34,27 @@ namespace DeportNetReconocimiento.Api.Services
 
         public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal, string? rtaManual = null, string? idEmpleado = null, string? lector = null)
         {
-            dynamic data = new ExpandoObject();
-            data.memberId = nroTarjeta;
-            data.activeBranchId = idSucursal;
-
-            if (rtaManual != null)
-            {
-                data.isSuccessful = rtaManual;
-                data.manualAllowedAccess = rtaManual;
-            }
-
-            if (idEmpleado != null)
-            {
-                data.companyMemberId = idEmpleado;
-            }
-
-            if (lector != null)
-            {
-                data.lectorNumber = lector;
-            }
-
-            string json = JsonSerializer.Serialize(data);
-            Console.WriteLine("JSON serializado a enviar:\n" + json);
-
-            return await FetchInformacion(json, urlEntradaClienteTest, HttpMethod.Post);
-        }
-
-        public static async Task<string> ObtenerCofiguracionDeAccesoOffline(string idSucursal)
-        {
-            object data = new
-            {
-                activeBranchId = idSucursal
-            };
-
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlObtenerConfiguracionAccesoTest, HttpMethod.Post);
-        }
-
-        public static async Task<string> ObtenerEmpleadosSucursalOffline(string idSucursal)
-        {
-            object data = new
-            {
-                activeBranchId = idSucursal
-            };
-          
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlObtenerEmpleadosTest, HttpMethod.Post);
+            object data = new { };
+            data = new { memberId = nroTarjeta, activeBranchId = idSucursal };
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaClienteTest, HttpMethod.Post);
         }
 
         public static async Task<string> ObtenerClientesOffline(string idSucursal)
         {
-            object data = new
-            {
-                activeBranchId = idSucursal
-            };
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlObtenerClientesTest, HttpMethod.Post);
+            
+            object data = new { memberId = nroTarjeta, activeBranchId = idSucursal, manualAllowedAccess = nroTarjeta, isSuccessful = rtaManual};
+            
+            return await FetchInformacion(JsonSerializer.Serialize(data), urlEntradaClienteTest, HttpMethod.Post);
         }
 
         public static async Task<string> ObtenerConceptsOffline(string idSucursal)
         {
-            object data = new
-            {
-                activeBranchId = idSucursal
-            };
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlObtenerConceptsTest, HttpMethod.Post);
+            return await FetchInformacion(json, urlAltaClienteTest, HttpMethod.Post);
         }
 
         public static async Task<string> EnviarLoteDeAccesos(string json)
         {
-            return await FetchInformacion(json, urlEnviarAccesosTest, HttpMethod.Post);
-        }
-
-        public static async Task<string> EnviarNuevosSocios(List<NuevoSocio> listadoNuevosSocios, string idSucursal)
-        {
-            object data = new
-            {
-                activeBranchId = idSucursal,
-                members = listadoNuevosSocios
-            };
-
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlEnviarNuevosSociosTest, HttpMethod.Post);
-        }
-
-        public static async Task<string> VerificarEstadoLoteAcceso(string json)
-        {
-            return await FetchInformacion(json, urlObtenerVerificacionEstadoLoteTest, HttpMethod.Post);
-        }
-
-        public static async Task<string> AltaFacialClienteDeportnet(RespuestaAltaBajaCliente rta)
-        {
-            return await FetchInformacion(rta.ToJson(), urlAltaClienteTest, HttpMethod.Post);
-        }
-
-        public static async Task<string> BajaFacialClienteDeportnet(RespuestaAltaBajaCliente rta)
-        {
-            return await FetchInformacion(rta.ToJson(), urlBajaClienteTest, HttpMethod.Post);
-        }
-
-        public static async Task<string> BajaFacialMasivaClienteDeportnet(string idSucursal, string? lectorNumber = null, string? maxToDelete = null)
-        {
-            dynamic data = new ExpandoObject();
-            data.activeBranchId = idSucursal;
-
-            if (lectorNumber != null)
-            {
-                data.lectorNumber = lectorNumber;
-            }
-
-            if (maxToDelete != null) { 
-                data.maxToDelete = maxToDelete;
-            }
-
-
-            return await FetchInformacion(JsonSerializer.Serialize(data), urlBajaMasivaClienteTest, HttpMethod.Post);
-
+            return await FetchInformacion(json, urlBajaClienteTest, HttpMethod.Post);
         }
 
         public static async Task<Hik_Resultado> TestearConexionDeportnet(string tokenSucursal, string idSucursal)

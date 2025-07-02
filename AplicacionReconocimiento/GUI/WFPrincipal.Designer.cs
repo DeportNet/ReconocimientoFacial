@@ -227,7 +227,7 @@ namespace DeportNetReconocimiento.GUI
             // timerConexion
             // 
             timerConexion.Interval = 20000;
-            timerConexion.Tick += VerificarEstadoDispositivoAsync;
+            timerConexion.Tick += VerificarEstadoGeneralAsync;
             // 
             // tableLayoutPanel1
             // 

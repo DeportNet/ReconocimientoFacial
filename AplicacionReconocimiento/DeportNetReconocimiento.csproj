@@ -73,6 +73,10 @@
     <PackageReference Include="SQLite" Version="3.13.0" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" Version="2.1.11" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
+    <PackageReference Include="Serilog" Version="4.3.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
   </ItemGroup>
 
   <ItemGroup>
@@ -211,6 +215,15 @@
      <None Update="Recursos\logo_deportnet_1.jpg">
        <Pack>True</Pack>
        <PackagePath>\</PackagePath>
+     </None>
+     <None Update="Recursos\sonido-concedido.mp3">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </None>
+     <None Update="Recursos\sonido-denegado.mp3">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </None>
+     <None Update="Recursos\sonido-pregunta.mp3">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </None>
    </ItemGroup>
 

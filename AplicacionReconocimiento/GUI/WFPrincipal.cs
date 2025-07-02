@@ -7,29 +7,31 @@ using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.Utils;
 using DeportNetReconocimiento.Utils.Modelo;
+using System.Runtime.InteropServices;
+using Serilog;
+using System.Windows.Forms;
 
 
 namespace DeportNetReconocimiento.GUI
 {
     public partial class WFPrincipal : Form
     {
-        private static Hik_Controladora_General? hik_Controladora_General;
-
-
         private static WFPrincipal? instancia;
         private ConfiguracionEstilos configuracionEstilos;
         private bool ignorarCierre = false;
         private bool conexionInternet = true;
-        private static ReproductorSonidos? reproductorSonidos;
+        private static ReproductorSonidos reproductorSonidos;
+        private bool ocultarPrincipal = false;
         private static int intentosConexionADispositivo = 0;
-        private Loading loading;
+        private bool ObligarCerrarPrograma = false;
+        private bool buscandoIp = false;
+        private bool verificandoEstado = false;
 
         private WFPrincipal()
         {
             InitializeComponent();
-            loading = new Loading();
             Hik_Resultado resultadoInicio = InstanciarPrograma(); //Instanciamos el programa con los datos de la camara
-
+            DispositivoEnUsoUtils.Desocupar();
 
             //estilos se leen de un archivo
             AplicarConfiguracion(ConfiguracionEstilos.LeerJsonConfiguracion());
@@ -92,7 +94,8 @@ namespace DeportNetReconocimiento.GUI
 
             if (resultado.Exito)
             {
-                timerConexion.Enabled = true; //una vez exitosa la conexion con el dispositivo, iniciamos el timer, para verificar la conexion con el disp                
+                //una vez exitosa la conexion con el dispositivo, iniciamos el timer, para verificar la conexion con el disp                
+                timerConexion.Enabled = true;
             }
             else
             {
@@ -106,56 +109,58 @@ namespace DeportNetReconocimiento.GUI
         private async void ManejarErrorDispositivo(Hik_Resultado resultadoError)
         {
 
-            switch (resultadoError.Codigo)
+            ConfiguracionEstilos = ConfiguracionEstilos.LeerJsonConfiguracion();
+
+             switch (resultadoError.Codigo)
             {
                 case "7":
 
-                    //Logica mostrar loading y buscar ip
-                    Credenciales? credenciales = CredencialesUtils.LeerCredencialesBd();
-
-                    if (credenciales == null)
+                    if (ConfiguracionEstilos.BloquearIp)
                     {
-                        Console.WriteLine("No se pudieron obtener las credenciales de la base de datos en WfPrincipal, ManejarErrorDispositivo");
+                        Log.Error("No se va a buscar nuevas Ips debido a que la configuracion de bloquear IP esta activa. No se pudo conectar con el dispositivo, verifique si la ip es correcta o si el dispositivo esta conectado a la red.");
                         return;
                     }
 
-                    loading.Show();
-                    this.MinimizarVentana();
-                    trayReconocimiento.Visible = false; // Ocultamos el icono de la bandeja del sistema
-
-
-                    Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales.Port, credenciales.Username, credenciales.Password));
-
-                    loading.Close();
-                    trayReconocimiento.Visible = true;
-
-                    this.MaximizarVentana();
-
-                    if (!resultadoLogin.Exito)
+                    if (!buscandoIp && intentosConexionADispositivo <= 2)
                     {
-                        //va a mostrar no se encontro la ip
-                        resultadoLogin.MessageBoxResultado("Error al incializar el dispositivo Hikvision");
+                        timerConexion.Stop();
+                        buscandoIp = true;
+                        //Logica mostrar loading y buscar ip
+                        string[] credenciales = CredencialesUtils.LeerCredenciales();
+
+                        ocultarPrincipal = true; // Ocultamos la vista pri para que no se pueda hacer nada mientras se busca la ip del dispositivo
+
+                        Loading loading = new Loading();
+
+                        loading.Show();
+                        Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales[1], credenciales[2], credenciales[3]));
+                        loading.Close();
+
+                        this.Visible = true;
+                        ocultarPrincipal = false;
 
 
-                        WFRgistrarDispositivo wFRgistrarDispositivo = WFRgistrarDispositivo.ObtenerInstancia;
-                        wFRgistrarDispositivo.tipoApertura = 1;
-                        if (!wFRgistrarDispositivo.Visible)
+                        if (!resultadoLogin.Exito)
                         {
-                            wFRgistrarDispositivo.ShowDialog();
+                            //va a mostrar no se encontro la ip
+                            Log.Error("No se encontro ninguna IP de Hikvision");
+                            buscandoIp = false;
+                            timerConexion.Start();
+                            return;
                         }
 
-                        return;
+                        credenciales[0] = resultadoLogin.Mensaje; //El resultado de la busqueda de ip es el mensaje, que es la ip del dispositivo
+                        CredencialesUtils.EscribirArchivoCredenciales(credenciales);
+                        MessageBox.Show("Se busco la direccion del dispositivo y se configuro con la correspondiente", "Aviso busqueda de Ip dispositivo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        buscandoIp = false;
+                        timerConexion.Start();
                     }
-                    //si hubo exito guardo la ip en credenciales
-
-                    credenciales.Ip = resultadoLogin.Mensaje;
-                    CredencialesUtils.EscribirCredencialesBd(credenciales);
-                    MessageBox.Show("Se busco la direccion del dispositivo y se configuro con la correspondiente", "Aviso busqueda de Ip dispositivo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
 
                     break;
                 default:
-                    resultadoError.MessageBoxResultado("Error al inicializar el programa");
+
+                    Log.Error($"Error al inicializar el programa  Exito: {resultadoError.Exito} Código: {resultadoError.Codigo} Mensaje: {resultadoError.Mensaje} ");
+                    ActualizarTextoHeaderLabel("Error De conexión con el dispositivo, verifique la conexión", Color.Red);
                     break;
 
             }
@@ -170,7 +175,7 @@ namespace DeportNetReconocimiento.GUI
             if (!ignorarCierre)
             {
 
-                var result = MessageBox.Show("Deportnet dice:\n¿Estás seguro de que quieres cerrar la aplicación de reconocimiento facial?",
+                DialogResult result = MessageBox.Show("Deportnet dice:\n¿Estás seguro de que quieres cerrar la aplicación de reconocimiento facial?",
                                              "Confirmación",
                                              MessageBoxButtons.YesNo,
                                              MessageBoxIcon.Question);
@@ -188,27 +193,30 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
-
         //Funcion que se ejecuta en cada TICK del timer
-        public async void VerificarEstadoDispositivoAsync(object sender, EventArgs e)
+        public async void VerificarEstadoGeneralAsync(object sender, EventArgs e)
         {
-            VerificarConexionInternet();
-            VerificarConexionConDispositivo();
-        }
-
-        public async void VerificarConexionConDispositivo()
-        {
-            Hik_Resultado resultadoInstanciar = new Hik_Resultado();
-
-            //Se espera al resultado de la función verificarEstadoDispositivo 
-            bool estadoConexionDispositivo = await Task.Run(() => Hik_Controladora_General.InstanciaControladoraGeneral.VerificarEstadoDispositivo());
-
-            Console.WriteLine("Verificamos el estado de la conexion con el dispositivo. Estado: " + estadoConexionDispositivo);
-
-            //si no perdemos la conexion con el dispositivo
-            if (estadoConexionDispositivo)
-            {
+            
+            if (verificandoEstado)
                 return;
+
+            if (!DispositivoEnUsoUtils.EstaLibre())
+                return;
+
+            verificandoEstado = true;
+
+            try
+            {
+                VerificarConexionInternet();
+                VerificarConexionConDispositivo();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error en VerificarEstadoDispositivoAsync: {ex.Message}");
+            }
+            finally
+            {
+                verificandoEstado = false;
             }
 
 
@@ -245,13 +253,13 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
-        public async void VerificarConexionInternet()
+        public async Task VerificarConexionInternet()
         {
             int cantMaxIntentos = 2;
 
-            ConexionInternet = await VerificarConexionInternetUtils.InstanciaVerificarConexionInternet.ComprobarConexionInternetConDeportnet();
+            ConexionInternet = VerificarConexionInternetUtils.Instancia.ComprobarConexionInternet();
 
-            int nroIntentos = VerificarConexionInternetUtils.InstanciaVerificarConexionInternet.IntentosVelocidadInternet;
+            int nroIntentos = VerificarConexionInternetUtils.Instancia.IntentosVelocidadInternet;
 
             //si tenemos conexion a internet y el panel de conexion esta visible, lo ocultamos
             if (ConexionInternet && PanelSinConexion.Visible == true)
@@ -259,7 +267,6 @@ namespace DeportNetReconocimiento.GUI
                 PanelSinConexion.Visible = false;
                 return;
             }
-
 
             //si no hay internet, levantamos un panel de offline
             if (!ConexionInternet || nroIntentos >= cantMaxIntentos)
@@ -272,6 +279,49 @@ namespace DeportNetReconocimiento.GUI
 
             }
 
+        }
+
+        public async Task VerificarConexionConDispositivo()
+        {
+            Hik_Resultado resultadoInstanciar = new Hik_Resultado();
+
+            //Se espera al resultado de la función verificarEstadoDispositivo 
+            bool estadoConexionDispositivo = await Task.Run(()=>Hik_Controladora_General.Instancia.VerificarEstadoDispositivo());
+
+
+            //Log.Information("Verificamos el estado de la conexion con el dispositivo. Estado: " + estadoConexionDispositivo);
+
+            //si tenemos conexion con el dispositivo
+            if (estadoConexionDispositivo)
+            {
+                return;
+            }
+
+            //si NO hay conexion intentamos volver a conectarnos
+            Log.Warning($"No hay conexion con el dispositivo(Estado: {estadoConexionDispositivo}), intentamos reinstanciar programa. nro de intentos: {intentosConexionADispositivo}.");
+
+            resultadoInstanciar = InstanciarPrograma();
+
+            //si el resultado no tuvo exito 
+            if (!resultadoInstanciar.Exito)
+            {
+                intentosConexionADispositivo++;
+                ActualizarTextoHeaderLabel($"Intentos de conexión al dispositivo {intentosConexionADispositivo}", Color.Red);
+                Log.Error($"Intento de conexión al dispositivo n° {intentosConexionADispositivo}");
+
+            }
+            else
+            {
+                //si hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado
+                Log.Information("Hubo conexion exitosa con el dispositivo, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado");
+                intentosConexionADispositivo = 0;
+
+                Hik_Controladora_Eventos.InstanciaControladoraEventos.InstanciarMsgCallback();
+                ActualizarTextoHeaderLabel(ConfiguracionEstilos.LeerJsonConfiguracion().MensajeBienvenida, ConfiguracionEstilos.LeerJsonConfiguracion().ColorFondoMensajeBienvenida);
+                ReactivarTimer();
+            }
+
+            
         }
 
 
@@ -348,16 +398,42 @@ namespace DeportNetReconocimiento.GUI
             }
         }
 
+        public async void ActualizarTextoHeaderLabel(string texto, Color color)
+        {
+            CancellationTokenSource tokenDeCancelacion = CancelarTokenYGenerarNuevoHilos(tokenCancelarTiempoMuestraDeDatos);
+            int nroLector = 1;
+
+            try
+            {
+                if (InvokeRequired)
+                {
+                    Invoke(ActualizarTextoHeaderLabel, texto);
+                    return;
+                }
+
+                LimpiarInterfaz();
+
+                HeaderLabel.Text = texto;
+                HeaderLabel.ForeColor = color;
+
+                //tiempo de muestra de datos
+                await Task.Delay((int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000), tokenDeCancelacion.Token);
+            }
+            catch (TaskCanceledException)
+            {
+                // Ignorar si la tarea fue cancelada
+                Console.WriteLine("Limpiar interfaz cancelada. Hubo otra lectura.");
+            }
+        }
+
+
         public void EvaluarMensajeAcceso(ValidarAccesoResponse json)
         {
             string titulo = "";
             string mensaje = "";
-            Hik_Resultado resultado;
+            Hik_Resultado resultado = new Hik_Resultado();
 
-
-            //Console.WriteLine("Estado json:" + json.Estado);
             AnalizarMaximizarVentana(json.Estado);
-
 
             switch (json.Estado)
             {
@@ -388,15 +464,16 @@ namespace DeportNetReconocimiento.GUI
 
                     if (ConfiguracionEstilos.MetodoApertura == ".exe")
                     {
-                        Console.WriteLine("Ejecuto el exe");
                         Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.RutaMetodoApertura);
                     }
                     else if (ConfiguracionEstilos.MetodoApertura == "Hikvision")
                     {
                         Console.WriteLine("Abro con Hikvision");
                         resultado = Hik_Controladora_Puertas.OperadorPuerta(1);
-                        Console.WriteLine("Resultado de apertura con Hikvision: \n " + resultado);
+                        Log.Information("Resultado de apertura con Hikvision: " + resultado.Exito);
                     }
+
+                    
 
                     titulo = "Bienvenido/a " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Nombre) + " " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Apellido);
                     mensaje = ConvertidorTextoUtils.LimpiarTextoHtml(json.MensajeAcceso);
@@ -413,8 +490,36 @@ namespace DeportNetReconocimiento.GUI
                     break;
             }
 
+
             HeaderLabel.Text = titulo;
             textoInformacionCliente.Text = mensaje;
+
+            if (json.Estado != "Q")
+            {
+                //Fin evento de acceso, por lo tanto lo desocupo
+                DispositivoEnUsoUtils.Desocupar();
+            }
+        }
+
+
+        public void ReactivarTimer()
+        {
+            if (timerConexion == null)
+            {
+                int intervalo = 20000;//20 segundos
+                timerConexion = new System.Windows.Forms.Timer();
+                timerConexion.Interval = intervalo;
+                timerConexion.Tick += VerificarEstadoGeneralAsync;
+                Log.Information("Se crea un timer que verifica la conexión con el dispositivo cada 20 segundos");
+
+            }
+
+            if (!timerConexion.Enabled)
+            {
+                Log.Information("Iniciamos el timer que verifica la conexion con el disp.");
+                timerConexion.Start();
+            }
+
         }
 
         private void CalcularPosicion(HTMLMessageBox popupPregunta)
@@ -450,7 +555,7 @@ namespace DeportNetReconocimiento.GUI
         {
             Image imagen = Resources.avatarPredeterminado;
             //Se obtiene la foto del cliente
-            Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.ObtenerCara(nroLector, idCliente);
+            Hik_Resultado resultado = Hik_Controladora_Facial.Instancia.ObtenerCara(nroLector, idCliente);
 
 
             if (resultado.Exito)
@@ -465,7 +570,7 @@ namespace DeportNetReconocimiento.GUI
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("No se pudo obtener foto cliente: " + ex.Message);
+                    Log.Error("No se pudo obtener foto cliente: "+ ex.Message);
                     imagen = Resources.avatarPredeterminado;
                 }
             }
@@ -473,20 +578,6 @@ namespace DeportNetReconocimiento.GUI
 
             return imagen;
         }
-
-        public Image? CapturarFotoCliente()
-        {
-            Image imagen = null;
-
-            Hik_Resultado resultado = Hik_Controladora_Facial.ObtenerInstancia.CapturarCara();
-            if (resultado.Exito)
-            {
-                String ruta = Path.Combine(Directory.GetCurrentDirectory(), "captura.jpg");
-                imagen = Image.FromFile(ruta);
-            }
-            return imagen;
-        }
-
 
         public async void LimpiarInterfaz()
         {
@@ -634,7 +725,7 @@ namespace DeportNetReconocimiento.GUI
                 }
                 catch (TaskCanceledException ex)
                 {
-                    Console.WriteLine("Se cancelo el timer minimizar");
+                    Console.WriteLine("Se cancelo el timer minimizar: "+ ex.Message);
                 }
             }
 

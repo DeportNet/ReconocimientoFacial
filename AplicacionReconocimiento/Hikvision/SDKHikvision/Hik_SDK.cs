@@ -1184,6 +1184,12 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
         [DllImport(rutaLibreriaSDK)]
         public static extern bool NET_DVR_SetDVRConfig(int lUserID, uint dwCommand, int lChannel, nint lpInBuffer, uint dwInBufferSize);
 
+        // [DllImport(rutaLibreriaSDK)]
+        // public static extern bool NET_DVR_GetDVRConfig(int lUserID, uint dwCommand, int lChannel, IntPtr lpOutBuffer, uint dwOutBufferSize, ref uint lpBytesReturned);
+
+        // [DllImport(rutaLibreriaSDK)]
+        // public static extern bool NET_DVR_SetDVRConfig(int lUserID, uint dwCommand, int lChannel, System.IntPtr lpInBuffer, uint dwInBufferSize);
+
         #endregion}
 
     }

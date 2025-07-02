@@ -191,8 +191,8 @@ namespace DeportNetReconocimiento
             }
             seClickeoBotonLogin = true;
 
-
-            Hik_Resultado resultadoLogin = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(textBoxUserName.Text, textBoxPassword.Text, textBoxPort.Text, textBoxDeviceAddress.Text);
+            
+            Hik_Resultado resultadoLogin = Hik_Controladora_General.Instancia.InicializarPrograma(textBoxUserName.Text, textBoxPassword.Text, textBoxPort.Text, textBoxDeviceAddress.Text);
 
             if (!resultadoLogin.Exito)
             {
@@ -219,9 +219,12 @@ namespace DeportNetReconocimiento
             //Escribe las credenciales en la base de datos
 
             credenciales = CrearCredencialesDesdeTextbox();
-
             CredencialesUtils.EscribirCredencialesBd(credenciales);
+            WFPrincipal.ObtenerInstancia.ReactivarTimer();
 
+
+            //Creador de credenciales manual
+            //CredencialesUtils.EscribirArchivoCredenciales(["192.168.0.203", "8000", "admin", "facu", "321", "laskjdhf"]);
 
             ignorarCerrarPrograma = true;
             seClickeoBotonLogin = false;
@@ -355,11 +358,12 @@ namespace DeportNetReconocimiento
             {
                 return;
             }
+            loading = new Loading();
             loading.Show();
-
-            Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text));
-
-            loading.Hide();
+            
+            Hik_Resultado resultadoLogin = await Task.Run(()=> BuscadorIpDispositivo.ObtenerIpDispositivo(textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text));
+            
+            loading.Close();
 
 
             if (!resultadoLogin.Exito)

@@ -1,5 +1,9 @@
 using DeportNetReconocimiento.Api;
 using DeportNetReconocimiento.GUI;
+using DeportNetReconocimiento.SDK;
+using DeportNetReconocimiento.SDKHikvision;
+using DeportNetReconocimiento.Utils;
+using Serilog;
 using System.Diagnostics;
 
 
@@ -12,30 +16,45 @@ namespace DeportNetReconocimiento
         [STAThread]
         static void Main(string[] args)
         {
-
             if (ProgramaCorriendo())
             {
                 MessageBox.Show("El programa ya esta abierto en otra ventana", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
+            InicializarLogger();
+
+            Application.ApplicationExit += (s, e) => {
+                Log.Information("La aplicacion se cerro.");
+                Log.CloseAndFlush();
+                apiServer?.Stop();
+            };
+
             /*API*/
             InicializarApi();
 
-
-            /*Cargar BD*/
-            apiServer.CargarBd();
-
-
+            Log.Information("Aplicacion iniciada.");
 
             //iniciazamos la ventana principal de acceso
-            //modulo de acceso
-            Application.Run(new WFSeleccionarUsuario());
+            Application.Run(WFPrincipal.ObtenerInstancia);
+            
+        }
 
+        private static void InicializarLogger()
+        {
+            //Inicializamos el SDK de Hikvision para registrar logs
+            //Hik_Resultado.InicializarLogsHikvsion();
 
-            // Detener el servidor cuando la aplicacion cierre
-            AppDomain.CurrentDomain.ProcessExit += (s, e) => apiServer?.Stop();
-
+            // Configurar Serilog para registrar en la consola y en un archivo
+            Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Information() // puedes cambiar a Information para prod
+            .WriteTo.Console()
+            .WriteTo.File(
+                "LogsDeportnetReconocimiento/log-.log",
+                rollingInterval: RollingInterval.Day,
+                retainedFileCountLimit: 60 // mantener solo �ltimos 60 d�as
+            )
+            .CreateLogger();
         }
 
         private static bool ProgramaCorriendo()
@@ -45,6 +64,7 @@ namespace DeportNetReconocimiento
 
             if (cantidadDeInstancias > 1)
             {
+                Log.Information("Se intento abrir el programa de nuevo y este ya esta corriendo.");
                 return true;
             }
 

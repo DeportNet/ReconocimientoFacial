@@ -1,6 +1,8 @@
 using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using DeportNetReconocimiento.Utils.Modelo;
+using DeportNetReconocimiento.SDK;
+using Serilog;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Text.Json;
@@ -14,11 +16,6 @@ namespace DeportNetReconocimiento.Utils
 {
     public class ConfiguracionEstilos
     {
-
-
-
-
-
         /* - - - - - - General - - - - - */
 
         [Category("General")]
@@ -202,8 +199,14 @@ namespace DeportNetReconocimiento.Utils
         [DisplayName("Color de fondo imagen cliente")]
         [Description("Color de fondo donde se mostrara la imagen del cliente cuando se reconozca.")]
         [JsonConverter(typeof(ColorJsonConverter))]
-        public Color ColorFondoImagen { get; set; } 
+        public Color ColorFondoImagen { get; set; }
 
+        [Category("Imagen Cliente")]
+        [DisplayName("Enviar foto socio a Depornet")]
+        [Description("Si se activa, y los rostros se guardan en una carpeta, se puede asignar la foto de perfil del socio en Depornet a partir de un alta facial.")]
+        [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
+        [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
+        public bool EnviarFotoSocioADx { get; set; }
 
 
 
@@ -353,17 +356,20 @@ namespace DeportNetReconocimiento.Utils
 
         }
         private float segundosMinimizar;
-
+       
+        /* - - - - - - Configuracion de Admin - - - - - - */
 
         [Browsable(false)]
         public string MetodoApertura { get; set; }
-
 
         [Browsable(false)]
         public string RutaMetodoApertura { get; set; }
 
         [Browsable(false)]
         public byte PermisosDeTarjeta { get; set; }
+
+        [Browsable(false)]
+        public bool BloquearIp { get; set; }
 
         // Constructor predeterminado
         public ConfiguracionEstilos()
@@ -396,15 +402,15 @@ namespace DeportNetReconocimiento.Utils
             TiempoDeMuestraDeDatos = 7;
         
             // Imagen Cliente
-            ColorFondoImagen = Color.DimGray;
-
-            string rutaRecursos = Path.Combine(AppContext.BaseDirectory, "Recursos");
+            ColorFondoImagen = Color.DarkGray;
+            EnviarFotoSocioADx = true;
 
             // Sonidos
+            string rutaRecursos = Path.Combine(AppContext.BaseDirectory, "Recursos");
+
             AccesoConcedido = new Sonido(Path.Combine(rutaRecursos, "sonido-concedido.mp3"));
             AccesoDenegado = new Sonido(Path.Combine(rutaRecursos, "sonido-denegado.mp3"));
             SonidoPregunta = new Sonido(Path.Combine(rutaRecursos, "sonido-pregunta.mp3"));
-
             SonidoBienvenida = new Sonido();
 
 
@@ -429,6 +435,9 @@ namespace DeportNetReconocimiento.Utils
             // Guardar fotos socio
             AlmacenarFotoSocio = false;
             RutaCarpeta = Directory.GetCurrentDirectory();
+
+            // Rastrear IP
+            BloquearIp = false;
         }
 
 
@@ -436,8 +445,6 @@ namespace DeportNetReconocimiento.Utils
         public static void GuardarJsonConfiguracion(ConfiguracionEstilos configuracion)
         {
             string rutaJson = "configuracionEstilos.json";
-            //string tempRutaJson = "configuracionEstilos_temp.json";
-
             try
             {
                 var options = new JsonSerializerOptions
@@ -451,11 +458,10 @@ namespace DeportNetReconocimiento.Utils
 
                 ConfiguracionManager.ActualizarConfiguracionDesdeJson("configuracionEstilos");
 
-                //Console.WriteLine("Configuración guardada correctamente.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al guardar el archivo de configuración: {ex.Message}");
+                Log.Error($"Error al guardar el archivo de configuración: {ex.Message}");
             }
         }
 
@@ -485,11 +491,10 @@ namespace DeportNetReconocimiento.Utils
                     // Deserializar el contenido
                     configuracionEstilos = JsonSerializer.Deserialize<ConfiguracionEstilos>(jsonContent, options);
 
-                    Console.WriteLine("Configuración leida correctamente.");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"No se pudo leer el JSON de configuración: {ex.Message}");
+                    Log.Error($"No se pudo leer el JSON de configuración: {ex.Message}");
                 }
             }
 
@@ -504,10 +509,22 @@ namespace DeportNetReconocimiento.Utils
 
         public void ActualizarCapacidadMaximaConfigEstilos(int capacidadMaxima)
         {
-            CapacidadMaximaDispositivo = capacidadMaxima;
+            CarasRegistradas -= 1;
             GuardarJsonConfiguracion(this);
         }
 
+        public void ActualizarCapacidadMaxima()
+        {
+            int capacidad = Hik_Controladora_General.Instancia.ObtenerCapacidadCarasDispositivo();
+            //CapacidadMaximaDispositivo = 1500;
+            GuardarJsonConfiguracion(this);
+        }
+
+        public void CambiarEstadoBloqueoIp()
+        {
+            BloquearIp = !BloquearIp;
+            GuardarJsonConfiguracion(this);
+        }
 
     }
 
@@ -515,8 +532,6 @@ namespace DeportNetReconocimiento.Utils
     public class ImageToPathJsonConverter : JsonConverter<Image>
     {
         private readonly string directorioBase = AppDomain.CurrentDomain.BaseDirectory;
-
-       
 
         private bool ValidarImagen(Image image)
         {
@@ -552,7 +567,7 @@ namespace DeportNetReconocimiento.Utils
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al liberar la imagen: {ex.Message}");
+                Log.Error($"Error al liberar la imagen: {ex.Message}");
             }
         }
 
@@ -575,7 +590,7 @@ namespace DeportNetReconocimiento.Utils
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al guardar la imagen: {ex.Message}");
+                Log.Error($"Error al guardar la imagen: {ex.Message}");
             }
             
             return null;
@@ -586,7 +601,7 @@ namespace DeportNetReconocimiento.Utils
         {
             if (value == null)
             {
-                Console.WriteLine("Img Es null. Estoy en Write de ImageToPathJsonConverter");
+                Log.Error("Img Es null. Estoy en Write de ImageToPathJsonConverter");
                 writer.WriteStringValue(string.Empty); // Guardar una cadena vacía si la imagen es null
                 return;
             }
@@ -611,22 +626,12 @@ namespace DeportNetReconocimiento.Utils
                 }
 
             }
-            //catch(OutOfMemoryException ex)
-            //{
-            //    Console.WriteLine($"write Out of memory exception: {ex.Message}");
-
-            //}
             catch (Exception ex)
             {
-                //LiberarImagen(value);
-                //Console.WriteLine($"write Error al guardar la imagen: {ex.Message}");
                 writer.WriteStringValue(string.Empty); // Guardar cadena vacía si ocurre un error (string.Empty)
             }
             
         }
-
-
-       
 
         public override Image Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -639,7 +644,7 @@ namespace DeportNetReconocimiento.Utils
             // Verificar si la ruta es válida
             if (string.IsNullOrEmpty(rutaRelativa) || !File.Exists(rutaAbsoluta))
             {
-                Console.WriteLine("Si hay algun problema, ponemos la img predeterminada");
+                //Si hay algun problema, ponemos la img predeterminada
                 return Resources.logo_deportnet_1; //retorno el logo deportnet si no se pudo leer nada
             }
 
@@ -653,7 +658,8 @@ namespace DeportNetReconocimiento.Utils
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"read Error al cargar la imagen: {ex.Message}");
+                Log.Error($"read Error al cargar la imagen: {ex.Message}");
+
             }
 
             return Resources.logo_deportnet_1; //retorno el logo deportnet si no se pudo leer nada

@@ -53,6 +53,8 @@
             panel1 = new Panel();
             panel2 = new Panel();
             botonModoOffline = new Button();
+            labelBloquearIp = new Label();
+            checkBox1 = new CheckBox();
             PanelConfigAdminsitrador.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
@@ -158,6 +160,7 @@
             PanelConfigAdminsitrador.BackColor = Color.IndianRed;
             PanelConfigAdminsitrador.Controls.Add(botonModoOffline);
             PanelConfigAdminsitrador.Controls.Add(comboBoxNroLector);
+            PanelConfigAdminsitrador.Controls.Add(checkBox1);
             PanelConfigAdminsitrador.Controls.Add(label3);
             PanelConfigAdminsitrador.Controls.Add(botonEditarCredenciales);
             PanelConfigAdminsitrador.Controls.Add(label2);
@@ -202,7 +205,7 @@
             botonEditarCredenciales.Cursor = Cursors.Hand;
             botonEditarCredenciales.FlatAppearance.BorderSize = 0;
             botonEditarCredenciales.FlatStyle = FlatStyle.Flat;
-            botonEditarCredenciales.Location = new Point(171, 127);
+            botonEditarCredenciales.Location = new Point(165, 132);
             botonEditarCredenciales.Margin = new Padding(0);
             botonEditarCredenciales.Name = "botonEditarCredenciales";
             botonEditarCredenciales.Size = new Size(75, 23);
@@ -215,12 +218,11 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F);
-            label2.Location = new Point(21, 127);
+            label2.Location = new Point(21, 132);
             label2.Name = "label2";
             label2.Size = new Size(142, 21);
             label2.TabIndex = 28;
             label2.Text = "Editar credenciales:";
-            label2.Click += label2_Click;
             // 
             // BotonAbrirFileDialog
             // 
@@ -348,6 +350,25 @@
             botonModoOffline.Text = "Activar modo offline";
             botonModoOffline.UseVisualStyleBackColor = false;
             botonModoOffline.Click += button2_Click;
+            // label3
+            // 
+            labelBloquearIp.AutoSize = true;
+            labelBloquearIp.Font = new Font("Segoe UI", 12F);
+            labelBloquearIp.Location = new Point(21, 191);
+            labelBloquearIp.Name = "label3";
+            labelBloquearIp.Size = new Size(0, 21);
+            labelBloquearIp.TabIndex = 30;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(21, 171);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(86, 19);
+            checkBox1.TabIndex = 31;
+            checkBox1.Text = "Bloquear IP";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // WFConfiguracion
             // 
@@ -401,6 +422,7 @@
         private Button button1;
         private Label label2;
         private Button botonEditarCredenciales;
+        private CheckBox checkBox1;
         private Label label3;
         private ComboBox comboBoxNroLector;
         private TableLayoutPanel tableLayoutPanel1;
