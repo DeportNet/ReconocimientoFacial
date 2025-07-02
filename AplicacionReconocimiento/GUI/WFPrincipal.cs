@@ -39,14 +39,6 @@ namespace DeportNetReconocimiento.GUI
 
         }
 
-        private void WFPrincipal_Load(object sender, EventArgs e)
-        {
-            if (!loading.Visible)
-            {
-                this.MaximizarVentana();
-            }
-        }
-
 
         //propiedades
 
@@ -90,7 +82,7 @@ namespace DeportNetReconocimiento.GUI
                 return resultado;
             }
 
-            resultado = Hik_Controladora_General.InstanciaControladoraGeneral.InicializarPrograma(credenciales.Username, credenciales.Password, credenciales.Port, credenciales.Ip);
+            resultado = Hik_Controladora_General.Instancia.InicializarPrograma(credenciales.Username, credenciales.Password, credenciales.Port, credenciales.Ip);
 
             if (resultado.Exito)
             {
@@ -111,7 +103,7 @@ namespace DeportNetReconocimiento.GUI
 
             ConfiguracionEstilos = ConfiguracionEstilos.LeerJsonConfiguracion();
 
-             switch (resultadoError.Codigo)
+            switch (resultadoError.Codigo)
             {
                 case "7":
 
@@ -126,14 +118,14 @@ namespace DeportNetReconocimiento.GUI
                         timerConexion.Stop();
                         buscandoIp = true;
                         //Logica mostrar loading y buscar ip
-                        string[] credenciales = CredencialesUtils.LeerCredenciales();
+                        Credenciales? credenciales = CredencialesUtils.LeerCredencialesBd();
 
                         ocultarPrincipal = true; // Ocultamos la vista pri para que no se pueda hacer nada mientras se busca la ip del dispositivo
 
                         Loading loading = new Loading();
 
                         loading.Show();
-                        Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales[1], credenciales[2], credenciales[3]));
+                        Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(credenciales.Port, credenciales.Username, credenciales.Password));
                         loading.Close();
 
                         this.Visible = true;
@@ -149,8 +141,8 @@ namespace DeportNetReconocimiento.GUI
                             return;
                         }
 
-                        credenciales[0] = resultadoLogin.Mensaje; //El resultado de la busqueda de ip es el mensaje, que es la ip del dispositivo
-                        CredencialesUtils.EscribirArchivoCredenciales(credenciales);
+                        credenciales.Ip = resultadoLogin.Mensaje; //El resultado de la busqueda de ip es el mensaje, que es la ip del dispositivo
+                        CredencialesUtils.EscribirCredencialesBd(credenciales);
                         MessageBox.Show("Se busco la direccion del dispositivo y se configuro con la correspondiente", "Aviso busqueda de Ip dispositivo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         buscandoIp = false;
                         timerConexion.Start();
@@ -196,7 +188,7 @@ namespace DeportNetReconocimiento.GUI
         //Funcion que se ejecuta en cada TICK del timer
         public async void VerificarEstadoGeneralAsync(object sender, EventArgs e)
         {
-            
+
             if (verificandoEstado)
                 return;
 
@@ -219,39 +211,9 @@ namespace DeportNetReconocimiento.GUI
                 verificandoEstado = false;
             }
 
-
-            //intentamos volver a conectarnos
-            resultadoInstanciar = InstanciarPrograma();
-            Console.WriteLine("No hay conexion, intentamos reinstanciar programa. nro de intentos: " + intentosConexionADispositivo);
-
-            //si el resultado no tuvo exito 
-            if (!resultadoInstanciar.Exito)
-            {
-                intentosConexionADispositivo++;
-                //despues de n veces seguidas
-                if (intentosConexionADispositivo >= 2)
-                {
-                    Console.WriteLine("Llegamos a los 2 intentos, dejamos de intentar conectarnos");
-                    timerConexion.Stop();
-                    MessageBox.Show("No se pudo conectar con el dispositivo, revise si el dispositivo esta conectado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                //si hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado
-                Console.WriteLine("Hubo conexion exitosa, reiniciamos el contador y volvemos a iniciar el timer si estaba apagado");
-                intentosConexionADispositivo = 0;
-
-                Hik_Controladora_Eventos.InstanciaControladoraEventos.ReinstanciarMsgCallback();
-
-                if (!timerConexion.Enabled)
-                {
-                    timerConexion.Start();
-                }
-            }
-
-
         }
+
+        //intentamos volver a conectarnos
 
         public async Task VerificarConexionInternet()
         {
@@ -286,7 +248,7 @@ namespace DeportNetReconocimiento.GUI
             Hik_Resultado resultadoInstanciar = new Hik_Resultado();
 
             //Se espera al resultado de la función verificarEstadoDispositivo 
-            bool estadoConexionDispositivo = await Task.Run(()=>Hik_Controladora_General.Instancia.VerificarEstadoDispositivo());
+            bool estadoConexionDispositivo = await Task.Run(() => Hik_Controladora_General.Instancia.VerificarEstadoDispositivo());
 
 
             //Log.Information("Verificamos el estado de la conexion con el dispositivo. Estado: " + estadoConexionDispositivo);
@@ -321,7 +283,7 @@ namespace DeportNetReconocimiento.GUI
                 ReactivarTimer();
             }
 
-            
+
         }
 
 
@@ -473,7 +435,7 @@ namespace DeportNetReconocimiento.GUI
                         Log.Information("Resultado de apertura con Hikvision: " + resultado.Exito);
                     }
 
-                    
+
 
                     titulo = "Bienvenido/a " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Nombre) + " " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Apellido);
                     mensaje = ConvertidorTextoUtils.LimpiarTextoHtml(json.MensajeAcceso);
@@ -570,7 +532,7 @@ namespace DeportNetReconocimiento.GUI
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("No se pudo obtener foto cliente: "+ ex.Message);
+                    Log.Error("No se pudo obtener foto cliente: " + ex.Message);
                     imagen = Resources.avatarPredeterminado;
                 }
             }
@@ -725,7 +687,7 @@ namespace DeportNetReconocimiento.GUI
                 }
                 catch (TaskCanceledException ex)
                 {
-                    Console.WriteLine("Se cancelo el timer minimizar: "+ ex.Message);
+                    Console.WriteLine("Se cancelo el timer minimizar: " + ex.Message);
                 }
             }
 
@@ -797,10 +759,10 @@ namespace DeportNetReconocimiento.GUI
         private void botonDeportnetOffline_Click(object sender, EventArgs e)
         {
             WFDeportnetOffline wFDeportnetOffline = WFDeportnetOffline.ObtenerInstancia;
-            
+
             if (wFDeportnetOffline.Visible)
             {
-            Console.WriteLine("Esta visible");
+                Console.WriteLine("Esta visible");
                 wFDeportnetOffline.BringToFront();
                 return;
             }

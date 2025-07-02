@@ -62,7 +62,7 @@ namespace DeportNetReconocimiento.GUI
 
             if (listadoAux.Count == 0)
             {
-                listadoAux.Add(new Empleado(idSucursalInt, "Empleado", "Predeterminado", "", "T","F"));
+                listadoAux.Add(new Empleado(idSucursalInt, "Empleado", "Predeterminado", "", "T", "F"));
 
                 listadoAux.First().Id = -1;
 
@@ -158,7 +158,7 @@ namespace DeportNetReconocimiento.GUI
             if (e.KeyCode == Keys.Enter)
             {
                 e.Handled = true;
-                e.SuppressKeyPress = true; 
+                e.SuppressKeyPress = true;
                 ValidarUsuario();
             }
         }

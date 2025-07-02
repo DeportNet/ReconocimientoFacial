@@ -25,10 +25,10 @@ namespace DeportnetOffline
         public void ObtenerProductosDeBD()
         {
             using var context = BdContext.CrearContexto();
-            
+
             articulos = context.Articulos.ToList();
 
-            if(articulos != null)
+            if (articulos != null)
             {
                 CargarComboBox(articulos);
             }
@@ -50,10 +50,10 @@ namespace DeportnetOffline
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(articulos.Count  > 0)
+            if (articulos.Count > 0)
             {
                 articuloSeleccionado = (Articulo?)comboBox1.SelectedItem;
-                if(articuloSeleccionado != null && articuloSeleccionado.IdDx != 0)
+                if (articuloSeleccionado != null && articuloSeleccionado.IdDx != 0)
                 {
                     ActualizarLabels(articuloSeleccionado);
                 }

@@ -1,5 +1,4 @@
 using DeportNetReconocimiento.Hikvision.SDKHikvision;
-using DeportNetReconocimiento.SDK;
 using Serilog;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
@@ -9,9 +8,9 @@ namespace DeportNetReconocimiento.Utils
 {
     public class BuscadorIpDispositivo
     {
-        public static async Task<Hik_Resultado> ObtenerIpDispositivo(string port,string username, string password)
+        public static async Task<Hik_Resultado> ObtenerIpDispositivo(string port, string username, string password)
         {
-            
+
 
             Hik_Resultado resultadoLogin = new Hik_Resultado();
 
@@ -32,7 +31,7 @@ namespace DeportNetReconocimiento.Utils
                         resultadoLogin.Mensaje = ip;
                         break; // Sale del bucle al encontrar el primer dispositivo
                     }
-                    
+
                 }
 
             }

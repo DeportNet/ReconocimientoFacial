@@ -421,9 +421,10 @@
         private Button BotonAbrirFileDialog;
         private Button button1;
         private Label label2;
+        private Label label3;
         private Button botonEditarCredenciales;
         private CheckBox checkBox1;
-        private Label label3;
+        private Label labelBloquearIp;
         private ComboBox comboBoxNroLector;
         private TableLayoutPanel tableLayoutPanel1;
         private Panel panel1;

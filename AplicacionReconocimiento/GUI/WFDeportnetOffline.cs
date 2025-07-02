@@ -118,7 +118,7 @@ namespace DeportnetOffline
                 // Cancelar el cierre
                 e.Cancel = true;
             }
-            
+
         }
 
         private void WFDeportnetOffline_FormClosed(object sender, FormClosedEventArgs e)

@@ -24,7 +24,7 @@ namespace DeportNetReconocimiento.Api.Services
 
         public async Task SincronizarSocios()
         {
-            
+
             //1. Pegarle al Webservice de DeportNet para obtener todos los clientes, Leer y Convertir el json en una lista de clientes
             List<Socio> listadoDeSociosDx = await ObtenerSociosDelWebserviceAsync();
 
@@ -120,9 +120,9 @@ namespace DeportNetReconocimiento.Api.Services
         {
             using var context = BdContext.CrearContexto();
 
-            
+
             Socio socio = context.Socios.Find(idSocio);
-            if(socio == null)
+            if (socio == null)
             {
                 Console.WriteLine("No se encontró al socio con id " + idSocio);
                 return;
@@ -157,21 +157,22 @@ namespace DeportNetReconocimiento.Api.Services
 
             List<NuevoSocio> listadoNuevosSociosParsed = _socioMapper.ListaSocioToListaNuevoSocio(listadoSocios);
             string? jsonRta = await WebServicesDeportnet.EnviarNuevosSocios(listadoNuevosSociosParsed, idSucursal);
-            
-            if(jsonRta == null) {
+
+            if (jsonRta == null)
+            {
                 Console.WriteLine("Error al enviar nuevos socios, la respuesta recibida de dx es null");
                 return;
             }
 
             RespuestaAltaNuevosSocios respuestaAltaNuevosSocios = JsonConvert.DeserializeObject<RespuestaAltaNuevosSocios>(jsonRta);
-            
-            if(respuestaAltaNuevosSocios.ProcessResult == "F")
+
+            if (respuestaAltaNuevosSocios.ProcessResult == "F")
             {
                 MessageBox.Show(respuestaAltaNuevosSocios.ErrorMessage, "Error al enviar nuevos socios", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Console.WriteLine(respuestaAltaNuevosSocios.ErrorItems.ToString());
                 return;
             }
-            
+
             //falta agregar los nuevos ids, a los socios nuevos y cambiar los emails
             await ActualizarIdsNuevosSocios(listadoSocios, respuestaAltaNuevosSocios.UpdatedMembers);
 

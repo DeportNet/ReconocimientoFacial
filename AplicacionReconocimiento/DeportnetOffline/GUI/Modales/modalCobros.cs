@@ -27,7 +27,7 @@ namespace DeportnetOffline
         {
             using var bdContext = BdContext.CrearContexto();
             membresias = bdContext.Membresias.ToList();
-            
+
             if (membresias != null)
             {
                 CargarComboBox(membresias);
@@ -84,12 +84,12 @@ namespace DeportnetOffline
 
         private async void buttonCobrar_Click(object sender, EventArgs e)
         {
-            if(comboBox1.SelectedIndex == 0)
+            if (comboBox1.SelectedIndex == 0)
             {
                 return;
             }
 
-            if(socio == null)
+            if (socio == null)
             {
                 return;
             }
@@ -104,7 +104,7 @@ namespace DeportnetOffline
                 name: membresiaSeleccionada.Name,
                 amount: membresiaSeleccionada.Amount
                 );
-             
+
             bool resultado = await VentaRepository.RegistrarVenta(venta);
 
             if (resultado)
@@ -112,7 +112,7 @@ namespace DeportnetOffline
 
                 MessageBox.Show("Venta completada", "La venta se registro exitosamente", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 await SocioService.ActualizarEstadoSocio(socio.Id, 1);
-                
+
                 LimpiarLabels();
                 this.Close();
             }
@@ -120,7 +120,7 @@ namespace DeportnetOffline
             {
                 MessageBox.Show("Error al registrar la venta, intente nuevamente");
             }
-            
+
         }
 
     }

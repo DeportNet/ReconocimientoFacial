@@ -90,13 +90,13 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
             }
 
             ProcesarNuevoEvento(infoEvento);
-           
+
         }
 
 
         private static void ProcesarNuevoEvento(Evento infoEvento)
         {
-            
+
 
             if (EsTiempoValido(infoEvento))
             {
@@ -128,7 +128,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
                 {
                     EsEventoValidoParaDesocupar(infoEvento);
                 }
-              
+
             }
             else
             {
@@ -140,14 +140,15 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
             }
         }
 
-        private static void EsEventoValidoParaDesocupar(Evento infoEvento) { 
-        
-            if(infoEvento == null)
+        private static void EsEventoValidoParaDesocupar(Evento infoEvento)
+        {
+
+            if (infoEvento == null)
             {
                 return;
             }
 
-            if(infoEvento.Minor_Type == MINOR_REMOTE_ARM || infoEvento.Minor_Type == MINOR_REMOTE_LOGIN)
+            if (infoEvento.Minor_Type == MINOR_REMOTE_ARM || infoEvento.Minor_Type == MINOR_REMOTE_LOGIN)
             {
                 DispositivoEnUsoUtils.Desocupar();
             }
@@ -230,7 +231,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
             Log.Information($"Se pidieron los datos del socio {numeroTarjeta} a dx y tardó {stopwatch.ElapsedMilliseconds}ms");
 
             ProcesarRespuestaAcceso(response, numeroTarjeta, idSucursal);
-           
+
         }
 
         public static void ProcesarRespuestaAcceso(string response, string nroTarjeta, string idSucursal)
@@ -259,7 +260,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
 
                     if (branchAccess[1].ToString() == "U")
                     {
-                    
+
                         jsonDeportnet.MensajeCrudo = branchAccess[0].ToString();
                         jsonDeportnet.Estado = "U";
 
@@ -318,7 +319,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
                 Log.Error($"Error inesperado en ProcesarRespuestaAcceso: {ex.Message}");
             }
 
-            
+
         }
 
         public void SetupAlarm()

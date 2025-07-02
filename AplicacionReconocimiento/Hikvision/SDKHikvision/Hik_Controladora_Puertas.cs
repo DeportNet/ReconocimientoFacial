@@ -1,4 +1,3 @@
-using DeportNetReconocimiento.SDK;
 using Serilog;
 using System.Diagnostics;
 
@@ -33,7 +32,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
         {
             Hik_Resultado resultado = new Hik_Resultado();
             int idUsuario = Hik_Controladora_General.Instancia.IdUsuario;
-            if(idUsuario == -1)
+            if (idUsuario == -1)
             {
                 resultado.ActualizarResultado(false, "No se ha logueado el usuario.", Hik_SDK.NET_DVR_GetLastError().ToString());
                 return resultado;

@@ -18,18 +18,18 @@ namespace DeportNetReconocimiento.Utils
         }
         public static string? BuscarImagenSocio(string nombreSocio, string idSocio)
         {
-            if(string.IsNullOrEmpty(nombreSocio) || string.IsNullOrEmpty(idSocio))
+            if (string.IsNullOrEmpty(nombreSocio) || string.IsNullOrEmpty(idSocio))
             {
                 Log.Warning("Nombre o IDSocio no pueden ser nulos o vacíos.");
                 return null;
             }
-         
+
             string nombreABuscar = CambiarNombreFoto(nombreSocio, idSocio);
 
             ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion();
 
 
-            if(string.IsNullOrEmpty(configuracion.RutaCarpeta) || !Directory.Exists(configuracion.RutaCarpeta))
+            if (string.IsNullOrEmpty(configuracion.RutaCarpeta) || !Directory.Exists(configuracion.RutaCarpeta))
             {
                 Log.Warning("La ruta de la carpeta de imágenes no está configurada o no existe: " + configuracion.RutaCarpeta);
                 return null;

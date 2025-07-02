@@ -21,7 +21,7 @@ namespace DeportNetReconocimiento.Utils
             Credenciales? credObtenidas = null;
 
             credObtenidas = bdContext.Credenciales.FirstOrDefault();
-           
+
             if (credObtenidas == null)
             {
                 WFRgistrarDispositivo wFRgistrarDispositivo = WFRgistrarDispositivo.ObtenerInstancia;
@@ -83,7 +83,7 @@ namespace DeportNetReconocimiento.Utils
         {
             using var cotexto = BdContext.CrearContexto();
 
-            Credenciales? credenciales = new Credenciales();    
+            Credenciales? credenciales = new Credenciales();
             credenciales = cotexto.Credenciales.FirstOrDefault();
 
             return credenciales != null ? true : false;

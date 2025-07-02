@@ -10,10 +10,10 @@ namespace DeportNetReconocimiento.Utils
         private static IWavePlayer? wavePlayer;
         private AudioFileReader? audioFile;
         private static ReproductorSonidos? instanciaReproductorSonidos;
-        
+
         private ReproductorSonidos()
         {
-      
+
         }
 
         public static ReproductorSonidos InstanciaReproductorSonidos
@@ -36,7 +36,7 @@ namespace DeportNetReconocimiento.Utils
             {
                 return;
             }
-            
+
             try
             {
                 // Detenemos si hay algun sonido reproduciendose actualmente
@@ -65,7 +65,7 @@ namespace DeportNetReconocimiento.Utils
         {
             if (wavePlayer != null /*&& wavePlayer.PlaybackState == PlaybackState.Playing*/)
             {
-                
+
                 wavePlayer.Stop();
             }
 

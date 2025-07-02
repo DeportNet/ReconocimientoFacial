@@ -20,8 +20,8 @@ namespace DeportNetReconocimiento.Utils
             int? carasActualesNullable = null;
 
             ConfiguracionEstilos configEstilos = ConfiguracionEstilos.LeerJsonConfiguracion();
-            
-            if(configGeneral == null)
+
+            if (configGeneral == null)
             {
                 Console.WriteLine("No se encontró la configuración general en la base de datos. En VerificarAlmacenamientoUtils.");
                 return null;
@@ -32,7 +32,7 @@ namespace DeportNetReconocimiento.Utils
             carasActualesNullable = configGeneral.RostrosActuales;
             float porcentajeAlerta = configEstilos.PorcentajeAlertaCapacidad;
 
-            if(porcentajeAlerta == 0 || porcentajeAlerta == null)
+            if (porcentajeAlerta == 0 || porcentajeAlerta == null)
             {
                 Console.WriteLine("El porcentaje de alerta es 0 o null. En VerificarAlmacenamientoUtils.");
             }
@@ -44,12 +44,12 @@ namespace DeportNetReconocimiento.Utils
                 return null;
             }
 
-            if(carasActualesNullable == null)
+            if (carasActualesNullable == null)
             {
                 Console.WriteLine("Las caras actuales es null. En VerificarAlmacenamientoUtils.");
                 return null;
             }
-            
+
             //calculamos el porcentaje
             float porcentajeActual = (float)((carasActualesNullable * 100) / capacidadMaximaNullable);
 
@@ -87,19 +87,19 @@ namespace DeportNetReconocimiento.Utils
             }
 
             Credenciales? credenciales = CredencialesUtils.LeerCredencialesBd();
-            
+
 
 
             string? idSucursal = credenciales.BranchId;
 
 
-            if(idSucursal == null)
+            if (idSucursal == null)
             {
                 Console.WriteLine("No se encontró idSucursal en la base de datos. En VerificarAlmacenamientoUtils.");
                 return;
             }
 
-        
+
 
 
             //hago la pegada
@@ -108,7 +108,7 @@ namespace DeportNetReconocimiento.Utils
             //recibo el arreglo de ids a borrar
             ListadoBajaSociosDtoDx? listado = JsonConvert.DeserializeObject<ListadoBajaSociosDtoDx>(json);
 
-            if(listado == null)
+            if (listado == null)
             {
                 Console.WriteLine("Listado de socios a eliminar es null. En VerificarAlmacenamientoUtils.");
                 return;
@@ -116,7 +116,7 @@ namespace DeportNetReconocimiento.Utils
 
             //funcion de hikControladoraGeneral que borra en bucle
 
-            Hik_Controladora_General.InstanciaControladoraGeneral.BajaMasivaClientes(listado.DeletedBranchMembers);
+            Hik_Controladora_General.Instancia.BajaMasivaClientes(listado.DeletedBranchMembers);
 
 
         }

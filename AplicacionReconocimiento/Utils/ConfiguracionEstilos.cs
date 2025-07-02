@@ -1,7 +1,6 @@
 using DeportNetReconocimiento.Properties;
 using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using DeportNetReconocimiento.Utils.Modelo;
-using DeportNetReconocimiento.SDK;
 using Serilog;
 using System.ComponentModel;
 using System.Drawing.Design;
@@ -130,7 +129,7 @@ namespace DeportNetReconocimiento.Utils
         [Description("Selecciona el color de fondo para el campo donde se muestra la informacion del cliente.")]
         [JsonConverter(typeof(ColorJsonConverter))]
         public Color ColorFondoInformacionCliente { get; set; }
-      
+
 
         [Category("Acceso")]
         [DisplayName("Color de texto de la informacion del cliente")]
@@ -267,8 +266,8 @@ namespace DeportNetReconocimiento.Utils
                         );
                 }
                 else
-                { 
-                porcentajeAlertaCapacidad = value;
+                {
+                    porcentajeAlertaCapacidad = value;
                 }
             }
 
@@ -296,7 +295,7 @@ namespace DeportNetReconocimiento.Utils
         [Description("Indica si la ventana se pone en pantalla completa en caso de que haya un acceso concedido.")]
         [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
         [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
-        public bool MaximizarAccesoConcedido { get; set; } 
+        public bool MaximizarAccesoConcedido { get; set; }
 
         [Category("Maximizar ventana")]
         [DisplayName("Acceso denegado")]
@@ -320,7 +319,7 @@ namespace DeportNetReconocimiento.Utils
         [Description("Indica si se minimiza la pantalla automaticamente luego de un reconocimiento.")]
         [Editor(typeof(BooleanToggleEditor), typeof(UITypeEditor))]
         [TypeConverter(typeof(BooleanToActivoInactivoConverter))]
-        public bool EstadoMinimizar{ get; set; }
+        public bool EstadoMinimizar { get; set; }
 
 
         [Category("Minimizar ventana")]
@@ -339,7 +338,8 @@ namespace DeportNetReconocimiento.Utils
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error
                         );
-                }else if(value < tiempoDeMuestraDeDatos)
+                }
+                else if (value < tiempoDeMuestraDeDatos)
                 {
                     MessageBox.Show(
                         "El tiempo de retraso de minimizar, debe ser mayor al tiempo de muestra de datos del cliente",
@@ -356,7 +356,7 @@ namespace DeportNetReconocimiento.Utils
 
         }
         private float segundosMinimizar;
-       
+
         /* - - - - - - Configuracion de Admin - - - - - - */
 
         [Browsable(false)]
@@ -400,7 +400,7 @@ namespace DeportNetReconocimiento.Utils
             ColorFondoInformacionCliente = Color.DimGray;
             FuenteTextoInformacionCliente = new Font("Arial Rounded MT Bold", 40, FontStyle.Regular);
             TiempoDeMuestraDeDatos = 7;
-        
+
             // Imagen Cliente
             ColorFondoImagen = Color.DarkGray;
             EnviarFotoSocioADx = true;
@@ -575,7 +575,7 @@ namespace DeportNetReconocimiento.Utils
         {
 
             string rutaGuardar = Path.Combine(directorioBase, nombreArchivo);
-            
+
             try
             {
 
@@ -592,7 +592,7 @@ namespace DeportNetReconocimiento.Utils
             {
                 Log.Error($"Error al guardar la imagen: {ex.Message}");
             }
-            
+
             return null;
         }
 
@@ -607,14 +607,14 @@ namespace DeportNetReconocimiento.Utils
             }
 
             try
-            {   
+            {
                 // Ruta donde se guardará el archivo
                 string nombreArchivo = "logoGimansio.png";
 
                 // Guardar la imagen (se valida internamente)
                 var rutaGuardada = GuardarImagen(value, nombreArchivo);
 
-                if(rutaGuardada != null)
+                if (rutaGuardada != null)
                 {
                     // Escribir la ruta relativa en el JSON
                     writer.WriteStringValue(nombreArchivo);
@@ -630,13 +630,13 @@ namespace DeportNetReconocimiento.Utils
             {
                 writer.WriteStringValue(string.Empty); // Guardar cadena vacía si ocurre un error (string.Empty)
             }
-            
+
         }
 
         public override Image Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             // Leer la ruta de la imagen desde el JSON
-                        
+
             string rutaRelativa = reader.GetString();
 
             string rutaAbsoluta = Path.Combine(directorioBase, rutaRelativa);
@@ -651,7 +651,7 @@ namespace DeportNetReconocimiento.Utils
             try
             {
 
-                using(Image image = Image.FromFile(rutaAbsoluta))
+                using (Image image = Image.FromFile(rutaAbsoluta))
                 {
                     return new Bitmap(image);
                 }

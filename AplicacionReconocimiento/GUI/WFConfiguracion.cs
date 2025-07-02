@@ -321,7 +321,7 @@ namespace DeportNetReconocimiento.GUI
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            configuracion.CambiarEstadoBloqueoIp();            
+            configuracion.CambiarEstadoBloqueoIp();
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -343,7 +343,7 @@ namespace DeportNetReconocimiento.GUI
         private void button2_Click(object sender, EventArgs e)
         {
             WFDeportnetOffline wFDeportnetOffline = WFDeportnetOffline.ObtenerInstancia;
-            
+
             if (wFDeportnetOffline.Visible)
             {
                 wFDeportnetOffline.BringToFront();

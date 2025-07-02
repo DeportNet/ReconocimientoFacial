@@ -46,7 +46,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
             if (Exito == false)
                 MessageBox.Show($"Exito: {Exito} \nMensaje: {Mensaje}\nCodigo: {Codigo}", titulo, MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
-            MessageBox.Show($"Exito: {Exito} \nMensaje: {Mensaje}\nCodigo: {Codigo}", titulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Exito: {Exito} \nMensaje: {Mensaje}\nCodigo: {Codigo}", titulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         public void ActualizarResultado(bool exito, string mensaje, string codigo)

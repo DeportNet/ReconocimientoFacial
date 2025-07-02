@@ -80,15 +80,15 @@ namespace DeportNetReconocimiento
         private void WFRgistrarDispositivo_Load(object sender, EventArgs e)
         {
             VerificarTipoDeApertura();
-            if(tipoApertura != 0)
+            if (tipoApertura != 0)
             {
                 Credenciales? credenciales = CredencialesUtils.LeerCredencialesBd();
 
-                if(credenciales != null)
+                if (credenciales != null)
                 {
                     AgregarValoresAInputs(credenciales);
                     ignorarCerrarPrograma = true;
-                    
+
                 }
             }
         }
@@ -183,15 +183,15 @@ namespace DeportNetReconocimiento
 
         private async void BtnAdd_Click(object sender, EventArgs e)
         {
-            
-            
+
+
             if (!ValidarInputs() || loading.Visible || seClickeoBotonLogin)
             {
                 return;
             }
             seClickeoBotonLogin = true;
 
-            
+
             Hik_Resultado resultadoLogin = Hik_Controladora_General.Instancia.InicializarPrograma(textBoxUserName.Text, textBoxPassword.Text, textBoxPort.Text, textBoxDeviceAddress.Text);
 
             if (!resultadoLogin.Exito)
@@ -276,7 +276,7 @@ namespace DeportNetReconocimiento
                 }
             }
 
-            if(tipoApertura == 1)
+            if (tipoApertura == 1)
             {
                 var result = MessageBox.Show("Cerrar la aplicación para volver a inicializar la conexión",
                                             "Confirmación",
@@ -360,9 +360,9 @@ namespace DeportNetReconocimiento
             }
             loading = new Loading();
             loading.Show();
-            
-            Hik_Resultado resultadoLogin = await Task.Run(()=> BuscadorIpDispositivo.ObtenerIpDispositivo(textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text));
-            
+
+            Hik_Resultado resultadoLogin = await Task.Run(() => BuscadorIpDispositivo.ObtenerIpDispositivo(textBoxPort.Text, textBoxUserName.Text, textBoxPassword.Text));
+
             loading.Close();
 
 

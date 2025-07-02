@@ -1,11 +1,6 @@
-using DeportNetReconocimiento.GUI;
-using DeportNetReconocimiento.SDKHikvision;
 using DeportNetReconocimiento.Utils;
 using Serilog;
-using System.IO;
-using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using System.Xml;
 
 
@@ -97,7 +92,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
                 Log.Error($"Error al inicializar el dispositivo. Exito: {resultado.Exito}, Mensaje: {resultado.Mensaje}, Codigo: {resultado.Codigo}");
             }
 
-            
+
 
             return resultado;
         }
@@ -143,7 +138,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
                 resultado = ProcesarErrorDeLogin(struDeviceInfoV40);
             }
 
-            
+
             return resultado;
         }
 
@@ -244,7 +239,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
                     documentoXml = null;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Error("Error al obtener las capacidades del dispositivo: " + ex.Message);
             }
@@ -321,7 +316,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
 
                 // Dar valor a resultado
                 resultado.ActualizarResultado(true, $"Soporta reconocimiento facial: {SoportaFacial}. Soporta huella digital: {SoportaHuella}. Soporta tarjeta: {SoportaTarjeta}", Hik_SDK.NET_DVR_GetLastError().ToString());
-                
+
                 Log.Information($"Resultado de las capacidades del dispositivo: Exito: {resultado.Exito} Mensaje: {resultado.Mensaje} Codigo: {resultado.Codigo}");
             }
 
@@ -369,7 +364,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
             int XML_ABILITY_OUT_LEN = 3 * 1024 * 1024;
             nint pOutBuf = Marshal.AllocHGlobal(XML_ABILITY_OUT_LEN);
 
-            if (!Hik_SDK.NET_DVR_GetDeviceAbility(InstanciaControladoraGeneral.IdUsuario, 0, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
+            if (!Hik_SDK.NET_DVR_GetDeviceAbility(Instancia.IdUsuario, 0, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
             {
                 iLastErr = (int)Hik_SDK.NET_DVR_GetLastError();
 
@@ -420,7 +415,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
             resultado = InicializarNet_DVR();
             if (!resultado.Exito) return resultado;
 
-            resultado = HacerLogin(user, password, port, ip);    
+            resultado = HacerLogin(user, password, port, ip);
             if (!resultado.Exito) return resultado;
 
             resultado = ObtenerCapacidades();
@@ -429,56 +424,10 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
             ActualizarCapacidadCarasDispositivo();
             SetTiempoDispositivo(DateTime.Now);
             InicializarInstanciasControladoras();
-            
+
             return resultado;
         }
 
-
-
-
-        //función que verifica si el programa tiene conexión con el dispositivo
-        public bool VerificarEstadoDispositivo()
-        {
-            IntPtr pInBuf;
-            Int32 nSize;
-            int iLastErr = 17;
-            bool conectado = false;
-            pInBuf = IntPtr.Zero;
-            nSize = 0;
-            int XML_ABILITY_OUT_LEN = 3 * 1024 * 1024;
-            IntPtr pOutBuf = Marshal.AllocHGlobal(XML_ABILITY_OUT_LEN);
-
-            try
-            {
-                if (!Hik_SDK.NET_DVR_GetDeviceAbility(IdUsuario, 0, pInBuf, (uint)nSize, pOutBuf, (uint)XML_ABILITY_OUT_LEN))
-                {
-
-                    iLastErr = (int)Hik_SDK.NET_DVR_GetLastError();
-
-                    //si perdio conexión
-                    if (iLastErr == 17)
-                    {
-                        Log.Error("Se perdio la conexion con el dispositivo en VerificarEstadoDispositivo.");
-                        return conectado;
-                    }
-                }
-
-                if (iLastErr == 1000)
-                {
-                    conectado = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Error al verificar el estado del dispositivo: {ex.Message}");
-            }
-            finally
-            {
-                Marshal.FreeHGlobal(pOutBuf);
-            }
-
-            return conectado;
-        }
 
         private Hik_Resultado HacerLogin(string user, string password, string port, string ip)
         {
@@ -529,9 +478,9 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
             //obtenemos el tiempo del dispositivo
             if (!Hik_SDK.NET_DVR_GetDVRConfig(idUsuario, Hik_SDK.NET_DVR_GET_TIMECFG, -1, ptrTimeCfg, (UInt32)nSize, ref dwReturn))
             {
-       
-                resultado.ActualizarResultado(false, 
-                    "Error al obtener el tiempo del dispositivo", 
+
+                resultado.ActualizarResultado(false,
+                    "Error al obtener el tiempo del dispositivo",
                     Hik_SDK.NET_DVR_GetLastError().ToString()
                 );
 
@@ -540,16 +489,16 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
             else
             {
                 m_struTimeCfg = (Hik_SDK.NET_DVR_TIME)Marshal.PtrToStructure(ptrTimeCfg, typeof(Hik_SDK.NET_DVR_TIME));
-                 
+
                 tiempoDisp = new DateTime(
-                    m_struTimeCfg.dwYear, 
+                    m_struTimeCfg.dwYear,
                     m_struTimeCfg.dwMonth,
                     m_struTimeCfg.dwDay,
                     m_struTimeCfg.dwHour,
                     m_struTimeCfg.dwMinute,
                     m_struTimeCfg.dwSecond
                 );
-                
+
             }
             Marshal.FreeHGlobal(ptrTimeCfg);
             return tiempoDisp;
@@ -617,7 +566,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
 
             return resultado;
         }
-        
+
         private Hik_Resultado ObtenerTarjeta(string idCliente)
         {
             Hik_Resultado resultado = Hik_Controladora_Tarjetas.Instancia.ObtenerUnaTarjeta(int.Parse(idCliente));
@@ -670,7 +619,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
         {
             ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion();
             ConservarImagenSocio(configuracion, nombre, idCliente);
-            configuracion.SumarRegistroCara();
+            ConfiguracionGeneralUtils.SumarRegistroCara();
         }
 
         public void ConservarImagenSocio(ConfiguracionEstilos configuracion, string nombreCompletoSocio, string idSocio)
@@ -708,7 +657,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
             }
             catch (Exception ex)
             {
-                Log.Error("Error al guardar la imagen del socio: "+ex.ToString());
+                Log.Error("Error al guardar la imagen del socio: " + ex.ToString());
             }
         }
 
@@ -717,13 +666,13 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
             Hik_Resultado resultado = new Hik_Resultado();
 
             resultado = ObtenerTarjeta(id);
-            if(!resultado.Exito) return resultado;
+            if (!resultado.Exito) return resultado;
 
             EsperarCooldownDispositivo(1000);
 
             resultado = EliminarCaraDeTarjeta(id);
             if (!resultado.Exito) return resultado;
-            
+
 
             resultado = EliminarTarjeta(id);
             if (!resultado.Exito) return resultado;
@@ -742,14 +691,13 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
 
         private Hik_Resultado EliminarTarjeta(string id)
         {
-           var resultado = Hik_Controladora_Tarjetas.Instancia.EliminarTarjetaPorId(int.Parse(id));
-           return resultado;
+            var resultado = Hik_Controladora_Tarjetas.Instancia.EliminarTarjetaPorId(int.Parse(id));
+            return resultado;
         }
 
         private void RestarCara()
         {
-            ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion();
-            configuracion.RestarRegistroCara();
+            ConfiguracionGeneralUtils.RestarRegistroCara();
         }
 
         private void EsperarCooldownDispositivo(int ms)
@@ -758,7 +706,7 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
         }
 
 
- public Hik_Resultado BajaMasivaClientes(string[] ids)
+        public Hik_Resultado BajaMasivaClientes(string[] ids)
         {
             Hik_Resultado resultado = new Hik_Resultado();
 

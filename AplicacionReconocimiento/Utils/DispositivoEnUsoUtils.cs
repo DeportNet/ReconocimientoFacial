@@ -24,7 +24,8 @@ namespace DeportNetReconocimiento.Utils
                 Log.Information($"Intento ocupar el dispositivo para {queOcupo}. Exito: {resultado}");
 
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Log.Error("Error al intentar ocupar el dispositivo: {Message}", ex.Message);
             }
 
@@ -45,7 +46,8 @@ namespace DeportNetReconocimiento.Utils
                 }
 
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Log.Error("Error al intentar desocupar el dispositivo: {Message}", ex.Message);
 
             }

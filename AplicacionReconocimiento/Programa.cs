@@ -1,8 +1,5 @@
 using DeportNetReconocimiento.Api;
 using DeportNetReconocimiento.GUI;
-using DeportNetReconocimiento.SDK;
-using DeportNetReconocimiento.SDKHikvision;
-using DeportNetReconocimiento.Utils;
 using Serilog;
 using System.Diagnostics;
 
@@ -24,7 +21,8 @@ namespace DeportNetReconocimiento
 
             InicializarLogger();
 
-            Application.ApplicationExit += (s, e) => {
+            Application.ApplicationExit += (s, e) =>
+            {
                 Log.Information("La aplicacion se cerro.");
                 Log.CloseAndFlush();
                 apiServer?.Stop();
@@ -37,7 +35,7 @@ namespace DeportNetReconocimiento
 
             //iniciazamos la ventana principal de acceso
             Application.Run(WFPrincipal.ObtenerInstancia);
-            
+
         }
 
         private static void InicializarLogger()
@@ -76,7 +74,7 @@ namespace DeportNetReconocimiento
             //Instanciamos y arrancamos el servidor
             apiServer = new ApiServer();
             apiServer.Start();
-            
+
         }
     }
 }

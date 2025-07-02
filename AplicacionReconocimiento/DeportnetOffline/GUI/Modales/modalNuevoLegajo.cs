@@ -243,10 +243,10 @@ namespace DeportnetOffline.GUI.Modales
         {
 
             ValidarFecha();
-            
+
         }
 
-        
+
         //Guardar Socio
         private async void buttonGuardarLegajo_Click(object sender, EventArgs e)
         {
@@ -264,7 +264,8 @@ namespace DeportnetOffline.GUI.Modales
             bool resultado = await SocioRepository.InsertarUnSocioEnTabla(socio);
 
             //si hubo error
-            if (!resultado) {
+            if (!resultado)
+            {
 
                 MessageBox.Show("Fallo al registrar un socio. Por favor intente de nuevo.", "Error al registrar socio", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
@@ -277,9 +278,9 @@ namespace DeportnetOffline.GUI.Modales
             LimpiarLabels();
 
             MessageBox.Show("Socio agregado con exito", "Socio registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-           
+
             Console.WriteLine($"El socio  {socio.FirstName + ' ' + socio.LastName} se insertó correctamente en la base de datos");
-            
+
             this.Close();
         }
 
@@ -290,23 +291,23 @@ namespace DeportnetOffline.GUI.Modales
             socio.LastName = MayusculaEnNombres(socio.LastName);
             socio.Address = MayusculaEnNombres(socio.Address);
 
-            if(socio.Address == "Direccion")
+            if (socio.Address == "Direccion")
                 socio.Address = "";
             if (socio.Cellphone == "Telefono")
                 socio.Cellphone = "";
             if (socio.AddressFloor == "Dep")
                 socio.AddressFloor = "";
-            if (socio.CardNumber == "Tarjeta")  
+            if (socio.CardNumber == "Tarjeta")
                 socio.CardNumber = "";
 
             return socio;
         }
-       
+
         private string MayusculaEnNombres(string nombre)
         {
             string[] nombres = nombre.ToLower().Split(" ");
 
-            for(int i = 0; i < nombres.Length; i++)
+            for (int i = 0; i < nombres.Length; i++)
             {
                 nombres[i] = char.ToUpper(nombres[i][0]) + nombres[i].Substring(1);
             }
@@ -373,7 +374,8 @@ namespace DeportnetOffline.GUI.Modales
         private bool ValidarCampo(TextBox textBox, Label labelError, Func<string, bool> funcionValidacion, string placeholder, bool requerido, string mensaje)
         {
 
-            if(string.IsNullOrWhiteSpace(textBox.Text) || textBox.Text == placeholder && requerido == false) {
+            if (string.IsNullOrWhiteSpace(textBox.Text) || textBox.Text == placeholder && requerido == false)
+            {
 
                 labelError.Visible = false;
                 return true;

@@ -3,13 +3,7 @@ using DeportNetReconocimiento.Hikvision.SDKHikvision;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 using DeportNetReconocimiento.Api.Services;
-using DeportNetReconocimiento.SDK;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeportNetReconocimiento.Utils
 {
@@ -90,7 +84,7 @@ namespace DeportNetReconocimiento.Utils
             catch (Exception ex)
             {
 
-                Log.Error("Error al validar la conexión a internet: "+ex.Message);
+                Log.Error("Error al validar la conexión a internet: " + ex.Message);
                 return false;
             }
         }
