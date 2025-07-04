@@ -36,7 +36,7 @@ namespace DeportNetReconocimiento
             Log.Information("Aplicacion iniciada.");
 
             //iniciazamos la ventana principal de acceso
-            Application.Run(WFPrincipal.ObtenerInstancia);
+            Application.Run(new WFSeleccionarUsuario());
 
         }
 

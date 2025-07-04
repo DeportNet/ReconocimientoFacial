@@ -242,6 +242,7 @@ namespace DeportNetReconocimiento.Api.Services
                 altaFacialClienteRequest.IdCliente.ToString(),
                 "Alta facial cliente exitosa",
                 "T",
+                ConfiguracionGeneralUtils.ObtenerLectorActual(),
                 imagenSocioBase64
             );
 
