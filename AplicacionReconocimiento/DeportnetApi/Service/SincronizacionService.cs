@@ -40,13 +40,13 @@ namespace DeportNetReconocimiento.Api.Services
             await _empleadoService.SincronizarEmpleados();
 
             //2. Obtener de Dx los concepts
-            await _conceptService.SincronizarConcepts();
+                //await _conceptService.SincronizarConcepts();
 
-            ////3. Obtener de Dx los clientes
-            await _socioService.SincronizarSocios();
+            //3. Obtener de Dx los clientes
+                //await _socioService.SincronizarSocios();
 
             ////4. Obtener Configuracion de Acceso
-            await _configuracionAccesoService.SincronizarConfiguracionDeAcceso();
+                //await _configuracionAccesoService.SincronizarConfiguracionDeAcceso();
 
 
             // Actualizamos la fecha de sincronizacion
@@ -106,7 +106,6 @@ namespace DeportNetReconocimiento.Api.Services
 
             try
             {
-
                 config.AnteriorFechaSincronizacion = config.UltimaFechaSincronizacion;
                 config.UltimaFechaSincronizacion = DateTime.Now;
                 _contextBd.SaveChanges();

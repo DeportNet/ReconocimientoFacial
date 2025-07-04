@@ -391,70 +391,27 @@ namespace DeportNetReconocimiento.GUI
 
         public void EvaluarMensajeAcceso(ValidarAccesoResponse json)
         {
-            string titulo = "";
-            string mensaje = "";
-            Hik_Resultado resultado = new Hik_Resultado();
 
             AnalizarMaximizarVentana(json.Estado);
 
             switch (json.Estado)
             {
                 case "U":
-                    titulo = "Usuario no registrado en Deportnet";
-                    mensaje = ConvertidorTextoUtils.LimpiarTextoHtml(json.MensajeAcceso);
+                    ManejarAccesoUndefined(json);
+
                     break;
                 case "Q":
-
-
-                    ReproducirSonido(ConfiguracionEstilos.SonidoPregunta);
-
-                    // Crear y mostrar el formulario HTMLMessageBox
-                    HTMLMessageBox popupPregunta = new HTMLMessageBox(json);
-
-                    CalcularPosicion(popupPregunta);
-
-                    // Suscribir al evento para recibir la respuesta
-                    popupPregunta.OpcionSeleccionada += OnProcesarRespuesta; //Este evento maneja las peticiones 
-
-                    popupPregunta.ShowDialog();
+                    ManejarAccesoPregunta(json);
 
                     break;
                 case "T":
-
-                    ReproducirSonido(ConfiguracionEstilos.AccesoConcedido);
-                    HeaderLabel.ForeColor = ConfiguracionEstilos.ColorMensajeAccesoConcedido;
-
-                    if (ConfiguracionEstilos.MetodoApertura == ".exe")
-                    {
-                        Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.RutaMetodoApertura);
-                    }
-                    else if (ConfiguracionEstilos.MetodoApertura == "Hikvision")
-                    {
-                        Console.WriteLine("Abro con Hikvision");
-                        resultado = Hik_Controladora_Puertas.OperadorPuerta(1);
-                        Log.Information("Resultado de apertura con Hikvision: " + resultado.Exito);
-                    }
-
-
-
-                    titulo = "Bienvenido/a " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Nombre) + " " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Apellido);
-                    mensaje = ConvertidorTextoUtils.LimpiarTextoHtml(json.MensajeAcceso);
-
+                    ManejarAccesoAceptado(json);
 
                     break;
                 case "F":
-                    ReproducirSonido(ConfiguracionEstilos.AccesoDenegado);
-                    HeaderLabel.ForeColor = ConfiguracionEstilos.ColorMensajeAccesoDenegado;
-
-                    titulo = "Acceso denegado " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Nombre) + " " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Apellido);
-                    mensaje = ConvertidorTextoUtils.LimpiarTextoHtml(json.MensajeAcceso);
-
+                    ManejarAccesoDenegado(json);
                     break;
             }
-
-
-            HeaderLabel.Text = titulo;
-            textoInformacionCliente.Text = mensaje;
 
             if (json.Estado != "Q")
             {
@@ -462,6 +419,77 @@ namespace DeportNetReconocimiento.GUI
                 DispositivoEnUsoUtils.Desocupar();
             }
         }
+
+
+        private void ActualizarTextosPanelAcceso(string titulo, string mensaje)
+        {
+            HeaderLabel.Text = titulo;
+            textoInformacionCliente.Text = mensaje;
+        }
+
+        private void ManejarAccesoUndefined(ValidarAccesoResponse json)
+        {
+            string titulo = "Usuario no registrado en Deportnet";
+            string mensaje = ConvertidorTextoUtils.LimpiarTextoHtml(json.MensajeAcceso);
+
+            ActualizarTextosPanelAcceso(titulo, mensaje);
+        }
+
+        private void ManejarAccesoPregunta(ValidarAccesoResponse json)
+        {
+            ReproducirSonido(ConfiguracionEstilos.SonidoPregunta);
+
+            // Crear y mostrar el formulario HTMLMessageBox
+            HTMLMessageBox popupPregunta = new HTMLMessageBox(json);
+
+            CalcularPosicion(popupPregunta);
+
+            // Suscribir al evento para recibir la respuesta
+            popupPregunta.OpcionSeleccionada += OnProcesarRespuesta; //Este evento maneja las peticiones 
+            popupPregunta.ShowDialog();
+        }
+
+        private void ManejarAccesoAceptado(ValidarAccesoResponse json)
+        {
+            ReproducirSonido(ConfiguracionEstilos.AccesoConcedido);
+            HeaderLabel.ForeColor = ConfiguracionEstilos.ColorMensajeAccesoConcedido;
+
+            AbrirMolinete();
+
+            string titulo = "Bienvenido/a " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Nombre) + " " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Apellido);
+            string mensaje = ConvertidorTextoUtils.LimpiarTextoHtml(json.MensajeAcceso);
+
+            ActualizarTextosPanelAcceso(titulo, mensaje);
+
+        }
+
+        private void AbrirMolinete()
+        {
+            Hik_Resultado resultado = new Hik_Resultado();
+
+            if (ConfiguracionEstilos.MetodoApertura == ".exe")
+            {
+                Hik_Controladora_Puertas.EjecutarExe(ConfiguracionEstilos.RutaMetodoApertura);
+            }
+            else if (ConfiguracionEstilos.MetodoApertura == "Hikvision")
+            {
+                Console.WriteLine("Abro con Hikvision");
+                resultado = Hik_Controladora_Puertas.OperadorPuerta(1);
+                Log.Information("Resultado de apertura con Hikvision: " + resultado.Exito);
+            }
+        }
+
+        private void ManejarAccesoDenegado(ValidarAccesoResponse json)
+        {
+            ReproducirSonido(ConfiguracionEstilos.AccesoDenegado);
+            HeaderLabel.ForeColor = ConfiguracionEstilos.ColorMensajeAccesoDenegado;
+
+            string titulo = "Acceso denegado " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Nombre) + " " + ConvertidorTextoUtils.PrimerLetraMayuscula(json.Apellido);
+            string mensaje = ConvertidorTextoUtils.LimpiarTextoHtml(json.MensajeAcceso);
+            ActualizarTextosPanelAcceso(titulo, mensaje);
+        }
+
+
 
 
         public void ReactivarTimer()

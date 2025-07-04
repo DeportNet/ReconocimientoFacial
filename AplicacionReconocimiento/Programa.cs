@@ -31,6 +31,8 @@ namespace DeportNetReconocimiento
             /*API*/
             InicializarApi();
 
+            apiServer.CargarBd();
+
             Log.Information("Aplicacion iniciada.");
 
             //iniciazamos la ventana principal de acceso
