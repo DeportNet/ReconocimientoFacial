@@ -38,7 +38,9 @@
             ComboBoxAperturaMolinete = new ComboBox();
             BotonOcultarConfig = new Button();
             PanelConfigAdminsitrador = new Panel();
+            botonModoOffline = new Button();
             comboBoxNroLector = new ComboBox();
+            checkBox1 = new CheckBox();
             label3 = new Label();
             botonEditarCredenciales = new Button();
             label2 = new Label();
@@ -52,9 +54,7 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             panel1 = new Panel();
             panel2 = new Panel();
-            botonModoOffline = new Button();
             labelBloquearIp = new Label();
-            checkBox1 = new CheckBox();
             PanelConfigAdminsitrador.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
@@ -177,16 +177,42 @@
             PanelConfigAdminsitrador.TabIndex = 20;
             PanelConfigAdminsitrador.Visible = false;
             // 
+            // botonModoOffline
+            // 
+            botonModoOffline.BackColor = Color.WhiteSmoke;
+            botonModoOffline.Cursor = Cursors.Hand;
+            botonModoOffline.FlatAppearance.BorderSize = 0;
+            botonModoOffline.FlatStyle = FlatStyle.Flat;
+            botonModoOffline.Location = new Point(21, 212);
+            botonModoOffline.Name = "botonModoOffline";
+            botonModoOffline.Size = new Size(174, 23);
+            botonModoOffline.TabIndex = 32;
+            botonModoOffline.Text = "Activar modo offline";
+            botonModoOffline.UseVisualStyleBackColor = false;
+            botonModoOffline.Visible = false;
+            botonModoOffline.Click += button2_Click;
+            // 
             // comboBoxNroLector
             // 
             comboBoxNroLector.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxNroLector.FormattingEnabled = true;
             comboBoxNroLector.Items.AddRange(new object[] { "Lector 1", "Lector 2" });
-            comboBoxNroLector.Location = new Point(90, 168);
+            comboBoxNroLector.Location = new Point(136, 168);
             comboBoxNroLector.Name = "comboBoxNroLector";
             comboBoxNroLector.Size = new Size(121, 23);
             comboBoxNroLector.TabIndex = 31;
             comboBoxNroLector.SelectedIndexChanged += comboBoxNroLector_SelectedIndexChanged;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(21, 171);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(86, 19);
+            checkBox1.TabIndex = 31;
+            checkBox1.Text = "Bloquear IP";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // label3
             // 
@@ -337,38 +363,14 @@
             panel2.Size = new Size(639, 508);
             panel2.TabIndex = 1;
             // 
-            // botonModoOffline
-            // 
-            botonModoOffline.BackColor = Color.WhiteSmoke;
-            botonModoOffline.Cursor = Cursors.Hand;
-            botonModoOffline.FlatAppearance.BorderSize = 0;
-            botonModoOffline.FlatStyle = FlatStyle.Flat;
-            botonModoOffline.Location = new Point(21, 212);
-            botonModoOffline.Name = "botonModoOffline";
-            botonModoOffline.Size = new Size(174, 23);
-            botonModoOffline.TabIndex = 32;
-            botonModoOffline.Text = "Activar modo offline";
-            botonModoOffline.UseVisualStyleBackColor = false;
-            botonModoOffline.Click += button2_Click;
-            // label3
+            // labelBloquearIp
             // 
             labelBloquearIp.AutoSize = true;
             labelBloquearIp.Font = new Font("Segoe UI", 12F);
             labelBloquearIp.Location = new Point(21, 191);
-            labelBloquearIp.Name = "label3";
+            labelBloquearIp.Name = "labelBloquearIp";
             labelBloquearIp.Size = new Size(0, 21);
             labelBloquearIp.TabIndex = 30;
-            // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(21, 171);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(86, 19);
-            checkBox1.TabIndex = 31;
-            checkBox1.Text = "Bloquear IP";
-            checkBox1.UseVisualStyleBackColor = true;
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // WFConfiguracion
             // 

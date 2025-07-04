@@ -102,7 +102,7 @@ namespace DeportNetReconocimiento.Api.Services
         {
             if (idSucursal == null)
             {
-                Console.WriteLine("Id sucursal es null en BajaFacial");
+                Log.Warning("Id sucursal es null en BajaFacial");
                 MensajeDeErrorAltaBajaCliente(
                                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                    clienteRequest.IdCliente.ToString(),
@@ -115,9 +115,9 @@ namespace DeportNetReconocimiento.Api.Services
             }
 
 
-            if (hik_Controladora.IdUsuario == -1)
+            if (Hik_Controladora_General.Instancia.IdUsuario == -1)
             {
-                Console.WriteLine("Id usuario dispositivo es -1 en BajaFacial");
+                Log.Warning("Id usuario dispositivo es -1 en BajaFacial");
                 MensajeDeErrorAltaBajaCliente(
                                     new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                     clienteRequest.IdCliente.ToString(),
@@ -133,7 +133,7 @@ namespace DeportNetReconocimiento.Api.Services
 
             if (idSucursal != clienteRequest.IdSucursal)
             {
-                Console.WriteLine("El IdSucursal recibido no es igual al local en BajaFacial");
+                Log.Warning("El IdSucursal recibido no es igual al local en BajaFacial");
                 MensajeDeErrorAltaBajaCliente(
                                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
                                    clienteRequest.IdCliente.ToString(),
@@ -145,9 +145,9 @@ namespace DeportNetReconocimiento.Api.Services
                 return "F";
             }
 
-            if (EnUso)
+            if (!DispositivoEnUsoUtils.EstaLibre())
             {
-                Console.WriteLine("El dispositivo esta en uso en BajaFacial");
+                Log.Warning("El dispositivo esta en uso en BajaFacial");
 
                 MensajeDeErrorAltaBajaCliente(
                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
@@ -263,65 +263,17 @@ namespace DeportNetReconocimiento.Api.Services
 
             if (resultado == "T")
             {
+                DispositivoEnUsoUtils.Ocupar("Baja cliente");
                 //asincronico no se espera
                 _ = BajaClienteDeportnet(clienteRequest);
-                return resultado;
             }
 
-            if (hik_Controladora.IdUsuario == -1)
-            {
-                MensajeDeErrorAltaBajaCliente(
-                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
-                    clienteRequest.IdCliente.ToString(),
-                    "El idUsuario del dispositivo de reconocimiento facial es -1. El dispositivo no esta conectado.",
-                    "F",
-                    lector: ConfiguracionGeneralUtils.ObtenerLectorActual()),
-                    false
-                );
-
-                return "F";
-            }
-
-            if (idSucursal != clienteRequest.IdSucursal)
-            {
-                MensajeDeErrorAltaBajaCliente(
-                    new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
-                    clienteRequest.IdCliente.ToString(),
-                    "El idSucursal del dispositivo no coincide con el idSucursal del cliente.",
-                    "F",
-                    lector: ConfiguracionGeneralUtils.ObtenerLectorActual()),
-                    false
-                );
-
-
-                return "F";
-            }
-
-            if (EnUso)
-            {
-                MensajeDeErrorAltaBajaCliente(
-                   new RespuestaAltaBajaCliente(clienteRequest.IdSucursal.ToString(),
-                   clienteRequest.IdCliente.ToString(),
-                   "El dispositivo ya está en uso.",
-                   "F",
-                   lector: ConfiguracionGeneralUtils.ObtenerLectorActual()),
-                   false
-               );
-
-
-                return "F";
-
-            }
-
-            //asincronico no se espera
-            _ = BajaClienteDeportnet(clienteRequest);
-            return "T";
+            return resultado;
 
         }
 
         private async Task BajaClienteDeportnet(BajaFacialClienteRequest clienteRequest)
         {
-            EnUso = true;
             Hik_Resultado resBaja = hik_Controladora.BajaCliente(clienteRequest.IdCliente.ToString());
 
             if (!resBaja.Exito)
@@ -335,26 +287,25 @@ namespace DeportNetReconocimiento.Api.Services
                     lector: ConfiguracionGeneralUtils.ObtenerLectorActual()),
                     false
                 );
-                Console.WriteLine("Hubo un Error en Baja facial: " + resBaja.Mensaje);
+                Log.Error($"Hubo un Error en Baja facial: {resBaja.Mensaje}");
                 DispositivoEnUsoUtils.Desocupar();
                 return;
 
             }
-            else
-            {
-                RespuestaAltaBajaCliente respuestaAlta = new RespuestaAltaBajaCliente(
-                    clienteRequest.IdSucursal.ToString(),
-                    clienteRequest.IdCliente.ToString(),
-                    "Baja facial cliente exitosa",
-                    "T",
-                    ConfiguracionGeneralUtils.ObtenerLectorActual()
-                );
-                string mensaje = await WebServicesDeportnet.BajaFacialClienteDeportnet(respuestaAlta);
 
-                Console.WriteLine("Se ha dado de baja el cliente facial con id: " + clienteRequest.IdCliente);
+            RespuestaAltaBajaCliente respuestaAlta = new RespuestaAltaBajaCliente(
+                clienteRequest.IdSucursal.ToString(),
+                clienteRequest.IdCliente.ToString(),
+                "Baja facial cliente exitosa",
+                "T",
+                ConfiguracionGeneralUtils.ObtenerLectorActual()
+            );
 
-            }
-            EnUso = false;
+            string mensaje = await WebServicesDeportnet.BajaFacialClienteDeportnet(respuestaAlta);
+
+            Log.Information($"Se ha dado de baja el cliente facial con id: {clienteRequest.IdCliente} ");
+            DispositivoEnUsoUtils.Desocupar();
+
         }
 
         private void MensajeDeErrorAltaBajaCliente(RespuestaAltaBajaCliente rta, bool isAlta)
