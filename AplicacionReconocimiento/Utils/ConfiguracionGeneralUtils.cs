@@ -1,6 +1,7 @@
 ﻿using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Hikvision.SDKHikvision;
+using Serilog;
 
 namespace DeportNetReconocimiento.Utils
 {
@@ -120,7 +121,7 @@ namespace DeportNetReconocimiento.Utils
             }
             if (lectorNuevo == null)
             {
-                Console.WriteLine("Lector nuevo es null, en ActualizarLectorFacial");
+                Log.Error("Lector nuevo es null, en ActualizarLectorFacial");
                 return;
             }
             config.LectorActual = lectorNuevo;

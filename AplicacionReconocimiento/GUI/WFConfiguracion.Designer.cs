@@ -55,6 +55,7 @@
             panel1 = new Panel();
             panel2 = new Panel();
             labelBloquearIp = new Label();
+            seleccionarLectorLabel = new Label();
             PanelConfigAdminsitrador.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
@@ -147,7 +148,7 @@
             BotonOcultarConfig.Cursor = Cursors.Hand;
             BotonOcultarConfig.FlatAppearance.BorderSize = 0;
             BotonOcultarConfig.FlatStyle = FlatStyle.Flat;
-            BotonOcultarConfig.Location = new Point(21, 262);
+            BotonOcultarConfig.Location = new Point(21, 292);
             BotonOcultarConfig.Name = "BotonOcultarConfig";
             BotonOcultarConfig.Size = new Size(121, 23);
             BotonOcultarConfig.TabIndex = 19;
@@ -158,6 +159,7 @@
             // PanelConfigAdminsitrador
             // 
             PanelConfigAdminsitrador.BackColor = Color.IndianRed;
+            PanelConfigAdminsitrador.Controls.Add(seleccionarLectorLabel);
             PanelConfigAdminsitrador.Controls.Add(botonModoOffline);
             PanelConfigAdminsitrador.Controls.Add(comboBoxNroLector);
             PanelConfigAdminsitrador.Controls.Add(checkBox1);
@@ -173,7 +175,7 @@
             PanelConfigAdminsitrador.Controls.Add(label6);
             PanelConfigAdminsitrador.Location = new Point(18, 112);
             PanelConfigAdminsitrador.Name = "PanelConfigAdminsitrador";
-            PanelConfigAdminsitrador.Size = new Size(318, 308);
+            PanelConfigAdminsitrador.Size = new Size(318, 335);
             PanelConfigAdminsitrador.TabIndex = 20;
             PanelConfigAdminsitrador.Visible = false;
             // 
@@ -183,7 +185,7 @@
             botonModoOffline.Cursor = Cursors.Hand;
             botonModoOffline.FlatAppearance.BorderSize = 0;
             botonModoOffline.FlatStyle = FlatStyle.Flat;
-            botonModoOffline.Location = new Point(21, 212);
+            botonModoOffline.Location = new Point(21, 253);
             botonModoOffline.Name = "botonModoOffline";
             botonModoOffline.Size = new Size(174, 23);
             botonModoOffline.TabIndex = 32;
@@ -196,8 +198,8 @@
             // 
             comboBoxNroLector.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxNroLector.FormattingEnabled = true;
-            comboBoxNroLector.Items.AddRange(new object[] { "Lector 1", "Lector 2" });
-            comboBoxNroLector.Location = new Point(136, 168);
+            comboBoxNroLector.Items.AddRange(new object[] { "1", "2" });
+            comboBoxNroLector.Location = new Point(119, 201);
             comboBoxNroLector.Name = "comboBoxNroLector";
             comboBoxNroLector.Size = new Size(121, 23);
             comboBoxNroLector.TabIndex = 31;
@@ -372,6 +374,15 @@
             labelBloquearIp.Size = new Size(0, 21);
             labelBloquearIp.TabIndex = 30;
             // 
+            // seleccionarLectorLabel
+            // 
+            seleccionarLectorLabel.AutoSize = true;
+            seleccionarLectorLabel.Location = new Point(21, 204);
+            seleccionarLectorLabel.Name = "seleccionarLectorLabel";
+            seleccionarLectorLabel.Size = new Size(82, 15);
+            seleccionarLectorLabel.TabIndex = 33;
+            seleccionarLectorLabel.Text = "Nro. de lector:";
+            // 
             // WFConfiguracion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -432,5 +443,6 @@
         private Panel panel1;
         private Panel panel2;
         private Button botonModoOffline;
+        private Label seleccionarLectorLabel;
     }
 }
