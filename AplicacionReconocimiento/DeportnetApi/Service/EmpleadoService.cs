@@ -36,6 +36,7 @@ namespace DeportNetReconocimiento.Api.Services
             }
 
             //2. Obtener el nombre de la sucursal
+            Console.WriteLine("Entro a guardar nombre de sucursal");
             GuardarNombreSucursal(listadoDeEmpleadosDx.BranchName);
 
 
@@ -138,16 +139,22 @@ namespace DeportNetReconocimiento.Api.Services
 
         private void GuardarNombreSucursal(string nombreSucursal)
         {
-            ConfiguracionGeneral? config = ConfiguracionGeneralUtils.ObtenerConfiguracionGeneral(); // o por ID si lo tenés
+            using (var context = BdContext.CrearContexto())
+            {
+                try
+                {
+                    ConfiguracionGeneral? configuracion = context.ConfiguracionGeneral.FirstOrDefault();
 
-            try
-            {
-                config.NombreSucursal = nombreSucursal;
-                _bdContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al guardar el nombre de la sucursal: " + ex.Message);
+                    if(configuracion!= null)
+                    {
+                        configuracion.NombreSucursal = nombreSucursal;
+                        context.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error al guardar el nombre de la sucursal: " + ex.Message);
+                }
             }
 
         }
