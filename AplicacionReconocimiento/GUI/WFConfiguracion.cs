@@ -333,7 +333,7 @@ namespace DeportNetReconocimiento.GUI
         {
             //Obtenemos el nro de lector, "1" 
             string lectorActual = comboBoxNroLector.Text;
-
+            Console.WriteLine(lectorActual);
             ConfiguracionGeneralUtils.ActualizarLectorActual(lectorActual);
         }
         

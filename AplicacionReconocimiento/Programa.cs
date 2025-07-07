@@ -52,7 +52,7 @@ namespace DeportNetReconocimiento
             .WriteTo.File(
                 "LogsDeportnetReconocimiento/log-.log",
                 rollingInterval: RollingInterval.Day,
-                retainedFileCountLimit: 60 // mantener solo �ltimos 60 d�as
+                retainedFileCountLimit: 60 // mantener solo ultimos 60 dias
             )
             .CreateLogger();
         }
