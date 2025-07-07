@@ -14,6 +14,7 @@ namespace DeportNetReconocimiento.GUI
         private ConfiguracionEstilos configuracion;
         private WFPrincipal principal;
         private Credenciales? _credenciales;
+        private bool _cargandoConfiguracion = false;
 
         public WFConfiguracion(ConfiguracionEstilos configuracionEstilos, WFPrincipal principal)
         {
@@ -27,7 +28,11 @@ namespace DeportNetReconocimiento.GUI
             // Asignar el objeto de configuración al PropertyGrid (para que se vea lo que se puede configurar)
             propertyGrid1.SelectedObject = configuracion;
             ComboBoxAperturaMolinete.SelectedIndexChanged += ComboBoxAperturaMolinete_SelectedIndexChanged;
+
+            // Se bloquea para no activar el evento "CheckedChanged"
+            _cargandoConfiguracion = true;
             checkBox1.Checked = configuracionEstilos.BloquearIp;
+            _cargandoConfiguracion = false;
         }
 
         private void ComboBoxAperturaMolinete_SelectedIndexChanged(object? sender, EventArgs e)
@@ -321,6 +326,9 @@ namespace DeportNetReconocimiento.GUI
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
+            if (_cargandoConfiguracion)
+                return;
+
             configuracion.CambiarEstadoBloqueoIp();
         }
 

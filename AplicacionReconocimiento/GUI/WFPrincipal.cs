@@ -350,8 +350,11 @@ namespace DeportNetReconocimiento.GUI
                 AnalizarMinimizarVentana();
 
                 //tiempo de muestra de datos
-                await Task.Delay((int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000), tokenDeCancelacion.Token);
-                LimpiarInterfaz();
+                if(json.Estado != "Q")
+                {
+                    await Task.Delay((int)(ConfiguracionEstilos.TiempoDeMuestraDeDatos * 1000), tokenDeCancelacion.Token);
+                    LimpiarInterfaz();
+                }
             }
             catch (TaskCanceledException)
             {

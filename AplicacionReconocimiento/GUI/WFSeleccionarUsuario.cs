@@ -144,7 +144,6 @@ namespace DeportNetReconocimiento.GUI
 
         private void IngresarSinEmpleado()
         {
-            Console.WriteLine("Logica ingresar sin empleado");
             this.Hide();
             WFPrincipal.ObtenerInstancia.Show();
         }
