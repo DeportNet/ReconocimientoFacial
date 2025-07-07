@@ -1,6 +1,7 @@
 ﻿using DeportNetReconocimiento.Api.BD;
 using DeportNetReconocimiento.Api.Data.Domain;
 using DeportNetReconocimiento.Hikvision.SDKHikvision;
+using Serilog;
 
 namespace DeportNetReconocimiento.Utils
 {
@@ -20,7 +21,7 @@ namespace DeportNetReconocimiento.Utils
                 null,
                 Hik_Controladora_General.Instancia.ObtenerCapacidadCarasDispositivo(),
                 1,
-                null,
+                "1",
                 false
                 );
 
@@ -112,17 +113,20 @@ namespace DeportNetReconocimiento.Utils
         {
             using var bdContext = BdContext.CrearContexto();
 
-            ConfiguracionGeneral config = ObtenerConfiguracionGeneral();
+            ConfiguracionGeneral? config = bdContext.ConfiguracionGeneral.FirstOrDefault(c => c.Id == 1);
+
             if (config == null)
             {
                 Console.WriteLine("Configuracion General es null, en ActualizarLectorFacial");
-                return;
+                config = CrearRegistroConfiguracionGeneral();
             }
+
             if (lectorNuevo == null)
             {
-                Console.WriteLine("Lector nuevo es null, en ActualizarLectorFacial");
+                Log.Error("Lector nuevo es null, en ActualizarLectorFacial");
                 return;
             }
+
             config.LectorActual = lectorNuevo;
             bdContext.SaveChanges();
         }

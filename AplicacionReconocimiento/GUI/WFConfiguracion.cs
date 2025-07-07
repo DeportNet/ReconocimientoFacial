@@ -339,15 +339,12 @@ namespace DeportNetReconocimiento.GUI
 
         private void comboBoxNroLector_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Se obtiene la parte del final, que es el nro de lector, "Lector 1"
-
-            string[] partes = comboBoxNroLector.Text.Split(' ');
-
-            string lectorActual = partes[^1]; // "Lector 1" -> "1"  se puede hacer tambien como partes.length -1
-
+            //Obtenemos el nro de lector, "1" 
+            string lectorActual = comboBoxNroLector.Text;
+            Console.WriteLine(lectorActual);
             ConfiguracionGeneralUtils.ActualizarLectorActual(lectorActual);
         }
-
+        
         private void button2_Click(object sender, EventArgs e)
         {
             WFDeportnetOffline wFDeportnetOffline = WFDeportnetOffline.ObtenerInstancia;
