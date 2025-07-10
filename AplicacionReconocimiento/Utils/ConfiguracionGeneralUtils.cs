@@ -66,32 +66,38 @@ namespace DeportNetReconocimiento.Utils
 
         public static int SumarRegistroCara()
         {
-            using var bdContext = BdContext.CrearContexto();
+            Console.WriteLine("Entro a sumar cara");
+            using var context = BdContext.CrearContexto();
 
             int? rostrosActuales = null;
-            ConfiguracionGeneral config = ObtenerConfiguracionGeneral();
+            ConfiguracionGeneral config = context.ConfiguracionGeneral.FirstOrDefault();
 
             config.RostrosActuales += 1;
-
+            Console.WriteLine($"Rostros actuales en la bd{config.RostrosActuales}");
             rostrosActuales = config.RostrosActuales;
-
-            bdContext.SaveChanges();
+            Console.WriteLine($"Rostros actuales en la variable {rostrosActuales}");
+            context.SaveChanges();
             return (int)rostrosActuales;
         }
 
         public static int RestarRegistroCara()
         {
-            using var bdContext = BdContext.CrearContexto();
+            Console.WriteLine("Entro a restar cara");
+
+            using var context = BdContext.CrearContexto();
 
             int? rostrosActuales = null;
 
-            ConfiguracionGeneral config = ObtenerConfiguracionGeneral();
+            ConfiguracionGeneral config = context.ConfiguracionGeneral.FirstOrDefault();
 
             config.RostrosActuales -= 1;
+            Console.WriteLine($"Rostros actuales en la bd{config.RostrosActuales}");
+
             rostrosActuales = config.RostrosActuales;
 
+            Console.WriteLine($"Rostros actuales en la variable {rostrosActuales}");
 
-            bdContext.SaveChanges();
+            context.SaveChanges();
 
             return (int)rostrosActuales;
         }

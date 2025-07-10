@@ -619,7 +619,8 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
         {
             ConfiguracionEstilos configuracion = ConfiguracionEstilos.LeerJsonConfiguracion();
             ConservarImagenSocio(configuracion, nombre, idCliente);
-            ConfiguracionGeneralUtils.SumarRegistroCara();
+            int caras = ConfiguracionGeneralUtils.SumarRegistroCara();
+            configuracion.ActualizarCapacidadActualConfigEstilos(caras);
         }
 
         public void ConservarImagenSocio(ConfiguracionEstilos configuracion, string nombreCompletoSocio, string idSocio)
@@ -697,7 +698,9 @@ namespace DeportNetReconocimiento.Hikvision.SDKHikvision
 
         private void RestarCara()
         {
-            ConfiguracionGeneralUtils.RestarRegistroCara();
+            int caras = ConfiguracionGeneralUtils.RestarRegistroCara();
+            ConfiguracionEstilos configuracionEstilos = ConfiguracionEstilos.LeerJsonConfiguracion();
+            configuracionEstilos.ActualizarCapacidadActualConfigEstilos(caras);
         }
 
         private void EsperarCooldownDispositivo(int ms)
