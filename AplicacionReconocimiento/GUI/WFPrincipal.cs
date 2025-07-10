@@ -201,6 +201,7 @@ namespace DeportNetReconocimiento.GUI
             {
                 VerificarConexionInternet();
                 VerificarConexionConDispositivo();
+
             }
             catch (Exception ex)
             {
@@ -290,8 +291,7 @@ namespace DeportNetReconocimiento.GUI
         public void VerificarPanelAlmacenamiento()
         {
             Hik_Resultado? hayAlmacenamiento = VerificarAlmacenamientoUtils.VerificarHayAlmacenamiento();
-
-
+            
             if (hayAlmacenamiento == null)
             {
                 Console.WriteLine("No se pudo verificar el almacenamiento en WfPrincipal.");
@@ -301,7 +301,7 @@ namespace DeportNetReconocimiento.GUI
             //cambiamos los colores del mensaje, dependiendo si supero o no la alerta de almacenamiento
             if (hayAlmacenamiento.Exito)
             {
-                TextoAlmacenamiento.ForeColor = Color.Green;
+                TextoAlmacenamiento.ForeColor = Color.LightGreen;
             }
             else
             {
@@ -310,8 +310,6 @@ namespace DeportNetReconocimiento.GUI
 
 
             TextoAlmacenamiento.Text = hayAlmacenamiento.Mensaje;
-
-
 
         }
 

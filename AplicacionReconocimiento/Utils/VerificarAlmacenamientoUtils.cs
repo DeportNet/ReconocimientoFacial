@@ -64,7 +64,7 @@ namespace DeportNetReconocimiento.Utils
                 if (WFPrincipal.ObtenerInstancia.ConexionInternet)
                 {
                     //logica para disminuir el almacenamiento (baja masiva)
-                    Task.Run(() => BajaMasivaClientes());
+                    //Task.Run(() => BajaMasivaClientes());
                 }
                 else
                 {
