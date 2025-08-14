@@ -57,7 +57,7 @@ namespace DeportNetReconocimiento.Api.Services
 
             string json = JsonSerializer.Serialize(data);
 
-            return await FetchInformacion(json, urlEntradaClienteTest, HttpMethod.Post);
+            return await FetchInformacion(json, urlEntradaCliente, HttpMethod.Post);
         }
 
         public static async Task<string> ObtenerCofiguracionDeAccesoOffline(string idSucursal)
@@ -121,12 +121,12 @@ namespace DeportNetReconocimiento.Api.Services
 
         public static async Task<string> AltaFacialClienteDeportnet(RespuestaAltaBajaCliente rta)
         {
-            return await FetchInformacion(rta.ToJson(), urlAltaClienteTest, HttpMethod.Post);
+            return await FetchInformacion(rta.ToJson(), urlAltaCliente, HttpMethod.Post);
         }
 
         public static async Task<string> BajaFacialClienteDeportnet(RespuestaAltaBajaCliente rta)
         {
-            return await FetchInformacion(rta.ToJson(), urlBajaClienteTest, HttpMethod.Post);
+            return await FetchInformacion(rta.ToJson(), urlBajaCliente, HttpMethod.Post);
         }
 
         public static async Task<string> BajaFacialMasivaClienteDeportnet(string idSucursal, string? lectorNumber = null, string? maxToDelete = null)
@@ -172,7 +172,7 @@ namespace DeportNetReconocimiento.Api.Services
             try
             {
                 //respuesta fetch
-                HttpResponseMessage response = await client.PostAsync(urlEntradaClienteTest, contenido);
+                HttpResponseMessage response = await client.PostAsync(urlEntradaCliente, contenido);
 
 
                 resultado = await VerificarResponseDeportnet(response);

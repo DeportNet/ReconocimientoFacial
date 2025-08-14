@@ -31,7 +31,10 @@ namespace DeportNetReconocimiento
             /*API*/
             InicializarApi();
 
+            /*Base de datos*/
+            SQLitePCL.Batteries_V2.Init();
             apiServer.CargarBd();
+            
 
             Log.Information("Aplicacion iniciada.");
 

@@ -53,7 +53,7 @@ namespace DeportNetReconocimiento.Api.BD
             // Ruta de la carpeta y la base de datos
             string rutaCarpeta = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "DeportnetReconocimiento");
             string rutaDb = Path.Combine(rutaCarpeta, "dbDx.sqlite");
-
+            Console.WriteLine($"{rutaCarpeta}");
             // Si la carpeta y la base de datos ya existen, no hacer nada
             if (Directory.Exists(rutaCarpeta) && File.Exists(rutaDb))
             {
