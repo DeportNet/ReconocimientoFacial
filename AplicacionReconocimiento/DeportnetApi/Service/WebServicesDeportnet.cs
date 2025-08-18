@@ -13,6 +13,7 @@ namespace DeportNetReconocimiento.Api.Services
 {
     public class WebServicesDeportnet
     {
+
         /*Testing*/
         const string urlEntradaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessCheckUserEnter";
         const string urlBajaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessDeleteResult";
@@ -56,7 +57,7 @@ namespace DeportNetReconocimiento.Api.Services
             }
 
             string json = JsonSerializer.Serialize(data);
-
+            Console.WriteLine("Producción");
             return await FetchInformacion(json, urlEntradaCliente, HttpMethod.Post);
         }
 
@@ -121,11 +122,15 @@ namespace DeportNetReconocimiento.Api.Services
 
         public static async Task<string> AltaFacialClienteDeportnet(RespuestaAltaBajaCliente rta)
         {
+            Console.WriteLine("Producción");
+
             return await FetchInformacion(rta.ToJson(), urlAltaCliente, HttpMethod.Post);
         }
 
         public static async Task<string> BajaFacialClienteDeportnet(RespuestaAltaBajaCliente rta)
         {
+            Console.WriteLine("Producción");
+
             return await FetchInformacion(rta.ToJson(), urlBajaCliente, HttpMethod.Post);
         }
 
@@ -171,6 +176,8 @@ namespace DeportNetReconocimiento.Api.Services
 
             try
             {
+                Console.WriteLine("Producción");
+
                 //respuesta fetch
                 HttpResponseMessage response = await client.PostAsync(urlEntradaCliente, contenido);
 
