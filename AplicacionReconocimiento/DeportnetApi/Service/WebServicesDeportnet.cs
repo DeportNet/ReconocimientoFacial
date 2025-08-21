@@ -18,10 +18,11 @@ namespace DeportNetReconocimiento.Api.Services
         const string urlEntradaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessCheckUserEnter";
         const string urlBajaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessDeleteResult";
         const string urlAltaClienteTest = "https://testing.deportnet.com/facialAccess/facialAccessLectureResult";
+        const string urlObtenerEmpleadosTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetUsers";
+
         //a partir de aca no estan en prod
         const string urlObtenerClientesTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetMembers";
         const string urlObtenerConceptsTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConcepts";
-        const string urlObtenerEmpleadosTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetUsers";
         const string urlEnviarAccesosTest = "https://testing.deportnet.com/offlineAccess/offlineSetAccess";
         const string urlObtenerConfiguracionAccesoTest = "https://testing.deportnet.com/offlineAccess/offlineAccessGetConfiguration";
         const string urlBajaMasivaClienteTest = "https://testing.deportnet.com/facialAccess/massiveMembersDelete";
@@ -32,6 +33,7 @@ namespace DeportNetReconocimiento.Api.Services
         const string urlEntradaCliente = "https://deportnet.com/facialAccess/facialAccessCheckUserEnter";
         const string urlBajaCliente = "https://deportnet.com/facialAccess/facialAccessDeleteResult";
         const string urlAltaCliente = "https://deportnet.com/facialAccess/facialAccessLectureResult";
+        const string urlObtenerEmpleados = "https://deportnet.com/offlineAccess/offlineAccessGetUsers";
 
 
         public static async Task<string> ControlDeAcceso(string nroTarjeta, string idSucursal, string? rtaManual = null, string? idEmpleado = null, string? lector = null)
